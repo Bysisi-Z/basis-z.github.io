@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 // Each side is its own independent timeline, ordered oldest → newest (top → bottom)
 const leftEvents = [
   { year: '',     title: 'Born in Yunnan, China',        tag: 'Origin', desc: '', born: true },
-  { year: '2007', title: 'Move to Chengdu',              tag: 'City',   desc: '' },
+  { year: '2007', title: 'Move to Chengdu',              tag: 'City',   desc: '', chengdu: true },
   { year: '2016', title: 'First Cat ♂',                  tag: 'Family', desc: '', cat: true },
   { year: '2017', title: 'Move to Shanghai',             tag: 'City',   desc: '' },
   { year: '2019', title: 'Second Cat ♀',                 tag: 'Family', desc: '', cat: true },
@@ -66,7 +66,7 @@ const rows = [
 
             <div class="tl-left">
               {left
-                ? <div class={`tl-card${left.desc ? '' : ' tl-card--static'}${left.born ? ' tl-card--born' : ''}`} role={left.desc || left.born ? 'button' : undefined} tabindex={left.desc || left.born ? 0 : undefined} aria-expanded={left.desc ? 'false' : undefined} data-born={left.born ? 'true' : undefined}>
+                ? <div class={`tl-card${left.desc ? '' : ' tl-card--static'}${left.born || left.chengdu ? ' tl-card--born' : ''}`} role={left.desc || left.born || left.chengdu ? 'button' : undefined} tabindex={left.desc || left.born || left.chengdu ? 0 : undefined} aria-expanded={left.desc ? 'false' : undefined} data-born={left.born ? 'true' : undefined} data-chengdu={left.chengdu ? 'true' : undefined}>
                     <div class="tl-card-main">
                       {left.year && <span class="tl-year">{left.year}</span>}
                       <h3 class="tl-title">
@@ -86,6 +86,37 @@ const rows = [
                   </div>
                 : <div class="tl-empty"></div>
               }
+              {left?.chengdu && (
+                <div class="panda-wrapper" aria-hidden="true">
+                  <svg class="panda-svg" viewBox="0 0 120 162" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    {/* Arms */}
+                    <ellipse cx="19" cy="118" rx="13" ry="21" fill="#c17d9d" transform="rotate(-22,19,118)"/>
+                    <ellipse cx="101" cy="118" rx="13" ry="21" fill="#c17d9d" transform="rotate(22,101,118)"/>
+                    {/* Body */}
+                    <ellipse cx="60" cy="134" rx="33" ry="26" fill="#c17d9d"/>
+                    {/* Head */}
+                    <circle cx="60" cy="65" r="43" fill="#f0dce6"/>
+                    {/* Ears */}
+                    <circle cx="22" cy="27" r="16" fill="#c17d9d"/>
+                    <circle cx="98" cy="27" r="16" fill="#c17d9d"/>
+                    {/* Eye patches — signature panda marking, angled inward */}
+                    <ellipse cx="40" cy="61" rx="15" ry="12" fill="#c17d9d" transform="rotate(-25,40,61)"/>
+                    <ellipse cx="80" cy="61" rx="15" ry="12" fill="#c17d9d" transform="rotate(25,80,61)"/>
+                    {/* Eyes */}
+                    <circle cx="40" cy="61" r="5" fill="#f8eef4"/>
+                    <circle cx="80" cy="61" r="5" fill="#f8eef4"/>
+                    {/* Eye shine */}
+                    <circle cx="42" cy="59" r="2" fill="#fff5f8"/>
+                    <circle cx="82" cy="59" r="2" fill="#fff5f8"/>
+                    {/* Nose */}
+                    <ellipse cx="60" cy="80" rx="5.5" ry="4" fill="#c17d9d"/>
+                    {/* Mouth */}
+                    <path d="M53 87 Q60 93 67 87" stroke="#c17d9d" stroke-width="2.5" stroke-linecap="round"/>
+                    {/* Belly patch */}
+                    <ellipse cx="60" cy="136" rx="21" ry="17" fill="#f0dce6"/>
+                  </svg>
+                </div>
+              )}
             </div>
 
             <div class="tl-mid"><div class="tl-dot"></div></div>
@@ -361,6 +392,40 @@ const rows = [
   .tl-card--born { cursor: pointer; }
   .tl-card--born:hover .tl-title { opacity: 0.65; }
 
+  /* ── Panda + hotpot animation ── */
+  .tl-left { position: relative; }
+
+  .panda-wrapper {
+    position: absolute;
+    right: calc(100% - 8px);
+    top: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .panda-svg {
+    width: 100px;
+    height: auto;
+    opacity: 0;
+    display: block;
+  }
+  .panda-wrapper.playing .panda-svg {
+    animation: panda-arrive 3.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  @keyframes panda-arrive {
+    0%   { opacity: 0; transform: translateX(-80px) translateY(12px); }
+    22%  { opacity: 1; transform: translateX(0) translateY(0); }
+    58%  { opacity: 1; transform: translateX(0) translateY(-5px); }
+    76%  { opacity: 0.9; transform: translateX(-12px) translateY(-18px); }
+    100% { opacity: 0; transform: translateX(-80px) translateY(-48px); }
+  }
+  @media (max-width: 700px) {
+    .panda-wrapper {
+      right: -8px;
+      top: -8px;
+    }
+    .panda-svg { width: 75px; }
+  }
+
   /* ── Stork animation ── */
   .stork-wrapper {
     padding-top: 4px;
@@ -452,6 +517,20 @@ const rows = [
       });
     }, { threshold: 0.08 });
     rows.forEach(r => io.observe(r));
+  }
+
+  /* ── Chengdu card → panda + hotpot animation ── */
+  const chengduCard = document.querySelector('[data-chengdu]');
+  const pandaWrapper = document.querySelector('.panda-wrapper');
+  if (chengduCard && pandaWrapper) {
+    chengduCard.addEventListener('click', () => {
+      pandaWrapper.classList.remove('playing');
+      void (pandaWrapper as HTMLElement).offsetWidth;
+      pandaWrapper.classList.add('playing');
+    });
+    chengduCard.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); chengduCard.dispatchEvent(new MouseEvent('click')); }
+    });
   }
 
   /* ── Born card → stork animation ── */
