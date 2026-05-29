@@ -20,6 +20,7 @@ interface Entry {
   alt: string;
   stats: { label: string; value: string }[];
   meta: { label: string; value: string }[];
+  webcamUrl?: string;
   body: {
     lead: string;
     paragraphs: string[];
@@ -41,11 +42,12 @@ interface Entry {
 export function getStaticPaths() {
   const entries: Entry[] = [
     {
-      slug: 'haute-route-alps',
-      title: 'Haute Route, Alps',
-      titleHtml: 'Haute Route,<br/>Alps',
-      eyebrow: 'Hiking Guide · Alps · July 2022',
+      slug: 'stoos-ridge-line',
+      title: 'Stoos Ridge Line Hike',
+      titleHtml: 'Stoos Ridge<br/>Line Hike',
+      eyebrow: 'Hiking Guide · Schwyz · Switzerland',
       subtitle: 'Eleven days of silence between Chamonix and Zermatt',
+      webcamUrl: 'https://www.stoos.ch/en/pages/webcams',
       orientation: 'portrait',
       imagePosition: 'left',
       src: '/images/haute-route-alps.jpeg',
@@ -112,7 +114,7 @@ export function getStaticPaths() {
 }
 
 const entry = Astro.props as Entry;
-const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body } = entry;
+const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl } = entry;
 ---
 
 <BaseLayout title={title} description={subtitle}>
@@ -193,6 +195,29 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
         )}
       </div>
     ))}
+
+    {webcamUrl && (
+      <div class="webcam-section">
+        <h2 class="section-heading">Live Webcam</h2>
+        <p class="webcam-desc">Real-time view from the mountain</p>
+        <div class="webcam-embed" id="webcam-embed">
+          <span class="webcam-loader">Loading…</span>
+          <iframe
+            id="stoos-webcam"
+            src={webcamUrl}
+            title="Stoos live webcam"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="webcam-fallback" id="webcam-fallback">
+          <span class="wc-eyebrow">Mountain Live View</span>
+          <a class="wc-btn" href={webcamUrl} target="_blank" rel="noopener noreferrer">
+            View Live Webcam →
+          </a>
+          <span class="wc-source">Official webcam · stoos.ch</span>
+        </div>
+      </div>
+    )}
 
     <div class="body-text">
       <h2 class="section-heading">On Returning</h2>
@@ -340,4 +365,111 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     transition: color 0.2s, gap 0.2s;
   }
   .back-link:hover { color: var(--ink); gap: 14px; }
+
+  /* Webcam section */
+  .webcam-desc {
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 300;
+    color: var(--stone); letter-spacing: 0.06em;
+    margin-top: -14px; margin-bottom: 24px;
+  }
+
+  .webcam-embed {
+    position: relative;
+    aspect-ratio: 16/9;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0ede9;
+  }
+  .webcam-loader {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sans); font-size: 10px; font-weight: 300;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--stone);
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .webcam-embed.wc-loaded .webcam-loader { opacity: 0; }
+  .webcam-embed iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: none;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .webcam-embed.wc-loaded iframe { opacity: 1; }
+
+  .webcam-fallback {
+    display: none;
+    flex-direction: column; align-items: center;
+    gap: 20px; padding: 56px 24px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    text-align: center;
+  }
+  .wc-eyebrow {
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--stone);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .wc-eyebrow::before,
+  .wc-eyebrow::after {
+    content: ''; width: 20px; height: 1px; background: var(--rose);
+  }
+  .wc-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--sans); font-size: 11px; font-weight: 300;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--bg); background: var(--ink);
+    padding: 13px 26px; border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .wc-btn:hover { opacity: 0.72; }
+  .wc-source {
+    font-family: var(--sans); font-size: 10px; font-weight: 300;
+    color: var(--rule); letter-spacing: 0.06em;
+  }
 </style>
+
+<script>
+  const frame = document.getElementById('stoos-webcam') as HTMLIFrameElement | null;
+  const embed = document.getElementById('webcam-embed');
+  const fallback = document.getElementById('webcam-fallback');
+
+  if (frame && embed && fallback) {
+    let resolved = false;
+
+    const showFallback = () => {
+      if (resolved) return;
+      resolved = true;
+      embed.style.display = 'none';
+      (fallback as HTMLElement).style.display = 'flex';
+    };
+
+    // Safety timeout — if nothing resolves in 8s, show fallback button
+    const timer = setTimeout(showFallback, 8000);
+
+    frame.addEventListener('load', () => {
+      clearTimeout(timer);
+      try {
+        // Cross-origin pages that loaded successfully throw SecurityError here
+        const doc = frame.contentDocument || (frame.contentWindow as any)?.document;
+        const bodyHtml = doc?.body?.innerHTML?.trim() ?? '';
+        if (bodyHtml.length === 0) {
+          // about:blank → blocked by X-Frame-Options
+          showFallback();
+        } else {
+          resolved = true;
+          embed.classList.add('wc-loaded');
+        }
+      } catch {
+        // SecurityError = cross-origin page IS loaded in the iframe
+        resolved = true;
+        embed.classList.add('wc-loaded');
+      }
+    });
+  }
+</script>
