@@ -1,9 +1,5 @@
 ---
-/**
- * ArticleHero — renders the correct hero layout based on photo orientation:
- *   orientation="portrait" → split layout (photo left or right)
- *   orientation="landscape" → full-width hero with text overlay
- */
+import Watermark from './Watermark.astro';
 
 interface Props {
   src: string;
@@ -33,6 +29,7 @@ const {
   <div class={`hero-split img-${imagePosition}`}>
     <div class="split-photo">
       <img src={src} alt={alt} />
+      <Watermark />
     </div>
     <div class="split-text">
       {eyebrow && <div class="split-eyebrow">{eyebrow}</div>}
@@ -55,6 +52,7 @@ const {
   <div class="hero-full">
     <img class="hero-full-img" src={src} alt={alt} />
     <div class="hero-full-gradient"></div>
+    <Watermark />
     <div class="hero-full-content">
       {eyebrow && <span class="hero-eyebrow">{eyebrow}</span>}
       <h1 class="hero-title" set:html={title} />

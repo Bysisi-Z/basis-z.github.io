@@ -1,0 +1,64 @@
+---
+// Artistic CSS watermark — "Si" with flanking rules, centered on any photo container.
+// Parent must be position: relative / absolute with overflow: hidden.
+---
+
+<div class="wm" aria-hidden="true">
+  <div class="wm-inner">
+    <span class="wm-rule"></span>
+    <span class="wm-text">Si</span>
+    <span class="wm-rule"></span>
+  </div>
+</div>
+
+<style>
+  .wm {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+    user-select: none;
+  }
+
+  .wm-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.18;
+    mix-blend-mode: screen;
+  }
+
+  .wm-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 300;
+    font-style: italic;
+    color: #fff;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    /* small dot ornaments flanking the letter */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* decorative dots before/after the "Si" text */
+  .wm-text::before,
+  .wm-text::after {
+    content: '·';
+    font-size: 0.55em;
+    opacity: 0.7;
+    letter-spacing: 0;
+  }
+
+  .wm-rule {
+    display: block;
+    width: clamp(18px, 2.5vw, 32px);
+    height: 1px;
+    background: #fff;
+    flex-shrink: 0;
+  }
+</style>

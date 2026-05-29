@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Watermark from '../../components/Watermark.astro';
 
 /**
  * orientation: 'portrait' | 'landscape'
@@ -76,7 +77,7 @@ const entries = [
           style={`--i:${i}`}
         >
           {e.imgSrc
-            ? <img class="card-img" src={e.imgSrc} alt={e.imgAlt ?? e.title} />
+            ? <><img class="card-img" src={e.imgSrc} alt={e.imgAlt ?? e.title} /><Watermark /></>
             : <div class={`card-img ${e.ph}`}></div>
           }
           <div class="card-overlay">
