@@ -12,7 +12,7 @@ const leftEvents = [
 ];
 
 const rightEvents = [
-  { year: '2007', title: 'Southwest University of Finance and Economics', tag: 'Education', desc: '' },
+  { year: '2007', title: 'Southwest University of Finance and Economics', tag: 'Education', desc: '', uni: true },
   { year: '2011', title: 'LG Electronics, China',                         tag: 'Career',    desc: '' },
   { year: '2013', title: 'Cisco, China',                                  tag: 'Career',    desc: '' },
   { year: '2014', title: 'Sanofi, China',                                 tag: 'Career',    desc: '' },
@@ -88,18 +88,13 @@ const rows = [
               }
               {left?.chengdu && (
                 <div class="panda-wrapper" aria-hidden="true">
-                  <svg class="panda-svg" viewBox="0 0 120 162" xmlns="http://www.w3.org/2000/svg" fill="none">
-                    {/* Arms */}
-                    <ellipse cx="19" cy="118" rx="13" ry="21" fill="#c17d9d" transform="rotate(-22,19,118)"/>
-                    <ellipse cx="101" cy="118" rx="13" ry="21" fill="#c17d9d" transform="rotate(22,101,118)"/>
-                    {/* Body */}
-                    <ellipse cx="60" cy="134" rx="33" ry="26" fill="#c17d9d"/>
+                  <svg class="panda-svg" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" fill="none">
                     {/* Head */}
                     <circle cx="60" cy="65" r="43" fill="#f0dce6"/>
                     {/* Ears */}
                     <circle cx="22" cy="27" r="16" fill="#c17d9d"/>
                     <circle cx="98" cy="27" r="16" fill="#c17d9d"/>
-                    {/* Eye patches — signature panda marking, angled inward */}
+                    {/* Eye patches */}
                     <ellipse cx="40" cy="61" rx="15" ry="12" fill="#c17d9d" transform="rotate(-25,40,61)"/>
                     <ellipse cx="80" cy="61" rx="15" ry="12" fill="#c17d9d" transform="rotate(25,80,61)"/>
                     {/* Eyes */}
@@ -112,8 +107,6 @@ const rows = [
                     <ellipse cx="60" cy="80" rx="5.5" ry="4" fill="#c17d9d"/>
                     {/* Mouth */}
                     <path d="M53 87 Q60 93 67 87" stroke="#c17d9d" stroke-width="2.5" stroke-linecap="round"/>
-                    {/* Belly patch */}
-                    <ellipse cx="60" cy="136" rx="21" ry="17" fill="#f0dce6"/>
                   </svg>
                 </div>
               )}
@@ -123,7 +116,7 @@ const rows = [
 
             <div class="tl-right">
               {right
-                ? <div class={`tl-card${right.desc ? '' : ' tl-card--static'}`} role={right.desc ? 'button' : undefined} tabindex={right.desc ? 0 : undefined} aria-expanded={right.desc ? 'false' : undefined}>
+                ? <div class={`tl-card${right.desc ? '' : ' tl-card--static'}${right.uni ? ' tl-card--born' : ''}`} role={right.desc || right.uni ? 'button' : undefined} tabindex={right.desc || right.uni ? 0 : undefined} aria-expanded={right.desc ? 'false' : undefined} data-uni={right.uni ? 'true' : undefined}>
                     <div class="tl-card-main">
                       <span class="tl-year">{right.year}</span>
                       <h3 class="tl-title">{right.title}</h3>
@@ -173,6 +166,8 @@ const rows = [
   </section>
 
 </BaseLayout>
+
+<canvas id="confetti-canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;"></canvas>
 
 <style>
   :root { --pink: #c17d9d; }
@@ -518,6 +513,65 @@ const rows = [
     }, { threshold: 0.08 });
     rows.forEach(r => io.observe(r));
   }
+
+  /* ── University card → full-screen confetti ── */
+  (() => {
+    const uniCard = document.querySelector('[data-uni]');
+    const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement;
+    if (!uniCard || !canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    const colors = ['#c17d9d','#d4a0b8','#ecc8d8','#f0dce6','#e8a8c0','#b86d8a','#f5d0e0','#ffffff'];
+    type P = { x:number;y:number;vx:number;vy:number;size:number;color:string;angle:number;spin:number;life:number;decay:number;shape:'rect'|'circle' };
+    let particles: P[] = [];
+    let animId = 0;
+
+    function addBurst(ox: number, oy: number) {
+      for (let i = 0; i < 28; i++) {
+        const a = (Math.PI * 2 * i / 28) + Math.random() * 0.3;
+        const spd = Math.random() * 6 + 3;
+        particles.push({ x:ox, y:oy, vx:Math.cos(a)*spd, vy:Math.sin(a)*spd - 2,
+          size:Math.random()*7+3, color:colors[Math.floor(Math.random()*colors.length)],
+          angle:Math.random()*Math.PI*2, spin:(Math.random()-0.5)*0.25,
+          life:1, decay:Math.random()*0.008+0.004, shape:Math.random()>0.45?'rect':'circle' });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let alive = false;
+      for (const p of particles) {
+        p.vy += 0.1; p.x += p.vx; p.y += p.vy;
+        p.angle += p.spin; p.life -= p.decay;
+        if (p.life <= 0 || p.y > canvas.height + 20) continue;
+        alive = true;
+        ctx.save();
+        ctx.globalAlpha = Math.min(p.life, 1);
+        ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+        ctx.fillStyle = p.color;
+        if (p.shape === 'rect') ctx.fillRect(-p.size/2, -p.size/4, p.size, p.size/2);
+        else { ctx.beginPath(); ctx.arc(0,0,p.size/2,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+      }
+      if (alive) animId = requestAnimationFrame(draw);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    uniCard.addEventListener('click', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      particles = [];
+      cancelAnimationFrame(animId);
+      const W = canvas.width, H = canvas.height;
+      addBurst(W*0.2, H*0.25); addBurst(W*0.8, H*0.25);
+      setTimeout(() => { addBurst(W*0.5, H*0.12); draw(); }, 180);
+      setTimeout(() => addBurst(W*0.3, H*0.4), 340);
+      setTimeout(() => addBurst(W*0.7, H*0.4), 480);
+      draw();
+    });
+    uniCard.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); uniCard.dispatchEvent(new MouseEvent('click')); }
+    });
+  })();
 
   /* ── Chengdu card → panda + hotpot animation ── */
   const chengduCard = document.querySelector('[data-chengdu]');
