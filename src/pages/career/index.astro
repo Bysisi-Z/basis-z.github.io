@@ -1,43 +1,52 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
+// Each side is its own independent timeline, ordered oldest → newest (top → bottom)
 const leftEvents = [
-  { year: '2025', title: 'Relocated to Beijing',          tag: 'City'     },
-  { year: '2024', title: 'Solo trek across Yunnan',        tag: 'Hiking'   },
-  { year: '2024', title: 'Three weeks without Wi-Fi',      tag: 'Personal' },
-  { year: '2023', title: 'Moved to Shanghai',              tag: 'City'     },
-  { year: '2022', title: 'Hiked the Haute Route, Alps',    tag: 'Hiking'   },
-  { year: '2021', title: 'Relocated to Chengdu',           tag: 'City'     },
-  { year: '2020', title: 'First solo international trip',  tag: 'Travel'   },
-  { year: '2019', title: 'Moved to Guangzhou',             tag: 'City'     },
-  { year: '2018', title: 'Summited first 5,000m peak',     tag: 'Hiking'   },
+  { year: '',     title: 'Born in Yunnan, China',        tag: 'Origin', desc: '', born: true },
+  { year: '2007', title: 'Move to Chengdu',              tag: 'City',   desc: '' },
+  { year: '2016', title: 'First Cat ♂',                  tag: 'Family', desc: '', cat: true },
+  { year: '2017', title: 'Move to Shanghai',             tag: 'City',   desc: '' },
+  { year: '2019', title: 'Second Cat ♀',                 tag: 'Family', desc: '', cat: true },
+  { year: '2022', title: 'Move to Lucerne, Switzerland', tag: 'City',   desc: '' },
 ];
 
 const rightEvents = [
-  { year: '2025', title: 'Senior Industry Analyst',              tag: 'Career'    },
-  { year: '2024', title: 'First solo research publication',      tag: 'Career'    },
-  { year: '2023', title: 'Industry Analyst',                     tag: 'Career'    },
-  { year: '2022', title: 'MSc Finance — [University]',           tag: 'Education' },
-  { year: '2021', title: 'Research Associate',                   tag: 'Career'    },
-  { year: '2021', title: 'Completed CFA Level I',                tag: 'Education' },
-  { year: '2020', title: 'BA Economics — Graduated with Honours',tag: 'Education' },
-  { year: '2019', title: 'Summer Internship, Hong Kong',         tag: 'Career'    },
-  { year: '2018', title: 'Exchange Year — [City]',               tag: 'Education' },
+  { year: '2007', title: 'Southwest University of Finance and Economics', tag: 'Education', desc: '' },
+  { year: '2011', title: 'LG Electronics, China',                         tag: 'Career',    desc: '' },
+  { year: '2013', title: 'Cisco, China',                                  tag: 'Career',    desc: '' },
+  { year: '2014', title: 'Sanofi, China',                                 tag: 'Career',    desc: '' },
+  { year: '2018', title: 'MSD, China',                                    tag: 'Career',    desc: '' },
+  { year: '2022', title: 'Organon, Global',                               tag: 'Career',    desc: '' },
 ];
 
-// Merge into rows by index (longest side determines row count)
-const rowCount = Math.max(leftEvents.length, rightEvents.length);
-const rows = Array.from({ length: rowCount }, (_, i) => ({
-  left:  leftEvents[i]  ?? null,
-  right: rightEvents[i] ?? null,
-}));
+// Merge rows by year so same-year events appear side by side.
+// No-year entries (Born) go first; numbered years ascend oldest → newest.
+// Newest years at top (descending), no-year (Born) at the very bottom.
+const numberedYears = [
+  ...new Set([
+    ...leftEvents.filter(e => e.year).map(e => e.year),
+    ...rightEvents.filter(e => e.year).map(e => e.year),
+  ]),
+].sort((a, b) => Number(b) - Number(a)); // descending: 2022 → 2007
+
+const noYearRows = leftEvents
+  .filter(e => !e.year)
+  .map(e => ({ left: e, right: null }));
+
+const rows = [
+  ...numberedYears.map(year => ({
+    left:  leftEvents.find(e => e.year === year)  ?? null,
+    right: rightEvents.find(e => e.year === year) ?? null,
+  })),
+  ...noYearRows, // Born goes last
+];
 ---
 
 <BaseLayout title="Journey" description="A life lived between cities, peaks, and spreadsheets.">
 
   <div class="wrap">
     <header class="page-header">
-      <p class="eyebrow">01 — Journey</p>
       <h1 class="page-title">Journey</h1>
       <p class="page-sub">A life lived between cities, peaks, and spreadsheets.</p>
     </header>
@@ -54,27 +63,78 @@ const rows = Array.from({ length: rowCount }, (_, i) => ({
       <div class="timeline">
         {rows.map(({ left, right }) => (
           <div class="tl-row">
+
             <div class="tl-left">
               {left
-                ? <a class="tl-card" href="#">
-                    <span class="tl-year">{left.year}</span>
-                    <h3 class="tl-title">{left.title}</h3>
-                    <span class="tl-tag">{left.tag}</span>
-                  </a>
+                ? <div class={`tl-card${left.desc ? '' : ' tl-card--static'}${left.born ? ' tl-card--born' : ''}`} role={left.desc || left.born ? 'button' : undefined} tabindex={left.desc || left.born ? 0 : undefined} aria-expanded={left.desc ? 'false' : undefined} data-born={left.born ? 'true' : undefined}>
+                    <div class="tl-card-main">
+                      {left.year && <span class="tl-year">{left.year}</span>}
+                      <h3 class="tl-title">
+                        {left.cat && (
+                          <svg class="cat-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M4.5 11L2 3L9.5 8.5Z"/>
+                            <path d="M19.5 11L22 3L14.5 8.5Z"/>
+                            <ellipse cx="12" cy="15" rx="9.5" ry="8"/>
+                          </svg>
+                        )}
+                        {left.title}
+                      </h3>
+                      <span class="tl-tag">{left.tag}</span>
+                      {left.desc && <span class="tl-chevron" aria-hidden="true"></span>}
+                    </div>
+                    {left.desc && <div class="tl-desc" aria-hidden="true"><p>{left.desc}</p></div>}
+                  </div>
                 : <div class="tl-empty"></div>
               }
             </div>
+
             <div class="tl-mid"><div class="tl-dot"></div></div>
+
             <div class="tl-right">
               {right
-                ? <a class="tl-card" href="#">
-                    <span class="tl-year">{right.year}</span>
-                    <h3 class="tl-title">{right.title}</h3>
-                    <span class="tl-tag">{right.tag}</span>
-                  </a>
-                : <div class="tl-empty"></div>
+                ? <div class={`tl-card${right.desc ? '' : ' tl-card--static'}`} role={right.desc ? 'button' : undefined} tabindex={right.desc ? 0 : undefined} aria-expanded={right.desc ? 'false' : undefined}>
+                    <div class="tl-card-main">
+                      <span class="tl-year">{right.year}</span>
+                      <h3 class="tl-title">{right.title}</h3>
+                      <span class="tl-tag">{right.tag}</span>
+                      {right.desc && <span class="tl-chevron" aria-hidden="true"></span>}
+                    </div>
+                    {right.desc && <div class="tl-desc" aria-hidden="true"><p>{right.desc}</p></div>}
+                  </div>
+                : left?.born
+                  ? <div class="stork-wrapper" aria-hidden="true">
+                      <svg class="stork-svg" viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg" fill="none">
+                        {/* Wing (lighter pink, swept upward) */}
+                        <path d="M100 62 C108 30 155 18 164 44 C148 56 118 62 100 68Z" fill="#d9a8be"/>
+                        {/* Body */}
+                        <ellipse cx="112" cy="72" rx="38" ry="15" fill="#c17d9d" transform="rotate(-10,112,72)"/>
+                        {/* Tail feathers */}
+                        <path d="M142 66 L160 56 M143 71 L162 70 M141 77 L158 84" stroke="#c17d9d" stroke-width="3" stroke-linecap="round"/>
+                        {/* Neck */}
+                        <path d="M80 63 C73 50 66 36 61 24" stroke="#c17d9d" stroke-width="10" stroke-linecap="round"/>
+                        {/* Head */}
+                        <circle cx="58" cy="18" r="11" fill="#c17d9d"/>
+                        {/* Beak */}
+                        <path d="M49 13 L16 10 L49 24Z" fill="#c17d9d"/>
+                        {/* Legs trailing in flight */}
+                        <path d="M106 85 L118 120 M117 84 L131 117" stroke="#c17d9d" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M118 120 L109 129 M118 120 L125 129" stroke="#c17d9d" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M131 117 L122 126 M131 117 L138 126" stroke="#c17d9d" stroke-width="2.5" stroke-linecap="round"/>
+                        {/* Bundle string from beak tip */}
+                        <path d="M16 11 C12 34 15 68 19 90" stroke="#c17d9d" stroke-width="2" stroke-linecap="round"/>
+                        {/* Bundle body */}
+                        <ellipse cx="22" cy="107" rx="18" ry="16" fill="#ecc8d8"/>
+                        {/* Bundle knot */}
+                        <path d="M10 96 Q22 91 34 96" stroke="#c17d9d" stroke-width="3.5" stroke-linecap="round"/>
+                        <circle cx="22" cy="93" r="5" fill="#c17d9d"/>
+                        {/* Baby face peeking out */}
+                        <circle cx="22" cy="111" r="7" fill="#f5e0ea"/>
+                      </svg>
+                    </div>
+                  : <div class="tl-empty"></div>
               }
             </div>
+
           </div>
         ))}
       </div>
@@ -84,9 +144,7 @@ const rows = Array.from({ length: rowCount }, (_, i) => ({
 </BaseLayout>
 
 <style>
-  :root {
-    --pink: #c17d9d;
-  }
+  :root { --pink: #c17d9d; }
 
   .wrap {
     max-width: 960px;
@@ -186,38 +244,47 @@ const rows = Array.from({ length: rowCount }, (_, i) => ({
     transform: scale(1.35);
   }
 
+  /* ── Card ── */
   .tl-card {
     display: inline-block;
-    text-decoration: none;
-    color: inherit;
-    padding: 10px 0 30px;
+    text-align: inherit;
+    cursor: pointer;
+  }
+  .tl-card--static {
+    cursor: default;
+    padding: 10px 0 20px;
     max-width: 300px;
-    transition: opacity 0.22s;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
   }
   .tl-left .tl-card { margin-left: auto; }
-  .tl-card:hover { opacity: 0.62; }
 
-  .tl-empty { padding: 10px 0 30px; min-height: 60px; display: block; }
+  .tl-card-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
 
-  /* Year — bold, coloured by side */
+  /* ── Year / title / tag ── */
   .tl-year {
     display: block;
     font-size: 10px; font-weight: 600;
     letter-spacing: 0.18em; text-transform: uppercase;
     margin-bottom: 5px;
   }
-  /* Title */
   .tl-title {
     font-family: var(--serif);
     font-size: clamp(17px, 1.8vw, 22px);
     font-weight: 400; font-style: italic;
     line-height: 1.25;
-    transition: opacity 0.22s;
     margin-bottom: 4px;
+    transition: opacity 0.22s;
   }
-  .tl-card:hover .tl-title { opacity: 0.6; }
-
-  /* Tag */
+  .tl-card:hover .tl-title { opacity: 0.65; }
   .tl-tag {
     display: inline-block;
     font-size: 9px; font-weight: 300;
@@ -225,36 +292,115 @@ const rows = Array.from({ length: rowCount }, (_, i) => ({
     margin-top: 2px;
   }
 
-  /* Life — all pink */
-  .tl-left .tl-year,
-  .tl-left .tl-title,
-  .tl-left .tl-tag  { color: var(--pink); }
+  /* ── Chevron ── */
+  .tl-chevron {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: rotate(45deg);   /* ▾ down */
+    margin-top: 8px;
+    opacity: 0.45;
+    transition: transform 0.25s ease, opacity 0.25s;
+    align-self: flex-start;     /* left side */
+    flex-shrink: 0;
+  }
+  .tl-left .tl-chevron { align-self: flex-end; } /* right-aligned side */
+  .tl-card.open .tl-chevron {
+    transform: rotate(-135deg); /* ▴ up */
+    opacity: 0.8;
+  }
 
-  /* Career — all stone */
+  /* ── Expandable description ── */
+  .tl-desc {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.38s ease, opacity 0.32s ease;
+    opacity: 0;
+  }
+  .tl-card.open .tl-desc {
+    max-height: 160px;
+    opacity: 1;
+  }
+  .tl-desc p {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--stone);
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+    margin: 8px 0 0;
+  }
+
+  /* Left side: desc right-aligned to match text direction */
+  .tl-left .tl-desc p { text-align: right; }
+
+  /* Colour by side */
+  .tl-left  .tl-year,
+  .tl-left  .tl-title,
+  .tl-left  .tl-tag,
+  .tl-left  .tl-chevron { color: var(--pink); }
+
   .tl-right .tl-year,
   .tl-right .tl-title,
-  .tl-right .tl-tag  { color: var(--stone); }
+  .tl-right .tl-tag,
+  .tl-right .tl-chevron { color: var(--stone); }
+
+  .cat-icon {
+    display: inline-block;
+    width: 0.85em; height: 0.85em;
+    vertical-align: -0.1em;
+    margin-right: 0.25em;
+    flex-shrink: 0;
+  }
+
+  .tl-empty { padding: 10px 0 30px; min-height: 60px; display: block; }
+
+  /* ── Born card ── */
+  .tl-card--born { cursor: pointer; }
+  .tl-card--born:hover .tl-title { opacity: 0.65; }
+
+  /* ── Stork animation ── */
+  .stork-wrapper {
+    padding-top: 4px;
+    min-height: 60px;
+    overflow: visible;
+  }
+  .stork-svg {
+    width: 140px;
+    height: auto;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .stork-wrapper.playing .stork-svg {
+    animation: stork-arrive 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  @keyframes stork-arrive {
+    0%   { opacity: 0;   transform: translateX(180px) translateY(-50px); }
+    22%  { opacity: 1;   transform: translateX(0)      translateY(0); }
+    55%  { opacity: 1;   transform: translateX(0)      translateY(-8px); }
+    72%  { opacity: 1;   transform: translateX(-12px)  translateY(-20px); }
+    100% { opacity: 0;   transform: translateX(-80px)  translateY(-60px); }
+  }
+  @media (max-width: 700px) { .stork-wrapper { display: none; } }
 
   /* ── Mobile ── */
   @media (max-width: 700px) {
     .tl-row {
-      opacity: 1 !important;
-      transform: none !important;
+      opacity: 1 !important; transform: none !important;
       transition: none !important;
-      display: block;
-      padding-left: 36px;
-      position: relative;
+      display: block; padding-left: 36px; position: relative;
     }
     .timeline::before { left: 8px; }
     .tl-mid { display: none; }
-    .tl-left, .tl-right {
-      display: block; text-align: left; padding: 0;
-    }
+    .tl-left, .tl-right { display: block; text-align: left; padding: 0; }
     .tl-empty { display: none; }
     .tl-card {
       display: block; position: relative;
-      padding: 8px 0 20px; max-width: 100%;
+      padding: 8px 0 16px; max-width: 100%;
     }
+    .tl-left .tl-card { margin-left: 0; }
     .tl-card::before {
       content: '';
       position: absolute;
@@ -268,6 +414,8 @@ const rows = Array.from({ length: rowCount }, (_, i) => ({
     }
     .tl-left  .tl-card:hover::before { border-color: var(--pink);  background: var(--pink); }
     .tl-right .tl-card:hover::before { border-color: var(--stone); background: var(--stone); }
+    .tl-left  .tl-chevron { align-self: flex-start; }
+    .tl-left  .tl-desc p  { text-align: left; }
     .tl-title { font-size: clamp(17px, 4.8vw, 22px); }
     .col-labels { display: none; }
     .page-title { font-size: clamp(40px, 12vw, 64px); }
@@ -282,6 +430,7 @@ const rows = Array.from({ length: rowCount }, (_, i) => ({
 </style>
 
 <script>
+  /* ── Scroll reveal (desktop only) ── */
   if (window.innerWidth > 700) {
     const rows = document.querySelectorAll('.tl-row');
     const io = new IntersectionObserver((entries) => {
@@ -295,4 +444,34 @@ const rows = Array.from({ length: rowCount }, (_, i) => ({
     }, { threshold: 0.08 });
     rows.forEach(r => io.observe(r));
   }
+
+  /* ── Born card → stork animation ── */
+  const bornCard = document.querySelector('[data-born]');
+  const storkWrapper = document.querySelector('.stork-wrapper');
+  if (bornCard && storkWrapper) {
+    bornCard.addEventListener('click', () => {
+      storkWrapper.classList.remove('playing');
+      void (storkWrapper as HTMLElement).offsetWidth; // reflow to restart
+      storkWrapper.classList.add('playing');
+    });
+    bornCard.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); bornCard.dispatchEvent(new MouseEvent('click')); }
+    });
+  }
+
+  /* ── Click to expand / collapse ── */
+  document.querySelectorAll('.tl-card').forEach(card => {
+    const open = () => {
+      const isOpen = card.classList.contains('open');
+      card.classList.toggle('open', !isOpen);
+      card.setAttribute('aria-expanded', String(!isOpen));
+      const desc = card.querySelector('.tl-desc');
+      if (desc) desc.setAttribute('aria-hidden', String(isOpen));
+    };
+
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+  });
 </script>
