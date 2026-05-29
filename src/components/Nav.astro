@@ -105,10 +105,15 @@ const current = modules.find(m => path.startsWith(m.href));
     color: var(--stone);
     text-decoration: none;
     white-space: nowrap;
-    transition: color 0.2s;
+    padding: 4px 9px;
+    border-radius: 2px;
+    transition: color 0.2s, background 0.2s;
   }
   .nav-link:hover  { color: var(--ink); }
-  .nav-link.active { color: var(--rose); }
+  .nav-link.active {
+    background: var(--ink);
+    color: var(--bg);
+  }
 
   /* ── Mobile ≤ 640px: links drop to second row ── */
   @media (max-width: 640px) {
@@ -138,14 +143,18 @@ const current = modules.find(m => path.startsWith(m.href));
 
     .nav-link {
       font-size: 9.5px;
-      padding: 3px 0;
+      padding: 3px 8px;
       flex-shrink: 0;
     }
-    /* Dot separator between links */
+    /* Separator between links */
     .nav-link + .nav-link {
-      margin-left: 22px;
-      padding-left: 22px;
+      margin-left: 6px;
+      padding-left: 14px;
       border-left: 1px solid var(--rule);
+    }
+    .nav-link.active {
+      background: var(--ink);
+      color: var(--bg);
     }
   }
 </style>

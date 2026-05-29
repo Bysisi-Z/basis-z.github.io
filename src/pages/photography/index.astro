@@ -13,6 +13,8 @@ const entries = [
     category: 'Hiking Guide',
     title: 'Haute Route, Alps',
     orientation: 'portrait',
+    imgSrc: '/images/haute-route-alps.jpeg',
+    imgAlt: 'Alpine wildflowers, Haute Route, Swiss Alps',
     ph: 'ph-1',
   },
   {
@@ -73,7 +75,10 @@ const entries = [
           href={`/photography/${e.slug}`}
           style={`--i:${i}`}
         >
-          <div class={`card-img ${e.ph}`}></div>
+          {e.imgSrc
+            ? <img class="card-img" src={e.imgSrc} alt={e.imgAlt ?? e.title} />
+            : <div class={`card-img ${e.ph}`}></div>
+          }
           <div class="card-overlay">
             <span class="card-category">{e.category}</span>
             <h2 class="card-title">{e.title}</h2>
