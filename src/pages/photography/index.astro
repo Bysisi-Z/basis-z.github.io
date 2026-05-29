@@ -1,99 +1,249 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const photos: { src: string; alt: string; location: string; span: string; ratio: string }[] = [];
+const entries = [
+  { slug: 'haute-route-alps',      category: 'Hiking Guide',   title: 'Haute Route, Alps',          ph: 'ph-1' },
+  { slug: 'yunnan-highland-trek',  category: 'Trail Notes',    title: 'Yunnan Highland Trek',        ph: 'ph-2' },
+  { slug: 'first-5000m-summit',    category: 'Summit Story',   title: 'First 5,000m Summit',        ph: 'ph-3' },
+  { slug: 'corsica-gr20',          category: 'Trail Guide',    title: 'Corsica GR20',               ph: 'ph-4' },
+  { slug: 'dolomites-golden-hour', category: 'Photography',    title: 'Dolomites, Golden Hour',     ph: 'ph-5' },
+  { slug: 'patagonia',             category: 'Journey',        title: 'Patagonia, End of the World',ph: 'ph-6' },
+];
 ---
 
-<BaseLayout title="Photography" description="Visual narratives of cities, landscapes, and moments">
-  <div class="content-wrap">
+<BaseLayout
+  title="Mountain Calling"
+  description="Trails walked, peaks reached, silences found."
+>
+  <div class="wrap">
+    <header class="page-header">
+      <p class="eyebrow">03 — Mountain Calling</p>
+      <h1 class="page-title">Nature never judge</h1>
+      <p class="page-sub">Trails walked, peaks reached, silences found.</p>
+    </header>
+  </div>
 
-    <div class="page-header">
-      <p class="eyebrow">03 — Photography</p>
-      <h1 class="page-title"><em>Visual</em><br />Record</h1>
-    </div>
-
-    <div class="photo-intro fade-up">
-      <p>Capturing the texture of cities, the stillness<br />of landscapes, and the quiet moments in between.</p>
-    </div>
-
-    {photos.length > 0 ? (
-      <div class="photo-grid fade-up">
-        {photos.map(photo => (
-          <div class={`photo-cell ${photo.span}`} data-loc={photo.location}
-               style={`aspect-ratio: ${photo.ratio};`}>
-            <img src={photo.src} alt={photo.alt} loading="lazy" />
+  <div class="wrap">
+    <div class="cards-grid">
+      {entries.map((e, i) => (
+        <a class={`card card-anim`} href={`/photography/${e.slug}`} style={`--delay:${i * 80}ms`}>
+          <div class={`card-img ${e.ph}`}></div>
+          <div class="card-overlay">
+            <span class="card-category">{e.category}</span>
+            <h2 class="card-title">{e.title}</h2>
           </div>
-        ))}
-      </div>
-    ) : (
-      <div class="photo-placeholder fade-up">
-        <div class="placeholder-grid">
-          {['16/10','4/5','4/5','4/5','4/5','16/9','4/5'].map((r, i) => (
-            <div class={`ph-cell ph${i+1}`} style={`aspect-ratio:${r}`}>
-              <span>Photos coming soon</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
-
+        </a>
+      ))}
+    </div>
   </div>
 </BaseLayout>
 
 <style>
-  .photo-intro { padding: 48px 0 56px; }
-  .photo-intro p {
-    font-family: var(--serif); font-size: 20px; font-weight: 300;
-    font-style: italic; color: var(--muted); line-height: 1.65;
+  :root { --pink: #c17d9d; }
+
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 6vw, 80px);
   }
 
-  /* Real photo grid */
-  .photo-grid {
-    display: grid; grid-template-columns: repeat(12, 1fr);
-    gap: 10px; padding-bottom: 40px;
+  /* ── Header ── */
+  .page-header {
+    padding-top: 64px;
+    padding-bottom: 44px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 48px;
   }
-  .photo-cell { border-radius: 2px; overflow: hidden; position: relative; cursor: pointer; }
-  .photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-  .photo-cell:hover img { transform: scale(1.04); }
-  .photo-cell::after {
-    content: attr(data-loc);
-    position: absolute; bottom: 12px; left: 14px;
-    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(255,255,255,0.85);
-    opacity: 0; transition: opacity 0.35s;
+  .eyebrow {
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--stone);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px;
   }
-  .photo-cell::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(74,127,165,0.3), transparent);
-    opacity: 0; transition: opacity 0.35s;
+  .eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--pink); }
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(44px, 8vw, 88px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.05; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 16px;
   }
-  .photo-cell:hover::before, .photo-cell:hover::after { opacity: 1; }
+  .page-sub {
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.6vw, 18px);
+    font-weight: 300; font-style: italic;
+    color: var(--stone);
+  }
 
-  /* Placeholder grid */
-  .placeholder-grid {
-    display: grid; grid-template-columns: repeat(12, 1fr);
-    gap: 10px; padding-bottom: 40px;
+  /* ── Grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding-bottom: 80px;
   }
-  .ph-cell {
-    border-radius: 2px; overflow: hidden;
-    background: linear-gradient(135deg, #e8eff4, #d4e4ec);
-    display: flex; align-items: center; justify-content: center;
+
+  /* ── Card ── */
+  .card {
+    position: relative;
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    text-decoration: none;
+    background: #2a3a4a;
+    /* fade-in start */
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  .ph-cell span { font-size: 10px; color: var(--light); letter-spacing: 0.1em; text-transform: uppercase; }
-  .ph1 { grid-column: span 7; }
-  .ph2 { grid-column: span 5; }
-  .ph3 { grid-column: span 4; }
-  .ph4 { grid-column: span 4; }
-  .ph5 { grid-column: span 4; }
-  .ph6 { grid-column: span 8; }
-  .ph7 { grid-column: span 4; }
+  .card.visible { opacity: 1; transform: translateY(0); }
+
+  /* Image (real or placeholder) */
+  .card-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
+  .card:hover .card-img { transform: scale(1.06); }
+
+  /* Overlay */
+  .card-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 48px 20px 20px;
+    background: linear-gradient(to top,
+      rgba(10,10,10,0.78) 0%,
+      rgba(10,10,10,0.35) 55%,
+      transparent 100%);
+    transition: padding-bottom 0.3s ease;
+  }
+  .card:hover .card-overlay { padding-bottom: 24px; }
+
+  .card-category {
+    display: block;
+    font-family: var(--sans);
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.58);
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2.2vw, 24px);
+    font-weight: 400; font-style: italic;
+    line-height: 1.2; color: #fff;
+  }
+
+  /* ── CSS Gradient Placeholders ── */
+  .ph-1 {
+    background: linear-gradient(180deg,
+      #3a5068 0%, #4a6a88 25%, #6a8eaa 45%, #8aafc4 60%, #b2ccda 75%, #d0e0ea 100%);
+  }
+  .ph-1::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 55%;
+    background: linear-gradient(180deg, transparent, #1e2e3e);
+    clip-path: polygon(
+      0% 100%, 0% 60%, 5% 42%, 11% 58%, 17% 32%, 22% 50%,
+      28% 22%, 33% 44%, 39% 16%, 44% 38%, 50% 20%, 55% 40%,
+      61% 26%, 67% 46%, 73% 30%, 79% 50%, 85% 36%, 91% 54%,
+      97% 40%, 100% 52%, 100% 100%);
+  }
+  .ph-2 {
+    background: linear-gradient(180deg,
+      #2a4438 0%, #3a6050 25%, #4a7862 45%, #5e9074 65%, #8ab898 80%, #b8d4c0 100%);
+  }
+  .ph-2::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 60%;
+    background: linear-gradient(180deg, transparent, #162820);
+    clip-path: polygon(
+      0% 100%, 0% 55%, 8% 35%, 15% 55%, 22% 28%, 30% 50%,
+      37% 18%, 44% 42%, 50% 24%, 57% 46%, 64% 30%, 71% 52%,
+      78% 34%, 85% 54%, 92% 38%, 100% 50%, 100% 100%);
+  }
+  .ph-3 {
+    background: linear-gradient(180deg,
+      #1a2a4a 0%, #2a4070 25%, #4a68a0 48%, #8aaad0 65%, #c8dcea 80%, #e8f0f4 100%);
+  }
+  .ph-3::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 52%;
+    background: linear-gradient(180deg, rgba(240,248,255,0.7), rgba(180,210,235,0.9));
+    clip-path: polygon(
+      0% 100%, 0% 80%, 10% 50%, 20% 70%, 30% 35%, 40% 60%,
+      50% 20%, 60% 55%, 70% 30%, 80% 55%, 90% 40%, 100% 58%, 100% 100%);
+  }
+  .ph-4 {
+    background: linear-gradient(180deg,
+      #1e3248 0%, #2e4e6e 20%, #4a7090 40%, #6a94b0 58%, #a0c0d4 75%, #d4e8f0 100%);
+  }
+  .ph-4::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 48%;
+    background: linear-gradient(180deg, transparent, #0e1e2a);
+    clip-path: polygon(
+      0% 100%, 0% 65%, 7% 44%, 14% 62%, 21% 38%, 28% 56%,
+      35% 28%, 42% 52%, 48% 34%, 54% 56%, 60% 38%, 67% 58%,
+      74% 40%, 81% 60%, 88% 44%, 95% 62%, 100% 50%, 100% 100%);
+  }
+  .ph-5 {
+    background: linear-gradient(180deg,
+      #2a1e38 0%, #4a2e58 18%, #7a4878 35%, #b87890 52%, #d8a898 68%, #e8c8b8 82%, #f0dcc8 100%);
+  }
+  .ph-5::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 55%;
+    background: linear-gradient(180deg, rgba(80,50,60,0.6), #1a0e18);
+    clip-path: polygon(
+      0% 100%, 0% 58%, 6% 40%, 12% 56%, 19% 30%, 26% 50%,
+      32% 22%, 39% 46%, 46% 28%, 52% 50%, 58% 32%, 64% 54%,
+      70% 36%, 76% 56%, 82% 38%, 88% 56%, 94% 42%, 100% 54%, 100% 100%);
+  }
+  .ph-6 {
+    background: linear-gradient(180deg,
+      #28303c 0%, #3c4858 20%, #5a6878 40%, #7e9098 60%, #aac0c8 78%, #d0dce0 100%);
+  }
+  .ph-6::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 58%;
+    background: linear-gradient(180deg, transparent, #141c24);
+    clip-path: polygon(
+      0% 100%, 0% 62%, 5% 46%, 10% 60%, 16% 36%, 22% 54%,
+      28% 28%, 34% 50%, 40% 24%, 46% 48%, 52% 30%, 58% 52%,
+      64% 34%, 70% 54%, 76% 38%, 82% 58%, 88% 42%, 94% 60%,
+      100% 48%, 100% 100%);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+  @media (max-width: 480px) {
+    .cards-grid { grid-template-columns: 1fr; gap: 12px; }
+    .card { aspect-ratio: 4 / 3; }
+    .card { opacity: 1 !important; transform: none !important; }
+  }
 </style>
 
 <script>
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+  const cards = document.querySelectorAll('.card');
+  if (window.innerWidth > 480) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = [...cards].indexOf(entry.target);
+          setTimeout(() => entry.target.classList.add('visible'), idx * 80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach(c => io.observe(c));
+  } else {
+    cards.forEach(c => c.classList.add('visible'));
+  }
 </script>

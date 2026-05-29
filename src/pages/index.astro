@@ -65,7 +65,7 @@ const modules = [
         <a class={`card${m.coming ? ' card--coming' : ''}`} href={m.href}>
           <div>
             <span class="card-num">{m.num}</span>
-            <h2 class="card-title" set:html={m.title.replace('Mountain Calling', 'Mountain<br/>Calling')} />
+            <h2 class="card-title">{m.title}</h2>
             <p class="card-desc">{m.desc}</p>
           </div>
           <span class="card-arrow">↗</span>
