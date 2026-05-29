@@ -383,7 +383,16 @@ const rows = [
     72%  { opacity: 1;   transform: translateX(-12px)  translateY(-20px); }
     100% { opacity: 0;   transform: translateX(-80px)  translateY(-60px); }
   }
-  @media (max-width: 700px) { .stork-wrapper { display: none; } }
+  @media (max-width: 700px) {
+    .stork-wrapper {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      min-height: 0;
+      overflow: visible;
+    }
+    .stork-svg { width: 100px; }
+  }
 
   /* ── Mobile ── */
   @media (max-width: 700px) {
