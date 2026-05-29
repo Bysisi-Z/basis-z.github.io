@@ -1,0 +1,343 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleHero from '../../components/ArticleHero.astro';
+
+interface DayItem {
+  num: string;
+  title: string;
+  detail: string;
+}
+
+interface Entry {
+  slug: string;
+  title: string;
+  titleHtml: string;
+  eyebrow: string;
+  subtitle: string;
+  orientation: 'portrait' | 'landscape';
+  imagePosition?: 'left' | 'right';
+  src: string;
+  alt: string;
+  stats: { label: string; value: string }[];
+  meta: { label: string; value: string }[];
+  body: {
+    lead: string;
+    paragraphs: string[];
+    pullQuote?: string;
+    inlineImgSrc?: string;
+    inlineImgAlt?: string;
+    inlineImgCaption?: string;
+    sections: {
+      heading: string;
+      paragraphs?: string[];
+      days?: DayItem[];
+      tipLabel?: string;
+      tipItems?: { bold: string; text: string }[];
+    }[];
+    closing: string[];
+  };
+}
+
+export function getStaticPaths() {
+  const entries: Entry[] = [
+    {
+      slug: 'haute-route-alps',
+      title: 'Haute Route, Alps',
+      titleHtml: 'Haute Route,<br/>Alps',
+      eyebrow: 'Hiking Guide · Alps · July 2022',
+      subtitle: 'Eleven days of silence between Chamonix and Zermatt',
+      orientation: 'portrait',
+      imagePosition: 'left',
+      src: '/images/haute-route-alps.jpeg',
+      alt: 'Alpine wildflowers, Haute Route, Swiss Alps',
+      stats: [
+        { label: 'Distance',     value: '~180 km' },
+        { label: 'Total Ascent', value: '12,000 m' },
+        { label: 'Duration',     value: '11 days' },
+        { label: 'Best Season',  value: 'Jul – Sep' },
+        { label: 'Difficulty',   value: 'Demanding' },
+        { label: 'Route',        value: 'Chamonix → Zermatt' },
+      ],
+      meta: [
+        { label: 'Date',      value: 'July 2022' },
+        { label: 'Distance',  value: '~180 km' },
+        { label: 'Duration',  value: '11 days' },
+        { label: 'Read time', value: '12 min' },
+      ],
+      body: {
+        lead: 'There is a moment on the Haute Route — somewhere between the Col de Torrent and a nameless ridge above Grimentz — when you stop thinking about distance and start thinking about nothing at all. That is when the mountains begin to work on you.',
+        paragraphs: [
+          'I had planned this route for almost two years, circling it in guidebooks, watching weather forecasts obsessively, debating gear lists with strangers on the internet. By the time I finally stood in Chamonix on a cool July morning with a 12-kilogram pack, all that preparation had dissolved into a single, very simple question: which way is up?',
+          'The Haute Route — the high route — is not a trail in the conventional sense. It is more of an intention, a general agreement between peaks that you will thread yourself through them over eleven days, crossing from the French Alps into Switzerland, from the shadow of Mont Blanc to the foot of the Matterhorn. The path shifts each year, redrawn by snow conditions and hut availability. What stays constant is the altitude and the relentlessness.',
+        ],
+        pullQuote: '"The flowers at 2,600 metres do not care that you are tired. They simply exist, yellow and violet against the grey scree, and that indifference is oddly comforting."',
+        inlineImgSrc: '/images/haute-route-alps.jpeg',
+        inlineImgAlt: 'Wildflowers and valley view, Swiss Alps',
+        inlineImgCaption: "Alpine asters and buttercups above Val d'Anniviers, Day 3. Elevation: approx. 2,600m.",
+        sections: [
+          {
+            heading: 'The Route',
+            paragraphs: [
+              'The classic Haute Route begins in Chamonix and ends in Zermatt. The route passes through some of the highest permanently inhabited villages in Europe — Verbier, Evolène, Arolla — each one a brief, jarring return to WiFi and hot showers before the mountains reclaim you again.',
+            ],
+            days: [
+              { num: '01',    title: 'Chamonix → Champex-Lac',              detail: '26 km · 1,850m ascent · Classic long opener — most take the bus to Argentière to shorten it' },
+              { num: '02',    title: 'Champex-Lac → Col de la Forclaz',     detail: '16 km · 850m ascent · Gentle day through forest and orchard country' },
+              { num: '03',    title: 'Col de la Forclaz → Cabane du Mountet', detail: "22 km · 1,900m ascent · The route's emotional heart — high passes, glacier views, wildflowers" },
+              { num: '04',    title: 'Cabane du Mountet → Zinal',            detail: '14 km · 450m ascent · Glacier descent. Take it slowly.' },
+              { num: '05–11', title: 'Zinal → Zermatt',                      detail: '~100 km · Final stages through Gruben, St. Niklaus, and Täsch before the Matterhorn reveals itself' },
+            ],
+          },
+          {
+            heading: 'Practical Information',
+            paragraphs: [
+              'The route requires booking huts well in advance — June at the latest for a July departure. Most huts operate half-board (dinner and breakfast included). The Swiss huts in particular are efficient and excellent. Do not skip breakfast.',
+            ],
+            tipLabel: 'Key Logistics',
+            tipItems: [
+              { bold: 'Hut bookings:', text: 'Open in early spring. Book June or earlier for July–August. SAC membership gives priority and discounts at Swiss huts.' },
+              { bold: 'Gear:',         text: 'Crampons and ice axe are mandatory before late July. Trekking poles are not optional — they are structural. A good rain jacket earns its weight many times over.' },
+              { bold: 'Getting there:', text: 'Chamonix is well-served by train from Geneva (1.5h). Zermatt is car-free — take the train from Täsch.' },
+            ],
+          },
+        ],
+        closing: [
+          'I arrived in Zermatt on an afternoon when the Matterhorn was fully visible — unusual, I was told. I sat on a terrace and stared at the mountain for a long time. It did not feel like an ending. It felt like a question that the walking had helped me articulate, even if I still did not have the answer.',
+          'The mountains do not judge whether you were fast or slow, prepared or improvised, experienced or naive. They are simply there, and you are simply in them, and for a little while that is enough.',
+        ],
+      },
+    },
+  ];
+  return entries.map(e => ({ params: { slug: e.slug }, props: e }));
+}
+
+const entry = Astro.props as Entry;
+const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body } = entry;
+---
+
+<BaseLayout title={title} description={subtitle}>
+  <ArticleHero
+    src={src}
+    alt={alt}
+    orientation={orientation}
+    imagePosition={imagePosition}
+    eyebrow={eyebrow}
+    title={entry.titleHtml}
+    subtitle={subtitle}
+    stats={stats}
+  />
+
+  <div class="article">
+
+    <div class="meta-bar">
+      {meta.map((m, i) => (
+        <>
+          {i > 0 && <div class="meta-divider"></div>}
+          <div class="meta-item">
+            <span class="meta-label">{m.label}</span>
+            <span class="meta-value">{m.value}</span>
+          </div>
+        </>
+      ))}
+    </div>
+
+    <div class="body-text">
+      <p class="lead">{body.lead}</p>
+      {body.paragraphs.map(p => <p>{p}</p>)}
+
+      {body.pullQuote && (
+        <div class="pull-quote">
+          <p>{body.pullQuote}</p>
+        </div>
+      )}
+    </div>
+
+    {body.inlineImgSrc && (
+      <>
+        <div class="inline-img-wrap">
+          <img src={body.inlineImgSrc} alt={body.inlineImgAlt} />
+        </div>
+        {body.inlineImgCaption && (
+          <p class="inline-img-caption">{body.inlineImgCaption}</p>
+        )}
+      </>
+    )}
+
+    {body.sections.map(section => (
+      <div class="body-text">
+        <h2 class="section-heading">{section.heading}</h2>
+
+        {section.paragraphs?.map(p => <p>{p}</p>)}
+
+        {section.days && (
+          <div class="day-list">
+            {section.days.map(d => (
+              <div class="day-item">
+                <div class="day-num">{d.num}</div>
+                <div>
+                  <div class="day-title">{d.title}</div>
+                  <div class="day-detail">{d.detail}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {section.tipLabel && section.tipItems && (
+          <div class="tip-box">
+            <p class="tip-label">{section.tipLabel}</p>
+            {section.tipItems.map(t => (
+              <p><strong class="tip-bold">{t.bold}</strong> {t.text}</p>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+
+    <div class="body-text">
+      <h2 class="section-heading">On Returning</h2>
+      {body.closing.map(p => <p>{p}</p>)}
+    </div>
+
+    <a class="back-link" href="/photography">← Back to Mountain Calling</a>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 6vw, 40px);
+  }
+
+  /* Meta bar */
+  .meta-bar {
+    display: flex; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    padding: 36px 0 32px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 52px;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .meta-label {
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--rule);
+  }
+  .meta-value { font-size: 12px; font-weight: 300; color: var(--stone); }
+  .meta-divider { width: 1px; height: 28px; background: var(--rule); }
+  @media (max-width: 480px) { .meta-divider { display: none; } }
+
+  /* Body text */
+  .body-text {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 21px);
+    font-weight: 300; line-height: 1.82;
+    color: var(--ink);
+  }
+  .lead {
+    font-size: clamp(20px, 2.4vw, 24px);
+    line-height: 1.7; margin-bottom: 36px;
+  }
+  .body-text p + p { margin-top: 26px; }
+
+  /* Section heading */
+  .section-heading {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 300; font-style: italic;
+    color: var(--ink);
+    margin-top: 64px; margin-bottom: 24px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    margin: 52px 0;
+    padding: 0 0 0 28px;
+    border-left: 2px solid var(--rose);
+  }
+  .pull-quote p {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.55; color: var(--stone); margin: 0;
+  }
+
+  /* Inline image */
+  .inline-img-wrap {
+    margin: 52px calc(-1 * clamp(20px, 6vw, 40px));
+    position: relative;
+  }
+  .inline-img-wrap img {
+    width: 100%; aspect-ratio: 16/9;
+    object-fit: cover; object-position: center 30%;
+    display: block;
+  }
+  .inline-img-caption {
+    font-size: 11px; font-weight: 300;
+    color: var(--stone); letter-spacing: 0.06em;
+    padding: 10px clamp(20px, 6vw, 40px) 0;
+    font-style: italic;
+    font-family: var(--sans);
+  }
+
+  /* Day list */
+  .day-list { margin-top: 28px; display: flex; flex-direction: column; }
+  .day-item {
+    display: grid; grid-template-columns: 48px 1fr;
+    gap: 20px; padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .day-item:first-child { border-top: 1px solid var(--rule); }
+  .day-num {
+    font-family: var(--serif);
+    font-size: 32px; font-weight: 300; font-style: italic;
+    color: var(--rule); line-height: 1.1;
+  }
+  .day-title {
+    font-family: var(--serif);
+    font-size: 18px; font-weight: 400; font-style: italic;
+    color: var(--ink); margin-bottom: 5px;
+  }
+  .day-detail {
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 300;
+    color: var(--stone); line-height: 1.6;
+  }
+
+  /* Tip box */
+  .tip-box {
+    background: rgba(193,125,157,0.06);
+    border: 1px solid rgba(193,125,157,0.22);
+    border-radius: 10px;
+    padding: 24px 28px; margin-top: 48px;
+  }
+  .tip-label {
+    font-family: var(--sans);
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 14px;
+  }
+  .tip-box p {
+    font-family: var(--sans);
+    font-size: 13.5px; font-weight: 300;
+    color: var(--stone); line-height: 1.75; margin: 0;
+  }
+  .tip-box p + p { margin-top: 10px; }
+  .tip-bold { font-weight: 400; color: var(--ink); }
+
+  /* Back link */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--sans);
+    font-size: 11px; font-weight: 300;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--stone); text-decoration: none;
+    margin-top: 80px; margin-bottom: 80px;
+    transition: color 0.2s, gap 0.2s;
+  }
+  .back-link:hover { color: var(--ink); gap: 14px; }
+</style>
