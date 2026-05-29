@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const experience = [
+  {
+    role: '职位名称',
+    company: '公司名称',
+    period: '2023 — 至今',
+    desc: '负责内容描述，填写主要职责与成果。',
+  },
+  {
+    role: '职位名称',
+    company: '公司名称',
+    period: '2021 — 2023',
+    desc: '负责内容描述，填写主要职责与成果。',
+  },
+];
+
+const education = [
+  {
+    degree: '学位 / 专业',
+    school: '学校名称',
+    period: '2017 — 2021',
+  },
+];
+
+const skills = ['数据分析', '行业研究', '内容写作', '摄影', 'Python', 'SQL'];
+---
+
+<BaseLayout title="简历" description="职业路径与个人简介">
+  <div class="max-w-3xl mx-auto px-6 pt-20 pb-24">
+
+    <!-- Header -->
+    <div class="mb-16">
+      <p class="text-xs text-[#6b7280] uppercase tracking-widest mb-4">01 — 职业路径</p>
+      <h1 class="text-3xl font-light mb-4">你的姓名</h1>
+      <p class="text-[#6b7280] leading-relaxed max-w-xl">
+        一段简短的个人介绍，概括你是谁、你做什么、你关注什么。可以是 2-3 句话。
+      </p>
+    </div>
+
+    <!-- Experience -->
+    <section class="mb-16">
+      <h2 class="text-xs text-[#6b7280] uppercase tracking-widest mb-8">工作经历</h2>
+      <div class="space-y-10">
+        {experience.map((job) => (
+          <div class="grid grid-cols-[1fr_auto] gap-4">
+            <div>
+              <h3 class="font-medium text-[#1a1a1a]">{job.role}</h3>
+              <p class="text-sm text-[#6b7280] mt-0.5 mb-2">{job.company}</p>
+              <p class="text-sm text-[#6b7280] leading-relaxed">{job.desc}</p>
+            </div>
+            <span class="text-xs text-[#9ca3af] whitespace-nowrap mt-0.5">{job.period}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="mb-16">
+      <h2 class="text-xs text-[#6b7280] uppercase tracking-widest mb-8">教育背景</h2>
+      <div class="space-y-6">
+        {education.map((edu) => (
+          <div class="grid grid-cols-[1fr_auto] gap-4">
+            <div>
+              <h3 class="font-medium text-[#1a1a1a]">{edu.degree}</h3>
+              <p class="text-sm text-[#6b7280] mt-0.5">{edu.school}</p>
+            </div>
+            <span class="text-xs text-[#9ca3af] whitespace-nowrap mt-0.5">{edu.period}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section>
+      <h2 class="text-xs text-[#6b7280] uppercase tracking-widest mb-6">技能</h2>
+      <div class="flex flex-wrap gap-2">
+        {skills.map((s) => (
+          <span class="text-sm border border-[#e5e7eb] rounded-full px-4 py-1.5 text-[#6b7280]">{s}</span>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

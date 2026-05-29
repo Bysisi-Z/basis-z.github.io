@@ -1,0 +1,34 @@
+---
+const nav = [
+  { label: '简历', href: '/about' },
+  { label: '研究', href: '/research' },
+  { label: '摄影', href: '/photography' },
+  { label: '文章', href: '/blog' },
+];
+
+const current = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-[#fafaf9]/90 backdrop-blur border-b border-[#e5e7eb]">
+  <nav class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+    <a href="/" class="text-sm font-semibold tracking-widest uppercase text-[#1a1a1a] hover:text-[#2563eb] transition-colors">
+      Basis Z
+    </a>
+    <ul class="flex gap-7">
+      {nav.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class={`text-sm transition-colors ${
+              current.startsWith(href)
+                ? 'text-[#2563eb] font-medium'
+                : 'text-[#6b7280] hover:text-[#1a1a1a]'
+            }`}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>

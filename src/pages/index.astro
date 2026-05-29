@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Home" description="Basis Z 的个人品牌网站">
+
+  <!-- Hero -->
+  <section class="max-w-5xl mx-auto px-6 pt-28 pb-24">
+    <p class="text-sm text-[#6b7280] tracking-widest uppercase mb-5">Basis Z</p>
+    <h1 class="text-4xl sm:text-5xl font-light leading-tight text-[#1a1a1a] mb-6 max-w-2xl">
+      研究者、观察者<br />与记录者
+    </h1>
+    <p class="text-lg text-[#6b7280] max-w-xl leading-relaxed mb-10">
+      关注行业趋势与数据叙事，用文字和影像记录思考与旅途。
+    </p>
+    <a href="/about" class="inline-flex items-center gap-2 text-sm text-[#2563eb] hover:gap-3 transition-all">
+      了解我 <span>→</span>
+    </a>
+  </section>
+
+  <!-- Module Grid -->
+  <section class="max-w-5xl mx-auto px-6 pb-24">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+      <a href="/about" class="group border border-[#e5e7eb] rounded-xl p-7 hover:border-[#2563eb]/40 hover:shadow-sm transition-all bg-white">
+        <div class="text-xs text-[#6b7280] uppercase tracking-widest mb-3">01</div>
+        <h2 class="text-lg font-medium mb-2 group-hover:text-[#2563eb] transition-colors">职业路径 / 简历</h2>
+        <p class="text-sm text-[#6b7280] leading-relaxed">工作经历、教育背景与核心技能</p>
+      </a>
+
+      <a href="/research" class="group border border-[#e5e7eb] rounded-xl p-7 hover:border-[#2563eb]/40 hover:shadow-sm transition-all bg-white">
+        <div class="text-xs text-[#6b7280] uppercase tracking-widest mb-3">02</div>
+        <h2 class="text-lg font-medium mb-2 group-hover:text-[#2563eb] transition-colors">行业研究</h2>
+        <p class="text-sm text-[#6b7280] leading-relaxed">深度研究文章与交互式数据分析报告</p>
+      </a>
+
+      <a href="/photography" class="group border border-[#e5e7eb] rounded-xl p-7 hover:border-[#2563eb]/40 hover:shadow-sm transition-all bg-white">
+        <div class="text-xs text-[#6b7280] uppercase tracking-widest mb-3">03</div>
+        <h2 class="text-lg font-medium mb-2 group-hover:text-[#2563eb] transition-colors">摄影集</h2>
+        <p class="text-sm text-[#6b7280] leading-relaxed">城市、风景与日常的影像记录</p>
+      </a>
+
+      <a href="/blog" class="group border border-[#e5e7eb] rounded-xl p-7 hover:border-[#2563eb]/40 hover:shadow-sm transition-all bg-white">
+        <div class="text-xs text-[#6b7280] uppercase tracking-widest mb-3">04</div>
+        <h2 class="text-lg font-medium mb-2 group-hover:text-[#2563eb] transition-colors">个人文章</h2>
+        <p class="text-sm text-[#6b7280] leading-relaxed">思考、观察与生活随笔</p>
+      </a>
+
+    </div>
+  </section>
+
+</BaseLayout>

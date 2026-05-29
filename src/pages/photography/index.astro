@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// 添加照片时在这里填写：{ src, alt, location, date }
+const photos: { src: string; alt: string; location: string; date: string }[] = [];
+---
+
+<BaseLayout title="摄影集" description="城市、风景与日常的影像记录">
+  <div class="max-w-5xl mx-auto px-6 pt-20 pb-24">
+
+    <div class="mb-14">
+      <p class="text-xs text-[#6b7280] uppercase tracking-widest mb-4">03 — 摄影集</p>
+      <h1 class="text-3xl font-light mb-4">影像记录</h1>
+      <p class="text-[#6b7280] max-w-lg leading-relaxed">
+        用镜头捕捉城市肌理、旅途风景与日常片刻。
+      </p>
+    </div>
+
+    {photos.length > 0 ? (
+      <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+        {photos.map((photo) => (
+          <div class="break-inside-avoid group relative overflow-hidden rounded-lg bg-[#f3f4f6]">
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              class="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              <p class="text-white text-sm font-medium">{photo.location}</p>
+              <p class="text-white/70 text-xs">{photo.date}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div class="aspect-[4/5] rounded-lg bg-[#f3f4f6] flex items-center justify-center text-xs text-[#9ca3af]">
+            照片即将上传
+          </div>
+        ))}
+      </div>
+    )}
+
+  </div>
+</BaseLayout>

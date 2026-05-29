@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = [
+  {
+    slug: 'ogn-sun-pharma-analysis',
+    title: 'Sun Pharma 收购 OGN：财务对比与并购分析',
+    date: '2026-05-28',
+    tags: ['并购', '制药', '数据分析'],
+    excerpt: '基于最新 10-K 年报数据，对比两家公司的财务状况，分析收购的战略价值与风险。',
+    hasChart: true,
+  },
+];
+---
+
+<BaseLayout title="行业研究" description="深度研究文章与交互式数据分析报告">
+  <div class="max-w-5xl mx-auto px-6 pt-20 pb-24">
+
+    <div class="mb-14">
+      <p class="text-xs text-[#6b7280] uppercase tracking-widest mb-4">02 — 行业研究</p>
+      <h1 class="text-3xl font-light mb-4">研究与数据分析</h1>
+      <p class="text-[#6b7280] max-w-lg leading-relaxed">
+        聚焦行业趋势，以数据为驱动，结合交互式图表呈现研究洞察。
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      {posts.map((post) => (
+        <a
+          href={`/research/${post.slug}`}
+          class="group block border border-[#e5e7eb] rounded-xl p-7 bg-white hover:border-[#2563eb]/40 hover:shadow-sm transition-all"
+        >
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex gap-2 flex-wrap mb-3">
+                {post.tags.map((tag) => (
+                  <span class="text-xs text-[#6b7280] border border-[#e5e7eb] rounded-full px-3 py-0.5">{tag}</span>
+                ))}
+                {post.hasChart && (
+                  <span class="text-xs text-[#2563eb] border border-[#bfdbfe] rounded-full px-3 py-0.5 bg-[#eff6ff]">含数据图表</span>
+                )}
+              </div>
+              <h2 class="text-lg font-medium mb-2 group-hover:text-[#2563eb] transition-colors">{post.title}</h2>
+              <p class="text-sm text-[#6b7280] leading-relaxed">{post.excerpt}</p>
+            </div>
+            <span class="text-xs text-[#9ca3af] whitespace-nowrap mt-1">{post.date}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Empty state placeholder -->
+    {posts.length === 0 && (
+      <div class="text-center py-20 text-[#9ca3af] text-sm">
+        研究文章即将发布...
+      </div>
+    )}
+
+  </div>
+</BaseLayout>
