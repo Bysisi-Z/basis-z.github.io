@@ -1,86 +1,298 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const experience = [
-  { role: 'Job Title', company: 'Company Name', period: '2023 — Present', desc: 'Brief description of responsibilities and key achievements. Two to three sentences capturing impact and scope.' },
-  { role: 'Job Title', company: 'Company Name', period: '2021 — 2023',   desc: 'Brief description of responsibilities and key achievements. Two to three sentences capturing impact and scope.' },
+const leftEvents = [
+  { year: '2025', title: 'Relocated to Beijing',          tag: 'City'     },
+  { year: '2024', title: 'Solo trek across Yunnan',        tag: 'Hiking'   },
+  { year: '2024', title: 'Three weeks without Wi-Fi',      tag: 'Personal' },
+  { year: '2023', title: 'Moved to Shanghai',              tag: 'City'     },
+  { year: '2022', title: 'Hiked the Haute Route, Alps',    tag: 'Hiking'   },
+  { year: '2021', title: 'Relocated to Chengdu',           tag: 'City'     },
+  { year: '2020', title: 'First solo international trip',  tag: 'Travel'   },
+  { year: '2019', title: 'Moved to Guangzhou',             tag: 'City'     },
+  { year: '2018', title: 'Summited first 5,000m peak',     tag: 'Hiking'   },
 ];
-const education = [
-  { degree: 'Degree · Major', school: 'University Name', period: '2017 — 2021' },
+
+const rightEvents = [
+  { year: '2025', title: 'Senior Industry Analyst',              tag: 'Career'    },
+  { year: '2024', title: 'First solo research publication',      tag: 'Career'    },
+  { year: '2023', title: 'Industry Analyst',                     tag: 'Career'    },
+  { year: '2022', title: 'MSc Finance — [University]',           tag: 'Education' },
+  { year: '2021', title: 'Research Associate',                   tag: 'Career'    },
+  { year: '2021', title: 'Completed CFA Level I',                tag: 'Education' },
+  { year: '2020', title: 'BA Economics — Graduated with Honours',tag: 'Education' },
+  { year: '2019', title: 'Summer Internship, Hong Kong',         tag: 'Career'    },
+  { year: '2018', title: 'Exchange Year — [City]',               tag: 'Education' },
 ];
-const skills = ['Data Analysis', 'Industry Research', 'Writing', 'Photography', 'Python', 'SQL', 'Data Visualization'];
+
+// Merge into rows by index (longest side determines row count)
+const rowCount = Math.max(leftEvents.length, rightEvents.length);
+const rows = Array.from({ length: rowCount }, (_, i) => ({
+  left:  leftEvents[i]  ?? null,
+  right: rightEvents[i] ?? null,
+}));
 ---
 
-<BaseLayout title="Career" description="Career path, experience, and skills">
-  <div class="content-wrap">
+<BaseLayout title="Journey" description="A life lived between cities, peaks, and spreadsheets.">
 
-    <div class="page-header">
-      <p class="eyebrow">01 — Career</p>
-      <h1 class="page-title"><em>Career</em><br />Path</h1>
-    </div>
-
-    <div class="resume-section fade-up">
-      <div class="resume-label">Experience</div>
-      <div class="resume-entries">
-        {experience.map(j => (
-          <div>
-            <div class="entry-title">{j.role}</div>
-            <div class="entry-meta">{j.company} · {j.period}</div>
-            <div class="entry-body">{j.desc}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="resume-section fade-up">
-      <div class="resume-label">Education</div>
-      <div class="resume-entries">
-        {education.map(e => (
-          <div>
-            <div class="entry-title">{e.degree}</div>
-            <div class="entry-meta">{e.school} · {e.period}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="resume-section fade-up">
-      <div class="resume-label">Skills</div>
-      <div class="skill-chips">
-        {skills.map(s => <span class="chip">{s}</span>)}
-      </div>
-    </div>
-
+  <div class="wrap">
+    <header class="page-header">
+      <p class="eyebrow">01 — Journey</p>
+      <h1 class="page-title">Journey</h1>
+      <p class="page-sub">A life lived between cities, peaks, and spreadsheets.</p>
+    </header>
   </div>
+
+  <section>
+    <div class="wrap">
+      <div class="col-labels">
+        <div class="col-label col-label-left">Life &amp; Adventures</div>
+        <div></div>
+        <div class="col-label col-label-right">Career &amp; Education</div>
+      </div>
+
+      <div class="timeline">
+        {rows.map(({ left, right }) => (
+          <div class="tl-row">
+            <div class="tl-left">
+              {left
+                ? <a class="tl-card" href="#">
+                    <span class="tl-year">{left.year}</span>
+                    <h3 class="tl-title">{left.title}</h3>
+                    <span class="tl-tag">{left.tag}</span>
+                  </a>
+                : <div class="tl-empty"></div>
+              }
+            </div>
+            <div class="tl-mid"><div class="tl-dot"></div></div>
+            <div class="tl-right">
+              {right
+                ? <a class="tl-card" href="#">
+                    <span class="tl-year">{right.year}</span>
+                    <h3 class="tl-title">{right.title}</h3>
+                    <span class="tl-tag">{right.tag}</span>
+                  </a>
+                : <div class="tl-empty"></div>
+              }
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  .resume-section {
-    display: grid; grid-template-columns: 180px 1fr;
-    gap: 56px; padding: 56px 0;
-    border-bottom: 1px solid rgba(26,26,26,0.08);
+  :root {
+    --pink: #c17d9d;
   }
-  .resume-label {
-    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--muted); padding-top: 5px;
+
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 6vw, 80px);
   }
-  .resume-entries { display: flex; flex-direction: column; gap: 44px; }
-  .entry-title { font-family: var(--serif); font-size: 22px; font-weight: 300; margin-bottom: 4px; }
-  .entry-meta  { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 12px; }
-  .entry-body  { font-size: 13.5px; font-weight: 300; color: var(--muted); line-height: 1.85; max-width: 460px; }
-  .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    font-size: 11px; font-weight: 300; letter-spacing: 0.04em;
-    border: 1px solid var(--light); border-radius: 2px;
-    padding: 5px 14px; color: var(--muted);
+
+  /* ── Page header ── */
+  .page-header {
+    padding-top: 64px;
+    padding-bottom: 44px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--stone);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--pink); }
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 300; font-style: italic;
+    line-height: 1; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 16px;
+  }
+  .page-sub {
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.6vw, 18px);
+    font-weight: 300; font-style: italic;
+    color: var(--stone); line-height: 1.5;
+  }
+
+  /* ── Column labels ── */
+  .col-labels {
+    display: grid;
+    grid-template-columns: 1fr 56px 1fr;
+    padding: 36px 0 4px;
+  }
+  .col-label {
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--stone);
+  }
+  .col-label-left  { text-align: right; padding-right: 32px; }
+  .col-label-right { padding-left: 32px; }
+
+  /* ── Timeline ── */
+  .timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 80px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: calc(50% - 0.5px);
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--rule);
+    z-index: 0;
+  }
+
+  .tl-row {
+    display: grid;
+    grid-template-columns: 1fr 56px 1fr;
+    align-items: start;
+    position: relative;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .tl-row.visible { opacity: 1; transform: translateY(0); }
+
+  .tl-left  { text-align: right; padding-right: 32px; }
+  .tl-right { padding-left: 32px; }
+
+  .tl-mid {
+    display: flex; justify-content: center;
+    padding-top: 16px;
+    position: relative; z-index: 1;
+  }
+  .tl-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--rule);
+    background: var(--bg);
+    flex-shrink: 0;
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  }
+  .tl-row:hover .tl-dot {
+    border-color: var(--pink);
+    background: var(--pink);
+    transform: scale(1.35);
+  }
+
+  .tl-card {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    padding: 10px 0 30px;
+    max-width: 300px;
+    transition: opacity 0.22s;
+  }
+  .tl-left .tl-card { margin-left: auto; }
+  .tl-card:hover { opacity: 0.62; }
+
+  .tl-empty { padding: 10px 0 30px; min-height: 60px; display: block; }
+
+  /* Year — bold, coloured by side */
+  .tl-year {
+    display: block;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  /* Title */
+  .tl-title {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.8vw, 22px);
+    font-weight: 400; font-style: italic;
+    line-height: 1.25;
+    transition: opacity 0.22s;
+    margin-bottom: 4px;
+  }
+  .tl-card:hover .tl-title { opacity: 0.6; }
+
+  /* Tag */
+  .tl-tag {
+    display: inline-block;
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* Life — all pink */
+  .tl-left .tl-year,
+  .tl-left .tl-title,
+  .tl-left .tl-tag  { color: var(--pink); }
+
+  /* Career — all stone */
+  .tl-right .tl-year,
+  .tl-right .tl-title,
+  .tl-right .tl-tag  { color: var(--stone); }
+
+  /* ── Mobile ── */
+  @media (max-width: 700px) {
+    .tl-row {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      display: block;
+      padding-left: 36px;
+      position: relative;
+    }
+    .timeline::before { left: 8px; }
+    .tl-mid { display: none; }
+    .tl-left, .tl-right {
+      display: block; text-align: left; padding: 0;
+    }
+    .tl-empty { display: none; }
+    .tl-card {
+      display: block; position: relative;
+      padding: 8px 0 20px; max-width: 100%;
+    }
+    .tl-card::before {
+      content: '';
+      position: absolute;
+      left: -28px; top: 13px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      border: 1.5px solid var(--rule);
+      background: var(--bg);
+      z-index: 1;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .tl-left  .tl-card:hover::before { border-color: var(--pink);  background: var(--pink); }
+    .tl-right .tl-card:hover::before { border-color: var(--stone); background: var(--stone); }
+    .tl-title { font-size: clamp(17px, 4.8vw, 22px); }
+    .col-labels { display: none; }
+    .page-title { font-size: clamp(40px, 12vw, 64px); }
+  }
+
+  @media (max-width: 390px) {
+    .wrap { padding: 0 16px; }
+    .tl-row { padding-left: 28px; }
+    .timeline::before { left: 6px; }
+    .tl-card::before { left: -22px; }
   }
 </style>
 
 <script>
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+  if (window.innerWidth > 700) {
+    const rows = document.querySelectorAll('.tl-row');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = [...rows].indexOf(entry.target);
+          setTimeout(() => entry.target.classList.add('visible'), idx < 5 ? idx * 70 : 0);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    rows.forEach(r => io.observe(r));
+  }
 </script>
