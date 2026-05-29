@@ -1,13 +1,55 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
+/**
+ * orientation: 'portrait' | 'landscape'
+ * Grid behaviour:
+ *   portrait  → grid-column: span 2 of 6, aspect-ratio 3/4
+ *   landscape → grid-column: span 4 of 6, aspect-ratio 16/9
+ */
 const entries = [
-  { slug: 'haute-route-alps',      category: 'Hiking Guide',   title: 'Haute Route, Alps',          ph: 'ph-1' },
-  { slug: 'yunnan-highland-trek',  category: 'Trail Notes',    title: 'Yunnan Highland Trek',        ph: 'ph-2' },
-  { slug: 'first-5000m-summit',    category: 'Summit Story',   title: 'First 5,000m Summit',        ph: 'ph-3' },
-  { slug: 'corsica-gr20',          category: 'Trail Guide',    title: 'Corsica GR20',               ph: 'ph-4' },
-  { slug: 'dolomites-golden-hour', category: 'Photography',    title: 'Dolomites, Golden Hour',     ph: 'ph-5' },
-  { slug: 'patagonia',             category: 'Journey',        title: 'Patagonia, End of the World',ph: 'ph-6' },
+  {
+    slug: 'haute-route-alps',
+    category: 'Hiking Guide',
+    title: 'Haute Route, Alps',
+    orientation: 'portrait',
+    ph: 'ph-1',
+  },
+  {
+    slug: 'yunnan-highland-trek',
+    category: 'Trail Notes',
+    title: 'Yunnan Highland Trek',
+    orientation: 'landscape',
+    ph: 'ph-2',
+  },
+  {
+    slug: 'first-5000m-summit',
+    category: 'Summit Story',
+    title: 'First 5,000m Summit',
+    orientation: 'landscape',
+    ph: 'ph-3',
+  },
+  {
+    slug: 'corsica-gr20',
+    category: 'Trail Guide',
+    title: 'Corsica GR20',
+    orientation: 'portrait',
+    ph: 'ph-4',
+  },
+  {
+    slug: 'dolomites-golden-hour',
+    category: 'Photography',
+    title: 'Dolomites, Golden Hour',
+    orientation: 'portrait',
+    ph: 'ph-5',
+  },
+  {
+    slug: 'patagonia',
+    category: 'Journey',
+    title: 'Patagonia, End of the World',
+    orientation: 'portrait',
+    ph: 'ph-6',
+  },
 ];
 ---
 
@@ -26,7 +68,11 @@ const entries = [
   <div class="wrap">
     <div class="cards-grid">
       {entries.map((e, i) => (
-        <a class={`card card-anim`} href={`/photography/${e.slug}`} style={`--delay:${i * 80}ms`}>
+        <a
+          class={`card ${e.orientation}`}
+          href={`/photography/${e.slug}`}
+          style={`--i:${i}`}
+        >
           <div class={`card-img ${e.ph}`}></div>
           <div class="card-overlay">
             <span class="card-category">{e.category}</span>
@@ -52,7 +98,7 @@ const entries = [
     padding-top: 64px;
     padding-bottom: 44px;
     border-bottom: 1px solid var(--rule);
-    margin-bottom: 48px;
+    margin-bottom: 44px;
   }
   .eyebrow {
     font-size: 10px; font-weight: 300;
@@ -76,31 +122,36 @@ const entries = [
     color: var(--stone);
   }
 
-  /* ── Grid ── */
+  /* ── Mixed grid ── */
   .cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: auto;
+    gap: 14px;
     padding-bottom: 80px;
+    align-items: start;
   }
 
-  /* ── Card ── */
+  /* Portrait: 2/6 cols, 3:4 ratio — naturally taller */
+  .card.portrait  { grid-column: span 2; aspect-ratio: 3/4; }
+
+  /* Landscape: 4/6 cols, 16:9 ratio — wide */
+  .card.landscape { grid-column: span 4; aspect-ratio: 16/9; }
+
+  /* ── Card base ── */
   .card {
     position: relative;
     display: block;
     border-radius: 14px;
     overflow: hidden;
-    aspect-ratio: 3 / 4;
     text-decoration: none;
     background: #2a3a4a;
-    /* fade-in start */
     opacity: 0;
     transform: translateY(14px);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .card.visible { opacity: 1; transform: translateY(0); }
 
-  /* Image (real or placeholder) */
   .card-img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
@@ -108,142 +159,77 @@ const entries = [
     transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
   }
-  .card:hover .card-img { transform: scale(1.06); }
+  .card:hover .card-img { transform: scale(1.05); }
 
-  /* Overlay */
   .card-overlay {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    padding: 48px 20px 20px;
+    padding: 48px 18px 18px;
     background: linear-gradient(to top,
       rgba(10,10,10,0.78) 0%,
-      rgba(10,10,10,0.35) 55%,
+      rgba(10,10,10,0.32) 55%,
       transparent 100%);
     transition: padding-bottom 0.3s ease;
   }
   .card:hover .card-overlay { padding-bottom: 24px; }
 
   .card-category {
-    display: block;
-    font-family: var(--sans);
-    font-size: 9px; font-weight: 300;
+    display: block; font-size: 9px; font-weight: 300;
     letter-spacing: 0.18em; text-transform: uppercase;
-    color: rgba(255,255,255,0.58);
-    margin-bottom: 6px;
+    color: rgba(255,255,255,0.55); margin-bottom: 6px;
   }
   .card-title {
     font-family: var(--serif);
-    font-size: clamp(18px, 2.2vw, 24px);
+    font-size: clamp(17px, 2vw, 22px);
     font-weight: 400; font-style: italic;
     line-height: 1.2; color: #fff;
   }
 
-  /* ── CSS Gradient Placeholders ── */
-  .ph-1 {
-    background: linear-gradient(180deg,
-      #3a5068 0%, #4a6a88 25%, #6a8eaa 45%, #8aafc4 60%, #b2ccda 75%, #d0e0ea 100%);
-  }
+  /* ── Gradient placeholders ── */
+  .ph-1 { background: linear-gradient(160deg,#3a5068,#4a6a88,#8aafc4,#d0e0ea); }
   .ph-1::before {
-    content: ''; position: absolute;
-    bottom: 0; left: 0; right: 0; height: 55%;
-    background: linear-gradient(180deg, transparent, #1e2e3e);
-    clip-path: polygon(
-      0% 100%, 0% 60%, 5% 42%, 11% 58%, 17% 32%, 22% 50%,
-      28% 22%, 33% 44%, 39% 16%, 44% 38%, 50% 20%, 55% 40%,
-      61% 26%, 67% 46%, 73% 30%, 79% 50%, 85% 36%, 91% 54%,
-      97% 40%, 100% 52%, 100% 100%);
+    content:''; position:absolute; bottom:0; left:0; right:0; height:55%;
+    background:linear-gradient(180deg,transparent,#1e2e3e);
+    clip-path:polygon(0% 100%,0% 60%,10% 40%,20% 58%,30% 28%,40% 50%,50% 20%,60% 45%,70% 28%,80% 50%,90% 35%,100% 55%,100% 100%);
   }
-  .ph-2 {
-    background: linear-gradient(180deg,
-      #2a4438 0%, #3a6050 25%, #4a7862 45%, #5e9074 65%, #8ab898 80%, #b8d4c0 100%);
-  }
-  .ph-2::before {
-    content: ''; position: absolute;
-    bottom: 0; left: 0; right: 0; height: 60%;
-    background: linear-gradient(180deg, transparent, #162820);
-    clip-path: polygon(
-      0% 100%, 0% 55%, 8% 35%, 15% 55%, 22% 28%, 30% 50%,
-      37% 18%, 44% 42%, 50% 24%, 57% 46%, 64% 30%, 71% 52%,
-      78% 34%, 85% 54%, 92% 38%, 100% 50%, 100% 100%);
-  }
-  .ph-3 {
-    background: linear-gradient(180deg,
-      #1a2a4a 0%, #2a4070 25%, #4a68a0 48%, #8aaad0 65%, #c8dcea 80%, #e8f0f4 100%);
-  }
-  .ph-3::before {
-    content: ''; position: absolute;
-    bottom: 0; left: 0; right: 0; height: 52%;
-    background: linear-gradient(180deg, rgba(240,248,255,0.7), rgba(180,210,235,0.9));
-    clip-path: polygon(
-      0% 100%, 0% 80%, 10% 50%, 20% 70%, 30% 35%, 40% 60%,
-      50% 20%, 60% 55%, 70% 30%, 80% 55%, 90% 40%, 100% 58%, 100% 100%);
-  }
-  .ph-4 {
-    background: linear-gradient(180deg,
-      #1e3248 0%, #2e4e6e 20%, #4a7090 40%, #6a94b0 58%, #a0c0d4 75%, #d4e8f0 100%);
-  }
-  .ph-4::before {
-    content: ''; position: absolute;
-    bottom: 0; left: 0; right: 0; height: 48%;
-    background: linear-gradient(180deg, transparent, #0e1e2a);
-    clip-path: polygon(
-      0% 100%, 0% 65%, 7% 44%, 14% 62%, 21% 38%, 28% 56%,
-      35% 28%, 42% 52%, 48% 34%, 54% 56%, 60% 38%, 67% 58%,
-      74% 40%, 81% 60%, 88% 44%, 95% 62%, 100% 50%, 100% 100%);
-  }
-  .ph-5 {
-    background: linear-gradient(180deg,
-      #2a1e38 0%, #4a2e58 18%, #7a4878 35%, #b87890 52%, #d8a898 68%, #e8c8b8 82%, #f0dcc8 100%);
-  }
-  .ph-5::before {
-    content: ''; position: absolute;
-    bottom: 0; left: 0; right: 0; height: 55%;
-    background: linear-gradient(180deg, rgba(80,50,60,0.6), #1a0e18);
-    clip-path: polygon(
-      0% 100%, 0% 58%, 6% 40%, 12% 56%, 19% 30%, 26% 50%,
-      32% 22%, 39% 46%, 46% 28%, 52% 50%, 58% 32%, 64% 54%,
-      70% 36%, 76% 56%, 82% 38%, 88% 56%, 94% 42%, 100% 54%, 100% 100%);
-  }
-  .ph-6 {
-    background: linear-gradient(180deg,
-      #28303c 0%, #3c4858 20%, #5a6878 40%, #7e9098 60%, #aac0c8 78%, #d0dce0 100%);
-  }
-  .ph-6::before {
-    content: ''; position: absolute;
-    bottom: 0; left: 0; right: 0; height: 58%;
-    background: linear-gradient(180deg, transparent, #141c24);
-    clip-path: polygon(
-      0% 100%, 0% 62%, 5% 46%, 10% 60%, 16% 36%, 22% 54%,
-      28% 28%, 34% 50%, 40% 24%, 46% 48%, 52% 30%, 58% 52%,
-      64% 34%, 70% 54%, 76% 38%, 82% 58%, 88% 42%, 94% 60%,
-      100% 48%, 100% 100%);
-  }
+  .ph-2 { background: linear-gradient(170deg,#2a4438,#4a7862,#8ab898,#b8d4c0); }
+  .ph-3 { background: linear-gradient(180deg,#1a2a4a,#4a68a0,#c8dcea,#e8f0f4); }
+  .ph-4 { background: linear-gradient(165deg,#1e3248,#4a7090,#d4e8f0); }
+  .ph-5 { background: linear-gradient(175deg,#2a1e38,#7a4878,#d8a898,#f0dcc8); }
+  .ph-6 { background: linear-gradient(160deg,#28303c,#5a6878,#d0dce0); }
 
   /* ── Responsive ── */
-  @media (max-width: 768px) {
-    .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  /* Tablet: landscape still wide, portrait smaller */
+  @media (max-width: 900px) {
+    .cards-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .card.portrait  { grid-column: span 2; }
+    .card.landscape { grid-column: span 4; aspect-ratio: 4/3; }
   }
-  @media (max-width: 480px) {
+
+  /* Mobile: single column */
+  @media (max-width: 560px) {
     .cards-grid { grid-template-columns: 1fr; gap: 12px; }
-    .card { aspect-ratio: 4 / 3; }
+    .card.portrait,
+    .card.landscape { grid-column: span 1; }
+    .card.portrait  { aspect-ratio: 4/5; }
+    .card.landscape { aspect-ratio: 4/3; }
+    /* Always visible on mobile */
     .card { opacity: 1 !important; transform: none !important; }
   }
 </style>
 
 <script>
   const cards = document.querySelectorAll('.card');
-  if (window.innerWidth > 480) {
+  if (window.innerWidth > 560) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const idx = [...cards].indexOf(entry.target);
-          setTimeout(() => entry.target.classList.add('visible'), idx * 80);
+          setTimeout(() => entry.target.classList.add('visible'), idx * 90);
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
     cards.forEach(c => io.observe(c));
-  } else {
-    cards.forEach(c => c.classList.add('visible'));
   }
 </script>
