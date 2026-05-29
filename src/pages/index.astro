@@ -438,34 +438,42 @@ CAMERA-RIG-PRESERVED — reuse in future modules
     .col-right {
       top: 80px; left: 72px;
       bottom: 52px;
-      padding: 20px 24px;
-      justify-content: center;
+      overflow-y: auto;          /* allow vertical scroll if cards don't fit */
+      justify-content: flex-start;
+      padding: 16px 18px 16px;
     }
 
     .bar-arcs { transform: scale(0.6); transform-origin: top left; }
     .contact-bar { padding: 0 24px 0 88px; }
-    .modules { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .modules { grid-template-columns: repeat(2, 1fr); gap: 9px; }
+    .tag { padding: 14px 14px 12px; }
     .tag-name { font-size: 0.8125rem; }
     .tag-desc { font-size: 0.7rem; }
   }
 
-  /* ── Small phones ≤ 390 px ── */
-  @media (max-width: 390px) {
-    .bar-top  { height: 60px; padding: 0 16px 0 72px; }
-    .bar-left { width: 52px; }
-    .bar-cross { width: 52px; height: 60px; }
+  /* ── Small phones ≤ 430 px ── */
+  @media (max-width: 430px) {
+    .bar-top  { height: 64px; padding: 0 14px 0 84px; }
+    .bar-left { width: 56px; }
+    .bar-cross { width: 56px; height: 64px; }
 
-    .si-heading { font-size: 54px; top: 30px; left: 26px; }
-    .si-divider { top: 66px; left: 14px; width: 28px; }
+    .si-heading { font-size: 58px; top: 32px; left: 28px; }
+    .si-divider { top: 70px; left: 15px; width: 30px; }
 
-    .tagline { font-size: 0.8rem; }
+    .tagline { font-size: 0.78rem; }
 
-    .col-right { top: 60px; left: 52px; bottom: 48px; padding: 14px 16px; }
-    .contact-bar { height: 48px; padding: 0 16px 0 64px; }
-    .bar-arcs { transform: scale(0.44); transform-origin: top left; }
-    .modules { grid-template-columns: 1fr; gap: 8px; }   /* single-column on small phones */
-    .tag { padding: 14px 14px 12px; }
-    .tag-name { font-size: 0.75rem; }
-    .tag-desc { font-size: 0.65rem; }
+    .col-right {
+      top: 64px; left: 56px; bottom: 48px;
+      overflow-y: auto;
+      justify-content: flex-start;
+      padding: 14px 14px 14px;
+    }
+    .contact-bar { height: 48px; padding: 0 14px 0 68px; }
+    .bar-arcs { transform: scale(0.47); transform-origin: top left; }
+    .modules { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .tag { padding: 12px 12px 10px; gap: 4px; }
+    .tag-header { margin-bottom: 4px; }
+    .tag-name { font-size: 0.78rem; }
+    .tag-desc { font-size: 0.68rem; }
   }
 </style>
