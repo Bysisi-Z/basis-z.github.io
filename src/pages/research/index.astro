@@ -3,58 +3,89 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const posts = [
   {
-    slug: 'ogn-sun-pharma-analysis',
-    title: 'Sun Pharma 收购 OGN：财务对比与并购分析',
-    date: '2026-05-28',
-    tags: ['并购', '制药', '数据分析'],
-    excerpt: '基于最新 10-K 年报数据，对比两家公司的财务状况，分析收购的战略价值与风险。',
-    hasChart: true,
+    slug: 'sun-pharma-ogn-acquisition',
+    title: "Sun Pharma's Acquisition of OGN: Financial Comparison & Deal Analysis",
+    date: '2026-05-28', readTime: '12 min read',
+    tags: ['M&A', 'Pharma'],
+    special: 'Interactive Charts',
+    excerpt: "Drawing on the latest 10-K filings, this report examines both companies' financial positions, strategic rationale, debt risk, and the integration challenges of a USD 13B cross-border deal.",
+  },
+  {
+    slug: 'ogn-annual-analysis',
+    title: 'OGN (Organon & Co.) Annual Financial Analysis Report',
+    date: '2026-05-28', readTime: '8 min read',
+    tags: ['Pharma', 'Financial Analysis'],
+    special: '',
+    excerpt: "A deep dive into OGN's latest 10-K data: revenue trends, debt structure, profitability, and stock performance — with a comprehensive investment assessment.",
   },
 ];
 ---
 
-<BaseLayout title="行业研究" description="深度研究文章与交互式数据分析报告">
-  <div class="max-w-5xl mx-auto px-6 pt-20 pb-24">
+<BaseLayout title="Research" description="In-depth research articles and interactive data analysis">
+  <div class="content-wrap">
 
-    <div class="mb-14">
-      <p class="text-xs text-[#6b7280] uppercase tracking-widest mb-4">02 — 行业研究</p>
-      <h1 class="text-3xl font-light mb-4">研究与数据分析</h1>
-      <p class="text-[#6b7280] max-w-lg leading-relaxed">
-        聚焦行业趋势，以数据为驱动，结合交互式图表呈现研究洞察。
-      </p>
+    <div class="page-header">
+      <p class="eyebrow">02 — Research</p>
+      <h1 class="page-title">Industry<br /><em>Research</em></h1>
     </div>
 
-    <div class="space-y-6">
-      {posts.map((post) => (
-        <a
-          href={`/research/${post.slug}`}
-          class="group block border border-[#e5e7eb] rounded-xl p-7 bg-white hover:border-[#2563eb]/40 hover:shadow-sm transition-all"
-        >
-          <div class="flex items-start justify-between gap-4">
-            <div class="flex-1">
-              <div class="flex gap-2 flex-wrap mb-3">
-                {post.tags.map((tag) => (
-                  <span class="text-xs text-[#6b7280] border border-[#e5e7eb] rounded-full px-3 py-0.5">{tag}</span>
-                ))}
-                {post.hasChart && (
-                  <span class="text-xs text-[#2563eb] border border-[#bfdbfe] rounded-full px-3 py-0.5 bg-[#eff6ff]">含数据图表</span>
-                )}
-              </div>
-              <h2 class="text-lg font-medium mb-2 group-hover:text-[#2563eb] transition-colors">{post.title}</h2>
-              <p class="text-sm text-[#6b7280] leading-relaxed">{post.excerpt}</p>
+    <div class="article-list">
+      {posts.map(post => (
+        <a class="article-item fade-up" href={`/research/${post.slug}`}>
+          <div>
+            <div class="article-tags">
+              {post.tags.map(t => <span class="tag">{t}</span>)}
+              {post.special && <span class="tag neutral">{post.special}</span>}
             </div>
-            <span class="text-xs text-[#9ca3af] whitespace-nowrap mt-1">{post.date}</span>
+            <div class="article-title">{post.title}</div>
+            <p class="article-excerpt">{post.excerpt}</p>
+          </div>
+          <div class="article-meta">
+            <span class="meta-date">{post.date}</span>
+            <span class="meta-read">{post.readTime}</span>
           </div>
         </a>
       ))}
     </div>
 
-    <!-- Empty state placeholder -->
-    {posts.length === 0 && (
-      <div class="text-center py-20 text-[#9ca3af] text-sm">
-        研究文章即将发布...
-      </div>
-    )}
-
   </div>
 </BaseLayout>
+
+<style>
+  .article-list { padding-top: 64px; }
+  .article-item {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: start; gap: 40px;
+    padding: 44px 0;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+    text-decoration: none; color: inherit;
+    transition: opacity 0.22s;
+  }
+  .article-item:first-child { border-top: 1px solid rgba(26,26,26,0.08); }
+  .article-item:hover { opacity: 0.55; }
+  .article-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .tag {
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent-l);
+    padding: 3px 10px; border-radius: 2px;
+  }
+  .tag.neutral { color: var(--muted); border-color: var(--light); }
+  .article-title {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 300; line-height: 1.28; margin-bottom: 12px;
+  }
+  .article-excerpt { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.82; max-width: 500px; }
+  .article-meta { text-align: right; flex-shrink: 0; }
+  .meta-date { font-size: 11px; color: var(--muted); display: block; }
+  .meta-read { font-size: 11px; color: var(--light); margin-top: 4px; display: block; }
+</style>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>

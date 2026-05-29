@@ -1,21 +1,79 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
-  --color-ink: #1a1a1a;
-  --color-muted: #6b7280;
-  --color-accent: #2563eb;
-  --color-surface: #fafaf9;
-  --color-border: #e5e7eb;
+:root {
+  --bg:    #FAFAF8;
+  --ink:   #1A1A1A;
+  --rose:  #D3BABD;
+  --stone: #847B7B;
+  --rule:  #E2DEDB;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
 }
 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 html {
-  font-family: var(--font-sans);
-  color: var(--color-ink);
-  background: var(--color-surface);
+  font-size: 16px;
   scroll-behavior: smooth;
 }
 
-::selection {
-  background: #bfdbfe;
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: rgba(211,186,189,0.35); }
+
+/* ── Inner page shared utilities ── */
+.content-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 6vw, 80px) 100px;
+}
+
+.page-header {
+  padding-top: 80px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--rose);
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: clamp(40px, 6vw, 76px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+/* ── Fade-up scroll animation ── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

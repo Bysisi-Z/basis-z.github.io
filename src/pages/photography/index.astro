@@ -1,47 +1,99 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-// 添加照片时在这里填写：{ src, alt, location, date }
-const photos: { src: string; alt: string; location: string; date: string }[] = [];
+const photos: { src: string; alt: string; location: string; span: string; ratio: string }[] = [];
 ---
 
-<BaseLayout title="摄影集" description="城市、风景与日常的影像记录">
-  <div class="max-w-5xl mx-auto px-6 pt-20 pb-24">
+<BaseLayout title="Photography" description="Visual narratives of cities, landscapes, and moments">
+  <div class="content-wrap">
 
-    <div class="mb-14">
-      <p class="text-xs text-[#6b7280] uppercase tracking-widest mb-4">03 — 摄影集</p>
-      <h1 class="text-3xl font-light mb-4">影像记录</h1>
-      <p class="text-[#6b7280] max-w-lg leading-relaxed">
-        用镜头捕捉城市肌理、旅途风景与日常片刻。
-      </p>
+    <div class="page-header">
+      <p class="eyebrow">03 — Photography</p>
+      <h1 class="page-title"><em>Visual</em><br />Record</h1>
+    </div>
+
+    <div class="photo-intro fade-up">
+      <p>Capturing the texture of cities, the stillness<br />of landscapes, and the quiet moments in between.</p>
     </div>
 
     {photos.length > 0 ? (
-      <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-        {photos.map((photo) => (
-          <div class="break-inside-avoid group relative overflow-hidden rounded-lg bg-[#f3f4f6]">
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              class="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-              <p class="text-white text-sm font-medium">{photo.location}</p>
-              <p class="text-white/70 text-xs">{photo.date}</p>
-            </div>
+      <div class="photo-grid fade-up">
+        {photos.map(photo => (
+          <div class={`photo-cell ${photo.span}`} data-loc={photo.location}
+               style={`aspect-ratio: ${photo.ratio};`}>
+            <img src={photo.src} alt={photo.alt} loading="lazy" />
           </div>
         ))}
       </div>
     ) : (
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div class="aspect-[4/5] rounded-lg bg-[#f3f4f6] flex items-center justify-center text-xs text-[#9ca3af]">
-            照片即将上传
-          </div>
-        ))}
+      <div class="photo-placeholder fade-up">
+        <div class="placeholder-grid">
+          {['16/10','4/5','4/5','4/5','4/5','16/9','4/5'].map((r, i) => (
+            <div class={`ph-cell ph${i+1}`} style={`aspect-ratio:${r}`}>
+              <span>Photos coming soon</span>
+            </div>
+          ))}
+        </div>
       </div>
     )}
 
   </div>
 </BaseLayout>
+
+<style>
+  .photo-intro { padding: 48px 0 56px; }
+  .photo-intro p {
+    font-family: var(--serif); font-size: 20px; font-weight: 300;
+    font-style: italic; color: var(--muted); line-height: 1.65;
+  }
+
+  /* Real photo grid */
+  .photo-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr);
+    gap: 10px; padding-bottom: 40px;
+  }
+  .photo-cell { border-radius: 2px; overflow: hidden; position: relative; cursor: pointer; }
+  .photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  .photo-cell:hover img { transform: scale(1.04); }
+  .photo-cell::after {
+    content: attr(data-loc);
+    position: absolute; bottom: 12px; left: 14px;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .photo-cell::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(74,127,165,0.3), transparent);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .photo-cell:hover::before, .photo-cell:hover::after { opacity: 1; }
+
+  /* Placeholder grid */
+  .placeholder-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr);
+    gap: 10px; padding-bottom: 40px;
+  }
+  .ph-cell {
+    border-radius: 2px; overflow: hidden;
+    background: linear-gradient(135deg, #e8eff4, #d4e4ec);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ph-cell span { font-size: 10px; color: var(--light); letter-spacing: 0.1em; text-transform: uppercase; }
+  .ph1 { grid-column: span 7; }
+  .ph2 { grid-column: span 5; }
+  .ph3 { grid-column: span 4; }
+  .ph4 { grid-column: span 4; }
+  .ph5 { grid-column: span 4; }
+  .ph6 { grid-column: span 8; }
+  .ph7 { grid-column: span 4; }
+</style>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>

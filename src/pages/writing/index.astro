@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = [
+  {
+    slug: 'first-essay',
+    title: 'Title of the First Essay — A Theme Worth Exploring',
+    date: '2026-05-29', month: 'May', day: '29', year: '2026',
+    excerpt: 'A short excerpt that draws the reader in. Restrained, precise, leaving just enough unsaid to make them want to read on.',
+    readTime: '3 min read',
+  },
+  {
+    slug: 'on-observation-and-writing',
+    title: 'On Observation and Writing: Why I Started',
+    date: '2026-05-15', month: 'May', day: '15', year: '2026',
+    excerpt: 'Writing is a way of resisting forgetting. In an age of information overload, slowing down to put words to experience — that is why I write.',
+    readTime: '5 min read',
+  },
+];
+---
+
+<BaseLayout title="Writing" description="Observations, reflections, and personal essays">
+  <div class="content-wrap">
+
+    <div class="page-header">
+      <p class="eyebrow">04 — Writing</p>
+      <h1 class="page-title"><em>Writing</em></h1>
+    </div>
+
+    <div class="blog-list">
+      {posts.map(post => (
+        <a class="blog-item fade-up" href={`/writing/${post.slug}`}>
+          <div class="blog-date">
+            <div class="blog-month">{post.month}</div>
+            <div class="blog-day">{post.day}</div>
+            <div class="blog-year">{post.year}</div>
+          </div>
+          <div>
+            <div class="blog-title">{post.title}</div>
+            <p class="blog-excerpt">{post.excerpt}</p>
+            <span class="blog-cta">Read →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-list { padding-top: 64px; }
+  .blog-item {
+    display: grid; grid-template-columns: 100px 1fr;
+    gap: 40px; padding: 44px 0;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+    text-decoration: none; color: inherit;
+    transition: opacity 0.22s;
+  }
+  .blog-item:first-child { border-top: 1px solid rgba(26,26,26,0.08); }
+  .blog-item:hover { opacity: 0.55; }
+  .blog-date { text-align: right; padding-top: 2px; }
+  .blog-month { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .blog-day   { font-family: var(--serif); font-size: 40px; font-weight: 300; color: var(--light); line-height: 1; }
+  .blog-year  { font-size: 10px; color: var(--light); }
+  .blog-title {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 300; line-height: 1.28; margin-bottom: 10px;
+  }
+  .blog-excerpt { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.82; max-width: 460px; }
+  .blog-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px; font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+  }
+</style>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>

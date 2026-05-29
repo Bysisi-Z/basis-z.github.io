@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const experience = [
+  { role: 'Job Title', company: 'Company Name', period: '2023 — Present', desc: 'Brief description of responsibilities and key achievements. Two to three sentences capturing impact and scope.' },
+  { role: 'Job Title', company: 'Company Name', period: '2021 — 2023',   desc: 'Brief description of responsibilities and key achievements. Two to three sentences capturing impact and scope.' },
+];
+const education = [
+  { degree: 'Degree · Major', school: 'University Name', period: '2017 — 2021' },
+];
+const skills = ['Data Analysis', 'Industry Research', 'Writing', 'Photography', 'Python', 'SQL', 'Data Visualization'];
+---
+
+<BaseLayout title="Career" description="Career path, experience, and skills">
+  <div class="content-wrap">
+
+    <div class="page-header">
+      <p class="eyebrow">01 — Career</p>
+      <h1 class="page-title"><em>Career</em><br />Path</h1>
+    </div>
+
+    <div class="resume-section fade-up">
+      <div class="resume-label">Experience</div>
+      <div class="resume-entries">
+        {experience.map(j => (
+          <div>
+            <div class="entry-title">{j.role}</div>
+            <div class="entry-meta">{j.company} · {j.period}</div>
+            <div class="entry-body">{j.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="resume-section fade-up">
+      <div class="resume-label">Education</div>
+      <div class="resume-entries">
+        {education.map(e => (
+          <div>
+            <div class="entry-title">{e.degree}</div>
+            <div class="entry-meta">{e.school} · {e.period}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="resume-section fade-up">
+      <div class="resume-label">Skills</div>
+      <div class="skill-chips">
+        {skills.map(s => <span class="chip">{s}</span>)}
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .resume-section {
+    display: grid; grid-template-columns: 180px 1fr;
+    gap: 56px; padding: 56px 0;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .resume-label {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); padding-top: 5px;
+  }
+  .resume-entries { display: flex; flex-direction: column; gap: 44px; }
+  .entry-title { font-family: var(--serif); font-size: 22px; font-weight: 300; margin-bottom: 4px; }
+  .entry-meta  { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 12px; }
+  .entry-body  { font-size: 13.5px; font-weight: 300; color: var(--muted); line-height: 1.85; max-width: 460px; }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.04em;
+    border: 1px solid var(--light); border-radius: 2px;
+    padding: 5px 14px; color: var(--muted);
+  }
+</style>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>

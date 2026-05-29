@@ -2,11 +2,34 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-[#e5e7eb] mt-24">
-  <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6b7280]">
-    <span>© {year} Basis Z. All rights reserved.</span>
-    <div class="flex gap-5">
-      <a href="https://github.com/Bysisi-Z" target="_blank" rel="noopener" class="hover:text-[#1a1a1a] transition-colors">GitHub</a>
-    </div>
-  </div>
+<footer class="site-footer">
+  <span class="footer-sig">Sisi</span>
+  <span class="footer-copy">© {year} — All rights reserved</span>
 </footer>
+
+<style>
+  .site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px clamp(24px, 6vw, 80px);
+    border-top: 1px solid var(--rule);
+    margin-top: 14px;
+  }
+  .footer-sig {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--stone);
+  }
+  .footer-copy {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--rule);
+  }
+  @media (max-width: 600px) {
+    .footer-copy { display: none; }
+  }
+</style>

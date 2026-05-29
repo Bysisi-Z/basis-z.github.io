@@ -1,34 +1,99 @@
 ---
-const nav = [
-  { label: '简历', href: '/about' },
-  { label: '研究', href: '/research' },
-  { label: '摄影', href: '/photography' },
-  { label: '文章', href: '/blog' },
+const path = Astro.url.pathname;
+
+const modules = [
+  { label: 'Journey',          href: '/career' },
+  { label: 'Decoding',         href: '/research' },
+  { label: 'Mountain Calling', href: '/photography' },
+  { label: 'Wandering',        href: '/writing' },
 ];
 
-const current = Astro.url.pathname;
+const current = modules.find(m => path.startsWith(m.href));
 ---
 
-<header class="sticky top-0 z-50 bg-[#fafaf9]/90 backdrop-blur border-b border-[#e5e7eb]">
-  <nav class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-    <a href="/" class="text-sm font-semibold tracking-widest uppercase text-[#1a1a1a] hover:text-[#2563eb] transition-colors">
-      Basis Z
-    </a>
-    <ul class="flex gap-7">
-      {nav.map(({ label, href }) => (
-        <li>
-          <a
-            href={href}
-            class={`text-sm transition-colors ${
-              current.startsWith(href)
-                ? 'text-[#2563eb] font-medium'
-                : 'text-[#6b7280] hover:text-[#1a1a1a]'
-            }`}
-          >
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
+<header class="top-nav">
+  <a href="/" class="nav-home">Sisi</a>
+
+  {current && (
+    <span class="nav-current">
+      <span class="nav-sep">·</span>
+      {current.label}
+    </span>
+  )}
+
+  <nav class="nav-links">
+    {modules.map(({ label, href }) => (
+      <a
+        href={href}
+        class={`nav-link ${path.startsWith(href) ? 'active' : ''}`}
+      >
+        {label}
+      </a>
+    ))}
   </nav>
 </header>
+
+<style>
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 clamp(24px, 6vw, 80px);
+    height: 52px;
+    background: rgba(250,250,248,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-home {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s;
+  }
+  .nav-home:hover { opacity: 0.55; }
+
+  .nav-sep    { color: var(--rule); }
+  .nav-current {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--stone);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 28px;
+  }
+
+  .nav-link {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--stone);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link:hover  { color: var(--ink); }
+  .nav-link.active { color: var(--rose); }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+  }
+</style>
