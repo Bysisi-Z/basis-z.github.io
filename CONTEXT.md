@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-05-29  
+> Last updated: 2026-05-29 (session 2)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -17,13 +17,11 @@
 |---|---|---|
 | `--bg` | `#FAFAF8` | Page background (warm off-white) |
 | `--ink` | `#1A1A1A` | Primary text |
-| `--rose` / `--pink` | `#c17d9d` | Life events, Life timeline, accents ⚠️ |
+| `--rose` / `--pink` | `#c17d9d` | Life events, Life timeline, accents |
 | `--stone` | `#847B7B` | Career events, secondary text, muted UI |
 | `--rule` | `#E2DEDB` | Borders, dividers, very light accents |
 
-> ⚠️ **Color inconsistency to fix:** `global.css` still has `--rose: #D3BABD` (old pale rose).  
-> Individual pages (career, photography, ArticleHero) define `--pink: #c17d9d` locally.  
-> **Action needed:** Update `global.css` `--rose` to `#c17d9d` and consolidate variable name to `--rose`.
+> `global.css` `--rose` has been fixed to `#c17d9d`. Individual pages also define `--pink: #c17d9d` locally as a fallback — both resolve to the same value.
 
 ### Typography
 
@@ -120,12 +118,40 @@ src/
 ### Journey (`/career`) ✅ Complete
 
 - Vertical dual timeline, center line
-- **Left** = Life & Adventures (color: `#c17d9d`)
-- **Right** = Career & Education (color: `#847B7B`)
+- **Left** = Life & Adventures (color: `#c17d9d`) · **Right** = Career & Education (color: `#847B7B`)
 - Year, title, tag all unified per side color; year bold (600)
-- 9 left events + 9 right events (2018–2025), merged into rows by index
+- Rows merged **by year** (not index) so same-year events align side by side
+- Sort: **descending** — 2022 at top, Born (no year) pinned at bottom
 - Mobile: single column, left-side line, each card gets `::before` dot
-- Detail pages: **not yet built** (slugs in timeline cards link to `#`)
+
+**Left events (Life & Adventures):**
+| Year | Event | Notes |
+|------|-------|-------|
+| 2022 | Move to Lucerne, Switzerland | |
+| 2019 | Second Cat ♀ | pink SVG cat head icon |
+| 2017 | Move to Shanghai | |
+| 2016 | First Cat ♂ | pink SVG cat head icon |
+| 2007 | Move to Chengdu | click → panda head animation from left |
+| — | Born in Yunnan, China | no year shown; click → stork-with-baby fly-in |
+
+**Right events (Career & Education):**
+| Year | Event |
+|------|-------|
+| 2022 | Organon, Global |
+| 2018 | MSD, China |
+| 2014 | Sanofi, China |
+| 2013 | Cisco, China |
+| 2011 | LG Electronics, China |
+| 2007 | Southwest University of Finance and Economics — click → full-screen confetti |
+
+**Easter eggs (all work desktop + mobile):**
+- `data-born` → stork SVG flies in from right column (3.2s animation)
+- `data-chengdu` → pink panda head SVG slides in from left of `.tl-left` (3.4s animation)
+- `data-uni` → full-screen canvas confetti, 5 staggered burst points, theme pink palette
+
+**Cat head icons:** inline SVG `class="cat-icon"` with `fill="currentColor"`, inherits `--pink`
+
+- Detail pages: **not yet built**
 
 ### Decoding (`/research`) ⚠️ Index only — no detail pages
 
@@ -145,8 +171,8 @@ src/
   - Portrait photo → split layout (42% photo | 58% text), `imagePosition: 'left' | 'right'`
   - Landscape photo → full-width hero with bottom text overlay
   - Mobile: photo always stacks on top
-- Entry 1 (Haute Route, Alps): preview HTML built (`preview-haute-route.html`), real photo `/Desktop/IMG_3355.jpeg` (portrait, alpine wildflowers)
-- **Detail pages not yet deployed to Astro**
+- Entry 1 (Haute Route, Alps): `/photography/haute-route` live — `IMG_3355.jpeg` in `public/images/`, portrait, `imagePosition: 'left'`
+- Remaining 5 entries: CSS gradient placeholders, real photos TBD
 
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
 
@@ -177,14 +203,13 @@ src/
 
 ### Immediate next tasks
 
-- [ ] **Fix color token:** consolidate `--rose` in `global.css` to `#c17d9d`
-- [ ] **Mountain Calling detail pages:** build `/photography/[slug].astro` dynamic route using `ArticleHero`
-  - Haute Route entry has content + image ready (`IMG_3355.jpeg`, portrait, `imagePosition: 'left'`)
-- [ ] **Add real photos** to Mountain Calling cards (replace CSS gradient placeholders)
-- [ ] **Research detail pages:** `/research/[slug].astro` — content already in desktop HTML files
+- [x] ~~Fix color token: `--rose` in `global.css`~~ ✅
+- [x] ~~Fill in real career/life data~~ ✅
+- [x] ~~`/photography/[slug].astro`~~ ✅ Haute Route live
+- [ ] **Add real photos** to Mountain Calling grid cards (5 remaining CSS gradient placeholders)
+- [ ] **Research detail pages:** `/research/[slug].astro` — content in `OGN_financial_analysis.html`, `SunPharma_OGN_acquisition.html` on Desktop
 - [ ] **Writing detail pages:** `/writing/[slug].astro`
-- [ ] **Journey detail pages:** each timeline event should link to a detail page
-- [ ] **Fill in real career data** in `career/index.astro` (placeholder names/companies)
+- [ ] **Journey detail pages:** timeline cards currently link to `#`
 
 ### Future modules (More to Come)
 
