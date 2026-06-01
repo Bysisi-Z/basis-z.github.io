@@ -2,10 +2,12 @@
 const path = Astro.url.pathname;
 
 const modules = [
+  { label: 'Now',              href: '/now' },
   { label: 'Journey',          href: '/career' },
   { label: 'Decoding',         href: '/research' },
   { label: 'Mountain Calling', href: '/photography' },
   { label: 'Wandering',        href: '/writing' },
+  { label: 'Reading List',     href: '/reading' },
 ];
 
 const current = modules.find(m => path.startsWith(m.href));
