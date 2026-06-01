@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-01 (session 5)  
+> Last updated: 2026-06-01 (session 6)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -92,11 +92,12 @@ src/
 
 | Module | Route | Nav Label |
 |---|---|---|
-| 01 | `/career` | Journey |
-| 02 | `/research` | Decoding |
-| 03 | `/photography` | Mountain Calling |
-| 04 | `/writing` | Wandering |
-| 05 | `#` | More to Come (disabled) |
+| 01 | `/now` | Now |
+| 02 | `/career` | Journey |
+| 03 | `/research` | Decoding |
+| 04 | `/photography` | Mountain Calling |
+| 05 | `/writing` | Wandering |
+| 06 | `/reading` | Reading List |
 
 **Nav component behaviour:**
 - Desktop: single row — `Sisi · [Current Page]` left + all 4 links right
@@ -112,7 +113,8 @@ src/
 
 - Full-screen 1-page layout, no scroll on desktop
 - Hero: CSS gradient mountain landscape, large italic "Sisi" with pink first S, rope + DSLR camera SVG hanging from S, tagline floating on image bottom-right
-- 5 module cards in 6-col grid (3+2 row split), rounded corners, rose hover
+- 6 module cards in 3×2 grid, rounded corners, rose hover
+- Contact bar: LinkedIn (blue brand icon) · Red Note (official red SVG) · Email me — all real links
 - Mobile: single-column horizontal card list, natural scroll
 
 ### Journey (`/career`) ✅ Complete
@@ -189,6 +191,16 @@ src/
 - ~~Eyebrow label "04 — Writing" removed~~ ✅
 - 2 placeholder posts
 - Detail pages **not built**
+
+### Now (`/now`) ⚠️ Placeholder
+
+- Subtitle: "what I'm doing and thinking about lately"
+- Content not yet written
+
+### Reading List (`/reading`) ⚠️ Placeholder
+
+- Subtitle: "Books, papers & ideas worth revisiting"
+- Content not yet written
 
 ---
 
