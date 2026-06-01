@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-01 (session 4)  
+> Last updated: 2026-06-01 (session 5)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -131,7 +131,7 @@ src/
 | 2019 | Second Cat ♀ | pink SVG cat head icon |
 | 2017 | Move to Shanghai | |
 | 2016 | First Cat ♂ | pink SVG cat head icon |
-| 2007 | Move to Chengdu | click → panda head animation from left |
+| 2007 | Move to Chengdu | click → bamboo silhouette animation from left |
 | — | Born in Yunnan, China | no year shown; click → stork-with-baby fly-in |
 
 **Right events (Career & Education):**
@@ -164,6 +164,7 @@ src/
 
 - Article list with tag chips, date, read time
 - 2 entries: OGN analysis + Sun Pharma/OGN acquisition
+- ~~Eyebrow label "02 — Research" removed~~ ✅
 - Detail pages `/research/ogn-annual-analysis` and `/research/sun-pharma-ogn-acquisition`: **not built**
 - HTML versions of both analyses exist on Desktop (`OGN_financial_analysis.html`, `SunPharma_OGN_acquisition.html`)
 
@@ -179,11 +180,13 @@ src/
   - Landscape photo → full-width hero with bottom text overlay
   - Mobile: photo always stacks on top
 - Entry 1 (Haute Route, Alps): `/photography/haute-route` live — `IMG_3355.jpeg` in `public/images/`, portrait, `imagePosition: 'left'`
+- ~~Eyebrow label "03 — Mountain Calling" removed~~ ✅
 - Remaining 5 entries: CSS gradient placeholders, real photos TBD
 
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
 
 - Date-sidebar list layout (large day number as visual anchor)
+- ~~Eyebrow label "04 — Writing" removed~~ ✅
 - 2 placeholder posts
 - Detail pages **not built**
 
