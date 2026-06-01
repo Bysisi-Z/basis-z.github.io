@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-01 (session 3)  
+> Last updated: 2026-06-01 (session 4)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -146,7 +146,7 @@ src/
 
 **Easter eggs (all work desktop + mobile):**
 - `data-born` → stork-with-baby SVG flies in from right column (3.2s)
-- `data-chengdu` → pink panda head slides in from left of `.tl-left` (3.4s)
+- `data-chengdu` → **bamboo silhouette** — 3 stalks at different angles (-4°/+5°/+3°), leaves vary per stalk (upward/drooping/flat), two-tone pink for depth; slides in from left of `.tl-left` (3.4s); desktop 100px / mobile 85px
 - `data-uni` → full-screen canvas confetti, 5 staggered bursts, theme pink palette
 - `data-shanghai` → Pudong skyline (Pearl Tower / Jin Mao / SWFC / Shanghai Tower) slides in from right column (3s); depth layer in #d4a0b8
 - `data-lucerne` → Swiss Alps panorama (3-layer depth, Matterhorn peak, snow cap) + Swiss flag (authentic red #D52B1E + white cross) on summit, slides in from left of `.tl-left` (3.2s)
