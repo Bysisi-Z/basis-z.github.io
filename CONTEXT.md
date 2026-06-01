@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-05-29 (session 2)  
+> Last updated: 2026-06-01 (session 3)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -145,9 +145,16 @@ src/
 | 2007 | Southwest University of Finance and Economics — click → full-screen confetti |
 
 **Easter eggs (all work desktop + mobile):**
-- `data-born` → stork SVG flies in from right column (3.2s animation)
-- `data-chengdu` → pink panda head SVG slides in from left of `.tl-left` (3.4s animation)
-- `data-uni` → full-screen canvas confetti, 5 staggered burst points, theme pink palette
+- `data-born` → stork-with-baby SVG flies in from right column (3.2s)
+- `data-chengdu` → pink panda head slides in from left of `.tl-left` (3.4s)
+- `data-uni` → full-screen canvas confetti, 5 staggered bursts, theme pink palette
+- `data-shanghai` → Pudong skyline (Pearl Tower / Jin Mao / SWFC / Shanghai Tower) slides in from right column (3s); depth layer in #d4a0b8
+- `data-lucerne` → Swiss Alps panorama (3-layer depth, Matterhorn peak, snow cap) + Swiss flag (authentic red #D52B1E + white cross) on summit, slides in from left of `.tl-left` (3.2s)
+
+**Positioning patterns:**
+- Empty right column (Born, Shanghai 2017) → wrapper inside `.tl-right`, slides from right via `translateX`
+- Occupied both columns (Chengdu 2007, Lucerne 2022) → wrapper inside `.tl-left`, `position:absolute; right:calc(100% - 8px)`, slides from left
+- Mobile: all wrappers become `position:absolute; right:-8px; top:-8px` relative to their column div
 
 **Cat head icons:** inline SVG `class="cat-icon"` with `fill="currentColor"`, inherits `--pink`
 
