@@ -110,25 +110,50 @@ const rows = [
               )}
               {left?.chengdu && (
                 <div class="panda-wrapper" aria-hidden="true">
-                  <svg class="panda-svg" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" fill="none">
-                    {/* Head */}
-                    <circle cx="60" cy="65" r="43" fill="#f0dce6"/>
-                    {/* Ears */}
-                    <circle cx="22" cy="27" r="16" fill="#c17d9d"/>
-                    <circle cx="98" cy="27" r="16" fill="#c17d9d"/>
-                    {/* Eye patches */}
-                    <ellipse cx="40" cy="61" rx="15" ry="12" fill="#c17d9d" transform="rotate(-25,40,61)"/>
-                    <ellipse cx="80" cy="61" rx="15" ry="12" fill="#c17d9d" transform="rotate(25,80,61)"/>
-                    {/* Eyes */}
-                    <circle cx="40" cy="61" r="5" fill="#f8eef4"/>
-                    <circle cx="80" cy="61" r="5" fill="#f8eef4"/>
-                    {/* Eye shine */}
-                    <circle cx="42" cy="59" r="2" fill="#fff5f8"/>
-                    <circle cx="82" cy="59" r="2" fill="#fff5f8"/>
-                    {/* Nose */}
-                    <ellipse cx="60" cy="80" rx="5.5" ry="4" fill="#c17d9d"/>
-                    {/* Mouth */}
-                    <path d="M53 87 Q60 93 67 87" stroke="#c17d9d" stroke-width="2.5" stroke-linecap="round"/>
+                  <svg class="panda-svg" viewBox="-8 0 140 160" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    {/* Stalk 1 — tallest, leans left -4° */}
+                    <g transform="rotate(-4,22,152)">
+                      <rect x="18" y="18" width="8" height="134" rx="3" fill="#c17d9d"/>
+                      <rect x="16" y="50"  width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      <rect x="16" y="82"  width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      <rect x="16" y="114" width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      <rect x="16" y="140" width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      {/* top: steep upper-left + drooping left */}
+                      <path d="M22 26 Q7 15 3 5 Q15 14 22 26Z"  fill="#d4a0b8"/>
+                      <path d="M22 26 Q6 28 2 40 Q14 26 22 26Z" fill="#c17d9d"/>
+                      {/* mid: right-upward + right flat */}
+                      <path d="M22 86 Q40 74 46 62 Q34 76 22 86Z" fill="#c17d9d"/>
+                      <path d="M22 86 Q42 86 48 98 Q35 84 22 86Z" fill="#d4a0b8"/>
+                      {/* lower: drooping right */}
+                      <path d="M22 120 Q42 125 48 138 Q34 118 22 120Z" fill="#d4a0b8"/>
+                    </g>
+
+                    {/* Stalk 2 — medium, leans right +5° */}
+                    <g transform="rotate(5,58,152)">
+                      <rect x="54" y="36" width="8" height="116" rx="3" fill="#c17d9d"/>
+                      <rect x="52" y="66"  width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      <rect x="52" y="96"  width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      <rect x="52" y="126" width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      {/* top: steep left + fanning upper-right */}
+                      <path d="M58 44 Q38 32 32 18 Q46 30 58 44Z" fill="#c17d9d"/>
+                      <path d="M58 44 Q75 36 78 22 Q67 35 58 44Z" fill="#d4a0b8"/>
+                      {/* mid: drooping right + left-upward */}
+                      <path d="M58 100 Q78 108 84 122 Q70 100 58 100Z" fill="#d4a0b8"/>
+                      <path d="M58 100 Q40 90 36 76 Q48 93 58 100Z" fill="#c17d9d"/>
+                    </g>
+
+                    {/* Stalk 3 — shorter, leans right +3° */}
+                    <g transform="rotate(3,93,152)">
+                      <rect x="89" y="60" width="8" height="92" rx="3" fill="#c17d9d"/>
+                      <rect x="87" y="90"  width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      <rect x="87" y="120" width="12" height="2.5" rx="1" fill="#9e6a82"/>
+                      {/* top: left + left-drooping */}
+                      <path d="M93 68 Q75 58 70 44 Q84 56 93 68Z" fill="#c17d9d"/>
+                      <path d="M93 68 Q78 75 72 88 Q86 68 93 68Z" fill="#d4a0b8"/>
+                      {/* mid: right-upward + right drooping */}
+                      <path d="M93 96 Q112 84 118 70 Q106 84 93 96Z" fill="#c17d9d"/>
+                      <path d="M93 96 Q114 100 120 114 Q107 94 93 96Z" fill="#d4a0b8"/>
+                    </g>
                   </svg>
                 </div>
               )}
@@ -502,7 +527,7 @@ const rows = [
       right: -8px;
       top: -8px;
     }
-    .panda-svg { width: 75px; }
+    .panda-svg { width: 85px; }
   }
 
   /* ── Shanghai skyline animation ── */
