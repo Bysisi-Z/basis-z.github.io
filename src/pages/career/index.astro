@@ -6,9 +6,9 @@ const leftEvents = [
   { year: '',     title: 'Born in Yunnan, China',        tag: 'Origin', desc: '', born: true },
   { year: '2007', title: 'Move to Chengdu',              tag: 'City',   desc: '', chengdu: true },
   { year: '2016', title: 'First Cat ♂',                  tag: 'Family', desc: '', cat: true },
-  { year: '2017', title: 'Move to Shanghai',             tag: 'City',   desc: '' },
+  { year: '2017', title: 'Move to Shanghai',             tag: 'City',   desc: '', shanghai: true },
   { year: '2019', title: 'Second Cat ♀',                 tag: 'Family', desc: '', cat: true },
-  { year: '2022', title: 'Move to Lucerne, Switzerland', tag: 'City',   desc: '' },
+  { year: '2022', title: 'Move to Lucerne, Switzerland', tag: 'City',   desc: '', lucerne: true },
 ];
 
 const rightEvents = [
@@ -66,7 +66,7 @@ const rows = [
 
             <div class="tl-left">
               {left
-                ? <div class={`tl-card${left.desc ? '' : ' tl-card--static'}${left.born || left.chengdu ? ' tl-card--born' : ''}`} role={left.desc || left.born || left.chengdu ? 'button' : undefined} tabindex={left.desc || left.born || left.chengdu ? 0 : undefined} aria-expanded={left.desc ? 'false' : undefined} data-born={left.born ? 'true' : undefined} data-chengdu={left.chengdu ? 'true' : undefined}>
+                ? <div class={`tl-card${left.desc ? '' : ' tl-card--static'}${left.born || left.chengdu || left.shanghai || left.lucerne ? ' tl-card--born' : ''}`} role={left.desc || left.born || left.chengdu || left.shanghai || left.lucerne ? 'button' : undefined} tabindex={left.desc || left.born || left.chengdu || left.shanghai || left.lucerne ? 0 : undefined} aria-expanded={left.desc ? 'false' : undefined} data-born={left.born ? 'true' : undefined} data-chengdu={left.chengdu ? 'true' : undefined} data-shanghai={left.shanghai ? 'true' : undefined} data-lucerne={left.lucerne ? 'true' : undefined}>
                     <div class="tl-card-main">
                       {left.year && <span class="tl-year">{left.year}</span>}
                       <h3 class="tl-title">
@@ -86,6 +86,28 @@ const rows = [
                   </div>
                 : <div class="tl-empty"></div>
               }
+              {left?.lucerne && (
+                <div class="lucerne-wrapper" aria-hidden="true">
+                  <svg class="lucerne-svg" viewBox="0 -22 260 137" xmlns="http://www.w3.org/2000/svg">
+                    {/* Far background hills */}
+                    <path d="M0 115 Q40 76 80 82 Q130 65 175 75 Q215 67 260 79 L260 115Z" fill="#ecd2e0"/>
+                    {/* Mid-ground peaks */}
+                    <path d="M0 115 L0 93 Q22 75 48 81 Q72 65 90 71 Q112 57 132 63 Q150 53 168 61 Q188 65 215 73 Q240 69 260 77 L260 115Z" fill="#d4a0b8"/>
+                    {/* Main foreground — Matterhorn centre, flanking peaks */}
+                    <path d="M0 115 L0 97 Q12 85 30 89 L44 70 L56 79 L68 61 L78 69 L87 51 L97 29 L107 11 L111 4 L115 11 L123 29 L127 21 L131 37 L139 57 L149 45 L155 37 L159 53 L167 63 Q185 69 206 75 Q233 77 260 85 L260 115Z" fill="#c17d9d"/>
+                    {/* Snow cap */}
+                    <path d="M109 15 L111 4 L115 11 L119 23 L113 19 L111 8 L109 15Z" fill="#f5e8f0"/>
+                    {/* Flag pole */}
+                    <rect x="110" y="-21" width="2" height="26" fill="#c17d9d"/>
+                    {/* Swiss flag body */}
+                    <rect x="112" y="-21" width="16" height="16" fill="#D52B1E"/>
+                    {/* Swiss cross — horizontal bar */}
+                    <rect x="112" y="-15" width="16" height="4" fill="#FAFAF8"/>
+                    {/* Swiss cross — vertical bar */}
+                    <rect x="118" y="-21" width="4" height="16" fill="#FAFAF8"/>
+                  </svg>
+                </div>
+              )}
               {left?.chengdu && (
                 <div class="panda-wrapper" aria-hidden="true">
                   <svg class="panda-svg" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -155,7 +177,37 @@ const rows = [
                         <circle cx="22" cy="111" r="7" fill="#f5e0ea"/>
                       </svg>
                     </div>
-                  : <div class="tl-empty"></div>
+                  : left?.shanghai
+                    ? <div class="shanghai-wrapper" aria-hidden="true">
+                        <svg class="shanghai-svg" viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+                          {/* Depth layer — smaller background buildings */}
+                          <rect x="0" y="88" width="18" height="39" fill="#d4a0b8"/>
+                          <rect x="224" y="80" width="16" height="47" fill="#d4a0b8"/>
+                          <rect x="243" y="70" width="14" height="57" fill="#d4a0b8"/>
+                          <rect x="261" y="90" width="19" height="37" fill="#d4a0b8"/>
+                          {/* ORIENTAL PEARL TOWER 东方明珠 */}
+                          <path d="M22 126 L38 91 L44 91 L44 126Z" fill="#c17d9d"/>
+                          <path d="M66 126 L50 91 L44 91 L44 126Z" fill="#c17d9d"/>
+                          <ellipse cx="44" cy="76" rx="17" ry="15" fill="#c17d9d"/>
+                          <rect x="42" y="50" width="4" height="27" fill="#c17d9d"/>
+                          <ellipse cx="44" cy="46" rx="12" ry="11" fill="#c17d9d"/>
+                          <rect x="43" y="8" width="2" height="39" fill="#c17d9d"/>
+                          <circle cx="44" cy="7" r="4" fill="#c17d9d"/>
+                          {/* JIN MAO TOWER 金茂大厦 (pagoda steps) */}
+                          <path d="M80 126 L80 111 L82 111 L82 99 L84 99 L84 86 L86 86 L86 73 L88 73 L88 60 L90 60 L90 49 L91 49 L91 39 L92 39 L92 30 L93 30 L93 22 L94 22 L94 16 L95 16 L95 22 L96 22 L96 30 L97 30 L97 39 L98 39 L98 49 L100 49 L100 60 L102 60 L102 73 L104 73 L104 86 L106 86 L106 99 L108 99 L108 111 L110 111 L110 126Z" fill="#c17d9d"/>
+                          {/* SWFC 环球金融中心 (bottle opener) */}
+                          <rect x="126" y="14" width="22" height="112" fill="#c17d9d"/>
+                          <rect x="126" y="4" width="7" height="14" fill="#c17d9d"/>
+                          <rect x="141" y="4" width="7" height="14" fill="#c17d9d"/>
+                          <rect x="133" y="4" width="8" height="14" fill="#FAFAF8"/>
+                          {/* SHANGHAI TOWER 上海中心 (tallest, tapered) */}
+                          <path d="M168 126 L172 8 L175 3 L178 8 L182 126Z" fill="#c17d9d"/>
+                          <rect x="174" y="0" width="2" height="5" fill="#c17d9d"/>
+                          {/* Ground */}
+                          <rect x="0" y="125" width="280" height="4" fill="#c17d9d"/>
+                        </svg>
+                      </div>
+                    : <div class="tl-empty"></div>
               }
             </div>
 
@@ -387,6 +439,38 @@ const rows = [
   .tl-card--born { cursor: pointer; }
   .tl-card--born:hover .tl-title { opacity: 0.65; }
 
+  /* ── Lucerne / Swiss Alps animation ── */
+  .lucerne-wrapper {
+    position: absolute;
+    right: calc(100% - 8px);
+    top: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .lucerne-svg {
+    width: 185px;
+    height: auto;
+    opacity: 0;
+    display: block;
+  }
+  .lucerne-wrapper.playing .lucerne-svg {
+    animation: lucerne-arrive 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  @keyframes lucerne-arrive {
+    0%   { opacity: 0; transform: translateX(-60px) translateY(15px); }
+    24%  { opacity: 1; transform: translateX(0) translateY(0); }
+    60%  { opacity: 1; transform: translateX(0) translateY(-4px); }
+    78%  { opacity: 0.8; transform: translateX(-10px) translateY(-16px); }
+    100% { opacity: 0; transform: translateX(-70px) translateY(-48px); }
+  }
+  @media (max-width: 700px) {
+    .lucerne-wrapper {
+      right: -8px;
+      top: -8px;
+    }
+    .lucerne-svg { width: 135px; }
+  }
+
   /* ── Panda + hotpot animation ── */
   .tl-left { position: relative; }
 
@@ -419,6 +503,39 @@ const rows = [
       top: -8px;
     }
     .panda-svg { width: 75px; }
+  }
+
+  /* ── Shanghai skyline animation ── */
+  .shanghai-wrapper {
+    padding-top: 4px;
+    min-height: 60px;
+    overflow: visible;
+  }
+  .shanghai-svg {
+    width: 200px;
+    height: auto;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .shanghai-wrapper.playing .shanghai-svg {
+    animation: shanghai-arrive 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  @keyframes shanghai-arrive {
+    0%   { opacity: 0; transform: translateX(160px); }
+    25%  { opacity: 1; transform: translateX(0); }
+    65%  { opacity: 1; transform: translateX(0); }
+    80%  { opacity: 0.8; transform: translateX(-8px) translateY(-6px); }
+    100% { opacity: 0; transform: translateX(-60px) translateY(-28px); }
+  }
+  @media (max-width: 700px) {
+    .shanghai-wrapper {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      min-height: 0;
+      overflow: visible;
+    }
+    .shanghai-svg { width: 140px; }
   }
 
   /* ── Stork animation ── */
@@ -572,6 +689,34 @@ const rows = [
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); uniCard.dispatchEvent(new MouseEvent('click')); }
     });
   })();
+
+  /* ── Lucerne card → Swiss Alps animation ── */
+  const lucerneCard = document.querySelector('[data-lucerne]');
+  const lucerneWrapper = document.querySelector('.lucerne-wrapper');
+  if (lucerneCard && lucerneWrapper) {
+    lucerneCard.addEventListener('click', () => {
+      lucerneWrapper.classList.remove('playing');
+      void (lucerneWrapper as HTMLElement).offsetWidth;
+      lucerneWrapper.classList.add('playing');
+    });
+    lucerneCard.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lucerneCard.dispatchEvent(new MouseEvent('click')); }
+    });
+  }
+
+  /* ── Shanghai card → skyline animation ── */
+  const shanghaiCard = document.querySelector('[data-shanghai]');
+  const shanghaiWrapper = document.querySelector('.shanghai-wrapper');
+  if (shanghaiCard && shanghaiWrapper) {
+    shanghaiCard.addEventListener('click', () => {
+      shanghaiWrapper.classList.remove('playing');
+      void (shanghaiWrapper as HTMLElement).offsetWidth;
+      shanghaiWrapper.classList.add('playing');
+    });
+    shanghaiCard.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); shanghaiCard.dispatchEvent(new MouseEvent('click')); }
+    });
+  }
 
   /* ── Chengdu card → panda + hotpot animation ── */
   const chengduCard = document.querySelector('[data-chengdu]');
