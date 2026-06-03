@@ -275,13 +275,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 #var-search {
   width: 100%;
-  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  font-family: var(--sans); font-size: 16px; font-weight: 300;
   color: var(--ink);
   background: transparent; border: 1px solid var(--rule);
   border-radius: 3px;
   padding: 7px 10px 7px 30px;
   outline: none;
   transition: border-color 0.18s;
+}
+@media (min-width: 701px) {
+  #var-search { font-size: 11px; }
 }
 #var-search:focus { border-color: var(--stone); }
 #var-search::placeholder { color: #b0a9a3; }
@@ -516,9 +519,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 /* ── Mobile ────────────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
-  /* Prevent iOS Safari from zooming on input focus (requires font-size ≥ 16px) */
-  #var-search { font-size: 16px; }
-
   /* panels stack vertically, no fixed height — each expands to content */
   .panels {
     grid-template-columns: 1fr;
