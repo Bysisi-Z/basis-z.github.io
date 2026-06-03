@@ -516,6 +516,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 /* ── Mobile ────────────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
+  /* Prevent iOS Safari from zooming on input focus (requires font-size ≥ 16px) */
+  #var-search { font-size: 16px; }
+
   /* panels stack vertically, no fixed height — each expands to content */
   .panels {
     grid-template-columns: 1fr;
