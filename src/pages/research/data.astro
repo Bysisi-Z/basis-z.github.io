@@ -321,11 +321,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .detail-name-row {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  margin-bottom: 6px;
+  margin-top: 10px;
 }
 .detail-varname {
-  font-family: var(--sans); font-size: 22px; font-weight: 400;
-  letter-spacing: 0.03em; color: var(--ink);
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  letter-spacing: 0.06em; color: var(--rose);
 }
 .type-badge {
   font-family: var(--sans); font-size: 9px; font-weight: 400;
@@ -345,8 +345,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 
 .detail-label-text {
-  font-family: var(--serif); font-size: 21px; font-weight: 300; font-style: italic;
-  color: var(--ink); line-height: 1.4; margin-bottom: 12px;
+  font-family: var(--serif); font-size: 23px; font-weight: 300; font-style: italic;
+  color: var(--ink); line-height: 1.35; margin-bottom: 0;
 }
 .detail-universe {
   font-family: var(--sans); font-size: 13px; font-weight: 300;
@@ -443,25 +443,40 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 /* ── Mobile ────────────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
+  /* panels stack vertically, no fixed height — each expands to content */
   .panels {
     grid-template-columns: 1fr;
-    min-height: auto;
+    height: auto;
   }
+  /* left: variable list — keep constrained with scroll */
   .panel-vars {
     border-right: none;
     border-bottom: 1px solid var(--rule);
-    max-height: 320px;
+    height: 320px;
+    min-height: 0;
+    overflow: hidden;
+  }
+  /* right: results — full height, no scroll limit, everything shows */
+  .panel-detail {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  #detail-content {
+    overflow-y: visible;
+    height: auto;
   }
   .dist-row {
     grid-template-columns: 150px 1fr 44px;
   }
   .dist-n { display: none; }
-  .detail-header { padding: 20px; }
-  .dist-wrap { padding: 16px 20px 32px; }
+  .detail-header { padding: 20px; position: static; }
+  .dist-wrap { padding: 16px 20px 40px; }
 }
 @media (max-width: 480px) {
-  .dist-row { grid-template-columns: 120px 1fr 44px; }
-  .dist-label { font-size: 11px; }
+  .dist-row { grid-template-columns: 110px 1fr 44px; }
+  .dist-label { font-size: 12px; }
+  .detail-label-text { font-size: 19px; }
 }
 </style>
 
@@ -692,12 +707,12 @@ function renderDetail(v) {
 
   detailContent.innerHTML =
     `<div class="detail-header">
+       <p class="detail-label-text">${escHtml(v.label)}</p>
        <div class="detail-name-row">
          <span class="detail-varname">${escHtml(v.name)}</span>
          <span class="type-badge ${tc}">${escHtml(v.variable_type || '—')}</span>
          ${v.drr ? '<span class="drr-badge">DRR</span>' : ''}
        </div>
-       <p class="detail-label-text">${escHtml(v.label)}</p>
        ${v.universe ? `<p class="detail-universe"><strong>Universe:</strong> ${escHtml(v.universe)}</p>` : ''}
        <div class="detail-stats-row">
          <div class="detail-stat">
