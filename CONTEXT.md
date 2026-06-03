@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-03 (session 7)  
+> Last updated: 2026-06-03 (session 8)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -193,8 +193,18 @@ src/
 - Data loaded on-demand per section (nsfg_section_{key}.json)
 - Explorer width: 1400px max (1.5× site content width)
 
+**Age split feature:**
+- Toggle "Split by age group" (off by default): splits each response bar into 7 age-group sub-bars (15–19 → 45–49)
+- Each sub-bar shows conditional % within that age group
+- Data: `nsfg_age_counts.json` (940 KB, background-loaded on page boot)
+- Script: `compute_age_counts.py` in `/Users/giselle/Downloads/NSFG-2022-2023-FemRespPUFData/`
+
+**Global search:** search box crosses all 12 sections (from nsfg_meta.json in memory); clicking a result auto-loads that section and shows detail
+
 **Design rules enforced this session:**
 - `var(--rule)` (#E2DEDB) is NEVER used as text color — minimum readable text = `var(--stone)` (#847B7B)
+- Right panel: label (serif italic, bold) is primary; varname in rose is secondary
+- Mobile dist rows: 4 columns (label | bar | % | n), no hidden count column
 
 ### Mountain Calling (`/photography`) ✅ Index complete — detail pages in progress
 
