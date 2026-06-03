@@ -1,0 +1,746 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="US NSFG Survey — Female Respondent" description="Interactive explorer for the 2022–2023 National Survey of Family Growth, female respondent file">
+
+  <!-- All content in the wider explorer container -->
+  <div class="explorer-wrap">
+
+    <!-- Compact module header -->
+    <div class="nsfg-header">
+      <a class="back-crumb" href="/research">← Decoding</a>
+      <div class="nsfg-title-row">
+        <h1 class="nsfg-title">US NSFG Survey — <em>Female Respondent</em></h1>
+        <span class="nsfg-badge">2022–2023</span>
+      </div>
+      <p class="nsfg-desc">
+        The National Survey of Family Growth (NSFG), conducted by the CDC's National Center for Health Statistics since 1973, collects data on pregnancy, contraception use, marriage, fertility, and reproductive health across the U.S. population. This explorer covers the 2022–2023 cycle — <strong>5,586</strong> female respondents aged 15–49, <strong>1,912</strong> variables across 10 survey sections.
+      </p>
+    </div>
+
+    <div id="explorer">
+
+      <!-- Section tabs (scrollable) -->
+      <div class="tabs-scroll-wrap">
+        <button class="tabs-arrow tabs-arrow-left" id="tabs-arrow-left" aria-label="Scroll left" hidden>‹</button>
+        <div id="section-tabs" role="tablist" aria-label="Survey sections"></div>
+        <button class="tabs-arrow tabs-arrow-right" id="tabs-arrow-right" aria-label="Scroll right" hidden>›</button>
+      </div>
+
+      <!-- Two-panel layout -->
+      <div class="panels">
+
+        <!-- Left: variable list -->
+        <aside class="panel-vars">
+          <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 16 16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/>
+              <line x1="10" y1="10" x2="14" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            <input id="var-search" type="search" placeholder="Search variables…" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="var-count-row">
+            <span id="var-count" class="var-count"></span>
+            <span id="loading-badge" class="loading-badge" hidden>Loading…</span>
+          </div>
+          <div id="var-list" class="var-list" role="listbox" aria-label="Variables"></div>
+        </aside>
+
+        <!-- Right: detail -->
+        <section class="panel-detail" id="panel-detail">
+          <div class="detail-empty" id="detail-empty">
+            <div class="empty-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="12" width="32" height="4" rx="2" fill="currentColor" opacity=".15"/>
+                <rect x="8" y="22" width="24" height="4" rx="2" fill="currentColor" opacity=".1"/>
+                <rect x="8" y="32" width="28" height="4" rx="2" fill="currentColor" opacity=".07"/>
+              </svg>
+            </div>
+            <p class="empty-hint">Select a variable to explore its distribution</p>
+          </div>
+          <div id="detail-content" hidden></div>
+        </section>
+
+      </div>
+    </div>
+
+    <p class="source-note">
+      Source: NCHS, <em>2022–2023 National Survey of Family Growth</em>, Public Use Data File.
+      Percentages for each code are calculated among respondents in the variable's universe (excluding inapplicable).
+    </p>
+  </div>
+
+</BaseLayout>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+     All styles: is:global because JS-created elements need them
+───────────────────────────────────────────────────────────────────────────── -->
+<style is:global>
+
+/* ── Compact module header ─────────────────────────────────────────────────── */
+.nsfg-header {
+  padding: 36px 0 24px;
+}
+
+.back-crumb {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--stone); text-decoration: none;
+  margin-bottom: 14px; transition: color 0.2s;
+  display: block;
+}
+.back-crumb:hover { color: var(--ink); }
+
+.nsfg-title-row {
+  display: flex; align-items: baseline; gap: 14px;
+  flex-wrap: wrap; margin-bottom: 10px;
+}
+.nsfg-title {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 300; line-height: 1.1;
+  color: var(--ink); margin: 0;
+}
+.nsfg-title em { font-style: italic; }
+
+.nsfg-badge {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  padding: 2px 9px; border-radius: 2px; white-space: nowrap;
+}
+
+.nsfg-desc {
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  line-height: 1.72; color: var(--stone);
+  max-width: 780px; margin: 0;
+}
+.nsfg-desc strong { color: var(--ink); font-weight: 400; }
+
+/* ── Explorer wider container ──────────────────────────────────────────────── */
+.explorer-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 60px) 100px;
+}
+#explorer { margin-bottom: 0; }
+
+/* ── Section tabs (scrollable) ─────────────────────────────────────────────── */
+.tabs-scroll-wrap {
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+#section-tabs {
+  display: flex; flex-wrap: nowrap;
+  overflow-x: auto; scrollbar-width: none;
+  gap: 0;
+}
+#section-tabs::-webkit-scrollbar { display: none; }
+
+/* Arrow buttons — solid background, clearly visible over tab text */
+.tabs-arrow {
+  position: absolute;
+  top: 0; bottom: -1px;
+  width: 38px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  border: none;
+  cursor: pointer;
+  font-size: 18px; line-height: 1;
+  color: var(--stone);
+  z-index: 3;
+  transition: color 0.18s, background 0.18s;
+}
+.tabs-arrow:hover { color: var(--ink); background: #f2efec; }
+.tabs-arrow-left  { left: 0;  border-right: 1px solid var(--rule); }
+.tabs-arrow-right { right: 0; border-left:  1px solid var(--rule); }
+
+.sec-tab {
+  flex-shrink: 0;
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  letter-spacing: 0.05em;
+  padding: 12px 22px; cursor: pointer;
+  color: var(--stone); background: none; border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  border-radius: 6px 6px 0 0;
+}
+.sec-tab:hover { color: var(--ink); background: rgba(193,125,157,0.06); }
+.sec-tab.active {
+  background: var(--rose);
+  color: #fff;
+  border-bottom-color: var(--rose);
+  font-weight: 400;
+}
+
+/* ── Two-panel ─────────────────────────────────────────────────────────────── */
+.panels {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: max(680px, calc(100vh - 260px));
+  border: 1px solid var(--rule);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+/* ── Left panel: variable list ─────────────────────────────────────────────── */
+.panel-vars {
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+  background: #fdfcfb;
+  min-height: 0;      /* lets flex children shrink and scroll */
+  overflow: hidden;
+}
+
+.search-wrap {
+  position: relative;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.search-icon {
+  position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; color: var(--rule);
+  pointer-events: none;
+}
+#var-search {
+  width: 100%;
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  color: var(--ink);
+  background: transparent; border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 7px 10px 7px 30px;
+  outline: none;
+  transition: border-color 0.18s;
+}
+#var-search:focus { border-color: var(--stone); }
+#var-search::placeholder { color: #b0a9a3; }
+
+.var-count-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.var-count {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--stone);
+}
+.loading-badge {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--rose);
+}
+
+.var-list {
+  flex: 1; overflow-y: scroll;
+  scrollbar-width: auto;
+  scrollbar-color: #847B7B #dedad7;
+}
+.var-list::-webkit-scrollbar { width: 8px; }
+.var-list::-webkit-scrollbar-track { background: #dedad7; }
+.var-list::-webkit-scrollbar-thumb { background: #847B7B; border-radius: 4px; border: 1px solid #dedad7; }
+.var-list::-webkit-scrollbar-thumb:hover { background: #555; }
+
+.var-item {
+  display: flex; flex-direction: column;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(226,222,219,0.5);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  min-height: 0;
+}
+.var-item:hover { background: rgba(193,125,157,0.04); }
+.var-item.selected {
+  background: rgba(193,125,157,0.07);
+  border-left-color: var(--rose);
+}
+
+/* label = primary (black, top), code name + type = secondary (bottom row) */
+.var-item-label {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--ink); line-height: 1.45; margin-bottom: 5px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.var-item-bottom {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.var-item-name {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 400;
+  letter-spacing: 0.03em; color: var(--rose);
+}
+.var-item-type {
+  font-family: var(--sans); font-size: 9px; font-weight: 300;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--stone);
+}
+.var-item-type.recode   { color: var(--rose); }
+.var-item-type.computed { color: #5a82a8; }
+
+/* ── Right panel: variable detail ──────────────────────────────────────────── */
+.panel-detail {
+  display: flex; flex-direction: column;
+  min-height: 0;      /* lets flex children shrink and scroll */
+  overflow: hidden;
+}
+
+/* Empty state */
+.detail-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 20px; padding: 60px 40px;
+}
+.empty-icon { width: 80px; color: var(--rule); }
+.empty-hint {
+  font-family: var(--serif); font-size: 18px; font-weight: 300; font-style: italic;
+  color: var(--stone); text-align: center; max-width: 240px;
+}
+
+/* Detail content */
+#detail-content {
+  flex: 1; overflow-y: scroll;
+  scrollbar-width: auto;
+  scrollbar-color: #847B7B #dedad7;
+}
+#detail-content::-webkit-scrollbar { width: 8px; }
+#detail-content::-webkit-scrollbar-track { background: #dedad7; }
+#detail-content::-webkit-scrollbar-thumb { background: #847B7B; border-radius: 4px; border: 1px solid #dedad7; }
+#detail-content::-webkit-scrollbar-thumb:hover { background: #555; }
+
+.detail-header {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--rule);
+  position: sticky; top: 0; z-index: 2;
+  background: var(--bg);
+}
+.detail-name-row {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.detail-varname {
+  font-family: var(--sans); font-size: 22px; font-weight: 400;
+  letter-spacing: 0.03em; color: var(--ink);
+}
+.type-badge {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 2px; border: 1px solid;
+}
+.type-badge.raw      { color: var(--stone); border-color: rgba(132,123,123,.4); }
+.type-badge.computed { color: #7a9abf;      border-color: rgba(122,154,191,.4); }
+.type-badge.recode   { color: var(--rose);  border-color: rgba(193,125,157,.35); }
+.type-badge.other    { color: var(--stone); border-color: var(--rule); }
+
+.drr-badge {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 2px;
+  background: rgba(193,125,157,0.1); color: var(--rose);
+}
+
+.detail-label-text {
+  font-family: var(--serif); font-size: 21px; font-weight: 300; font-style: italic;
+  color: var(--ink); line-height: 1.4; margin-bottom: 12px;
+}
+.detail-universe {
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  color: var(--stone); line-height: 1.6;
+}
+.detail-universe strong { color: var(--ink); font-weight: 400; }
+
+.detail-stats-row {
+  display: flex; gap: 28px; margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+.detail-stat { display: flex; flex-direction: column; gap: 3px; }
+.detail-stat-val {
+  font-family: var(--sans); font-size: 16px; font-weight: 400; color: var(--ink);
+}
+.detail-stat-lbl {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone);
+}
+
+/* Distribution table */
+.dist-wrap { padding: 24px 32px 40px; }
+
+.dist-section-label {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone);
+  margin-bottom: 14px; margin-top: 28px;
+}
+.dist-section-label:first-child { margin-top: 0; }
+
+.dist-row {
+  display: grid;
+  grid-template-columns: 260px 1fr 64px 84px;
+  align-items: center;
+  gap: 0 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(226,222,219,0.5);
+}
+.dist-row:last-child { border-bottom: none; }
+.dist-row.inapplicable { opacity: 0.5; }
+
+.dist-label {
+  font-family: var(--sans); font-size: 14.5px; font-weight: 300;
+  color: var(--ink); line-height: 1.4;
+}
+.dist-val-code {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  color: var(--rose); letter-spacing: 0.03em;
+  margin-left: 7px;
+}
+.dist-bar-track {
+  height: 9px; background: rgba(226,222,219,0.6);
+  border-radius: 2px; overflow: hidden;
+}
+.dist-bar-fill {
+  height: 100%; border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.dist-pct {
+  font-family: var(--sans); font-size: 14px; font-weight: 400;
+  color: var(--ink); text-align: right;
+}
+.dist-n {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--stone); text-align: right;
+}
+.dist-row.inapplicable .dist-bar-fill { background: var(--rule) !important; }
+
+/* Notes box */
+.notes-box {
+  margin: 0 32px 24px;
+  padding: 14px 18px;
+  background: rgba(193,125,157,0.05);
+  border-left: 2px solid rgba(193,125,157,0.3);
+  border-radius: 0 6px 6px 0;
+}
+.notes-box p {
+  font-family: var(--sans); font-size: 12.5px; font-weight: 300;
+  color: var(--stone); line-height: 1.7;
+}
+.notes-label {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rose); display: block; margin-bottom: 8px;
+}
+
+/* Source */
+.source-note {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  line-height: 1.7; color: var(--stone); padding-bottom: 80px;
+  margin-top: 16px;
+}
+.source-note em { font-style: italic; }
+
+/* ── Mobile ────────────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .panels {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .panel-vars {
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+    max-height: 320px;
+  }
+  .dist-row {
+    grid-template-columns: 150px 1fr 44px;
+  }
+  .dist-n { display: none; }
+  .detail-header { padding: 20px; }
+  .dist-wrap { padding: 16px 20px 32px; }
+}
+@media (max-width: 480px) {
+  .dist-row { grid-template-columns: 120px 1fr 44px; }
+  .dist-label { font-size: 11px; }
+}
+</style>
+
+<script>
+(async () => {
+
+// ── Tab display names (descriptive, no letters) ───────────────────────────────
+const TAB_SHORT = {
+  screener:       'Screener',
+  section_a:      'Demographics',
+  section_b:      'Pregnancy & Birth',
+  section_c:      'Relationships',
+  section_d:      'Sterilization & Fecundity',
+  section_e:      'Contraception',
+  section_f:      'Family Planning',
+  section_g:      'Birth Intentions',
+  section_h:      'Reproductive Health',
+  section_j:      'CASI / CAWI',
+  recodes:        'Recodes',
+  sample_design:  'Sample Design',
+};
+
+const BAR_COLOR     = '#c17d9d';  // rose
+const INAPP_COLOR   = '#E2DEDB'; // rule
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let META          = null;
+let sectionCache  = {};        // key → section variable array
+let currentSec    = null;
+let currentVar    = null;
+let filteredVars  = [];
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+const secTabsEl   = document.getElementById('section-tabs');
+const varListEl   = document.getElementById('var-list');
+const varCountEl  = document.getElementById('var-count');
+const loadingEl   = document.getElementById('loading-badge');
+const searchEl    = document.getElementById('var-search');
+const detailEmpty = document.getElementById('detail-empty');
+const detailContent = document.getElementById('detail-content');
+
+// ── Fetch helpers ─────────────────────────────────────────────────────────────
+async function fetchJSON(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
+  return r.json();
+}
+
+// ── Load meta on boot ─────────────────────────────────────────────────────────
+try {
+  META = await fetchJSON('/data/nsfg_meta.json');
+} catch(e) {
+  secTabsEl.textContent = 'Error loading data.';
+  return;
+}
+
+buildSectionTabs();
+initTabsArrow();
+await selectSection(META.sections[0].key);
+
+// ── Section tabs ──────────────────────────────────────────────────────────────
+function buildSectionTabs() {
+  META.sections.forEach(sec => {
+    const btn = document.createElement('button');
+    btn.className    = 'sec-tab';
+    btn.dataset.key  = sec.key;
+    btn.textContent  = TAB_SHORT[sec.key] || sec.key;
+    btn.title        = sec.label + ` (${sec.n_vars} vars)`;
+    btn.setAttribute('role', 'tab');
+    btn.addEventListener('click', () => selectSection(sec.key));
+    secTabsEl.appendChild(btn);
+  });
+}
+
+function setActiveTab(key) {
+  secTabsEl.querySelectorAll('.sec-tab').forEach(b => {
+    b.classList.toggle('active', b.dataset.key === key);
+  });
+}
+
+// ── Tabs scroll arrows (left + right) ────────────────────────────────────────
+function initTabsArrow() {
+  const btnL = document.getElementById('tabs-arrow-left');
+  const btnR = document.getElementById('tabs-arrow-right');
+  if (!btnL || !btnR) return;
+
+  function sync() {
+    const overflows = secTabsEl.scrollWidth > secTabsEl.clientWidth + 2;
+    const atStart   = secTabsEl.scrollLeft <= 2;
+    const atEnd     = secTabsEl.scrollLeft + secTabsEl.clientWidth >= secTabsEl.scrollWidth - 4;
+    btnL.hidden = !overflows || atStart;
+    btnR.hidden = !overflows || atEnd;
+  }
+
+  btnL.addEventListener('click', () => secTabsEl.scrollBy({ left: -220, behavior: 'smooth' }));
+  btnR.addEventListener('click', () => secTabsEl.scrollBy({ left:  220, behavior: 'smooth' }));
+  secTabsEl.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+
+  // Layout may not be settled at first rAF — check after paint AND after a short delay
+  requestAnimationFrame(() => requestAnimationFrame(sync));
+  setTimeout(sync, 200);
+  window.addEventListener('load', sync);
+}
+
+// ── Section selection ─────────────────────────────────────────────────────────
+async function selectSection(key) {
+  if (currentSec === key && sectionCache[key]) {
+    renderVarList(sectionCache[key]);
+    return;
+  }
+  currentSec = key;
+  setActiveTab(key);
+  currentVar = null;
+  showEmpty();
+  searchEl.value = '';
+
+  // Load section data
+  if (!sectionCache[key]) {
+    loadingEl.hidden = false;
+    try {
+      sectionCache[key] = await fetchJSON(`/data/nsfg_section_${key}.json`);
+    } catch(e) {
+      varCountEl.textContent = 'Load error';
+      loadingEl.hidden = true;
+      return;
+    }
+    loadingEl.hidden = true;
+  }
+
+  renderVarList(sectionCache[key]);
+}
+
+// ── Variable list ─────────────────────────────────────────────────────────────
+function renderVarList(vars) {
+  const query = searchEl.value.toLowerCase().trim();
+  filteredVars = query
+    ? vars.filter(v =>
+        v.name.toLowerCase().includes(query) ||
+        v.label.toLowerCase().includes(query))
+    : vars;
+
+  varCountEl.textContent = `${filteredVars.length} variable${filteredVars.length !== 1 ? 's' : ''}`;
+
+  // Build list efficiently
+  const frag = document.createDocumentFragment();
+  filteredVars.forEach(v => {
+    const item = document.createElement('div');
+    item.className  = 'var-item' + (currentVar?.name === v.name ? ' selected' : '');
+    item.dataset.name = v.name;
+    item.setAttribute('role', 'option');
+    item.innerHTML =
+      `<span class="var-item-label">${escHtml(v.label)}</span>` +
+      `<span class="var-item-bottom">` +
+        `<span class="var-item-name">${v.name}</span>` +
+        `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
+      `</span>`;
+    item.addEventListener('click', () => selectVar(v.name));
+    frag.appendChild(item);
+  });
+  varListEl.innerHTML = '';
+  varListEl.appendChild(frag);
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+searchEl.addEventListener('input', () => {
+  if (sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
+});
+
+// ── Variable selection ────────────────────────────────────────────────────────
+function selectVar(name) {
+  const secData = sectionCache[currentSec];
+  if (!secData) return;
+  const varData = secData.find(v => v.name === name);
+  if (!varData) return;
+
+  currentVar = varData;
+
+  // Highlight selected
+  varListEl.querySelectorAll('.var-item').forEach(el => {
+    el.classList.toggle('selected', el.dataset.name === name);
+  });
+
+  renderDetail(varData);
+}
+
+// ── Detail panel ──────────────────────────────────────────────────────────────
+function showEmpty() {
+  detailEmpty.hidden  = false;
+  detailContent.hidden = true;
+}
+
+function renderDetail(v) {
+  detailEmpty.hidden   = true;
+  detailContent.hidden = false;
+
+  const dist    = v.distribution || [];
+  const valid   = dist.filter(d => !d.inapplicable);
+  const inapps  = dist.filter(d => d.inapplicable);
+  const maxN    = Math.max(...valid.map(d => d.n), 1);
+
+  // Type badge class
+  const tc = typeClass(v.variable_type);
+
+  // Notes section
+  const notesHtml = v.notes
+    ? `<div class="notes-box">
+         <span class="notes-label">Note</span>
+         <p>${escHtml(v.notes)}</p>
+       </div>`
+    : '';
+
+  // Distribution rows
+  function makeRow(d) {
+    const w   = d.inapplicable ? (d.n / v.n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
+    const color = d.inapplicable ? INAPP_COLOR : BAR_COLOR;
+    return `<div class="dist-row${d.inapplicable ? ' inapplicable' : ''}">
+      <div class="dist-label">
+        ${escHtml(d.label)}<span class="dist-val-code">${escHtml(d.value)}</span>
+      </div>
+      <div class="dist-bar-track">
+        <div class="dist-bar-fill" style="width:0%;background:${color}" data-w="${w}%"></div>
+      </div>
+      <div class="dist-pct">${d.pct}%</div>
+      <div class="dist-n">${d.n.toLocaleString()}</div>
+    </div>`;
+  }
+
+  detailContent.innerHTML =
+    `<div class="detail-header">
+       <div class="detail-name-row">
+         <span class="detail-varname">${escHtml(v.name)}</span>
+         <span class="type-badge ${tc}">${escHtml(v.variable_type || '—')}</span>
+         ${v.drr ? '<span class="drr-badge">DRR</span>' : ''}
+       </div>
+       <p class="detail-label-text">${escHtml(v.label)}</p>
+       ${v.universe ? `<p class="detail-universe"><strong>Universe:</strong> ${escHtml(v.universe)}</p>` : ''}
+       <div class="detail-stats-row">
+         <div class="detail-stat">
+           <span class="detail-stat-val">${v.n_total.toLocaleString()}</span>
+           <span class="detail-stat-lbl">Total respondents</span>
+         </div>
+         <div class="detail-stat">
+           <span class="detail-stat-val">${v.n_universe.toLocaleString()}</span>
+           <span class="detail-stat-lbl">In universe</span>
+         </div>
+         <div class="detail-stat">
+           <span class="detail-stat-val">${valid.length}</span>
+           <span class="detail-stat-lbl">Response codes</span>
+         </div>
+       </div>
+     </div>
+     ${notesHtml}
+     <div class="dist-wrap">
+       ${valid.length ? `<p class="dist-section-label">Response distribution</p>${valid.map(makeRow).join('')}` : ''}
+       ${inapps.length ? `<p class="dist-section-label">Outside universe</p>${inapps.map(makeRow).join('')}` : ''}
+     </div>`;
+
+  // Animate bars after paint
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    detailContent.querySelectorAll('.dist-bar-fill').forEach(el => {
+      el.style.width = el.dataset.w;
+    });
+  }));
+}
+
+// ── Utils ─────────────────────────────────────────────────────────────────────
+function typeClass(t) {
+  if (!t) return 'other';
+  if (t === 'raw') return 'raw';
+  if (t === 'recode') return 'recode';
+  if (t.startsWith('computed')) return 'computed';
+  return 'other';
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+})();
+</script>

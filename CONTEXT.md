@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-01 (session 6)  
+> Last updated: 2026-06-03 (session 7)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -162,13 +162,39 @@ src/
 
 - Detail pages: **not yet built**
 
-### Decoding (`/research`) ⚠️ Index only — no detail pages
+### Decoding (`/research`) ✅ Redesigned — two-module gateway
 
-- Article list with tag chips, date, read time
-- 2 entries: OGN analysis + Sun Pharma/OGN acquisition
-- ~~Eyebrow label "02 — Research" removed~~ ✅
-- Detail pages `/research/ogn-annual-analysis` and `/research/sun-pharma-ogn-acquisition`: **not built**
-- HTML versions of both analyses exist on Desktop (`OGN_financial_analysis.html`, `SunPharma_OGN_acquisition.html`)
+- **Gateway page** (`/research/index.astro`): two large entry cards
+  - Card 01 → `/research/industry` (Industry Research Articles)
+  - Card 02 → `/research/data` (Play with the Data)
+- **`/research/industry`**: article list — 2 entries (OGN analysis + Sun Pharma/OGN acquisition)
+  - Detail pages still not built; HTML content at `/Users/giselle/OGN_financial_analysis.html` and `SunPharma_OGN_acquisition.html`
+- **`/research/data`**: ✅ Live interactive NSFG data explorer (see below)
+
+### Play with the Data — NSFG Explorer (`/research/data`) ✅ Live
+
+**Data sources** (local only, not in repo):
+- `/Users/giselle/Downloads/NSFG-2022-2023-FemRespPUFData/NSFG_2022_2023_FemRespPUFData.csv` — raw survey data (5,586 respondents, 1,912 variables)
+- `/Users/giselle/Downloads/2022-2023-NSFG-FemRespPUFCodebook.pdf` — variable codebook (565 pages)
+- `/Users/giselle/Downloads/2022-2023-NSFG-FileIndex-FemRespPUF.pdf` — file index with section classification (29 pages)
+
+**Parsing scripts** (run from `/Users/giselle/Downloads/NSFG-2022-2023-FemRespPUFData/`):
+- `parse_codebook.py` → `nsfg_codebook.json` (1,897 variables: label, universe, code labels)
+- `parse_index.py` → `nsfg_index.json` (1,912 variables with section + type + DRR merged)
+- `generate_data.py` → `public/data/nsfg_data.json` (legacy aggregation, superseded)
+- `compute_distributions.py` → `public/data/nsfg_meta.json` + `public/data/nsfg_section_*.json` (13 files, main data source for explorer)
+
+**Explorer UI** (`/research/data`):
+- Module title: "US NSFG Survey — Female Respondent" + 2022–2023 badge
+- Section tabs (12 sections, scrollable with ‹/› arrows): Screener / Demographics / Pregnancy & Birth / Relationships / Sterilization & Fecundity / Contraception / Family Planning / Birth Intentions / Reproductive Health / CASI-CAWI / Recodes / Sample Design
+- Left panel (300px): variable list in original file order, searchable; label primary (black) / varname secondary (rose) / type badge
+- Right panel: variable name + type badge + universe + stats + distribution bars per code value (label primary, code value secondary in rose)
+- Both panels independently scrollable with visible 8px scrollbars
+- Data loaded on-demand per section (nsfg_section_{key}.json)
+- Explorer width: 1400px max (1.5× site content width)
+
+**Design rules enforced this session:**
+- `var(--rule)` (#E2DEDB) is NEVER used as text color — minimum readable text = `var(--stone)` (#847B7B)
 
 ### Mountain Calling (`/photography`) ✅ Index complete — detail pages in progress
 
@@ -229,7 +255,7 @@ src/
 - [x] ~~Fill in real career/life data~~ ✅
 - [x] ~~`/photography/[slug].astro`~~ ✅ Haute Route live
 - [ ] **Add real photos** to Mountain Calling grid cards (5 remaining CSS gradient placeholders)
-- [ ] **Research detail pages:** `/research/[slug].astro` — content in `OGN_financial_analysis.html`, `SunPharma_OGN_acquisition.html` on Desktop
+- [ ] **Research detail pages:** `/research/[slug].astro` — content in `/Users/giselle/OGN_financial_analysis.html` and `SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages:** `/writing/[slug].astro`
 - [ ] **Journey detail pages:** timeline cards currently link to `#`
 

@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = [
+  {
+    slug: 'sun-pharma-ogn-acquisition',
+    title: "Sun Pharma's Acquisition of OGN: Financial Comparison & Deal Analysis",
+    date: '2026-05-28', readTime: '12 min read',
+    tags: ['M&A', 'Pharma'],
+    special: 'Interactive Charts',
+    excerpt: "Drawing on the latest 10-K filings, this report examines both companies' financial positions, strategic rationale, debt risk, and the integration challenges of a USD 13B cross-border deal.",
+  },
+  {
+    slug: 'ogn-annual-analysis',
+    title: 'OGN (Organon & Co.) Annual Financial Analysis Report',
+    date: '2026-05-28', readTime: '8 min read',
+    tags: ['Pharma', 'Financial Analysis'],
+    special: '',
+    excerpt: "A deep dive into OGN's latest 10-K data: revenue trends, debt structure, profitability, and stock performance — with a comprehensive investment assessment.",
+  },
+];
+---
+
+<BaseLayout title="Industry Research — Decoding" description="In-depth pharma research articles and financial analysis">
+  <div class="content-wrap">
+
+    <div class="page-header">
+      <a class="back-crumb" href="/research">← Decoding</a>
+      <h1 class="page-title">Industry<br/><em>Research</em></h1>
+    </div>
+
+    <div class="article-list">
+      {posts.map(post => (
+        <a class="article-item fade-up" href={`/research/${post.slug}`}>
+          <div>
+            <div class="article-tags">
+              {post.tags.map(t => <span class="tag">{t}</span>)}
+              {post.special && <span class="tag neutral">{post.special}</span>}
+            </div>
+            <div class="article-title">{post.title}</div>
+            <p class="article-excerpt">{post.excerpt}</p>
+          </div>
+          <div class="article-meta">
+            <span class="meta-date">{post.date}</span>
+            <span class="meta-read">{post.readTime}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  :root {
+    --accent:   #c17d9d;
+    --accent-l: rgba(193,125,157,0.28);
+    --muted:    #847B7B;
+    --light:    #E2DEDB;
+  }
+
+  .back-crumb {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--sans); font-size: 10px; font-weight: 300;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--stone); text-decoration: none;
+    margin-bottom: 28px;
+    transition: color 0.2s;
+  }
+  .back-crumb:hover { color: var(--ink); }
+
+  .article-list { padding-top: 56px; }
+
+  .article-item {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: start; gap: 40px;
+    padding: 44px 0;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+    text-decoration: none; color: inherit;
+    transition: opacity 0.22s;
+  }
+  .article-item:first-child { border-top: 1px solid rgba(26,26,26,0.08); }
+  .article-item:hover { opacity: 0.55; }
+
+  .article-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .tag {
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent-l);
+    padding: 3px 10px; border-radius: 2px;
+  }
+  .tag.neutral { color: var(--muted); border-color: var(--light); }
+
+  .article-title {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 300; line-height: 1.28; margin-bottom: 12px;
+  }
+  .article-excerpt {
+    font-size: 13px; font-weight: 300;
+    color: var(--muted); line-height: 1.82; max-width: 500px;
+  }
+
+  .article-meta { text-align: right; flex-shrink: 0; }
+  .meta-date { font-size: 11px; color: var(--muted); display: block; }
+  .meta-read { font-size: 11px; color: var(--light); margin-top: 4px; display: block; }
+
+  @media (max-width: 560px) {
+    .article-item { grid-template-columns: 1fr; gap: 20px; }
+    .article-meta { text-align: left; }
+  }
+</style>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>

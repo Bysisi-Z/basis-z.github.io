@@ -1,90 +1,264 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-const posts = [
-  {
-    slug: 'sun-pharma-ogn-acquisition',
-    title: "Sun Pharma's Acquisition of OGN: Financial Comparison & Deal Analysis",
-    date: '2026-05-28', readTime: '12 min read',
-    tags: ['M&A', 'Pharma'],
-    special: 'Interactive Charts',
-    excerpt: "Drawing on the latest 10-K filings, this report examines both companies' financial positions, strategic rationale, debt risk, and the integration challenges of a USD 13B cross-border deal.",
-  },
-  {
-    slug: 'ogn-annual-analysis',
-    title: 'OGN (Organon & Co.) Annual Financial Analysis Report',
-    date: '2026-05-28', readTime: '8 min read',
-    tags: ['Pharma', 'Financial Analysis'],
-    special: '',
-    excerpt: "A deep dive into OGN's latest 10-K data: revenue trends, debt structure, profitability, and stock performance — with a comprehensive investment assessment.",
-  },
-];
 ---
 
-<BaseLayout title="Research" description="In-depth research articles and interactive data analysis">
+<BaseLayout title="Decoding" description="Financial research and interactive data explorations">
   <div class="content-wrap">
 
     <div class="page-header">
-      <h1 class="page-title">Industry<br /><em>Research</em></h1>
+      <h1 class="page-title">De<em>coding</em></h1>
     </div>
 
-    <div class="article-list">
-      {posts.map(post => (
-        <a class="article-item fade-up" href={`/research/${post.slug}`}>
-          <div>
-            <div class="article-tags">
-              {post.tags.map(t => <span class="tag">{t}</span>)}
-              {post.special && <span class="tag neutral">{post.special}</span>}
+    <div class="module-list">
+
+      <!-- 01 · Industry Research Articles -->
+      <a class="mod-card fade-up" href="/research/industry">
+        <div class="card-visual v-research" aria-hidden="true">
+          <div class="v-bg">
+            <div class="ticker-row">
+              <div class="ticker-chip chip-ogn">
+                <span class="t-name">OGN · NYSE</span>
+                <span class="t-price">$13.35 <em class="up">▲ 41%</em></span>
+              </div>
+              <div class="ticker-chip chip-sun">
+                <span class="t-name">SUNP · NSE</span>
+                <span class="t-price">₹1,812 <em class="up">▲ 12%</em></span>
+              </div>
             </div>
-            <div class="article-title">{post.title}</div>
-            <p class="article-excerpt">{post.excerpt}</p>
+            <div class="bar-chart">
+              <div class="bc-bar" style="--h:50%"></div>
+              <div class="bc-bar" style="--h:75%"></div>
+              <div class="bc-bar" style="--h:58%"></div>
+              <div class="bc-bar" style="--h:88%"></div>
+              <div class="bc-bar" style="--h:66%"></div>
+              <div class="bc-bar" style="--h:42%"></div>
+              <div class="bc-bar" style="--h:72%"></div>
+              <div class="bc-bar" style="--h:55%"></div>
+              <div class="bc-bar" style="--h:80%"></div>
+            </div>
           </div>
-          <div class="article-meta">
-            <span class="meta-date">{post.date}</span>
-            <span class="meta-read">{post.readTime}</span>
+        </div>
+        <div class="card-text">
+          <span class="card-num">01</span>
+          <h2 class="card-title">Industry<br/><em>Research</em></h2>
+          <p class="card-desc">Deep dives into pharma M&A, financial analysis, and market dynamics — built from public 10-K filings and earnings data.</p>
+          <div class="card-foot">
+            <span class="card-meta">2 articles</span>
+            <span class="card-arrow">→</span>
           </div>
-        </a>
-      ))}
-    </div>
+        </div>
+      </a>
 
+      <!-- 02 · Play with the Data -->
+      <a class="mod-card mod-muted fade-up" href="/research/data" style="animation-delay:0.13s">
+        <div class="card-visual v-data" aria-hidden="true">
+          <div class="v-bg">
+            <svg class="grid-svg" viewBox="0 0 280 200" preserveAspectRatio="none">
+              <line x1="0"   y1="40"  x2="280" y2="40"  stroke="currentColor" stroke-width="0.5"/>
+              <line x1="0"   y1="80"  x2="280" y2="80"  stroke="currentColor" stroke-width="0.5"/>
+              <line x1="0"   y1="120" x2="280" y2="120" stroke="currentColor" stroke-width="0.5"/>
+              <line x1="0"   y1="160" x2="280" y2="160" stroke="currentColor" stroke-width="0.5"/>
+              <line x1="56"  y1="0"   x2="56"  y2="200" stroke="currentColor" stroke-width="0.5"/>
+              <line x1="112" y1="0"   x2="112" y2="200" stroke="currentColor" stroke-width="0.5"/>
+              <line x1="168" y1="0"   x2="168" y2="200" stroke="currentColor" stroke-width="0.5"/>
+              <line x1="224" y1="0"   x2="224" y2="200" stroke="currentColor" stroke-width="0.5"/>
+            </svg>
+            <div class="scatter-wrap">
+              <div class="s-dot" style="left:12%;top:62%;width:30px;height:30px;opacity:.55"></div>
+              <div class="s-dot" style="left:28%;top:38%;width:18px;height:18px;opacity:.4"></div>
+              <div class="s-dot" style="left:42%;top:70%;width:22px;height:22px;opacity:.6"></div>
+              <div class="s-dot" style="left:55%;top:28%;width:40px;height:40px;opacity:.35"></div>
+              <div class="s-dot" style="left:66%;top:58%;width:14px;height:14px;opacity:.5"></div>
+              <div class="s-dot" style="left:76%;top:40%;width:26px;height:26px;opacity:.45"></div>
+              <div class="s-dot" style="left:85%;top:72%;width:16px;height:16px;opacity:.38"></div>
+              <div class="s-dot" style="left:20%;top:18%;width:12px;height:12px;opacity:.45"></div>
+              <div class="s-dot" style="left:50%;top:50%;width:10px;height:10px;opacity:.32"></div>
+            </div>
+            <svg class="trend-svg" viewBox="0 0 300 80" preserveAspectRatio="none">
+              <polyline
+                points="0,70 35,58 70,62 110,42 150,46 190,28 230,32 280,14"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="5 4"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="card-text">
+          <span class="card-num">02</span>
+          <h2 class="card-title">Play with<br/><em>the Data</em></h2>
+          <p class="card-desc">Interactive charts, financial data tools, and hands-on explorations for the number-curious.</p>
+          <div class="card-foot">
+            <span class="card-meta coming">Coming soon</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
   </div>
 </BaseLayout>
 
 <style>
-  .article-list { padding-top: 64px; }
-  .article-item {
-    display: grid; grid-template-columns: 1fr auto;
-    align-items: start; gap: 40px;
-    padding: 44px 0;
-    border-bottom: 1px solid rgba(26,26,26,0.08);
-    text-decoration: none; color: inherit;
-    transition: opacity 0.22s;
+  .module-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-top: 56px;
+    padding-bottom: 100px;
   }
-  .article-item:first-child { border-top: 1px solid rgba(26,26,26,0.08); }
-  .article-item:hover { opacity: 0.55; }
-  .article-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-  .tag {
-    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--accent); border: 1px solid var(--accent-l);
-    padding: 3px 10px; border-radius: 2px;
+
+  /* ── Card shell ── */
+  .mod-card {
+    display: grid;
+    grid-template-columns: 42% 58%;
+    height: 310px;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.28s, box-shadow 0.28s;
   }
-  .tag.neutral { color: var(--muted); border-color: var(--light); }
-  .article-title {
+  .mod-card:hover {
+    border-color: var(--rose);
+    box-shadow: 0 8px 36px rgba(193,125,157,0.11);
+  }
+  .mod-card.mod-muted { opacity: 0.68; }
+  .mod-card.mod-muted:hover { opacity: 1; }
+
+  /* ── Visual area (shared) ── */
+  .card-visual { position: relative; overflow: hidden; }
+  .v-bg { position: absolute; inset: 0; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; }
+
+  /* Research visual */
+  .v-research {
+    background: linear-gradient(150deg, #0d1b2a 0%, #1a3a5c 65%, #1f4870 100%);
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .ticker-row { display: flex; flex-direction: column; gap: 10px; }
+  .ticker-chip {
+    display: inline-flex; flex-direction: column; gap: 3px;
+    padding: 9px 13px; border-radius: 7px; width: fit-content;
+  }
+  .chip-ogn { background: rgba(46,134,222,0.18); border: 1px solid rgba(46,134,222,0.35); }
+  .chip-sun { background: rgba(243,156,18,0.15);  border: 1px solid rgba(243,156,18,0.32); }
+
+  .t-name {
+    font-family: var(--sans); font-size: 8.5px; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.45);
+  }
+  .t-price {
+    font-family: var(--sans); font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.88);
+  }
+  .t-price em.up { font-style: normal; color: #2ecc71; font-size: 11px; margin-left: 4px; }
+
+  .bar-chart {
+    display: flex; align-items: flex-end; gap: 5px;
+    height: 64px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 10px;
+  }
+  .bc-bar {
+    flex: 1; height: var(--h, 50%);
+    border-radius: 2px 2px 0 0;
+    background: rgba(193,125,157,0.42);
+    transition: background 0.3s;
+  }
+  .mod-card:hover .bc-bar { background: rgba(193,125,157,0.68); }
+
+  /* Data visual */
+  .v-data {
+    background: linear-gradient(150deg, #f7f3f0 0%, #ede5de 100%);
+    border-right: 1px solid var(--rule);
+  }
+
+  .grid-svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    color: var(--stone); opacity: 0.12;
+  }
+
+  .scatter-wrap { position: absolute; inset: 0; }
+  .s-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--rose);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+  }
+  .mod-card:hover .s-dot { opacity: calc(var(--base-opacity, 1) * 1.3); }
+
+  .trend-svg {
+    position: absolute; bottom: 20px; left: 0; right: 0;
+    width: 100%; height: 56px;
+    color: var(--stone); opacity: 0.35;
+    transition: opacity 0.3s;
+  }
+  .mod-card:hover .trend-svg { opacity: 0.6; }
+
+  /* ── Text area ── */
+  .card-text {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: clamp(28px, 4vw, 52px);
+    background: var(--bg);
+  }
+
+  .card-num {
+    font-family: var(--sans); font-size: 10px; font-weight: 300;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--rule); margin-bottom: 14px;
+  }
+
+  .card-title {
     font-family: var(--serif);
-    font-size: clamp(20px, 2.2vw, 30px);
-    font-weight: 300; line-height: 1.28; margin-bottom: 12px;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 300; line-height: 1.07;
+    color: var(--ink); margin-bottom: 16px;
   }
-  .article-excerpt { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.82; max-width: 500px; }
-  .article-meta { text-align: right; flex-shrink: 0; }
-  .meta-date { font-size: 11px; color: var(--muted); display: block; }
-  .meta-read { font-size: 11px; color: var(--light); margin-top: 4px; display: block; }
+  .card-title em { font-style: italic; }
+
+  .card-desc {
+    font-family: var(--sans); font-size: 13px; font-weight: 300;
+    line-height: 1.78; color: var(--stone);
+    max-width: 340px; margin-bottom: 28px;
+  }
+
+  .card-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--rule); padding-top: 18px;
+  }
+
+  .card-meta {
+    font-family: var(--sans); font-size: 10px; font-weight: 300;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone);
+  }
+  .card-meta.coming { color: var(--rule); }
+
+  .card-arrow {
+    font-size: 16px; color: var(--rule);
+    transition: transform 0.25s, color 0.25s;
+  }
+  .mod-card:hover .card-arrow { transform: translateX(6px); color: var(--rose); }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .mod-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: 190px auto;
+      height: auto;
+    }
+    .card-visual { border-right: none !important; border-bottom: 1px solid var(--rule); }
+    .card-text { padding: 28px 24px 36px; }
+  }
 </style>
 
 <script>
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
-      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+        io.unobserve(e.target);
+      }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0.06 });
   document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 </script>
