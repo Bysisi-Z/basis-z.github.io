@@ -1,264 +1,255 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const industry = [
+  {
+    num: '01',
+    title: "Sun Pharma's Acquisition of OGN",
+    sub: "Financial Comparison & Deal Analysis",
+    tags: ['M&A', 'Pharma'],
+    meta: '12 min · Interactive Charts',
+    href: '/research/sun-pharma-ogn-acquisition',
+    coming: false,
+  },
+  {
+    num: '02',
+    title: "OGN Annual Financial Analysis Report",
+    sub: "Revenue, debt structure, profitability & stock performance",
+    tags: ['Pharma', 'Financial Analysis'],
+    meta: '8 min',
+    href: '/research/ogn-annual-analysis',
+    coming: false,
+  },
+];
+
+const dataProjects = [
+  {
+    num: '01',
+    title: "US NSFG Survey",
+    sub: "Female Respondent — 2022–2023",
+    tags: ['Survey', 'Reproductive Health'],
+    href: '/research/data',
+    live: true,
+    coming: false,
+  },
+  {
+    num: '02',
+    title: "Pharma Market Landscape",
+    sub: "Competitive share & pipeline analysis by therapeutic area",
+    tags: ['Market Data'],
+    href: '#',
+    live: false,
+    coming: true,
+  },
+  {
+    num: '03',
+    title: "Clinical Trial Explorer",
+    sub: "Browse and filter trials by phase, sponsor & indication",
+    tags: ['Clinical Data'],
+    href: '#',
+    live: false,
+    coming: true,
+  },
+];
 ---
 
-<BaseLayout title="Decoding" description="Financial research and interactive data explorations">
+<BaseLayout title="Decoding" description="Industry research and interactive data explorations">
   <div class="content-wrap">
 
     <div class="page-header">
       <h1 class="page-title">De<em>coding</em></h1>
     </div>
 
-    <div class="module-list">
+    <div class="decoding-grid">
 
-      <!-- 01 · Industry Research Articles -->
-      <a class="mod-card fade-up" href="/research/industry">
-        <div class="card-visual v-research" aria-hidden="true">
-          <div class="v-bg">
-            <div class="ticker-row">
-              <div class="ticker-chip chip-ogn">
-                <span class="t-name">OGN · NYSE</span>
-                <span class="t-price">$13.35 <em class="up">▲ 41%</em></span>
-              </div>
-              <div class="ticker-chip chip-sun">
-                <span class="t-name">SUNP · NSE</span>
-                <span class="t-price">₹1,812 <em class="up">▲ 12%</em></span>
-              </div>
-            </div>
-            <div class="bar-chart">
-              <div class="bc-bar" style="--h:50%"></div>
-              <div class="bc-bar" style="--h:75%"></div>
-              <div class="bc-bar" style="--h:58%"></div>
-              <div class="bc-bar" style="--h:88%"></div>
-              <div class="bc-bar" style="--h:66%"></div>
-              <div class="bc-bar" style="--h:42%"></div>
-              <div class="bc-bar" style="--h:72%"></div>
-              <div class="bc-bar" style="--h:55%"></div>
-              <div class="bc-bar" style="--h:80%"></div>
-            </div>
-          </div>
+      <!-- Left: Industry Research -->
+      <div class="d-col">
+        <div class="col-head">
+          <span class="col-eyebrow">01</span>
+          <h2 class="col-title">Industry<br/><em>Research</em></h2>
+          <p class="col-sub">Financial analysis and market deep dives built from public filings.</p>
         </div>
-        <div class="card-text">
-          <span class="card-num">01</span>
-          <h2 class="card-title">Industry<br/><em>Research</em></h2>
-          <p class="card-desc">Deep dives into pharma M&A, financial analysis, and market dynamics — built from public 10-K filings and earnings data.</p>
-          <div class="card-foot">
-            <span class="card-meta">2 articles</span>
-            <span class="card-arrow">→</span>
-          </div>
+        <div class="col-items">
+          {industry.map(item => (
+            <a class={`d-item${item.coming ? ' d-item--coming' : ''}`} href={item.href}>
+              <div class="item-body">
+                <span class="item-num">{item.num}</span>
+                <h3 class="item-title">{item.title}</h3>
+                <p class="item-sub">{item.sub}</p>
+                <div class="item-foot">
+                  <div class="item-tags">
+                    {item.tags.map(t => <span class="i-tag">{t}</span>)}
+                  </div>
+                  <span class="item-meta">{item.meta}</span>
+                </div>
+              </div>
+              <span class="item-arrow">→</span>
+            </a>
+          ))}
         </div>
-      </a>
+      </div>
 
-      <!-- 02 · Play with the Data -->
-      <a class="mod-card mod-muted fade-up" href="/research/data" style="animation-delay:0.13s">
-        <div class="card-visual v-data" aria-hidden="true">
-          <div class="v-bg">
-            <svg class="grid-svg" viewBox="0 0 280 200" preserveAspectRatio="none">
-              <line x1="0"   y1="40"  x2="280" y2="40"  stroke="currentColor" stroke-width="0.5"/>
-              <line x1="0"   y1="80"  x2="280" y2="80"  stroke="currentColor" stroke-width="0.5"/>
-              <line x1="0"   y1="120" x2="280" y2="120" stroke="currentColor" stroke-width="0.5"/>
-              <line x1="0"   y1="160" x2="280" y2="160" stroke="currentColor" stroke-width="0.5"/>
-              <line x1="56"  y1="0"   x2="56"  y2="200" stroke="currentColor" stroke-width="0.5"/>
-              <line x1="112" y1="0"   x2="112" y2="200" stroke="currentColor" stroke-width="0.5"/>
-              <line x1="168" y1="0"   x2="168" y2="200" stroke="currentColor" stroke-width="0.5"/>
-              <line x1="224" y1="0"   x2="224" y2="200" stroke="currentColor" stroke-width="0.5"/>
-            </svg>
-            <div class="scatter-wrap">
-              <div class="s-dot" style="left:12%;top:62%;width:30px;height:30px;opacity:.55"></div>
-              <div class="s-dot" style="left:28%;top:38%;width:18px;height:18px;opacity:.4"></div>
-              <div class="s-dot" style="left:42%;top:70%;width:22px;height:22px;opacity:.6"></div>
-              <div class="s-dot" style="left:55%;top:28%;width:40px;height:40px;opacity:.35"></div>
-              <div class="s-dot" style="left:66%;top:58%;width:14px;height:14px;opacity:.5"></div>
-              <div class="s-dot" style="left:76%;top:40%;width:26px;height:26px;opacity:.45"></div>
-              <div class="s-dot" style="left:85%;top:72%;width:16px;height:16px;opacity:.38"></div>
-              <div class="s-dot" style="left:20%;top:18%;width:12px;height:12px;opacity:.45"></div>
-              <div class="s-dot" style="left:50%;top:50%;width:10px;height:10px;opacity:.32"></div>
-            </div>
-            <svg class="trend-svg" viewBox="0 0 300 80" preserveAspectRatio="none">
-              <polyline
-                points="0,70 35,58 70,62 110,42 150,46 190,28 230,32 280,14"
-                fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="5 4"
-              />
-            </svg>
-          </div>
+      <!-- Divider -->
+      <div class="col-divider" aria-hidden="true"></div>
+
+      <!-- Right: Play with the Data -->
+      <div class="d-col">
+        <div class="col-head">
+          <span class="col-eyebrow">02</span>
+          <h2 class="col-title">Play with<br/><em>the Data</em></h2>
+          <p class="col-sub">Interactive tools and exploratory data projects.</p>
         </div>
-        <div class="card-text">
-          <span class="card-num">02</span>
-          <h2 class="card-title">Play with<br/><em>the Data</em></h2>
-          <p class="card-desc">Interactive charts, financial data tools, and hands-on explorations for the number-curious.</p>
-          <div class="card-foot">
-            <span class="card-meta coming">Coming soon</span>
-            <span class="card-arrow">→</span>
-          </div>
+        <div class="col-items">
+          {dataProjects.map(item => (
+            <a class={`d-item${item.coming ? ' d-item--coming' : ''}`} href={item.href}>
+              <div class="item-body">
+                <span class="item-num">{item.num}</span>
+                <h3 class="item-title">{item.title}</h3>
+                <p class="item-sub">{item.sub}</p>
+                <div class="item-foot">
+                  <div class="item-tags">
+                    {item.tags.map(t => <span class="i-tag">{t}</span>)}
+                  </div>
+                  {item.live   && <span class="live-badge">Live</span>}
+                  {item.coming && <span class="soon-badge">Coming soon</span>}
+                </div>
+              </div>
+              {!item.coming && <span class="item-arrow">→</span>}
+            </a>
+          ))}
         </div>
-      </a>
+      </div>
 
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .module-list {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    padding-top: 56px;
-    padding-bottom: 100px;
-  }
-
-  /* ── Card shell ── */
-  .mod-card {
+  /* ── Two-column directory grid ── */
+  .decoding-grid {
     display: grid;
-    grid-template-columns: 42% 58%;
-    height: 310px;
-    border: 1px solid var(--rule);
-    border-radius: 14px;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.28s, box-shadow 0.28s;
-  }
-  .mod-card:hover {
-    border-color: var(--rose);
-    box-shadow: 0 8px 36px rgba(193,125,157,0.11);
-  }
-  .mod-card.mod-muted { opacity: 0.68; }
-  .mod-card.mod-muted:hover { opacity: 1; }
-
-  /* ── Visual area (shared) ── */
-  .card-visual { position: relative; overflow: hidden; }
-  .v-bg { position: absolute; inset: 0; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; }
-
-  /* Research visual */
-  .v-research {
-    background: linear-gradient(150deg, #0d1b2a 0%, #1a3a5c 65%, #1f4870 100%);
-    border-right: 1px solid rgba(255,255,255,0.06);
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0 56px;
+    padding-top: 52px;
+    padding-bottom: 100px;
+    align-items: start;
   }
 
-  .ticker-row { display: flex; flex-direction: column; gap: 10px; }
-  .ticker-chip {
-    display: inline-flex; flex-direction: column; gap: 3px;
-    padding: 9px 13px; border-radius: 7px; width: fit-content;
-  }
-  .chip-ogn { background: rgba(46,134,222,0.18); border: 1px solid rgba(46,134,222,0.35); }
-  .chip-sun { background: rgba(243,156,18,0.15);  border: 1px solid rgba(243,156,18,0.32); }
-
-  .t-name {
-    font-family: var(--sans); font-size: 8.5px; font-weight: 400;
-    letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.45);
-  }
-  .t-price {
-    font-family: var(--sans); font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.88);
-  }
-  .t-price em.up { font-style: normal; color: #2ecc71; font-size: 11px; margin-left: 4px; }
-
-  .bar-chart {
-    display: flex; align-items: flex-end; gap: 5px;
-    height: 64px;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    padding-top: 10px;
-  }
-  .bc-bar {
-    flex: 1; height: var(--h, 50%);
-    border-radius: 2px 2px 0 0;
-    background: rgba(193,125,157,0.42);
-    transition: background 0.3s;
-  }
-  .mod-card:hover .bc-bar { background: rgba(193,125,157,0.68); }
-
-  /* Data visual */
-  .v-data {
-    background: linear-gradient(150deg, #f7f3f0 0%, #ede5de 100%);
-    border-right: 1px solid var(--rule);
+  .col-divider {
+    background: var(--rule);
+    align-self: stretch;
   }
 
-  .grid-svg {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    color: var(--stone); opacity: 0.12;
+  /* ── Column header ── */
+  .col-head {
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0;
   }
 
-  .scatter-wrap { position: absolute; inset: 0; }
-  .s-dot {
-    position: absolute;
-    border-radius: 50%;
-    background: var(--rose);
-    transform: translate(-50%, -50%);
-    transition: opacity 0.3s;
-  }
-  .mod-card:hover .s-dot { opacity: calc(var(--base-opacity, 1) * 1.3); }
-
-  .trend-svg {
-    position: absolute; bottom: 20px; left: 0; right: 0;
-    width: 100%; height: 56px;
-    color: var(--stone); opacity: 0.35;
-    transition: opacity 0.3s;
-  }
-  .mod-card:hover .trend-svg { opacity: 0.6; }
-
-  /* ── Text area ── */
-  .card-text {
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: clamp(28px, 4vw, 52px);
-    background: var(--bg);
-  }
-
-  .card-num {
+  .col-eyebrow {
     font-family: var(--sans); font-size: 10px; font-weight: 300;
     letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--rule); margin-bottom: 14px;
+    color: var(--stone); display: block; margin-bottom: 12px;
   }
 
-  .card-title {
+  .col-title {
     font-family: var(--serif);
-    font-size: clamp(28px, 3.5vw, 48px);
-    font-weight: 300; line-height: 1.07;
-    color: var(--ink); margin-bottom: 16px;
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: 300; line-height: 1.05;
+    color: var(--ink); margin: 0 0 14px;
   }
-  .card-title em { font-style: italic; }
+  .col-title em { font-style: italic; }
 
-  .card-desc {
+  .col-sub {
     font-family: var(--sans); font-size: 13px; font-weight: 300;
-    line-height: 1.78; color: var(--stone);
-    max-width: 340px; margin-bottom: 28px;
+    color: var(--stone); line-height: 1.65; margin: 0;
   }
 
-  .card-foot {
-    display: flex; align-items: center; justify-content: space-between;
-    border-top: 1px solid var(--rule); padding-top: 18px;
+  /* ── Item list ── */
+  .col-items { display: flex; flex-direction: column; }
+
+  .d-item {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(226,222,219,0.7);
+    text-decoration: none; color: inherit;
+    transition: opacity 0.2s;
+  }
+  .d-item:first-child { border-top: 1px solid rgba(226,222,219,0.7); }
+  .d-item:not(.d-item--coming):hover { opacity: 0.6; }
+  .d-item--coming { opacity: 0.42; cursor: default; pointer-events: none; }
+
+  .item-body { flex: 1; min-width: 0; }
+
+  .item-num {
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--stone); display: block; margin-bottom: 8px;
   }
 
-  .card-meta {
+  .item-title {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.8vw, 22px);
+    font-weight: 300; font-style: italic;
+    color: var(--ink); line-height: 1.25;
+    margin: 0 0 7px;
+  }
+
+  .item-sub {
+    font-family: var(--sans); font-size: 12.5px; font-weight: 300;
+    color: var(--stone); line-height: 1.6; margin: 0 0 12px;
+  }
+
+  .item-foot {
+    display: flex; align-items: center;
+    flex-wrap: wrap; gap: 8px;
+  }
+
+  .item-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .i-tag {
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--rose); border: 1px solid rgba(193,125,157,0.32);
+    padding: 2px 8px; border-radius: 2px;
+  }
+
+  .item-meta {
     font-family: var(--sans); font-size: 10px; font-weight: 300;
-    letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone);
+    color: var(--stone); letter-spacing: 0.04em;
   }
-  .card-meta.coming { color: var(--rule); }
 
-  .card-arrow {
-    font-size: 16px; color: var(--rule);
-    transition: transform 0.25s, color 0.25s;
+  .live-badge {
+    font-family: var(--sans); font-size: 9px; font-weight: 400;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--rose); background: rgba(193,125,157,0.09);
+    border: 1px solid rgba(193,125,157,0.32);
+    padding: 2px 8px; border-radius: 2px;
   }
-  .mod-card:hover .card-arrow { transform: translateX(6px); color: var(--rose); }
+
+  .soon-badge {
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--stone); border: 1px solid var(--rule);
+    padding: 2px 8px; border-radius: 2px;
+  }
+
+  .item-arrow {
+    font-size: 16px; color: var(--rule);
+    flex-shrink: 0; margin-top: 4px;
+    transition: transform 0.22s, color 0.22s;
+  }
+  .d-item:hover .item-arrow { transform: translateX(5px); color: var(--rose); }
 
   /* ── Mobile ── */
   @media (max-width: 640px) {
-    .mod-card {
+    .decoding-grid {
       grid-template-columns: 1fr;
-      grid-template-rows: 190px auto;
-      height: auto;
+      gap: 52px 0;
     }
-    .card-visual { border-right: none !important; border-bottom: 1px solid var(--rule); }
-    .card-text { padding: 28px 24px 36px; }
+    .col-divider { width: 100%; height: 1px; align-self: auto; }
+    .d-item { padding: 20px 0; }
   }
 </style>
-
-<script>
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 100);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.06 });
-  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
-</script>

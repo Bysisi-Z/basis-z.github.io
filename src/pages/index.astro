@@ -42,17 +42,22 @@ const modules = [
     <h1 class="si-heading" aria-label="Si">Si</h1>
     <div class="si-divider"></div>
 
-    <!-- ⑤ Content: 3×2 card grid -->
+    <!-- ⑤ Content: 2×3 card grid -->
     <div class="col-right">
       <nav class="modules">
         {modules.map(m => (
           <a class={`tag${m.coming ? ' tag--coming' : ''}`} href={m.href}>
-            <div class="tag-header">
-              <span class="tag-num">{m.num}</span>
-              <div class="tag-num-line"></div>
+            <div class="tag-visual">
+              <span class="tag-visual-num">{m.num}</span>
             </div>
-            <span class="tag-name">{m.title}</span>
-            <span class="tag-desc">{m.desc}</span>
+            <div class="tag-text">
+              <span class="tag-num">{m.num}</span>
+              <h2 class="tag-name">{m.title}</h2>
+              <p class="tag-desc">{m.desc}</p>
+              <div class="tag-foot">
+                <span class="tag-arrow">→</span>
+              </div>
+            </div>
           </a>
         ))}
       </nav>
@@ -272,136 +277,106 @@ CAMERA-RIG-PRESERVED — reuse in future modules
     bottom: 56px;
     overflow: hidden;
     background: #FAFAF8;
-    z-index: 4;            /* above arcs (z:3) so cards stay clear */
+    z-index: 4;
+    padding: 20px 44px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     justify-content: center;
-    padding: 28px 44px;
+    align-items: stretch;
   }
 
   /* ════════════════════════════════════
-     3×2 CARD GRID — fills available width
+     2×3 CARD GRID — 70% of available height
   ════════════════════════════════════ */
   .modules {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
     width: 100%;
-  }
-
-
-  /* ── Card base ── */
-  .tag {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    background: #E8D5D5;
-    padding: 22px 22px 20px;
-    text-decoration: none;
-    border-radius: 2px;
-    overflow: hidden;
-    transition:
-      background  0.24s ease,
-      transform   0.24s ease,
-      box-shadow  0.24s ease;
-  }
-
-  /* Left accent bar — slides in on hover */
-  .tag::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: #A87A7A;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.22s ease;
-    border-radius: 0 1px 1px 0;
-  }
-
-  /* Radial gradient bloom — fades in on hover */
-  .tag::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 8% 50%, rgba(211,186,189,0.45) 0%, transparent 68%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.28s ease;
-  }
-
-  .tag:hover {
-    background: #E0C8C8;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(168,122,122,0.22);
-  }
-  .tag:hover::before { transform: scaleX(1); }
-  .tag:hover::after  { opacity: 1; }
-
-  .tag:hover .tag-name { color: #3A1E1E; }
-  .tag:hover .tag-desc { color: #6A4A4A; }
-
-  /* Click / press-down */
-  .tag:active {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(168,122,122,0.18);
-    background: #D8BBBB;
-    transition-duration: 0.07s;
-  }
-
-  .tag--coming {
-    opacity: 0.48;
-    pointer-events: none;
-  }
-
-  /* ── Card internals ── */
-  .tag-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .tag-num {
-    font-family: var(--sans);
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    color: rgba(107, 74, 74, 0.55);
+    height: 72%;
     flex-shrink: 0;
   }
 
-  .tag-num-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, rgba(192,160,160,0.55), transparent);
+  /* ── Card base: visual (left) + text (right) ── */
+  .tag {
+    display: grid;
+    grid-template-columns: 36% 64%;
+    border: 1px solid rgba(211,186,189,0.6);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    min-height: 0;
+    transition: border-color 0.25s, box-shadow 0.25s;
   }
+  .tag:hover {
+    border-color: #A87A7A;
+    box-shadow: 0 6px 28px rgba(168,122,122,0.18);
+  }
+  .tag:active { box-shadow: 0 2px 8px rgba(168,122,122,0.14); }
+  .tag--coming { opacity: 0.45; pointer-events: none; }
 
-  .tag-name {
-    font-family: var(--sans);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #6B4A4A;
-    line-height: 1.2;
+  /* ── Visual area (left column) ── */
+  .tag-visual {
+    background: linear-gradient(150deg, #E8D5D5 0%, #D3BABD 100%);
+    display: flex; align-items: center; justify-content: center;
+    border-right: 1px solid rgba(211,186,189,0.5);
+    overflow: hidden;
     position: relative;
-    z-index: 1;
-    transition: color 0.22s ease;
   }
+  .tag-visual-num {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4.5vw, 68px);
+    font-weight: 300; font-style: italic;
+    color: rgba(168,122,122,0.28);
+    user-select: none; pointer-events: none;
+    transition: color 0.25s;
+  }
+  .tag:hover .tag-visual-num { color: rgba(168,122,122,0.45); }
 
+  /* ── Text area (right column) ── */
+  .tag-text {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: clamp(14px, 1.6vw, 22px);
+    background: #FAFAF8;
+  }
+  .tag-num {
+    font-family: var(--sans);
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(168,122,122,0.55);
+    margin-bottom: 8px;
+  }
+  .tag-name {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 300; font-style: italic;
+    color: #3A1E1E; line-height: 1.1;
+    margin: 0 0 6px;
+    transition: color 0.22s;
+  }
+  .tag:hover .tag-name { color: #2a1010; }
   .tag-desc {
     font-family: var(--sans);
-    font-size: 0.75rem;
-    font-weight: 300;
-    color: #9A7A7A;
-    line-height: 1.5;
-    position: relative;
-    z-index: 1;
-    transition: color 0.22s ease;
+    font-size: 12px;
+    font-weight: 300; color: #9A7A7A;
+    line-height: 1.6; margin: 0 0 10px;
+    transition: color 0.22s;
   }
+  .tag:hover .tag-desc { color: #6A4A4A; }
+  .tag-foot {
+    border-top: 1px solid rgba(211,186,189,0.5);
+    padding-top: 8px;
+  }
+  .tag-arrow {
+    font-size: 14px;
+    color: rgba(168,122,122,0.45);
+    display: inline-block;
+    transition: transform 0.22s, color 0.22s;
+  }
+  .tag:hover .tag-arrow { transform: translateX(5px); color: #A87A7A; }
 
   /* ════════════════════════════════════
      CONTACT STRIP — full-width bottom
@@ -483,19 +458,27 @@ CAMERA-RIG-PRESERVED — reuse in future modules
     .col-right {
       top: 80px; left: 72px;
       bottom: 52px;
-      overflow-y: auto;          /* cards scroll vertically */
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      justify-content: flex-start;
-      padding: 16px 18px 20px;
+      padding: 12px 14px 16px;
     }
 
     .bar-arcs { transform: scale(0.6); transform-origin: top left; }
     .contact-bar { padding: 0 24px 0 88px; }
-    /* Single column on mobile — cards stack and scroll */
-    .modules { grid-template-columns: 1fr; gap: 9px; }
-    .tag { padding: 14px 16px 13px; }
-    .tag-name { font-size: 0.875rem; }
-    .tag-desc { font-size: 0.75rem; }
+
+    /* 1 column × 6 rows on mobile */
+    .modules {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      height: auto;
+      gap: 9px;
+    }
+    .tag {
+      grid-template-columns: 28% 72%;
+      height: 110px;
+    }
+    .tag-visual-num { font-size: 36px; }
+    .tag-text { padding: 14px 14px 12px; }
   }
 
   /* ── Small phones ≤ 430 px ── */
@@ -513,15 +496,16 @@ CAMERA-RIG-PRESERVED — reuse in future modules
       top: 64px; left: 56px; bottom: 48px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      justify-content: flex-start;
-      padding: 14px 14px 20px;
+      padding: 10px 10px 16px;
     }
     .contact-bar { height: 48px; padding: 0 14px 0 68px; }
     .bar-arcs { transform: scale(0.47); transform-origin: top left; }
     .modules { grid-template-columns: 1fr; gap: 8px; }
-    .tag { padding: 13px 14px 12px; gap: 4px; }
-    .tag-header { margin-bottom: 3px; }
-    .tag-name { font-size: 0.8125rem; }
-    .tag-desc { font-size: 0.7rem; }
+    .tag { grid-template-columns: 26% 74%; height: 100px; border-radius: 8px; }
+    .tag-visual-num { font-size: 30px; }
+    .tag-text { padding: 12px 12px 10px; }
+    .tag-name { font-size: 14px; }
+    .tag-desc { font-size: 10px; margin-bottom: 8px; }
+    .tag-foot { padding-top: 6px; }
   }
 </style>
