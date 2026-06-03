@@ -28,6 +28,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <button class="tabs-arrow tabs-arrow-right" id="tabs-arrow-right" aria-label="Scroll right" hidden>›</button>
       </div>
 
+      <!-- Age split toggle -->
+      <div class="age-filter">
+        <label class="age-split-toggle">
+          <input type="checkbox" id="age-split-cb">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span class="toggle-text">Split by age group</span>
+        </label>
+      </div>
+
       <!-- Two-panel layout -->
       <div class="panels">
 
@@ -177,6 +186,63 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   font-weight: 400;
 }
 
+/* ── Age split toggle strip ────────────────────────────────────────────────── */
+.age-filter {
+  display: flex; align-items: center;
+  padding: 9px 16px;
+  border-left: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: #f7f4f1;
+}
+.age-split-toggle {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; user-select: none;
+}
+#age-split-cb { display: none; }
+.toggle-track {
+  width: 32px; height: 18px; border-radius: 9px;
+  background: #c8c0bb; flex-shrink: 0; position: relative;
+  transition: background 0.2s;
+}
+#age-split-cb:checked + .toggle-track { background: var(--rose); }
+.toggle-thumb {
+  position: absolute; top: 2px; left: 2px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: left 0.2s;
+}
+#age-split-cb:checked + .toggle-track .toggle-thumb { left: 16px; }
+.toggle-text {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--stone);
+}
+
+/* ── Split-by-age-group distribution rows ──────────────────────────────────── */
+.dist-row-split {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(226,222,219,0.5);
+}
+.dist-row-split:last-child { border-bottom: none; }
+.dist-split-header {
+  font-family: var(--sans); font-size: 14.5px; font-weight: 300;
+  color: var(--ink); margin-bottom: 8px;
+}
+.dist-age-bars { display: flex; flex-direction: column; gap: 4px; }
+.dist-age-row {
+  display: grid;
+  grid-template-columns: 54px 1fr 52px;
+  align-items: center; gap: 12px;
+}
+.dist-age-tag {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  color: var(--stone); white-space: nowrap; text-align: right;
+}
+.dist-age-pct {
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  color: var(--ink);
+}
+
 /* ── Two-panel ─────────────────────────────────────────────────────────────── */
 .panels {
   display: grid;
@@ -282,6 +348,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .var-item-type.recode   { color: var(--rose); }
 .var-item-type.computed { color: #5a82a8; }
+
+/* Section label shown in global search results */
+.var-item-section {
+  font-family: var(--sans); font-size: 9.5px; font-weight: 300;
+  color: var(--stone); margin-top: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 
 /* ── Right panel: variable detail ──────────────────────────────────────────── */
 .panel-detail {
@@ -467,15 +540,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     height: auto;
   }
   .dist-row {
-    grid-template-columns: 150px 1fr 44px;
+    grid-template-columns: 120px 1fr 42px 52px;
+    gap: 0 8px;
   }
-  .dist-n { display: none; }
   .detail-header { padding: 20px; position: static; }
   .dist-wrap { padding: 16px 20px 40px; }
 }
 @media (max-width: 480px) {
-  .dist-row { grid-template-columns: 110px 1fr 44px; }
+  .dist-row { grid-template-columns: 90px 1fr 38px 46px; gap: 0 6px; }
   .dist-label { font-size: 12px; }
+  .dist-pct { font-size: 12px; }
+  .dist-n { font-size: 10px; }
   .detail-label-text { font-size: 19px; }
 }
 </style>
@@ -499,15 +574,19 @@ const TAB_SHORT = {
   sample_design:  'Sample Design',
 };
 
-const BAR_COLOR     = '#c17d9d';  // rose
-const INAPP_COLOR   = '#E2DEDB'; // rule
+const BAR_COLOR   = '#c17d9d';
+const INAPP_COLOR = '#E2DEDB';
+
+const ALL_AGE_GROUPS = ['15–19','20–24','25–29','30–34','35–39','40–44','45–49'];
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let META          = null;
-let sectionCache  = {};        // key → section variable array
+let sectionCache  = {};
 let currentSec    = null;
 let currentVar    = null;
 let filteredVars  = [];
+let ageCounts     = null;    // loaded lazily
+let ageGroupSplit = false;   // toggle state
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const secTabsEl   = document.getElementById('section-tabs');
@@ -535,6 +614,9 @@ try {
 
 buildSectionTabs();
 initTabsArrow();
+initAgeToggle();
+// Load age counts in background — ready by the time user opens the toggle
+fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
 await selectSection(META.sections[0].key);
 
 // ── Section tabs ──────────────────────────────────────────────────────────────
@@ -582,6 +664,47 @@ function initTabsArrow() {
   window.addEventListener('load', sync);
 }
 
+// ── Age split toggle ──────────────────────────────────────────────────────────
+function initAgeToggle() {
+  const cb = document.getElementById('age-split-cb');
+  if (!cb) return;
+  cb.addEventListener('change', () => {
+    ageGroupSplit = cb.checked;
+    if (currentVar) renderDetail(currentVar);
+  });
+}
+
+// ── Build split-by-age-group HTML for valid codes ─────────────────────────────
+function makeAgeSplitRows(v) {
+  const varCounts = ageCounts?.[v.name];
+  const validCodes = (v.distribution || []).filter(d => !d.inapplicable);
+
+  return validCodes.map(d => {
+    const groupRows = ALL_AGE_GROUPS.map(grp => {
+      const grpCounts = varCounts?.[grp] || {};
+      const cnt   = grpCounts[d.value] || 0;
+      const n_uni = Object.entries(grpCounts)
+        .filter(([k]) => k !== '.')
+        .reduce((s, [, c]) => s + c, 0);
+      const pct = n_uni > 0 ? Math.round(cnt / n_uni * 1000) / 10 : 0;
+      return `<div class="dist-age-row">
+        <span class="dist-age-tag">${grp}</span>
+        <div class="dist-bar-track">
+          <div class="dist-bar-fill" style="width:0%;background:${BAR_COLOR}" data-w="${pct}%"></div>
+        </div>
+        <span class="dist-age-pct">${pct}%</span>
+      </div>`;
+    }).join('');
+
+    return `<div class="dist-row-split">
+      <div class="dist-split-header">
+        ${escHtml(d.label)}<span class="dist-val-code">${escHtml(d.value)}</span>
+      </div>
+      <div class="dist-age-bars">${groupRows}</div>
+    </div>`;
+  }).join('');
+}
+
 // ── Section selection ─────────────────────────────────────────────────────────
 async function selectSection(key) {
   if (currentSec === key && sectionCache[key]) {
@@ -613,15 +736,50 @@ async function selectSection(key) {
 // ── Variable list ─────────────────────────────────────────────────────────────
 function renderVarList(vars) {
   const query = searchEl.value.toLowerCase().trim();
-  filteredVars = query
-    ? vars.filter(v =>
-        v.name.toLowerCase().includes(query) ||
-        v.label.toLowerCase().includes(query))
-    : vars;
 
+  // ── Global search: query across all sections from META ──────────────────────
+  if (query && META) {
+    const results = [];
+    META.sections.forEach(sec => {
+      sec.variables.forEach(v => {
+        if (v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query)) {
+          results.push({ ...v, _secKey: sec.key, _secLabel: sec.label });
+        }
+      });
+    });
+    filteredVars = results;
+    varCountEl.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} — all sections`;
+
+    const frag = document.createDocumentFragment();
+    results.forEach(v => {
+      const item = document.createElement('div');
+      item.className   = 'var-item' + (currentVar?.name === v.name ? ' selected' : '');
+      item.dataset.name    = v.name;
+      item.dataset.secKey  = v._secKey;
+      item.setAttribute('role', 'option');
+      item.innerHTML =
+        `<span class="var-item-label">${escHtml(v.label)}</span>` +
+        `<span class="var-item-bottom">` +
+          `<span class="var-item-name">${v.name}</span>` +
+          `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
+        `</span>` +
+        `<span class="var-item-section">${escHtml(shortSecName(v._secLabel))}</span>`;
+      item.addEventListener('click', () => selectVarGlobal(v._secKey, v.name));
+      frag.appendChild(item);
+    });
+    varListEl.innerHTML = '';
+    varListEl.appendChild(frag);
+    return;
+  }
+
+  // ── Section search: filter within current section ───────────────────────────
+  filteredVars = (vars || []).filter(v =>
+    !query ||
+    v.name.toLowerCase().includes(query) ||
+    v.label.toLowerCase().includes(query)
+  );
   varCountEl.textContent = `${filteredVars.length} variable${filteredVars.length !== 1 ? 's' : ''}`;
 
-  // Build list efficiently
   const frag = document.createDocumentFragment();
   filteredVars.forEach(v => {
     const item = document.createElement('div');
@@ -641,9 +799,42 @@ function renderVarList(vars) {
   varListEl.appendChild(frag);
 }
 
+// ── Click a global search result: load section if needed, then show detail ────
+async function selectVarGlobal(secKey, varName) {
+  if (!sectionCache[secKey]) {
+    loadingEl.hidden = false;
+    try {
+      sectionCache[secKey] = await fetchJSON(`/data/nsfg_section_${secKey}.json`);
+    } catch(e) {
+      loadingEl.hidden = true;
+      return;
+    }
+    loadingEl.hidden = true;
+  }
+
+  // Update active tab to reflect the variable's section
+  currentSec = secKey;
+  setActiveTab(secKey);
+
+  const varData = sectionCache[secKey].find(v => v.name === varName);
+  if (!varData) return;
+
+  currentVar = varData;
+  varListEl.querySelectorAll('.var-item').forEach(el => {
+    el.classList.toggle('selected', el.dataset.name === varName);
+  });
+  renderDetail(varData);
+}
+
+// ── Helper: derive a short readable section name from the full label ───────────
+function shortSecName(label) {
+  return label.replace(/^SECTION\s+[A-Z]:\s*/i, '').split(';')[0].trim();
+}
+
 // ── Search ────────────────────────────────────────────────────────────────────
 searchEl.addEventListener('input', () => {
-  if (sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
+  // Always re-render: global mode if query, section mode if empty
+  renderVarList(sectionCache[currentSec] || []);
 });
 
 // ── Variable selection ────────────────────────────────────────────────────────
@@ -677,6 +868,8 @@ function renderDetail(v) {
   const valid   = dist.filter(d => !d.inapplicable);
   const inapps  = dist.filter(d => d.inapplicable);
   const maxN    = Math.max(...valid.map(d => d.n), 1);
+  const n_universe = v.n_universe;
+  const n_total    = v.n_total;
 
   // Type badge class
   const tc = typeClass(v.variable_type);
@@ -691,7 +884,7 @@ function renderDetail(v) {
 
   // Distribution rows
   function makeRow(d) {
-    const w   = d.inapplicable ? (d.n / v.n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
+    const w   = d.inapplicable ? (d.n / n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
     const color = d.inapplicable ? INAPP_COLOR : BAR_COLOR;
     return `<div class="dist-row${d.inapplicable ? ' inapplicable' : ''}">
       <div class="dist-label">
@@ -716,11 +909,11 @@ function renderDetail(v) {
        ${v.universe ? `<p class="detail-universe"><strong>Universe:</strong> ${escHtml(v.universe)}</p>` : ''}
        <div class="detail-stats-row">
          <div class="detail-stat">
-           <span class="detail-stat-val">${v.n_total.toLocaleString()}</span>
+           <span class="detail-stat-val">${n_total.toLocaleString()}</span>
            <span class="detail-stat-lbl">Total respondents</span>
          </div>
          <div class="detail-stat">
-           <span class="detail-stat-val">${v.n_universe.toLocaleString()}</span>
+           <span class="detail-stat-val">${n_universe.toLocaleString()}</span>
            <span class="detail-stat-lbl">In universe</span>
          </div>
          <div class="detail-stat">
@@ -731,8 +924,13 @@ function renderDetail(v) {
      </div>
      ${notesHtml}
      <div class="dist-wrap">
-       ${valid.length ? `<p class="dist-section-label">Response distribution</p>${valid.map(makeRow).join('')}` : ''}
-       ${inapps.length ? `<p class="dist-section-label">Outside universe</p>${inapps.map(makeRow).join('')}` : ''}
+       ${ageGroupSplit
+         ? `<p class="dist-section-label">Response distribution — split by age group</p>
+            ${makeAgeSplitRows(v)}
+            ${inapps.length ? `<p class="dist-section-label">Outside universe</p>${inapps.map(makeRow).join('')}` : ''}`
+         : `${valid.length ? `<p class="dist-section-label">Response distribution</p>${valid.map(makeRow).join('')}` : ''}
+            ${inapps.length ? `<p class="dist-section-label">Outside universe</p>${inapps.map(makeRow).join('')}` : ''}`
+       }
      </div>`;
 
   // Animate bars after paint
