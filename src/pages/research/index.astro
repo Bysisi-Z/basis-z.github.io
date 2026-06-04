@@ -58,22 +58,20 @@ const dataProjects = [
 
     <div class="page-header">
       <h1 class="page-title">De<em>coding</em></h1>
+      <p class="page-desc">Industry research, data analysis & market insights</p>
     </div>
 
     <div class="decoding-grid">
 
       <!-- Left: Industry Research -->
       <div class="d-col">
-        <div class="col-head">
-          <span class="col-eyebrow">01</span>
-          <h2 class="col-title">Industry<br/><em>Research</em></h2>
-          <p class="col-sub">Financial analysis and market deep dives built from public filings.</p>
+        <div class="col-label">
+          <span class="col-label-text">Industry Research</span>
         </div>
         <div class="col-items">
           {industry.map(item => (
             <a class={`d-item${item.coming ? ' d-item--coming' : ''}`} href={item.href}>
               <div class="item-body">
-                <span class="item-num">{item.num}</span>
                 <h3 class="item-title">{item.title}</h3>
                 <p class="item-sub">{item.sub}</p>
                 <div class="item-foot">
@@ -94,16 +92,13 @@ const dataProjects = [
 
       <!-- Right: Play with the Data -->
       <div class="d-col">
-        <div class="col-head">
-          <span class="col-eyebrow">02</span>
-          <h2 class="col-title">Play with<br/><em>the Data</em></h2>
-          <p class="col-sub">Interactive tools and exploratory data projects.</p>
+        <div class="col-label">
+          <span class="col-label-text">Play with the Data</span>
         </div>
         <div class="col-items">
           {dataProjects.map(item => (
             <a class={`d-item${item.coming ? ' d-item--coming' : ''}`} href={item.href}>
               <div class="item-body">
-                <span class="item-num">{item.num}</span>
                 <h3 class="item-title">{item.title}</h3>
                 <p class="item-sub">{item.sub}</p>
                 <div class="item-foot">
@@ -125,12 +120,19 @@ const dataProjects = [
 </BaseLayout>
 
 <style>
+  /* ── Page header ── */
+  .page-desc {
+    font-family: var(--sans); font-size: 13px; font-weight: 300;
+    color: var(--stone); line-height: 1.65;
+    margin: 1em 0 0; max-width: 480px;
+  }
+
   /* ── Two-column directory grid ── */
   .decoding-grid {
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
     gap: 0 56px;
-    padding-top: 52px;
+    padding-top: 40px;
     padding-bottom: 100px;
     align-items: start;
   }
@@ -140,66 +142,53 @@ const dataProjects = [
     align-self: stretch;
   }
 
-  /* ── Column header ── */
-  .col-head {
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 0;
+  /* ── Column label (rose block) ── */
+  .col-label {
+    background: var(--rose);
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 4px;
   }
 
-  .col-eyebrow {
-    font-family: var(--sans); font-size: 10px; font-weight: 300;
-    letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--stone); display: block; margin-bottom: 12px;
-  }
-
-  .col-title {
+  .col-label-text {
     font-family: var(--serif);
-    font-size: clamp(28px, 3vw, 42px);
-    font-weight: 300; line-height: 1.05;
-    color: var(--ink); margin: 0 0 14px;
-  }
-  .col-title em { font-style: italic; }
-
-  .col-sub {
-    font-family: var(--sans); font-size: 13px; font-weight: 300;
-    color: var(--stone); line-height: 1.65; margin: 0;
+    font-size: clamp(18px, 1.8vw, 24px);
+    font-weight: 500; font-style: italic;
+    color: #fff; line-height: 1.1;
   }
 
   /* ── Item list ── */
   .col-items { display: flex; flex-direction: column; }
 
   .d-item {
-    display: flex; align-items: flex-start;
+    display: flex; align-items: center;
     justify-content: space-between; gap: 16px;
-    padding: 24px 0;
+    padding: 20px 12px;
     border-bottom: 1px solid rgba(226,222,219,0.7);
     text-decoration: none; color: inherit;
-    transition: opacity 0.2s;
+    border-radius: 6px;
+    transition: background 0.18s;
+    margin: 0 -12px;
   }
   .d-item:first-child { border-top: 1px solid rgba(226,222,219,0.7); }
-  .d-item:not(.d-item--coming):hover { opacity: 0.6; }
+  .d-item:not(.d-item--coming):hover {
+    background: rgba(193,125,157,0.06);
+  }
   .d-item--coming { opacity: 0.42; cursor: default; pointer-events: none; }
 
   .item-body { flex: 1; min-width: 0; }
-
-  .item-num {
-    font-family: var(--sans); font-size: 9px; font-weight: 300;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--stone); display: block; margin-bottom: 8px;
-  }
 
   .item-title {
     font-family: var(--serif);
     font-size: clamp(17px, 1.8vw, 22px);
     font-weight: 300; font-style: italic;
     color: var(--ink); line-height: 1.25;
-    margin: 0 0 7px;
+    margin: 0 0 6px;
   }
 
   .item-sub {
     font-family: var(--sans); font-size: 12.5px; font-weight: 300;
-    color: var(--stone); line-height: 1.6; margin: 0 0 12px;
+    color: var(--stone); line-height: 1.6; margin: 0 0 10px;
   }
 
   .item-foot {
@@ -237,8 +226,8 @@ const dataProjects = [
   }
 
   .item-arrow {
-    font-size: 16px; color: var(--rule);
-    flex-shrink: 0; margin-top: 4px;
+    font-size: 18px; color: var(--stone);
+    flex-shrink: 0;
     transition: transform 0.22s, color 0.22s;
   }
   .d-item:hover .item-arrow { transform: translateX(5px); color: var(--rose); }
@@ -247,9 +236,10 @@ const dataProjects = [
   @media (max-width: 640px) {
     .decoding-grid {
       grid-template-columns: 1fr;
-      gap: 52px 0;
+      gap: 36px 0;
+      padding-top: 28px;
     }
     .col-divider { width: 100%; height: 1px; align-self: auto; }
-    .d-item { padding: 20px 0; }
+    .d-item { padding: 18px 12px; }
   }
 </style>
