@@ -1,12 +1,13 @@
 ---
-// Cusdis comments — no account required to comment
 const pageId = Astro.url.pathname;
 ---
 
 <div class="comments-section">
-  <h2 class="comments-heading">Comments</h2>
-  <div
-    id="cusdis_thread"
+  <div class="comments-header">
+    <h2 class="comments-heading">Comments</h2>
+    <p class="comments-notice">Comments are reviewed before they appear publicly. The site owner can see all submissions.</p>
+  </div>
+  <div id="cusdis_thread"
     data-host="https://cusdis.com"
     data-app-id="33766e5a-7ef9-4b4f-9a01-df1013f36a9d"
     data-page-id={pageId}
@@ -17,14 +18,11 @@ const pageId = Astro.url.pathname;
 
 <script>
 {
-  // Fill in URL and title client-side (not available at build time)
   const el = document.getElementById('cusdis_thread');
   if (el) {
     el.dataset.pageUrl   = window.location.href;
     el.dataset.pageTitle = document.title;
   }
-
-  // Load Cusdis script
   const s = document.createElement('script');
   s.src   = 'https://cusdis.com/js/cusdis.es.js';
   s.async = true;
@@ -33,17 +31,55 @@ const pageId = Astro.url.pathname;
 }
 </script>
 
+<style is:global>
+  /* ── Remove scroll containers from Cusdis ── */
+  #cusdis_thread,
+  #cusdis_thread > *,
+  .cusdis-comment-body,
+  .cusdis-comment-list,
+  .cusdis-post-comment {
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
+  }
+
+  /* Name + email inputs: no scroll, full display */
+  .cusdis-input {
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* Only the textarea may scroll if content is very long */
+  .cusdis-textarea {
+    overflow-y: auto !important;
+    min-height: 100px;
+    max-height: 260px;
+    resize: vertical;
+  }
+</style>
+
 <style>
   .comments-section {
     margin-top: 64px;
     padding-top: 48px;
     border-top: 1px solid var(--rule);
   }
+
+  .comments-header {
+    margin-bottom: 28px;
+  }
+
   .comments-heading {
     font-family: var(--serif);
     font-size: clamp(24px, 3vw, 32px);
     font-weight: 300; font-style: italic;
     color: var(--ink);
-    margin-bottom: 28px;
+    margin-bottom: 8px;
+  }
+
+  .comments-notice {
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 300;
+    color: var(--stone); line-height: 1.6;
   }
 </style>
