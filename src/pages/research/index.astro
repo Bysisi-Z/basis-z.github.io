@@ -66,6 +66,11 @@ const dataProjects = [
       <!-- Left: Industry Research -->
       <div class="d-col">
         <div class="col-label">
+          <svg class="col-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M11 5C11 5 7.5 3.5 4 4V16C7.5 15.5 11 17 11 17" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11 5C11 5 14.5 3.5 18 4V16C14.5 15.5 11 17 11 17" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="11" y1="5" x2="11" y2="17" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
           <span class="col-label-text">Industry Research</span>
         </div>
         <div class="col-items">
@@ -93,6 +98,11 @@ const dataProjects = [
       <!-- Right: Play with the Data -->
       <div class="d-col">
         <div class="col-label">
+          <svg class="col-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2.5" y="12" width="4" height="7" rx="1" fill="white"/>
+            <rect x="9" y="8" width="4" height="11" rx="1" fill="white"/>
+            <rect x="15.5" y="4" width="4" height="15" rx="1" fill="white"/>
+          </svg>
           <span class="col-label-text">Play with the Data</span>
         </div>
         <div class="col-items">
@@ -150,7 +160,12 @@ const dataProjects = [
     padding: 10px 16px;
     border-radius: 6px;
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
+
+  .col-icon { flex-shrink: 0; }
 
   .col-label-text {
     font-family: var(--serif);

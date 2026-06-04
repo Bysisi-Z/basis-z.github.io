@@ -7,13 +7,15 @@ const pageId = Astro.url.pathname;
     <h2 class="comments-heading">Comments</h2>
     <p class="comments-notice">Comments are reviewed before they appear publicly. The site owner can see all submissions.</p>
   </div>
-  <div id="cusdis_thread"
-    data-host="https://cusdis.com"
-    data-app-id="33766e5a-7ef9-4b4f-9a01-df1013f36a9d"
-    data-page-id={pageId}
-    data-page-url=""
-    data-page-title=""
-  ></div>
+  <div class="comments-frame">
+    <div id="cusdis_thread"
+      data-host="https://cusdis.com"
+      data-app-id="33766e5a-7ef9-4b4f-9a01-df1013f36a9d"
+      data-page-id={pageId}
+      data-page-url=""
+      data-page-title=""
+    ></div>
+  </div>
 </div>
 
 <script>
@@ -24,30 +26,23 @@ const pageId = Astro.url.pathname;
     el.dataset.pageTitle = document.title;
   }
 
-  // Strip inline overflow/height styles from all Cusdis elements after render
-  function stripScrollStyles(root: Element) {
-    root.querySelectorAll('*').forEach(node => {
-      const el = node as HTMLElement;
-      el.style.removeProperty('overflow');
-      el.style.removeProperty('overflow-y');
-      el.style.removeProperty('overflow-x');
-      el.style.removeProperty('max-height');
-      // Re-apply scroll only on textarea
-      if (el.tagName === 'TEXTAREA') {
-        el.style.overflowY = 'auto';
-        el.style.maxHeight = '260px';
-      }
+  // Repeatedly strip inline scroll constraints while Cusdis renders
+  function stripScroll() {
+    const thread = document.getElementById('cusdis_thread');
+    if (!thread) return;
+    (thread.querySelectorAll('*') as NodeListOf<HTMLElement>).forEach(node => {
+      if (node.tagName === 'TEXTAREA') return;
+      node.style.removeProperty('overflow');
+      node.style.removeProperty('overflow-y');
+      node.style.removeProperty('overflow-x');
+      node.style.removeProperty('max-height');
+      node.style.removeProperty('height');
     });
   }
 
-  // Watch for Cusdis to render its DOM
-  const observer = new MutationObserver(() => {
-    const thread = document.getElementById('cusdis_thread');
-    if (thread && thread.children.length > 0) {
-      stripScrollStyles(thread);
-    }
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
+  // Run repeatedly for 4 seconds to catch Cusdis re-renders
+  const iv = setInterval(stripScroll, 80);
+  setTimeout(() => clearInterval(iv), 4000);
 
   const s = document.createElement('script');
   s.src   = 'https://cusdis.com/js/cusdis.es.js';
@@ -57,27 +52,6 @@ const pageId = Astro.url.pathname;
 }
 </script>
 
-<style is:global>
-  /* Remove ALL scroll/height constraints inside Cusdis */
-  #cusdis_thread,
-  #cusdis_thread * {
-    max-height: none !important;
-    height: auto !important;
-    overflow: visible !important;
-    overflow-y: visible !important;
-    overflow-x: visible !important;
-  }
-
-  /* Re-apply scroll ONLY on the textarea */
-  #cusdis_thread textarea {
-    overflow-y: auto !important;
-    height: auto !important;
-    min-height: 100px !important;
-    max-height: 260px !important;
-    resize: vertical !important;
-  }
-</style>
-
 <style>
   .comments-section {
     margin-top: 64px;
@@ -86,7 +60,7 @@ const pageId = Astro.url.pathname;
   }
 
   .comments-header {
-    margin-bottom: 28px;
+    margin-bottom: 20px;
   }
 
   .comments-heading {
@@ -101,5 +75,13 @@ const pageId = Astro.url.pathname;
     font-family: var(--sans);
     font-size: 12px; font-weight: 300;
     color: var(--stone); line-height: 1.6;
+  }
+
+  .comments-frame {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 28px 32px;
+    min-height: 480px;
+    background: #fdfcfb;
   }
 </style>
