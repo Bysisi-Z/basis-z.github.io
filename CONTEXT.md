@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-04 (session 9)  
+> Last updated: 2026-06-04 (session 10)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -164,9 +164,12 @@ src/
 
 ### Decoding (`/research`) ✅ Redesigned — two-module gateway
 
-- **Gateway page** (`/research/index.astro`): two large entry cards
-  - Card 01 → `/research/industry` (Industry Research Articles)
-  - Card 02 → `/research/data` (Play with the Data)
+- **Gateway page** (`/research/index.astro`):
+  - Page subtitle uses `class="page-sub"` (serif italic stone, same as all other pages)
+  - Two section headers: rose background (`var(--rose)`), serif italic 500 white, full-width rounded block
+  - No numbering (01/02 removed from both headers and item rows)
+  - Item hover: rose tint background (replaces old opacity fade); arrow default stone → rose on hover
+  - Left column → Industry Research articles; Right column → Play with the Data projects
 - **`/research/industry`**: article list — 2 entries (OGN analysis + Sun Pharma/OGN acquisition)
   - Detail pages still not built; HTML content at `/Users/giselle/OGN_financial_analysis.html` and `SunPharma_OGN_acquisition.html`
 - **`/research/data`**: ✅ Live interactive NSFG data explorer (see below)
@@ -200,6 +203,12 @@ src/
 - Script: `compute_age_counts.py` in `/Users/giselle/Downloads/NSFG-2022-2023-FemRespPUFData/`
 
 **Global search:** search box crosses all 12 sections (from nsfg_meta.json in memory); clicking a result auto-loads that section and shows detail
+
+**Mobile gate:**
+- Full-screen overlay on ≤700px screens; prompts user to use desktop/tablet
+- "Continue on mobile" button dismisses via `sessionStorage` (key: `nsfg-mobile-gate-dismissed`); does not re-appear in same session
+- "← Back to Decoding" link as secondary option
+- Desktop/tablet: overlay never shown
 
 **Variable type filter:**
 - Filter chips in left panel below search: All / Raw / Recode / Computed
