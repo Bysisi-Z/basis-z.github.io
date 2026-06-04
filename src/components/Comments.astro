@@ -32,29 +32,23 @@ const pageId = Astro.url.pathname;
 </script>
 
 <style is:global>
-  /* ── Remove scroll containers from Cusdis ── */
+  /* Remove ALL scroll/height constraints inside Cusdis */
   #cusdis_thread,
-  #cusdis_thread > *,
-  .cusdis-comment-body,
-  .cusdis-comment-list,
-  .cusdis-post-comment {
+  #cusdis_thread * {
     max-height: none !important;
+    height: auto !important;
     overflow: visible !important;
     overflow-y: visible !important;
+    overflow-x: visible !important;
   }
 
-  /* Name + email inputs: no scroll, full display */
-  .cusdis-input {
-    overflow: visible !important;
-    height: auto !important;
-  }
-
-  /* Only the textarea may scroll if content is very long */
-  .cusdis-textarea {
+  /* Re-apply scroll ONLY on the textarea */
+  #cusdis_thread textarea {
     overflow-y: auto !important;
-    min-height: 100px;
-    max-height: 260px;
-    resize: vertical;
+    height: auto !important;
+    min-height: 100px !important;
+    max-height: 260px !important;
+    resize: vertical !important;
   }
 </style>
 
