@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-04 (session 13)  
+> Last updated: 2026-06-04 (session 14)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -241,7 +241,7 @@ src/
 
 **`ArticleHero` component** (portrait split layout):
 - Left 42%: photo at natural aspect ratio (`width: 100%; height: auto`), no cropping
-- Right 58%: `justify-content: space-between` — title/eyebrow at top, optional webcam button at bottom
+- Right 58%: `justify-content: space-between` — title/eyebrow at top, optional webcam button (with inline SVG webcam icon 16×16) at bottom
 - `webcamUrl` prop: if present, shows "View Live Webcam →" rose button at bottom of right column; stats hidden from hero (shown in meta-bar below)
 - Landscape orientation: unchanged (full-width hero with overlay)
 - Mobile: photo stacks on top, text below
