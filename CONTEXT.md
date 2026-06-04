@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-04 (session 10)  
+> Last updated: 2026-06-04 (session 11)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -237,13 +237,27 @@ src/
   - Portrait entries → `span 2`, `aspect-ratio: 3/4`
   - Landscape entries → `span 4`, `aspect-ratio: 16/9`
 - 6 entries (all CSS gradient placeholders, real photos TBD)
-- **`ArticleHero` component** handles per-article cover:
-  - Portrait photo → split layout (42% photo | 58% text), `imagePosition: 'left' | 'right'`
-  - Landscape photo → full-width hero with bottom text overlay
-  - Mobile: photo always stacks on top
-- Entry 1 (Haute Route, Alps): `/photography/haute-route` live — `IMG_3355.jpeg` in `public/images/`, portrait, `imagePosition: 'left'`
-- ~~Eyebrow label "03 — Mountain Calling" removed~~ ✅
 - Remaining 5 entries: CSS gradient placeholders, real photos TBD
+
+**`ArticleHero` component** (portrait split layout):
+- Left 42%: photo at natural aspect ratio (`width: 100%; height: auto`), no cropping
+- Right 58%: `justify-content: space-between` — title/eyebrow at top, optional webcam button at bottom
+- `webcamUrl` prop: if present, shows "View Live Webcam →" rose button at bottom of right column; stats hidden from hero (shown in meta-bar below)
+- Landscape orientation: unchanged (full-width hero with overlay)
+- Mobile: photo stacks on top, text below
+
+**`/photography/[slug].astro` article layout:**
+- Article max-width: 960px (wider than original 720px); padding: `clamp(20px, 4vw, 48px)`
+- `routeMapSrc` / `routeMapAlt` props: renders full-width map image between meta-bar and lead paragraph
+- `gallery` prop: photo carousel at end of article ("On the Trail" section)
+  - Fixed 4:3 container, `object-fit: contain`, dark background — no cropping, portrait images pillarboxed
+  - All slides `position: absolute + opacity` — zero layout shift on navigation
+  - Left/right arrow buttons, keyboard ←/→, touch swipe; counter "N / total" bottom-right
+- Entry: `stoos-ridge-line` — Stoos Ridge Hike, Switzerland
+  - Cover: `/images/haute-route-alps.jpeg` (portrait, imagePosition: left)
+  - Route map: `/images/stoos/stoos-route-map.png`
+  - Gallery: 23 photos in `public/images/stoos/` (IMG_3352–3435, stoos2–9 variants)
+  - webcamUrl: stoos.ch/en/pages/webcams
 
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
 
