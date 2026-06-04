@@ -12,9 +12,15 @@ interface Props {
   stats?: { label: string; value: string }[];
   webcamUrl?: string;
   heroIntro?: string[];
+  heroIntroZh?: string[];
   routeOverview?: {
     direction: string;
     stats: { label: string; value: string }[];
+    note?: string;
+  };
+  routeOverviewZh?: {
+    direction?: string;
+    stats?: { label: string; value: string }[];
     note?: string;
   };
 }
@@ -30,7 +36,9 @@ const {
   stats = [],
   webcamUrl,
   heroIntro,
+  heroIntroZh,
   routeOverview,
+  routeOverviewZh,
 } = Astro.props;
 ---
 
@@ -57,18 +65,20 @@ const {
           </div>
         )}
       </div>
-      {heroIntro && heroIntro.length > 0 && (
+      {(heroIntro || heroIntroZh) && (
         <div class="split-intro">
-          {heroIntro.map(p => <p>{p}</p>)}
+          {heroIntro?.map(p => <p class={heroIntroZh ? 'lang-en' : ''}>{p}</p>)}
+          {heroIntroZh?.map(p => <p class="lang-zh">{p}</p>)}
         </div>
       )}
       {routeOverview && (
         <div class="route-card">
           <div class="route-direction">
             <span class="route-dir-text">{routeOverview.direction}</span>
-            <span class="route-card-label">Recommended direction</span>
+            <span class="route-card-label lang-en">Recommended direction</span>
+            {routeOverviewZh && <span class="route-card-label lang-zh">推荐方向</span>}
           </div>
-          <div class="route-stats">
+          <div class="route-stats lang-en">
             {routeOverview.stats.map(s => (
               <div class="route-stat">
                 <span class="route-stat-val">{s.value}</span>
@@ -76,9 +86,18 @@ const {
               </div>
             ))}
           </div>
-          {routeOverview.note && (
-            <p class="route-note">{routeOverview.note}</p>
+          {routeOverviewZh?.stats && (
+            <div class="route-stats lang-zh">
+              {routeOverviewZh.stats.map(s => (
+                <div class="route-stat">
+                  <span class="route-stat-val">{s.value}</span>
+                  <span class="route-stat-lbl">{s.label}</span>
+                </div>
+              ))}
+            </div>
           )}
+          {routeOverview.note && <p class={`route-note${routeOverviewZh?.note ? ' lang-en' : ''}`}>{routeOverview.note}</p>}
+          {routeOverviewZh?.note && <p class="route-note lang-zh">{routeOverviewZh.note}</p>}
         </div>
       )}
 

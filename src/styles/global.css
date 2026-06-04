@@ -77,3 +77,14 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ── Article inline highlight ── */
+strong.hl { font-weight: 600; color: var(--rose); font-style: normal; }
+
+/* ── Language toggle (Mountain Calling articles) ── */
+.lang-zh { display: none !important; }
+html[data-lang="zh"] .lang-zh { display: block !important; }
+html[data-lang="zh"] .lang-en { display: none !important; }
+span.lang-zh { display: none !important; }
+html[data-lang="zh"] span.lang-zh { display: inline !important; }
+html[data-lang="zh"] span.lang-en { display: none !important; }

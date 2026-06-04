@@ -9,9 +9,9 @@ interface DayItem {
 }
 
 type Block =
-  | { type: 'p'; text: string }
-  | { type: 'ul'; items: string[]; intro?: string }
-  | { type: 'subheading'; num: string; text: string };
+  | { type: 'p'; text: string; zh?: string }
+  | { type: 'ul'; items: string[]; intro?: string; zhItems?: string[]; zhIntro?: string }
+  | { type: 'subheading'; num: string; text: string; zh?: string };
 
 interface GalleryImg {
   src: string;
@@ -38,9 +38,17 @@ interface Entry {
     stats: { label: string; value: string }[];
     note?: string;
   };
+  heroIntroZh?: string[];
+  routeOverviewZh?: {
+    direction?: string;
+    stats?: { label: string; value: string }[];
+    note?: string;
+  };
   routeMapSrc?: string;
   routeMapAlt?: string;
   routeMapNote?: string;
+  routeMapNoteZh?: string;
+  langZh?: boolean;
   gallery?: GalleryImg[];
   body: {
     lead: string;
@@ -51,6 +59,7 @@ interface Entry {
     inlineImgCaption?: string;
     sections: {
       heading: string;
+      headingZh?: string;
       paragraphs?: string[];
       blocks?: Block[];
       days?: DayItem[];
@@ -74,7 +83,14 @@ export function getStaticPaths() {
         'The Stoos Ridge hike is one of my favorite hikes in Switzerland.',
         'I first discovered it through a hiking YouTuber who included it in a list of his top hikes in the country. As soon as I saw the footage, I knew I had to visit.',
         'I completed the hike in early July 2023. Down in the valleys, summer had already arrived, but at higher elevations it still felt like spring. Wildflowers covered the slopes along the ridge, creating some of the most beautiful alpine scenery I have seen in Switzerland.',
-        'What impressed me most was how much this trail offers for so little effort. Along the route, you can enjoy panoramic views of Lake Lucerne, the surrounding Alps, and the iconic Mythen peaks, while the overall difficulty remains manageable for most reasonably active hikers.',
+        'What impressed me most was how much this trail offers for so little effort. Along the route, you can enjoy panoramic views of Lake Lucerne and the surrounding Alps, while the overall difficulty remains manageable for most reasonably active hikers.',
+      ],
+      langZh: true,
+      heroIntroZh: [
+        'Stoos 山脊徒步是我在瑞士最喜欢的徒步路线之一。',
+        '我最初是通过一位徒步博主发现这条路线的，他将其列为瑞士最佳徒步线路之一。看到视频画面的那一刻，我就知道自己一定要亲自来走走。',
+        '我在 2023 年 7 月初完成了这次徒步。山谷中夏天早已到来，但在高海拔处仍带着春末的清新。山脊沿途的山坡上野花盛开，是我在瑞士见过的最美丽的高山风光之一。',
+        '最令我印象深刻的是，这条路线以如此小的体力付出，带来了如此丰富的风景体验。沿途可以欣赏琉森湖和周围阿尔卑斯山脉的全景，而整体难度对大多数有基本体力的徒步者来说都完全可以胜任。',
       ],
       routeOverview: {
         direction: 'Klingenstock → Fronalpstock',
@@ -86,9 +102,19 @@ export function getStaticPaths() {
         ],
         note: 'Both directions involve similar ascent and descent, but finishing at Fronalpstock makes for a far more satisfying end. The summit has a large viewing platform with panoramic views over Lake Lucerne and the Alps, a mountain restaurant, rest areas, and cable car access back down to Stoos — the perfect place to sit, eat, and soak in the scenery before descending. Klingenstock, by contrast, has fewer facilities and a smaller platform, making it a better starting point than a destination.',
       },
+      routeOverviewZh: {
+        stats: [
+          { label: '距离',    value: '约 4.5 km' },
+          { label: '步行时长', value: '约 2 小时' },
+          { label: '建议总时长', value: '4–5 小时' },
+          { label: '难度',    value: '中等' },
+        ],
+        note: '两个方向的爬升和下降大致相同，但以 Fronalpstock 为终点会让整段旅程更有成就感。山顶设有宽阔的观景台，可将琉森湖和阿尔卑斯山脉的全景尽收眼底，配有山间餐厅、休息区和缆车下行设施——是在欣赏风景、用餐休息之后再下山的理想收尾地点。Klingenstock 的设施相对有限，平台也较小，更适合作为出发点而非终点。',
+      },
       routeMapSrc: '/images/stoos/stoos-route-map.png',
       routeMapAlt: 'Stoos Ridge Hike route map with elevation profile',
       routeMapNote: 'Recommended direction: start at Klingenstock (right side of map) and hike west towards Fronalpstock (left side of map).',
+      routeMapNoteZh: '推荐方向：从地图右侧的 Klingenstock 出发，向西行进至地图左侧的 Fronalpstock。',
       orientation: 'portrait',
       imagePosition: 'left',
       src: '/images/haute-route-alps.jpeg',
@@ -101,88 +127,110 @@ export function getStaticPaths() {
         sections: [
           {
             heading: "A Photographer's Recommendation",
+            headingZh: '摄影师的建议',
             blocks: [
-              { type: 'p', text: 'As someone who enjoys photography, I always recommend starting alpine hikes <strong class="hl">as early as possible</strong>.' },
-              { type: 'p', text: 'This applies to almost every hike in Switzerland.' },
+              { type: 'p', text: 'As someone who enjoys photography, I always recommend starting alpine hikes <strong class="hl">as early as possible</strong>.', zh: '作为一名摄影爱好者，我始终建议尽可能在<strong class="hl">清晨出发</strong>进行高山徒步。' },
+              { type: 'p', text: 'This applies to almost every hike in Switzerland.', zh: '这条建议适用于瑞士几乎所有的徒步路线。' },
               { type: 'ul', intro: 'In the early morning:', items: [
                 'Air clarity is usually <strong class="hl">at its best</strong>.',
                 'Haze is minimal.',
                 'Colors appear <strong class="hl">more saturated</strong>.',
                 'Visibility is often <strong class="hl">significantly better</strong> than later in the day.',
                 'The light is <strong class="hl">softer and more pleasant</strong> for photography.',
+              ], zhIntro: '清晨时分：', zhItems: [
+                '能见度通常<strong class="hl">处于最佳状态</strong>。',
+                '空气中雾霾最少。',
+                '色彩<strong class="hl">更加饱和</strong>。',
+                '清晰度通常比一天中晚些时候<strong class="hl">明显更好</strong>。',
+                '光线<strong class="hl">更柔和，更适合拍摄</strong>。',
               ]},
-              { type: 'p', text: 'This is another reason why I prefer hiking from Klingenstock to Fronalpstock.' },
-              { type: 'p', text: 'On most summer mornings, <strong class="hl">the sun is behind you</strong> when walking from east to west along the ridge. You avoid looking directly into strong sunlight, and even near midday the lighting conditions remain comfortable for both hiking and photography.' },
+              { type: 'p', text: 'This is another reason why I prefer hiking from Klingenstock to Fronalpstock.', zh: '这也是我更倾向于从 Klingenstock 徒步至 Fronalpstock 的另一个原因。' },
+              { type: 'p', text: 'On most summer mornings, <strong class="hl">the sun is behind you</strong> when walking from east to west along the ridge. You avoid looking directly into strong sunlight, and even near midday the lighting conditions remain comfortable for both hiking and photography.', zh: '在大多数夏日清晨，从东向西沿山脊行进时，<strong class="hl">太阳会在你身后</strong>。无需直视强烈的阳光，即使接近正午，光线条件对徒步和拍摄来说仍然相当舒适。' },
             ],
           },
           {
             heading: 'Things You Should Know Before Going',
+            headingZh: '出发前须知',
             blocks: [
-              { type: 'subheading', num: '1', text: 'It is not completely effortless' },
-              { type: 'p', text: 'While I would not consider this a difficult hike, it is <strong class="hl">not a casual walk</strong> either.' },
-              { type: 'p', text: 'People who rarely exercise may find certain sections challenging, especially the <strong class="hl">steeper climbs near the beginning</strong> of the route.' },
-              { type: 'p', text: 'If you hike occasionally and have a reasonable fitness level, however, the trail should be <strong class="hl">very manageable</strong>.' },
+              { type: 'subheading', num: '1', text: 'It is not completely effortless', zh: '并非完全轻松' },
+              { type: 'p', text: 'While I would not consider this a difficult hike, it is <strong class="hl">not a casual walk</strong> either.', zh: '虽然我不认为这是一条困难的路线，但它也<strong class="hl">绝非随意的散步</strong>。' },
+              { type: 'p', text: 'People who rarely exercise may find certain sections challenging, especially the <strong class="hl">steeper climbs near the beginning</strong> of the route.', zh: '对于平时很少运动的人来说，某些路段可能会有挑战性，尤其是<strong class="hl">路线初段较为陡峭的上坡</strong>部分。' },
+              { type: 'p', text: 'If you hike occasionally and have a reasonable fitness level, however, the trail should be <strong class="hl">very manageable</strong>.', zh: '但如果你偶尔徒步、体力尚可，这条路线应该<strong class="hl">完全可以胜任</strong>。' },
 
-              { type: 'subheading', num: '2', text: 'There is almost no shade' },
-              { type: 'p', text: 'This is an <strong class="hl">exposed ridge hike</strong>.' },
-              { type: 'p', text: 'There are very few trees along the route, meaning <strong class="hl">almost no protection from the sun</strong>.' },
-              { type: 'p', text: 'On warm summer days, especially around noon and in the afternoon, the heat can feel <strong class="hl">surprisingly intense</strong>.' },
+              { type: 'subheading', num: '2', text: 'There is almost no shade', zh: '几乎没有遮荫处' },
+              { type: 'p', text: 'This is an <strong class="hl">exposed ridge hike</strong>.', zh: '这是一条<strong class="hl">暴露的山脊路线</strong>。' },
+              { type: 'p', text: 'There are very few trees along the route, meaning <strong class="hl">almost no protection from the sun</strong>.', zh: '沿途几乎没有树木，意味着<strong class="hl">几乎没有任何遮蔽阳光的地方</strong>。' },
+              { type: 'p', text: 'On warm summer days, especially around noon and in the afternoon, the heat can feel <strong class="hl">surprisingly intense</strong>.', zh: '在温暖的夏日，尤其是正午前后，阳光直射可能<strong class="hl">出乎意料地强烈</strong>。' },
               { type: 'ul', intro: 'I strongly recommend:', items: [
                 '<strong class="hl">Bringing sufficient water</strong>',
                 'Using sunscreen',
                 'Wearing a hat or cap',
                 '<strong class="hl">Starting early</strong> whenever possible',
+              ], zhIntro: '我强烈建议：', zhItems: [
+                '<strong class="hl">携带充足的饮用水</strong>',
+                '涂抹防晒霜',
+                '佩戴帽子或遮阳帽',
+                '尽可能<strong class="hl">早出发</strong>',
               ]},
 
-              { type: 'subheading', num: '3', text: 'No facilities on the ridge' },
-              { type: 'p', text: 'Once you leave the stations, there are:' },
+              { type: 'subheading', num: '3', text: 'No facilities on the ridge', zh: '山脊上没有任何设施' },
+              { type: 'p', text: 'Once you leave the stations, there are:', zh: '一旦离开站点，沿途将没有：' },
               { type: 'ul', items: [
                 '<strong class="hl">No toilets</strong>',
                 '<strong class="hl">No food stands</strong>',
                 '<strong class="hl">No drinking water points</strong>',
+              ], zhItems: [
+                '<strong class="hl">无厕所</strong>',
+                '<strong class="hl">无餐饮摊点</strong>',
+                '<strong class="hl">无饮用水补给点</strong>',
               ]},
-              { type: 'p', text: 'Make sure you <strong class="hl">bring everything you need</strong> before starting.' },
+              { type: 'p', text: 'Make sure you <strong class="hl">bring everything you need</strong> before starting.', zh: '请务必在出发前<strong class="hl">备齐所有所需物品</strong>。' },
 
-              { type: 'subheading', num: '4', text: 'Wear proper footwear' },
-              { type: 'p', text: 'You do not need heavy mountaineering boots for this trail.' },
-              { type: 'p', text: 'A good pair of <strong class="hl">hiking shoes or sturdy sports shoes</strong> is usually sufficient.' },
-              { type: 'ul', intro: 'However, I would avoid:', items: ['Sandals', 'Casual fashion shoes', 'Leather dress shoes'] },
-              { type: 'p', text: 'The trail includes <strong class="hl">uneven terrain where proper grip is important</strong>.' },
+              { type: 'subheading', num: '4', text: 'Wear proper footwear', zh: '请穿着合适的鞋履' },
+              { type: 'p', text: 'You do not need heavy mountaineering boots for this trail.', zh: '这条路线不需要专业登山靴。' },
+              { type: 'p', text: 'A good pair of <strong class="hl">hiking shoes or sturdy sports shoes</strong> is usually sufficient.', zh: '一双优质的<strong class="hl">徒步鞋或结实的运动鞋</strong>通常已经足够。' },
+              { type: 'ul', intro: 'However, I would avoid:', items: ['Sandals', 'Casual fashion shoes', 'Leather dress shoes'],
+                zhIntro: '但建议避免穿：', zhItems: ['凉鞋', '休闲便鞋', '皮革正装鞋'] },
+              { type: 'p', text: 'The trail includes <strong class="hl">uneven terrain where proper grip is important</strong>.', zh: '路线涉及不平整的地形，<strong class="hl">合适的鞋底抓地力非常重要</strong>。' },
 
-              { type: 'subheading', num: '5', text: 'Hiking poles are helpful — but not always' },
-              { type: 'p', text: 'I highly recommend hiking poles, especially for the steeper sections.' },
-              { type: 'p', text: 'They can <strong class="hl">save a significant amount of energy</strong> during climbs and <strong class="hl">reduce stress on your knees</strong> during descents.' },
-              { type: 'p', text: 'That said, Stoos Ridge is a very popular route. During busy periods, some sections can become crowded.' },
-              { type: 'p', text: "On flatter and narrower stretches, I usually put my poles away to avoid slowing down other hikers or accidentally getting in someone's way." },
+              { type: 'subheading', num: '5', text: 'Hiking poles are helpful — but not always', zh: '登山杖有帮助，但并非随时都适用' },
+              { type: 'p', text: 'I highly recommend hiking poles, especially for the steeper sections.', zh: '我强烈推荐使用登山杖，尤其是在较陡的路段。' },
+              { type: 'p', text: 'They can <strong class="hl">save a significant amount of energy</strong> during climbs and <strong class="hl">reduce stress on your knees</strong> during descents.', zh: '登山杖能在上坡时<strong class="hl">节省大量体力</strong>，并在下坡时<strong class="hl">减轻膝关节的负担</strong>。' },
+              { type: 'p', text: 'That said, Stoos Ridge is a very popular route. During busy periods, some sections can become crowded.', zh: '不过，Stoos 山脊是一条非常热门的路线，旺季某些路段可能相当拥挤。' },
+              { type: 'p', text: "On flatter and narrower stretches, I usually put my poles away to avoid slowing down other hikers or accidentally getting in someone's way.", zh: '在较平坦或较窄的路段，我通常会收起登山杖，以免妨碍其他徒步者。' },
             ],
           },
           {
             heading: 'Safety',
+            headingZh: '安全注意事项',
             blocks: [
-              { type: 'p', text: 'Although I personally consider the overall risk level relatively low, it is <strong class="hl">still a mountain ridge</strong>.' },
-              { type: 'p', text: 'The views are spectacular and it is easy to become distracted while taking photos.' },
-              { type: 'p', text: '<strong class="hl">Always pay attention to where you are stepping</strong>, particularly when stopping for pictures or looking away from the trail.' },
-              { type: 'p', text: '<strong class="hl">No photograph is worth an injury.</strong>' },
+              { type: 'p', text: 'Although I personally consider the overall risk level relatively low, it is <strong class="hl">still a mountain ridge</strong>.', zh: '尽管我个人认为整体风险水平相对较低，但这<strong class="hl">毕竟是一条山脊路线</strong>。' },
+              { type: 'p', text: 'The views are spectacular and it is easy to become distracted while taking photos.', zh: '沿途风景令人叹为观止，很容易在拍照时分散注意力。' },
+              { type: 'p', text: '<strong class="hl">Always pay attention to where you are stepping</strong>, particularly when stopping for pictures or looking away from the trail.', zh: '<strong class="hl">请始终注意脚下</strong>，尤其是在停下来拍照或视线离开路面时。' },
+              { type: 'p', text: '<strong class="hl">No photograph is worth an injury.</strong>', zh: '<strong class="hl">没有任何一张照片值得以受伤为代价。</strong>' },
             ],
           },
           {
             heading: 'Getting There',
+            headingZh: '交通与前往方式',
             blocks: [
-              { type: 'p', text: 'Another highlight of this trip is the journey itself.' },
-              { type: 'p', text: 'Before reaching the ridge, you can ride the famous Stoos funicular, which is often described as <strong class="hl">the steepest funicular railway in the world</strong>.' },
-              { type: 'p', text: 'From Stoos village, you can then take the chairlift up to Klingenstock and begin the hike.' },
-              { type: 'p', text: 'Transport schedules may change depending on the season, weather conditions, and maintenance work, so I recommend <strong class="hl">checking the official Stoos website before departure</strong>.' },
-              { type: 'ul', intro: 'I have included links to:', items: ['The official Stoos website', 'The live webcams'] },
-              { type: 'p', text: 'Checking the webcams before leaving home is <strong class="hl">one of the easiest ways to evaluate visibility and weather conditions</strong> in real time.' },
-              { type: 'p', text: 'I also recommend using the <strong class="hl">MeteoSwiss app</strong> for weather updates during your trip.' },
+              { type: 'p', text: 'Another highlight of this trip is the journey itself.', zh: '这次旅程的另一大亮点是前往途中的体验本身。' },
+              { type: 'p', text: 'Before reaching the ridge, you can ride the famous Stoos funicular, which is often described as <strong class="hl">the steepest funicular railway in the world</strong>.', zh: '在抵达山脊之前，你可以乘坐著名的 Stoos 缆车——这条缆车常被描述为<strong class="hl">世界上坡度最陡的缆车</strong>。' },
+              { type: 'p', text: 'From Stoos village, you can then take the chairlift up to Klingenstock and begin the hike.', zh: '从 Stoos 村，可再乘坐椅式吊椅上行至 Klingenstock，然后开始徒步。' },
+              { type: 'p', text: 'Transport schedules may change depending on the season, weather conditions, and maintenance work, so I recommend <strong class="hl">checking the official Stoos website before departure</strong>.', zh: '交通时刻表可能因季节、天气和维护工作而有所变化，建议<strong class="hl">出发前查阅 Stoos 官方网站</strong>。' },
+              { type: 'ul', intro: 'I have included links to:', items: ['The official Stoos website', 'The live webcams'],
+                zhIntro: '文章中附上了相关链接：', zhItems: ['Stoos 官方网站', '实时摄像头'] },
+              { type: 'p', text: 'Checking the webcams before leaving home is <strong class="hl">one of the easiest ways to evaluate visibility and weather conditions</strong> in real time.', zh: '出发前查看摄像头画面，是<strong class="hl">实时评估山脊能见度和天气状况最简便的方式</strong>之一。' },
+              { type: 'p', text: 'I also recommend using the <strong class="hl">MeteoSwiss app</strong> for weather updates during your trip.', zh: '我也推荐使用 <strong class="hl">MeteoSwiss</strong> 应用程序，在旅途中获取天气预报。' },
             ],
           },
           {
             heading: 'Final Thoughts',
+            headingZh: '结语',
             blocks: [
-              { type: 'p', text: 'Stoos Ridge remains one of my <strong class="hl">favourite hikes in Switzerland</strong>.' },
-              { type: 'p', text: 'It offers an <strong class="hl">ideal balance between spectacular scenery, reasonable effort, and accessibility</strong>. Whether you are visiting Switzerland for the first time or have lived here for years, it is a route that <strong class="hl">deserves a place on your hiking list</strong>.' },
-              { type: 'p', text: 'If you have already completed the hike, or if you are planning to visit soon, feel free to leave a comment and share your experience.' },
+              { type: 'p', text: 'Stoos Ridge remains one of my <strong class="hl">favourite hikes in Switzerland</strong>.', zh: 'Stoos 山脊至今仍是我在瑞士<strong class="hl">最喜爱的徒步路线之一</strong>。' },
+              { type: 'p', text: 'It offers an <strong class="hl">ideal balance between spectacular scenery, reasonable effort, and accessibility</strong>. Whether you are visiting Switzerland for the first time or have lived here for years, it is a route that <strong class="hl">deserves a place on your hiking list</strong>.', zh: '它在<strong class="hl">壮观的风景、适中的体力要求和便利的交通之间找到了理想的平衡</strong>。无论你是第一次来到瑞士，还是在这里生活多年，它都是一条<strong class="hl">值得列入徒步清单</strong>的路线。' },
+              { type: 'p', text: 'If you have already completed the hike, or if you are planning to visit soon, feel free to leave a comment and share your experience.', zh: '如果你已经走过这条路线，或者正在计划近期前往，欢迎在下方留言分享你的体验。' },
             ],
           },
         ],
@@ -219,7 +267,7 @@ export function getStaticPaths() {
 }
 
 const entry = Astro.props as Entry;
-const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl, heroIntro, routeOverview } = entry;
+const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl, heroIntro, heroIntroZh, routeOverview, routeOverviewZh, routeMapNote, routeMapNoteZh, langZh } = entry;
 ---
 
 <BaseLayout title={title} description={subtitle}>
@@ -234,10 +282,20 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     stats={stats}
     webcamUrl={webcamUrl}
     heroIntro={heroIntro}
+    heroIntroZh={heroIntroZh}
     routeOverview={routeOverview}
+    routeOverviewZh={routeOverviewZh}
   />
 
-  <div class="article">
+  <div class="article" id="article-body">
+
+    {langZh && (
+      <div class="lang-bar" id="lang-switcher">
+        <button class="ls-btn ls-active" data-lang="en">EN</button>
+        <span class="ls-sep">/</span>
+        <button class="ls-btn" data-lang="zh">中文</button>
+      </div>
+    )}
 
     <div class="meta-bar">
       {meta.map((m, i) => (
@@ -254,7 +312,8 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     {entry.routeMapSrc && (
       <div class="route-map-wrap">
         <img src={entry.routeMapSrc} alt={entry.routeMapAlt ?? 'Route map'} />
-        {entry.routeMapNote && <p class="route-map-note">{entry.routeMapNote}</p>}
+        {entry.routeMapNote && <p class="route-map-note lang-en">{entry.routeMapNote}</p>}
+        {entry.routeMapNoteZh && <p class="route-map-note lang-zh">{entry.routeMapNoteZh}</p>}
       </div>
     )}
 
@@ -282,25 +341,44 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
 
     {body.sections.map(section => (
       <div class={`body-text${section.blocks?.some(b => b.type === 'subheading') ? ' compact' : ''}`}>
-        <h2 class="section-heading">{section.heading}</h2>
+        <h2 class="section-heading">
+          <span class="lang-en">{section.heading}</span>
+          {section.headingZh && <span class="lang-zh">{section.headingZh}</span>}
+        </h2>
 
         {section.paragraphs?.map(p => <p>{p}</p>)}
 
         {section.blocks?.map(b => {
-          if (b.type === 'p') return <p set:html={b.text}></p>;
+          if (b.type === 'p') return (
+            <>
+              <p class="lang-en" set:html={b.text}></p>
+              {b.zh && <p class="lang-zh" set:html={b.zh}></p>}
+            </>
+          );
           if (b.type === 'subheading') return (
             <h3 class="sub-heading">
               <span class="sub-num">{b.num}</span>
-              <span class="sub-heading-text">{b.text}</span>
+              <span class="sub-heading-text lang-en">{b.text}</span>
+              {b.zh && <span class="sub-heading-text lang-zh">{b.zh}</span>}
             </h3>
           );
           if (b.type === 'ul') return (
-            <div class="ul-wrap">
-              {b.intro && <p class="ul-intro" set:html={b.intro}></p>}
-              <ul class="body-list">
-                {b.items.map(item => <li set:html={item}></li>)}
-              </ul>
-            </div>
+            <>
+              <div class="ul-wrap lang-en">
+                {b.intro && <p class="ul-intro" set:html={b.intro}></p>}
+                <ul class="body-list">
+                  {b.items.map(item => <li set:html={item}></li>)}
+                </ul>
+              </div>
+              {(b.zhItems || b.zhIntro) && (
+                <div class="ul-wrap lang-zh">
+                  {b.zhIntro && <p class="ul-intro" set:html={b.zhIntro}></p>}
+                  <ul class="body-list">
+                    {(b.zhItems ?? b.items).map(item => <li set:html={item}></li>)}
+                  </ul>
+                </div>
+              )}
+            </>
           );
         })}
 
@@ -360,6 +438,23 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     margin: 0 auto;
     padding: 0 clamp(20px, 4vw, 48px);
   }
+
+  /* Language bar */
+  .lang-bar {
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 6px;
+    padding: 24px 0 0;
+  }
+  .ls-btn {
+    font-family: var(--sans); font-size: 14px; font-weight: 400;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: none; border: none; cursor: pointer;
+    color: var(--stone); padding: 0;
+    transition: color 0.18s;
+  }
+  .ls-btn:hover { color: var(--ink); }
+  .ls-btn.ls-active { color: var(--rose); font-weight: 600; }
+  .ls-sep { font-size: 11px; color: var(--rule); }
 
   /* Meta bar */
   .meta-bar {
@@ -651,6 +746,28 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     color: var(--rule); letter-spacing: 0.06em;
   }
 </style>
+
+<script>
+{
+  const switcher = document.getElementById('lang-switcher');
+  if (switcher) {
+    const btns = switcher.querySelectorAll('.ls-btn');
+    const saved = localStorage.getItem('sisi-article-lang') || 'en';
+    if (saved !== 'en') {
+      document.documentElement.dataset.lang = saved;
+      btns.forEach(b => b.classList.toggle('ls-active', (b as HTMLElement).dataset.lang === saved));
+    }
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = (btn as HTMLElement).dataset.lang!;
+        document.documentElement.dataset.lang = lang;
+        localStorage.setItem('sisi-article-lang', lang);
+        btns.forEach(b => b.classList.toggle('ls-active', b === btn));
+      });
+    });
+  }
+}
+</script>
 
 <script>
 {
