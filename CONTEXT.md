@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-04 (session 11)  
+> Last updated: 2026-06-04 (session 12)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -253,11 +253,22 @@ src/
   - Fixed 4:3 container, `object-fit: contain`, dark background — no cropping, portrait images pillarboxed
   - All slides `position: absolute + opacity` — zero layout shift on navigation
   - Left/right arrow buttons, keyboard ←/→, touch swipe; counter "N / total" bottom-right
-- Entry: `stoos-ridge-line` — Stoos Ridge Hike, Switzerland
+- Entry: `stoos-ridge-line` — Stoos Ridge Hike, Switzerland ✅ Complete
   - Cover: `/images/haute-route-alps.jpeg` (portrait, imagePosition: left)
   - Route map: `/images/stoos/stoos-route-map.png`
   - Gallery: 23 photos in `public/images/stoos/` (IMG_3352–3435, stoos2–9 variants)
   - webcamUrl: stoos.ch/en/pages/webcams
+  - Full article content: 5 sections (Photographer's Rec / Things to Know / Safety / Getting There / Final Thoughts)
+
+**Hiking guide article style (applies to ALL future /photography entries):**
+- Hero: portrait split, photo `object-fit:contain` no crop, right col = intro + route card + webcam (60px gap)
+- `split-intro`: equal padding all sides, serif italic body font, rose left border, NO flex:1
+- `route-card`: `rgba(193,125,157,0.1)` bg, direction as rose title, 2×2 stat grid, 13px note
+- Body max-width 960px; sections with h2 border-top; numbered sub-sections with pink highlight chip (`rgba(193,125,157,0.1)` + rose left border + bold italic title)
+- Block types: `p` (supports `<strong class="hl">`), `ul` (rose `—` bullets), `subheading` (number + text)
+- Inline highlight rule: `<strong class="hl">` = rose 600 weight — key advice, warnings, superlatives, action items; max 1–3 per paragraph
+- Webcam section only in hero, NOT in article body
+- Gallery carousel: 4:3 fixed container, `object-fit:contain`, dark bg, opacity transitions (zero layout shift)
 
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
 

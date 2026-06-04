@@ -10,6 +10,13 @@ interface Props {
   title: string;
   subtitle?: string;
   stats?: { label: string; value: string }[];
+  webcamUrl?: string;
+  heroIntro?: string[];
+  routeOverview?: {
+    direction: string;
+    stats: { label: string; value: string }[];
+    note?: string;
+  };
 }
 
 const {
@@ -21,6 +28,9 @@ const {
   title,
   subtitle,
   stats = [],
+  webcamUrl,
+  heroIntro,
+  routeOverview,
 } = Astro.props;
 ---
 
@@ -32,17 +42,52 @@ const {
       <Watermark />
     </div>
     <div class="split-text">
-      {eyebrow && <div class="split-eyebrow">{eyebrow}</div>}
-      <h1 class="split-title" set:html={title} />
-      {subtitle && <p class="split-subtitle">{subtitle}</p>}
-      {stats.length > 0 && (
-        <div class="split-stats">
-          {stats.map(s => (
-            <div class="stat-item">
-              <span class="stat-label">{s.label}</span>
-              <span class="stat-value">{s.value}</span>
-            </div>
-          ))}
+      <div class="split-top">
+        {eyebrow && <div class="split-eyebrow">{eyebrow}</div>}
+        <h1 class="split-title" set:html={title} />
+        {subtitle && <p class="split-subtitle">{subtitle}</p>}
+        {!webcamUrl && stats.length > 0 && (
+          <div class="split-stats">
+            {stats.map(s => (
+              <div class="stat-item">
+                <span class="stat-label">{s.label}</span>
+                <span class="stat-value">{s.value}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      {heroIntro && heroIntro.length > 0 && (
+        <div class="split-intro">
+          {heroIntro.map(p => <p>{p}</p>)}
+        </div>
+      )}
+      {routeOverview && (
+        <div class="route-card">
+          <div class="route-direction">
+            <span class="route-dir-text">{routeOverview.direction}</span>
+            <span class="route-card-label">Recommended direction</span>
+          </div>
+          <div class="route-stats">
+            {routeOverview.stats.map(s => (
+              <div class="route-stat">
+                <span class="route-stat-val">{s.value}</span>
+                <span class="route-stat-lbl">{s.label}</span>
+              </div>
+            ))}
+          </div>
+          {routeOverview.note && (
+            <p class="route-note">{routeOverview.note}</p>
+          )}
+        </div>
+      )}
+
+      {webcamUrl && (
+        <div class="split-webcam">
+          <p class="split-wc-hint">Weather in the Alps changes quickly at altitude. Check the live webcam before your visit to confirm current conditions on the ridge.</p>
+          <a class="split-wc-btn" href={webcamUrl} target="_blank" rel="noopener noreferrer">
+            View Live Webcam →
+          </a>
         </div>
       )}
     </div>
@@ -68,7 +113,7 @@ const {
   .hero-split {
     display: grid;
     height: calc(100vh - 52px);
-    min-height: 540px;
+    min-height: 480px;
   }
   .hero-split.img-left  { grid-template-columns: 42% 58%; }
   .hero-split.img-right { grid-template-columns: 58% 42%; }
@@ -76,6 +121,7 @@ const {
   .split-photo {
     position: relative;
     overflow: hidden;
+    background: var(--bg);
   }
   .img-right .split-photo { order: 2; }
   .img-right .split-text  { order: 1; }
@@ -83,7 +129,7 @@ const {
   .split-photo img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center center;
     transition: transform 0.8s ease;
   }
@@ -94,11 +140,11 @@ const {
 
   .split-text {
     display: flex; flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding: clamp(40px, 5vw, 72px);
-    padding-bottom: clamp(48px, 5vw, 72px);
     background: var(--bg);
   }
+  .split-top { display: flex; flex-direction: column; }
 
   .split-eyebrow {
     font-size: 9px; font-weight: 300;
@@ -123,6 +169,96 @@ const {
     color: var(--stone); line-height: 1.55;
     margin-bottom: 44px;
   }
+
+  /* Intro text in hero right column */
+  .split-intro {
+    overflow-y: auto;
+    padding: 20px 0 20px 18px;
+    border-top: 1px solid var(--rule);
+    border-left: 2px solid rgba(193,125,157,0.45);
+    scrollbar-width: none;
+  }
+  .split-intro::-webkit-scrollbar { display: none; }
+  .split-intro p {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 21px);
+    font-weight: 300; font-style: italic;
+    color: var(--ink); line-height: 1.82;
+    margin: 0;
+  }
+  .split-intro p + p { margin-top: 18px; }
+
+  /* Route overview card */
+  .route-card {
+    background: rgba(193,125,157,0.05);
+    border: 1px solid rgba(226,222,219,0.8);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-top: 20px;
+    flex-shrink: 0;
+  }
+  .route-card-label {
+    font-family: var(--sans); font-size: 9px; font-weight: 400;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--stone); display: block; margin-top: 4px;
+  }
+  .route-direction {
+    display: flex; flex-direction: column; gap: 3px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 12px;
+  }
+  .route-dir-text {
+    font-family: var(--sans); font-size: 15px; font-weight: 400;
+    color: var(--rose); letter-spacing: 0.01em;
+  }
+  .route-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+  }
+  .route-stat { display: flex; flex-direction: column; gap: 2px; }
+  .route-stat-val {
+    font-family: var(--sans); font-size: 13px; font-weight: 400;
+    color: var(--ink);
+  }
+  .route-stat-lbl {
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--stone);
+  }
+  .route-note {
+    font-family: var(--sans);
+    font-size: 13px; font-weight: 300;
+    color: var(--ink); line-height: 1.75;
+    margin: 12px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Webcam block in hero right column */
+  .split-webcam {
+    margin-top: 60px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .split-wc-hint {
+    font-family: var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--rose); line-height: 1.6;
+    margin: 0;
+  }
+  .split-wc-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--sans); font-size: 11px; font-weight: 300;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: #fff; background: var(--pink);
+    padding: 13px 24px; border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .split-wc-btn:hover { opacity: 0.82; }
 
   .split-stats {
     display: grid;

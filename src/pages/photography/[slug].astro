@@ -8,6 +8,17 @@ interface DayItem {
   detail: string;
 }
 
+type Block =
+  | { type: 'p'; text: string }
+  | { type: 'ul'; items: string[]; intro?: string }
+  | { type: 'subheading'; num: string; text: string };
+
+interface GalleryImg {
+  src: string;
+  alt?: string;
+  span?: 'full' | 'half';
+}
+
 interface Entry {
   slug: string;
   title: string;
@@ -21,6 +32,16 @@ interface Entry {
   stats: { label: string; value: string }[];
   meta: { label: string; value: string }[];
   webcamUrl?: string;
+  heroIntro?: string[];
+  routeOverview?: {
+    direction: string;
+    stats: { label: string; value: string }[];
+    note?: string;
+  };
+  routeMapSrc?: string;
+  routeMapAlt?: string;
+  routeMapNote?: string;
+  gallery?: GalleryImg[];
   body: {
     lead: string;
     paragraphs: string[];
@@ -31,6 +52,7 @@ interface Entry {
     sections: {
       heading: string;
       paragraphs?: string[];
+      blocks?: Block[];
       days?: DayItem[];
       tipLabel?: string;
       tipItems?: { bold: string; text: string }[];
@@ -46,75 +68,158 @@ export function getStaticPaths() {
       title: "Stoos Ridge Hike, Switzerland's Most Stunning Ridge Walk",
       titleHtml: "Stoos Ridge Hike,<br/>Switzerland's Most Stunning<br/>Ridge Walk",
       eyebrow: 'Hiking Guide · Schwyz · Switzerland',
-      subtitle: 'Eleven days of silence between Chamonix and Zermatt',
+      subtitle: '',
       webcamUrl: 'https://www.stoos.ch/en/pages/webcams',
+      heroIntro: [
+        'The Stoos Ridge hike is one of my favorite hikes in Switzerland.',
+        'I first discovered it through a hiking YouTuber who included it in a list of his top hikes in the country. As soon as I saw the footage, I knew I had to visit.',
+        'I completed the hike in early July 2023. Down in the valleys, summer had already arrived, but at higher elevations it still felt like spring. Wildflowers covered the slopes along the ridge, creating some of the most beautiful alpine scenery I have seen in Switzerland.',
+        'What impressed me most was how much this trail offers for so little effort. Along the route, you can enjoy panoramic views of Lake Lucerne, the surrounding Alps, and the iconic Mythen peaks, while the overall difficulty remains manageable for most reasonably active hikers.',
+      ],
+      routeOverview: {
+        direction: 'Klingenstock → Fronalpstock',
+        stats: [
+          { label: 'Distance',    value: '~4.5 km' },
+          { label: 'Walking',     value: '~2 hours' },
+          { label: 'Total time',  value: '4–5 hours' },
+          { label: 'Difficulty',  value: 'Moderate' },
+        ],
+        note: 'Both directions involve similar ascent and descent, but finishing at Fronalpstock makes for a far more satisfying end. The summit has a large viewing platform with panoramic views over Lake Lucerne and the Alps, a mountain restaurant, rest areas, and cable car access back down to Stoos — the perfect place to sit, eat, and soak in the scenery before descending. Klingenstock, by contrast, has fewer facilities and a smaller platform, making it a better starting point than a destination.',
+      },
+      routeMapSrc: '/images/stoos/stoos-route-map.png',
+      routeMapAlt: 'Stoos Ridge Hike route map with elevation profile',
+      routeMapNote: 'Recommended direction: start at Klingenstock (right side of map) and hike west towards Fronalpstock (left side of map).',
       orientation: 'portrait',
       imagePosition: 'left',
       src: '/images/haute-route-alps.jpeg',
       alt: 'Alpine wildflowers, Haute Route, Swiss Alps',
-      stats: [
-        { label: 'Distance',     value: '~180 km' },
-        { label: 'Total Ascent', value: '12,000 m' },
-        { label: 'Duration',     value: '11 days' },
-        { label: 'Best Season',  value: 'Jul – Sep' },
-        { label: 'Difficulty',   value: 'Demanding' },
-        { label: 'Route',        value: 'Chamonix → Zermatt' },
-      ],
-      meta: [
-        { label: 'Date',      value: 'July 2022' },
-        { label: 'Distance',  value: '~180 km' },
-        { label: 'Duration',  value: '11 days' },
-        { label: 'Read time', value: '12 min' },
-      ],
+      stats: [],
+      meta: [],
       body: {
-        lead: 'There is a moment on the Haute Route — somewhere between the Col de Torrent and a nameless ridge above Grimentz — when you stop thinking about distance and start thinking about nothing at all. That is when the mountains begin to work on you.',
-        paragraphs: [
-          'I had planned this route for almost two years, circling it in guidebooks, watching weather forecasts obsessively, debating gear lists with strangers on the internet. By the time I finally stood in Chamonix on a cool July morning with a 12-kilogram pack, all that preparation had dissolved into a single, very simple question: which way is up?',
-          'The Haute Route — the high route — is not a trail in the conventional sense. It is more of an intention, a general agreement between peaks that you will thread yourself through them over eleven days, crossing from the French Alps into Switzerland, from the shadow of Mont Blanc to the foot of the Matterhorn. The path shifts each year, redrawn by snow conditions and hut availability. What stays constant is the altitude and the relentlessness.',
-        ],
-        pullQuote: '"The flowers at 2,600 metres do not care that you are tired. They simply exist, yellow and violet against the grey scree, and that indifference is oddly comforting."',
-        inlineImgSrc: '/images/haute-route-alps.jpeg',
-        inlineImgAlt: 'Wildflowers and valley view, Swiss Alps',
-        inlineImgCaption: "Alpine asters and buttercups above Val d'Anniviers, Day 3. Elevation: approx. 2,600m.",
+        lead: '',
+        paragraphs: [],
         sections: [
           {
-            heading: 'The Route',
-            paragraphs: [
-              'The classic Haute Route begins in Chamonix and ends in Zermatt. The route passes through some of the highest permanently inhabited villages in Europe — Verbier, Evolène, Arolla — each one a brief, jarring return to WiFi and hot showers before the mountains reclaim you again.',
-            ],
-            days: [
-              { num: '01',    title: 'Chamonix → Champex-Lac',              detail: '26 km · 1,850m ascent · Classic long opener — most take the bus to Argentière to shorten it' },
-              { num: '02',    title: 'Champex-Lac → Col de la Forclaz',     detail: '16 km · 850m ascent · Gentle day through forest and orchard country' },
-              { num: '03',    title: 'Col de la Forclaz → Cabane du Mountet', detail: "22 km · 1,900m ascent · The route's emotional heart — high passes, glacier views, wildflowers" },
-              { num: '04',    title: 'Cabane du Mountet → Zinal',            detail: '14 km · 450m ascent · Glacier descent. Take it slowly.' },
-              { num: '05–11', title: 'Zinal → Zermatt',                      detail: '~100 km · Final stages through Gruben, St. Niklaus, and Täsch before the Matterhorn reveals itself' },
+            heading: "A Photographer's Recommendation",
+            blocks: [
+              { type: 'p', text: 'As someone who enjoys photography, I always recommend starting alpine hikes <strong class="hl">as early as possible</strong>.' },
+              { type: 'p', text: 'This applies to almost every hike in Switzerland.' },
+              { type: 'ul', intro: 'In the early morning:', items: [
+                'Air clarity is usually <strong class="hl">at its best</strong>.',
+                'Haze is minimal.',
+                'Colors appear <strong class="hl">more saturated</strong>.',
+                'Visibility is often <strong class="hl">significantly better</strong> than later in the day.',
+                'The light is <strong class="hl">softer and more pleasant</strong> for photography.',
+              ]},
+              { type: 'p', text: 'This is another reason why I prefer hiking from Klingenstock to Fronalpstock.' },
+              { type: 'p', text: 'On most summer mornings, <strong class="hl">the sun is behind you</strong> when walking from east to west along the ridge. You avoid looking directly into strong sunlight, and even near midday the lighting conditions remain comfortable for both hiking and photography.' },
             ],
           },
           {
-            heading: 'Practical Information',
-            paragraphs: [
-              'The route requires booking huts well in advance — June at the latest for a July departure. Most huts operate half-board (dinner and breakfast included). The Swiss huts in particular are efficient and excellent. Do not skip breakfast.',
+            heading: 'Things You Should Know Before Going',
+            blocks: [
+              { type: 'subheading', num: '1', text: 'It is not completely effortless' },
+              { type: 'p', text: 'While I would not consider this a difficult hike, it is <strong class="hl">not a casual walk</strong> either.' },
+              { type: 'p', text: 'People who rarely exercise may find certain sections challenging, especially the <strong class="hl">steeper climbs near the beginning</strong> of the route.' },
+              { type: 'p', text: 'If you hike occasionally and have a reasonable fitness level, however, the trail should be <strong class="hl">very manageable</strong>.' },
+
+              { type: 'subheading', num: '2', text: 'There is almost no shade' },
+              { type: 'p', text: 'This is an <strong class="hl">exposed ridge hike</strong>.' },
+              { type: 'p', text: 'There are very few trees along the route, meaning <strong class="hl">almost no protection from the sun</strong>.' },
+              { type: 'p', text: 'On warm summer days, especially around noon and in the afternoon, the heat can feel <strong class="hl">surprisingly intense</strong>.' },
+              { type: 'ul', intro: 'I strongly recommend:', items: [
+                '<strong class="hl">Bringing sufficient water</strong>',
+                'Using sunscreen',
+                'Wearing a hat or cap',
+                '<strong class="hl">Starting early</strong> whenever possible',
+              ]},
+
+              { type: 'subheading', num: '3', text: 'No facilities on the ridge' },
+              { type: 'p', text: 'Once you leave the stations, there are:' },
+              { type: 'ul', items: [
+                '<strong class="hl">No toilets</strong>',
+                '<strong class="hl">No food stands</strong>',
+                '<strong class="hl">No drinking water points</strong>',
+              ]},
+              { type: 'p', text: 'Make sure you <strong class="hl">bring everything you need</strong> before starting.' },
+
+              { type: 'subheading', num: '4', text: 'Wear proper footwear' },
+              { type: 'p', text: 'You do not need heavy mountaineering boots for this trail.' },
+              { type: 'p', text: 'A good pair of <strong class="hl">hiking shoes or sturdy sports shoes</strong> is usually sufficient.' },
+              { type: 'ul', intro: 'However, I would avoid:', items: ['Sandals', 'Casual fashion shoes', 'Leather dress shoes'] },
+              { type: 'p', text: 'The trail includes <strong class="hl">uneven terrain where proper grip is important</strong>.' },
+
+              { type: 'subheading', num: '5', text: 'Hiking poles are helpful — but not always' },
+              { type: 'p', text: 'I highly recommend hiking poles, especially for the steeper sections.' },
+              { type: 'p', text: 'They can <strong class="hl">save a significant amount of energy</strong> during climbs and <strong class="hl">reduce stress on your knees</strong> during descents.' },
+              { type: 'p', text: 'That said, Stoos Ridge is a very popular route. During busy periods, some sections can become crowded.' },
+              { type: 'p', text: "On flatter and narrower stretches, I usually put my poles away to avoid slowing down other hikers or accidentally getting in someone's way." },
             ],
-            tipLabel: 'Key Logistics',
-            tipItems: [
-              { bold: 'Hut bookings:', text: 'Open in early spring. Book June or earlier for July–August. SAC membership gives priority and discounts at Swiss huts.' },
-              { bold: 'Gear:',         text: 'Crampons and ice axe are mandatory before late July. Trekking poles are not optional — they are structural. A good rain jacket earns its weight many times over.' },
-              { bold: 'Getting there:', text: 'Chamonix is well-served by train from Geneva (1.5h). Zermatt is car-free — take the train from Täsch.' },
+          },
+          {
+            heading: 'Safety',
+            blocks: [
+              { type: 'p', text: 'Although I personally consider the overall risk level relatively low, it is <strong class="hl">still a mountain ridge</strong>.' },
+              { type: 'p', text: 'The views are spectacular and it is easy to become distracted while taking photos.' },
+              { type: 'p', text: '<strong class="hl">Always pay attention to where you are stepping</strong>, particularly when stopping for pictures or looking away from the trail.' },
+              { type: 'p', text: '<strong class="hl">No photograph is worth an injury.</strong>' },
+            ],
+          },
+          {
+            heading: 'Getting There',
+            blocks: [
+              { type: 'p', text: 'Another highlight of this trip is the journey itself.' },
+              { type: 'p', text: 'Before reaching the ridge, you can ride the famous Stoos funicular, which is often described as <strong class="hl">the steepest funicular railway in the world</strong>.' },
+              { type: 'p', text: 'From Stoos village, you can then take the chairlift up to Klingenstock and begin the hike.' },
+              { type: 'p', text: 'Transport schedules may change depending on the season, weather conditions, and maintenance work, so I recommend <strong class="hl">checking the official Stoos website before departure</strong>.' },
+              { type: 'ul', intro: 'I have included links to:', items: ['The official Stoos website', 'The live webcams'] },
+              { type: 'p', text: 'Checking the webcams before leaving home is <strong class="hl">one of the easiest ways to evaluate visibility and weather conditions</strong> in real time.' },
+              { type: 'p', text: 'I also recommend using the <strong class="hl">MeteoSwiss app</strong> for weather updates during your trip.' },
+            ],
+          },
+          {
+            heading: 'Final Thoughts',
+            blocks: [
+              { type: 'p', text: 'Stoos Ridge remains one of my <strong class="hl">favourite hikes in Switzerland</strong>.' },
+              { type: 'p', text: 'It offers an <strong class="hl">ideal balance between spectacular scenery, reasonable effort, and accessibility</strong>. Whether you are visiting Switzerland for the first time or have lived here for years, it is a route that <strong class="hl">deserves a place on your hiking list</strong>.' },
+              { type: 'p', text: 'If you have already completed the hike, or if you are planning to visit soon, feel free to leave a comment and share your experience.' },
             ],
           },
         ],
-        closing: [
-          'I arrived in Zermatt on an afternoon when the Matterhorn was fully visible — unusual, I was told. I sat on a terrace and stared at the mountain for a long time. It did not feel like an ending. It felt like a question that the walking had helped me articulate, even if I still did not have the answer.',
-          'The mountains do not judge whether you were fast or slow, prepared or improvised, experienced or naive. They are simply there, and you are simply in them, and for a little while that is enough.',
-        ],
+        closing: [],
       },
+      gallery: [
+        { src: '/images/stoos/IMG_3352.jpeg',     span: 'full' },
+        { src: '/images/stoos/IMG_3354.jpeg' },
+        { src: '/images/stoos/IMG_3355.jpeg' },
+        { src: '/images/stoos/IMG_3383.jpeg' },
+        { src: '/images/stoos/IMG_3386.jpeg',     span: 'full' },
+        { src: '/images/stoos/IMG_3399.jpeg' },
+        { src: '/images/stoos/IMG_3401.jpeg' },
+        { src: '/images/stoos/IMG_3404.jpeg' },
+        { src: '/images/stoos/IMG_3413.jpeg',     span: 'full' },
+        { src: '/images/stoos/IMG_3422.jpeg' },
+        { src: '/images/stoos/IMG_3429.jpeg' },
+        { src: '/images/stoos/IMG_3435.jpeg' },
+        { src: '/images/stoos/stoos2b.jpeg' },
+        { src: '/images/stoos/stoos2.jpeg',       span: 'full' },
+        { src: '/images/stoos/stoos3b.jpeg' },
+        { src: '/images/stoos/stoos3.jpeg' },
+        { src: '/images/stoos/stoos4b.jpeg' },
+        { src: '/images/stoos/stoos4.jpeg' },
+        { src: '/images/stoos/stoos5.jpeg',       span: 'full' },
+        { src: '/images/stoos/stoos6.jpeg' },
+        { src: '/images/stoos/stoos7.jpeg' },
+        { src: '/images/stoos/stoos8.jpeg' },
+        { src: '/images/stoos/stoos9.jpeg' },
+      ],
     },
   ];
   return entries.map(e => ({ params: { slug: e.slug }, props: e }));
 }
 
 const entry = Astro.props as Entry;
-const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl } = entry;
+const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl, heroIntro, routeOverview } = entry;
 ---
 
 <BaseLayout title={title} description={subtitle}>
@@ -127,6 +232,9 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     title={entry.titleHtml}
     subtitle={subtitle}
     stats={stats}
+    webcamUrl={webcamUrl}
+    heroIntro={heroIntro}
+    routeOverview={routeOverview}
   />
 
   <div class="article">
@@ -142,6 +250,13 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
         </>
       ))}
     </div>
+
+    {entry.routeMapSrc && (
+      <div class="route-map-wrap">
+        <img src={entry.routeMapSrc} alt={entry.routeMapAlt ?? 'Route map'} />
+        {entry.routeMapNote && <p class="route-map-note">{entry.routeMapNote}</p>}
+      </div>
+    )}
 
     <div class="body-text">
       <p class="lead">{body.lead}</p>
@@ -166,10 +281,28 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     )}
 
     {body.sections.map(section => (
-      <div class="body-text">
+      <div class={`body-text${section.blocks?.some(b => b.type === 'subheading') ? ' compact' : ''}`}>
         <h2 class="section-heading">{section.heading}</h2>
 
         {section.paragraphs?.map(p => <p>{p}</p>)}
+
+        {section.blocks?.map(b => {
+          if (b.type === 'p') return <p set:html={b.text}></p>;
+          if (b.type === 'subheading') return (
+            <h3 class="sub-heading">
+              <span class="sub-num">{b.num}</span>
+              <span class="sub-heading-text">{b.text}</span>
+            </h3>
+          );
+          if (b.type === 'ul') return (
+            <div class="ul-wrap">
+              {b.intro && <p class="ul-intro" set:html={b.intro}></p>}
+              <ul class="body-list">
+                {b.items.map(item => <li set:html={item}></li>)}
+              </ul>
+            </div>
+          );
+        })}
 
         {section.days && (
           <div class="day-list">
@@ -196,24 +329,25 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
       </div>
     ))}
 
-    {webcamUrl && (
-      <div class="webcam-section">
-        <h2 class="section-heading">Live Webcam</h2>
-        <p class="webcam-desc">Real-time view from the mountain</p>
-        <div class="webcam-card">
-          <span class="wc-eyebrow">Mountain Live View</span>
-          <a class="wc-btn" href={webcamUrl} target="_blank" rel="noopener noreferrer">
-            View Live Webcam →
-          </a>
-          <span class="wc-source">Official webcam · stoos.ch</span>
+    {entry.gallery && entry.gallery.length > 0 && (
+      <div class="gallery-section">
+        <h2 class="section-heading">On the Trail</h2>
+        <div class="carousel" id="photo-carousel">
+          <div class="carousel-track">
+            {entry.gallery.map((img, i) => (
+              <div class={`carousel-slide${i === 0 ? ' active' : ''}`} data-index={i}>
+                <img src={img.src} alt={img.alt ?? 'Stoos Ridge, Switzerland'} loading={i < 3 ? 'eager' : 'lazy'} />
+              </div>
+            ))}
+          </div>
+          <button class="carousel-btn carousel-prev" aria-label="Previous photo">&#8249;</button>
+          <button class="carousel-btn carousel-next" aria-label="Next photo">&#8250;</button>
+          <div class="carousel-counter">
+            <span id="carousel-cur">1</span>&thinsp;/&thinsp;{entry.gallery.length}
+          </div>
         </div>
       </div>
     )}
-
-    <div class="body-text">
-      <h2 class="section-heading">On Returning</h2>
-      {body.closing.map(p => <p>{p}</p>)}
-    </div>
 
     <a class="back-link" href="/photography">← Back to Mountain Calling</a>
 
@@ -222,9 +356,9 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
 
 <style>
   .article {
-    max-width: 720px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: 0 clamp(20px, 6vw, 40px);
+    padding: 0 clamp(20px, 4vw, 48px);
   }
 
   /* Meta bar */
@@ -269,6 +403,60 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     border-top: 1px solid var(--rule);
   }
 
+  /* Sub-headings (numbered) — light pink highlight */
+  .sub-heading {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(193,125,157,0.1);
+    border-left: 3px solid var(--rose);
+    padding: 8px 16px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 24px; margin-bottom: 10px;
+  }
+  .sub-num {
+    font-family: var(--serif);
+    font-size: 22px; font-weight: 300; font-style: italic;
+    color: var(--rose); line-height: 1; flex-shrink: 0;
+  }
+  .sub-heading-text {
+    font-family: var(--serif);
+    font-size: clamp(16px, 1.7vw, 19px);
+    font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.2;
+  }
+
+  /* Body lists */
+  .ul-wrap { margin: 12px 0; }
+  .ul-intro {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 21px);
+    font-weight: 300; line-height: 1.82;
+    color: var(--ink); margin-bottom: 6px;
+  }
+  .body-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .body-list li {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.8vw, 20px);
+    font-weight: 300; line-height: 1.65;
+    color: var(--ink);
+    padding-left: 22px; position: relative;
+  }
+  .body-list li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--rose);
+  }
+
+  /* Inline highlight */
+  .body-text strong.hl { font-weight: 600; color: var(--rose); font-style: normal; }
+  .body-list li strong.hl { font-weight: 600; color: var(--rose); }
+
+  /* Tighter paragraph spacing inside compact sections */
+  .body-text.compact p + p { margin-top: 10px; }
+  .body-text.compact .sub-heading + p { margin-top: 8px; }
+
   /* Pull quote */
   .pull-quote {
     margin: 52px 0;
@@ -280,6 +468,22 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     font-size: clamp(20px, 2.6vw, 26px);
     font-weight: 300; font-style: italic;
     line-height: 1.55; color: var(--stone); margin: 0;
+  }
+
+  /* Route map */
+  .route-map-wrap {
+    margin: 36px calc(-1 * clamp(20px, 4vw, 48px)) 40px;
+  }
+  .route-map-wrap img {
+    width: 100%; height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+  .route-map-note {
+    font-family: var(--sans); font-size: 12px; font-weight: 300;
+    color: var(--stone); font-style: italic;
+    margin: 8px 0 0; padding: 0 2px;
+    letter-spacing: 0.02em;
   }
 
   /* Inline image */
@@ -345,6 +549,58 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
   .tip-box p + p { margin-top: 10px; }
   .tip-bold { font-weight: 400; color: var(--ink); }
 
+  /* Photo carousel */
+  .gallery-section { margin-top: 64px; }
+
+  .carousel {
+    position: relative;
+    margin: 32px calc(-1 * clamp(20px, 4vw, 48px)) 0;
+    background: #111;
+    user-select: none;
+  }
+  .carousel-track {
+    position: relative;
+    aspect-ratio: 4/3;
+    background: #111;
+    overflow: hidden;
+  }
+
+  .carousel-slide {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.35s ease;
+    pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .carousel-slide.active { opacity: 1; pointer-events: auto; }
+  .carousel-slide img {
+    max-width: 100%; max-height: 100%;
+    width: auto; height: auto;
+    object-fit: contain; display: block;
+  }
+
+  .carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.28); backdrop-filter: blur(4px);
+    border: none; color: #fff;
+    font-size: 36px; line-height: 1;
+    width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border-radius: 50%;
+    transition: background 0.2s;
+    z-index: 2;
+  }
+  .carousel-btn:hover { background: rgba(193,125,157,0.7); }
+  .carousel-prev { left: 16px; }
+  .carousel-next { right: 16px; }
+
+  .carousel-counter {
+    position: absolute; bottom: 14px; right: 18px;
+    font-family: var(--sans); font-size: 11px; font-weight: 300;
+    letter-spacing: 0.08em; color: rgba(255,255,255,0.85);
+    background: rgba(0,0,0,0.35); padding: 3px 8px; border-radius: 2px;
+    z-index: 2;
+  }
+
   /* Back link */
   .back-link {
     display: inline-flex; align-items: center; gap: 8px;
@@ -358,12 +614,7 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
   .back-link:hover { color: var(--ink); gap: 14px; }
 
   /* Webcam section */
-  .webcam-desc {
-    font-family: var(--sans);
-    font-size: 12px; font-weight: 300;
-    color: var(--stone); letter-spacing: 0.06em;
-    margin-top: -14px; margin-bottom: 24px;
-  }
+  .webcam-section { }
 
   .webcam-card {
     display: flex; flex-direction: column; align-items: center;
@@ -400,4 +651,38 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     color: var(--rule); letter-spacing: 0.06em;
   }
 </style>
+
+<script>
+{
+  const carousel = document.getElementById('photo-carousel');
+  if (carousel) {
+    const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+    const curEl  = document.getElementById('carousel-cur');
+    const total  = slides.length;
+    let current  = 0;
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      current = ((n % total) + total) % total;
+      slides[current].classList.add('active');
+      if (curEl) curEl.textContent = String(current + 1);
+    }
+
+    carousel.querySelector('.carousel-prev')?.addEventListener('click', () => goTo(current - 1));
+    carousel.querySelector('.carousel-next')?.addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft')  goTo(current - 1);
+      if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    let touchStartX = 0;
+    const track = carousel.querySelector('.carousel-track');
+    track?.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track?.addEventListener('touchend',   e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 48) goTo(current + (dx < 0 ? 1 : -1));
+    });
+  }
+}
+</script>
 
