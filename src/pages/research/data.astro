@@ -701,6 +701,8 @@ let filteredVars  = [];
 let ageCounts     = null;    // loaded lazily
 let ageGroupSplit = false;   // toggle state
 let activeTypeFilter = 'raw';
+let groups     = null;
+let varToGroup = null;
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const secTabsEl   = document.getElementById('section-tabs');
@@ -732,6 +734,7 @@ initAgeToggle();
 initTypeFilter();
 // Load age counts in background — ready by the time user opens the toggle
 fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
+fetchJSON('/data/nsfg_groups.json').then(d => { groups = d.groups; varToGroup = d.var_to_group; }).catch(() => {});
 await selectSection(META.sections[0].key);
 
 // ── Section tabs ──────────────────────────────────────────────────────────────
@@ -992,6 +995,125 @@ function selectVar(name) {
   renderDetail(varData);
 }
 
+// ── Group view ────────────────────────────────────────────────────────────────
+async function renderGroupView(groupId, fromVar) {
+  const group = groups?.[groupId];
+  if (!group) return;
+
+  // Load section if not cached
+  if (!sectionCache[group.section]) {
+    loadingEl.hidden = false;
+    try {
+      sectionCache[group.section] = await fetchJSON(`/data/nsfg_section_${group.section}.json`);
+    } catch(e) { loadingEl.hidden = true; return; }
+    loadingEl.hidden = true;
+  }
+
+  const secData = sectionCache[group.section];
+  const varDatas = group.vars.map(name => secData.find(v => v.name === name)).filter(Boolean);
+
+  // Derive title using majority-prefix algorithm
+  const title = majorityLabelPrefix(varDatas.map(v => v.label));
+
+  // Aggregate distribution by response code across all vars (exclude inapplicable)
+  const tally = new Map();
+  for (const vd of varDatas) {
+    for (const d of (vd.distribution || [])) {
+      if (d.inapplicable) continue;
+      if (!tally.has(d.value)) tally.set(d.value, { label: d.label, value: d.value, n: 0 });
+      tally.get(d.value).n += d.n;
+    }
+  }
+  const aggregated = [...tally.values()].sort((a, b) => b.n - a.n);
+  const maxN = Math.max(...aggregated.map(r => r.n), 1);
+  const totalMentions = aggregated.reduce((s, r) => s + r.n, 0);
+
+  const rowsHtml = aggregated.map(r => {
+    const w = (r.n / maxN * 100).toFixed(1);
+    return `<div class="gv-row" style="grid-template-columns:1fr 180px 80px">
+      <div class="gv-label">${escHtml(r.label)}<span class="dist-val-code">${escHtml(r.value)}</span></div>
+      <div class="dist-bar-track">
+        <div class="dist-bar-fill" style="width:0%;background:${BAR_COLOR}" data-w="${w}%"></div>
+      </div>
+      <div class="gv-n">${r.n.toLocaleString()}</div>
+    </div>`;
+  }).join('');
+
+  detailEmpty.hidden   = true;
+  detailContent.hidden = false;
+
+  detailContent.innerHTML =
+    `<div class="gv-header">
+       <button class="gv-back-btn">← Back to ${escHtml(fromVar.name)}</button>
+       <div class="gv-title-row">
+         <span class="gv-qcode">${escHtml(group.qcode)}</span>
+         <h2 class="gv-title">${escHtml(title)}</h2>
+       </div>
+       <div class="gv-count">${group.n_vars} variables · ${totalMentions.toLocaleString()} total mentions</div>
+     </div>
+     <div class="gv-body">${rowsHtml}</div>`;
+
+  // Back: restore single selection and original detail
+  detailContent.querySelector('.gv-back-btn').addEventListener('click', () => {
+    varListEl.querySelectorAll('.var-item').forEach(el => {
+      el.classList.toggle('selected', el.dataset.name === fromVar.name);
+    });
+    renderDetail(fromVar);
+  });
+
+  // Switch left panel to group's section and highlight all group vars
+  await switchVarListToSection(group.section);
+  const groupVarSet = new Set(group.vars);
+  varListEl.querySelectorAll('.var-item').forEach(el => {
+    el.classList.toggle('selected', groupVarSet.has(el.dataset.name));
+  });
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    detailContent.querySelectorAll('.dist-bar-fill').forEach(el => {
+      el.style.width = el.dataset.w;
+    });
+  }));
+}
+
+// Switch the left var-list panel to a section without touching the detail panel
+async function switchVarListToSection(key) {
+  if (!sectionCache[key]) {
+    loadingEl.hidden = false;
+    try {
+      sectionCache[key] = await fetchJSON(`/data/nsfg_section_${key}.json`);
+    } catch(e) { loadingEl.hidden = true; return; }
+    loadingEl.hidden = true;
+  }
+  currentSec = key;
+  setActiveTab(key);
+  searchEl.value = '';
+  renderVarList(sectionCache[key]);
+}
+
+// Longest prefix shared by >= 60% of labels (handles outlier variables in a group)
+function majorityLabelPrefix(labels) {
+  if (!labels.length) return '';
+  if (labels.length === 1) return labels[0].replace(/[\s\-(–,;:]+$/, '').trim();
+
+  const threshold = Math.ceil(labels.length * 0.6);
+  let best = '';
+
+  for (const base of labels) {
+    // Binary search: longest prefix of `base` shared by >= threshold labels
+    let lo = 0, hi = base.length;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >> 1;
+      const cand = base.slice(0, mid);
+      if (labels.filter(l => l.startsWith(cand)).length >= threshold) lo = mid;
+      else hi = mid - 1;
+    }
+    const trimmed = base.slice(0, lo).replace(/[\s\-(–,;:]+$/, '').trim();
+    if (trimmed.length > best.length) best = trimmed;
+  }
+
+  return best || labels[0].replace(/[\s\-(–,;:]+$/, '').trim();
+}
+
 // ── Detail panel ──────────────────────────────────────────────────────────────
 function showEmpty() {
   detailEmpty.hidden  = false;
@@ -1011,6 +1133,20 @@ function renderDetail(v) {
 
   // Type badge class
   const tc = typeClass(v.variable_type);
+
+  // Group hint
+  const groupId = varToGroup?.[v.name];
+  const group   = groupId ? groups?.[groupId] : null;
+  const groupHintHtml = group
+    ? `<div class="group-hint">
+         <div class="group-hint-info">
+           <span>Question group</span>
+           <strong>${escHtml(group.qcode)}</strong>
+           <span>— ${escHtml(group.title)}</span>
+         </div>
+         <button class="group-view-btn" data-group-id="${escHtml(groupId)}">View all ${group.n_vars} →</button>
+       </div>`
+    : '';
 
   // Notes section
   const notesHtml = v.notes
@@ -1060,6 +1196,7 @@ function renderDetail(v) {
          </div>
        </div>
      </div>
+     ${groupHintHtml}
      ${notesHtml}
      <div class="dist-wrap">
        ${ageGroupSplit
@@ -1077,6 +1214,12 @@ function renderDetail(v) {
       el.style.width = el.dataset.w;
     });
   }));
+
+  // Group view button
+  const groupBtn = detailContent.querySelector('.group-view-btn');
+  if (groupBtn) {
+    groupBtn.addEventListener('click', () => renderGroupView(groupBtn.dataset.groupId, v));
+  }
 }
 
 // ── Utils ─────────────────────────────────────────────────────────────────────
