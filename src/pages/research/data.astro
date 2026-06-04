@@ -49,6 +49,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
             </svg>
             <input id="var-search" type="search" placeholder="Search variables…" autocomplete="off" spellcheck="false">
           </div>
+          <div class="type-filter-row" id="type-filter-row">
+            <button class="type-chip" data-type="all">All</button>
+            <button class="type-chip active" data-type="raw">Raw</button>
+            <button class="type-chip" data-type="recode">Recode</button>
+            <button class="type-chip" data-type="computed">Computed</button>
+          </div>
           <div class="var-count-row">
             <span id="var-count" class="var-count"></span>
             <span id="loading-badge" class="loading-badge" hidden>Loading…</span>
@@ -289,6 +295,23 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 #var-search:focus { border-color: var(--stone); }
 #var-search::placeholder { color: #b0a9a3; }
 
+/* ── Type filter chips ─────────────────────────────────────────────────────── */
+.type-filter-row {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.type-chip {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 2px;
+  border: 1px solid var(--rule);
+  background: transparent; color: var(--stone);
+  cursor: pointer; transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.type-chip:hover { border-color: var(--stone); color: var(--ink); }
+.type-chip.active { background: var(--rose); color: #fff; border-color: var(--rose); }
+
 .var-count-row {
   display: flex; align-items: center; justify-content: space-between;
   padding: 7px 14px;
@@ -443,6 +466,93 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone);
 }
 
+/* ── Group hint banner ─────────────────────────────────────────────────────── */
+.group-hint {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  padding: 12px 32px;
+  background: rgba(193,125,157,0.06);
+  border-bottom: 1px solid rgba(193,125,157,0.18);
+}
+.group-hint-info {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--stone); display: flex; align-items: center; gap: 8px;
+}
+.group-hint-info strong { color: var(--rose); font-weight: 400; }
+.group-view-btn {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  background: transparent; border-radius: 2px;
+  padding: 5px 12px; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+}
+.group-view-btn:hover { background: var(--rose); color: #fff; }
+
+/* ── Group view ────────────────────────────────────────────────────────────── */
+.gv-header {
+  padding: 20px 32px 16px;
+  border-bottom: 1px solid var(--rule);
+  position: sticky; top: 0; z-index: 2;
+  background: var(--bg);
+}
+.gv-back-btn {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--stone); background: none; border: none; cursor: pointer;
+  padding: 0; margin-bottom: 12px; display: block;
+  transition: color 0.18s;
+}
+.gv-back-btn:hover { color: var(--ink); }
+.gv-title-row {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.gv-qcode {
+  font-family: var(--sans); font-size: 11px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.35);
+  padding: 2px 8px; border-radius: 2px;
+}
+.gv-title {
+  font-family: var(--serif); font-size: 20px; font-weight: 500; font-style: italic;
+  color: var(--ink); margin: 0; line-height: 1.2;
+}
+.gv-count {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  color: var(--stone); letter-spacing: 0.06em;
+}
+.gv-subtitle {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  color: var(--stone);
+}
+.gv-body { padding: 20px 32px 48px; }
+.gv-row {
+  display: grid;
+  grid-template-columns: 1fr 200px 54px 72px;
+  align-items: center; gap: 0 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(226,222,219,0.45);
+  cursor: pointer; transition: background 0.15s;
+  border-radius: 4px;
+}
+.gv-row:last-child { border-bottom: none; }
+.gv-row:hover { background: rgba(193,125,157,0.04); }
+.gv-label {
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  color: var(--ink); line-height: 1.35;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.gv-pct {
+  font-family: var(--sans); font-size: 13px; font-weight: 400;
+  color: var(--ink); text-align: right;
+}
+.gv-n {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  color: var(--stone); text-align: right;
+}
+
 /* Distribution table */
 .dist-wrap { padding: 24px 32px 40px; }
 
@@ -528,7 +638,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .panel-vars {
     border-right: none;
     border-bottom: 1px solid var(--rule);
-    height: 320px;
+    height: 455px;
     min-height: 0;
     overflow: hidden;
   }
@@ -590,6 +700,7 @@ let currentVar    = null;
 let filteredVars  = [];
 let ageCounts     = null;    // loaded lazily
 let ageGroupSplit = false;   // toggle state
+let activeTypeFilter = 'raw';
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const secTabsEl   = document.getElementById('section-tabs');
@@ -618,6 +729,7 @@ try {
 buildSectionTabs();
 initTabsArrow();
 initAgeToggle();
+initTypeFilter();
 // Load age counts in background — ready by the time user opens the toggle
 fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
 await selectSection(META.sections[0].key);
@@ -665,6 +777,27 @@ function initTabsArrow() {
   requestAnimationFrame(() => requestAnimationFrame(sync));
   setTimeout(sync, 200);
   window.addEventListener('load', sync);
+}
+
+// ── Type filter chips ─────────────────────────────────────────────────────────
+function initTypeFilter() {
+  document.querySelectorAll('.type-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeTypeFilter = btn.dataset.type;
+      document.querySelectorAll('.type-chip').forEach(b =>
+        b.classList.toggle('active', b === btn)
+      );
+      renderVarList(sectionCache[currentSec] || []);
+    });
+  });
+}
+
+function matchesTypeFilter(v) {
+  if (activeTypeFilter === 'all') return true;
+  if (activeTypeFilter === 'raw') return v.variable_type === 'raw';
+  if (activeTypeFilter === 'recode') return v.variable_type === 'recode';
+  if (activeTypeFilter === 'computed') return (v.variable_type || '').startsWith('computed');
+  return true;
 }
 
 // ── Age split toggle ──────────────────────────────────────────────────────────
@@ -745,7 +878,10 @@ function renderVarList(vars) {
     const results = [];
     META.sections.forEach(sec => {
       sec.variables.forEach(v => {
-        if (v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query)) {
+        if (
+          (v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query)) &&
+          matchesTypeFilter(v)
+        ) {
           results.push({ ...v, _secKey: sec.key, _secLabel: sec.label });
         }
       });
@@ -777,9 +913,8 @@ function renderVarList(vars) {
 
   // ── Section search: filter within current section ───────────────────────────
   filteredVars = (vars || []).filter(v =>
-    !query ||
-    v.name.toLowerCase().includes(query) ||
-    v.label.toLowerCase().includes(query)
+    matchesTypeFilter(v) &&
+    (!query || v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query))
   );
   varCountEl.textContent = `${filteredVars.length} variable${filteredVars.length !== 1 ? 's' : ''}`;
 
