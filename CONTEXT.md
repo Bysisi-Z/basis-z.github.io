@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-03 (session 8)  
+> Last updated: 2026-06-04 (session 9)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -201,7 +201,22 @@ src/
 
 **Global search:** search box crosses all 12 sections (from nsfg_meta.json in memory); clicking a result auto-loads that section and shows detail
 
-**Design rules enforced this session:**
+**Variable type filter:**
+- Filter chips in left panel below search: All / Raw / Recode / Computed
+- Default: Raw; applies to both section list and global search results
+- Computed matches any `variable_type` starting with "computed" (e.g. computed_continuous)
+- Mobile panel-vars height: 455px (fits ~5 variables including all header rows)
+
+**Group view feature:**
+- Data: `public/data/nsfg_groups.json` — 109 groups, 838 variables; keys: `groups` (by `section::qcode`) and `var_to_group` (varname → group id)
+- When a variable belongs to a group, a rose hint banner appears below the detail header: "Question group [qcode] — [title]" + "View all N →" button
+- Group view aggregates response codes (by `value`) across all sub-variables, sorted by total mention count (no %; inapplicable excluded)
+- Title derived via **majority-prefix algorithm**: longest prefix shared by ≥60% of variable labels, handles outlier vars (e.g. WHENPILL in EA-17) without truncating the shared title
+- Left panel switches to the group's section and highlights all member variables simultaneously
+- Back button restores single-variable selection and original detail
+- Loaded in background at boot (alongside age counts)
+
+**Design rules:**
 - `var(--rule)` (#E2DEDB) is NEVER used as text color — minimum readable text = `var(--stone)` (#847B7B)
 - Right panel: label (serif italic, bold) is primary; varname in rose is secondary
 - Mobile dist rows: 4 columns (label | bar | % | n), no hidden count column
