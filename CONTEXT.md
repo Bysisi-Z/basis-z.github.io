@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-04 (session 12)  
+> Last updated: 2026-06-04 (session 13)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -269,6 +269,15 @@ src/
 - Inline highlight rule: `<strong class="hl">` = rose 600 weight — key advice, warnings, superlatives, action items; max 1–3 per paragraph
 - Webcam section only in hero, NOT in article body
 - Gallery carousel: 4:3 fixed container, `object-fit:contain`, dark bg, opacity transitions (zero layout shift)
+
+**Bilingual support (EN / 中文):**
+- Enabled per-entry with `langZh: true` flag; only Mountain Calling articles
+- Toggle button rendered at top of `.article` div (right-aligned, 14px sans)
+- Visibility via `html[data-lang="zh"]` attribute set on `<html>` element; saved to `localStorage` key `sisi-article-lang`
+- Global CSS in `global.css` uses `!important` to override Astro scoped styles: `.lang-zh { display: none !important }` etc.
+- `strong.hl` (rose inline highlight) also in `global.css` — required because `set:html` content doesn't receive Astro's scoped CSS `[data-astro-cid]` attribute
+- Entry fields for zh: `heroIntroZh[]`, `routeOverviewZh` (stats + note), `routeMapNoteZh`, block-level `zh`/`zhItems`/`zhIntro`, section `headingZh`
+- ArticleHero props: `heroIntroZh`, `routeOverviewZh` — renders both EN+ZH with lang classes
 
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
 
