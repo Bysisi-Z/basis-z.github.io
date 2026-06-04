@@ -1,49 +1,35 @@
 ---
-// Giscus comments — powered by GitHub Discussions
-// Repo: Bysisi-Z/basis-z.github.io
+// Cusdis comments — no account required to comment
+const pageId = Astro.url.pathname;
 ---
 
 <div class="comments-section">
   <h2 class="comments-heading">Comments</h2>
-  <div class="giscus-wrap" id="giscus-wrap">
-    <script
-      src="https://giscus.app/client.js"
-      data-repo="Bysisi-Z/basis-z.github.io"
-      data-repo-id="R_kgDOSrDp_g"
-      data-category="General"
-      data-category-id="DIC_kwDOSrDp_s4C-gVs"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="top"
-      data-theme="light"
-      data-lang="en"
-      crossorigin="anonymous"
-      async
-    ></script>
-  </div>
+  <div
+    id="cusdis_thread"
+    data-host="https://cusdis.com"
+    data-app-id="33766e5a-7ef9-4b4f-9a01-df1013f36a9d"
+    data-page-id={pageId}
+    data-page-url=""
+    data-page-title=""
+  ></div>
 </div>
 
 <script>
 {
-  // Sync giscus language with the page language toggle
-  function updateGiscusLang(lang: string) {
-    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
-    if (iframe?.contentWindow) {
-      iframe.contentWindow.postMessage(
-        { giscus: { setConfig: { lang: lang === 'zh' ? 'zh-CN' : 'en' } } },
-        'https://giscus.app'
-      );
-    }
+  // Fill in URL and title client-side (not available at build time)
+  const el = document.getElementById('cusdis_thread');
+  if (el) {
+    el.dataset.pageUrl   = window.location.href;
+    el.dataset.pageTitle = document.title;
   }
 
-  // Watch for lang toggle changes
-  const observer = new MutationObserver(() => {
-    const lang = document.documentElement.dataset.lang || 'en';
-    updateGiscusLang(lang);
-  });
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
+  // Load Cusdis script
+  const s = document.createElement('script');
+  s.src   = 'https://cusdis.com/js/cusdis.es.js';
+  s.async = true;
+  s.defer = true;
+  document.body.appendChild(s);
 }
 </script>
 
@@ -53,16 +39,11 @@
     padding-top: 48px;
     border-top: 1px solid var(--rule);
   }
-
   .comments-heading {
     font-family: var(--serif);
     font-size: clamp(24px, 3vw, 32px);
     font-weight: 300; font-style: italic;
     color: var(--ink);
     margin-bottom: 28px;
-  }
-
-  .giscus-wrap {
-    /* Let giscus iframe fill the container */
   }
 </style>
