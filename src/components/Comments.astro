@@ -23,6 +23,32 @@ const pageId = Astro.url.pathname;
     el.dataset.pageUrl   = window.location.href;
     el.dataset.pageTitle = document.title;
   }
+
+  // Strip inline overflow/height styles from all Cusdis elements after render
+  function stripScrollStyles(root: Element) {
+    root.querySelectorAll('*').forEach(node => {
+      const el = node as HTMLElement;
+      el.style.removeProperty('overflow');
+      el.style.removeProperty('overflow-y');
+      el.style.removeProperty('overflow-x');
+      el.style.removeProperty('max-height');
+      // Re-apply scroll only on textarea
+      if (el.tagName === 'TEXTAREA') {
+        el.style.overflowY = 'auto';
+        el.style.maxHeight = '260px';
+      }
+    });
+  }
+
+  // Watch for Cusdis to render its DOM
+  const observer = new MutationObserver(() => {
+    const thread = document.getElementById('cusdis_thread');
+    if (thread && thread.children.length > 0) {
+      stripScrollStyles(thread);
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
   const s = document.createElement('script');
   s.src   = 'https://cusdis.com/js/cusdis.es.js';
   s.async = true;
