@@ -58,7 +58,7 @@ const dataProjects = [
 
     <div class="page-header">
       <h1 class="page-title">De<em>coding</em></h1>
-      <p class="page-desc">Industry research, data analysis & market insights</p>
+      <p class="page-sub">Industry research, data analysis & market insights</p>
     </div>
 
     <div class="decoding-grid">
@@ -121,10 +121,12 @@ const dataProjects = [
 
 <style>
   /* ── Page header ── */
-  .page-desc {
-    font-family: var(--sans); font-size: 13px; font-weight: 300;
-    color: var(--stone); line-height: 1.65;
-    margin: 1em 0 0; max-width: 480px;
+  .page-sub {
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.6vw, 18px);
+    font-weight: 300; font-style: italic;
+    color: var(--stone);
+    margin: 1em 0 0;
   }
 
   /* ── Two-column directory grid ── */
