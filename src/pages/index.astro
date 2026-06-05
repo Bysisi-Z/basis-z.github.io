@@ -460,6 +460,7 @@ const modules = [
 
   /* ── Desktop: flat list (override drum) ── */
   @media (min-width: 769px) {
+    .mod:nth-child(n+7) { display: none; }
     .drum-wrap { height: auto; overflow: visible; cursor: default; }
     .drum-veil { display: none; }
     .drum-track { transform: none !important; transition: none !important; }
