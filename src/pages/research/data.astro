@@ -442,6 +442,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .var-item-type.recode   { color: var(--rose); }
 .var-item-type.computed { color: #5a82a8; }
+.var-item-report {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #4a7fc1; border: 1px solid rgba(74,127,193,0.4);
+  padding: 1px 5px; border-radius: 2px;
+}
 
 /* Section label shown in global search results */
 .var-item-section {
@@ -801,6 +807,7 @@ const TAB_SHORT = {
 
 const BAR_COLOR   = '#c17d9d';
 const INAPP_COLOR = '#E2DEDB';
+const REPORT_VARS = new Set(['PILL','CONDOM','VASECTMY','DEPOPROV','WIDRAWAL','PATCH','RING','MORNPILL','IMPLANT','IUD','METHDISS']);
 
 const ALL_AGE_GROUPS = ['15–19','20–24','25–29','30–34','35–39','40–44','45–50'];
 
@@ -1016,6 +1023,7 @@ function renderVarList(vars) {
         `<span class="var-item-bottom">` +
           `<span class="var-item-name">${v.name}</span>` +
           `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
+          (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
         `</span>` +
         `<span class="var-item-section">${escHtml(shortSecName(v._secLabel))}</span>`;
       item.addEventListener('click', () => selectVarGlobal(v._secKey, v.name));
@@ -1044,6 +1052,7 @@ function renderVarList(vars) {
       `<span class="var-item-bottom">` +
         `<span class="var-item-name">${v.name}</span>` +
         `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
+        (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
       `</span>`;
     item.addEventListener('click', () => selectVar(v.name));
     frag.appendChild(item);
@@ -1262,16 +1271,17 @@ function renderDetail(v) {
 
   // Deep-dive hints — one per EA method variable
   const DEEPDIVE_MAP = {
-    PILL:     { text: '1,008 women stopped the pill due to dissatisfaction — 72.1% of those with any method dissatisfaction data.', href: '/pill-analysis.html' },
-    CONDOM:   { text: '316 women stopped condoms due to dissatisfaction — 21.1% of those with any method dissatisfaction data.', href: '/condom-analysis.html' },
-    VASECTMY: { text: 'Only 1 respondent listed a partner\'s vasectomy in EA-17 — vasectomy is permanent and cannot be stopped.', href: '/vasectomy-analysis.html' },
-    DEPOPROV: { text: '337 women stopped Depo due to dissatisfaction — 71.4% of those with any method dissatisfaction data.', href: '/depo-analysis.html' },
-    WIDRAWAL: { text: '159 women stopped withdrawal due to dissatisfaction — 13.0% of those with any method dissatisfaction data.', href: '/withdrawal-analysis.html' },
-    PATCH:    { text: '111 women stopped the patch due to dissatisfaction — 52.9% of those with any method dissatisfaction data.', href: '/patch-analysis.html' },
-    RING:     { text: '180 women stopped the vaginal ring due to dissatisfaction — 54.9% of those with any method dissatisfaction data.', href: '/ring-analysis.html' },
-    MORNPILL: { text: 'EC does not appear in EA-17 (it\'s episodic, not a regular method). See how 708 EC users stopped other methods.', href: '/ec-analysis.html' },
-    IMPLANT:  { text: '136 women stopped the implant due to dissatisfaction — 57.6% of those with any method dissatisfaction data.', href: '/implant-analysis.html' },
-    IUD:      { text: '263 women stopped the IUD due to dissatisfaction — 45.2% of those with any method dissatisfaction data.', href: '/iud-analysis.html' },
+    PILL:     { text: '28.9% of pill users stopped due to dissatisfaction — 1,008 out of 3,485.', href: '/pill-analysis.html' },
+    CONDOM:   { text: '7.6% of condom users stopped due to dissatisfaction — 316 out of 4,159.', href: '/condom-analysis.html' },
+    VASECTMY: { text: '0.2% — only 1 out of 634 women listed vasectomy as stopped due to dissatisfaction. Vasectomy is permanent.', href: '/vasectomy-analysis.html' },
+    DEPOPROV: { text: '34.2% of Depo users stopped due to dissatisfaction — 337 out of 986. Highest rate among all hormonal methods.', href: '/depo-analysis.html' },
+    WIDRAWAL: { text: '5.1% of withdrawal users stopped due to dissatisfaction — 159 out of 3,090.', href: '/withdrawal-analysis.html' },
+    PATCH:    { text: '32.6% of patch users stopped due to dissatisfaction — 111 out of 340.', href: '/patch-analysis.html' },
+    RING:     { text: '34.0% of vaginal ring users stopped due to dissatisfaction — 180 out of 529.', href: '/ring-analysis.html' },
+    MORNPILL: { text: 'EC is a one-time backup and does not appear in the EA-17 dissatisfaction question. See patterns for EC users.', href: '/ec-analysis.html' },
+    IMPLANT:  { text: '29.1% of implant users stopped due to dissatisfaction — 136 out of 468.', href: '/implant-analysis.html' },
+    IUD:      { text: '23.4% of IUD users stopped due to dissatisfaction — 263 out of 1,124.', href: '/iud-analysis.html' },
+    METHDISS: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
   };
   const diveInfo = DEEPDIVE_MAP[v.name];
   const deepDiveHtml = diveInfo
