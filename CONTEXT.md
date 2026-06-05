@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-05 (session 16)  
+> Last updated: 2026-06-05 (session 17)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -313,7 +313,14 @@ Variables with blue `REPORT` badge in left panel → linked standalone analysis 
   - Route map: `/images/stoos/stoos-route-map.png`
   - Gallery: 23 photos in `public/images/stoos/` (IMG_3352–3435, stoos2–9 variants)
   - webcamUrl: stoos.ch/en/pages/webcams
+  - Official website: https://www.stoos.ch/en/ — linked inline in "Getting There" section (EN + ZH)
   - Full article content: 5 sections (Photographer's Rec / Things to Know / Safety / Getting There / Final Thoughts)
+
+**Comments component (`Comments.astro`):**
+- Cusdis embed via `srcdoc` iframe — listens to `postMessage {from:'cusdis', event:'resize', data:{height}}` to auto-size iframe to full content height
+- MutationObserver sets `scrolling="no"` on iframe immediately on injection
+- Textarea retains its own scrollbar naturally (browser default) when content overflows
+- No `min-height` on `.comments-frame` — grows with iframe content
 
 **Hiking guide article style (applies to ALL future /photography entries):**
 - Hero: portrait split, photo `object-fit:contain` no crop, right col = intro + route card + webcam (60px gap)
