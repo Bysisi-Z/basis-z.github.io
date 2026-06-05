@@ -948,7 +948,7 @@ const rows = [
     const flowerYs: number[] = [];
     let cursor = stemTop + stemLength * 0.05;
     while (cursor < stemBottom - 10) {
-      cursor += stemLength * (0.09 + rand() * 0.11); // uneven gaps
+      cursor += stemLength * (0.18 + rand() * 0.14); // uneven gaps, fewer flowers
       // avoid landing too close to a branch point (±10px)
       const tooClose = points.some(p => Math.abs(p - cursor) < 10);
       if (!tooClose && cursor < stemBottom - 8) flowerYs.push(cursor);
