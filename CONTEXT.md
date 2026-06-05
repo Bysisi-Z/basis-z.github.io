@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-04 (session 14)  
+> Last updated: 2026-06-05 (session 15)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -166,7 +166,7 @@ src/
 
 - **Gateway page** (`/research/index.astro`):
   - Page subtitle uses `class="page-sub"` (serif italic stone, same as all other pages)
-  - Two section headers: rose background (`var(--rose)`), serif italic 500 white, full-width rounded block
+  - Two section headers: rose background (`var(--rose)`), serif italic 500 white, full-width rounded block; each header has an inline SVG icon (book left, bar chart right), flex-aligned with text
   - No numbering (01/02 removed from both headers and item rows)
   - Item hover: rose tint background (replaces old opacity fade); arrow default stone → rose on hover
   - Left column → Industry Research articles; Right column → Play with the Data projects
@@ -229,6 +229,52 @@ src/
 - `var(--rule)` (#E2DEDB) is NEVER used as text color — minimum readable text = `var(--stone)` (#847B7B)
 - Right panel: label (serif italic, bold) is primary; varname in rose is secondary
 - Mobile dist rows: 4 columns (label | bar | % | n), no hidden count column
+- Distribution label column: `minmax(200px, 300px)` — allows long response labels to wrap
+- Group view `.gv-label`: no `white-space: nowrap` — labels wrap naturally
+
+**Deep-dive report system (session 15):**
+
+11 EA-section variables have linked standalone analysis pages (shown with blue `REPORT` badge in left panel):
+
+| Variable | EA | Slug | Key stat |
+|---|---|---|---|
+| PILL | EA-1 | /pill-analysis.html | 28.9% of users stopped due to dissatisfaction |
+| CONDOM | EA-2 | /condom-analysis.html | 7.6% |
+| VASECTMY | EA-3 | /vasectomy-analysis.html | 0.2% (permanent method) |
+| DEPOPROV | EA-4 | /depo-analysis.html | 34.2% — highest among hormonal methods |
+| WIDRAWAL | EA-6 | /withdrawal-analysis.html | 5.1% |
+| PATCH | EA-9 | /patch-analysis.html | 32.6% |
+| RING | EA-10 | /ring-analysis.html | 34.0% |
+| MORNPILL | EA-11 | /ec-analysis.html | n/a (EC has no METHSTOP code) |
+| IMPLANT | EA-13c | /implant-analysis.html | 29.1% |
+| IUD | EA-13d | /iud-analysis.html | 23.4% |
+| METHDISS | EA-16 | /method-comparison.html | comparison across all methods |
+
+**Analysis logic** (critical — applied consistently across all pages):
+- **Correct denominator = n_users** (all women who ever used that method)
+- **Correct numerator = n_stopped** (women who cited that method in any METHSTOP01-09 slot with code = method's EA-17 code)
+- **Rate = n_stopped / n_users** — NOT conditional on having any EA-17 data
+- The "472 had any EA-17 data" intermediate step is irrelevant and excluded from pages
+- METHSTOP codes: pill=3, condom=4, vasectomy=5, withdrawal=7, depo=8, implant=9, IUD=19, patch=21, ring=22
+
+**Standalone page structure** (all 10 method pages + comparison):
+- CSS inline in `<style>` tag (NOT loaded from external file — `/tmp/analysis_style.css` is ephemeral)
+- Funnel: 3 steps — Women surveyed → Women who used X → Women who stopped due to dissatisfaction
+- KPI cards: 3 equal-height grid, hero = pct%, second = n_not_stopped, third = n_stopped absolute
+- Charts: slot distribution (all 9 METHSTOP slots shown, zero renders as empty bar) + race/ethnicity
+- ID-level table: searchable, filterable by 1st/later mention
+- Regeneration scripts: `/tmp/gen_all_pages.py` (9 method pages) + inline Python for depo + comparison
+
+**`/method-comparison.html`:**
+- All 9 methods sorted by dissatisfied rate descending
+- Each row: method name + EA label → bar → % → n_stopped / n_users
+- Clicking a row opens that method's detail page in new tab
+- MORNPILL excluded (no METHSTOP code); explained in note
+
+**REPORT badge in left panel:**
+- `REPORT_VARS` Set defined at module level in data.astro (line ~810)
+- CSS class `.var-item-report` — blue (#4a7fc1), 9px, uppercase, border
+- Rendered in both section list and search-results render paths
 
 ### Mountain Calling (`/photography`) ✅ Index complete — detail pages in progress
 
