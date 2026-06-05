@@ -290,6 +290,16 @@ const capabilities = [
 
   /* ── Mobile ── */
   @media (max-width: 600px) {
+    .header-inner { flex-direction: column; gap: 20px; }
+    .profile-photo-wrap {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .profile-photo {
+      height: auto;
+      object-fit: unset;
+    }
     .exp-header { flex-direction: column; gap: 2px; }
     .exp-period { font-size: 10px; }
   }
