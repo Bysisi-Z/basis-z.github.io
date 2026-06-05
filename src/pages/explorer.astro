@@ -1,0 +1,591 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="World Explorer" description="Trails walked, peaks reached, silences found.">
+
+  <!-- ── HERO ── -->
+  <div class="hero-wrap">
+    <div class="hero-photo-col">
+      <img src="/images/explorer-profile.jpg" alt="Giselle at a mountain hut in the Swiss Alps" class="hero-photo" />
+    </div>
+    <div class="hero-text-col">
+      <p class="intro-p">One phrase has stayed with me for many years:</p>
+      <p class="intro-bold">Learn from Nature.</p>
+      <p class="intro-p">I grew up in Yunnan, a mountainous region where nature was never far away. Looking back, I suspect that shaped me more than I realized. Being outdoors has never felt like an activity to me. It feels more like returning to something familiar.</p>
+      <p class="intro-bold">Nature never judges.</p>
+      <div class="intro-trio">
+        <p>Mountains do not care where you come from.</p>
+        <p>Trails do not care what your job title is.</p>
+        <p>The weather does not care how much money you earn this year.</p>
+      </div>
+      <p class="intro-p">Things simply are what they are. Over time, that became a part of me as well. I prefer curiosity over certainty, understanding over judgment, and learning over proving.</p>
+      <p class="intro-p">My friends often describe me as an INTP. I usually tell them I am probably an <strong class="text-blue">ONTP</strong>.</p>
+      <p class="intro-p">I enjoy ideas, but I gain energy outdoors. Some of my favorite days begin before sunrise, with a train ride toward the mountains and no particular urgency beyond seeing where the trail leads.</p>
+      <p class="intro-p">Curiosity also has a habit of pulling me in unexpected directions. Over the years, it has led me to languages, musical instruments, history, strategy, photography, long conversations, and even <strong>a foreign country</strong>!</p>
+      <p class="intro-p">This website is simply a collection of things I find interesting, beautiful, or worth exploring. Places I have visited. Ideas I have encountered. Questions I am still thinking about. And whatever happens to catch my curiosity next.</p>
+    </div>
+  </div>
+
+  <!-- ── BENTO GRID ── -->
+  <div class="outer-wrap">
+
+    <!-- 1 · MAP ─────────────────────────────────────────── -->
+    <div class="module module-map">
+      <p class="mod-label">Geographic Migration</p>
+      <div id="map-container">
+        <svg id="world-map"></svg>
+      </div>
+    </div>
+
+    <!-- 2+3+4+5+6 · BENTO GRID ──────────────────────────── -->
+    <div class="bento">
+
+      <!-- MUSIC (wide left) -->
+      <div class="bento-card bento-music">
+        <p class="mod-label">On Repeat</p>
+        <div class="music-list">
+          <!-- fill: { artist, album, note? } -->
+          <div class="music-item placeholder-row"></div>
+          <div class="music-item placeholder-row"></div>
+          <div class="music-item placeholder-row"></div>
+          <div class="music-item placeholder-row"></div>
+        </div>
+      </div>
+
+      <!-- BOOKS (narrow right) -->
+      <div class="bento-card bento-books">
+        <p class="mod-label">Currently Reading</p>
+        <div class="book-list">
+          <!-- fill: { title, author } -->
+          <div class="book-item placeholder-row"></div>
+          <div class="book-item placeholder-row"></div>
+          <div class="book-item placeholder-row"></div>
+        </div>
+      </div>
+
+      <!-- OUTDOOR (narrow left) -->
+      <div class="bento-card bento-outdoor">
+        <p class="mod-label">In the Mountains</p>
+        <div class="outdoor-stats">
+          <div class="stat-block">
+            <span class="stat-num">—</span>
+            <span class="stat-label">Countries hiked</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-num">—</span>
+            <span class="stat-label">Highest peak</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-num">—</span>
+            <span class="stat-label">Trails completed</span>
+          </div>
+        </div>
+        <a href="/photography" class="outdoor-link">
+          See all trails →
+        </a>
+      </div>
+
+      <!-- FOOD (wide right) -->
+      <div class="bento-card bento-food">
+        <p class="mod-label">What I Eat</p>
+        <div class="food-grid">
+          <!-- fill: { emoji, label } -->
+          <div class="food-item placeholder-food"></div>
+          <div class="food-item placeholder-food"></div>
+          <div class="food-item placeholder-food"></div>
+          <div class="food-item placeholder-food"></div>
+          <div class="food-item placeholder-food"></div>
+          <div class="food-item placeholder-food"></div>
+        </div>
+      </div>
+
+      <!-- CATS (full width) -->
+      <div class="bento-card bento-cats">
+        <p class="mod-label">The Bosses at Home</p>
+        <div class="cats-wrap">
+
+          <div class="cat-card">
+            <div class="cat-photo-wrap">
+              <img src="/images/cat-first.jpg" alt="嘞嘞 Leilei" class="cat-photo" />
+            </div>
+            <div class="cat-info">
+              <div class="cat-meta">
+                <span class="cat-gender">♂</span>
+                <span class="cat-since">Since 2016</span>
+              </div>
+              <p class="cat-name">嘞嘞 <span class="cat-name-en">Leilei</span></p>
+              <div class="cat-story">
+                <p>My first cat.</p>
+                <p>When he first came home, he refused all invitations to join the rest of the family. Then I discovered something interesting. Whenever I called out "Leilei…", he would cautiously peek out from his hiding spot. I felt it would be disrespectful not to accept his decision.</p>
+                <p>So I named him Leilei. Or more accurately, he named himself.</p>
+                <p>He is a British Shorthair Silver Shaded with perfectly outlined eyes. He is calm, observant, and not particularly interested in unnecessary excitement. Most of the time, he prefers to watch the world rather than participate in it.</p>
+                <p>My father taught him how to shake hands. Surprisingly, he learned quickly. Even more surprisingly, if asked for a specific paw, he usually offers the correct one.</p>
+                <p>I have spent many years observing him and can confidently conclude that he is exceptionally handsome and unusually smart.</p>
+                <p class="cat-disclaimer">Some may disagree. Their objections have been noted.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cats-divider"></div>
+
+          <div class="cat-card">
+            <div class="cat-photo-wrap">
+              <img src="/images/cat-second.jpg" alt="Second cat" class="cat-photo" />
+            </div>
+            <div class="cat-info">
+              <div class="cat-meta">
+                <span class="cat-gender">♀</span>
+                <span class="cat-since">Since 2019</span>
+              </div>
+              <p class="cat-name"><!-- name --></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /bento -->
+  </div><!-- /outer-wrap -->
+
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .hero-wrap {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 64px clamp(20px, 5vw, 80px) 0;
+    display: grid;
+    grid-template-columns: 520px 1fr;
+    gap: 56px;
+    align-items: stretch;
+  }
+  .hero-photo-col {
+    width: 520px;
+    min-height: 480px;
+    flex-shrink: 0;
+    -webkit-mask-image:
+      linear-gradient(to right,  transparent 0%, black 5%, black 95%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-composite: destination-in;
+    mask-image:
+      linear-gradient(to right,  transparent 0%, black 5%, black 95%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+    mask-composite: intersect;
+  }
+  .hero-photo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 75% 40%;
+    display: block;
+  }
+  .hero-text-col {
+    padding-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .intro-p {
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.65vw, 22px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.8; color: var(--ink);
+    margin: 0;
+  }
+  .intro-p strong {
+    font-weight: 600; font-style: normal;
+    color: var(--ink);
+  }
+  .intro-p strong.text-blue {
+    color: #4a7fc1;
+  }
+  .intro-bold {
+    font-family: var(--serif);
+    font-size: clamp(21px, 2vw, 27px);
+    font-weight: 600; font-style: italic;
+    color: var(--rose);
+    margin: 4px 0;
+  }
+  .intro-trio {
+    border-left: 2px solid rgba(193,125,157,0.35);
+    padding-left: 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .intro-trio p {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.55vw, 21px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.65; color: var(--stone);
+    margin: 0;
+  }
+  .intro-list {
+    display: flex; flex-direction: column; gap: 4px;
+    margin-top: 4px;
+  }
+  .intro-list p {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.55vw, 21px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.6; color: var(--stone);
+    margin: 0;
+    padding-left: 14px;
+    position: relative;
+  }
+  .intro-list p::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--rose); font-size: 11px;
+  }
+
+  /* ── Outer wrap ── */
+  .outer-wrap {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 80px) 100px;
+  }
+
+  /* ── Shared module label ── */
+  .mod-label {
+    font-family: var(--sans);
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--stone);
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+  .mod-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px; height: 1px;
+    background: var(--rose); flex-shrink: 0;
+  }
+
+  /* ── Map module ── */
+  .module-map {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  #map-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #e4e4e4;
+  }
+  #world-map { width: 100%; height: auto; display: block; }
+
+  .city-trail {
+    display: flex; align-items: center;
+    margin-top: 24px; padding: 0 8px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .city-stop { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .city-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%; background: var(--rose); opacity: 0.55;
+  }
+  .city-dot--current {
+    width: 10px; height: 10px; opacity: 1;
+    box-shadow: 0 0 0 3px rgba(193,125,157,0.2);
+  }
+  .city-year {
+    font-family: var(--sans);
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--rose);
+  }
+  .city-name {
+    font-family: var(--serif);
+    font-size: 14px; font-style: italic; color: var(--ink);
+  }
+  .city-trail-line {
+    flex: 1; min-width: 32px; height: 1px;
+    background: var(--rule); margin-bottom: 34px;
+  }
+
+  /* ── Bento grid ── */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .bento-card {
+    background: #f7f5f2;
+    border-radius: 14px;
+    padding: 28px;
+    border: 1px solid var(--rule);
+  }
+
+  /* Column spans */
+  .bento-music   { grid-column: span 7; }
+  .bento-books   { grid-column: span 5; }
+  .bento-outdoor { grid-column: span 4; }
+  .bento-food    { grid-column: span 8; }
+  .bento-cats    { grid-column: span 12; }
+
+  /* ── Music ── */
+  .music-list { display: flex; flex-direction: column; gap: 12px; }
+  .music-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .music-item:last-child { border-bottom: none; }
+
+  /* ── Books ── */
+  .book-list { display: flex; flex-direction: column; gap: 14px; }
+  .book-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .book-item:last-child { border-bottom: none; }
+
+  /* ── Outdoor ── */
+  .outdoor-stats { display: flex; flex-direction: column; gap: 20px; margin-bottom: 24px; }
+  .stat-block { display: flex; flex-direction: column; gap: 3px; }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 300; font-style: italic;
+    color: var(--rose); line-height: 1;
+  }
+  .stat-label {
+    font-family: var(--sans);
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--stone);
+  }
+  .outdoor-link {
+    font-family: var(--sans);
+    font-size: 11px; font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--rose);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(193,125,157,0.3);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .outdoor-link:hover { border-color: var(--rose); }
+
+  /* ── Food ── */
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .food-item {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: #ede9e4;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+  }
+
+  /* ── Cats ── */
+  .cats-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .cat-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .cats-divider {
+    width: 1px;
+    background: var(--rule);
+    align-self: stretch;
+    margin: 0 40px;
+    flex-shrink: 0;
+  }
+  .cat-photo-wrap {
+    width: 100%; aspect-ratio: 4/3;
+    border-radius: 12px; overflow: hidden;
+  }
+  .cat-photo {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .cat-info { display: flex; flex-direction: column; gap: 8px; }
+  .cat-meta { display: flex; align-items: center; gap: 10px; }
+  .cat-gender { font-family: var(--sans); font-size: 18px; color: var(--rose); }
+  .cat-since {
+    font-family: var(--sans);
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--stone);
+  }
+  .cat-name {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 400; font-style: italic;
+    color: var(--ink); line-height: 1.2;
+  }
+  .cat-name-en {
+    font-size: 0.75em;
+    color: var(--stone);
+  }
+  .cat-story { display: flex; flex-direction: column; gap: 10px; }
+  .cat-story p {
+    font-family: var(--serif);
+    font-size: clamp(14px, 1.2vw, 16px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.75; color: var(--ink); margin: 0;
+  }
+  .cat-disclaimer {
+    color: var(--stone) !important;
+    font-size: clamp(13px, 1.1vw, 15px) !important;
+  }
+
+  /* ── Placeholder styles (remove when real content added) ── */
+  .placeholder-row {
+    height: 44px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #ede9e4 0%, #e8e3de 50%, #ede9e4 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s infinite;
+  }
+  .placeholder-food {
+    background: linear-gradient(90deg, #ede9e4 0%, #e8e3de 50%, #ede9e4 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s infinite;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 680px) {
+    .hero-wrap { grid-template-columns: 1fr; gap: 24px; padding-top: 40px; }
+    .hero-photo-col { width: 100%; aspect-ratio: 4/3; border-radius: 12px; }
+    .hero-photo { object-position: 75% 40%; }
+
+    .bento { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bento-music   { grid-column: span 2; }
+    .bento-books   { grid-column: span 2; }
+    .bento-outdoor { grid-column: span 1; }
+    .bento-food    { grid-column: span 1; }
+    .bento-cats    { grid-column: span 2; }
+
+    .cats-wrap { flex-direction: column; gap: 20px; }
+    .cats-divider { width: 100%; height: 1px; margin: 0; }
+
+    .city-trail-line { min-width: 16px; }
+    .food-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 420px) {
+    .bento { grid-template-columns: 1fr; }
+    .bento-music, .bento-books, .bento-outdoor, .bento-food, .bento-cats {
+      grid-column: span 1;
+    }
+  }
+</style>
+
+<script is:inline>
+(async () => {
+  const d3 = await import('https://cdn.jsdelivr.net/npm/d3@7/+esm');
+  const topo = await import('https://cdn.jsdelivr.net/npm/topojson-client@3/+esm');
+
+  const container = document.getElementById('map-container');
+  const svg = d3.select('#world-map');
+
+  const W = container.clientWidth || 960;
+  const H = Math.round(W * 0.52);
+
+  svg.attr('viewBox', `0 0 ${W} ${H}`).attr('preserveAspectRatio', 'xMidYMid meet');
+
+  const projection = d3.geoNaturalEarth1()
+    .scale(W / 6.0)
+    .translate([W / 2, H / 2]);
+
+  const pathGen = d3.geoPath().projection(projection);
+
+  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#e4e4e4');
+
+  const world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+    .then(r => r.json());
+
+  const land = topo.feature(world, world.objects.land);
+  const borders = topo.mesh(world, world.objects.countries, (a, b) => a !== b);
+
+  svg.append('path').datum(land).attr('d', pathGen)
+    .attr('fill', '#b8b8b8').attr('stroke', 'none');
+
+  svg.append('path').datum(borders).attr('d', pathGen)
+    .attr('fill', 'none').attr('stroke', '#e4e4e4').attr('stroke-width', 0.5);
+
+  const stops = [
+    { name: 'Yunnan',   lon: 102.7, lat: 24.8,  year: 'Origin', anchor: 'middle', dy: 26 },
+    { name: 'Chengdu',  lon: 104.1, lat: 30.6,  year: '2007',   anchor: 'end',    dx: -12, dy: -30 },
+    { name: 'Shanghai', lon: 121.5, lat: 31.2,  year: '2017',   anchor: 'start',  dx: 14,  dy: 4 },
+    { name: 'Lucerne',  lon: 8.3,   lat: 47.1,  year: '2022',   anchor: 'middle', dy: -30 },
+  ];
+
+  const migLine = d3.line()
+    .x(d => projection([d.lon, d.lat])[0])
+    .y(d => projection([d.lon, d.lat])[1])
+    .curve(d3.curveCatmullRom.alpha(0.5));
+
+  const pathEl = svg.append('path')
+    .datum(stops)
+    .attr('d', migLine)
+    .attr('fill', 'none')
+    .attr('stroke', '#c17d9d')
+    .attr('stroke-width', 1.8)
+    .attr('opacity', 0.72);
+
+  const len = pathEl.node().getTotalLength();
+  pathEl
+    .attr('stroke-dasharray', `${len}`)
+    .attr('stroke-dashoffset', `${len}`)
+    .transition().delay(300).duration(1800)
+    .ease(d3.easeQuadInOut)
+    .attr('stroke-dashoffset', '0');
+
+  stops.forEach((s, i) => {
+    const [x, y] = projection([s.lon, s.lat]);
+    const isCurrent = i === stops.length - 1;
+
+    if (isCurrent) {
+      svg.append('circle')
+        .attr('cx', x).attr('cy', y).attr('r', 9)
+        .attr('fill', 'rgba(193,125,157,0.18)')
+        .attr('stroke', 'rgba(193,125,157,0.35)').attr('stroke-width', 1);
+    }
+
+    svg.append('circle')
+      .attr('cx', x).attr('cy', y)
+      .attr('r', isCurrent ? 5 : 4)
+      .attr('fill', '#c17d9d')
+      .attr('stroke', '#efeae5').attr('stroke-width', 1.5)
+      .attr('opacity', isCurrent ? 1 : 0.8);
+
+    const lx = x + (s.dx || 0);
+    const ly = y + (s.dy || 0);
+
+    svg.append('text')
+      .attr('x', lx).attr('y', ly)
+      .attr('text-anchor', s.anchor || 'middle')
+      .attr('font-family', 'Inter, sans-serif')
+      .attr('font-size', 14).attr('font-weight', 600)
+      .attr('fill', '#1a1a1a').attr('opacity', 0.9)
+      .text(s.name);
+
+    svg.append('text')
+      .attr('x', lx).attr('y', ly + 17)
+      .attr('text-anchor', s.anchor || 'middle')
+      .attr('font-family', 'Inter, sans-serif')
+      .attr('font-size', 12).attr('font-weight', 700)
+      .attr('fill', '#c17d9d')
+      .text(s.year);
+  });
+})();
+</script>

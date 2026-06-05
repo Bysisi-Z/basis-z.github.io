@@ -383,6 +383,36 @@ Variables with blue `REPORT` badge in left panel → linked standalone analysis 
 - **`@media print`:** action bar hidden, font sizes reduced, layout compressed for one-page PDF
 - Journey CTA "Professional" button → links to `/cv`
 
+### World Explorer (`/explorer`) ✅ Live — content partially filled
+
+Independent profile page linked from Journey "Know me as a World Explorer" CTA (previously linked to `/photography`, now `/explorer`).
+
+**Layout:** max-width 1600px (1.5× site standard). Two zones: hero + bento grid.
+
+**Hero:**
+- Left col (520px): `explorer-profile.jpg` — Giselle at Titlis mountain hut, Swiss Alps; four-edge fade-out mask (5%), no border-radius; height stretches to match text col
+- Right col: Personal intro in serif italic — no large title; key phrases **Learn from Nature.** and **Nature never judges.** in rose bold; three-line "Mountains / Trails / Weather" block with rose left border; ONTP in blue (#4a7fc1); "a foreign country" in bold + exclamation
+
+**Bento grid (12-col, 14px gap):**
+| Module | Cols | Status |
+|---|---|---|
+| Music "On Repeat" | 7 | ⚠️ placeholder shimmer |
+| Books "Currently Reading" | 5 | ⚠️ placeholder shimmer |
+| Outdoor "In the Mountains" | 4 | ⚠️ stats TBD, links → /photography |
+| Food "What I Eat" | 8 | ⚠️ placeholder shimmer |
+| Cats "The Bosses at Home" | 12 | 🟡 Leilei done, second cat pending |
+
+**Map module** (between hero and bento):
+- D3.js + TopoJSON from CDN; Natural Earth projection; grayscale (#e4e4e4 ocean, #b8b8b8 land)
+- Animated dashed rose migration path: Yunnan → Chengdu → Shanghai → Lucerne
+- City labels 14px bold black + 12px bold rose year; offsets tuned to avoid dot overlap
+- City trail below map: **deleted** (labels on map are sufficient)
+
+**Cats module:**
+- Full-width card; two cats side by side with vertical divider
+- Cat 1: 嘞嘞 (Leilei) ♂ Since 2016 — full story written; British Shorthair Silver Shaded
+- Cat 2: ♀ Since 2019 — name + story **pending**
+
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
 
 - Date-sidebar list layout (large day number as visual anchor)
@@ -427,6 +457,8 @@ Variables with blue `REPORT` badge in left panel → linked standalone analysis 
 - [x] ~~Fill in real career/life data~~ ✅
 - [x] ~~`/photography/[slug].astro`~~ ✅ Haute Route live
 - [x] ~~CV page~~ ✅ `/cv` live with profile photo
+- [x] ~~World Explorer profile page~~ ✅ `/explorer` live
+- [ ] **Explorer — fill module content:** music, books, food, outdoor stats, second cat (name + story)
 - [ ] **Add real photos** to Mountain Calling grid cards (5 remaining CSS gradient placeholders)
 - [ ] **Research detail pages:** `/research/[slug].astro` — content in `/Users/giselle/OGN_financial_analysis.html` and `SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages:** `/writing/[slug].astro`
