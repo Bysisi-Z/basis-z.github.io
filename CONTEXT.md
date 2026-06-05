@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-05 (session 20)  
+> Last updated: 2026-06-05 (session 21)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -109,13 +109,23 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Complete
+### Homepage (`/`) ✅ Complete — redesigned session 21
 
-- Full-screen 1-page layout, no scroll on desktop
-- Hero: CSS gradient mountain landscape, large italic "Sisi" with pink first S, rope + DSLR camera SVG hanging from S, tagline floating on image bottom-right
-- 6 module cards in 3×2 grid, rounded corners, rose hover
-- Contact bar: LinkedIn (blue brand icon) · Red Note (official red SVG) · Email me — all real links
-- Mobile: single-column horizontal card list, natural scroll
+**Layout:** `position: fixed; inset: 0` grid, 2 columns: identity panel (300px) + modules panel
+
+**Left identity panel** (rose `#c17d9d` background):
+- Two-layer "Si" effect: transparent ghost (Great Vibes, large, offset bottom-left) + white bold Si (Great Vibes, smaller, offset top-right) with 7-layer directional `text-shadow` for 3D depth
+- Double staggered rule lines below Si
+- Tagline "Making sense of numbers and landscapes." — white, Cormorant Garamond italic, 18–24px
+- Contact links at bottom: LinkedIn · Red Note · Email (white, vertical stack)
+
+**Right modules panel:**
+- **Desktop (>768px):** flat list — 6 items, each 96px, full opacity, rose hover, arrow on hover
+- **Mobile (≤768px):** drum wheel — 3× duplicated items for seamless loop, center item highlighted in rose, top/bottom gradient fade; touch swipe or auto-scroll every 2.2s; tap non-center item to snap, tap center to navigate
+
+**Font:** Great Vibes loaded via `@import` in page `<style>` for Si only; Cormorant + Inter for rest
+
+**`public/font-preview.html`** — standalone comparison page for 4 font options (Pinyon Script / Great Vibes / Dancing Script / Cormorant Garamond)
 
 ### Journey (`/career`) ✅ Complete
 
