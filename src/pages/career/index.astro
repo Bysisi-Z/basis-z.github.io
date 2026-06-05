@@ -284,6 +284,19 @@ const rows = [
           </div>
         ))}
       </div>
+
+      <div class="tl-cta-row">
+        <a href="/photography" class="tl-cta tl-cta--left">
+          <span class="tl-cta-label">Know me as a</span>
+          <span class="tl-cta-title">World Explorer →</span>
+        </a>
+        <div></div>
+        <a href="/research" class="tl-cta tl-cta--right">
+          <span class="tl-cta-label">Know me as a</span>
+          <span class="tl-cta-title">← Professional</span>
+        </a>
+      </div>
+
     </div>
   </section>
 
@@ -711,6 +724,39 @@ const rows = [
     .stork-svg { width: 100px; }
   }
 
+  /* ── CTA row ── */
+  .tl-cta-row {
+    display: grid;
+    grid-template-columns: 1fr 56px 1fr;
+    padding: 0 0 80px;
+    border-top: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  .tl-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 28px 0 0;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .tl-cta:hover { opacity: 0.7; }
+  .tl-cta--left  { align-items: flex-end; padding-right: 32px; }
+  .tl-cta--right { align-items: flex-start; padding-left: 32px; }
+  .tl-cta-label {
+    font-family: var(--sans);
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--stone);
+  }
+  .tl-cta-title {
+    font-family: var(--serif);
+    font-size: clamp(16px, 1.6vw, 20px);
+    font-weight: 400; font-style: italic;
+    color: var(--pink);
+    line-height: 1.2;
+  }
+
   /* ── Mobile ── */
   @media (max-width: 700px) {
     .tl-row {
@@ -749,6 +795,19 @@ const rows = [
     .tl-title { font-size: clamp(17px, 4.8vw, 22px); }
     .col-labels { display: none; }
     .page-title { font-size: clamp(40px, 12vw, 64px); }
+  }
+
+  @media (max-width: 700px) {
+    .tl-cta-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-bottom: 60px;
+    }
+    .tl-cta-row > div { display: none; }
+    .tl-cta { align-items: flex-start; padding-left: 0; padding-right: 0; }
+    .tl-cta--left  { padding-right: 0; }
+    .tl-cta--right { padding-left: 0; border-top: 1px solid var(--rule); padding-top: 20px; margin-top: 4px; }
+    .tl-cta-title  { font-size: clamp(17px, 4.5vw, 22px); }
   }
 
   @media (max-width: 390px) {
