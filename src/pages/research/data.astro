@@ -813,7 +813,7 @@ const TAB_SHORT = {
 
 const BAR_COLOR   = '#c17d9d';
 const INAPP_COLOR = '#E2DEDB';
-const REPORT_VARS = new Set(['PILL','CONDOM','VASECTMY','DEPOPROV','WIDRAWAL','PATCH','RING','MORNPILL','IMPLANT','IUD','METHDISS']);
+const REPORT_VARS = new Set(['PILL','CONDOM','VASECTMY','DEPOPROV','WIDRAWAL','PATCH','RING','MORNPILL','IMPLANT','IUD','METHDISS','METHSTOP01','METHSTOP02','METHSTOP03','METHSTOP04','METHSTOP05','METHSTOP06','METHSTOP07','METHSTOP08','METHSTOP09']);
 
 const ALL_AGE_GROUPS = ['15–19','20–24','25–29','30–34','35–39','40–44','45–50'];
 
@@ -1293,7 +1293,16 @@ function renderDetail(v) {
     MORNPILL: { text: 'EC is a one-time backup and does not appear in the EA-17 dissatisfaction question. See patterns for EC users.', href: '/ec-analysis.html' },
     IMPLANT:  { text: '29.1% of implant users stopped due to dissatisfaction — 136 out of 468.', href: '/implant-analysis.html' },
     IUD:      { text: '23.4% of IUD users stopped due to dissatisfaction — 263 out of 1,124.', href: '/iud-analysis.html' },
-    METHDISS: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHDISS:   { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP01: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP02: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP03: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP04: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP05: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP06: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP07: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP08: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
+    METHSTOP09: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — sorted from highest to lowest walk-away rate.', href: '/method-comparison.html' },
   };
   const diveInfo = DEEPDIVE_MAP[v.name];
   const deepDiveHtml = diveInfo
