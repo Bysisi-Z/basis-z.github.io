@@ -74,10 +74,16 @@ const capabilities = [
   <div class="wrap">
 
     <header class="page-header">
-      <p class="location">Switzerland-based &nbsp;·&nbsp; Valid Swiss B Permit</p>
-      <p class="summary">
-        Commercial Insights and Strategy professional with 12+ years of experience across commercial operations, strategic analytics, and global portfolio decision support within the pharmaceutical industry. Proven track record of translating complex business questions into actionable insights and scalable decision frameworks, supporting executive decision-making across country, regional, and global organizations.
-      </p>
+      <div class="header-inner">
+        <div class="profile-photo-wrap">
+          <img src="/images/profile.jpg" alt="Giselle" class="profile-photo" />
+        </div>
+        <div class="header-text">
+          <p class="summary">
+            Commercial Insights and Strategy professional with 12+ years of experience across commercial operations, strategic analytics, and global portfolio decision support within the pharmaceutical industry. Proven track record of translating complex business questions into actionable insights and scalable decision frameworks, supporting executive decision-making across country, regional, and global organizations.
+          </p>
+        </div>
+      </div>
     </header>
 
     <section class="cv-section">
@@ -121,7 +127,7 @@ const capabilities = [
 
 <style>
   .wrap {
-    max-width: 1400px;
+    max-width: 1078px;
     margin: 0 auto;
     padding: 0 clamp(20px, 5vw, 80px);
   }
@@ -129,46 +135,82 @@ const capabilities = [
   /* ── Header ── */
   .page-header {
     padding-top: 64px;
-    padding-bottom: 52px;
-    border-bottom: 1px solid var(--rule);
+    padding-bottom: 28px;
+    border-bottom: none;
+  }
+  .header-inner {
+    display: flex;
+    align-items: flex-end;
+    gap: 40px;
+  }
+  .profile-photo-wrap {
+    flex-shrink: 0;
+    width: 220px;
+    height: 287px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .header-text {
+    flex: 1;
+    padding-top: 4px;
   }
   .location {
     font-family: var(--sans);
     font-size: 11px; font-weight: 300;
     letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--stone);
-    margin-bottom: 18px;
+    margin-bottom: 14px;
   }
   .summary {
-    font-family: var(--sans);
-    font-size: clamp(14px, 1.2vw, 16px);
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--stone);
-    max-width: 860px;
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.7vw, 22px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  @media (max-width: 600px) {
+    .header-inner { flex-direction: column; gap: 20px; }
+    .profile-photo-wrap { width: 90px; height: 90px; }
   }
 
   /* ── Sections ── */
   .cv-section {
-    padding: 48px 0 0;
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 48px;
+    padding: 32px 0 8px;
   }
   .cv-section--last {
     border-bottom: none;
     padding-bottom: 100px;
   }
   .section-label {
-    font-family: var(--sans);
-    font-size: 10px; font-weight: 300;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--stone);
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.6vw, 20px);
+    font-weight: 700; font-style: italic;
+    letter-spacing: 0.02em;
+    color: #fff;
+    background: var(--rose);
+    display: block;
+    padding: 8px 20px;
+    border-radius: 6px;
     margin-bottom: 32px;
   }
 
   /* ── Experience ── */
-  .exp-list { display: flex; flex-direction: column; gap: 40px; }
-  .exp-item {}
+  .exp-list { display: flex; flex-direction: column; gap: 16px; }
+  .exp-item {
+    background: rgba(193,125,157,0.05);
+    border-radius: 12px;
+    padding: 24px 28px;
+    border-left: 3px solid rgba(193,125,157,0.3);
+  }
   .exp-header {
     display: flex;
     justify-content: space-between;
@@ -178,13 +220,13 @@ const capabilities = [
   }
   .exp-company {
     font-family: var(--sans);
-    font-size: 11px; font-weight: 400;
-    letter-spacing: 0.14em; text-transform: uppercase;
+    font-size: clamp(14px, 1.3vw, 16px); font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--rose);
   }
   .exp-period {
     font-family: var(--sans);
-    font-size: 11px; font-weight: 300;
+    font-size: 12px; font-weight: 700;
     color: var(--stone);
     white-space: nowrap;
     flex-shrink: 0;
@@ -237,9 +279,9 @@ const capabilities = [
   }
   .cap-tag {
     font-family: var(--sans);
-    font-size: 12px; font-weight: 300;
+    font-size: 15px; font-weight: 300;
     letter-spacing: 0.04em;
-    color: var(--rose);
+    color: var(--ink);
     border: 1px solid rgba(193,125,157,0.45);
     border-radius: 20px;
     padding: 5px 14px;
