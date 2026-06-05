@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-05 (session 17)  
+> Last updated: 2026-06-05 (session 18)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -125,26 +125,40 @@ src/
 - Rows merged **by year** (not index) so same-year events align side by side
 - Sort: **descending** — 2022 at top, Born (no year) pinned at bottom
 - Mobile: single column, left-side line, each card gets `::before` dot
+- Mobile 2007 row: `.tl-row--swap` (`flex-direction: column-reverse`) — University shown before Chengdu
 
 **Left events (Life & Adventures):**
 | Year | Event | Notes |
 |------|-------|-------|
 | 2022 | Move to Lucerne, Switzerland | |
-| 2019 | Second Cat ♀ | pink SVG cat head icon |
+| 2019 | Second Cat ♀ | click → photo (`/images/cat-second.jpg`) |
 | 2017 | Move to Shanghai | |
-| 2016 | First Cat ♂ | pink SVG cat head icon |
+| 2016 | First Cat ♂ | click → photo (`/images/cat-first.jpg`) |
 | 2007 | Move to Chengdu | click → bamboo silhouette animation from left |
 | — | Born in Yunnan, China | no year shown; click → stork-with-baby fly-in |
 
 **Right events (Career & Education):**
-| Year | Event |
-|------|-------|
-| 2022 | Organon, Global |
-| 2018 | MSD, China |
-| 2014 | Sanofi, China |
-| 2013 | Cisco, China |
-| 2011 | LG Electronics, China |
-| 2007 | Southwest University of Finance and Economics — click → full-screen confetti |
+| Year | Event | Notes |
+|------|-------|-------|
+| 2022 | Organon, Global | click → vine dropdown, 6 bullets |
+| 2018 | MSD, China | click → vine dropdown, 4 bullets |
+| 2014 | Sanofi, China | click → vine dropdown, 6 bullets |
+| 2013 | Cisco, China | — |
+| 2011 | LG Electronics, China | — |
+| 2007 | Southwest University of Finance and Economics | click → full-screen confetti |
+
+**Vine dropdown system (Organon / MSD / Sanofi):**
+- Prop: `bullets: string[]` on rightEvents entry
+- Renders `.vine-list` with dynamic SVG vine: curved bezier main stem + curved branches + leaf ellipses at each branch
+- `buildVine()` measures bell/item positions via `getBoundingClientRect()` after double `rAF`; extends stem to bottom of last item
+- After all items animate in, `bloomFlowers()` scatters 3–5 five-petal flowers at irregular y positions along stem (seeded pseudo-random for consistent re-open)
+- Each re-open: `.animate` class toggled for stagger replay; flowers cleared and re-bloomed
+- Flower petal animation: `petalBloom` keyframe, `cubic-bezier(0.34,1.56,0.64,1)`, 5 petals staggered 0.06s
+
+**Cat photo dropdown:**
+- Prop: `photo: '/images/cat-first.jpg'` (or `cat-second.jpg`) on leftEvents entry
+- Renders `.tl-desc--photo` with `<img class="tl-photo">`: 180×180px, `object-fit: cover`, border-radius 12px, right-aligned
+- Max-height on open: 260px (class `.tl-card--photo.open`)
 
 **Easter eggs (all work desktop + mobile):**
 - `data-born` → stork-with-baby SVG flies in from right column (3.2s)
