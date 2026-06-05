@@ -859,7 +859,11 @@ initAgeToggle();
 initTypeFilter();
 // Load age counts in background — ready by the time user opens the toggle
 fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
-fetchJSON('/data/nsfg_groups.json').then(d => { groups = d.groups; varToGroup = d.var_to_group; }).catch(() => {});
+fetchJSON('/data/nsfg_groups.json').then(d => {
+  groups = d.groups; varToGroup = d.var_to_group;
+  // Re-render current list so GROUP badges appear
+  if (currentSec && sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
+}).catch(() => {});
 await selectSection(META.sections[0].key);
 
 // ── Section tabs ──────────────────────────────────────────────────────────────
@@ -1060,6 +1064,7 @@ function renderVarList(vars) {
         `<span class="var-item-name">${v.name}</span>` +
         `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
         (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
+        (varToGroup?.[v.name] ? `<span class="var-item-group">group</span>` : '') +
       `</span>`;
     item.addEventListener('click', () => selectVar(v.name));
     frag.appendChild(item);
