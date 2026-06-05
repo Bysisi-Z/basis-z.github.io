@@ -448,6 +448,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   color: #4a7fc1; border: 1px solid rgba(74,127,193,0.4);
   padding: 1px 5px; border-radius: 2px;
 }
+.var-item-group {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #4a9c6e; border: 1px solid rgba(74,156,110,0.4);
+  padding: 1px 5px; border-radius: 2px;
+}
 
 /* Section label shown in global search results */
 .var-item-section {
@@ -1024,6 +1030,7 @@ function renderVarList(vars) {
           `<span class="var-item-name">${v.name}</span>` +
           `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
           (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
+          (varToGroup?.[v.name] ? `<span class="var-item-group">group</span>` : '') +
         `</span>` +
         `<span class="var-item-section">${escHtml(shortSecName(v._secLabel))}</span>`;
       item.addEventListener('click', () => selectVarGlobal(v._secKey, v.name));
