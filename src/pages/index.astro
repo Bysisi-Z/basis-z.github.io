@@ -52,26 +52,138 @@ const modules = [
       </div>
     </aside>
 
-    <!-- ── Right modules panel ── -->
+    <!-- ── Right modules panel — drum wheel ── -->
     <div class="modules-panel">
-      <nav class="modules">
-        {modules.map(m => (
-          <a class="mod" href={m.href}>
-            <span class="mod-num">{m.num}</span>
-            <span class="mod-rule"></span>
-            <span class="mod-body">
-              <span class="mod-title">{m.title}</span>
-              <span class="mod-desc">{m.desc}</span>
-            </span>
-            <span class="mod-arrow">→</span>
-          </a>
-        ))}
-      </nav>
+      <div class="drum-wrap" id="drum-wrap">
+        <div class="drum-track" id="drum-track">
+          {[...modules, ...modules, ...modules].map((m, i) => (
+            <a class="mod" href={m.href} data-i={i}>
+              <span class="mod-num">{m.num}</span>
+              <span class="mod-rule"></span>
+              <span class="mod-body">
+                <span class="mod-title">{m.title}</span>
+                <span class="mod-desc">{m.desc}</span>
+              </span>
+              <span class="mod-arrow">→</span>
+            </a>
+          ))}
+        </div>
+        <div class="drum-veil drum-veil-top"></div>
+        <div class="drum-veil drum-veil-bottom"></div>
+      </div>
     </div>
 
   </div>
 
 </BaseLayout>
+
+<script>
+{
+  if (window.innerWidth > 768) { /* desktop: flat list, no drum */ }
+  else {
+  const ITEM_H = 84;
+  const N = 6;
+  const track = document.getElementById('drum-track') as HTMLElement;
+  const wrap  = document.getElementById('drum-wrap')  as HTMLElement;
+  const mods  = Array.from(track.querySelectorAll('.mod')) as HTMLElement[];
+
+  let idx = N; // start at copy 2, item 0
+  let autoTimer: ReturnType<typeof setInterval>;
+  let resumeTimer: ReturnType<typeof setTimeout>;
+
+  function posY(i: number) {
+    // center the item at i: 2 items above center visible
+    return -(i * ITEM_H) + 2 * ITEM_H;
+  }
+
+  function render(animated: boolean) {
+    track.style.transition = animated
+      ? 'transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94)'
+      : 'none';
+    track.style.transform = `translateY(${posY(idx)}px)`;
+
+    mods.forEach((m, i) => {
+      const dist = Math.abs(i - idx);
+      m.classList.toggle('drum-active', dist === 0);
+      m.classList.toggle('drum-near',   dist === 1);
+    });
+
+    // seamless loop: after transition snap to middle copy
+    if (animated) {
+      setTimeout(() => {
+        if (idx < N / 2)       { idx += N; render(false); }
+        else if (idx > N * 2 + N / 2) { idx -= N; render(false); }
+      }, 400);
+    }
+  }
+
+  function step(delta: number) {
+    idx += delta;
+    render(true);
+  }
+
+  function startAuto() {
+    autoTimer = setInterval(() => step(1), 2200);
+  }
+  function pauseAuto() {
+    clearInterval(autoTimer);
+    clearTimeout(resumeTimer);
+  }
+  function scheduleResume() {
+    resumeTimer = setTimeout(startAuto, 3500);
+  }
+
+  // ── Mouse wheel ──
+  wrap.addEventListener('wheel', (e: WheelEvent) => {
+    e.preventDefault();
+    pauseAuto();
+    step(e.deltaY > 0 ? 1 : -1);
+    scheduleResume();
+  }, { passive: false });
+
+  // ── Touch ──
+  let touchY = 0;
+  let dragging = false;
+  wrap.addEventListener('touchstart', (e: TouchEvent) => {
+    touchY = e.touches[0].clientY;
+    dragging = true;
+    pauseAuto();
+  }, { passive: true });
+
+  wrap.addEventListener('touchmove', (e: TouchEvent) => {
+    if (!dragging) return;
+    const dy = touchY - e.touches[0].clientY;
+    if (Math.abs(dy) > ITEM_H * 0.4) {
+      step(dy > 0 ? 1 : -1);
+      touchY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  wrap.addEventListener('touchend', () => {
+    dragging = false;
+    scheduleResume();
+  });
+
+  // ── Click non-active item → snap to it ──
+  mods.forEach((m, i) => {
+    m.addEventListener('click', (e: MouseEvent) => {
+      const dist = Math.abs(i - idx);
+      if (dist !== 0) {
+        e.preventDefault();
+        pauseAuto();
+        idx = i;
+        render(true);
+        scheduleResume();
+      }
+    });
+  });
+
+  // ── Init ──
+  render(false);
+  startAuto();
+  } // end mobile-only block
+}
+</script>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
@@ -221,51 +333,71 @@ const modules = [
   }
   .contact-link:hover { color: #fff; }
 
-  /* ── Modules panel ── */
+  /* ── Modules panel — drum wheel ── */
   .modules-panel {
     background: var(--bg);
     display: flex;
     align-items: center;
-    padding: 0 clamp(32px, 5vw, 72px);
+    justify-content: center;
+    padding: 0 clamp(24px, 4vw, 60px);
     overflow: hidden;
+    position: relative;
   }
 
-  .modules {
+  .drum-wrap {
+    position: relative;
     width: 100%;
+    height: 480px;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+  }
+  .drum-wrap:active { cursor: grabbing; }
+
+  .drum-track {
     display: flex;
     flex-direction: column;
+    will-change: transform;
   }
 
   .mod {
     display: grid;
-    grid-template-columns: 36px 1px 1fr auto;
+    grid-template-columns: 44px 1px 1fr auto;
     align-items: center;
-    gap: 0 20px;
-    padding: 18px 0;
+    gap: 0 22px;
+    height: 96px;
+    flex-shrink: 0;
     border-bottom: 1px solid var(--rule);
+    padding: 0 16px;
     text-decoration: none;
     color: inherit;
-    transition: background 0.2s;
-    border-radius: 8px;
-    padding-left: 12px;
-    padding-right: 12px;
-    margin: 0 -12px;
+    opacity: 0.3;
+    transform: scale(0.95);
+    transition: opacity 0.3s, transform 0.3s, background 0.2s;
   }
-  .mod:first-child { border-top: 1px solid var(--rule); }
-  .mod:hover { background: rgba(193,125,157,0.05); }
+  .mod.drum-active {
+    opacity: 1;
+    transform: scale(1);
+    background: rgba(193,125,157,0.04);
+  }
+  .mod.drum-near {
+    opacity: 0.6;
+    transform: scale(0.97);
+  }
 
   .mod-num {
     font-family: var(--sans);
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 300;
     letter-spacing: 0.18em;
     color: var(--rose);
     flex-shrink: 0;
   }
+  .mod.drum-active .mod-num { font-weight: 400; }
 
   .mod-rule {
     width: 1px;
-    height: 28px;
+    height: 32px;
     background: var(--rule);
     display: block;
     flex-shrink: 0;
@@ -274,24 +406,24 @@ const modules = [
   .mod-body {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
     min-width: 0;
   }
 
   .mod-title {
     font-family: var(--serif);
-    font-size: clamp(18px, 1.8vw, 24px);
+    font-size: clamp(22px, 2.2vw, 30px);
     font-weight: 300;
     font-style: italic;
     color: var(--ink);
-    line-height: 1.2;
+    line-height: 1.15;
     transition: color 0.2s;
   }
-  .mod:hover .mod-title { color: var(--rose); }
+  .mod.drum-active .mod-title { color: var(--rose); }
 
   .mod-desc {
     font-family: var(--sans);
-    font-size: 12px;
+    font-size: clamp(12px, 1vw, 14px);
     font-weight: 300;
     color: var(--stone);
     line-height: 1.4;
@@ -301,12 +433,48 @@ const modules = [
   }
 
   .mod-arrow {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--rule);
     flex-shrink: 0;
     transition: transform 0.2s, color 0.2s;
+    opacity: 0;
   }
-  .mod:hover .mod-arrow { transform: translateX(4px); color: var(--rose); }
+  .mod.drum-active .mod-arrow { opacity: 1; color: var(--rose); }
+
+  /* gradient veils */
+  .drum-veil {
+    position: absolute;
+    left: 0; right: 0;
+    height: 45%;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .drum-veil-top {
+    top: 0;
+    background: linear-gradient(to bottom, var(--bg) 10%, transparent);
+  }
+  .drum-veil-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, var(--bg) 10%, transparent);
+  }
+
+  /* ── Desktop: flat list (override drum) ── */
+  @media (min-width: 769px) {
+    .drum-wrap { height: auto; overflow: visible; cursor: default; }
+    .drum-veil { display: none; }
+    .drum-track { transform: none !important; transition: none !important; }
+    .mod {
+      opacity: 1 !important;
+      transform: none !important;
+      height: auto;
+      padding: 18px 16px;
+    }
+    .mod.drum-active { background: none; }
+    .mod:hover { background: rgba(193,125,157,0.05); }
+    .mod:hover .mod-title { color: var(--rose); }
+    .mod-arrow { opacity: 1 !important; color: var(--rule) !important; }
+    .mod:hover .mod-arrow { color: var(--rose) !important; transform: translateX(4px); }
+  }
 
   /* ── Mobile ── */
   @media (max-width: 768px) {
@@ -340,19 +508,17 @@ const modules = [
       align-items: flex-end;
     }
 
-    .modules-panel {
-      padding: 20px 20px 40px;
-      align-items: flex-start;
-    }
-
-    .mod { padding: 16px 10px; margin: 0 -10px; gap: 0 14px; }
-    .mod-title { font-size: clamp(17px, 4.5vw, 22px); }
+    .modules-panel { padding: 0 16px 40px; }
+    .drum-wrap { height: 420px; }
+    .mod { height: 84px; gap: 0 16px; padding: 0 12px; }
+    .mod-title { font-size: clamp(19px, 5vw, 26px); }
     .mod-desc { font-size: 11px; }
   }
 
   @media (max-width: 480px) {
     .identity { flex-direction: column; align-items: flex-start; gap: 20px; }
     .contact { flex-direction: column; gap: 10px; }
-    .mod-rule { height: 20px; }
+    .drum-wrap { height: 378px; }
+    .mod { height: 84px; }
   }
 </style>
