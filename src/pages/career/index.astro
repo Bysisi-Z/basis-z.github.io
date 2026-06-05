@@ -286,14 +286,13 @@ const rows = [
       </div>
 
       <div class="tl-cta-row">
-        <a href="/photography" class="tl-cta tl-cta--left">
+        <a href="/photography" class="tl-cta">
           <span class="tl-cta-label">Know me as a</span>
-          <span class="tl-cta-title">World Explorer →</span>
+          <span class="tl-cta-title">World Explorer</span>
         </a>
-        <div></div>
-        <a href="/research" class="tl-cta tl-cta--right">
+        <a href="/research" class="tl-cta">
           <span class="tl-cta-label">Know me as a</span>
-          <span class="tl-cta-title">← Professional</span>
+          <span class="tl-cta-title">Professional</span>
         </a>
       </div>
 
@@ -726,30 +725,30 @@ const rows = [
 
   /* ── CTA row ── */
   .tl-cta-row {
-    display: grid;
-    grid-template-columns: 1fr 56px 1fr;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
     padding: 40px 0 80px;
     border-top: 1px solid var(--rule);
     margin-top: 8px;
-    align-items: center;
   }
   .tl-cta {
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 3px;
-    padding: 14px 22px;
+    width: 220px;
+    padding: 16px 24px;
     text-decoration: none;
     border: 1.5px solid var(--pink);
     border-radius: 10px;
     background: transparent;
-    transition: background 0.22s, color 0.22s, transform 0.18s;
+    transition: background 0.22s, transform 0.18s;
   }
   .tl-cta:hover {
     background: var(--pink);
     transform: translateY(-2px);
   }
-  .tl-cta--left  { margin-left: auto; margin-right: 32px; align-items: flex-end; }
-  .tl-cta--right { margin-left: 32px; align-items: flex-start; }
   .tl-cta-label {
     font-family: var(--sans);
     font-size: 10px; font-weight: 300;
@@ -761,7 +760,7 @@ const rows = [
   .tl-cta-title {
     font-family: var(--serif);
     font-size: clamp(15px, 1.4vw, 18px);
-    font-weight: 400; font-style: italic;
+    font-weight: 600; font-style: italic;
     color: var(--pink);
     line-height: 1.2;
     transition: color 0.22s;
@@ -809,16 +808,8 @@ const rows = [
   }
 
   @media (max-width: 700px) {
-    .tl-cta-row {
-      grid-template-columns: 1fr;
-      gap: 0;
-      padding-bottom: 60px;
-    }
-    .tl-cta-row > div { display: none; }
-    .tl-cta { align-items: flex-start; padding-left: 0; padding-right: 0; }
-    .tl-cta--left  { padding-right: 0; }
-    .tl-cta--right { padding-left: 0; border-top: 1px solid var(--rule); padding-top: 20px; margin-top: 4px; }
-    .tl-cta-title  { font-size: clamp(17px, 4.5vw, 22px); }
+    .tl-cta-row { flex-direction: column; align-items: center; gap: 12px; padding-bottom: 60px; }
+    .tl-cta { width: min(280px, 100%); }
   }
 
   @media (max-width: 390px) {
