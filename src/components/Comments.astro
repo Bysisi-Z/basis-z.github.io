@@ -26,23 +26,38 @@ const pageId = Astro.url.pathname;
     el.dataset.pageTitle = document.title;
   }
 
-  // Repeatedly strip inline scroll constraints while Cusdis renders
-  function stripScroll() {
-    const thread = document.getElementById('cusdis_thread');
-    if (!thread) return;
-    (thread.querySelectorAll('*') as NodeListOf<HTMLElement>).forEach(node => {
-      if (node.tagName === 'TEXTAREA') return;
-      node.style.removeProperty('overflow');
-      node.style.removeProperty('overflow-y');
-      node.style.removeProperty('overflow-x');
-      node.style.removeProperty('max-height');
-      node.style.removeProperty('height');
-    });
+  // Auto-resize the Cusdis iframe to its full content height so it never scrolls internally.
+  // Cusdis fires a postMessage {from:'cusdis', event:'resize', data:{height}} on any content change.
+  function applyNoScroll(iframe: HTMLIFrameElement) {
+    iframe.scrolling = 'no';
+    iframe.style.overflow = 'hidden';
+    iframe.style.display  = 'block';
+    iframe.style.width    = '100%';
+    iframe.style.border   = 'none';
   }
 
-  // Run repeatedly for 4 seconds to catch Cusdis re-renders
-  const iv = setInterval(stripScroll, 80);
-  setTimeout(() => clearInterval(iv), 4000);
+  // Listen for Cusdis resize messages
+  window.addEventListener('message', (e: MessageEvent) => {
+    if (!e.data || e.data.from !== 'cusdis') return;
+    if (e.data.event === 'resize' && e.data.data?.height) {
+      const iframe = document.querySelector<HTMLIFrameElement>('#cusdis_thread iframe');
+      if (iframe) {
+        iframe.style.height = e.data.data.height + 'px';
+        applyNoScroll(iframe);
+      }
+    }
+  });
+
+  // Watch for the iframe being injected by Cusdis, then lock it
+  const observer = new MutationObserver(() => {
+    const iframe = document.querySelector<HTMLIFrameElement>('#cusdis_thread iframe');
+    if (iframe) {
+      applyNoScroll(iframe);
+      // Once found, check again after a tick in case initial height comes through load
+      iframe.addEventListener('load', () => applyNoScroll(iframe), { once: true });
+    }
+  });
+  observer.observe(document.getElementById('cusdis_thread')!, { childList: true, subtree: true });
 
   const s = document.createElement('script');
   s.src   = 'https://cusdis.com/js/cusdis.es.js';
@@ -81,7 +96,7 @@ const pageId = Astro.url.pathname;
     border: 1px solid var(--rule);
     border-radius: 10px;
     padding: 28px 32px;
-    min-height: 480px;
     background: #fdfcfb;
+    overflow: hidden;
   }
 </style>
