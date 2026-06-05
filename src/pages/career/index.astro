@@ -15,9 +15,28 @@ const rightEvents = [
   { year: '2007', title: 'Southwest University of Finance and Economics', tag: 'Education', desc: '', uni: true },
   { year: '2011', title: 'LG Electronics, China',                         tag: 'Career',    desc: '' },
   { year: '2013', title: 'Cisco, China',                                  tag: 'Career',    desc: '' },
-  { year: '2014', title: 'Sanofi, China',                                 tag: 'Career',    desc: '' },
-  { year: '2018', title: 'MSD, China',                                    tag: 'Career',    desc: '' },
-  { year: '2022', title: 'Organon, Global',                               tag: 'Career',    desc: '' },
+  { year: '2014', title: 'Sanofi, China', tag: 'Career', desc: '', bullets: [
+    'Acted as a strategic advisor to the Commercial Head, aligning cross-functional inputs to ensure decision readiness on critical topics.',
+    'Entrusted with delegated authority across business operations, making and executing decisions related to field force deployment, resource allocation, and commercial planning.',
+    'Led a matrix team of 12 (4 Business Analysts, 8 Business Operations Specialists) supporting a 1,000+ person commercial organization, building analytics-driven decision models across territory design, FTE allocation, budget allocation and sales forecasting.',
+    'Led commercial and marketing resource planning and governance for the franchise through a team of BOS, supporting investment decisions and ensuring budget discipline and compliance.',
+    'Led commercial transformation initiatives (e.g., reorganization, new product launch), navigating competing stakeholder priorities and driving alignment in complex and fast-changing environment.',
+    'Coached analytics, operations, and commercial teams to adopt structured, data-driven decision-making practices.',
+  ]},
+  { year: '2018', title: 'MSD, China', tag: 'Career', desc: '', bullets: [
+    'Built a COVID-19 business tracking and forecasting framework in a highly uncertain environment, providing a critical decision-making foundation for performance monitoring that remained in use through the Organon spin-off.',
+    'Invited as a regular contributor to GM-1 leadership weekly reviews, shaping executive decision-making and global performance discussions.',
+    'Designed and launched MSD China\'s first enterprise-wide business tracking platform, creating a single source of truth for KPI alignment; led adoption campaigns driving rollout to 3,000+ users across the organization.',
+    'Acted as analytics partner to the vaccines business (largest BU), developing competitive intelligence frameworks to support strategy planning in a highly data-constrained environment.',
+  ]},
+  { year: '2022', title: 'Organon, Global', tag: 'Career', desc: '', bullets: [
+    'Synthesized market, competitive, and performance intelligence into executive-level insights, informing strategic discussions and decision-making at CEO and Board level.',
+    'Built and institutionalized the global floor price assessment capability, establishing it as a core pillar of global pricing management.',
+    'Led two waves of GM-sponsored BD screening (20,000+ marketed, 2,000+ late-stage assets), identifying 33 shortlisted and 11 priority opportunities. Scaled the methodology into a structured decision framework to enable faster and more informed early-stage investment decisions.',
+    'Selected for a year-long strategic assignment supporting late-stage BD transactions through valuation modeling, scenario analysis, and commercial assessments, informing deal structure and negotiation strategy.',
+    'Built and scaled a global tender analytics capability from scratch, covering 50+ countries and enabling systematic assessment of pricing, access, and competitive risks, particularly in biosimilar-driven markets.',
+    'Acted as a key liaison between commercial stakeholders and Global Analytics & Insights team, aligning business questions with analytics, payer, and market research capabilities to support pricing and market access decision-making.',
+  ]},
 ];
 
 // Merge rows by year so same-year events appear side by side.
@@ -163,14 +182,33 @@ const rows = [
 
             <div class="tl-right">
               {right
-                ? <div class={`tl-card${right.desc ? '' : ' tl-card--static'}${right.uni ? ' tl-card--born' : ''}`} role={right.desc || right.uni ? 'button' : undefined} tabindex={right.desc || right.uni ? 0 : undefined} aria-expanded={right.desc ? 'false' : undefined} data-uni={right.uni ? 'true' : undefined}>
+                ? <div class={`tl-card${(right.desc || right.bullets?.length) ? '' : ' tl-card--static'}${right.bullets?.length ? ' tl-card--bullets' : ''}${right.uni ? ' tl-card--born' : ''}`} role={(right.desc || right.bullets?.length || right.uni) ? 'button' : undefined} tabindex={(right.desc || right.bullets?.length || right.uni) ? 0 : undefined} aria-expanded={(right.desc || right.bullets?.length) ? 'false' : undefined} data-uni={right.uni ? 'true' : undefined}>
                     <div class="tl-card-main">
                       <span class="tl-year">{right.year}</span>
                       <h3 class="tl-title">{right.title}</h3>
                       <span class="tl-tag">{right.tag}</span>
-                      {right.desc && <span class="tl-chevron" aria-hidden="true"></span>}
+                      {(right.desc || right.bullets?.length) && <span class="tl-chevron" aria-hidden="true"></span>}
                     </div>
-                    {right.desc && <div class="tl-desc" aria-hidden="true"><p>{right.desc}</p></div>}
+                    {right.bullets?.length
+                      ? <div class="tl-desc" aria-hidden="true">
+                          <div class="vine-list">
+                            <svg class="vine-svg" viewBox="0 0 40 400" preserveAspectRatio="xMidYMin meet" fill="none" aria-hidden="true">
+                              <path class="vine-stem" stroke="rgba(193,125,157,0.35)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                              <g class="vine-branches"></g>
+                              <g class="vine-leaves"></g>
+                              <g class="vine-flowers"></g>
+                            </svg>
+                            {right.bullets.map((b, i) => (
+                              <div class="vine-item" style={`--i:${i}`}>
+                                <span class="vine-body">{b}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      : right.desc
+                        ? <div class="tl-desc" aria-hidden="true"><p>{right.desc}</p></div>
+                        : null
+                    }
                   </div>
                 : left?.born
                   ? <div class="stork-wrapper" aria-hidden="true">
@@ -356,7 +394,6 @@ const rows = [
   .tl-card--static {
     cursor: default;
     padding: 10px 0 20px;
-    max-width: 300px;
     border: none;
     background: none;
     color: inherit;
@@ -425,6 +462,9 @@ const rows = [
     max-height: 160px;
     opacity: 1;
   }
+  .tl-card--bullets.open .tl-desc {
+    max-height: 800px;
+  }
   .tl-desc p {
     font-family: var(--sans);
     font-size: 12.5px;
@@ -434,6 +474,63 @@ const rows = [
     padding-top: 10px;
     border-top: 1px solid var(--rule);
     margin: 8px 0 0;
+  }
+  /* ── Vine list (Organon expandable bullets) ── */
+  .vine-list {
+    position: relative;
+    padding-left: 48px;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+    margin-top: 10px;
+  }
+  .vine-svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .vine-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.4rem;
+    opacity: 0;
+  }
+  .vine-list.animate .vine-item {
+    animation: dropIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    animation-delay: calc(var(--i) * 0.15s + 0.3s);
+  }
+  .vine-body {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .vine-flower .petal {
+    transform: scale(0);
+    transform-origin: 0px 0px;
+  }
+  .vine-flower.bloom .petal {
+    animation: petalBloom 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    animation-delay: calc(var(--pi) * 0.06s);
+  }
+  .vine-flower .center {
+    transform: scale(0);
+    transform-origin: 0px 0px;
+  }
+  .vine-flower.bloom .center {
+    animation: petalBloom 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.25s forwards;
+  }
+  @keyframes petalBloom {
+    from { transform: scale(0); }
+    to   { transform: scale(1); }
   }
 
   /* Left side: desc right-aligned to match text direction */
@@ -771,6 +868,113 @@ const rows = [
     });
   }
 
+  /* ── Vine SVG builder ── */
+  function buildVine(vineList: HTMLElement) {
+    const svg = vineList.querySelector('.vine-svg') as SVGSVGElement | null;
+    if (!svg) return;
+    const stemEl  = svg.querySelector('.vine-stem')    as SVGPathElement;
+    const branchG = svg.querySelector('.vine-branches') as SVGGElement;
+    const leafG   = svg.querySelector('.vine-leaves')   as SVGGElement;
+    const items   = vineList.querySelectorAll('.vine-item');
+
+    const wrapRect = vineList.getBoundingClientRect();
+    const points: number[] = [];
+    items.forEach(item => {
+      const rect = item.getBoundingClientRect();
+      points.push(rect.top - wrapRect.top + rect.height / 2);
+    });
+    if (points.length < 2) return;
+
+    const lastItemRect = (items[items.length - 1] as HTMLElement).getBoundingClientRect();
+    const bottomY = lastItemRect.bottom - wrapRect.top;
+    const totalH = bottomY + 6;
+    svg.setAttribute('viewBox', `0 0 40 ${totalH}`);
+    (svg as HTMLElement).style.height = totalH + 'px';
+
+    let d = 'M 20 0 ';
+    points.forEach((y, i) => {
+      const wobble = (i % 2 === 0) ? 8 : -8;
+      const x = 20 + wobble;
+      if (i === 0) {
+        d += `C 20 ${y * 0.3} ${x} ${y * 0.6} ${x} ${y} `;
+      } else {
+        const py = points[i - 1];
+        const px = 20 + ((i - 1) % 2 === 0 ? 8 : -8);
+        d += `C ${px} ${py + (y - py) * 0.4} ${x} ${py + (y - py) * 0.6} ${x} ${y} `;
+      }
+    });
+    const lastY = points[points.length - 1];
+    const lastX = 20 + ((points.length - 1) % 2 === 0 ? 8 : -8);
+    d += `C ${lastX} ${lastY + (bottomY - lastY) * 0.4} 20 ${lastY + (bottomY - lastY) * 0.7} 20 ${bottomY}`;
+    stemEl.setAttribute('d', d);
+
+    let bHTML = '', lHTML = '';
+    points.forEach((y, i) => {
+      const sx = 20 + (i % 2 === 0 ? 8 : -8);
+      const tx = 44;
+      const c1x = sx + (tx - sx) * 0.3, c2x = sx + (tx - sx) * 0.7;
+      bHTML += `<path d="M ${sx} ${y} C ${c1x} ${y - 4} ${c2x} ${y - 2} ${tx} ${y}" stroke="rgba(193,125,157,0.3)" stroke-width="1" stroke-linecap="round" fill="none"/>`;
+      const lx = sx + (tx - sx) * 0.5, ly = y - 7;
+      lHTML += `<ellipse cx="${lx}" cy="${ly}" rx="4.5" ry="2.5" fill="rgba(193,125,157,0.2)" stroke="rgba(193,125,157,0.25)" stroke-width="0.8" transform="rotate(-30 ${lx} ${ly})"/>`;
+    });
+    branchG.innerHTML = bHTML;
+    leafG.innerHTML   = lHTML;
+
+    // bloom flowers after all items have animated in
+    const bloomDelay = points.length * 150 + 300 + 400;
+    setTimeout(() => bloomFlowers(vineList, points), bloomDelay);
+  }
+
+  function bloomFlowers(vineList: HTMLElement, points: number[]) {
+    const svg = vineList.querySelector('.vine-svg') as SVGSVGElement | null;
+    if (!svg) return;
+    const flowersEl = svg.querySelector('.vine-flowers') as SVGGElement;
+    flowersEl.innerHTML = '';
+
+    // seed a repeatable pseudo-random sequence so re-open looks the same
+    let seed = 42;
+    const rand = () => { seed = (seed * 16807 + 0) % 2147483647; return (seed - 1) / 2147483646; };
+
+    // scatter flowers across the full stem length with irregular spacing
+    const stemTop = points[0] * 0.3;
+    const stemBottom = points[points.length - 1] + 28;
+    const stemLength = stemBottom - stemTop;
+
+    // 7–8 flowers at irregular y positions, skipping the exact branch points
+    const flowerYs: number[] = [];
+    let cursor = stemTop + stemLength * 0.05;
+    while (cursor < stemBottom - 10) {
+      cursor += stemLength * (0.09 + rand() * 0.11); // uneven gaps
+      // avoid landing too close to a branch point (±10px)
+      const tooClose = points.some(p => Math.abs(p - cursor) < 10);
+      if (!tooClose && cursor < stemBottom - 8) flowerYs.push(cursor);
+    }
+
+    flowerYs.forEach((y, fi) => {
+      // x follows stem wobble but offset slightly off-stem
+      const wobble = Math.sin(y * 0.18) * 7 + (rand() - 0.5) * 5;
+      const x = 20 + wobble;
+      const scale = 0.7 + rand() * 0.55;          // size variety
+      const tilt  = (rand() - 0.5) * 40;           // rotation tilt
+      const delay = fi * (160 + rand() * 120);      // irregular timing
+
+      setTimeout(() => {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('transform', `translate(${x}, ${y}) rotate(${tilt}) scale(${scale})`);
+        g.classList.add('vine-flower');
+        let html = '';
+        for (let p = 0; p < 5; p++) {
+          const angle = p * 72 - 90;
+          html += `<g transform="rotate(${angle})"><ellipse class="petal" style="--pi:${p}" cx="0" cy="-5" rx="2.6" ry="4" fill="rgba(241,210,225,0.92)" stroke="rgba(193,125,157,0.55)" stroke-width="0.6"/></g>`;
+        }
+        html += `<circle class="center" r="2" fill="rgba(193,125,157,0.85)"/>`;
+        g.innerHTML = html;
+        flowersEl.appendChild(g);
+        requestAnimationFrame(() => requestAnimationFrame(() => g.classList.add('bloom')));
+      }, delay);
+    });
+  }
+
   /* ── Click to expand / collapse ── */
   document.querySelectorAll('.tl-card').forEach(card => {
     const open = () => {
@@ -779,6 +983,19 @@ const rows = [
       card.setAttribute('aria-expanded', String(!isOpen));
       const desc = card.querySelector('.tl-desc');
       if (desc) desc.setAttribute('aria-hidden', String(isOpen));
+
+      const vineList = card.querySelector('.vine-list') as HTMLElement | null;
+      if (vineList) {
+        if (!isOpen) {
+          vineList.classList.remove('animate');
+          void vineList.offsetWidth;
+          vineList.classList.add('animate');
+          requestAnimationFrame(() => requestAnimationFrame(() => buildVine(vineList)));
+        } else {
+          const flowersEl = vineList.querySelector('.vine-flowers');
+          if (flowersEl) flowersEl.innerHTML = '';
+        }
+      }
     };
 
     card.addEventListener('click', open);
