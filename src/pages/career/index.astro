@@ -728,34 +728,45 @@ const rows = [
   .tl-cta-row {
     display: grid;
     grid-template-columns: 1fr 56px 1fr;
-    padding: 0 0 80px;
+    padding: 40px 0 80px;
     border-top: 1px solid var(--rule);
     margin-top: 8px;
+    align-items: center;
   }
   .tl-cta {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 28px 0 0;
+    gap: 3px;
+    padding: 14px 22px;
     text-decoration: none;
-    transition: opacity 0.2s;
+    border: 1.5px solid var(--pink);
+    border-radius: 10px;
+    background: transparent;
+    transition: background 0.22s, color 0.22s, transform 0.18s;
   }
-  .tl-cta:hover { opacity: 0.7; }
-  .tl-cta--left  { align-items: flex-end; padding-right: 32px; }
-  .tl-cta--right { align-items: flex-start; padding-left: 32px; }
+  .tl-cta:hover {
+    background: var(--pink);
+    transform: translateY(-2px);
+  }
+  .tl-cta--left  { margin-left: auto; margin-right: 32px; align-items: flex-end; }
+  .tl-cta--right { margin-left: 32px; align-items: flex-start; }
   .tl-cta-label {
     font-family: var(--sans);
     font-size: 10px; font-weight: 300;
     letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--stone);
+    transition: color 0.22s;
   }
+  .tl-cta:hover .tl-cta-label { color: rgba(255,255,255,0.75); }
   .tl-cta-title {
     font-family: var(--serif);
-    font-size: clamp(16px, 1.6vw, 20px);
+    font-size: clamp(15px, 1.4vw, 18px);
     font-weight: 400; font-style: italic;
     color: var(--pink);
     line-height: 1.2;
+    transition: color 0.22s;
   }
+  .tl-cta:hover .tl-cta-title { color: #fff; }
 
   /* ── Mobile ── */
   @media (max-width: 700px) {
