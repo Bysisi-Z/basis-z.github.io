@@ -5,7 +5,75 @@
 <title>NSFG · Hormonal Implant Analysis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
-<style></style>
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#FAFAF8;--ink:#1A1A1A;--rose:#c17d9d;--stone:#847B7B;--rule:#E2DEDB;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:300;line-height:1.6}
+.page{max-width:1160px;margin:0 auto;padding:clamp(24px,5vw,60px) clamp(20px,4vw,48px) 100px}
+.eyebrow{font-size:11px;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);margin-bottom:10px}
+.page-title{font-family:var(--serif);font-size:clamp(30px,4vw,48px);font-weight:300;font-style:italic;line-height:1.1;margin-bottom:16px}
+.page-title em{color:var(--rose)}
+.page-deck{font-size:15px;font-weight:300;color:var(--stone);max-width:700px;line-height:1.7;margin-bottom:40px}
+.page-deck strong{color:var(--ink);font-weight:400}
+.sec-label{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--stone);margin:52px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.eq-grid{display:grid;gap:12px;align-items:stretch}
+.eq-grid>*{display:flex;flex-direction:column}
+.funnel-grid{grid-template-columns:repeat(4,1fr)}
+.funnel-cell{padding:22px 18px 18px;border:1px solid var(--rule);border-radius:10px;position:relative}
+.funnel-cell+.funnel-cell{margin-left:-1px;border-radius:0}
+.funnel-cell:first-child{border-radius:10px 0 0 10px}
+.funnel-cell:last-child{border-radius:0 10px 10px 0;border-color:rgba(193,125,157,.4);background:rgba(193,125,157,.06)}
+.funnel-cell:last-child .f-big{color:var(--rose)}
+.funnel-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--stone);z-index:2;background:var(--bg);padding:2px 0}
+.f-big{font-family:var(--serif);font-size:44px;font-weight:300;line-height:1;color:var(--ink)}
+.f-sub{font-size:11px;font-weight:300;color:var(--stone);margin-top:3px}
+.f-desc{font-size:12px;font-weight:300;color:var(--stone);line-height:1.5;margin-top:12px;flex:1}
+.f-tech{font-size:10px;font-family:monospace;color:rgba(132,123,123,.55);margin-top:8px}
+.kpi-grid{grid-template-columns:repeat(3,1fr)}
+.kpi-card{padding:24px 22px;border:1px solid var(--rule);border-radius:10px}
+.kpi-card.hero{border-color:rgba(193,125,157,.45);background:rgba(193,125,157,.05)}
+.kpi-big{font-family:var(--serif);font-size:48px;font-weight:300;font-style:italic;line-height:1;color:var(--rose)}
+.kpi-label{font-size:13px;font-weight:300;color:var(--ink);margin-top:10px;line-height:1.5;flex:1}
+.kpi-fine{font-size:11px;font-weight:300;color:var(--stone);margin-top:10px}
+.note{margin:18px 0 0;padding:14px 20px;background:rgba(132,123,123,.05);border:1px solid var(--rule);border-radius:8px;font-size:12.5px;font-weight:300;color:var(--stone);line-height:1.65}
+.note strong{color:var(--ink);font-weight:400}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-card{padding:22px;border:1px solid var(--rule);border-radius:10px}
+.chart-title{font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);margin-bottom:18px}
+.bar-row{display:grid;grid-template-columns:120px 1fr 40px;align-items:center;gap:0 10px;margin-bottom:9px}
+.bar-label{font-size:12px;font-weight:300;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{height:7px;background:rgba(226,222,219,.7);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;background:var(--rose)}
+.bar-n{font-size:11px;font-weight:300;color:var(--stone);text-align:right}
+.table-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.search-input{font-family:var(--sans);font-size:12px;font-weight:300;color:var(--ink);border:1px solid var(--rule);border-radius:6px;padding:6px 12px;background:#fff;width:200px;outline:none}
+.search-input:focus{border-color:rgba(193,125,157,.5)}
+.chip{font-family:var(--sans);font-size:10px;font-weight:300;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:3px;cursor:pointer;border:1px solid var(--rule);background:none;color:var(--stone);transition:all .15s}
+.chip.on{border-color:var(--rose);color:var(--rose);background:rgba(193,125,157,.07)}
+.table-count{font-size:11px;font-weight:300;color:var(--stone);margin-left:auto}
+.table-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:10px}
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table thead th{font-family:var(--sans);font-size:10px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule);white-space:nowrap}
+.data-table tbody tr{border-bottom:1px solid rgba(226,222,219,.5);transition:background .12s}
+.data-table tbody tr:hover{background:rgba(193,125,157,.04)}
+.data-table td{padding:9px 12px;vertical-align:middle}
+.td-id{font-size:11px;color:var(--stone)}
+.td-age{font-size:12px;color:var(--ink)}
+.td-muted{font-size:11px;color:var(--stone)}
+.td-slot{font-size:12px;font-weight:400;color:var(--rose)}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:10px;font-weight:300;padding:2px 7px;border-radius:2px;border:1px solid rgba(226,222,219,.9);color:var(--stone);white-space:nowrap}
+.tag.target{border-color:rgba(193,125,157,.5);color:var(--rose);background:rgba(193,125,157,.07);font-weight:400}
+.slot-n{font-size:9px;opacity:.55;margin-right:2px}
+@media(max-width:720px){
+  .funnel-grid{grid-template-columns:1fr}
+  .funnel-cell+.funnel-cell{margin-left:0;margin-top:-1px;border-radius:0}
+  .funnel-cell:first-child{border-radius:10px 10px 0 0}
+  .funnel-cell:last-child{border-radius:0 0 10px 10px}
+  .funnel-arrow{display:none}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .charts-grid{grid-template-columns:1fr}
+}</style>
 </head>
 <body>
 <div class="page">
