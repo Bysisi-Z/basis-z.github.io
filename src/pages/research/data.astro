@@ -558,6 +558,35 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .group-view-btn:hover { background: var(--rose); color: #fff; }
 
+/* ── Deep-dive hint (variable-specific insight link) ── */
+.deepdive-hint {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  padding: 12px 32px;
+  background: rgba(193,125,157,0.05);
+  border-bottom: 1px solid rgba(193,125,157,0.15);
+}
+.deepdive-hint-info {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--sans); font-size: 12px; font-weight: 300; color: var(--stone);
+}
+.deepdive-icon {
+  width: 28px; height: 28px; flex-shrink: 0;
+  background: rgba(193,125,157,0.12); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.deepdive-text strong { color: var(--ink); font-weight: 400; }
+.deepdive-btn {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; background: var(--rose);
+  border: none; border-radius: 2px;
+  padding: 6px 14px; cursor: pointer; text-decoration: none;
+  transition: opacity 0.18s; white-space: nowrap;
+  display: inline-block;
+}
+.deepdive-btn:hover { opacity: 0.82; }
+
 /* ── Group view ────────────────────────────────────────────────────────────── */
 .gv-header {
   padding: 20px 32px 16px;
@@ -1231,6 +1260,26 @@ function renderDetail(v) {
        </div>`
     : '';
 
+  // Deep-dive hint for DEPOPROV
+  const deepDiveHtml = v.name === 'DEPOPROV'
+    ? `<div class="deepdive-hint">
+         <div class="deepdive-hint-info">
+           <div class="deepdive-icon">
+             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <rect x="1" y="8" width="3" height="5" rx="1" fill="#c17d9d"/>
+               <rect x="5.5" y="5" width="3" height="8" rx="1" fill="#c17d9d"/>
+               <rect x="10" y="2" width="3" height="11" rx="1" fill="#c17d9d"/>
+             </svg>
+           </div>
+           <div class="deepdive-text">
+             <strong>337 women stopped Depo due to dissatisfaction</strong> —
+             7 in 10 of those who reported any method unhappiness.
+           </div>
+         </div>
+         <a class="deepdive-btn" href="/depo-analysis.html" target="_blank">Full breakdown →</a>
+       </div>`
+    : '';
+
   // Notes section
   const notesHtml = v.notes
     ? `<div class="notes-box">
@@ -1280,6 +1329,7 @@ function renderDetail(v) {
        </div>
      </div>
      ${groupHintHtml}
+     ${deepDiveHtml}
      ${notesHtml}
      <div class="dist-wrap">
        ${ageGroupSplit
