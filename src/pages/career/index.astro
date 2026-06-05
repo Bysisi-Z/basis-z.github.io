@@ -81,7 +81,7 @@ const rows = [
 
       <div class="timeline">
         {rows.map(({ left, right }) => (
-          <div class="tl-row">
+          <div class={`tl-row${left?.chengdu && right?.uni ? ' tl-row--swap' : ''}`}>
 
             <div class="tl-left">
               {left
@@ -699,6 +699,10 @@ const rows = [
       opacity: 1 !important; transform: none !important;
       transition: none !important;
       display: block; padding-left: 36px; position: relative;
+    }
+    .tl-row--swap {
+      display: flex;
+      flex-direction: column-reverse;
     }
     .timeline::before { left: 8px; }
     .tl-mid { display: none; }
