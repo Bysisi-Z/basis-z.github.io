@@ -523,13 +523,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .hero-photo-col {
       width: 100%;
       min-height: 0;
-      aspect-ratio: 3/2;
+      aspect-ratio: unset;
       border-radius: 12px;
       overflow: hidden;
       -webkit-mask-image: none;
       mask-image: none;
     }
-    .hero-photo { object-position: 75% 35%; }
+    .hero-photo {
+      height: auto;
+      object-fit: unset;
+      object-position: unset;
+    }
   }
 
   /* ── Mobile: bento ── */
