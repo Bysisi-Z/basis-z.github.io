@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-05 (session 15)  
+> Last updated: 2026-06-05 (session 16)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -232,11 +232,11 @@ src/
 - Distribution label column: `minmax(200px, 300px)` — allows long response labels to wrap
 - Group view `.gv-label`: no `white-space: nowrap` — labels wrap naturally
 
-**Deep-dive report system (session 15):**
+**Deep-dive report system (sessions 15–16):**
 
-11 EA-section variables have linked standalone analysis pages (shown with blue `REPORT` badge in left panel):
+Variables with blue `REPORT` badge in left panel → linked standalone analysis pages:
 
-| Variable | EA | Slug | Key stat |
+| Variable | EA | Page | Key stat |
 |---|---|---|---|
 | PILL | EA-1 | /pill-analysis.html | 28.9% of users stopped due to dissatisfaction |
 | CONDOM | EA-2 | /condom-analysis.html | 7.6% |
@@ -248,33 +248,42 @@ src/
 | MORNPILL | EA-11 | /ec-analysis.html | n/a (EC has no METHSTOP code) |
 | IMPLANT | EA-13c | /implant-analysis.html | 29.1% |
 | IUD | EA-13d | /iud-analysis.html | 23.4% |
-| METHDISS | EA-16 | /method-comparison.html | comparison across all methods |
+| METHDISS | EA-16 | /method-comparison.html | cross-method comparison |
+| METHSTOP01–09 | EA-17 | /method-comparison.html | cross-method comparison |
 
 **Analysis logic** (critical — applied consistently across all pages):
 - **Correct denominator = n_users** (all women who ever used that method)
-- **Correct numerator = n_stopped** (women who cited that method in any METHSTOP01-09 slot with code = method's EA-17 code)
+- **Correct numerator = n_stopped** (women who cited that method in any METHSTOP01-09 slot)
 - **Rate = n_stopped / n_users** — NOT conditional on having any EA-17 data
-- The "472 had any EA-17 data" intermediate step is irrelevant and excluded from pages
 - METHSTOP codes: pill=3, condom=4, vasectomy=5, withdrawal=7, depo=8, implant=9, IUD=19, patch=21, ring=22
 
-**Standalone page structure** (all 10 method pages + comparison):
-- CSS inline in `<style>` tag (NOT loaded from external file — `/tmp/analysis_style.css` is ephemeral)
+**Standalone page structure** (all 10 method pages):
+- CSS inline in `<style>` tag (NOT loaded from external file — `/tmp/analysis_style.css` is ephemeral and must be re-written before regenerating)
 - Funnel: 3 steps — Women surveyed → Women who used X → Women who stopped due to dissatisfaction
 - KPI cards: 3 equal-height grid, hero = pct%, second = n_not_stopped, third = n_stopped absolute
-- Charts: slot distribution (all 9 METHSTOP slots shown, zero renders as empty bar) + race/ethnicity
+- Charts: slot distribution (all 9 METHSTOP slots, zero = empty bar) + race/ethnicity rate chart
+- Race chart: shows n_stopped/n_users **per race group** (not absolute counts), bars by %, annotation = pct + fraction
 - ID-level table: searchable, filterable by 1st/later mention
-- Regeneration scripts: `/tmp/gen_all_pages.py` (9 method pages) + inline Python for depo + comparison
+- Regeneration: `/tmp/gen_all_pages.py` reads `/tmp/all_payloads.json` (9 method pages + depo from `/tmp/depo_full.json`)
 
 **`/method-comparison.html`:**
 - All 9 methods sorted by dissatisfied rate descending
 - Each row: method name + EA label → bar → % → n_stopped / n_users
 - Clicking a row opens that method's detail page in new tab
-- MORNPILL excluded (no METHSTOP code); explained in note
+- MORNPILL excluded (no METHSTOP code)
 
-**REPORT badge in left panel:**
-- `REPORT_VARS` Set defined at module level in data.astro (line ~810)
-- CSS class `.var-item-report` — blue (#4a7fc1), 9px, uppercase, border
-- Rendered in both section list and search-results render paths
+**Badge system in left panel:**
+- Blue `REPORT` badge: `.var-item-report` (#4a7fc1) — 21 vars (EA method vars + METHDISS + METHSTOP01-09)
+- Green `GROUP` badge: `.var-item-group` (#4a9c6e) — vars belonging to a question group
+- Both badges rendered in section-list path AND search-results path
+- After `nsfg_groups.json` loads async, current section re-renders so GROUP badges appear immediately
+
+**nsfg_groups.json cleanup (session 16):**
+- Rule: only variables with **identical exact question code** (e.g. all "EA-17") belong to a group
+- AD-7b + AD-7c, EA-7a + EA-7b, EA-13a/b/c/d/e/f etc. are NOT valid groups (different sub-codes)
+- 109 groups → 83 groups; 838 var mappings → 710
+- EA-17 group: METHSTOP01-09 only (WHENPILL/EA-17a removed)
+- EA-13 group: EVIUDTYP1+2 only (IUD/IMPLANT/EC vars removed — each has unique sub-code)
 
 ### Mountain Calling (`/photography`) ✅ Index complete — detail pages in progress
 
