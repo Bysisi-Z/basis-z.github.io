@@ -1260,8 +1260,21 @@ function renderDetail(v) {
        </div>`
     : '';
 
-  // Deep-dive hint for DEPOPROV
-  const deepDiveHtml = v.name === 'DEPOPROV'
+  // Deep-dive hints — one per EA method variable
+  const DEEPDIVE_MAP = {
+    PILL:     { text: '1,008 women stopped the pill due to dissatisfaction — 72.1% of those with any method dissatisfaction data.', href: '/pill-analysis.html' },
+    CONDOM:   { text: '316 women stopped condoms due to dissatisfaction — 21.1% of those with any method dissatisfaction data.', href: '/condom-analysis.html' },
+    VASECTMY: { text: 'Only 1 respondent listed a partner\'s vasectomy in EA-17 — vasectomy is permanent and cannot be stopped.', href: '/vasectomy-analysis.html' },
+    DEPOPROV: { text: '337 women stopped Depo due to dissatisfaction — 71.4% of those with any method dissatisfaction data.', href: '/depo-analysis.html' },
+    WIDRAWAL: { text: '159 women stopped withdrawal due to dissatisfaction — 13.0% of those with any method dissatisfaction data.', href: '/withdrawal-analysis.html' },
+    PATCH:    { text: '111 women stopped the patch due to dissatisfaction — 52.9% of those with any method dissatisfaction data.', href: '/patch-analysis.html' },
+    RING:     { text: '180 women stopped the vaginal ring due to dissatisfaction — 54.9% of those with any method dissatisfaction data.', href: '/ring-analysis.html' },
+    MORNPILL: { text: 'EC does not appear in EA-17 (it\'s episodic, not a regular method). See how 708 EC users stopped other methods.', href: '/ec-analysis.html' },
+    IMPLANT:  { text: '136 women stopped the implant due to dissatisfaction — 57.6% of those with any method dissatisfaction data.', href: '/implant-analysis.html' },
+    IUD:      { text: '263 women stopped the IUD due to dissatisfaction — 45.2% of those with any method dissatisfaction data.', href: '/iud-analysis.html' },
+  };
+  const diveInfo = DEEPDIVE_MAP[v.name];
+  const deepDiveHtml = diveInfo
     ? `<div class="deepdive-hint">
          <div class="deepdive-hint-info">
            <div class="deepdive-icon">
@@ -1271,12 +1284,9 @@ function renderDetail(v) {
                <rect x="10" y="2" width="3" height="11" rx="1" fill="#c17d9d"/>
              </svg>
            </div>
-           <div class="deepdive-text">
-             <strong>337 women stopped Depo due to dissatisfaction</strong> —
-             7 in 10 of those who reported any method unhappiness.
-           </div>
+           <div class="deepdive-text">${escHtml(diveInfo.text)}</div>
          </div>
-         <a class="deepdive-btn" href="/depo-analysis.html" target="_blank">Full breakdown →</a>
+         <a class="deepdive-btn" href="${escHtml(diveInfo.href)}" target="_blank">Full breakdown →</a>
        </div>`
     : '';
 
