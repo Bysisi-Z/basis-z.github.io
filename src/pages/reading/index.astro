@@ -7,8 +7,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <div class="page-header">
       <h1 class="page-title">A Collection of<br /><em>Rabbit Holes</em></h1>
-      <p class="page-sub">Looking back, my reading habits make very little sense. And I am perfectly comfortable with that.</p>
     </div>
+
+    <p class="page-intro">Looking back, my reading habits make very little sense. And I am perfectly comfortable with that.</p>
 
     <div class="reading-body">
       <p class="placeholder">Coming soon.</p>
@@ -48,6 +49,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     font-style: italic;
     color: var(--stone);
     line-height: 1.5;
+  }
+
+  .page-intro {
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.6vw, 21px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.75;
+    padding: 40px 0 0;
+    max-width: 640px;
   }
 
   .reading-body {
