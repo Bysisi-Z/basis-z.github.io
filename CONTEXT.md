@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-05 (session 18)  
+> Last updated: 2026-06-05 (session 19)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -355,6 +355,17 @@ Variables with blue `REPORT` badge in left panel → linked standalone analysis 
 - Entry fields for zh: `heroIntroZh[]`, `routeOverviewZh` (stats + note), `routeMapNoteZh`, block-level `zh`/`zhItems`/`zhIntro`, section `headingZh`
 - ArticleHero props: `heroIntroZh`, `routeOverviewZh` — renders both EN+ZH with lang classes
 
+### CV (`/cv`) ✅ Live
+
+- Route: `/cv` → `src/pages/cv.astro`
+- Layout: max-width 1078px, same BaseLayout
+- **Header:** profile photo (`/images/profile.jpg`, 220×287px, border-radius 10px, object-position top) left + summary text (Cormorant Garamond italic, 18–22px, black) right, flex-end aligned
+- **Section labels:** rose background, serif italic bold, full-width block, font 17–20px
+- **Work Experience:** 5 entries (Organon / MSD / Sanofi / Cisco / LG) — card layout with rose tint bg + rose left border; company rose uppercase bold, role serif italic, period sans bold stone, bullets with — rose
+- **Education:** BBA, Southwestern University of Finance and Economics
+- **Core Capabilities:** 12 pill tags, rose border, black text, 15px
+- Journey CTA "Professional" button → links to `/cv`
+
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
 
 - Date-sidebar list layout (large day number as visual anchor)
@@ -398,6 +409,7 @@ Variables with blue `REPORT` badge in left panel → linked standalone analysis 
 - [x] ~~Fix color token: `--rose` in `global.css`~~ ✅
 - [x] ~~Fill in real career/life data~~ ✅
 - [x] ~~`/photography/[slug].astro`~~ ✅ Haute Route live
+- [x] ~~CV page~~ ✅ `/cv` live with profile photo
 - [ ] **Add real photos** to Mountain Calling grid cards (5 remaining CSS gradient placeholders)
 - [ ] **Research detail pages:** `/research/[slug].astro` — content in `/Users/giselle/OGN_financial_analysis.html` and `SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages:** `/writing/[slug].astro`
