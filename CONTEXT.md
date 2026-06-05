@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-05 (session 19)  
+> Last updated: 2026-06-05 (session 20)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -359,11 +359,13 @@ Variables with blue `REPORT` badge in left panel → linked standalone analysis 
 
 - Route: `/cv` → `src/pages/cv.astro`
 - Layout: max-width 1078px, same BaseLayout
-- **Header:** profile photo (`/images/profile.jpg`, 220×287px, border-radius 10px, object-position top) left + summary text (Cormorant Garamond italic, 18–22px, black) right, flex-end aligned
-- **Section labels:** rose background, serif italic bold, full-width block, font 17–20px
-- **Work Experience:** 5 entries (Organon / MSD / Sanofi / Cisco / LG) — card layout with rose tint bg + rose left border; company rose uppercase bold, role serif italic, period sans bold stone, bullets with — rose
+- **Header:** profile photo (`/images/profile.jpg`, 220×287px, border-radius 10px, object-position top) left + summary text (Cormorant Garamond italic, 18–22px, black) right, `flex-end` aligned; no border lines; mobile: photo full-width stacked on top
+- **Section labels:** rose background, serif italic bold 700, full-width block, font 17–20px; no divider lines between sections
+- **Work Experience:** 5 entries (Organon / MSD / Sanofi / Cisco / LG) — card layout (`rgba(193,125,157,0.05)` bg, rose left border 3px, border-radius 12px, padding 24px 28px); company rose uppercase bold, role serif italic, period sans bold stone; bullets with rose `—`
 - **Education:** BBA, Southwestern University of Finance and Economics
-- **Core Capabilities:** 12 pill tags, rose border, black text, 15px
+- **Core Capabilities:** 12 pill tags, rose border, black text 15px
+- **Bottom action bar** (hidden on print): 3 card buttons with coloured icon badges — LinkedIn (blue), Export PDF (`window.print()`), The Industry (→ /research)
+- **`@media print`:** action bar hidden, font sizes reduced, layout compressed for one-page PDF
 - Journey CTA "Professional" button → links to `/cv`
 
 ### Wandering (`/writing`) ⚠️ Index only — no detail pages
