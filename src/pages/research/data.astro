@@ -609,8 +609,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .gv-row:hover { background: rgba(193,125,157,0.04); }
 .gv-label {
   font-family: var(--sans); font-size: 13px; font-weight: 300;
-  color: var(--ink); line-height: 1.35;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--ink); line-height: 1.4;
 }
 .gv-pct {
   font-family: var(--sans); font-size: 13px; font-weight: 400;
@@ -633,7 +632,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 .dist-row {
   display: grid;
-  grid-template-columns: 260px 1fr 64px 84px;
+  grid-template-columns: minmax(200px, 300px) 1fr 64px 84px;
   align-items: center;
   gap: 0 16px;
   padding: 12px 0;
