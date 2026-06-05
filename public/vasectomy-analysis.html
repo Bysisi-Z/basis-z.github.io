@@ -18,7 +18,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14p
 .sec-label{font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--stone);margin:52px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
 .eq-grid{display:grid;gap:12px;align-items:stretch}
 .eq-grid>*{display:flex;flex-direction:column}
-.funnel-grid{grid-template-columns:repeat(4,1fr)}
+.funnel-grid{grid-template-columns:repeat(3,1fr)}
 .funnel-cell{padding:22px 18px 18px;border:1px solid var(--rule);border-radius:10px;position:relative}
 .funnel-cell+.funnel-cell{margin-left:-1px;border-radius:0}
 .funnel-cell:first-child{border-radius:10px 0 0 10px}
@@ -73,18 +73,19 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14p
   .funnel-arrow{display:none}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .charts-grid{grid-template-columns:1fr}
-}</style>
+}
+</style>
 </head>
 <body>
 <div class="page">
-<p class="eyebrow">NSFG 2022–2023 · 5,586 women surveyed · EA-3 — Partner's Vasectomy</p>
-<h1 class="page-title">Partner&#39;s Vasectomy — <em>Permanent by Design</em></h1>
-<p class="page-deck">A partner's vasectomy is a permanent surgical procedure. Only 1 respondent in the entire survey listed it in EA-17, confirming this method does not generate dissatisfaction-based discontinuation.</p>
+<p class="eyebrow">NSFG 2022-2023 · 5,586 women surveyed · EA-3 — Partner's Vasectomy</p>
+<h1 class="page-title">Partner's Vasectomy — <em>Permanent by Design</em></h1>
+<p class="page-deck">0.2% — only 1 out of 634 women who relied on a partner's vasectomy listed it as a method stopped due to dissatisfaction. A vasectomy is a permanent procedure and cannot be stopped.</p>
 <p class="sec-label">How we get to the number</p>
 <div class="eq-grid funnel-grid" id="funnel"></div>
-<div class="note"><strong>A vasectomy cannot be stopped by the woman herself</strong> — it is a permanent procedure. The near-zero rate here reflects the nature of the method, not satisfaction levels.</div>
+<div class="note">A vasectomy is a permanent surgical procedure — the woman cannot stop using it. The near-zero rate here reflects the nature of the method, not satisfaction levels.</div>
 <p class="sec-label">The takeaway</p>
-<div class="eq-grid kpi-grid"><div class="kpi-card hero"><div class="kpi-big">0.4%</div><div class="kpi-label">Of partner's vasectomy users who reported being unhappy with any method cited partner's vasectomy specifically as one they stopped.</div><div class="kpi-fine">1 out of 257 with dissatisfaction data</div></div><div class="kpi-card"><div class="kpi-big">0.2%</div><div class="kpi-label">Of all partner's vasectomy users explicitly said they stopped because they were unhappy with it.</div><div class="kpi-fine">1 out of 634 total users</div></div><div class="kpi-card"><div class="kpi-big">256</div><div class="kpi-label">Used partner's vasectomy and were unhappy with other methods — but did not list partner's vasectomy as a reason to stop.</div><div class="kpi-fine">99.6% of those with dissatisfaction data</div></div></div>
+<div class="eq-grid kpi-grid"><div class="kpi-card hero"><div class="kpi-big">0.2%</div><div class="kpi-label">Of all women who ever used partner's vasectomy explicitly stopped using it because they were unhappy with it.</div><div class="kpi-fine">1 out of 634 partner's vasectomy users</div></div><div class="kpi-card"><div class="kpi-big">633</div><div class="kpi-label">Used partner's vasectomy but did not stop it due to dissatisfaction — they either continued, switched for other reasons, or were never dissatisfied.</div><div class="kpi-fine">99.8% of partner's vasectomy users</div></div><div class="kpi-card"><div class="kpi-big">1</div><div class="kpi-label">Women who explicitly named partner's vasectomy as a method they stopped due to dissatisfaction.</div><div class="kpi-fine">out of 634 total partner's vasectomy users</div></div></div>
 <p class="sec-label">Who are these women?</p>
 <div class="charts-grid" id="charts"></div>
 <p class="sec-label">1 woman who listed vasectomy in her dissatisfaction list</p>
@@ -92,41 +93,37 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14p
 <div class="table-wrap"><table class="data-table"><thead><tr><th>Survey ID</th><th>Age</th><th>Race / Ethnicity</th><th>Education</th><th>Listed as</th><th>Methods stopped (in order mentioned)</th></tr></thead><tbody id="tbody"></tbody></table></div>
 </div>
 <script>
-const D = {"var": "VASECTMY", "ea_label": "EA-3", "method_name": "Partner's Vasectomy", "mstop_code": 5, "total": 5586, "n_users": 634, "n_stopped": 1, "n_no_ea17": 377, "n_had_ea17": 257, "n_had_ea17_no_stop": 256, "pct_of_users": 0.2, "pct_of_ea17": 0.4, "slot_counts": {"METHSTOP01": 0, "METHSTOP02": 0, "METHSTOP03": 1, "METHSTOP04": 0, "METHSTOP05": 0, "METHSTOP06": 0, "METHSTOP07": 0, "METHSTOP08": 0, "METHSTOP09": 0}, "other_methods": {"Birth control pills": 1, "Condom": 1, "Withdrawal, pulling out": 1, "Calendar rhythm, Standard Days, or CycleBeads method": 1}, "age_dist": {"15\u201319": 0, "20\u201324": 0, "25\u201329": 0, "30\u201334": 0, "35\u201339": 0, "40\u201344": 1, "45\u201349": 0}, "race_dist": {"NH White": 1}, "id_rows": [{"caseid": 102127, "age": 43, "race": "NH White", "educ": "Bachelor's", "n_methods": 5, "target_slot": "03", "methods": [{"slot": "01", "code": 3, "label": "Birth control pills", "is_target": false}, {"slot": "02", "code": 4, "label": "Condom", "is_target": false}, {"slot": "03", "code": 5, "label": "Code 5", "is_target": true}, {"slot": "04", "code": 7, "label": "Withdrawal, pulling out", "is_target": false}, {"slot": "05", "code": 10, "label": "Calendar rhythm, Standard Days, or CycleBeads method", "is_target": false}]}]};
-const NO_SLOT = false;
-const funnelSteps = [
-  {big:D.total.toLocaleString(),sub:'all women surveyed',desc:'Total female respondents in the US National Survey of Family Growth, 2022-2023 cycle.',tech:'full sample'},
-  {big:D.n_users.toLocaleString(),sub:(D.n_users/D.total*100).toFixed(1)+'% of sample',desc:'Ever relied on a partner\'s vasectomy for contraception.',tech:'VASECTMY = 1'},
-  {big:D.n_had_ea17.toLocaleString(),sub:(D.n_had_ea17/D.n_users*100).toFixed(1)+'% of users',desc:'Were unhappy enough with at least one birth control method that they stopped using it.',tech:'METHSTOP data present'},
-  {big:D.n_stopped.toLocaleString(),sub:D.pct_of_users+'% of users',desc:'Named Partner\'s Vasectomy as a method they stopped due to dissatisfaction.',tech:'any METHSTOP01-09 = 5'},
-];
-document.getElementById('funnel').innerHTML=funnelSteps.map((s,i)=>`<div class="funnel-cell">${i<3?'<span class="funnel-arrow">&#8250;</span>':''}<div class="f-big">${s.big}</div><div class="f-sub">${s.sub}</div><div class="f-desc">${s.desc}</div><div class="f-tech">${s.tech}</div></div>`).join('');
+const D={"var": "VASECTMY", "ea_label": "EA-3", "method_name": "Partner's Vasectomy", "mstop_code": 5, "total": 5586, "n_users": 634, "n_stopped": 1, "n_no_ea17": 377, "n_had_ea17": 257, "n_had_ea17_no_stop": 256, "pct_of_users": 0.2, "pct_of_ea17": 0.4, "slot_counts": {"METHSTOP01": 0, "METHSTOP02": 0, "METHSTOP03": 1, "METHSTOP04": 0, "METHSTOP05": 0, "METHSTOP06": 0, "METHSTOP07": 0, "METHSTOP08": 0, "METHSTOP09": 0}, "other_methods": {"Birth control pills": 1, "Condom": 1, "Withdrawal, pulling out": 1, "Calendar rhythm, Standard Days, or CycleBeads method": 1}, "age_dist": {"15\u201319": 0, "20\u201324": 0, "25\u201329": 0, "30\u201334": 0, "35\u201339": 0, "40\u201344": 1, "45\u201349": 0}, "race_dist": {"NH White": 1}, "id_rows": [{"caseid": 102127, "age": 43, "race": "NH White", "educ": "Bachelor's", "n_methods": 5, "target_slot": "03", "methods": [{"slot": "01", "code": 3, "label": "Birth control pills", "is_target": false}, {"slot": "02", "code": 4, "label": "Condom", "is_target": false}, {"slot": "03", "code": 5, "label": "Code 5", "is_target": true}, {"slot": "04", "code": 7, "label": "Withdrawal, pulling out", "is_target": false}, {"slot": "05", "code": 10, "label": "Calendar rhythm, Standard Days, or CycleBeads method", "is_target": false}]}]};
+const NO_SLOT=false;
+const fS=[{big:D.total.toLocaleString(),label:'Women surveyed',desc:'Total female respondents in the US National Survey of Family Growth, 2022-2023 cycle.'},{big:D.n_users.toLocaleString(),label:'Women who used Partner\'s Vasectomy',desc:'Ever relied on a partner\'s vasectomy for contraception.'},{big:'1',label:'Women who stopped due to dissatisfaction',desc:'Explicitly named Partner\'s Vasectomy as a method they stopped due to dissatisfaction.'}];
+document.getElementById('funnel').innerHTML=fS.map((s,i)=>`<div class="funnel-cell">${i<2?'<span class="funnel-arrow">&#8250;</span>':''}<div class="f-big">${s.big}</div><div class="f-sub">${s.label}</div><div class="f-desc">${s.desc}</div></div>`).join('');
 
-function barChart(title,rows,maxVal){const m=maxVal||1;return `<div class="chart-card"><div class="chart-title">${title}</div>`+rows.map(([label,n])=>`<div class="bar-row"><div class="bar-label" title="${label}">${label}</div><div class="bar-track"><div class="bar-fill" style="width:${(n/m*100).toFixed(1)}%"></div></div><div class="bar-n">${n}</div></div>`).join('')+'</div>';}
+function barChart(t,rows,mx){const m=mx||1;return `<div class="chart-card"><div class="chart-title">${t}</div>`+rows.map(([l,n])=>`<div class="bar-row"><div class="bar-label" title="${l}">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${(n/m*100).toFixed(1)}%"></div></div><div class="bar-n">${n}</div></div>`).join('')+'</div>';}
 const slotE=Object.entries(D.slot_counts).map(([k,v])=>[k.replace('METHSTOP','Mention #'),v]);
 const ageE=Object.entries(D.age_dist);
 const raceE=Object.entries(D.race_dist).sort((a,b)=>b[1]-a[1]);
 const othE=Object.entries(D.other_methods).slice(0,9);
-let chartHtml='';
-if(slotE.length) chartHtml+=barChart('Which mention slot this method appeared in',slotE,Math.max(...slotE.map(e=>e[1]),1));
-if(ageE.length)  chartHtml+=barChart('Age of women in this group',ageE,Math.max(...ageE.map(e=>e[1])));
-if(raceE.length) chartHtml+=barChart('Race / ethnicity breakdown',raceE,Math.max(...raceE.map(e=>e[1])));
-if(othE.length)  chartHtml+=barChart(NO_SLOT?'Regular methods these EC users stopped':'Other methods stopped alongside this one',othE,Math.max(...othE.map(e=>e[1])));
-document.getElementById('charts').innerHTML=chartHtml;
+let ch='';
+ch+=barChart('Which mention slot this method appeared in',slotE,Math.max(...slotE.map(e=>e[1]),1));
+if(raceE.length) ch+=barChart('Race / ethnicity breakdown',raceE,Math.max(...raceE.map(e=>e[1])));
+if(NO_SLOT&&othE.length) ch+=barChart('Regular methods these EC users stopped',othE,Math.max(...othE.map(e=>e[1])));
+document.getElementById('charts').innerHTML=ch;
 
 let slotF='all';
 function setFilter(v,btn){slotF=v;document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderTable();}
 function renderTable(){
   const q=document.getElementById('search').value.toLowerCase();
   let rows=D.id_rows;
-  if(!NO_SLOT&&slotF==='01') rows=rows.filter(r=>r.target_slot==='01');
-  if(!NO_SLOT&&slotF==='other') rows=rows.filter(r=>r.target_slot!=='01'&&r.target_slot!=='?');
+  const sf='target_slot';
+  if(!NO_SLOT&&slotF==='01') rows=rows.filter(r=>r[sf]==='01');
+  if(!NO_SLOT&&slotF==='other') rows=rows.filter(r=>r[sf]!=='01'&&r[sf]!=='?');
   if(q) rows=rows.filter(r=>String(r.caseid).includes(q)||r.race.toLowerCase().includes(q)||r.educ.toLowerCase().includes(q)||String(r.age||'').includes(q));
   document.getElementById('tcount').textContent=rows.length+' record'+(rows.length!==1?'s':'');
   document.getElementById('tbody').innerHTML=rows.map(r=>{
-    const tags=r.methods.map(m=>`<span class="tag${m.is_target?' target':''}"><span class="slot-n">${parseInt(m.slot)}.</span>${m.label}</span>`).join('');
-    const slotCell=NO_SLOT?'':`<td class="td-slot">${r.target_slot==='?'?'&mdash;':'mention #'+parseInt(r.target_slot)}</td>`;
-    return `<tr><td class="td-id">${r.caseid}</td><td class="td-age">${r.age??'&mdash;'}</td><td class="td-muted">${r.race}</td><td class="td-muted">${r.educ}</td>${slotCell}<td><div class="tags">${tags}</div></td></tr>`;
+    const sv=r[sf];const sl=sv==='01'?'1st mention':sv==='?'?'&mdash;':'mention #'+parseInt(sv);
+    const tags=r.methods.map(m=>`<span class="tag${(m.is_depo||m.is_target)?' target':''}"><span class="slot-n">${parseInt(m.slot)}.</span>${m.label}</span>`).join('');
+    const sc=NO_SLOT?'':`<td class="td-slot">${sl}</td>`;
+    return `<tr><td class="td-id">${r.caseid}</td><td class="td-age">${r.age??'&mdash;'}</td><td class="td-muted">${r.race}</td><td class="td-muted">${r.educ}</td>${sc}<td><div class="tags">${tags}</div></td></tr>`;
   }).join('');
 }
 renderTable();
