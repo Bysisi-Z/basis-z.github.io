@@ -5,7 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const leftEvents = [
   { year: '',     title: 'Born in Yunnan, China',        tag: 'Origin', desc: '', born: true },
   { year: '2007', title: 'Move to Chengdu',              tag: 'City',   desc: '', chengdu: true },
-  { year: '2016', title: 'First Cat ♂',                  tag: 'Family', desc: '', cat: true },
+  { year: '2016', title: 'First Cat ♂',                  tag: 'Family', desc: '', cat: true, photo: '/images/cat-first.jpg' },
   { year: '2017', title: 'Move to Shanghai',             tag: 'City',   desc: '', shanghai: true },
   { year: '2019', title: 'Second Cat ♀',                 tag: 'Family', desc: '', cat: true },
   { year: '2022', title: 'Move to Lucerne, Switzerland', tag: 'City',   desc: '', lucerne: true },
@@ -85,7 +85,7 @@ const rows = [
 
             <div class="tl-left">
               {left
-                ? <div class={`tl-card${left.desc ? '' : ' tl-card--static'}${left.born || left.chengdu || left.shanghai || left.lucerne ? ' tl-card--born' : ''}`} role={left.desc || left.born || left.chengdu || left.shanghai || left.lucerne ? 'button' : undefined} tabindex={left.desc || left.born || left.chengdu || left.shanghai || left.lucerne ? 0 : undefined} aria-expanded={left.desc ? 'false' : undefined} data-born={left.born ? 'true' : undefined} data-chengdu={left.chengdu ? 'true' : undefined} data-shanghai={left.shanghai ? 'true' : undefined} data-lucerne={left.lucerne ? 'true' : undefined}>
+                ? <div class={`tl-card${(left.desc || left.photo) ? '' : ' tl-card--static'}${left.born || left.chengdu || left.shanghai || left.lucerne ? ' tl-card--born' : ''}${left.photo ? ' tl-card--photo' : ''}`} role={left.desc || left.photo || left.born || left.chengdu || left.shanghai || left.lucerne ? 'button' : undefined} tabindex={left.desc || left.photo || left.born || left.chengdu || left.shanghai || left.lucerne ? 0 : undefined} aria-expanded={left.desc || left.photo ? 'false' : undefined} data-born={left.born ? 'true' : undefined} data-chengdu={left.chengdu ? 'true' : undefined} data-shanghai={left.shanghai ? 'true' : undefined} data-lucerne={left.lucerne ? 'true' : undefined}>
                     <div class="tl-card-main">
                       {left.year && <span class="tl-year">{left.year}</span>}
                       <h3 class="tl-title">
@@ -99,9 +99,16 @@ const rows = [
                         {left.title}
                       </h3>
                       <span class="tl-tag">{left.tag}</span>
-                      {left.desc && <span class="tl-chevron" aria-hidden="true"></span>}
+                      {(left.desc || left.photo) && <span class="tl-chevron" aria-hidden="true"></span>}
                     </div>
-                    {left.desc && <div class="tl-desc" aria-hidden="true"><p>{left.desc}</p></div>}
+                    {left.photo
+                      ? <div class="tl-desc tl-desc--photo" aria-hidden="true">
+                          <img src={left.photo} alt={left.title} class="tl-photo" loading="lazy" />
+                        </div>
+                      : left.desc
+                        ? <div class="tl-desc" aria-hidden="true"><p>{left.desc}</p></div>
+                        : null
+                    }
                   </div>
                 : <div class="tl-empty"></div>
               }
@@ -531,6 +538,17 @@ const rows = [
   @keyframes petalBloom {
     from { transform: scale(0); }
     to   { transform: scale(1); }
+  }
+
+  .tl-card--photo.open .tl-desc { max-height: 260px; }
+  .tl-photo {
+    display: block;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 10px 0 4px auto;
+    border: 1px solid var(--rule);
   }
 
   /* Left side: desc right-aligned to match text direction */
