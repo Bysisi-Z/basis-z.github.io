@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-05 (session 21)  
+> Last updated: 2026-06-05 (session 22)  
 > Stack: Astro 6 + Tailwind CSS 4 (static output)  
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)  
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev)  
@@ -120,8 +120,13 @@ src/
 - Contact links at bottom: LinkedIn · Red Note · Email (white, vertical stack)
 
 **Right modules panel:**
-- **Desktop (>768px):** flat list — 6 items, each 96px, full opacity, rose hover, arrow on hover
-- **Mobile (≤768px):** drum wheel — 3× duplicated items for seamless loop, center item highlighted in rose, top/bottom gradient fade; touch swipe or auto-scroll every 2.2s; tap non-center item to snap, tap center to navigate
+- **Desktop (>768px):** flat list — 6 items only (`.mod:nth-child(n+7) { display: none }`), full opacity, rose title hover, arrow on hover
+- **Mobile (≤768px):** drum wheel — 3× duplicated items (18 total) for seamless loop; center item rose-highlighted; top/bottom gradient fade; touch swipe or auto-scroll every 2.2s; tap non-center to snap, tap center to navigate
+
+**Mobile layout (≤768px):**
+- `position: fixed; inset: 0; grid-template-rows: 50vh 50vh` — no page scroll
+- **Top 50vh:** rose identity panel — Si (Great Vibes, ~60–84px) + ghost Si + double rule + tagline; contact = 3 SVG icons horizontal (`.cl-text` hidden), `gap: 18px`
+- **Bottom 50vh:** drum wheel fills full height; `drum-wrap { height: 100% }`
 
 **Font:** Great Vibes loaded via `@import` in page `<style>` for Si only; Cormorant + Inter for rest
 
