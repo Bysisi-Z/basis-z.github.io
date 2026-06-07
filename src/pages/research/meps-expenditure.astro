@@ -24,6 +24,59 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <svg id="composition-svg" width="100%" xmlns="http://www.w3.org/2000/svg"></svg>
     </div>
 
+    <!-- Payer glossary -->
+    <div class="payer-glossary">
+      <div class="glossary-item">
+        <span class="glossary-dot" style="background:#c17d9d"></span>
+        <div>
+          <span class="glossary-name">Self / OOP</span>
+          <span class="glossary-desc">Out-of-pocket payments made directly by the patient or their family — copays, deductibles, and costs for uncovered services.</span>
+        </div>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-dot" style="background:#9b6080"></span>
+        <div>
+          <span class="glossary-name">Private Insurance</span>
+          <span class="glossary-desc">Primarily employer-sponsored group plans (employers typically cover 70–80% of premiums), plus individually purchased marketplace plans. Run by private insurers such as Blue Cross, Aetna, and UnitedHealth.</span>
+        </div>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-dot" style="background:#847B7B"></span>
+        <div>
+          <span class="glossary-name">Medicare</span>
+          <span class="glossary-desc">Federal health insurance for adults 65 and older, and certain younger people with disabilities. Funded by payroll taxes and premiums.</span>
+        </div>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-dot" style="background:#a59898"></span>
+        <div>
+          <span class="glossary-name">Medicaid</span>
+          <span class="glossary-desc">Joint federal–state program covering low-income individuals and families. Eligibility and benefits vary by state.</span>
+        </div>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-dot" style="background:#b8b0ae"></span>
+        <div>
+          <span class="glossary-name">VA / CHAMPVA</span>
+          <span class="glossary-desc">Department of Veterans Affairs coverage for eligible veterans. CHAMPVA extends to spouses and dependents of veterans with service-related disabilities.</span>
+        </div>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-dot" style="background:#cec8c6"></span>
+        <div>
+          <span class="glossary-name">TRICARE</span>
+          <span class="glossary-desc">Health coverage for active-duty military personnel, National Guard and Reserve members, retirees, and their families. Managed by the Department of Defense.</span>
+        </div>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-dot" style="background:#ddd8d6"></span>
+        <div>
+          <span class="glossary-name">Other</span>
+          <span class="glossary-desc">Combines four smaller payer categories: other federal programs, state and local government programs, workers' compensation, and miscellaneous other sources.</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Coverage bars (clickable filter) -->
     <div class="section-label" style="margin-top:2px">Coverage — share of respondents with any expenditure</div>
     <div class="chart-container" style="margin-bottom:2px">
@@ -116,6 +169,29 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .stat-sub {
   font-family: var(--sans); font-size: 11px; font-weight: 300;
   color: var(--stone); margin-top: 4px; display: block;
+}
+.payer-glossary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px 24px;
+  padding: 20px 0 24px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2px;
+}
+.glossary-item {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.glossary-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 4px;
+}
+.glossary-name {
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  color: var(--ink); display: block; margin-bottom: 3px;
+}
+.glossary-desc {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--stone); line-height: 1.6; display: block;
 }
 .source-note {
   font-family: var(--sans); font-size: 11px; font-weight: 300;
@@ -479,11 +555,6 @@ function drawComposition() {
     }
   });
 
-  // "Other" note — short version
-  svg.appendChild(svgEl('text', {
-    'font-family': 'Inter,sans-serif', 'font-size': 9, 'font-weight': 300,
-    fill: '#B0A8A5', 'text-anchor': 'end', x: W - MR, y: LEG_Y + 9,
-  }, '* Other = Other Federal + State/Local + Workers Comp + Other Sources'));
 }
 
 function drawAll() { drawCoverage(); drawComposition(); drawDist(); }
