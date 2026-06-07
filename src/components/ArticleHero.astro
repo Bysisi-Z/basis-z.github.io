@@ -136,7 +136,9 @@ const {
   /* ══ PORTRAIT SPLIT ══ */
   .hero-split {
     display: grid;
+    grid-template-rows: 1fr;
     height: calc(100vh - 52px);
+    height: calc(100dvh - 52px);
     min-height: 480px;
   }
   .hero-split.img-left  { grid-template-columns: 42% 58%; }
@@ -146,6 +148,7 @@ const {
     position: relative;
     overflow: hidden;
     background: var(--bg);
+    height: 100%;
   }
   .img-right .split-photo { order: 2; }
   .img-right .split-text  { order: 1; }
@@ -167,6 +170,8 @@ const {
     justify-content: flex-start;
     padding: clamp(40px, 5vw, 72px);
     background: var(--bg);
+    height: 100%;
+    overflow-y: auto;
   }
   .split-top { display: flex; flex-direction: column; }
 
