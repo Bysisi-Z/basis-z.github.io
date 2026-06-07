@@ -349,6 +349,46 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .dist-row.inapplicable .dist-bar-fill { background: var(--rule) !important; }
 
+/* ── Dimension toggle ─────────────────────────────────────────────────────── */
+.dim-toggle-row {
+  display: flex; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+}
+.dim-toggle-label {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone);
+}
+.dim-toggle-group { display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.dim-btn {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.06em; color: var(--stone);
+  background: none; border: none; padding: 5px 14px; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.dim-btn + .dim-btn { border-left: 1px solid var(--rule); }
+.dim-btn.active { background: var(--rose); color: #fff; font-weight: 400; }
+.dim-btn:not(.active):hover { background: rgba(193,125,157,0.06); color: var(--ink); }
+
+/* ── Split group blocks ───────────────────────────────────────────────────── */
+.split-group { margin-bottom: 16px; }
+.split-group-header {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 8px 0 6px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2px;
+}
+.split-group-name {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose);
+}
+.split-group-n {
+  font-family: var(--sans); font-size: 9px; font-weight: 300; color: var(--stone);
+}
+.split-dist-row {
+  display: grid; grid-template-columns: 200px 1fr 52px 62px;
+  align-items: center; gap: 0 12px;
+  padding: 4px 0; border-bottom: 1px solid rgba(226,222,219,0.3);
+}
+
 /* ── Source ───────────────────────────────────────────────────────────────── */
 .source-note {
   font-family: var(--sans); font-size: 11px; font-weight: 300;
@@ -411,12 +451,17 @@ const DEEPDIVE_MAP = {
   TOTOSR23: { text: 'Other sources including workers compensation, state/local programs, and unclassified payers.', href: REPORT_HREF },
 };
 
+const AGE_KEYS    = ['0-17','18-34','35-49','50-64','65-74','75plus'];
+const INCOME_KEYS = ['poor','low','middle','high'];
+
 // ── State ─────────────────────────────────────────────────────────────────────
 let META         = null;
 let groupCache   = {};
+let splitCache   = {};
 let currentGroup = null;
 let currentVar   = null;
 let filteredVars = [];
+let activeDim    = 'none'; // 'none' | 'age' | 'income'
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const selectEl      = document.getElementById('section-select');
@@ -431,6 +476,16 @@ async function fetchJSON(url) {
   const r = await fetch(url);
   if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
   return r.json();
+}
+
+async function fetchSplitData(groupKey) {
+  if (splitCache[groupKey]) return splitCache[groupKey];
+  try {
+    splitCache[groupKey] = await fetchJSON(`/data/meps_${groupKey}_split.json`);
+  } catch(e) {
+    splitCache[groupKey] = {};
+  }
+  return splitCache[groupKey];
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
@@ -489,7 +544,6 @@ async function selectGroup(key) {
 function renderVarList(vars) {
   const query = searchEl.value.toLowerCase().trim();
 
-  // Global search across all groups using META
   if (query && META) {
     const results = [];
     META.variables.forEach(v => {
@@ -499,7 +553,6 @@ function renderVarList(vars) {
     });
     filteredVars = results;
     varCountEl.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} — all groups`;
-
     const frag = document.createDocumentFragment();
     results.forEach(v => {
       const item = makeVarItem(v, true);
@@ -592,30 +645,9 @@ function renderDetail(v) {
   detailEmpty.hidden   = true;
   detailContent.hidden = false;
 
-  const dist       = v.distribution || [];
-  const normal     = dist.filter(d => !d.inapplicable && !d.outlier);
-  const outliers   = dist.filter(d => d.outlier);
-  const inapps     = dist.filter(d => d.inapplicable);
-  const maxN       = Math.max(...normal.map(d => d.n), 1);
-  const n_universe = v.n_universe;
-  const n_total    = v.n_total;
-
-  function makeRow(d, forceColor) {
-    const isSpecial = d.inapplicable || d.outlier;
-    const w     = isSpecial ? (d.n / n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
-    const color = forceColor || (isSpecial ? INAPP_COLOR : BAR_COLOR);
-    const cls   = d.inapplicable ? ' inapplicable' : (d.outlier ? ' inapplicable' : '');
-    return `<div class="dist-row${cls}">
-      <div class="dist-label">
-        ${escHtml(d.label)}<span class="dist-val-code">${escHtml(d.value)}</span>
-      </div>
-      <div class="dist-bar-track">
-        <div class="dist-bar-fill" style="width:0%;background:${color}" data-w="${w}%"></div>
-      </div>
-      <div class="dist-pct">${d.pct}%</div>
-      <div class="dist-n">${d.n.toLocaleString()}</div>
-    </div>`;
-  }
+  const dist    = v.distribution || [];
+  const normal  = dist.filter(d => !d.inapplicable && !d.outlier);
+  const n_total = v.n_total;
 
   const diveInfo = DEEPDIVE_MAP[v.name];
   const deepDiveHtml = diveInfo
@@ -647,7 +679,7 @@ function renderDetail(v) {
            <span class="detail-stat-lbl">Total respondents</span>
          </div>
          <div class="detail-stat">
-           <span class="detail-stat-val">${n_universe.toLocaleString()}</span>
+           <span class="detail-stat-val">${v.n_universe.toLocaleString()}</span>
            <span class="detail-stat-lbl">In universe</span>
          </div>
          <div class="detail-stat">
@@ -655,16 +687,123 @@ function renderDetail(v) {
            <span class="detail-stat-lbl">Response codes</span>
          </div>
        </div>
+       <div class="dim-toggle-row">
+         <span class="dim-toggle-label">Split by</span>
+         <div class="dim-toggle-group">
+           <button class="dim-btn ${activeDim==='none'?'active':''}" data-dim="none">Overall</button>
+           <button class="dim-btn ${activeDim==='age'?'active':''}" data-dim="age">Age group</button>
+           <button class="dim-btn ${activeDim==='income'?'active':''}" data-dim="income">Income level</button>
+         </div>
+       </div>
      </div>
      ${deepDiveHtml}
-     <div class="dist-wrap">
-       ${normal.length ? `<p class="dist-section-label">Response distribution</p>${normal.map(d => makeRow(d)).join('')}` : ''}
-       ${outliers.length ? `<p class="dist-section-label" style="margin-top:20px">Extreme values (top 5% outliers)</p>${outliers.map(d => makeRow(d)).join('')}` : ''}
-       ${inapps.length ? `<p class="dist-section-label" style="margin-top:20px">Outside universe / missing</p>${inapps.map(d => makeRow(d)).join('')}` : ''}
-     </div>`;
+     <div class="dist-wrap" id="dist-area"></div>`;
 
+  // Toggle click handlers
+  detailContent.querySelectorAll('.dim-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeDim = btn.dataset.dim;
+      detailContent.querySelectorAll('.dim-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.dim === activeDim)
+      );
+      renderDistArea(v);
+    });
+  });
+
+  renderDistArea(v);
+}
+
+// ── Overall distribution rendering ───────────────────────────────────────────
+function makeOverallDistHtml(v) {
+  const dist     = v.distribution || [];
+  const normal   = dist.filter(d => !d.inapplicable && !d.outlier);
+  const outliers = dist.filter(d => d.outlier);
+  const inapps   = dist.filter(d => d.inapplicable);
+  const maxN     = Math.max(...normal.map(d => d.n), 1);
+  const n_total  = v.n_total;
+
+  function makeRow(d, forceColor) {
+    const isSpecial = d.inapplicable || d.outlier;
+    const w     = isSpecial ? (d.n / n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
+    const color = forceColor || (isSpecial ? INAPP_COLOR : BAR_COLOR);
+    const cls   = (d.inapplicable || d.outlier) ? ' inapplicable' : '';
+    return `<div class="dist-row${cls}">
+      <div class="dist-label">
+        ${escHtml(d.label)}<span class="dist-val-code">${escHtml(d.value)}</span>
+      </div>
+      <div class="dist-bar-track">
+        <div class="dist-bar-fill" style="width:0%;background:${color}" data-w="${w}%"></div>
+      </div>
+      <div class="dist-pct">${d.pct}%</div>
+      <div class="dist-n">${d.n.toLocaleString()}</div>
+    </div>`;
+  }
+
+  return (
+    (normal.length   ? `<p class="dist-section-label">Response distribution</p>${normal.map(d => makeRow(d)).join('')}` : '') +
+    (outliers.length ? `<p class="dist-section-label" style="margin-top:20px">Extreme values (top 5% outliers)</p>${outliers.map(d => makeRow(d)).join('')}` : '') +
+    (inapps.length   ? `<p class="dist-section-label" style="margin-top:20px">Outside universe / missing</p>${inapps.map(d => makeRow(d)).join('')}` : '')
+  );
+}
+
+// ── Split distribution rendering ─────────────────────────────────────────────
+function makeSplitHtml(v, varSplit, dim) {
+  const keys = dim === 'age' ? AGE_KEYS : INCOME_KEYS;
+  const groups = keys.map(k => varSplit[dim][k]).filter(Boolean);
+
+  // Global max pct for consistent bar scaling across all groups
+  const globalMaxPct = Math.max(...groups.flatMap(g => g.dist.map(d => d.pct)), 1);
+
+  return groups.map(g => {
+    const rows = g.dist.map(d => {
+      const w = (d.pct / globalMaxPct * 100).toFixed(1);
+      return `<div class="split-dist-row">
+        <div class="dist-label">${escHtml(d.label)}</div>
+        <div class="dist-bar-track">
+          <div class="dist-bar-fill" style="width:0%;background:${BAR_COLOR}" data-w="${w}%"></div>
+        </div>
+        <div class="dist-pct">${d.pct}%</div>
+        <div class="dist-n">${d.n.toLocaleString()}</div>
+      </div>`;
+    }).join('');
+
+    return `<div class="split-group">
+      <div class="split-group-header">
+        <span class="split-group-name">${escHtml(g.label)}</span>
+        <span class="split-group-n">n = ${g.n.toLocaleString()}</span>
+      </div>
+      ${rows || '<p class="dist-section-label" style="padding:6px 0;color:var(--stone)">No data in this group</p>'}
+    </div>`;
+  }).join('');
+}
+
+// ── Dist area renderer (sync + async paths) ───────────────────────────────────
+async function renderDistArea(v) {
+  const area = document.getElementById('dist-area');
+  if (!area) return;
+
+  if (activeDim === 'none') {
+    area.innerHTML = makeOverallDistHtml(v);
+    animateBars(area);
+    return;
+  }
+
+  area.innerHTML = '<p class="dist-section-label" style="padding:8px 0;color:var(--stone)">Loading…</p>';
+  const splitData = await fetchSplitData(currentGroup);
+  const varSplit  = splitData[v.name];
+
+  if (!varSplit) {
+    area.innerHTML = '<p class="dist-section-label" style="padding:8px 0;color:var(--stone)">Split data not available for this variable.</p>';
+    return;
+  }
+
+  area.innerHTML = makeSplitHtml(v, varSplit, activeDim);
+  animateBars(area);
+}
+
+function animateBars(container) {
   requestAnimationFrame(() => requestAnimationFrame(() => {
-    detailContent.querySelectorAll('.dist-bar-fill').forEach(el => {
+    container.querySelectorAll('.dist-bar-fill').forEach(el => {
       el.style.width = el.dataset.w;
     });
   }));
