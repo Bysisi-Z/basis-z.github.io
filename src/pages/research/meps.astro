@@ -267,6 +267,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   font-family: var(--sans); font-size: 11px; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose);
 }
+.codebook-link {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; color: var(--stone);
+  text-decoration: none; border-bottom: 1px solid var(--rule);
+  transition: color 0.18s, border-color 0.18s;
+}
+.codebook-link:hover { color: var(--ink); border-color: var(--stone); }
 .detail-stats-row {
   display: flex; gap: 24px; flex-wrap: wrap;
 }
@@ -575,6 +582,7 @@ function renderDetail(v) {
        <p class="detail-label-text">${escHtml(v.label)}</p>
        <div class="detail-name-row">
          <span class="detail-varname">${escHtml(v.name)}</span>
+         <a class="codebook-link" href="https://meps.ahrq.gov/mepsweb/data_stats/download_data_files_codebook.jsp?PUFId=H251#${escHtml(v.name)}" target="_blank" rel="noopener">Codebook ↗</a>
        </div>
        <div class="detail-stats-row">
          <div class="detail-stat">
