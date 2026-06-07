@@ -20,5 +20,8 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# raw data sources (large files, kept local only — regenerate with _data_sources/meps2023/gen_meps_data.py)
+_data_sources/
+
 # jetbrains setting folder
 .idea/

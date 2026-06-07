@@ -1,0 +1,650 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="US MEPS Survey — 2023" description="Interactive explorer for the 2023 Medical Expenditure Panel Survey, Full-Year Consolidated File">
+
+  <div id="mobile-gate" class="mobile-gate" role="dialog" aria-modal="true" aria-label="Screen size notice">
+    <div class="mobile-gate-inner">
+      <svg class="mobile-gate-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="4" y="10" width="32" height="22" rx="3" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M36 28h6v6a2 2 0 01-2 2H10a2 2 0 01-2-2v-6h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="18" y1="40" x2="30" y2="40" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="20" y1="21" x2="28" y2="21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".4"/>
+        <line x1="16" y1="25" x2="32" y2="25" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".25"/>
+      </svg>
+      <h2 class="mobile-gate-title">Best viewed on a larger screen</h2>
+      <p class="mobile-gate-body">This interactive data explorer is designed for desktop or tablet.</p>
+      <button id="mobile-gate-btn" class="mobile-gate-btn">Continue on mobile</button>
+      <a href="/research" class="mobile-gate-back">← Back to Decoding</a>
+    </div>
+  </div>
+
+  <div class="explorer-wrap">
+
+    <div class="meps-header">
+      <a class="back-crumb" href="/research">← Decoding</a>
+      <div class="meps-title-row">
+        <h1 class="meps-title">US MEPS Survey — <em>2023</em></h1>
+        <span class="meps-badge">HC-251</span>
+      </div>
+      <p class="meps-desc">
+        The Medical Expenditure Panel Survey (MEPS), conducted by AHRQ since 1996, collects nationally representative data on healthcare use, costs, and insurance coverage in the US. This explorer covers the 2023 Full-Year Consolidated file — <strong>18,640</strong> inscope respondents, <strong>74</strong> key variables across 8 topic groups.
+      </p>
+    </div>
+
+    <div id="explorer">
+
+      <div class="tabs-scroll-wrap">
+        <button class="tabs-arrow tabs-arrow-left" id="tabs-arrow-left" aria-label="Scroll left" hidden>‹</button>
+        <div id="section-tabs" role="tablist" aria-label="Topic groups"></div>
+        <button class="tabs-arrow tabs-arrow-right" id="tabs-arrow-right" aria-label="Scroll right" hidden>›</button>
+      </div>
+
+      <div class="panels">
+
+        <aside class="panel-vars">
+          <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 16 16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/>
+              <line x1="10" y1="10" x2="14" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            <input id="var-search" type="search" placeholder="Search variables…" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="var-count-row">
+            <span id="var-count" class="var-count"></span>
+            <span id="loading-badge" class="loading-badge" hidden>Loading…</span>
+          </div>
+          <div id="var-list" class="var-list" role="listbox" aria-label="Variables"></div>
+        </aside>
+
+        <section class="panel-detail" id="panel-detail">
+          <div class="detail-empty" id="detail-empty">
+            <div class="empty-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="12" width="32" height="4" rx="2" fill="currentColor" opacity=".15"/>
+                <rect x="8" y="22" width="24" height="4" rx="2" fill="currentColor" opacity=".1"/>
+                <rect x="8" y="32" width="28" height="4" rx="2" fill="currentColor" opacity=".07"/>
+              </svg>
+            </div>
+            <p class="empty-hint">Select a variable to explore its distribution</p>
+          </div>
+          <div id="detail-content" hidden></div>
+        </section>
+
+      </div>
+    </div>
+
+    <p class="source-note">
+      Source: AHRQ, <em>2023 Medical Expenditure Panel Survey</em>, Full-Year Consolidated Public Use File (HC-251).
+      Percentages are unweighted counts among respondents in each variable's universe (excluding inapplicable).
+    </p>
+  </div>
+
+</BaseLayout>
+
+<style is:global>
+
+.mobile-gate {
+  display: none;
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--bg);
+  align-items: center; justify-content: center;
+  padding: 40px 28px;
+}
+.mobile-gate-inner {
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  max-width: 340px; gap: 0;
+}
+.mobile-gate-icon { width: 52px; height: 52px; color: var(--rose); margin-bottom: 24px; }
+.mobile-gate-title {
+  font-family: var(--serif); font-size: 24px; font-weight: 300; font-style: italic;
+  color: var(--ink); line-height: 1.2; margin: 0 0 16px;
+}
+.mobile-gate-body {
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  color: var(--stone); line-height: 1.7; margin: 0 0 32px;
+}
+.mobile-gate-btn {
+  font-family: var(--sans); font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--rose); color: #fff;
+  border: none; border-radius: 4px; padding: 12px 28px; cursor: pointer;
+  margin-bottom: 20px; transition: opacity 0.18s;
+}
+.mobile-gate-btn:hover { opacity: 0.85; }
+.mobile-gate-back {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--stone); text-decoration: none; transition: color 0.18s;
+}
+.mobile-gate-back:hover { color: var(--ink); }
+@media (max-width: 700px) {
+  .mobile-gate { display: flex; }
+  .mobile-gate.dismissed { display: none; }
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.explorer-wrap { max-width: 1600px; margin: 0 auto; padding: 0 clamp(20px,6vw,80px); }
+
+.meps-header { padding: 36px 0 24px; }
+.back-crumb {
+  display: block;
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--stone); text-decoration: none; margin-bottom: 14px;
+  transition: color 0.2s;
+}
+.back-crumb:hover { color: var(--ink); }
+.meps-title-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+.meps-title {
+  font-family: var(--serif); font-size: clamp(22px,2.4vw,30px);
+  font-weight: 300; line-height: 1.1; color: var(--ink); margin: 0;
+}
+.meps-title em { font-style: italic; }
+.meps-badge {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  border-radius: 3px; padding: 2px 8px;
+}
+.meps-desc {
+  font-family: var(--sans); font-size: clamp(13px,1.2vw,14.5px); font-weight: 300;
+  color: var(--stone); line-height: 1.75; max-width: 760px; margin: 0;
+}
+.meps-desc strong { font-weight: 400; color: var(--ink); }
+
+/* ── Tabs ────────────────────────────────────────────────────────────────── */
+.tabs-scroll-wrap {
+  display: flex; align-items: center; gap: 4px;
+  border-bottom: 1px solid var(--rule); margin-bottom: 0;
+  position: relative;
+}
+#section-tabs {
+  display: flex; gap: 0; overflow-x: auto; scroll-behavior: smooth;
+  scrollbar-width: none; -ms-overflow-style: none; flex: 1;
+}
+#section-tabs::-webkit-scrollbar { display: none; }
+.sec-tab {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--stone); background: none; border: none;
+  border-bottom: 2px solid transparent; padding: 14px 18px 12px;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  transition: color 0.2s, border-color 0.2s;
+}
+.sec-tab:hover { color: var(--ink); }
+.sec-tab.active { color: var(--rose); border-bottom-color: var(--rose); font-weight: 400; }
+.tabs-arrow {
+  font-family: var(--serif); font-size: 20px; font-weight: 300;
+  color: var(--stone); background: none; border: none; cursor: pointer;
+  padding: 8px 6px; flex-shrink: 0; transition: color 0.18s;
+}
+.tabs-arrow:hover { color: var(--ink); }
+
+/* ── Two-panel ────────────────────────────────────────────────────────────── */
+.panels {
+  display: grid; grid-template-columns: 340px 1fr;
+  height: calc(100vh - 340px); min-height: 460px;
+  border: 1px solid var(--rule); border-top: none;
+}
+
+/* ── Left: variable list ──────────────────────────────────────────────────── */
+.panel-vars {
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.search-wrap {
+  position: relative; padding: 14px 16px; border-bottom: 1px solid var(--rule);
+}
+.search-icon {
+  position: absolute; left: 28px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; color: var(--stone); pointer-events: none;
+}
+#var-search {
+  width: 100%; padding: 8px 12px 8px 32px;
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--ink); background: rgba(0,0,0,0.02);
+  border: 1px solid var(--rule); border-radius: 4px; outline: none;
+  transition: border-color 0.18s;
+}
+#var-search:focus { border-color: rgba(193,125,157,0.5); }
+#var-search::placeholder { color: var(--stone); }
+.var-count-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px 4px; flex-shrink: 0;
+}
+.var-count {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone);
+}
+.loading-badge {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.35);
+  border-radius: 3px; padding: 1px 6px;
+}
+.var-list { flex: 1; overflow-y: auto; }
+.var-item {
+  padding: 11px 16px; cursor: pointer;
+  border-bottom: 1px solid rgba(226,222,219,0.5);
+  transition: background 0.15s;
+}
+.var-item:hover { background: rgba(193,125,157,0.05); }
+.var-item.selected { background: rgba(193,125,157,0.1); }
+.var-item-label {
+  display: block; font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--ink); line-height: 1.4; margin-bottom: 4px;
+}
+.var-item-bottom { display: flex; align-items: center; gap: 6px; }
+.var-item-name {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.06em; color: var(--rose);
+}
+.var-item-section {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  color: var(--stone); margin-top: 2px; display: block;
+}
+
+/* ── Right: detail ────────────────────────────────────────────────────────── */
+.panel-detail { overflow: hidden; display: flex; flex-direction: column; }
+.detail-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  color: var(--stone);
+}
+.empty-icon svg { width: 64px; height: 64px; }
+.empty-hint {
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  color: var(--stone); letter-spacing: 0.04em;
+}
+#detail-content {
+  flex: 1; overflow-y: auto;
+}
+
+/* ── Detail header ─────────────────────────────────────────────────────────── */
+.detail-header {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--rule);
+  position: sticky; top: 0; background: var(--bg); z-index: 10;
+}
+.detail-label-text {
+  font-family: var(--serif); font-size: clamp(20px, 2vw, 26px); font-weight: 300;
+  font-style: italic; color: var(--ink); line-height: 1.25; margin: 0 0 10px;
+}
+.detail-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.detail-varname {
+  font-family: var(--sans); font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose);
+}
+.detail-stats-row {
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+.detail-stat {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.detail-stat-val {
+  font-family: var(--sans); font-size: 18px; font-weight: 300; color: var(--ink);
+}
+.detail-stat-lbl {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone);
+}
+
+/* ── Distribution bars ────────────────────────────────────────────────────── */
+.dist-wrap { padding: 20px 32px 40px; }
+.dist-section-label {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--stone); margin: 0 0 12px;
+}
+.dist-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 52px 62px;
+  align-items: center; gap: 0 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(226,222,219,0.4);
+}
+.dist-label {
+  font-family: var(--sans); font-size: 12.5px; font-weight: 300;
+  color: var(--ink); line-height: 1.3; overflow: hidden;
+}
+.dist-val-code {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  color: var(--stone); margin-left: 6px;
+}
+.dist-bar-track {
+  background: rgba(226,222,219,0.5); border-radius: 2px; height: 6px;
+  overflow: hidden;
+}
+.dist-bar-fill {
+  height: 100%; border-radius: 2px; background: var(--rose);
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.dist-pct {
+  font-family: var(--sans); font-size: 14px; font-weight: 400;
+  color: var(--ink); text-align: right;
+}
+.dist-n {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--stone); text-align: right;
+}
+.dist-row.inapplicable .dist-bar-fill { background: var(--rule) !important; }
+
+/* ── Source ───────────────────────────────────────────────────────────────── */
+.source-note {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  line-height: 1.7; color: var(--stone); padding-bottom: 80px; margin-top: 16px;
+}
+.source-note em { font-style: italic; }
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .panels { grid-template-columns: 1fr; height: auto; }
+  .panel-vars { border-right: none; border-bottom: 1px solid var(--rule); height: 455px; min-height: 0; overflow: hidden; }
+  .panel-detail { height: auto; min-height: 0; overflow: visible; }
+  #detail-content { overflow-y: visible; height: auto; }
+  .dist-row { grid-template-columns: 120px 1fr 42px 52px; gap: 0 8px; }
+  .detail-header { padding: 20px; position: static; }
+  .dist-wrap { padding: 16px 20px 40px; }
+}
+@media (max-width: 480px) {
+  .dist-row { grid-template-columns: 90px 1fr 38px 46px; gap: 0 6px; }
+  .dist-label { font-size: 12px; }
+  .dist-pct { font-size: 12px; }
+  .dist-n { font-size: 10px; }
+  .detail-label-text { font-size: 19px; }
+}
+</style>
+
+<script>
+{
+  const gate = document.getElementById('mobile-gate');
+  const btn  = document.getElementById('mobile-gate-btn');
+  if (gate && btn) {
+    if (sessionStorage.getItem('meps-mobile-gate-dismissed')) gate.classList.add('dismissed');
+    btn.addEventListener('click', () => {
+      sessionStorage.setItem('meps-mobile-gate-dismissed', '1');
+      gate.classList.add('dismissed');
+    });
+  }
+}
+</script>
+
+<script>
+(async () => {
+
+const BAR_COLOR   = '#c17d9d';
+const INAPP_COLOR = '#E2DEDB';
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let META         = null;
+let groupCache   = {};
+let currentGroup = null;
+let currentVar   = null;
+let filteredVars = [];
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+const secTabsEl     = document.getElementById('section-tabs');
+const varListEl     = document.getElementById('var-list');
+const varCountEl    = document.getElementById('var-count');
+const loadingEl     = document.getElementById('loading-badge');
+const searchEl      = document.getElementById('var-search');
+const detailEmpty   = document.getElementById('detail-empty');
+const detailContent = document.getElementById('detail-content');
+
+async function fetchJSON(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
+  return r.json();
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+try {
+  META = await fetchJSON('/data/meps_meta.json');
+} catch(e) {
+  secTabsEl.textContent = 'Error loading data.';
+  return;
+}
+
+buildGroupTabs();
+initTabsArrow();
+await selectGroup(META.groups[0].key);
+
+// ── Group tabs ────────────────────────────────────────────────────────────────
+function buildGroupTabs() {
+  META.groups.forEach(g => {
+    const btn = document.createElement('button');
+    btn.className   = 'sec-tab';
+    btn.dataset.key = g.key;
+    btn.textContent = g.label;
+    btn.title       = `${g.label} (${g.n_vars} vars)`;
+    btn.setAttribute('role', 'tab');
+    btn.addEventListener('click', () => selectGroup(g.key));
+    secTabsEl.appendChild(btn);
+  });
+}
+
+function setActiveTab(key) {
+  secTabsEl.querySelectorAll('.sec-tab').forEach(b =>
+    b.classList.toggle('active', b.dataset.key === key)
+  );
+}
+
+// ── Tabs scroll arrows ────────────────────────────────────────────────────────
+function initTabsArrow() {
+  const btnL = document.getElementById('tabs-arrow-left');
+  const btnR = document.getElementById('tabs-arrow-right');
+  if (!btnL || !btnR) return;
+  function sync() {
+    const overflows = secTabsEl.scrollWidth > secTabsEl.clientWidth + 2;
+    const atStart   = secTabsEl.scrollLeft <= 2;
+    const atEnd     = secTabsEl.scrollLeft + secTabsEl.clientWidth >= secTabsEl.scrollWidth - 4;
+    btnL.hidden = !overflows || atStart;
+    btnR.hidden = !overflows || atEnd;
+  }
+  btnL.addEventListener('click', () => secTabsEl.scrollBy({ left: -220, behavior: 'smooth' }));
+  btnR.addEventListener('click', () => secTabsEl.scrollBy({ left:  220, behavior: 'smooth' }));
+  secTabsEl.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  requestAnimationFrame(() => requestAnimationFrame(sync));
+  setTimeout(sync, 200);
+  window.addEventListener('load', sync);
+}
+
+// ── Group selection ────────────────────────────────────────────────────────────
+async function selectGroup(key) {
+  if (currentGroup === key && groupCache[key]) {
+    renderVarList(groupCache[key]);
+    return;
+  }
+  currentGroup = key;
+  setActiveTab(key);
+  currentVar = null;
+  showEmpty();
+  searchEl.value = '';
+
+  if (!groupCache[key]) {
+    loadingEl.hidden = false;
+    try {
+      groupCache[key] = await fetchJSON(`/data/meps_${key}.json`);
+    } catch(e) {
+      varCountEl.textContent = 'Load error';
+      loadingEl.hidden = true;
+      return;
+    }
+    loadingEl.hidden = true;
+  }
+  renderVarList(groupCache[key]);
+}
+
+// ── Variable list ─────────────────────────────────────────────────────────────
+function renderVarList(vars) {
+  const query = searchEl.value.toLowerCase().trim();
+
+  // Global search across all groups using META
+  if (query && META) {
+    const results = [];
+    META.variables.forEach(v => {
+      if (v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query)) {
+        results.push(v);
+      }
+    });
+    filteredVars = results;
+    varCountEl.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} — all groups`;
+
+    const frag = document.createDocumentFragment();
+    results.forEach(v => {
+      const item = makeVarItem(v, true);
+      item.addEventListener('click', () => selectVarGlobal(v.group, v.name));
+      frag.appendChild(item);
+    });
+    varListEl.innerHTML = '';
+    varListEl.appendChild(frag);
+    return;
+  }
+
+  filteredVars = !query ? (vars || []) :
+    (vars || []).filter(v => v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query));
+  varCountEl.textContent = `${filteredVars.length} variable${filteredVars.length !== 1 ? 's' : ''}`;
+
+  const frag = document.createDocumentFragment();
+  filteredVars.forEach(v => {
+    const item = makeVarItem(v, false);
+    item.addEventListener('click', () => selectVar(v.name));
+    frag.appendChild(item);
+  });
+  varListEl.innerHTML = '';
+  varListEl.appendChild(frag);
+}
+
+function makeVarItem(v, showGroup) {
+  const item = document.createElement('div');
+  item.className    = 'var-item' + (currentVar?.name === v.name ? ' selected' : '');
+  item.dataset.name = v.name;
+  item.setAttribute('role', 'option');
+  item.innerHTML =
+    `<span class="var-item-label">${escHtml(v.label)}</span>` +
+    `<span class="var-item-bottom">` +
+      `<span class="var-item-name">${v.name}</span>` +
+    `</span>` +
+    (showGroup ? `<span class="var-item-section">${escHtml(groupLabel(v.group))}</span>` : '');
+  return item;
+}
+
+function groupLabel(key) {
+  return META.groups.find(g => g.key === key)?.label || key;
+}
+
+// ── Global search selection ────────────────────────────────────────────────────
+async function selectVarGlobal(groupKey, varName) {
+  if (!groupCache[groupKey]) {
+    loadingEl.hidden = false;
+    try {
+      groupCache[groupKey] = await fetchJSON(`/data/meps_${groupKey}.json`);
+    } catch(e) { loadingEl.hidden = true; return; }
+    loadingEl.hidden = true;
+  }
+  currentGroup = groupKey;
+  setActiveTab(groupKey);
+  const varData = groupCache[groupKey].find(v => v.name === varName);
+  if (!varData) return;
+  currentVar = varData;
+  varListEl.querySelectorAll('.var-item').forEach(el =>
+    el.classList.toggle('selected', el.dataset.name === varName)
+  );
+  renderDetail(varData);
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+searchEl.addEventListener('input', () => {
+  renderVarList(groupCache[currentGroup] || []);
+});
+
+// ── Variable selection ────────────────────────────────────────────────────────
+function selectVar(name) {
+  const grpData = groupCache[currentGroup];
+  if (!grpData) return;
+  const varData = grpData.find(v => v.name === name);
+  if (!varData) return;
+  currentVar = varData;
+  varListEl.querySelectorAll('.var-item').forEach(el =>
+    el.classList.toggle('selected', el.dataset.name === name)
+  );
+  renderDetail(varData);
+}
+
+// ── Detail panel ──────────────────────────────────────────────────────────────
+function showEmpty() {
+  detailEmpty.hidden   = false;
+  detailContent.hidden = true;
+}
+
+function renderDetail(v) {
+  detailEmpty.hidden   = true;
+  detailContent.hidden = false;
+
+  const dist       = v.distribution || [];
+  const valid      = dist.filter(d => !d.inapplicable);
+  const inapps     = dist.filter(d => d.inapplicable);
+  const maxN       = Math.max(...valid.map(d => d.n), 1);
+  const n_universe = v.n_universe;
+  const n_total    = v.n_total;
+
+  function makeRow(d) {
+    const w     = d.inapplicable ? (d.n / n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
+    const color = d.inapplicable ? INAPP_COLOR : BAR_COLOR;
+    return `<div class="dist-row${d.inapplicable ? ' inapplicable' : ''}">
+      <div class="dist-label">
+        ${escHtml(d.label)}<span class="dist-val-code">${escHtml(d.value)}</span>
+      </div>
+      <div class="dist-bar-track">
+        <div class="dist-bar-fill" style="width:0%;background:${color}" data-w="${w}%"></div>
+      </div>
+      <div class="dist-pct">${d.pct}%</div>
+      <div class="dist-n">${d.n.toLocaleString()}</div>
+    </div>`;
+  }
+
+  detailContent.innerHTML =
+    `<div class="detail-header">
+       <p class="detail-label-text">${escHtml(v.label)}</p>
+       <div class="detail-name-row">
+         <span class="detail-varname">${escHtml(v.name)}</span>
+       </div>
+       <div class="detail-stats-row">
+         <div class="detail-stat">
+           <span class="detail-stat-val">${n_total.toLocaleString()}</span>
+           <span class="detail-stat-lbl">Total respondents</span>
+         </div>
+         <div class="detail-stat">
+           <span class="detail-stat-val">${n_universe.toLocaleString()}</span>
+           <span class="detail-stat-lbl">In universe</span>
+         </div>
+         <div class="detail-stat">
+           <span class="detail-stat-val">${valid.length}</span>
+           <span class="detail-stat-lbl">Response codes</span>
+         </div>
+       </div>
+     </div>
+     <div class="dist-wrap">
+       ${valid.length ? `<p class="dist-section-label">Response distribution</p>${valid.map(makeRow).join('')}` : ''}
+       ${inapps.length ? `<p class="dist-section-label" style="margin-top:20px">Outside universe / missing</p>${inapps.map(makeRow).join('')}` : ''}
+     </div>`;
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    detailContent.querySelectorAll('.dist-bar-fill').forEach(el => {
+      el.style.width = el.dataset.w;
+    });
+  }));
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+})();
+</script>

@@ -1,0 +1,421 @@
+{
+  "survey": "MEPS 2023 \u2014 Full-Year Consolidated File (HC-251)",
+  "source": "Agency for Healthcare Research and Quality (AHRQ)",
+  "n_total": 18640,
+  "year": 2023,
+  "note": "Medical Expenditure Panel Survey (MEPS) collects nationally representative data on healthcare use, costs, and insurance coverage in the US. This explorer covers the 2023 Full-Year Consolidated file \u2014 18,640 inscope respondents.",
+  "groups": [
+    {
+      "key": "demographics",
+      "label": "Demographics",
+      "n_vars": 10
+    },
+    {
+      "key": "insurance",
+      "label": "Health Insurance",
+      "n_vars": 7
+    },
+    {
+      "key": "health_status",
+      "label": "Health Status",
+      "n_vars": 14
+    },
+    {
+      "key": "conditions",
+      "label": "Chronic Conditions",
+      "n_vars": 16
+    },
+    {
+      "key": "utilization",
+      "label": "Healthcare Utilization",
+      "n_vars": 8
+    },
+    {
+      "key": "expenditures",
+      "label": "Healthcare Expenditures",
+      "n_vars": 10
+    },
+    {
+      "key": "access",
+      "label": "Access & Barriers",
+      "n_vars": 7
+    },
+    {
+      "key": "employment",
+      "label": "Employment",
+      "n_vars": 2
+    }
+  ],
+  "variables": [
+    {
+      "name": "AGE23X",
+      "label": "AGE AS OF 12/31/23 (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "SEX",
+      "label": "SEX",
+      "group": "demographics"
+    },
+    {
+      "name": "RACETHX",
+      "label": "RACE/ETHNICITY (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "HISPANX",
+      "label": "HISPANIC ETHNICITY (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "BORNUSA",
+      "label": "PERSON BORN IN THE US",
+      "group": "demographics"
+    },
+    {
+      "name": "HIDEG",
+      "label": "HIGHEST DEGREE WHEN FIRST ENTERED MEPS",
+      "group": "demographics"
+    },
+    {
+      "name": "FTSTU53X",
+      "label": "STUDENT STATUS IF AGES 17-23 - R5/3",
+      "group": "demographics"
+    },
+    {
+      "name": "POVCAT23",
+      "label": "FAMILY INC AS % OF POVERTY LINE - CATEGORICAL",
+      "group": "demographics"
+    },
+    {
+      "name": "POVLEV23",
+      "label": "FAMILY INC AS % OF POVERTY LINE - CONTINUOUS",
+      "group": "demographics"
+    },
+    {
+      "name": "REGION23",
+      "label": "CENSUS REGION AS OF 12/31/23",
+      "group": "demographics"
+    },
+    {
+      "name": "INSCOV23",
+      "label": "HEALTH INSURANCE COVERAGE INDICATOR 2023",
+      "group": "insurance"
+    },
+    {
+      "name": "INSURC23",
+      "label": "FULL YEAR INSURANCE COVERAGE STATUS 2023",
+      "group": "insurance"
+    },
+    {
+      "name": "UNINS23",
+      "label": "UNINSURED ALL OF 2023",
+      "group": "insurance"
+    },
+    {
+      "name": "MCARE23X",
+      "label": "COV BY MEDICARE - 12/31/23 (ED)",
+      "group": "insurance"
+    },
+    {
+      "name": "MCAID23X",
+      "label": "COV BY MEDICAID OR SCHIP - 12/31/23 (ED)",
+      "group": "insurance"
+    },
+    {
+      "name": "PRIV23",
+      "label": "COV BY PRIV HLTH INS - 12/31/23",
+      "group": "insurance"
+    },
+    {
+      "name": "TRICH23X",
+      "label": "COVERED BY CHAMPVA - R5/3 UNTIL 12/31/23",
+      "group": "insurance"
+    },
+    {
+      "name": "RTHLTH53",
+      "label": "PERCEIVED HEALTH STATUS - RD 5/3",
+      "group": "health_status"
+    },
+    {
+      "name": "MNHLTH53",
+      "label": "PERCEIVED MENTAL HEALTH STATUS - RD 5/3",
+      "group": "health_status"
+    },
+    {
+      "name": "ADGENH42",
+      "label": "SAQ: HEALTH IN GENERAL VR-12",
+      "group": "health_status"
+    },
+    {
+      "name": "ADPROX42",
+      "label": "SAQ: RELATIONSHIP OF PROXY TO ADULT",
+      "group": "health_status"
+    },
+    {
+      "name": "K6SUM42",
+      "label": "SAQ 30 DAYS: OVERALL RATING OF FEELINGS",
+      "group": "health_status"
+    },
+    {
+      "name": "PHQ242",
+      "label": "SAQ 2 WKS: OVERALL RATING OF FEELINGS",
+      "group": "health_status"
+    },
+    {
+      "name": "ADSMOK42",
+      "label": "SAQ: CURRENTLY SMOKE",
+      "group": "health_status"
+    },
+    {
+      "name": "PHYEXE53",
+      "label": "MOD/VIG PHYS EXEC 5X WK (>17) - RD 5/3",
+      "group": "health_status"
+    },
+    {
+      "name": "ACTLIM31",
+      "label": "ANY LIMITATION WORK/HOUSEWRK/SCHL - RD 3/1",
+      "group": "health_status"
+    },
+    {
+      "name": "WRKLIM31",
+      "label": "WORK LIMITATION - RD 3/1",
+      "group": "health_status"
+    },
+    {
+      "name": "DFHEAR42",
+      "label": "SERIOUS DIFFICULTY HEARING-RD 4/2",
+      "group": "health_status"
+    },
+    {
+      "name": "DFSEE42",
+      "label": "SERIOUS DIFFICULTY SEE W/GLASSES-RD 4/2",
+      "group": "health_status"
+    },
+    {
+      "name": "DFCOG42",
+      "label": "SERIOUS COGNITIVE DIFFICULTIES-RD 4/2",
+      "group": "health_status"
+    },
+    {
+      "name": "DFWLKC42",
+      "label": "SERIOUS DIFFICULTY WLK/CLIMB STAIRS-RD 4/2",
+      "group": "health_status"
+    },
+    {
+      "name": "HIBPDX",
+      "label": "HIGH BLOOD PRESSURE DIAG (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CHDDX",
+      "label": "CORONARY HRT DISEASE DIAG (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "ANGIDX",
+      "label": "ANGINA DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "MIDX",
+      "label": "HEART ATTACK (MI) DIAG (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "OHRTDX",
+      "label": "OTHER HEART DISEASE DIAG (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "STRKDX",
+      "label": "STROKE DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "EMPHDX",
+      "label": "EMPHYSEMA DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CHOLDX",
+      "label": "HIGH CHOLESTEROL DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CANCERDX",
+      "label": "CANCER DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "DIABDX_M18",
+      "label": "DIABETES DIAGNOSIS",
+      "group": "conditions"
+    },
+    {
+      "name": "ARTHDX",
+      "label": "ARTHRITIS DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "ASTHDX",
+      "label": "ASTHMA DIAGNOSIS",
+      "group": "conditions"
+    },
+    {
+      "name": "ADHDADDX",
+      "label": "ADHD/ADD DIAGNOSIS (5-17)",
+      "group": "conditions"
+    },
+    {
+      "name": "COVIDEVER53",
+      "label": "EVER HAD COVID-19 - RD 5/3",
+      "group": "conditions"
+    },
+    {
+      "name": "LCEVER53",
+      "label": "EVER HAD COVID-19 SYMPTOMS LASTING >= 3 MONTHS (LONG COVID) - RD 5/3",
+      "group": "conditions"
+    },
+    {
+      "name": "COVSYMNOW53",
+      "label": "HAS COVID-19 OR LONG COVID-19 SYMPTOMS NOW - RD 5/3",
+      "group": "conditions"
+    },
+    {
+      "name": "OBTOTV23",
+      "label": "# OFFICE-BASED PROVIDER VISITS 2023",
+      "group": "utilization"
+    },
+    {
+      "name": "OPTOTV23",
+      "label": "# OUTPATIENT DEPT PROVIDER VISITS 2023",
+      "group": "utilization"
+    },
+    {
+      "name": "ERTOT23",
+      "label": "# EMERGENCY ROOM VISITS 2023",
+      "group": "utilization"
+    },
+    {
+      "name": "IPDIS23",
+      "label": "# HOSPITAL DISCHARGES 2023",
+      "group": "utilization"
+    },
+    {
+      "name": "DVTOT23",
+      "label": "# DENTAL CARE VISITS 2023",
+      "group": "utilization"
+    },
+    {
+      "name": "RXTOT23",
+      "label": "# PRESC MEDS INCL REFILLS 23",
+      "group": "utilization"
+    },
+    {
+      "name": "HAVEUS42",
+      "label": "DOES PERSON HAVE USC PROVIDER-R4/2",
+      "group": "utilization"
+    },
+    {
+      "name": "PRACTP42",
+      "label": "PROVIDER OWN/GROUP PRACTICE-R4/2",
+      "group": "utilization"
+    },
+    {
+      "name": "TOTEXP23",
+      "label": "TOTAL HEALTH CARE EXP 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "TOTSLF23",
+      "label": "TOTAL AMT PAID BY SELF/FAMILY 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "TOTMCR23",
+      "label": "TOTAL AMT PAID BY MEDICARE 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "TOTMCD23",
+      "label": "TOTAL AMT PAID BY MEDICAID 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "TOTPRV23",
+      "label": "TOTAL AMT PAID BY PRIVATE INS 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "RXEXP23",
+      "label": "TOTAL RX-EXP 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "RXSLF23",
+      "label": "TOTAL RX-SELF/FAMILY AMT 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "OBVEXP23",
+      "label": "TOTAL OFFICE-BASED EXP 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "OPTEXP23",
+      "label": "TOTAL OUTPATIENT FAC + DR EXP 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "ERTEXP23",
+      "label": "TOTAL ER FACILITY + DR EXP 23",
+      "group": "expenditures"
+    },
+    {
+      "name": "DLAYCA42",
+      "label": "DELAY MED CARE FOR COST-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "AFRDCA42",
+      "label": "COULD NOT AFFORD MED CARE-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "DLAYDN42",
+      "label": "DELAY GETTING DENTAL FOR COST-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "AFRDDN42",
+      "label": "COULD NOT AFFORD DENTAL CARE-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "DLAYPM42",
+      "label": "DELAY GETTING PMED FOR COST-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "AFRDPM42",
+      "label": "COULD NOT AFFORD PMED CARE-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "PYUNBL42",
+      "label": "UNABLE TO PAY FAMILY MEDICAL BILLS",
+      "group": "access"
+    },
+    {
+      "name": "EMPST53",
+      "label": "EMPLOYMENT STATUS RD 5/3",
+      "group": "employment"
+    },
+    {
+      "name": "EMPST42",
+      "label": "EMPLOYMENT STATUS RD 4/2",
+      "group": "employment"
+    }
+  ]
+}
