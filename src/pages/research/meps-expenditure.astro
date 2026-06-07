@@ -1,0 +1,395 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="MEPS 2023 — Healthcare Expenditure by Payer" description="Healthcare expenditure distribution by payer — MEPS 2023">
+
+  <div class="exp-wrap">
+
+    <div class="exp-header">
+      <a class="back-crumb" href="/research/meps">← US MEPS Survey</a>
+      <div class="exp-title-row">
+        <h1 class="exp-title">Healthcare Expenditure — <em>by Payer</em></h1>
+        <span class="exp-badge">2023</span>
+      </div>
+      <p class="exp-desc">
+        Annual per-person expenditure across <strong>18,640</strong> inscope respondents.
+        Click a payer to see the full spending distribution among those with any expenditure.
+      </p>
+    </div>
+
+    <!-- Top: coverage bars -->
+    <div class="section-label">Coverage — share of respondents with any expenditure</div>
+    <div class="chart-container" style="margin-bottom:2px">
+      <svg id="coverage-svg" width="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <!-- Bottom: distribution curve -->
+    <div class="section-label" style="margin-top:28px" id="dist-label">
+      Expenditure distribution — select a payer above
+    </div>
+    <div id="dist-stats" class="dist-stats" hidden></div>
+    <div class="chart-container" id="dist-container">
+      <svg id="dist-svg" width="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <p class="source-note">
+      Source: AHRQ, <em>2023 Medical Expenditure Panel Survey</em>, Full-Year Consolidated File (HC-251).
+      All statistics are unweighted. Distribution shows only respondents with expenditure &gt; $0, sorted from smallest to largest.
+      Y-axis clipped at P95; true maximum annotated.
+    </p>
+
+  </div>
+
+</BaseLayout>
+
+<style is:global>
+.exp-wrap {
+  max-width: 1600px; margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 60px) 100px;
+}
+.exp-header { padding: 36px 0 20px; }
+.back-crumb {
+  display: block; font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--stone); text-decoration: none; margin-bottom: 14px; transition: color 0.2s;
+}
+.back-crumb:hover { color: var(--ink); }
+.exp-title-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+.exp-title {
+  font-family: var(--serif); font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 300; line-height: 1.1; color: var(--ink); margin: 0;
+}
+.exp-title em { font-style: italic; }
+.exp-badge {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  border-radius: 3px; padding: 2px 8px;
+}
+.exp-desc {
+  font-family: var(--sans); font-size: clamp(13px, 1.2vw, 14.5px); font-weight: 300;
+  color: var(--stone); line-height: 1.75; max-width: 760px; margin: 0;
+}
+.exp-desc strong { font-weight: 400; color: var(--ink); }
+.section-label {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone);
+  margin: 20px 0 8px;
+}
+.chart-container {
+  width: 100%; border: 1px solid var(--rule); border-radius: 8px;
+  overflow: hidden; background: var(--bg);
+}
+#dist-svg { display: block; }
+#coverage-svg { display: block; }
+.dist-stats {
+  display: flex; gap: 2px; margin-bottom: 2px;
+}
+.dist-stat-card {
+  flex: 1; padding: 16px 20px 14px;
+  border: 1px solid var(--rule); border-radius: 0;
+  background: var(--bg);
+}
+.dist-stats .dist-stat-card:first-child { border-radius: 8px 0 0 0; }
+.dist-stats .dist-stat-card:last-child  { border-radius: 0 8px 0 0; }
+.dist-stat-card.is-users {
+  flex: 0 0 auto; padding-right: 28px;
+  border-right: 2px solid var(--rule);
+}
+.stat-lbl {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--stone); display: block; margin-bottom: 6px;
+}
+.stat-val {
+  font-family: var(--serif); font-size: clamp(22px, 2vw, 30px);
+  font-weight: 300; color: var(--ink); line-height: 1;
+}
+.stat-val.is-rose { color: var(--rose); }
+.stat-sub {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  color: var(--stone); margin-top: 4px; display: block;
+}
+.source-note {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  line-height: 1.7; color: var(--stone); margin-top: 20px;
+}
+.source-note em { font-style: italic; }
+</style>
+
+<script>
+(async () => {
+
+const data   = await fetch('/data/meps_exp_overview.json').then(r => r.json());
+const payers  = data.payers;
+let selected  = null;
+
+const ML = 72, MR = 28, MT = 24, MB = 50;
+const COV_H     = 120;
+const COV_SVG_H = 28 + COV_H + 72;
+const ROSE = '#c17d9d';
+const STONE = '#847B7B';
+const INK = '#1A1A1A';
+const RULE = '#E2DEDB';
+
+function svgEl(tag, attrs, text) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  if (text != null) el.textContent = text;
+  return el;
+}
+function fmt(n) {
+  if (n >= 1000) return '$' + (n/1000).toFixed(n % 1000 === 0 ? 0 : 1) + 'k';
+  return '$' + n.toLocaleString();
+}
+function fmtFull(n) { return '$' + Math.round(n).toLocaleString(); }
+
+// ── Coverage chart ────────────────────────────────────────────────────────────
+function drawCoverage() {
+  const svg = document.getElementById('coverage-svg');
+  svg.innerHTML = '';
+  const W = svg.getBoundingClientRect().width || 1200;
+  svg.setAttribute('viewBox', `0 0 ${W} ${COV_SVG_H}`);
+  svg.setAttribute('height', COV_SVG_H);
+
+  const PLOT_W = W - ML - MR;
+  const COL_W  = PLOT_W / payers.length;
+  const BAR_W  = Math.min(COL_W * 0.55, 72);
+  const BAR_TOP = 20;
+
+  // 50% guideline
+  const y50 = BAR_TOP + COV_H * 0.5;
+  svg.appendChild(svgEl('line', { x1: ML, y1: y50, x2: W - MR, y2: y50,
+    stroke: RULE, 'stroke-width': 0.8, 'stroke-dasharray': '3,3' }));
+  svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 9,
+    'font-weight': 300, fill: '#B0A8A5', 'text-anchor': 'end', x: ML - 4, y: y50 + 3 }, '50%'));
+
+  // Y axis label
+  svg.appendChild(svgEl('text', {
+    'font-family': 'Inter,sans-serif', 'font-size': 9, 'font-weight': 300,
+    fill: STONE, 'text-anchor': 'middle',
+    transform: `translate(16,${BAR_TOP + COV_H / 2}) rotate(-90)`,
+  }, '% of respondents'));
+
+  payers.forEach((p, i) => {
+    const cx   = ML + (i + 0.5) * COL_W;
+    const barX = cx - BAR_W / 2;
+    const isActive = selected === null || selected === i;
+    const zeroH    = COV_H * (p.pct_zero / 100);
+    const nonzeroH = COV_H * (p.pct_nonzero / 100);
+
+    // $0 top
+    svg.appendChild(svgEl('rect', { x: barX, y: BAR_TOP, width: BAR_W, height: zeroH,
+      fill: isActive ? '#EAE6E3' : '#F5F3F1', rx: 0 }));
+    // >$0 bottom (same rose for all)
+    svg.appendChild(svgEl('rect', { x: barX, y: BAR_TOP + zeroH, width: BAR_W, height: nonzeroH,
+      fill: isActive ? ROSE : 'rgba(193,125,157,0.2)', rx: 0 }));
+    // border — thicker + rose when selected
+    svg.appendChild(svgEl('rect', { x: barX, y: BAR_TOP, width: BAR_W, height: COV_H,
+      fill: 'none',
+      stroke: selected === i ? ROSE : RULE,
+      'stroke-width': selected === i ? 2 : 0.8 }));
+
+    // labels inside segments
+    const FONT = { 'font-family': 'Inter,sans-serif', 'font-size': 11, 'font-weight': 400, 'text-anchor': 'middle' };
+    if (zeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH/2 + 4,
+      fill: isActive ? STONE : '#C0BBB8', 'font-weight': 300 }, p.pct_zero + '%'));
+    if (nonzeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH + nonzeroH/2 + 4,
+      fill: isActive ? '#fff' : 'rgba(193,125,157,0.4)' }, p.pct_nonzero + '%'));
+
+    // payer name
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 11,
+      'font-weight': selected === i ? 400 : 300, 'text-anchor': 'middle', 'letter-spacing': '0.06em',
+      fill: selected === i ? ROSE : (isActive ? STONE : '#C0BBB8'),
+      x: cx, y: BAR_TOP + COV_H + 16 }, p.label.toUpperCase()));
+
+    // transparent clickable overlay
+    const overlay = svgEl('rect', { x: barX, y: BAR_TOP, width: BAR_W, height: COV_H,
+      fill: 'transparent', cursor: 'pointer' });
+    overlay.addEventListener('click', () => { selected = selected === i ? null : i; drawAll(); });
+    svg.appendChild(overlay);
+  });
+
+  // Legend bottom center
+  const legendY = BAR_TOP + COV_H + 42;
+  const items = [
+    { fill: '#EAE6E3', stroke: RULE, label: '$0 (no expenditure)' },
+    { fill: ROSE, label: 'Spent > $0' },
+  ];
+  const ITEM_W = 170;
+  let lx = (W - items.length * ITEM_W) / 2;
+  items.forEach(item => {
+    svg.appendChild(svgEl('rect', { x: lx, y: legendY, width: 12, height: 12,
+      fill: item.fill, ...(item.stroke ? { stroke: item.stroke, 'stroke-width': 0.8 } : {}) }));
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 10,
+      'font-weight': 300, fill: STONE, x: lx + 18, y: legendY + 9 }, item.label));
+    lx += ITEM_W;
+  });
+  if (selected !== null) {
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 9,
+      'font-weight': 300, fill: ROSE, 'text-anchor': 'middle', x: W/2, y: legendY + 28 },
+      'Click the selected bar again to clear'));
+  }
+}
+
+// ── Distribution curve chart ───────────────────────────────────────────────────
+function drawDist() {
+  const svg   = document.getElementById('dist-svg');
+  const label = document.getElementById('dist-label');
+  svg.innerHTML = '';
+
+  const statsEl = document.getElementById('dist-stats');
+
+  if (selected === null) {
+    statsEl.hidden = true;
+    const W = svg.getBoundingClientRect().width || 1200;
+    const H = 80;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('height', H);
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 13,
+      'font-weight': 300, fill: '#C0BBB8', 'text-anchor': 'middle', x: W/2, y: H/2 + 5 },
+      '← Click a payer above to explore its expenditure distribution'));
+    label.textContent = 'Expenditure distribution — select a payer above';
+    return;
+  }
+
+  const p = payers[selected];
+  label.textContent = `${p.label.toUpperCase()} — sorted expenditure distribution`;
+
+  // ── Stat cards ──────────────────────────────────────────────────────────────
+  statsEl.hidden = false;
+  statsEl.innerHTML = `
+    <div class="dist-stat-card is-users">
+      <span class="stat-lbl">Users with expenditure</span>
+      <span class="stat-val">${p.n_users.toLocaleString()}</span>
+      <span class="stat-sub">${p.pct_nonzero}% of ${data.n_total.toLocaleString()} respondents</span>
+    </div>
+    <div class="dist-stat-card">
+      <span class="stat-lbl">Q1 (25th pct.)</span>
+      <span class="stat-val">${fmtFull(p.u_q1)}</span>
+    </div>
+    <div class="dist-stat-card">
+      <span class="stat-lbl">Median (50th pct.)</span>
+      <span class="stat-val">${fmtFull(p.u_median)}</span>
+    </div>
+    <div class="dist-stat-card">
+      <span class="stat-lbl">Q3 (75th pct.)</span>
+      <span class="stat-val">${fmtFull(p.u_q3)}</span>
+    </div>
+    <div class="dist-stat-card">
+      <span class="stat-lbl">Mean</span>
+      <span class="stat-val is-rose">${fmtFull(p.u_mean)}</span>
+    </div>
+    <div class="dist-stat-card">
+      <span class="stat-lbl">P95</span>
+      <span class="stat-val">${fmtFull(p.u_p95)}</span>
+      <span class="stat-sub">True max ${fmtFull(p.u_max)}</span>
+    </div>
+  `;
+
+  const W     = svg.getBoundingClientRect().width || 1200;
+  const PLOT_H = 340;
+  const SVG_H  = MT + PLOT_H + MB;
+  svg.setAttribute('viewBox', `0 0 ${W} ${SVG_H}`);
+  svg.setAttribute('height', SVG_H);
+
+  const PLOT_W = W - ML - MR;
+
+  // Y scale: clip at p95
+  const Y_MAX  = p.u_p95;
+  const yTicks = 4;
+  const yStep  = Math.ceil(Y_MAX / yTicks / 1000) * 1000;
+  const ticks  = Array.from({length: yTicks + 1}, (_, i) => i * yStep).filter(t => t <= Y_MAX * 1.05);
+
+  function yPx(val) { return MT + PLOT_H - (Math.min(val, Y_MAX) / Y_MAX) * PLOT_H; }
+  function xPx(pct) { return ML + (pct / 100) * PLOT_W; } // pct = 0..100
+
+  // gridlines + Y axis
+  ticks.forEach(tick => {
+    const y = yPx(tick);
+    svg.appendChild(svgEl('line', { x1: ML, y1: y, x2: W - MR, y2: y,
+      stroke: tick === 0 ? '#B8B4B1' : RULE, 'stroke-width': tick === 0 ? 1 : 0.8 }));
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 13,
+      'font-weight': 300, fill: INK, 'text-anchor': 'end', x: ML - 8, y: y + 5 }, fmt(tick)));
+  });
+
+  // X axis ticks
+  [0, 25, 50, 75, 100].forEach(pct => {
+    const x = xPx(pct);
+    svg.appendChild(svgEl('line', { x1: x, y1: MT + PLOT_H, x2: x, y2: MT + PLOT_H + 5,
+      stroke: RULE, 'stroke-width': 1 }));
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 12,
+      'font-weight': 300, fill: INK, 'text-anchor': 'middle', x, y: MT + PLOT_H + 18 },
+      pct + '%'));
+  });
+  svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 12,
+    'font-weight': 300, fill: STONE, 'text-anchor': 'middle', x: ML + PLOT_W/2, y: MT + PLOT_H + 38 },
+    'Percentile rank among users (0% = lowest spender, 100% = highest)'));
+
+  // area fill under curve
+  const curve = p.curve; // 200 points, index 0→100th percentile
+  const pts = curve.map((v, i) => {
+    const pct = (i / (curve.length - 1)) * 100;
+    return [xPx(pct), yPx(v)];
+  });
+  const areaD = `M ${xPx(0)},${yPx(0)} ` +
+    pts.map(([x, y]) => `L ${x},${y}`).join(' ') +
+    ` L ${xPx(100)},${yPx(0)} Z`;
+  svg.appendChild(svgEl('path', { d: areaD, fill: 'rgba(193,125,157,0.12)', stroke: 'none' }));
+
+  // curve line
+  const lineD = `M ` + pts.map(([x, y]) => `${x},${y}`).join(' L ');
+  svg.appendChild(svgEl('path', { d: lineD, fill: 'none', stroke: ROSE, 'stroke-width': 2,
+    'stroke-linejoin': 'round' }));
+
+  // ── Annotations ────────────────────────────────────────────────────────────
+  // Q1, Median, Q3 as vertical lines at their percentile positions
+  const markers = [
+    { pct: 25, val: p.u_q1,     label: 'Q1',     side: 'left' },
+    { pct: 50, val: p.u_median, label: 'Median',  side: 'right' },
+    { pct: 75, val: p.u_q3,     label: 'Q3',      side: 'right' },
+  ];
+  markers.forEach(m => {
+    const x = xPx(m.pct);
+    const y = yPx(m.val);
+    // vertical dashed line
+    svg.appendChild(svgEl('line', { x1: x, y1: MT, x2: x, y2: MT + PLOT_H,
+      stroke: INK, 'stroke-width': 1, 'stroke-dasharray': '4,3', opacity: '0.3' }));
+    // dot on curve
+    svg.appendChild(svgEl('circle', { cx: x, cy: y, r: 5,
+      fill: '#fff', stroke: INK, 'stroke-width': 2 }));
+    // label name (bold, larger)
+    const anchor = m.side === 'left' ? 'end' : 'start';
+    const dx = m.side === 'left' ? -10 : 10;
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 13,
+      'font-weight': 600, fill: INK, 'text-anchor': anchor, x: x + dx, y: y - 9 }, m.label));
+    // label value
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 13,
+      'font-weight': 400, fill: INK, 'text-anchor': anchor, x: x + dx, y: y + 8 }, fmt(m.val)));
+  });
+
+  // Mean: horizontal dashed line
+  const yMean = yPx(Math.min(p.u_mean, Y_MAX));
+  const meanClipped = p.u_mean > Y_MAX;
+  svg.appendChild(svgEl('line', { x1: ML, y1: yMean, x2: W - MR, y2: yMean,
+    stroke: ROSE, 'stroke-width': 1.6, 'stroke-dasharray': '6,4' }));
+  svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 13,
+    'font-weight': 600, fill: ROSE, 'text-anchor': 'end', x: W - MR - 6, y: yMean - 7 },
+    (meanClipped ? '▲ ' : '') + 'Mean'));
+  svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 13,
+    'font-weight': 400, fill: ROSE, 'text-anchor': 'end', x: W - MR - 6, y: yMean + 8 },
+    fmt(p.u_mean)));
+
+  // scale note
+  svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 11,
+    'font-weight': 300, fill: STONE, 'text-anchor': 'start', x: ML, y: MT - 6 },
+    `Y-axis clipped at P95 = ${fmt(p.u_p95)}.  True max = ${fmtFull(p.u_max)}.`));
+}
+
+function drawAll() { drawCoverage(); drawDist(); }
+drawAll();
+window.addEventListener('resize', drawAll);
+
+})();
+</script>

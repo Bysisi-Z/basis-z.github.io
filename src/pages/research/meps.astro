@@ -235,6 +235,33 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   font-family: var(--sans); font-size: 10px; font-weight: 300;
   color: var(--stone); margin-top: 2px; display: block;
 }
+.var-item-report {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #4a7fc1; border: 1px solid rgba(74,127,193,0.35);
+  border-radius: 3px; padding: 1px 6px;
+}
+.deepdive-hint {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  margin: 0 32px 0; padding: 14px 18px;
+  background: rgba(74,127,193,0.05);
+  border-left: 2px solid rgba(74,127,193,0.4);
+  border-bottom: 1px solid var(--rule);
+}
+.deepdive-hint-info { display: flex; align-items: flex-start; gap: 10px; flex: 1; }
+.deepdive-icon { flex-shrink: 0; margin-top: 1px; }
+.deepdive-text {
+  font-family: var(--sans); font-size: 12.5px; font-weight: 300;
+  color: var(--stone); line-height: 1.6;
+}
+.deepdive-btn {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #4a7fc1; text-decoration: none; white-space: nowrap;
+  border: 1px solid rgba(74,127,193,0.4); border-radius: 3px;
+  padding: 6px 14px; flex-shrink: 0; transition: background 0.18s;
+}
+.deepdive-btn:hover { background: rgba(74,127,193,0.08); }
 
 /* ── Right: detail ────────────────────────────────────────────────────────── */
 .panel-detail { overflow: hidden; display: flex; flex-direction: column; }
@@ -368,6 +395,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const BAR_COLOR   = '#c17d9d';
 const INAPP_COLOR = '#E2DEDB';
 
+const REPORT_HREF = '/research/meps-expenditure';
+const REPORT_VARS = new Set([
+  'TOTEXP23','TOTSLF23','TOTPRV23','TOTMCR23',
+  'TOTMCD23','TOTVA23','TOTTRI23','TOTOSR23',
+]);
+const DEEPDIVE_MAP = {
+  TOTEXP23: { text: 'Total healthcare expenditure across all service types and payers. View full distribution — Q1, median, Q3, mean — among users with any spending.', href: REPORT_HREF },
+  TOTSLF23: { text: 'Out-of-pocket spending paid by the person or their family. See how self-pay burden is distributed across users.', href: REPORT_HREF },
+  TOTPRV23: { text: 'Amount covered by private health insurance. Compare coverage patterns across all payer types.', href: REPORT_HREF },
+  TOTMCR23: { text: 'Medicare payments — primarily for adults 65+ and qualifying disabled individuals. Only 26.4% of respondents had any Medicare expenditure.', href: REPORT_HREF },
+  TOTMCD23: { text: 'Medicaid payments — income-based public coverage. 23.4% of respondents had any Medicaid expenditure in 2023.', href: REPORT_HREF },
+  TOTVA23:  { text: 'VA / CHAMPVA expenditure — covers veterans and qualifying dependents. Only 2.7% of respondents used this channel.', href: REPORT_HREF },
+  TOTTRI23: { text: 'TRICARE expenditure — military health coverage. Only 2.6% of respondents had any TRICARE spending in 2023.', href: REPORT_HREF },
+  TOTOSR23: { text: 'Other sources including workers compensation, state/local programs, and unclassified payers.', href: REPORT_HREF },
+};
+
 // ── State ─────────────────────────────────────────────────────────────────────
 let META         = null;
 let groupCache   = {};
@@ -491,6 +534,7 @@ function makeVarItem(v, showGroup) {
     `<span class="var-item-label">${escHtml(v.label)}</span>` +
     `<span class="var-item-bottom">` +
       `<span class="var-item-name">${v.name}</span>` +
+      (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
     `</span>` +
     (showGroup ? `<span class="var-item-section">${escHtml(groupLabel(v.group))}</span>` : '');
   return item;
@@ -570,11 +614,29 @@ function renderDetail(v) {
     </div>`;
   }
 
+  const diveInfo = DEEPDIVE_MAP[v.name];
+  const deepDiveHtml = diveInfo
+    ? `<div class="deepdive-hint">
+         <div class="deepdive-hint-info">
+           <div class="deepdive-icon">
+             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+               <rect x="1" y="8" width="3" height="5" rx="1" fill="#4a7fc1"/>
+               <rect x="5.5" y="5" width="3" height="8" rx="1" fill="#4a7fc1"/>
+               <rect x="10" y="2" width="3" height="11" rx="1" fill="#4a7fc1"/>
+             </svg>
+           </div>
+           <div class="deepdive-text">${escHtml(diveInfo.text)}</div>
+         </div>
+         <a class="deepdive-btn" href="${escHtml(diveInfo.href)}" target="_blank">Full breakdown →</a>
+       </div>`
+    : '';
+
   detailContent.innerHTML =
     `<div class="detail-header">
        <p class="detail-label-text">${escHtml(v.label)}</p>
        <div class="detail-name-row">
          <span class="detail-varname">${escHtml(v.name)}</span>
+         ${REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : ''}
        </div>
        <div class="detail-stats-row">
          <div class="detail-stat">
@@ -591,6 +653,7 @@ function renderDetail(v) {
          </div>
        </div>
      </div>
+     ${deepDiveHtml}
      <div class="dist-wrap">
        ${valid.length ? `<p class="dist-section-label">Response distribution</p>${valid.map(makeRow).join('')}` : ''}
        ${inapps.length ? `<p class="dist-section-label" style="margin-top:20px">Outside universe / missing</p>${inapps.map(makeRow).join('')}` : ''}
