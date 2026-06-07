@@ -3,58 +3,523 @@
   "source": "Agency for Healthcare Research and Quality (AHRQ)",
   "n_total": 18640,
   "year": 2023,
-  "note": "Medical Expenditure Panel Survey (MEPS) collects nationally representative data on healthcare use, costs, and insurance coverage in the US. This explorer covers the 2023 Full-Year Consolidated file \u2014 18,640 inscope respondents.",
+  "note": "Medical Expenditure Panel Survey (MEPS) 2023 Full-Year Consolidated file. 18,640 inscope respondents. All 1368 variables from HC-251.",
   "groups": [
+    {
+      "key": "admin",
+      "label": "Survey Administration",
+      "n_vars": 24
+    },
+    {
+      "key": "family",
+      "label": "Family & Household",
+      "n_vars": 39
+    },
     {
       "key": "demographics",
       "label": "Demographics",
-      "n_vars": 10
+      "n_vars": 20
     },
     {
-      "key": "insurance",
-      "label": "Health Insurance",
-      "n_vars": 7
+      "key": "education",
+      "label": "Education & Military",
+      "n_vars": 17
     },
     {
-      "key": "health_status",
-      "label": "Health Status",
-      "n_vars": 14
+      "key": "covid",
+      "label": "COVID-19",
+      "n_vars": 20
     },
     {
       "key": "conditions",
       "label": "Chronic Conditions",
-      "n_vars": 16
+      "n_vars": 51
     },
     {
-      "key": "utilization",
-      "label": "Healthcare Utilization",
-      "n_vars": 8
+      "key": "functional",
+      "label": "Functional Limitations",
+      "n_vars": 26
     },
     {
-      "key": "expenditures",
-      "label": "Healthcare Expenditures",
-      "n_vars": 10
+      "key": "childrens_health",
+      "label": "Children's Health (CSHCN)",
+      "n_vars": 40
+    },
+    {
+      "key": "mental_health",
+      "label": "Mental Health (SAQ)",
+      "n_vars": 53
+    },
+    {
+      "key": "preventive",
+      "label": "Preventive Care & Behaviors",
+      "n_vars": 3
     },
     {
       "key": "access",
-      "label": "Access & Barriers",
-      "n_vars": 7
+      "label": "Access to Care",
+      "n_vars": 42
     },
     {
       "key": "employment",
       "label": "Employment",
-      "n_vars": 2
+      "n_vars": 126
+    },
+    {
+      "key": "income",
+      "label": "Income & Poverty",
+      "n_vars": 51
+    },
+    {
+      "key": "insurance_annual",
+      "label": "Insurance \u2014 Annual Summary",
+      "n_vars": 156
+    },
+    {
+      "key": "insurance_monthly",
+      "label": "Insurance \u2014 Monthly Indicators",
+      "n_vars": 332
+    },
+    {
+      "key": "utilization_ob",
+      "label": "Utilization \u2014 Office-Based",
+      "n_vars": 30
+    },
+    {
+      "key": "utilization_op",
+      "label": "Utilization \u2014 Outpatient",
+      "n_vars": 72
+    },
+    {
+      "key": "utilization_er",
+      "label": "Utilization \u2014 Emergency Room",
+      "n_vars": 43
+    },
+    {
+      "key": "utilization_ip",
+      "label": "Utilization \u2014 Inpatient",
+      "n_vars": 44
+    },
+    {
+      "key": "utilization_dv",
+      "label": "Utilization \u2014 Dental",
+      "n_vars": 15
+    },
+    {
+      "key": "utilization_hh",
+      "label": "Utilization \u2014 Home Health",
+      "n_vars": 32
+    },
+    {
+      "key": "utilization_other",
+      "label": "Utilization \u2014 Vision & Other",
+      "n_vars": 28
+    },
+    {
+      "key": "rx",
+      "label": "Prescribed Medicines",
+      "n_vars": 14
+    },
+    {
+      "key": "expenditures_total",
+      "label": "Expenditures \u2014 Total Summary",
+      "n_vars": 14
+    },
+    {
+      "key": "other",
+      "label": "Other Variables",
+      "n_vars": 76
     }
   ],
   "variables": [
+    {
+      "name": "DUID",
+      "label": "PANEL # + ENCRYPTED DU IDENTIFIER",
+      "group": "admin"
+    },
+    {
+      "name": "PID",
+      "label": "PERSON NUMBER",
+      "group": "admin"
+    },
+    {
+      "name": "DUPERSID",
+      "label": "PERSON ID (DUID + PID)",
+      "group": "admin"
+    },
+    {
+      "name": "PANEL",
+      "label": "PANEL NUMBER",
+      "group": "admin"
+    },
+    {
+      "name": "DATAYEAR",
+      "label": "SURVEY DATA YEAR",
+      "group": "admin"
+    },
+    {
+      "name": "REFPRS31",
+      "label": "REFERENCE PERSON AT - R3/1",
+      "group": "admin"
+    },
+    {
+      "name": "REFPRS42",
+      "label": "REFERENCE PERSON AT - R4/2",
+      "group": "admin"
+    },
+    {
+      "name": "REFPRS53",
+      "label": "REFERENCE PERSON AT - R5/3",
+      "group": "admin"
+    },
+    {
+      "name": "REFPRS23",
+      "label": "REFERENCE PERSON AS OF 12/31/23",
+      "group": "admin"
+    },
+    {
+      "name": "RESP31",
+      "label": "1ST RESPONDENT INDICATOR FOR R3/1",
+      "group": "admin"
+    },
+    {
+      "name": "RESP42",
+      "label": "1ST RESPONDENT INDICATOR FOR R4/2",
+      "group": "admin"
+    },
+    {
+      "name": "RESP53",
+      "label": "1ST RESPONDENT INDICATOR FOR R5/3",
+      "group": "admin"
+    },
+    {
+      "name": "RESP23",
+      "label": "1ST RESPONDENT INDICATOR AS OF 12/31/23",
+      "group": "admin"
+    },
+    {
+      "name": "PROXY31",
+      "label": "WAS RESPONDENT A PROXY IN R3/1",
+      "group": "admin"
+    },
+    {
+      "name": "PROXY42",
+      "label": "WAS RESPONDENT A PROXY IN R4/2",
+      "group": "admin"
+    },
+    {
+      "name": "PROXY53",
+      "label": "WAS RESPONDENT A PROXY IN R5/3",
+      "group": "admin"
+    },
+    {
+      "name": "PROXY23",
+      "label": "WAS RESPONDENT A PROXY AS OF 12/31/23",
+      "group": "admin"
+    },
+    {
+      "name": "INTVLANG",
+      "label": "LANGUAGE INTERVIEW WAS COMPLETED",
+      "group": "admin"
+    },
+    {
+      "name": "PERWT23F",
+      "label": "FINAL PERSON WEIGHT, 2023",
+      "group": "admin"
+    },
+    {
+      "name": "FAMWT23F",
+      "label": "FINAL FAMILY WEIGHT, 2023",
+      "group": "admin"
+    },
+    {
+      "name": "FAMWT23C",
+      "label": "POV ADJ FAMILY WGT-CPS FAM ON 12/31/23",
+      "group": "admin"
+    },
+    {
+      "name": "SAQWT23F",
+      "label": "FINAL SAQ PERSON WEIGHT, 2023",
+      "group": "admin"
+    },
+    {
+      "name": "VARSTR",
+      "label": "VARIANCE ESTIMATION STRATUM, 2023",
+      "group": "admin"
+    },
+    {
+      "name": "VARPSU",
+      "label": "VARIANCE ESTIMATION PSU, 2023",
+      "group": "admin"
+    },
+    {
+      "name": "FAMID31",
+      "label": "FAMILY ID (STUDENT MERGED IN) - R3/1",
+      "group": "family"
+    },
+    {
+      "name": "FAMID42",
+      "label": "FAMILY ID (STUDENT MERGED IN) - R4/2",
+      "group": "family"
+    },
+    {
+      "name": "FAMID53",
+      "label": "FAMILY ID (STUDENT MERGED IN) - R5/3",
+      "group": "family"
+    },
+    {
+      "name": "FAMID23",
+      "label": "FAMILY ID (STUDENT MERGED IN) - 12/31/23",
+      "group": "family"
+    },
+    {
+      "name": "FAMIDYR",
+      "label": "ANNUAL FAMILY IDENTIFIER",
+      "group": "family"
+    },
+    {
+      "name": "CPSFAMID",
+      "label": "CPS-LIKE FAMILY IDENTIFIER",
+      "group": "family"
+    },
+    {
+      "name": "FCSZ1231",
+      "label": "FAM SIZE RESPONDING 12/31 CPS FAMILY",
+      "group": "family"
+    },
+    {
+      "name": "FCRP1231",
+      "label": "REF PERSON OF 12/31 CPS FAMILY",
+      "group": "family"
+    },
+    {
+      "name": "RULETR31",
+      "label": "RU LETTER - R3/1",
+      "group": "family"
+    },
+    {
+      "name": "RULETR42",
+      "label": "RU LETTER - R4/2",
+      "group": "family"
+    },
+    {
+      "name": "RULETR53",
+      "label": "RU LETTER - R5/3",
+      "group": "family"
+    },
+    {
+      "name": "RULETR23",
+      "label": "RU LETTER AS OF 12/31/23",
+      "group": "family"
+    },
+    {
+      "name": "RUSIZE31",
+      "label": "RU SIZE - R3/1",
+      "group": "family"
+    },
+    {
+      "name": "RUSIZE42",
+      "label": "RU SIZE - R4/2",
+      "group": "family"
+    },
+    {
+      "name": "RUSIZE53",
+      "label": "RU SIZE - R5/3",
+      "group": "family"
+    },
+    {
+      "name": "RUSIZE23",
+      "label": "RU SIZE AS OF 12/31/23",
+      "group": "family"
+    },
+    {
+      "name": "RUCLAS31",
+      "label": "RU FIELDED AS:STANDARD/NEW/STUDENT-R3/1",
+      "group": "family"
+    },
+    {
+      "name": "RUCLAS42",
+      "label": "RU FIELDED AS:STANDARD/NEW/STUDENT-R4/2",
+      "group": "family"
+    },
+    {
+      "name": "RUCLAS53",
+      "label": "RU FIELDED AS:STANDARD/NEW/STUDENT-R5/3",
+      "group": "family"
+    },
+    {
+      "name": "RUCLAS23",
+      "label": "RU FIELDED AS:STANDARD/NEW/STUD-12/31/23",
+      "group": "family"
+    },
+    {
+      "name": "FAMSZE31",
+      "label": "RU SIZE INCLUDING STUDENTS - R3/1",
+      "group": "family"
+    },
+    {
+      "name": "FAMSZE42",
+      "label": "RU SIZE INCLUDING STUDENTS - R4/2",
+      "group": "family"
+    },
+    {
+      "name": "FAMSZE53",
+      "label": "RU SIZE INCLUDING STUDENTS - R5/3",
+      "group": "family"
+    },
+    {
+      "name": "FAMSZE23",
+      "label": "RU SIZE INCLUDING STUDENT AS OF 12/31/23",
+      "group": "family"
+    },
+    {
+      "name": "FAMS1231",
+      "label": "FAMILY SIZE OF RESPONDING 12/31 FAMILY",
+      "group": "family"
+    },
+    {
+      "name": "FAMSZEYR",
+      "label": "SIZE OF RESPONDING ANNUALIZED FAMILY",
+      "group": "family"
+    },
+    {
+      "name": "FAMRFPYR",
+      "label": "REFERENCE PERSON OF ANNUALIZED FAMILY",
+      "group": "family"
+    },
+    {
+      "name": "MARRY31X",
+      "label": "MARITAL STATUS - R3/1 (EDITED/IMPUTED)",
+      "group": "family"
+    },
+    {
+      "name": "MARRY42X",
+      "label": "MARITAL STATUS - R4/2 (EDITED/IMPUTED)",
+      "group": "family"
+    },
+    {
+      "name": "MARRY53X",
+      "label": "MARITAL STATUS - R5/3 (EDITED/IMPUTED)",
+      "group": "family"
+    },
+    {
+      "name": "MARRY23X",
+      "label": "MARITAL STATUS-12/31/23 (EDITED/IMPUTED)",
+      "group": "family"
+    },
+    {
+      "name": "SPOUID31",
+      "label": "SPOUSE ID - R3/1",
+      "group": "family"
+    },
+    {
+      "name": "SPOUID42",
+      "label": "SPOUSE ID - R4/2",
+      "group": "family"
+    },
+    {
+      "name": "SPOUID53",
+      "label": "SPOUSE ID - R5/3",
+      "group": "family"
+    },
+    {
+      "name": "SPOUID23",
+      "label": "SPOUSE ID - 12/31/23",
+      "group": "family"
+    },
+    {
+      "name": "SPOUIN31",
+      "label": "MARITAL STATUS W/SPOUSE PRESENT-R3/1",
+      "group": "family"
+    },
+    {
+      "name": "SPOUIN42",
+      "label": "MARITAL STATUS W/SPOUSE PRESENT-R4/2",
+      "group": "family"
+    },
+    {
+      "name": "SPOUIN53",
+      "label": "MARITAL STATUS W/SPOUSE PRESENT-R5/3",
+      "group": "family"
+    },
+    {
+      "name": "SPOUIN23",
+      "label": "MARITAL STATUS W/SPOUSE PRESENT-12/31/23",
+      "group": "family"
+    },
+    {
+      "name": "REGION31",
+      "label": "CENSUS REGION - R3/1",
+      "group": "demographics"
+    },
+    {
+      "name": "REGION42",
+      "label": "CENSUS REGION - R4/2",
+      "group": "demographics"
+    },
+    {
+      "name": "REGION53",
+      "label": "CENSUS REGION - R5/3",
+      "group": "demographics"
+    },
+    {
+      "name": "REGION23",
+      "label": "CENSUS REGION AS OF 12/31/23",
+      "group": "demographics"
+    },
+    {
+      "name": "AGE31X",
+      "label": "AGE - R3/1 (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "AGE42X",
+      "label": "AGE - R4/2 (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "AGE53X",
+      "label": "AGE - R5/3 (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
     {
       "name": "AGE23X",
       "label": "AGE AS OF 12/31/23 (EDITED/IMPUTED)",
       "group": "demographics"
     },
     {
+      "name": "AGELAST",
+      "label": "PERSON S AGE LAST TIME ELIGIBLE",
+      "group": "demographics"
+    },
+    {
       "name": "SEX",
       "label": "SEX",
+      "group": "demographics"
+    },
+    {
+      "name": "RACEV1X",
+      "label": "RACE (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "RACEV2X",
+      "label": "RACE (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "RACEAX",
+      "label": "ASIAN AMONG RACES RPTD (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "RACEBX",
+      "label": "BLACK AMONG RACES RPTD (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
+      "name": "RACEWX",
+      "label": "WHITE AMONG RACES RPTD (EDITED/IMPUTED)",
       "group": "demographics"
     },
     {
@@ -68,143 +533,218 @@
       "group": "demographics"
     },
     {
+      "name": "HISPNCAT",
+      "label": "HISPANIC ETHNICITY (EDITED/IMPUTED)",
+      "group": "demographics"
+    },
+    {
       "name": "BORNUSA",
       "label": "PERSON BORN IN THE US",
       "group": "demographics"
     },
     {
+      "name": "YRSINUS",
+      "label": "YEARS PERSON LIVED IN THE US",
+      "group": "demographics"
+    },
+    {
+      "name": "EDUCYR",
+      "label": "YEARS OF EDUC WHEN FIRST ENTERED MEPS",
+      "group": "education"
+    },
+    {
       "name": "HIDEG",
       "label": "HIGHEST DEGREE WHEN FIRST ENTERED MEPS",
-      "group": "demographics"
+      "group": "education"
+    },
+    {
+      "name": "FTSTU31X",
+      "label": "STUDENT STATUS IF AGES 17-23 - R3/1",
+      "group": "education"
+    },
+    {
+      "name": "FTSTU42X",
+      "label": "STUDENT STATUS IF AGES 17-23 - R4/2",
+      "group": "education"
     },
     {
       "name": "FTSTU53X",
       "label": "STUDENT STATUS IF AGES 17-23 - R5/3",
-      "group": "demographics"
+      "group": "education"
     },
     {
-      "name": "POVCAT23",
-      "label": "FAMILY INC AS % OF POVERTY LINE - CATEGORICAL",
-      "group": "demographics"
+      "name": "FTSTU23X",
+      "label": "STUDENT STATUS IF AGES 17-23 - 12/31/23",
+      "group": "education"
     },
     {
-      "name": "POVLEV23",
-      "label": "FAMILY INC AS % OF POVERTY LINE - CONTINUOUS",
-      "group": "demographics"
+      "name": "ACTDTY31",
+      "label": "MILITARY FULL-TIME ACTIVE DUTY - R3/1",
+      "group": "education"
     },
     {
-      "name": "REGION23",
-      "label": "CENSUS REGION AS OF 12/31/23",
-      "group": "demographics"
+      "name": "ACTDTY42",
+      "label": "MILITARY FULL-TIME ACTIVE DUTY - R4/2",
+      "group": "education"
     },
     {
-      "name": "INSCOV23",
-      "label": "HEALTH INSURANCE COVERAGE INDICATOR 2023",
-      "group": "insurance"
+      "name": "ACTDTY53",
+      "label": "MILITARY FULL-TIME ACTIVE DUTY - R5/3",
+      "group": "education"
     },
     {
-      "name": "INSURC23",
-      "label": "FULL YEAR INSURANCE COVERAGE STATUS 2023",
-      "group": "insurance"
+      "name": "EVERSERVED",
+      "label": "HAS SERVED IN THE MILITARY",
+      "group": "education"
     },
     {
-      "name": "UNINS23",
-      "label": "UNINSURED ALL OF 2023",
-      "group": "insurance"
+      "name": "REFRL31X",
+      "label": "RELATION TO REF PERS- R3/1 (EDIT/IMP)",
+      "group": "education"
     },
     {
-      "name": "MCARE23X",
-      "label": "COV BY MEDICARE - 12/31/23 (ED)",
-      "group": "insurance"
+      "name": "REFRL42X",
+      "label": "RELATION TO REF PERS- R4/2 (EDIT/IMP)",
+      "group": "education"
     },
     {
-      "name": "MCAID23X",
-      "label": "COV BY MEDICAID OR SCHIP - 12/31/23 (ED)",
-      "group": "insurance"
+      "name": "REFRL53X",
+      "label": "RELATION TO REF PERS- R5/3 (EDIT/IMP)",
+      "group": "education"
     },
     {
-      "name": "PRIV23",
-      "label": "COV BY PRIV HLTH INS - 12/31/23",
-      "group": "insurance"
+      "name": "REFRL23X",
+      "label": "RELATION TO REF PERS-12/31/23 (EDIT/IMP)",
+      "group": "education"
     },
     {
-      "name": "TRICH23X",
-      "label": "COVERED BY CHAMPVA - R5/3 UNTIL 12/31/23",
-      "group": "insurance"
+      "name": "OTHLGSPK",
+      "label": "SPEAK OTHER LANGUAGE AT HOME",
+      "group": "education"
     },
     {
-      "name": "RTHLTH53",
-      "label": "PERCEIVED HEALTH STATUS - RD 5/3",
-      "group": "health_status"
+      "name": "WHTLGSPK",
+      "label": "WHAT LANGUAGE SPOKEN OTHER THAN ENGLISH",
+      "group": "education"
     },
     {
-      "name": "MNHLTH53",
-      "label": "PERCEIVED MENTAL HEALTH STATUS - RD 5/3",
-      "group": "health_status"
+      "name": "HWELLSPK",
+      "label": "HOW WELL PERSON SPEAKS ENGLISH",
+      "group": "education"
     },
     {
-      "name": "ADGENH42",
-      "label": "SAQ: HEALTH IN GENERAL VR-12",
-      "group": "health_status"
+      "name": "COVIDEVER31",
+      "label": "EVER HAD COVID-19 - RD 3/1",
+      "group": "covid"
     },
     {
-      "name": "ADPROX42",
-      "label": "SAQ: RELATIONSHIP OF PROXY TO ADULT",
-      "group": "health_status"
+      "name": "COVIDEVER53",
+      "label": "EVER HAD COVID-19 - RD 5/3",
+      "group": "covid"
     },
     {
-      "name": "K6SUM42",
-      "label": "SAQ 30 DAYS: OVERALL RATING OF FEELINGS",
-      "group": "health_status"
+      "name": "LCEVER31",
+      "label": "EVER HAD COVID-19 SYMPTOMS LASTING >= 3 MONTHS (LONG COVID) - RD 3/1",
+      "group": "covid"
     },
     {
-      "name": "PHQ242",
-      "label": "SAQ 2 WKS: OVERALL RATING OF FEELINGS",
-      "group": "health_status"
+      "name": "LCEVER53",
+      "label": "EVER HAD COVID-19 SYMPTOMS LASTING >= 3 MONTHS (LONG COVID) - RD 5/3",
+      "group": "covid"
     },
     {
-      "name": "ADSMOK42",
-      "label": "SAQ: CURRENTLY SMOKE",
-      "group": "health_status"
+      "name": "COVSYMNOW31",
+      "label": "HAS COVID-19 OR LONG COVID-19 SYMPTOMS NOW - RD 3/1",
+      "group": "covid"
     },
     {
-      "name": "PHYEXE53",
-      "label": "MOD/VIG PHYS EXEC 5X WK (>17) - RD 5/3",
-      "group": "health_status"
+      "name": "COVSYMNOW53",
+      "label": "HAS COVID-19 OR LONG COVID-19 SYMPTOMS NOW - RD 5/3",
+      "group": "covid"
     },
     {
-      "name": "ACTLIM31",
-      "label": "ANY LIMITATION WORK/HOUSEWRK/SCHL - RD 3/1",
-      "group": "health_status"
+      "name": "COVREDABIL31",
+      "label": "REDUCED ABILITY FROM COVID-19 OR LONG COVID-19 SYMPTOMS- RD 3/1",
+      "group": "covid"
     },
     {
-      "name": "WRKLIM31",
-      "label": "WORK LIMITATION - RD 3/1",
-      "group": "health_status"
+      "name": "COVREDABIL53",
+      "label": "REDUCED ABILITY FROM COVID-19 OR LONG COVID-19 SYMPTOMS- RD 5/3",
+      "group": "covid"
     },
     {
-      "name": "DFHEAR42",
-      "label": "SERIOUS DIFFICULTY HEARING-RD 4/2",
-      "group": "health_status"
+      "name": "COVID12MO31",
+      "label": "HAD COVID-19 IN THE PAST 12 MONTHS - RD 3/1",
+      "group": "covid"
     },
     {
-      "name": "DFSEE42",
-      "label": "SERIOUS DIFFICULTY SEE W/GLASSES-RD 4/2",
-      "group": "health_status"
+      "name": "COVID12MO53",
+      "label": "HAD COVID-19 IN THE PAST 12 MONTHS - RD 5/3",
+      "group": "covid"
     },
     {
-      "name": "DFCOG42",
-      "label": "SERIOUS COGNITIVE DIFFICULTIES-RD 4/2",
-      "group": "health_status"
+      "name": "COVMNTHX31",
+      "label": "MONTH LAST HAD COVID-19 - RD 3/1",
+      "group": "covid"
     },
     {
-      "name": "DFWLKC42",
-      "label": "SERIOUS DIFFICULTY WLK/CLIMB STAIRS-RD 4/2",
-      "group": "health_status"
+      "name": "COVMNTHX53",
+      "label": "MONTH LAST HAD COVID-19 - RD 5/3",
+      "group": "covid"
+    },
+    {
+      "name": "COVYRDX31",
+      "label": "YEAR LAST HAD COVID-19 - RD 3/1",
+      "group": "covid"
+    },
+    {
+      "name": "COVYRDX53",
+      "label": "YEAR LAST HAD COVID-19 - RD 5/3",
+      "group": "covid"
+    },
+    {
+      "name": "COVAXEVR31",
+      "label": "EVER HAD COVID-19 VACCINE - RD 3/1",
+      "group": "covid"
+    },
+    {
+      "name": "COVAXEVR42",
+      "label": "EVER HAD COVID-19 VACCINE - RD 4/2",
+      "group": "covid"
+    },
+    {
+      "name": "COVAXEVR53",
+      "label": "EVER HAD COVID-19 VACCINE - RD 5/3",
+      "group": "covid"
+    },
+    {
+      "name": "COVAXNEW31",
+      "label": "HAD COVID-19 VACCINE SINCE PRIOR ROUND - RD 3/1",
+      "group": "covid"
+    },
+    {
+      "name": "COVAXNEW42",
+      "label": "HAD COVID-19 VACCINE SINCE PRIOR ROUND - RD 4/2",
+      "group": "covid"
+    },
+    {
+      "name": "COVAXNEW53",
+      "label": "HAD COVID-19 VACCINE SINCE PRIOR ROUND - RD 5/3",
+      "group": "covid"
     },
     {
       "name": "HIBPDX",
       "label": "HIGH BLOOD PRESSURE DIAG (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "HIBPAGED",
+      "label": "AGE OF DIAGNOSIS-HIGH BLOOD PRESSURE",
+      "group": "conditions"
+    },
+    {
+      "name": "BPMLDX",
+      "label": "MULT DIAG HIGH BLOOD PRESS (>17)",
       "group": "conditions"
     },
     {
@@ -218,8 +758,18 @@
       "group": "conditions"
     },
     {
+      "name": "ANGIAGED",
+      "label": "AGE OF DIAGNOSIS-ANGINA",
+      "group": "conditions"
+    },
+    {
       "name": "MIDX",
       "label": "HEART ATTACK (MI) DIAG (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "MIAGED",
+      "label": "AGE OF DIAGNOSIS-HEART ATTACK(MI)",
       "group": "conditions"
     },
     {
@@ -228,8 +778,23 @@
       "group": "conditions"
     },
     {
+      "name": "OHRTAGED",
+      "label": "AGE OF DIAGNOSIS-OTHER HEART DISEASE",
+      "group": "conditions"
+    },
+    {
+      "name": "OHRTTYPE",
+      "label": "TYPE OF OTHER HEART DISEASE (>17)",
+      "group": "conditions"
+    },
+    {
       "name": "STRKDX",
       "label": "STROKE DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "STRKAGED",
+      "label": "AGE OF DIAGNOSIS-STROKE",
       "group": "conditions"
     },
     {
@@ -238,8 +803,23 @@
       "group": "conditions"
     },
     {
+      "name": "EMPHAGED",
+      "label": "AGE OF DIAGNOSIS-EMPHYSEMA",
+      "group": "conditions"
+    },
+    {
+      "name": "CHBRON31",
+      "label": "CHRONC BRONCHITS LAST 12 MTHS (>17)-R3/1",
+      "group": "conditions"
+    },
+    {
       "name": "CHOLDX",
       "label": "HIGH CHOLESTEROL DIAGNOSIS (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CHOLAGED",
+      "label": "AGE OF DIAGNOSIS-HIGH CHOLESTEROL",
       "group": "conditions"
     },
     {
@@ -248,8 +828,78 @@
       "group": "conditions"
     },
     {
+      "name": "CABLADDR",
+      "label": "CANCER DIAGNOSED - BLADDER (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CABREAST",
+      "label": "CANCER DIAGNOSED - BREAST (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CACERVIX",
+      "label": "CANCER DIAGNOSED - CERVICAL (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CACOLON",
+      "label": "CANCER DIAGNOSED - COLON (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CALUNG",
+      "label": "CANCER DIAGNOSED - LUNG (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CALYMPH",
+      "label": "CANCER DIAGNOSED - LYMPHOMA (NON-HODGKIN S) (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CAMELANO",
+      "label": "CANCER DIAGNOSED - SKIN MELANOMA (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CAOTHER",
+      "label": "CANCER DIAGNOSED - OTHER (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CAPROSTA",
+      "label": "CANCER DIAGNOSED - PROSTATE (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CASKINNM",
+      "label": "CANCER DIAGNOSED - SKIN-NONMELANO (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CASKINDK",
+      "label": "CANCER DIAGNOSED-SKIN-UNKNOWN TYPE (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "CAUTERUS",
+      "label": "CANCER DIAGNOSED - UTERINE (>17)",
+      "group": "conditions"
+    },
+    {
       "name": "DIABDX_M18",
       "label": "DIABETES DIAGNOSIS",
+      "group": "conditions"
+    },
+    {
+      "name": "DIABAGED",
+      "label": "AGE OF DIAGNOSIS-DIABETES",
+      "group": "conditions"
+    },
+    {
+      "name": "JTPAIN31_M18",
+      "label": "JOINT PAIN LAST 12 MONTHS (>17) - RD 3/1",
       "group": "conditions"
     },
     {
@@ -258,8 +908,73 @@
       "group": "conditions"
     },
     {
+      "name": "ARTHTYPE",
+      "label": "TYPE OF ARTHRITIS DIAGNOSED (>17)",
+      "group": "conditions"
+    },
+    {
+      "name": "ARTHAGED",
+      "label": "AGE OF DIAGNOSIS-ARTHRITIS",
+      "group": "conditions"
+    },
+    {
       "name": "ASTHDX",
       "label": "ASTHMA DIAGNOSIS",
+      "group": "conditions"
+    },
+    {
+      "name": "ASTHAGED",
+      "label": "AGE OF DIAGNOSIS-ASTHMA",
+      "group": "conditions"
+    },
+    {
+      "name": "ASSTIL31",
+      "label": "DOES PERSON STILL HAVE ASTHMA - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASATAK31",
+      "label": "ASTHMA ATTACK LAST 12 MOS- RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASTHEP31",
+      "label": "WHEN WAS LAST EPISODE OF ASTHMA - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASACUT31",
+      "label": "USED ACUTE PRES INHALER LAST 3 MOS - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASMRCN31",
+      "label": "USED >3 ACUTE CN PRES INH LAST 3 MOS - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASPREV31",
+      "label": "EVER USED PREV DAILY ASTHMA MEDS - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASDALY31",
+      "label": "NOW TAKE PREV DAILY ASTHMA MEDS - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASPKFL31",
+      "label": "HAVE PEAK FLOW METER AT HOME - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASEVFL31",
+      "label": "EVER USED PEAK FLOW METER - RD 3/1",
+      "group": "conditions"
+    },
+    {
+      "name": "ASWNFL31",
+      "label": "WHEN LAST USED PEAK FLOW METER - RD 3/1",
       "group": "conditions"
     },
     {
@@ -268,109 +983,754 @@
       "group": "conditions"
     },
     {
-      "name": "COVIDEVER53",
-      "label": "EVER HAD COVID-19 - RD 5/3",
+      "name": "ADHDAGED",
+      "label": "AGE OF DIAGNOSIS-ADHD/ADD",
       "group": "conditions"
     },
     {
-      "name": "LCEVER53",
-      "label": "EVER HAD COVID-19 SYMPTOMS LASTING >= 3 MONTHS (LONG COVID) - RD 5/3",
-      "group": "conditions"
+      "name": "IADLHP31",
+      "label": "IADL SCREENER - RD 3/1",
+      "group": "functional"
     },
     {
-      "name": "COVSYMNOW53",
-      "label": "HAS COVID-19 OR LONG COVID-19 SYMPTOMS NOW - RD 5/3",
-      "group": "conditions"
+      "name": "ADLHLP31",
+      "label": "ADL SCREENER - RD 3/1",
+      "group": "functional"
     },
     {
-      "name": "OBTOTV23",
-      "label": "# OFFICE-BASED PROVIDER VISITS 2023",
-      "group": "utilization"
+      "name": "AIDHLP31",
+      "label": "USED ASSISTIVE DEVICES - RD 3/1",
+      "group": "functional"
     },
     {
-      "name": "OPTOTV23",
-      "label": "# OUTPATIENT DEPT PROVIDER VISITS 2023",
-      "group": "utilization"
+      "name": "WLKLIM31",
+      "label": "LIMITATION IN PHYSICAL FUNCTIONING - RD 3/1",
+      "group": "functional"
     },
     {
-      "name": "ERTOT23",
-      "label": "# EMERGENCY ROOM VISITS 2023",
-      "group": "utilization"
+      "name": "LFTDIF31",
+      "label": "DIFFICULTY LIFTING 10 POUNDS - RD 3/1",
+      "group": "functional"
     },
     {
-      "name": "IPDIS23",
-      "label": "# HOSPITAL DISCHARGES 2023",
-      "group": "utilization"
+      "name": "STPDIF31",
+      "label": "DIFFICULTY WALKING UP 10 STEPS - RD 3/1",
+      "group": "functional"
     },
     {
-      "name": "DVTOT23",
-      "label": "# DENTAL CARE VISITS 2023",
-      "group": "utilization"
+      "name": "WLKDIF31",
+      "label": "DIFFICULTY WALKING 3 BLOCKS - RD 3/1",
+      "group": "functional"
     },
     {
-      "name": "RXTOT23",
-      "label": "# PRESC MEDS INCL REFILLS 23",
-      "group": "utilization"
+      "name": "MILDIF31",
+      "label": "DIFFICULTY WALKING A MILE - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "STNDIF31",
+      "label": "DIFFICULTY STANDING 20 MINUTES - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "BENDIF31",
+      "label": "DIFFICULTY BENDING/STOOPING - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "RCHDIF31",
+      "label": "DIFFICULTY REACHING OVERHEAD - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "FNGRDF31",
+      "label": "DIFFICULTY USING FINGERS TO GRASP - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "ACTLIM31",
+      "label": "ANY LIMITATION WORK/HOUSEWRK/SCHL - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "WRKLIM31",
+      "label": "WORK LIMITATION - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "HSELIM31",
+      "label": "HOUSEWORK LIMITATION - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "SCHLIM31",
+      "label": "SCHOOL LIMITATION - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "UNABLE31",
+      "label": "COMPLETELY UNABLE TO DO ACTIVITY - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "SOCLIM31",
+      "label": "SOCIAL LIMITATIONS - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "COGLIM31",
+      "label": "COGNITIVE LIMITATIONS - RD 3/1",
+      "group": "functional"
+    },
+    {
+      "name": "DFHEAR42",
+      "label": "SERIOUS DIFFICULTY HEARING-RD 4/2",
+      "group": "functional"
+    },
+    {
+      "name": "DFSEE42",
+      "label": "SERIOUS DIFFICULTY SEE W/GLASSES-RD 4/2",
+      "group": "functional"
+    },
+    {
+      "name": "DFCOG42",
+      "label": "SERIOUS COGNITIVE DIFFICULTIES-RD 4/2",
+      "group": "functional"
+    },
+    {
+      "name": "DFWLKC42",
+      "label": "SERIOUS DIFFICULTY WLK/CLIMB STAIRS-RD 4/2",
+      "group": "functional"
+    },
+    {
+      "name": "DFDRSB42",
+      "label": "DIFFICULTY DRESSING/BATHING-RD 4/2",
+      "group": "functional"
+    },
+    {
+      "name": "DFERND42",
+      "label": "DIFFICULTY DOING ERRANDS ALONE-RD 4/2",
+      "group": "functional"
+    },
+    {
+      "name": "ANYLMI23",
+      "label": "ANY LIMITATION IN P27R3,4/P28R1,2",
+      "group": "functional"
+    },
+    {
+      "name": "CHPMED42",
+      "label": "CSHCN:CHILD NEEDS PRESCRB MED(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHPMHB42",
+      "label": "CSHCN:PMED FOR HLTH/BEHV COND(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHPMCN42",
+      "label": "CSHCN:PMED COND LAST 12+ MOS (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHSERV42",
+      "label": "CSHCN:CHLD NEEDS MED/OTH SERV(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHSRHB42",
+      "label": "CSHCN:SERV FOR HLTH/BEHV COND(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHSRCN42",
+      "label": "CSHCN:SERV COND LAST 12+ MOS (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHLIMI42",
+      "label": "CSHCN:LIMITED IN ANY WAY (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHLIHB42",
+      "label": "CSHCN:LIMT FOR HLTH/BEHV COND(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHLICO42",
+      "label": "CSHCN:LIMIT COND LAST 12+MOS (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHTHER42",
+      "label": "CSHCN:CHLD NEEDS SPEC THERAPY(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHTHHB42",
+      "label": "CSHCN:SPEC THER FOR HLTH+COND(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHTHCO42",
+      "label": "CSHCN:THER COND LAST 12+ MOS (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHCOUN42",
+      "label": "CSHCN:CHILD NEEDS COUNSELING (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHEMPB42",
+      "label": "CSHCN:COUNS PROB LAST 12+MOS (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CSHCN42",
+      "label": "CSHCN:CHILD W/SPEC HC NEEDS (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "GETTRB42",
+      "label": "PRBLM GETTING IN TROUBLE (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "MOMPRO42",
+      "label": "PROBLEM GETTING ALONG W/MOM (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "DADPRO42",
+      "label": "PROBLEM GETTING ALONG W/DAD (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "UNHAP42",
+      "label": "PROBLEM FEELING UNHAPPY/SAD (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "SCHLBH42",
+      "label": "PROBLEM BEHAVIOR AT SCHOOL (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "HAVFUN42",
+      "label": "PROBLEM HAVING FUN (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "ADUPRO42",
+      "label": "PRBLM GETTING ALONG W/ADULTS (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "NERVAF42",
+      "label": "PRBLM FEELING NERVOUS/AFRAID (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "SIBPRO42",
+      "label": "PRBLM GETTING ALONG W/SIBS (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "KIDPRO42",
+      "label": "PRBLM GETTING ALONG W/KIDS (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "SPRPRO42",
+      "label": "PROBLEM W/SPORTS/HOBBIES (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "SCHPRO42",
+      "label": "PROBLEM WITH SCHOOLWORK (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "HOMEBH42",
+      "label": "PROBLEM W/BEHAVIOR AT HOME (5-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHILCR42",
+      "label": "CAHPS:12MOS:ILL/INJ NEED CARE(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHILWW42",
+      "label": "CAHPS:12MOS:ILL CARE WHN WNTD(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHRTCR42",
+      "label": "CAHPS:12MOS:MAKE ROUT CARE APT(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHRTWW42",
+      "label": "CAHPS:12MOS:ROUT APT WHN WNTD(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHAPPT42",
+      "label": "CAHPS:12MOS:# OF OFF/CLIN APTS(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHLIST42",
+      "label": "CAHPS:12MOS:CHLD DR LSN TO YOU(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHEXPL42",
+      "label": "CAHPS:12MOS:CHLD DR EXPL THNG(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHRESP42",
+      "label": "CAHPS:12MOS:CHLD S DR SHW RESP(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHPRTM42",
+      "label": "CAHPS:12MOS:CHILD DR ENGH TIME(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHHECR42",
+      "label": "CAHPS:12MOS:RATE CHLD HLT CARE(0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHSPEC42_M18",
+      "label": "CAHPS:12MOS: MAKE APPT FOR SPEC (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "CHEYRE42_M18",
+      "label": "CAHPS:12MOS: GET APPT FOR SPEC (0-17)-R4/2",
+      "group": "childrens_health"
+    },
+    {
+      "name": "SAQELIG",
+      "label": "ELIGIBILITY STATUS FOR SAQ",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADPROX42",
+      "label": "SAQ: RELATIONSHIP OF PROXY TO ADULT",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADGENH42",
+      "label": "SAQ: HEALTH IN GENERAL VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADDAYA42",
+      "label": "SAQ: HLTH LIMITS MOD ACTIVITIES VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADCLIM42",
+      "label": "SAQ: HLTH LIMITS CLIMBING STAIRS VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADACLS42",
+      "label": "SAQ 4WKS:ACCMP LESS B/C PHY PRBS VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADWKLM42",
+      "label": "SAQ 4WKS:WORK LIMT B/C PHY PROBS VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADEMLS42",
+      "label": "SAQ 4WKS: ACCMP LESS B/C MNT PRBS VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADMWCF42",
+      "label": "SAQ 4WKS:WORK LIMT B/C MNT PROBS VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADPAIN42",
+      "label": "SAQ 4WKS: PAIN LIMITS NORMAL WORK VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADPCFL42",
+      "label": "SAQ 4WKS: FELT CALM/PEACEFUL VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADENGY42",
+      "label": "SAQ 4WKS: HAD A LOT OF ENERGY VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADPRST42",
+      "label": "SAQ 4WKS: FELT DOWNHEARTED/DEPR VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADSOCA42",
+      "label": "SAQ 4WKS: HLTH STOPPED SOC ACTIV VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADNERV42",
+      "label": "SAQ 30 DAYS: HOW OFTEN FELT NERVOUS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADHOPE42",
+      "label": "SAQ 30 DAYS: HOW OFTEN FELT HOPELESS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADREST42",
+      "label": "SAQ 30 DAYS: HOW OFTEN FELT RESTLESS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADSAD42",
+      "label": "SAQ 30 DAYS: HOW OFTEN FELT SAD",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADEFRT42",
+      "label": "SAQ 30 DAYS: HOW OFTN EVERYTHNG AN EFFORT",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADWRTH42",
+      "label": "SAQ 30 DAYS: HOW OFTEN FELT WORTHLESS",
+      "group": "mental_health"
+    },
+    {
+      "name": "K6SUM42",
+      "label": "SAQ 30 DAYS: OVERALL RATING OF FEELINGS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADINTR42",
+      "label": "SAQ 2 WKS: LITTLE INTEREST IN THINGS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADDPRS42",
+      "label": "SAQ 2 WKS: FELT DOWN/DEPRESSED/HOPELESS",
+      "group": "mental_health"
+    },
+    {
+      "name": "PHQ242",
+      "label": "SAQ 2 WKS: OVERALL RATING OF FEELINGS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADINSA42",
+      "label": "SAQ: DO NOT NEED HEALTH INSURANCE",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADINSB42",
+      "label": "SAQ: HEALTH INSURANCE NOT WORTH COST",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADRISK42",
+      "label": "SAQ: MORE LIKELY TO TAKE RISKS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADOVER42",
+      "label": "SAQ: CAN OVERCOME ILLS WITHOUT MED HELP",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADILCR42",
+      "label": "SAQ 12MOS: ILL/INJURY NEEDING IMMED CARE",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADILWW42",
+      "label": "SAQ 12 MOS: GOT CARE WHEN NEEDED ILL/INJ",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADRTCR42",
+      "label": "SAQ 12 MOS: MADE APPT ROUTINE MED CARE",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADRTWW42",
+      "label": "SAQ 12 MOS: GOT MED APPT WHEN WANTED",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADAPPT42",
+      "label": "SAQ 12 MOS: # VISITS TO MED OFF FOR CARE",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADHECR42",
+      "label": "SAQ 12 MOS: RATING OF HEALTH CARE",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADINST42",
+      "label": "SAQ 12 MOS: DR GAVE SPCIFC INSTRCTNS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADEZUN42",
+      "label": "SAQ 12 MOS: DR GIVEN INSTR. EZ UNDRSTD",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADTLHW42",
+      "label": "SAQ 12 MOS: DR ASKED R DESC HOW FOLLOW",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADFFRM42",
+      "label": "SAQ 12 MOS: HAD TO FILL OUT/SIGN FORMS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADFHLP42",
+      "label": "SAQ 12 MOS: OFFRD HELP FILLING OUT FORMS",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADEXPL42",
+      "label": "SAQ 12 MOS: DOC EXPLAINED SO UNDERSTOOD",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADLIST42",
+      "label": "SAQ 12 MOS: DOCTOR LISTENED TO YOU",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADRESP42",
+      "label": "SAQ 12 MOS: DR SHOWED RESPECT",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADPRTM42",
+      "label": "SAQ 12 MOS: DR SPENT ENUF TIME WITH YOU",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADSMOK42",
+      "label": "SAQ: CURRENTLY SMOKE",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADNSMK42",
+      "label": "SAQ 12MOS: DR ADVISED TO QUIT SMOKING",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADSPCL42",
+      "label": "SAQ 12 MOS: NEEDED TO SEE SPECIALIST",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADSNSP42",
+      "label": "SAQ 12MOS: HOW ESY TO SEE SPECIALIST",
+      "group": "mental_health"
+    },
+    {
+      "name": "VPCS42",
+      "label": "SAQ:PHY COMPONENT SUMMRY VR-12 IMPUTED",
+      "group": "mental_health"
+    },
+    {
+      "name": "VMCS42",
+      "label": "SAQ:MNT COMPONENT SUMMRY VR-12 IMPUTED",
+      "group": "mental_health"
+    },
+    {
+      "name": "VRFLAG42",
+      "label": "SAQ: VPCS42/VMCS42 IMPUTATION FLAG VR-12",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADCMPM42",
+      "label": "SAQ: DATE COMPLETED - MONTH",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADCMPY42",
+      "label": "SAQ: DATE COMPLETED - YEAR",
+      "group": "mental_health"
+    },
+    {
+      "name": "ADLANG42",
+      "label": "SAQ: LANGUAGE OF SAQ INTERVIEW",
+      "group": "mental_health"
+    },
+    {
+      "name": "LSTETH53",
+      "label": "LOST ALL UPPR AND LOWR TEETH (>17) - RD 5/3",
+      "group": "preventive"
+    },
+    {
+      "name": "PHYEXE53",
+      "label": "MOD/VIG PHYS EXEC 5X WK (>17) - RD 5/3",
+      "group": "preventive"
+    },
+    {
+      "name": "OFTSMK53",
+      "label": "HOW OFTN SMOKE CIGARETTES (>17) - RD 5/3",
+      "group": "preventive"
+    },
+    {
+      "name": "DDNWRK23",
+      "label": "# DAYS MISSED WORK DUE TO ILL/INJ 2023",
+      "group": "access"
+    },
+    {
+      "name": "OTHDYS23",
+      "label": "MISS ANY WORK DAY TO CARE FOR OTH 2023",
+      "group": "access"
+    },
+    {
+      "name": "OTHNDD23",
+      "label": "# DAY MISSED WORK TO CARE FOR OTH 2023",
+      "group": "access"
+    },
+    {
+      "name": "ACCELI42",
+      "label": "PERS ELIGIBLE FOR ACCESS SUPPLEMENT-R4/2",
+      "group": "access"
     },
     {
       "name": "HAVEUS42",
       "label": "DOES PERSON HAVE USC PROVIDER-R4/2",
-      "group": "utilization"
+      "group": "access"
     },
     {
       "name": "PRACTP42",
       "label": "PROVIDER OWN/GROUP PRACTICE-R4/2",
-      "group": "utilization"
+      "group": "access"
     },
     {
-      "name": "TOTEXP23",
-      "label": "TOTAL HEALTH CARE EXP 23",
-      "group": "expenditures"
+      "name": "YNOUSC42_M18",
+      "label": "MAIN REAS PERS DOESNT HAVE USC-R4/2",
+      "group": "access"
     },
     {
-      "name": "TOTSLF23",
-      "label": "TOTAL AMT PAID BY SELF/FAMILY 23",
-      "group": "expenditures"
+      "name": "PROVTY42_M18",
+      "label": "PROVIDER TYPE-R4/2",
+      "group": "access"
     },
     {
-      "name": "TOTMCR23",
-      "label": "TOTAL AMT PAID BY MEDICARE 23",
-      "group": "expenditures"
+      "name": "PLCTYP42",
+      "label": "USC TYPE OF PLACE-R4/2",
+      "group": "access"
     },
     {
-      "name": "TOTMCD23",
-      "label": "TOTAL AMT PAID BY MEDICAID 23",
-      "group": "expenditures"
+      "name": "TMTKUS42",
+      "label": "HOW LONG IT TAKES GET TO USC-R4/2",
+      "group": "access"
     },
     {
-      "name": "TOTPRV23",
-      "label": "TOTAL AMT PAID BY PRIVATE INS 23",
-      "group": "expenditures"
+      "name": "TYPEPE42",
+      "label": "USC TYPE OF PROVIDER-R4/2",
+      "group": "access"
     },
     {
-      "name": "RXEXP23",
-      "label": "TOTAL RX-EXP 23",
-      "group": "expenditures"
+      "name": "LOCATN42",
+      "label": "USC LOCATION-R4/2",
+      "group": "access"
     },
     {
-      "name": "RXSLF23",
-      "label": "TOTAL RX-SELF/FAMILY AMT 23",
-      "group": "expenditures"
+      "name": "HSPLAP42",
+      "label": "IS PROVIDER HISPANIC OR LATINO-R4/2",
+      "group": "access"
     },
     {
-      "name": "OBVEXP23",
-      "label": "TOTAL OFFICE-BASED EXP 23",
-      "group": "expenditures"
+      "name": "WHITPR42",
+      "label": "IS PROVIDER WHITE-R4/2",
+      "group": "access"
     },
     {
-      "name": "OPTEXP23",
-      "label": "TOTAL OUTPATIENT FAC + DR EXP 23",
-      "group": "expenditures"
+      "name": "BLCKPR42",
+      "label": "IS PROVIDER BLACK/AFRICAN AMER-R4/2",
+      "group": "access"
     },
     {
-      "name": "ERTEXP23",
-      "label": "TOTAL ER FACILITY + DR EXP 23",
-      "group": "expenditures"
+      "name": "ASIANP42",
+      "label": "IS PROVIDER ASIAN-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "NATAMP42",
+      "label": "IS PROVIDER NATIVE AMERICAN-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "PACISP42",
+      "label": "IS PROVIDER OTH PACIFIC ISLNDR-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "OTHRCP42",
+      "label": "IS PROVIDER SOME OTHER RACE-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "PROVSEX42",
+      "label": "IS PROVIDER MALE OR FEMALE-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "PHNREG42",
+      "label": "HOW DIFF CONTACT USC BY PHONE-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "OFFHOU42",
+      "label": "USC HAS OFFCE HRS NGHTS/WKENDS-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "AFTHOU42",
+      "label": "HOW DIFF CONTACT USC AFT HOURS-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "TREATM42",
+      "label": "PROV ASK ABOUT OTH TREATMENTS-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "DECIDE42",
+      "label": "PROV ASKS PERS TO HELP DECIDE-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "EXPLOP42",
+      "label": "PROV EXPLNS OPTIONS TO PERS-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "PRVSPK42",
+      "label": "PROV SPEAKS PERSON S LANGUAGE-R4/2",
+      "group": "access"
     },
     {
       "name": "DLAYCA42",
@@ -403,9 +1763,59 @@
       "group": "access"
     },
     {
+      "name": "PROBPY42",
+      "label": "FAMILY HAVING PROB PAYING MEDICAL BILLS",
+      "group": "access"
+    },
+    {
+      "name": "CRFMPY42",
+      "label": "FAMILY MED BILLS BEING PAID OVER TIME",
+      "group": "access"
+    },
+    {
       "name": "PYUNBL42",
       "label": "UNABLE TO PAY FAMILY MEDICAL BILLS",
       "group": "access"
+    },
+    {
+      "name": "PMEDUP31",
+      "label": "HAS USUAL 3RD PARTY PAYER FOR PMEDS-R3/1",
+      "group": "access"
+    },
+    {
+      "name": "PMEDUP42",
+      "label": "HAS USUAL 3RD PARTY PAYER FOR PMEDS-R4/2",
+      "group": "access"
+    },
+    {
+      "name": "PMEDUP53",
+      "label": "HAS USUAL 3RD PARTY PAYER FOR PMEDS-R5/3",
+      "group": "access"
+    },
+    {
+      "name": "PMEDPY31",
+      "label": "USUAL 3RD PARTY PAYER FOR PMEDS - R3/1",
+      "group": "access"
+    },
+    {
+      "name": "PMEDPY42",
+      "label": "USUAL 3RD PARTY PAYER FOR PMEDS - R4/2",
+      "group": "access"
+    },
+    {
+      "name": "PMEDPY53",
+      "label": "USUAL 3RD PARTY PAYER FOR PMEDS - R5/3",
+      "group": "access"
+    },
+    {
+      "name": "EMPST31",
+      "label": "EMPLOYMENT STATUS RD 3/1",
+      "group": "employment"
+    },
+    {
+      "name": "EMPST42",
+      "label": "EMPLOYMENT STATUS RD 4/2",
+      "group": "employment"
     },
     {
       "name": "EMPST53",
@@ -413,9 +1823,5154 @@
       "group": "employment"
     },
     {
-      "name": "EMPST42",
-      "label": "EMPLOYMENT STATUS RD 4/2",
+      "name": "MORJOB31",
+      "label": "HAS MORE THAN ONE JOB RD 3/1 INT DATE",
       "group": "employment"
+    },
+    {
+      "name": "MORJOB42",
+      "label": "HAS MORE THAN ONE JOB RD 4/2 INT DATE",
+      "group": "employment"
+    },
+    {
+      "name": "MORJOB53",
+      "label": "HAS MORE THAN ONE JOB RD 5/3 INT DATE",
+      "group": "employment"
+    },
+    {
+      "name": "EVRWRK",
+      "label": "EVER WRKD FOR PAY IN LIFE AS OF 12/31/23",
+      "group": "employment"
+    },
+    {
+      "name": "HRWG31X",
+      "label": "HOURLY WAGE RD 3/1 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HRWG42X",
+      "label": "HOURLY WAGE RD 4/2 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HRWG53X",
+      "label": "HOURLY WAGE RD 5/3 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HRWGIM31",
+      "label": "HRWG31X IMPUTATION FLAG",
+      "group": "employment"
+    },
+    {
+      "name": "HRWGIM42",
+      "label": "HRWG42X IMPUTATION FLAG",
+      "group": "employment"
+    },
+    {
+      "name": "HRWGIM53",
+      "label": "HRWG53X IMPUTATION FLAG",
+      "group": "employment"
+    },
+    {
+      "name": "HRHOW31",
+      "label": "HOW HOURLY WAGE WAS CALCULATED RD 3/1",
+      "group": "employment"
+    },
+    {
+      "name": "HRHOW42",
+      "label": "HOW HOURLY WAGE WAS CALCULATED RD 4/2",
+      "group": "employment"
+    },
+    {
+      "name": "HRHOW53",
+      "label": "HOW HOURLY WAGE WAS CALCULATED RD 5/3",
+      "group": "employment"
+    },
+    {
+      "name": "DIFFWG31",
+      "label": "WAGE CHANGE REPORTED THIS RD 3/1 AT CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "DIFFWG42",
+      "label": "WAGE CHANGE REPORTED THIS RD 4/2 AT CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "DIFFWG53",
+      "label": "WAGE CHANGE REPORTED THIS RD 5/3 AT CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NHRWGRND31",
+      "label": "RD OF MOST RECENT WAGE UPDATE (PRIMARY) RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NHRWGRND42",
+      "label": "RD OF MOST RECENT WAGE UPDATE (PRIMARY) RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NHRWGRND53",
+      "label": "RD OF MOST RECENT WAGE UPDATE (PRIMARY) RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NHRWG31_M23",
+      "label": "MOST RECENT UPDATED HRLY WAGE (PRIMARY) RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NHRWG42_M23",
+      "label": "MOST RECENT UPDATED HRLY WAGE (PRIMARY) RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NHRWG53_M23",
+      "label": "MOST RECENT UPDATED HRLY WAGE (PRIMARY) RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "HOUR31",
+      "label": "HOURS PER WEEK AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "HOUR42",
+      "label": "HOURS PER WEEK AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "HOUR53",
+      "label": "HOURS PER WEEK AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "TEMPJB31",
+      "label": "IS CMJ A TEMPORARY JOB RD 3/1",
+      "group": "employment"
+    },
+    {
+      "name": "TEMPJB42",
+      "label": "IS CMJ A TEMPORARY JOB RD 4/2",
+      "group": "employment"
+    },
+    {
+      "name": "TEMPJB53",
+      "label": "IS CMJ A TEMPORARY JOB RD 5/3",
+      "group": "employment"
+    },
+    {
+      "name": "SSNLJB31",
+      "label": "IS CMJ A SEASONAL JOB RD 3/1",
+      "group": "employment"
+    },
+    {
+      "name": "SSNLJB42",
+      "label": "IS CMJ A SEASONAL JOB RD 4/2",
+      "group": "employment"
+    },
+    {
+      "name": "SSNLJB53",
+      "label": "IS CMJ A SEASONAL JOB RD 5/3",
+      "group": "employment"
+    },
+    {
+      "name": "SELFCM31",
+      "label": "SELF-EMPLOYED AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "SELFCM42",
+      "label": "SELF-EMPLOYED AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "SELFCM53",
+      "label": "SELF-EMPLOYED AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "DISVW31X",
+      "label": "DISAVOWED HEALTH INS AT RD 3/1 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "DISVW42X",
+      "label": "DISAVOWED HEALTH INS AT RD 4/2 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "DISVW53X",
+      "label": "DISAVOWED HEALTH INS AT RD 5/3 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "CHOIC31",
+      "label": "CHOICE OF HEALTH PLANS AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "CHOIC42",
+      "label": "CHOICE OF HEALTH PLANS AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "CHOIC53",
+      "label": "CHOICE OF HEALTH PLANS AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "INDCAT31",
+      "label": "INDUSTRY GRP P27 RD 3 CMJ ONLY (2007 CENSUS IND)",
+      "group": "employment"
+    },
+    {
+      "name": "INDCAT31_17",
+      "label": "INDUSTRY GROUP RD 3/1 CMJ (2017 CENSUS IND)",
+      "group": "employment"
+    },
+    {
+      "name": "INDCAT42_17",
+      "label": "INDUSTRY GROUP RD 4/2 CMJ (2017 CENSUS IND)",
+      "group": "employment"
+    },
+    {
+      "name": "INDCAT53_17",
+      "label": "INDUSTRY GROUP RD 5/3 CMJ (2017 CENSUS IND)",
+      "group": "employment"
+    },
+    {
+      "name": "NUMEMP31",
+      "label": "NUMBER OF EMPLOYEES AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NUMEMP42",
+      "label": "NUMBER OF EMPLOYEES AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NUMEMP53",
+      "label": "NUMBER OF EMPLOYEES AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "MORE31",
+      "label": "RD 3/1 CMJ FIRM HAS MORE THAN 1 LOCATION",
+      "group": "employment"
+    },
+    {
+      "name": "MORE42",
+      "label": "RD 4/2 CMJ FIRM HAS MORE THAN 1 LOCATION",
+      "group": "employment"
+    },
+    {
+      "name": "MORE53",
+      "label": "RD 5/3 CMJ FIRM HAS MORE THAN 1 LOCATION",
+      "group": "employment"
+    },
+    {
+      "name": "UNION31",
+      "label": "UNION STATUS AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "UNION42",
+      "label": "UNION STATUS AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "UNION53",
+      "label": "UNION STATUS AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "NWK31",
+      "label": "REASON NOT WORKING DURING RD 3/1",
+      "group": "employment"
+    },
+    {
+      "name": "NWK42",
+      "label": "REASON NOT WORKING DURING RD 4/2",
+      "group": "employment"
+    },
+    {
+      "name": "NWK53",
+      "label": "REASON NOT WORKING DURING RD 5/3",
+      "group": "employment"
+    },
+    {
+      "name": "CHGJ3142",
+      "label": "CHANGED JOB BETWEEN RD 3/1 AND RD 4/2",
+      "group": "employment"
+    },
+    {
+      "name": "CHGJ4253",
+      "label": "CHANGED JOB BETWEEN RD 4/2 AND RD 5/3",
+      "group": "employment"
+    },
+    {
+      "name": "YCHJ3142",
+      "label": "WHY CHNGD JOB BETWEEN RD 3/1 AND RD 4/2",
+      "group": "employment"
+    },
+    {
+      "name": "YCHJ4253",
+      "label": "WHY CHNGD JOB BETWEEN RD 4/2 AND RD 5/3",
+      "group": "employment"
+    },
+    {
+      "name": "STJBMM31",
+      "label": "MONTH STARTED RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "STJBYY31",
+      "label": "YEAR STARTED RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "STJBMM42",
+      "label": "MONTH STARTED RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "STJBYY42",
+      "label": "YEAR STARTED RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "STJBMM53",
+      "label": "MONTH STARTED RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "STJBYY53",
+      "label": "YEAR STARTED RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "EVRETIRE",
+      "label": "PERSON HAS EVER RETIRED",
+      "group": "employment"
+    },
+    {
+      "name": "OCCCAT31",
+      "label": "OCCUPATION GRP P27 RD 3 CMJ ONLY (2010 CENSUS OCC)",
+      "group": "employment"
+    },
+    {
+      "name": "OCCCAT31_18",
+      "label": "OCCUPATION GROUP RD 3/1 CMJ (2018 CENSUS OCC)",
+      "group": "employment"
+    },
+    {
+      "name": "OCCCAT42_18",
+      "label": "OCCUPATION GROUP RD 4/2 CMJ (2018 CENSUS OCC)",
+      "group": "employment"
+    },
+    {
+      "name": "OCCCAT53_18",
+      "label": "OCCUPATION GROUP RD 5/3 CMJ (2018 CENSUS OCC)",
+      "group": "employment"
+    },
+    {
+      "name": "PAYVAC31",
+      "label": "PAID VACATION AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "PAYVAC42",
+      "label": "PAID VACATION AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "PAYVAC53",
+      "label": "PAID VACATION AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "SICPAY31",
+      "label": "PAID SICK LEAVE AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "SICPAY42",
+      "label": "PAID SICK LEAVE AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "SICPAY53",
+      "label": "PAID SICK LEAVE AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "PAYDR31",
+      "label": "PAID LEAVE TO VISIT DR RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "PAYDR42",
+      "label": "PAID LEAVE TO VISIT DR RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "PAYDR53",
+      "label": "PAID LEAVE TO VISIT DR RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "RETPLN31",
+      "label": "PENSION PLAN AT RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "RETPLN42",
+      "label": "PENSION PLAN AT RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "RETPLN53",
+      "label": "PENSION PLAN AT RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "BSNTY31",
+      "label": "SOLE PROP, PARTNER, CORP, RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "BSNTY42",
+      "label": "SOLE PROP, PARTNER, CORP, RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "BSNTY53",
+      "label": "SOLE PROP, PARTNER, CORP, RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "JOBORG31",
+      "label": "PRIV (PROFIT,NONPROFIT) GOV RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "JOBORG42",
+      "label": "PRIV (PROFIT,NONPROFIT) GOV RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "JOBORG53",
+      "label": "PRIV (PROFIT,NONPROFIT) GOV RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "HELD31X",
+      "label": "HEALTH INSUR HELD FROM RD 3/1 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "HELD42X",
+      "label": "HEALTH INSUR HELD FROM RD 4/2 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "HELD53X",
+      "label": "HEALTH INSUR HELD FROM RD 5/3 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "OFFER31X",
+      "label": "HEALTH INSUR OFFERED BY RD 3/1 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "OFFER42X",
+      "label": "HEALTH INSUR OFFERED BY RD 4/2 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "OFFER53X",
+      "label": "HEALTH INSUR OFFERED BY RD 5/3 CMJ (ED)",
+      "group": "employment"
+    },
+    {
+      "name": "OFREMP31",
+      "label": "EMPLOYER OFFERS HEALTH INS RD 3/1 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "OFREMP42",
+      "label": "EMPLOYER OFFERS HEALTH INS RD 4/2 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "OFREMP53",
+      "label": "EMPLOYER OFFERS HEALTH INS RD 5/3 CMJ",
+      "group": "employment"
+    },
+    {
+      "name": "EMPST31H",
+      "label": "EMPLOYMENT STATUS RD 3/1 (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "EMPST42H",
+      "label": "EMPLOYMENT STATUS RD 4/2 (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "EMPST53H",
+      "label": "EMPLOYMENT STATUS RD 5/3 (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "MORE31H",
+      "label": "RD 3/1 CMJ FIRM MORE THAN 1 LOCATION (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "MORE42H",
+      "label": "RD 4/2 CMJ FIRM MORE THAN 1 LOCATION (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "MORE53H",
+      "label": "RD 5/3 CMJ FIRM MORE THAN 1 LOCATION (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HOUR31H",
+      "label": "HOURS PER WEEK AT RD 3/1 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HOUR42H",
+      "label": "HOURS PER WEEK AT RD 4/2 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HOUR53H",
+      "label": "HOURS PER WEEK AT RD 5/3 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "UNION31H",
+      "label": "UNION STATUS AT RD 3/1 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "UNION42H",
+      "label": "UNION STATUS AT RD 4/2 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "UNION53H",
+      "label": "UNION STATUS AT RD 5/3 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "BSNTY31H",
+      "label": "SOL PROP, PRTNR, CORP, RD 3/1 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "BSNTY42H",
+      "label": "SOL PROP, PRTNR, CORP, RD 4/2 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "BSNTY53H",
+      "label": "SOL PROP, PRTNR, CORP, RD 5/3 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HRWG31H",
+      "label": "HOURLY WAGE RD 3/1 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HRWG42H",
+      "label": "HOURLY WAGE RD 4/2 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "HRWG53H",
+      "label": "HOURLY WAGE RD 5/3 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "OFFER31H",
+      "label": "HEALTH INSUR OFFERED BY RD 3/1 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "OFFER42H",
+      "label": "HEALTH INSUR OFFERED BY RD 4/2 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "OFFER53H",
+      "label": "HEALTH INSUR OFFERED BY RD 5/3 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "PAYDR31H",
+      "label": "PAID LEAVE TO VISIT DR RD 3/1 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "PAYDR42H",
+      "label": "PAID LEAVE TO VISIT DR RD 4/2 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "PAYDR53H",
+      "label": "PAID LEAVE TO VISIT DR RD 5/3 CMJ (IMP)",
+      "group": "employment"
+    },
+    {
+      "name": "MORECOVR",
+      "label": "COV BY MOR COMPR PL PREV 2 YR-PN 28 ONLY",
+      "group": "employment"
+    },
+    {
+      "name": "FILEDR23",
+      "label": "HAS PERSON FILED A FED INCOME TAX RETURN",
+      "group": "income"
+    },
+    {
+      "name": "WILFIL23",
+      "label": "WILL PERSON FILE FED INCOME TAX RETURN",
+      "group": "income"
+    },
+    {
+      "name": "FLSTAT23",
+      "label": "PERSON S FILING STATUS",
+      "group": "income"
+    },
+    {
+      "name": "FILER23",
+      "label": "PRIMARY OR SECONDARY FILER",
+      "group": "income"
+    },
+    {
+      "name": "JTINRU23",
+      "label": "JOINT FILER S MEMBERSHIP IN RU",
+      "group": "income"
+    },
+    {
+      "name": "JNTPID23",
+      "label": "PID OF SECONDARY FILER",
+      "group": "income"
+    },
+    {
+      "name": "TAXFRM23",
+      "label": "TAX FORM PERSON WILL FILE",
+      "group": "income"
+    },
+    {
+      "name": "FOODST23",
+      "label": "DID ANYONE PURCHASE FOOD STAMPS",
+      "group": "income"
+    },
+    {
+      "name": "FOODMN23",
+      "label": "NUMBER OF MONTHS FOOD STAMPS PURCHASED",
+      "group": "income"
+    },
+    {
+      "name": "FOODVL23",
+      "label": "MONTHLY VALUE OF FOOD STAMPS",
+      "group": "income"
+    },
+    {
+      "name": "TTLP23X",
+      "label": "PERSON S TOTAL INCOME",
+      "group": "income"
+    },
+    {
+      "name": "FAMINC23",
+      "label": "FAMILY S TOTAL INCOME",
+      "group": "income"
+    },
+    {
+      "name": "POVCAT23",
+      "label": "FAMILY INC AS % OF POVERTY LINE - CATEGORICAL",
+      "group": "income"
+    },
+    {
+      "name": "POVLEV23",
+      "label": "FAMILY INC AS % OF POVERTY LINE - CONTINUOUS",
+      "group": "income"
+    },
+    {
+      "name": "WAGEP23X",
+      "label": "PERSON S WAGE INCOME",
+      "group": "income"
+    },
+    {
+      "name": "WAGIMP23",
+      "label": "WAGE IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "BUSNP23X",
+      "label": "PERSON S BUSINESS INCOME",
+      "group": "income"
+    },
+    {
+      "name": "BUSIMP23",
+      "label": "BUSINESS INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "UNEMP23X",
+      "label": "PERSON S UNEMPLOYMENT COMP INCOME",
+      "group": "income"
+    },
+    {
+      "name": "UNEIMP23",
+      "label": "UNEMPLOYMENT IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "WCMPP23X",
+      "label": "PERSON S WORKERS  COMPENSATION",
+      "group": "income"
+    },
+    {
+      "name": "WCPIMP23",
+      "label": "WORKERS  COMP IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "INTRP23X",
+      "label": "PERSON S INTEREST INCOME",
+      "group": "income"
+    },
+    {
+      "name": "INTIMP23",
+      "label": "INTEREST INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "DIVDP23X",
+      "label": "PERSON S DIVIDEND INCOME",
+      "group": "income"
+    },
+    {
+      "name": "DIVIMP23",
+      "label": "DIVIDEND INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "SALEP23X",
+      "label": "PERSON S SALES INCOME",
+      "group": "income"
+    },
+    {
+      "name": "SALIMP23",
+      "label": "SALES INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "PENSP23X",
+      "label": "PERSON S PENSION INCOME",
+      "group": "income"
+    },
+    {
+      "name": "PENIMP23",
+      "label": "PENSION INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "SSECP23X",
+      "label": "PERSON S SOCIAL SECURITY INCOME",
+      "group": "income"
+    },
+    {
+      "name": "SSCIMP23",
+      "label": "SOCIAL SECURITY INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "TRSTP23X",
+      "label": "PERSON S TRUST/RENT INCOME",
+      "group": "income"
+    },
+    {
+      "name": "TRTIMP23",
+      "label": "TRUST INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "VETSP23X",
+      "label": "PERSON S VETERAN S INCOME",
+      "group": "income"
+    },
+    {
+      "name": "VETIMP23",
+      "label": "VETERAN S INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "IRASP23X",
+      "label": "PERSON S IRA INCOME",
+      "group": "income"
+    },
+    {
+      "name": "IRAIMP23",
+      "label": "IRA INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "ALIMP23X",
+      "label": "PERSON S ALIMONY INCOME",
+      "group": "income"
+    },
+    {
+      "name": "ALIIMP23",
+      "label": "ALIMONY INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "CHLDP23X",
+      "label": "PERSON S CHILD SUPPORT",
+      "group": "income"
+    },
+    {
+      "name": "CHLIMP23",
+      "label": "CHILD SUPPORT IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "CASHP23X",
+      "label": "PERSON S OTHER REGULAR CASH CONTRIBUTION",
+      "group": "income"
+    },
+    {
+      "name": "CSHIMP23",
+      "label": "CASH CONTRIBUTION IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "SSIP23X",
+      "label": "PERSON S SSI",
+      "group": "income"
+    },
+    {
+      "name": "SSIIMP23",
+      "label": "SSI IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "PUBP23X",
+      "label": "PERSON S PUBLIC ASSISTANCE",
+      "group": "income"
+    },
+    {
+      "name": "PUBIMP23",
+      "label": "PUBLIC ASSISTANCE IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "OTHRP23X",
+      "label": "PERSON S OTHER INCOME",
+      "group": "income"
+    },
+    {
+      "name": "OTHIMP23",
+      "label": "OTHER INCOME IMPUTATION FLAG",
+      "group": "income"
+    },
+    {
+      "name": "HIEUIDX",
+      "label": "HIEU IDENTIFIER",
+      "group": "income"
+    },
+    {
+      "name": "PRVEV23",
+      "label": "EVER HAVE PRIVATE INSURANCE DURING 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRIEV23",
+      "label": "EVER HAVE TRICARE/CHAMPVA DURING 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCREV23",
+      "label": "EVER HAVE MEDICARE DURING 2023 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDEV23",
+      "label": "EVER HAVE MCAID/SCHIP DURING 2023 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAEV23",
+      "label": "EVER HAVE VA DURING 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GVAEV23",
+      "label": "EVER HAVE OTHER PUBLIC DURING 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GVBEV23",
+      "label": "EVER HAVE OTHER PUBLIC HMO DURING 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GVCEV23",
+      "label": "EVER HAVE OTH PUB PAYS PREM DURING 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "UNINS23",
+      "label": "UNINSURED ALL OF 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "INSCOV23",
+      "label": "HEALTH INSURANCE COVERAGE INDICATOR 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "INSURC23",
+      "label": "FULL YEAR INSURANCE COVERAGE STATUS 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRICH31X",
+      "label": "COVERED BY CHAMPVA - ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRICH42X",
+      "label": "COVERED BY CHAMPVA - ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRICH23X",
+      "label": "COVERED BY CHAMPVA - R5/3 UNTIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPHD31",
+      "label": "COV BY MEDICARE MNGED CARE DNTL BENEFIT - R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPHD42",
+      "label": "COV BY MEDICARE MNGED CARE DNTL BENEFIT - R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPHD23",
+      "label": "COV BY MEDICARE MNGED CARE DNTL BENEFIT -12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPD31",
+      "label": "COV BY MEDICARE PMED BENEFIT - R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPD42",
+      "label": "COV BY MEDICARE PMED BENEFIT - R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPD23",
+      "label": "COV BY MEDICARE PMED BENEFIT - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPD31X",
+      "label": "COV BY MEDICARE PMED BENEFIT - R3/1 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPD42X",
+      "label": "COV BY MEDICARE PMED BENEFIT - R4/2 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPD23X",
+      "label": "COV BY MCARE PMED BENEFIT-12/31/23 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPHO31",
+      "label": "COV BY MEDICARE MANAGED CARE/MEDICARE ADVANTAGE - R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPHO42",
+      "label": "COV BY MEDICARE MANAGED CARE/MEDICARE ADVANTAGE - R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCRPHO23",
+      "label": "COV BY MEDICARE MANAGED CARE/MEDICARE ADVANTAGE - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDHMO31",
+      "label": "COV BY MCAID/SCHIP HMO -ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDHMO42",
+      "label": "COV BY MCAID/SCHIP HMO -ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDHMO23",
+      "label": "COV BY MCAID/SCHIP HMO-R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDMC31",
+      "label": "CV MCAID/CHIP GTKPR PLN-ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDMC42",
+      "label": "CV MCAID/CHIP GTKPR PLN-ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDMC23",
+      "label": "CV MCD/CHIP GTKPR PLN-R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRVHMO31_M23",
+      "label": "COVERED BY PRIVATE HMO-ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRVHMO42_M23",
+      "label": "COVERED BY PRIVATE HMO-ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRVHMO23_M23",
+      "label": "COVERED BY PRIVATE HMO-R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "FSAGT31",
+      "label": "ANYONE IN RU HAVE FSA - R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "HASFSA31",
+      "label": "PERSON IS FSA HOLDER - R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PFSAMT31",
+      "label": "PERSON-LEVEL FSA TOTAL AMOUNT - R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PREVCOVR",
+      "label": "PER COV BY INS IN PREV 2 YRS-PNL 28 ONLY",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRICR31X",
+      "label": "COV BY TRICR/CHAMV - R3/1 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRICR42X",
+      "label": "COV BY TRICR/CHAMV - R4/2 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRICR53X",
+      "label": "COV BY TRICR/CHAMV 12-31/R3 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRICR23X",
+      "label": "COV BY TRICR/CHAMV - 12/31/23 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRIAT31X",
+      "label": "COV TRICARE/CHAMPVA - ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRIAT42X",
+      "label": "COV TRICARE/CHAMPVA - ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRIAT53X",
+      "label": "COV TRICARE/CHAMPVA - ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "TRIAT23X",
+      "label": "COV TRICARE/CHAMPVA-R5/3 UNTIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID31",
+      "label": "COV BY MEDICAID OR SCHIP - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID42",
+      "label": "COV BY MEDICAID OR SCHIP - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID53",
+      "label": "COV BY MEDICAID OR SCHIP 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID23",
+      "label": "COV BY MEDICAID OR SCHIP - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID31X",
+      "label": "COV BY MEDICAID/SCHIP - R3/1 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID42X",
+      "label": "COV BY MEDICAID/SCHIP - R4/2 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID53X",
+      "label": "COV MEDICAID/SCHIP 12-31/R3 INT DT(ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCAID23X",
+      "label": "COV BY MEDICAID OR SCHIP - 12/31/23 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE31",
+      "label": "COV BY MEDICARE - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE42",
+      "label": "COV BY MEDICARE - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE53",
+      "label": "COV BY MEDICARE 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE23",
+      "label": "COV BY MEDICARE - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE31X",
+      "label": "COV BY MEDICARE - R3/1 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE42X",
+      "label": "COV BY MEDICARE - R4/2 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE53X",
+      "label": "COV BY MEDICARE 12-31/R3 INT DT (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCARE23X",
+      "label": "COV BY MEDICARE - 12/31/23 (ED)",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDAT31X",
+      "label": "COV MEDICAID OR SCHIP - ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDAT42X",
+      "label": "COV MEDICAID OR SCHIP - ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDAT53X",
+      "label": "COV MEDICAID OR SCHIP - ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "MCDAT23X",
+      "label": "CV MCD/CHIP-ANY TME IN R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTA31",
+      "label": "COV BY OTHER PUBLIC COV - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTA42",
+      "label": "COV BY OTHER PUBLIC COV - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTA53",
+      "label": "COV BY OTHER PUBLIC COV 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTA23",
+      "label": "COV BY OTHER PUBLIC COV - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVAAT31",
+      "label": "COV BY OTHER PUBLIC-ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVAAT42",
+      "label": "COV BY OTHER PUBLIC-ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVAAT53",
+      "label": "COV BY OTHER PUBLIC-ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVAAT23",
+      "label": "CV OTH PUB-ANY TME IN R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTB31",
+      "label": "COV BY OTH PUB HMO - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTB42",
+      "label": "COV BY OTH PUB HMO - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTB53",
+      "label": "COV BY OTH PUB HMO 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTB23",
+      "label": "COV BY OTH PUB HMO - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVBAT31",
+      "label": "COV BY OTH PUB HMO-ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVBAT42",
+      "label": "COV BY OTH PUB HMO-ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVBAT53",
+      "label": "COV BY OTH PUB HMO-ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVBAT23",
+      "label": "COV OTH PB HMO-ANY TM R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTC31",
+      "label": "COV BY OTH PUB PAYS PREM - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTC42",
+      "label": "COV BY OTH PUB PAYS PREM - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTC53",
+      "label": "COV BY OTH PUB PAYS PREM 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVTC23",
+      "label": "COV BY OTH PUB PAYS PREM - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVCAT31",
+      "label": "CV BY OTH PUB PAYS PREM-ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVCAT42",
+      "label": "CV BY OTH PUB PAYS PREM-ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVCAT53",
+      "label": "CV BY OTH PUB PAYS PREM-ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "GOVCAT23",
+      "label": "CV OTH PUB PAYS PREM- R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPROG31",
+      "label": "COV BY VA - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPROG42",
+      "label": "COV BY VA - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPROG53",
+      "label": "COV BY VA 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPROG23",
+      "label": "COV BY VA- 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPRAT31",
+      "label": "COV BY VA - ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPRAT42",
+      "label": "COV BY VA - ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPRAT53",
+      "label": "COV BY VA - ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VAPRAT23",
+      "label": "COV BY VA-ANY TME IN R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "IHSAT31",
+      "label": "COV BY IHS - ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "IHSAT42",
+      "label": "COV BY IHS - ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "IHSAT53",
+      "label": "COV BY IHS - ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "IHSAT23",
+      "label": "COV BY IHS-ANY TME IN R5/3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIDK31",
+      "label": "COV BY PRIV INS (DK PLAN) - R3/1 INT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIDK42",
+      "label": "COV BY PRIV INS (DK PLAN) - R4/2 INT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIDK53",
+      "label": "COV BY PRIV INS (DK PLAN) 12-31/R3 INT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIDK23",
+      "label": "COV BY PRIV INS (DK PLAN) - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEU31",
+      "label": "COV BY EMPL/UNION GRP INS - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEU42",
+      "label": "COV BY EMPL/UNION GRP INS - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEU53",
+      "label": "COV BY EMPL/UNION GRP INS 12-31/R3 INT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEU23",
+      "label": "COV BY EMPL/UNION GRP INS - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRING31",
+      "label": "COV BY NON-GROUP INS - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRING42",
+      "label": "COV BY NON-GROUP INS - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRING53",
+      "label": "COV BY NON-GROUP INS 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRING23",
+      "label": "COV BY NON-GROUP INS - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIOG31",
+      "label": "COV BY OTHER GROUP INS - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIOG42",
+      "label": "COV BY OTHER GROUP INS - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIOG53",
+      "label": "COV BY OTHER GROUP INS 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIOG23",
+      "label": "COV BY OTHER GROUP INS - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRINEO31",
+      "label": "COV BY NON-ESI, PHOLDR OUT RU - R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRINEO42",
+      "label": "COV BY NON-ESI, PHOLDR OUT RU - R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRINEO53",
+      "label": "COV BY NON-ESI, PHOLDR OUT RU 12-31/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRINEO23",
+      "label": "COV BY NON-ESI, PHOLDR OUT RU - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEUO31",
+      "label": "COV BY ESI, PHOLDR OUTSIDE RU - R3/1 INT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEUO42",
+      "label": "COV BY ESI, PHOLDR OUTSIDE RU - R4/2 INT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEUO53",
+      "label": "CV BY ESI, PHLDR OUTSIDE RU 12-31/R3 INT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIEUO23",
+      "label": "COV BY ESI, PHOLDR OUTSIDE RU - 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRSTX31",
+      "label": "COV BY PRIV EXCHANGE INS -R3/1 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRSTX42",
+      "label": "COV BY PRIV EXCHANGE INS -R4/2 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRSTX53",
+      "label": "PRIV EXCHANGE INS ON 12-31 R5/R3 INT DT",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRSTX23",
+      "label": "PRIV EXCHANGE INSURANCE ON 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIVAT31",
+      "label": "COV BY PRIVATE INS - ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIVAT42",
+      "label": "COV BY PRIVATE INS - ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIVAT53",
+      "label": "COV BY PRIVATE INS - ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PRIVAT23",
+      "label": "COV BY PRIVATE INS - R5/3 UNTIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PUBAT31X",
+      "label": "COV BY PUBLIC - ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PUBAT42X",
+      "label": "COV BY PUBLIC - ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PUBAT53X",
+      "label": "COV BY PUBLIC - ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PUBAT23X",
+      "label": "COV BY PUBLIC - R5/3 UNTIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VERFLG31",
+      "label": "PID GAINED COVG THRU VERIFICATION R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VERFLG42",
+      "label": "PID GAINED COVG THRU VERIFICATION R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "VERFLG23",
+      "label": "PID GAINED COVG THRU VERIFICATION IN R5/R3 UNTIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "INSAT31X",
+      "label": "INSURED ANY TIME IN R3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "INSAT42X",
+      "label": "INSURED ANY TIME IN R4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "INSAT53X",
+      "label": "INSURED ANY TIME IN R5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "INSAT23X",
+      "label": "INSURED ANY TIME IN R5/R3 UNTIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "DENTIN31_M23",
+      "label": "DENTAL INSURANCE - ANY TIME IN RD 3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "DENTIN42_M23",
+      "label": "DENTAL INSURANCE - ANY TIME IN RD 4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "DENTIN53_M23",
+      "label": "DENTAL INSURANCE - ANY TIME IN RD 5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "DNTINS31_M23",
+      "label": "DENTAL INS - ANY TIME IN RD 3/1 IN 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "DNTINS23_M23",
+      "label": "DENTL INS-ANY TIME IN R5/R3 TIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PMEDIN31",
+      "label": "PMED INS - ANY TIME IN RD 3/1",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PMEDIN42",
+      "label": "PMED INS - ANY TIME IN RD 4/2",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PMEDIN53",
+      "label": "PMED INS - ANY TIME IN RD 5/3",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PMDINS31",
+      "label": "PMED INS - RD 3/1 IN 2023",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "PMDINS23",
+      "label": "PMED INS - R5/R3 UNTIL 12/31/23",
+      "group": "insurance_annual"
+    },
+    {
+      "name": "INSC1231",
+      "label": "INSCOPE STATUS ON 12/31/23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIJA23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN JAN23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIFE23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN FEB23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIMA23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN MAR23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIAP23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN APR23(ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIMY23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN MAY23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIJU23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN JUN23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIJL23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN JUL23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIAU23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN AUG23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRISE23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN SEP23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIOC23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN OCT23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRINO23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN NOV23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRIDE23X",
+      "label": "COVERED BY TRICARE/CHAMPVA IN DEC23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRJA23",
+      "label": "COVERED BY MEDICARE IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRFE23",
+      "label": "COVERED BY MEDICARE IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRMA23",
+      "label": "COVERED BY MEDICARE IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRAP23",
+      "label": "COVERED BY MEDICARE IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRMY23",
+      "label": "COVERED BY MEDICARE IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRJU23",
+      "label": "COVERED BY MEDICARE IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRJL23",
+      "label": "COVERED BY MEDICARE IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRAU23",
+      "label": "COVERED BY MEDICARE IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRSE23",
+      "label": "COVERED BY MEDICARE IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCROC23",
+      "label": "COVERED BY MEDICARE IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRNO23",
+      "label": "COVERED BY MEDICARE IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRDE23",
+      "label": "COVERED BY MEDICARE IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRJA23X",
+      "label": "COVERED BY MEDICARE IN JAN23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRFE23X",
+      "label": "COVERED BY MEDICARE IN FEB23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRMA23X",
+      "label": "COVERED BY MEDICARE IN MAR23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRAP23X",
+      "label": "COVERED BY MEDICARE IN APR23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRMY23X",
+      "label": "COVERED BY MEDICARE IN MAY23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRJU23X",
+      "label": "COVERED BY MEDICARE IN JUN23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRJL23X",
+      "label": "COVERED BY MEDICARE IN JUL23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRAU23X",
+      "label": "COVERED BY MEDICARE IN AUG23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRSE23X",
+      "label": "COVERED BY MEDICARE IN SEP23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCROC23X",
+      "label": "COVERED BY MEDICARE IN OCT23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRNO23X",
+      "label": "COVERED BY MEDICARE IN NOV23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCRDE23X",
+      "label": "COVERED BY MEDICARE IN DEC23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDJA23",
+      "label": "COV BY MEDICAID OR SCHIP IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDFE23",
+      "label": "COV BY MEDICAID OR SCHIP IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDMA23",
+      "label": "COV BY MEDICAID OR SCHIP IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDAP23",
+      "label": "COV BY MEDICAID OR SCHIP IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDMY23",
+      "label": "COV BY MEDICAID OR SCHIP IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDJU23",
+      "label": "COV BY MEDICAID OR SCHIP IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDJL23",
+      "label": "COV BY MEDICAID OR SCHIP IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDAU23",
+      "label": "COV BY MEDICAID OR SCHIP IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDSE23",
+      "label": "COV BY MEDICAID OR SCHIP IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDOC23",
+      "label": "COV BY MEDICAID OR SCHIP IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDNO23",
+      "label": "COV BY MEDICAID OR SCHIP IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDDE23",
+      "label": "COV BY MEDICAID OR SCHIP IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDJA23X",
+      "label": "COV BY MEDICAID OR SCHIP IN JAN23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDFE23X",
+      "label": "COV BY MEDICAID OR SCHIP IN FEB23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDMA23X",
+      "label": "COV BY MEDICAID OR SCHIP IN MAR23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDAP23X",
+      "label": "COV BY MEDICAID OR SCHIP IN APR23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDMY23X",
+      "label": "COV BY MEDICAID OR SCHIP IN MAY23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDJU23X",
+      "label": "COV BY MEDICAID OR SCHIP IN JUN23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDJL23X",
+      "label": "COV BY MEDICAID OR SCHIP IN JUL23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDAU23X",
+      "label": "COV BY MEDICAID OR SCHIP IN AUG23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDSE23X",
+      "label": "COV BY MEDICAID OR SCHIP IN SEP23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDOC23X",
+      "label": "COV BY MEDICAID OR SCHIP IN OCT23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDNO23X",
+      "label": "COV BY MEDICAID OR SCHIP IN NOV23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "MCDDE23X",
+      "label": "COV BY MEDICAID OR SCHIP IN DEC23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAJA23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAFE23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAMA23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAAP23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAMY23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAJU23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAJL23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAAU23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVASE23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVAOC23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVANO23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVADE23",
+      "label": "COV BY OTHER PUBLIC COVERAGE IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBJA23",
+      "label": "COV BY OTHER PUBLIC HMO IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBFE23",
+      "label": "COV BY OTHER PUBLIC HMO IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBMA23",
+      "label": "COV BY OTHER PUBLIC HMO IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBAP23",
+      "label": "COV BY OTHER PUBLIC HMO IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBMY23",
+      "label": "COV BY OTHER PUBLIC HMO IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBJU23",
+      "label": "COV BY OTHER PUBLIC HMO IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBJL23",
+      "label": "COV BY OTHER PUBLIC HMO IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBAU23",
+      "label": "COV BY OTHER PUBLIC HMO IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBSE23",
+      "label": "COV BY OTHER PUBLIC HMO IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBOC23",
+      "label": "COV BY OTHER PUBLIC HMO IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBNO23",
+      "label": "COV BY OTHER PUBLIC HMO IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVBDE23",
+      "label": "COV BY OTHER PUBLIC HMO IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCJA23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCFE23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCMA23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCAP23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCMY23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCJU23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCJL23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCAU23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCSE23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCOC23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCNO23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "GVCDE23",
+      "label": "COV BY OTHER PUBLIC PAYS PREM IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPJA23",
+      "label": "COVERED BY VA IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPFE23",
+      "label": "COVERED BY VA IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPMA23",
+      "label": "COVERED BY VA IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPAP23",
+      "label": "COVERED BY VA IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPMY23",
+      "label": "COVERED BY VA IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPJU23",
+      "label": "COVERED BY VA IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPJL23",
+      "label": "COVERED BY VA IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPAU23",
+      "label": "COVERED BY VA IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPSE23",
+      "label": "COVERED BY VA IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPOC23",
+      "label": "COVERED BY VA IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPNO23",
+      "label": "COVERED BY VA IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "VAPDE23",
+      "label": "COVERED BY VA IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSJA23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSFE23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSMA23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSAP23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSMY23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSJU23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSJL23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSAU23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSSE23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSOC23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSNO23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHSDE23",
+      "label": "COV BY INDIAN HEALTH SERVICE IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBJA23X",
+      "label": "COVR BY ANY PUBLIC INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBFE23X",
+      "label": "COVR BY ANY PUBLIC INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBMA23X",
+      "label": "COVR BY ANY PUBLIC INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBAP23X",
+      "label": "COVR BY ANY PUBLIC INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBMY23X",
+      "label": "COVR BY ANY PUBLIC INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBJU23X",
+      "label": "COVR BY ANY PUBLIC INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBJL23X",
+      "label": "COVR BY ANY PUBLIC INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBAU23X",
+      "label": "COVR BY ANY PUBLIC INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBSE23X",
+      "label": "COVR BY ANY PUBLIC INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBOC23X",
+      "label": "COVR BY ANY PUBLIC INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBNO23X",
+      "label": "COVR BY ANY PUBLIC INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUBDE23X",
+      "label": "COVR BY ANY PUBLIC INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGJA23",
+      "label": "COVERED BY EMPL UNION INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGFE23",
+      "label": "COVERED BY EMPL UNION INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGMA23",
+      "label": "COVERED BY EMPL UNION INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGAP23",
+      "label": "COVERED BY EMPL UNION INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGMY23",
+      "label": "COVERED BY EMPL UNION INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGJU23",
+      "label": "COVERED BY EMPL UNION INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGJL23",
+      "label": "COVERED BY EMPL UNION INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGAU23",
+      "label": "COVERED BY EMPL UNION INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGSE23",
+      "label": "COVERED BY EMPL UNION INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGOC23",
+      "label": "COVERED BY EMPL UNION INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGNO23",
+      "label": "COVERED BY EMPL UNION INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PEGDE23",
+      "label": "COVERED BY EMPL UNION INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKJA23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKFE23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKMA23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKAP23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKMY23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKJU23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKJL23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKAU23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKSE23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKOC23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKNO23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PDKDE23",
+      "label": "COVR BY PRIV INS (SOURCE UNKNWN) DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGJA23",
+      "label": "COVERED BY NONGROUP INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGFE23",
+      "label": "COVERED BY NONGROUP INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGMA23",
+      "label": "COVERED BY NONGROUP INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGAP23",
+      "label": "COVERED BY NONGROUP INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGMY23",
+      "label": "COVERED BY NONGROUP INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGJU23",
+      "label": "COVERED BY NONGROUP INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGJL23",
+      "label": "COVERED BY NONGROUP INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGAU23",
+      "label": "COVERED BY NONGROUP INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGSE23",
+      "label": "COVERED BY NONGROUP INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGOC23",
+      "label": "COVERED BY NONGROUP INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGNO23",
+      "label": "COVERED BY NONGROUP INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNGDE23",
+      "label": "COVERED BY NONGROUP INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGJA23",
+      "label": "COVERED BY OTHER GROUP INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGFE23",
+      "label": "COVERED BY OTHER GROUP INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGMA23",
+      "label": "COVERED BY OTHER GROUP INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGAP23",
+      "label": "COVERED BY OTHER GROUP INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGMY23",
+      "label": "COVERED BY OTHER GROUP INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGJU23",
+      "label": "COVERED BY OTHER GROUP INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGJL23",
+      "label": "COVERED BY OTHER GROUP INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGAU23",
+      "label": "COVERED BY OTHER GROUP INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGSE23",
+      "label": "COVERED BY OTHER GROUP INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGOC23",
+      "label": "COVERED BY OTHER GROUP INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGNO23",
+      "label": "COVERED BY OTHER GROUP INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POGDE23",
+      "label": "COVERED BY OTHER GROUP INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEJA23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEFE23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEMA23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEAP23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEMY23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEJU23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEJL23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEAU23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POESE23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEOC23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POENO23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "POEDE23",
+      "label": "COV BY ESI, PHOLDER OUTSIDE RU IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEJA23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEFE23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEMA23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEAP23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEMY23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEJU23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEJL23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEAU23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNESE23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEOC23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNENO23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PNEDE23",
+      "label": "COV BY NON-ESI, PHLDR OUTSIDE RU IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXJA23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXFE23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXMA23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXAP23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXMY23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXJU23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXJL23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXAU23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXSE23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXOC23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXNO23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRXDE23",
+      "label": "COV BY PRIV INS THROUGH EXCHNG IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIJA23",
+      "label": "COVERED BY PRIVATE INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIFE23",
+      "label": "COVERED BY PRIVATE INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIMA23",
+      "label": "COVERED BY PRIVATE INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIAP23",
+      "label": "COVERED BY PRIVATE INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIMY23",
+      "label": "COVERED BY PRIVATE INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIJU23",
+      "label": "COVERED BY PRIVATE INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIJL23",
+      "label": "COVERED BY PRIVATE INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIAU23",
+      "label": "COVERED BY PRIVATE INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRISE23",
+      "label": "COVERED BY PRIVATE INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIOC23",
+      "label": "COVERED BY PRIVATE INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRINO23",
+      "label": "COVERED BY PRIVATE INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIDE23",
+      "label": "COVERED BY PRIVATE INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEJA23",
+      "label": "PHOLDER OF EMPL UNION INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEFE23",
+      "label": "PHOLDER OF EMPL UNION INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEMA23",
+      "label": "PHOLDER OF EMPL UNION INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEAP23",
+      "label": "PHOLDER OF EMPL UNION INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEMY23",
+      "label": "PHOLDER OF EMPL UNION INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEJU23",
+      "label": "PHOLDER OF EMPL UNION INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEJL23",
+      "label": "PHOLDER OF EMPL UNION INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEAU23",
+      "label": "PHOLDER OF EMPL UNION INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPESE23",
+      "label": "PHOLDER OF EMPL UNION INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEOC23",
+      "label": "PHOLDER OF EMPL UNION INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPENO23",
+      "label": "PHOLDER OF EMPL UNION INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPEDE23",
+      "label": "PHOLDER OF EMPL UNION INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDJA23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDFE23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDMA23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDAP23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDMY23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDJU23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDJL23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDAU23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDSE23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDOC23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDNO23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPDDE23",
+      "label": "PHOLDER OF PRIV INS (SOURCE UNKNWN) DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNJA23",
+      "label": "PHOLDER OF NONGROUP INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNFE23",
+      "label": "PHOLDER OF NONGROUP INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNMA23",
+      "label": "PHOLDER OF NONGROUP INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNAP23",
+      "label": "PHOLDER OF NONGROUP INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNMY23",
+      "label": "PHOLDER OF NONGROUP INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNJU23",
+      "label": "PHOLDER OF NONGROUP INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNJL23",
+      "label": "PHOLDER OF NONGROUP INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNAU23",
+      "label": "PHOLDER OF NONGROUP INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNSE23",
+      "label": "PHOLDER OF NONGROUP INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNOC23",
+      "label": "PHOLDER OF NONGROUP INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNNO23",
+      "label": "PHOLDER OF NONGROUP INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPNDE23",
+      "label": "PHOLDER OF NONGROUP INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOJA23",
+      "label": "PHOLDER OF OTHER GROUP INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOFE23",
+      "label": "PHOLDER OF OTHER GROUP INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOMA23",
+      "label": "PHOLDER OF OTHER GROUP INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOAP23",
+      "label": "PHOLDER OF OTHER GROUP INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOMY23",
+      "label": "PHOLDER OF OTHER GROUP INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOJU23",
+      "label": "PHOLDER OF OTHER GROUP INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOJL23",
+      "label": "PHOLDER OF OTHER GROUP INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOAU23",
+      "label": "PHOLDER OF OTHER GROUP INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOSE23",
+      "label": "PHOLDER OF OTHER GROUP INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPOOC23",
+      "label": "PHOLDER OF OTHER GROUP INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPONO23",
+      "label": "PHOLDER OF OTHER GROUP INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPODE23",
+      "label": "PHOLDER OF OTHER GROUP INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXJA23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXFE23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXMA23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXAP23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXMY23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXJU23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXJL23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXAU23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXSE23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXOC23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXNO23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPXDE23",
+      "label": "PHOLDER OF PRIV INS THROUGH EXCH IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRJA23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRFE23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRMA23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRAP23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRMY23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRJU23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRJL23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRAU23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRSE23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPROC23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRNO23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "HPRDE23",
+      "label": "PHOLDER OF PRIVATE INSURANCE IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSJA23X",
+      "label": "COVR BY HOSP/MED INS IN JAN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSFE23X",
+      "label": "COVR BY HOSP/MED INS IN FEB23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSMA23X",
+      "label": "COVR BY HOSP/MED INS IN MAR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSAP23X",
+      "label": "COVR BY HOSP/MED INS IN APR23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSMY23X",
+      "label": "COVR BY HOSP/MED INS IN MAY23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSJU23X",
+      "label": "COVR BY HOSP/MED INS IN JUN23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSJL23X",
+      "label": "COVR BY HOSP/MED INS IN JUL23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSAU23X",
+      "label": "COVR BY HOSP/MED INS IN AUG23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSSE23X",
+      "label": "COVR BY HOSP/MED INS IN SEP23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSOC23X",
+      "label": "COVR BY HOSP/MED INS IN OCT23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSNO23X",
+      "label": "COVR BY HOSP/MED INS IN NOV23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INSDE23X",
+      "label": "COVR BY HOSP/MED INS IN DEC23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRI31X",
+      "label": "COV BY TRICARE - ANY TIME IN R3/1",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRI42X",
+      "label": "COV BY TRICARE - ANY TIME IN R4/2",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "TRI23X",
+      "label": "COV BY TRICARE - R5/3 TIL 12/31/23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHS31",
+      "label": "CV BY INDIAN HEALTH SERVICE- R3/1 INT DT",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHS42",
+      "label": "CV BY INDIAN HEALTH SERVICE- R4/2 INT DT",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHS53",
+      "label": "CV BY INDIAN HEALTH SERVICE- 12-31/ R3 INT DT",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "IHS23",
+      "label": "CV BY INDIAN HEALTH SERVICE - 12/31/23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIV31",
+      "label": "COV BY PRIV HLTH INS - R3/1 INT DATE",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIV42",
+      "label": "COV BY PRIV HLTH INS - R4/2 INT DATE",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIV53",
+      "label": "COV BY PRIV HLTH INS 12-31/R3 INT DATE",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PRIV23",
+      "label": "COV BY PRIV HLTH INS - 12/31/23",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUB31X",
+      "label": "COV BY PUBLIC INS - R3/1 INT DT (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUB42X",
+      "label": "COV BY PUBLIC INS - R4/2 INT DT (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUB53X",
+      "label": "COV BY PUBLIC INS 12-31/R3 INT DT (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "PUB23X",
+      "label": "COV BY PUBLIC INS - 12/31/23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INS31X",
+      "label": "INSURED - R3/1 INT DATE (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INS42X",
+      "label": "INSURED - R4/2 INT DATE (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INS53X",
+      "label": "INSURED 12-31/R3 INT DATE (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "INS23X",
+      "label": "INSURED - 12/31/23 (ED)",
+      "group": "insurance_monthly"
+    },
+    {
+      "name": "OBTOTV23",
+      "label": "# OFFICE-BASED PROVIDER VISITS 2023",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVTCH23",
+      "label": "OFFICE-BASED PROVIDER VISIT CHARGES 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVEXP23",
+      "label": "TOTAL OFFICE-BASED EXP 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVSLF23",
+      "label": "ALL OFFICE VISITS -SELF/FAMILY AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVMCR23",
+      "label": "ALL OFFICE VISITS -MEDICARE AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVMCD23",
+      "label": "ALL OFFICE VISITS -MEDICAID AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVPRV23",
+      "label": "ALL OFFICE VISITS -PRIVATE INS AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVVA23",
+      "label": "ALL OFFICE VISITS-VA/CHAMPVA AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVTRI23",
+      "label": "ALL OFFICE VISITS-TRICARE AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVOFD23",
+      "label": "ALL OFFICE VISITS-OTHER FEDERAL AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVSTL23",
+      "label": "ALL OFFICE VISITS-OTH ST/LOCAL AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVWCP23",
+      "label": "ALL OFFICE VISITS -WORKERS COMP AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVOSR23",
+      "label": "ALL OFF VSTS - OTH UNCLASS SRCE AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVPTR23",
+      "label": "ALL OFFICE VISITS -PRV & TRI AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBVOTH23",
+      "label": "ALL OFFICE VISITS -OTH COMBINED AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDRV23",
+      "label": "# OFFICE-BASED PHYSICIAN VISITS 2023",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDTCH23",
+      "label": "OFFICE-BASED PHYSICIAN VISIT CHARGES 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDEXP23",
+      "label": "TOTAL OFF-BASED DR EXP 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDSLF23",
+      "label": "DR OFFICE VISITS -SELF/FAMILY AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDMCR23",
+      "label": "DR OFFICE VISITS -MEDICARE AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDMCD23",
+      "label": "DR OFFICE VISITS -MEDICAID AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDPRV23",
+      "label": "DR OFFICE VISITS -PRIVATE INS AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDVA23",
+      "label": "DR OFFICE VISITS -VA/CHAMPVA AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDTRI23",
+      "label": "DR OFFICE VISITS -TRICARE AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDOFD23",
+      "label": "DR OFFICE VISITS -OTHER FEDERAL AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDSTL23",
+      "label": "DR OFFICE VISITS -OTH ST/LOCAL AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDWCP23",
+      "label": "DR OFFICE VISITS -WORKERS COMP AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDOSR23",
+      "label": "DR OFF VSTS - OTH UNCLASS SRCE AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDPTR23",
+      "label": "DR OFFICE VISITS -PRV & TRI AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OBDOTH23",
+      "label": "DR OFFICE VISITS -OTH COMBINED AMT 23",
+      "group": "utilization_ob"
+    },
+    {
+      "name": "OPTOTV23",
+      "label": "# OUTPATIENT DEPT PROVIDER VISITS 2023",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTTCH23",
+      "label": "OPD FACILITY + DR VISIT CHARGES - 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTEXP23",
+      "label": "TOTAL OUTPATIENT FAC + DR EXP 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTSLF23",
+      "label": "ALL OPD VSTS-SELF/FAMILY AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTMCR23",
+      "label": "ALL OPD VSTS-MEDICARE AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTMCD23",
+      "label": "ALL OPD VSTS-MEDICAID AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTPRV23",
+      "label": "ALL OPD VSTS-PRIV INS AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTVA23",
+      "label": "ALL OPD VSTS-VA/CHAMPVA AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTTRI23",
+      "label": "ALL OPD VSTS-TRICARE AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTOFD23",
+      "label": "ALL OPD VSTS-OTHER FED AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTSTL23",
+      "label": "ALL OPD VSTS-OTH ST/LOCAL AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTWCP23",
+      "label": "ALL OPD VSTS-WORKERS COMP AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTOSR23",
+      "label": "ALL OPD VSTS-OTH UNCLS SRC AMT-(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTPTR23",
+      "label": "ALL OPD VISITS -PRV & TRI AMT (FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPTOTH23",
+      "label": "ALL OPD VISITS-OTH COMBINED AMT(FAC+DR) 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFTCH23",
+      "label": "OPD PROVIDER VISIT CHARGES - FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFEXP23",
+      "label": "TOTAL OUTPATIENT FACILITY EXP 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFSLF23",
+      "label": "ALL OPD VISITS-SELF/FAMILY AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFMCR23",
+      "label": "ALL OPD VISITS-MEDICARE AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFMCD23",
+      "label": "ALL OPD VISITS-MEDICAID AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFPRV23",
+      "label": "ALL OPD VISITS-PRIV INS AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFVA23",
+      "label": "ALL OPD VISITS-VA/CHAMPVA AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFTRI23",
+      "label": "ALL OPD VISITS-TRICARE AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFOFD23",
+      "label": "ALL OPD VISITS-OTHER FED AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFSTL23",
+      "label": "ALL OPD VISITS-OTH ST/LOCAL AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFWCP23",
+      "label": "ALL OPD VISITS-WORKERS COMP AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFOSR23",
+      "label": "ALL OPD VSTS-OTH UNCLASS SRCE AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFPTR23",
+      "label": "ALL OPD VISITS -PRV & TRI AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPFOTH23",
+      "label": "ALL OPD VISITS -OTH COMBINED AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDEXP23",
+      "label": "TOTAL OUTPATIENT PROVIDER EXP 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDTCH23",
+      "label": "OPD PROVIDER VISIT CHARGES - DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDSLF23",
+      "label": "ALL OPD VISITS-SELF/FAMILY AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDMCR23",
+      "label": "ALL OPD VISITS-MEDICARE AMT -DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDMCD23",
+      "label": "ALL OPD VISITS-MEDICAID AMT -DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDPRV23",
+      "label": "ALL OPD VISITS-PRIV INS AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDVA23",
+      "label": "ALL OPD VISITS-VA/CHAMPVA AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDTRI23",
+      "label": "ALL OPD VISITS-TRICARE AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDOFD23",
+      "label": "ALL OPD VISITS-OTHER FED AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDSTL23",
+      "label": "ALL OPD VISITS-OTH ST/LOCAL AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDWCP23",
+      "label": "ALL OPD VISITS-WORKERS COMP AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDOSR23",
+      "label": "ALL OPD VSTS-OTH UNCLASS SRCE AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDPTR23",
+      "label": "ALL OPD VISITS -PRV & TRI AMT -DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDOTH23",
+      "label": "ALL OPD VISITS -OTH COMBINED AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPDRV23",
+      "label": "# OUTPATIENT DEPT PHYSICIAN VISITS 2023",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVTCH23",
+      "label": "OPD PHYSICIAN VISIT CHARGES - FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVEXP23",
+      "label": "TOTAL OUTPATIENT PHYSICIAN - FAC EXP 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVSLF23",
+      "label": "OPD DR VISITS-SELF/FAMILY AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVMCR23",
+      "label": "OPD DR VISITS-MEDICARE AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVMCD23",
+      "label": "OPD DR VISITS-MEDICAID AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVPRV23",
+      "label": "OPD DR VISITS-PRIV INS AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVVA23",
+      "label": "OPD DR VISITS-VA/CHAMPVA AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVTRI23",
+      "label": "OPD DR VISITS-TRICARE AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVOFD23",
+      "label": "OPD DR VISITS-OTHER FED AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVSTL23",
+      "label": "OPD DR VISITS-OTH ST/LOCAL AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVWCP23",
+      "label": "OPD DR VISITS-WORKERS COMP AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVOSR23",
+      "label": "OPD DR VSTS-OTH UNCLASS SRCE AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVPTR23",
+      "label": "OPD DR VISITS -PRV & TRI AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPVOTH23",
+      "label": "OPD DR VISITS -OTH COMBINED AMT-FAC 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSEXP23",
+      "label": "TOTAL OUTPATIENT PHYSICIAN - DR EXP 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSTCH23",
+      "label": "OPD PHYSICIAN VISIT CHARGES - DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSSLF23",
+      "label": "OPD DR VISITS-SELF/FAMILY AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSMCR23",
+      "label": "OPD DR VISITS-MEDICARE AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSMCD23",
+      "label": "OPD DR VISITS-MEDICAID AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSPRV23",
+      "label": "OPD DR VISITS-PRIV INS AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSVA23",
+      "label": "OPD DR VISITS-VA/CHAMPVA AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSTRI23",
+      "label": "OPD DR VISITS-TRICARE AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSOFD23",
+      "label": "OPD DR VISITS-OTHER FED AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSSTL23",
+      "label": "OPD DR VISITS-OTH ST/LOCAL AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSWCP23",
+      "label": "OPD DR VISITS-WORKERS COMP AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSOSR23",
+      "label": "OPD DR VSTS-OTH UNCLASS SRCE AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSPTR23",
+      "label": "OPD DR VISITS -PRV & TRI AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "OPSOTH23",
+      "label": "OPD DR VISITS -OTH COMBINED AMT-DR 23",
+      "group": "utilization_op"
+    },
+    {
+      "name": "ERTOT23",
+      "label": "# EMERGENCY ROOM VISITS 2023",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTTCH23",
+      "label": "ER FACILITY + DR VISIT CHARGES 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTEXP23",
+      "label": "TOTAL ER FACILITY + DR EXP 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTSLF23",
+      "label": "ER -SELF/FAMILY AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTMCR23",
+      "label": "ER -MEDICARE AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTMCD23",
+      "label": "ER -MEDICAID AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTPRV23",
+      "label": "ER -PRIV INS AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTVA23",
+      "label": "ER -VA/CHAMPVA AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTTRI23",
+      "label": "ER -TRICARE AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTOFD23",
+      "label": "ER -OTHER FED AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTSTL23",
+      "label": "ER -OTH ST/LOCAL AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTWCP23",
+      "label": "ER -WORKERS COMP AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTOSR23",
+      "label": "ER -OTH UNCLASS SRCE AMT-(FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTPTR23",
+      "label": "ER-PRV & TRI AMT (FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERTOTH23",
+      "label": "ER -OTH COMBINED AMT (FAC+DR) 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFTCH23",
+      "label": "ER FACILITY VISIT CHARGES 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFEXP23",
+      "label": "TOTAL ER FACILITY EXP 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFSLF23",
+      "label": "ER-SELF/FAMILY AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFMCR23",
+      "label": "ER-MEDICARE AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFMCD23",
+      "label": "ER-MEDICAID AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFPRV23",
+      "label": "ER-PRIVATE INS AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFVA23",
+      "label": "ER-VA/CHAMPVA AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFTRI23",
+      "label": "ER-TRICARE AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFOFD23",
+      "label": "ER-OTHER FEDERAL AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFSTL23",
+      "label": "ER-OTH ST/LOCAL AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFWCP23",
+      "label": "ER-WORKERS COMP AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFOSR23",
+      "label": "ER-OTH UNCLASS SRCE AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFPTR23",
+      "label": "ER-PRV & TRI AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERFOTH23",
+      "label": "ER-OTH COMBINED AMT - FAC 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDEXP23",
+      "label": "TOTAL EMERGENCY ROOM DR EXP 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDTCH23",
+      "label": "ER DOCTOR VISIT CHARGES 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDSLF23",
+      "label": "ER-SELF/FAMILY AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDMCR23",
+      "label": "ER-MEDICARE AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDMCD23",
+      "label": "ER-MEDICAID AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDPRV23",
+      "label": "ER-PRIVATE INS AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDVA23",
+      "label": "ER-VA/CHAMPVA AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDTRI23",
+      "label": "ER-TRICARE AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDOFD23",
+      "label": "ER-OTHER FED AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDSTL23",
+      "label": "ER-OTH ST/LOCAL AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDWCP23",
+      "label": "ER-WORKERS COMP AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDOSR23",
+      "label": "ER-OTH UNCLASS SRCE AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDPTR23",
+      "label": "ER-PRV & TRI AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "ERDOTH23",
+      "label": "ER-OTH COMBINED AMT - DR 23",
+      "group": "utilization_er"
+    },
+    {
+      "name": "IPDIS23",
+      "label": "# HOSPITAL DISCHARGES 2023",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTEXP23",
+      "label": "TOT HOSP IP FACILITY + DR EXP 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTTCH23",
+      "label": "IP HOSP STAY CHARGES (FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTSLF23",
+      "label": "IP HOSP STAZ-SELF/FAMILY AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTMCR23",
+      "label": "IP HOSP STAZ-MEDICARE AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTMCD23",
+      "label": "IP HOSP STAZ-MEDICAID AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTPRV23",
+      "label": "IP HOSP STAZ-PRIV INS AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTVA23",
+      "label": "IP HOSP STAZ-VA/CHAMPVA AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTTRI23",
+      "label": "IP HOSP STAZ-TRICARE AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTOFD23",
+      "label": "IP HOSP STAZ-OTHER FED AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTSTL23",
+      "label": "IP HSP STAZ-OTH ST/LOCAL AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTWCP23",
+      "label": "IP HOSP STAZ-WRKRS COMP AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTOSR23",
+      "label": "IP HOSP STAZ-OTH UNCLS SRC AMT-(FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTPTR23",
+      "label": "IP HOSP STAZ-PRV & TRI AMT (FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPTOTH23",
+      "label": "IP HOSP STAZ -OTH COMBINED AMT (FAC+DR) 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFEXP23",
+      "label": "TOT HOSP IP FACILITY EXP 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFTCH23",
+      "label": "IP HOSP STAY CHARGES - FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFSLF23",
+      "label": "IP HOSP STAZ-SELF/FAMILY AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFMCR23",
+      "label": "IP HOSP STAZ-MEDICARE AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFMCD23",
+      "label": "IP HOSP STAZ-MEDICAID AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFPRV23",
+      "label": "IP HOSP STAZ-PRIV INS AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFVA23",
+      "label": "IP HOSP STAZ-VA/CHAMPVA AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFTRI23",
+      "label": "IP HOSP STAZ-TRICARE AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFOFD23",
+      "label": "IP HOSP STAZ-OTHER FED AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFSTL23",
+      "label": "IP HOSP STAZ-OTH ST/LOCAL AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFWCP23",
+      "label": "IP HOSP STAZ-WORKERS COMP AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFOSR23",
+      "label": "IP HOSP STAZ-OT UNCLASS SRCE AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFPTR23",
+      "label": "IP HOSP STAZ-PRV & TRI AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPFOTH23",
+      "label": "IP HOSP STAZ-OTH COMBINED AMT-FAC 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDEXP23",
+      "label": "TOTL HOSP STAZ DR EXP 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDTCH23",
+      "label": "IP HOSP STAY CHARGES - DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDSLF23",
+      "label": "IP HOSP STAZ-SELF/FAMILY AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDMCR23",
+      "label": "IP HOSP STAZ-MEDICARE AMT- DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDMCD23",
+      "label": "IP HOSP STAZ-MEDICAID AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDPRV23",
+      "label": "IP HOSP STAZ-PRIV INS AMT- DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDVA23",
+      "label": "IP HOSP STAZ-VA/CHAMPVA AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDTRI23",
+      "label": "IP HOSP STAZ-TRICARE AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDOFD23",
+      "label": "IP HOSP STAZ-OTHER FED AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDSTL23",
+      "label": "IP HOSP STAZ-OTH ST/LOCAL AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDWCP23",
+      "label": "IP HOSP STAZ-WORKERS COMP AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDOSR23",
+      "label": "IP HOSP STAZ-OT UNCLASS SORCE AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDPTR23",
+      "label": "IP HOSP STAZ-PRV & TRI AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPDOTH23",
+      "label": "IP HOSP STAZ-OTH COMBINED AMT-DR 23",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "IPNGTD23",
+      "label": "# NIGHTS IN HOSP FOR DISCHARGES, 2023",
+      "group": "utilization_ip"
+    },
+    {
+      "name": "DVTOT23",
+      "label": "# DENTAL CARE VISITS 2023",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTTCH23",
+      "label": "TOTAL DENTAL CARE VISIT CHARGES 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTEXP23",
+      "label": "TOTAL DENTAL CARE EXP 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTSLF23",
+      "label": "ALL DENTAL CARE -SELF/FAMILY AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTMCR23",
+      "label": "ALL DENTAL CARE -MEDICARE AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTMCD23",
+      "label": "ALL DENTAL CARE -MEDICAID AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTPRV23",
+      "label": "ALL DENTAL CARE -PRIVATE INS AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTVA23",
+      "label": "ALL DENTAL CARE -VA/CHAMPVA AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTTRI23",
+      "label": "ALL DENTAL CARE -TRICARE AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTOFD23",
+      "label": "ALL DENTAL CARE -OTHER FEDRL AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTSTL23",
+      "label": "ALL DENTAL CARE -OTH ST/LOCAL AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTWCP23",
+      "label": "ALL DENTAL CARE -WORKERS COMP AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTOSR23",
+      "label": "ALL DENT CARE-OT UNCLASS SRCE AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTPTR23",
+      "label": "ALL DENTAL CARE -PRV & TRI AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "DVTOTH23",
+      "label": "ALL DENTAL CARE -OTH COMBINED AMT 23",
+      "group": "utilization_dv"
+    },
+    {
+      "name": "HHTOTD23",
+      "label": "# HOME HEALTH PROVIDER DAYS 2023",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAGD23",
+      "label": "# AGENCY HOME HEALTH PROVIDER DAYS 2023",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHATCH23",
+      "label": "HOME HEALTH AGENCY VISIT CHARGES 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAEXP23",
+      "label": "TOTAL HOME HEALTH AGENCY EXP 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHASLF23",
+      "label": "HOME HLTH AGENCY -SELF/FAMILY AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAMCR23",
+      "label": "HOME HLTH AGENCY -MEDICARE AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAMCD23",
+      "label": "HOME HLTH AGENCY -MEDICAID AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAPRV23",
+      "label": "HOME HLTH AGENCY -PRIVATE INS AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAVA23",
+      "label": "HOME HLTH AGENCY-VA/CHAMPVA AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHATRI23",
+      "label": "HOME HLTH AGENCY-TRICARE AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAOFD23",
+      "label": "HOME HLTH AGENCY-OTHER FED AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHASTL23",
+      "label": "HOME HLTH AGENCY-OTHR ST/LOCAL AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAWCP23",
+      "label": "HOME HLTH AGENCY- WORKERS COMP AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAOSR23",
+      "label": "H HLTH AGENCY - OT UNCLASS SRCE AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAPTR23",
+      "label": "HOME HLTH AGENCY -PRV & TRI AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHAOTH23",
+      "label": "HOME HLTH AGENCY -OTH COMBINED AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHINDD23",
+      "label": "# NON-AGENCY HOME HEALTH PROVIDR DAYS 2023",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNTCH23",
+      "label": "HOME HEALTH NON-AGENCY VISIT CHARGES 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNEXP23",
+      "label": "TOTAL HOME HEALTH NON-AGNCY EXP 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNSLF23",
+      "label": "HOME HLTH NON-AGNCY -SELF/FAM AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNMCD23",
+      "label": "HOME HLTH NON-AGNCY -MEDICAID AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNMCR23",
+      "label": "HOME HLTH NON-AGNCY -MEDICARE AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNPRV23",
+      "label": "HOME HLTH NON-AGNCY -PRIV INS AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNVA23",
+      "label": "HOME HLTH NON-AGNCY-VA/CHAMPVA AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNTRI23",
+      "label": "HOME HLTH NON-AGNCY-TRICARE AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNOFD23",
+      "label": "HOME HLTH NON-AGNCY-OTHR FED AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNSTL23",
+      "label": "HOME HLTH NON-AGNCY-OTHR ST/LOCL AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNWCP23",
+      "label": "HOME HLTH NON-AGNCY-WORKERS COMP AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNOSR23",
+      "label": "H HLTH NON-AGNCY-OT UNCLASS SRCE AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNPTR23",
+      "label": "HOME HLTH NON-AGNCY -PRV & TRI AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHNOTH23",
+      "label": "HOME HLTH NON-AGNCY -OTH COMBINED AMT 23",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "HHINFD23",
+      "label": "# INFORMAL HOME HEALTH PROVIDER DAYS 2023",
+      "group": "utilization_hh"
+    },
+    {
+      "name": "VISEXP23",
+      "label": "TOTAL GLASSES/CONTACT LENS EXP 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISTCH23",
+      "label": "GLASSES/CONTACT LENSES CHARGES 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISSLF23",
+      "label": "GLASSES/CNTCT LENSES -SELF/FAM AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISMCR23",
+      "label": "GLASSES/CNTCT LENSES-MEDICARE AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISMCD23",
+      "label": "GLASSES/CNTCT LENSES-MEDICAID AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISPRV23",
+      "label": "GLASSES/CNTCT LENSES-PRIV INS AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISVA23",
+      "label": "GLASSES/CNTCT LENSES-VA/CHAMPVA AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISTRI23",
+      "label": "GLASSES/LENSES-TRICARE AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISOFD23",
+      "label": "GLASSES/CNTCT LENSES-OTHR FED AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISSTL23",
+      "label": "GLASSES/CNTCT LENSES-OTH ST/LOCL AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISWCP23",
+      "label": "GLASSES/CNTCT LENSES-WORKERS COMP AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISOSR23",
+      "label": "GLASES/CNTCT LENSE-OT UNCLAS SRCE AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISPTR23",
+      "label": "GLASSES/CNTCT LENSES -PRV & TRI AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "VISOTH23",
+      "label": "GLASSES/CNTCT LENSES -OTH COMBINED AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHTCH23",
+      "label": "OTHER EQUP/SUPPLIES CHARGES 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHEXP23",
+      "label": "TOT OTHER EQUIP/SPLY (EXCL DIAB) EXP 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHSLF23",
+      "label": "OTHER EQUP/SUPPLIES -SELF/FAM AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHMCR23",
+      "label": "OTHER EQUP/SUPPLIES-MEDICARE AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHMCD23",
+      "label": "OTHER EQUP/SUPPLIES-MEDICAID AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHPRV23",
+      "label": "OTHER EQUP/SUPPLIES-PRIV INS AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHVA23",
+      "label": "OTHER EQUP/SUPPLY-VA/CHAMPVA AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHTRI23",
+      "label": "OTHER EQUP/SUPPLY-TRICARE AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHOFD23",
+      "label": "OTHER EQUP/SUPPLIES-OTHR FEDRL AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHSTL23",
+      "label": "OTHER EQUP/SUPPLY-OTHR ST/LOCAL AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHWCP23",
+      "label": "OTHER EQUP/SUPPLY -WORKERS COMP AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHOSR23",
+      "label": "OTH EQUP/SUPLY -OT UNCLASS SRCE AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHPTR23",
+      "label": "OTHER EQUP/SUPPLY -PRV & TRI AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "OTHOTH23",
+      "label": "OTHER EQUP/SUPPLY -OTH COMBINED AMT 23",
+      "group": "utilization_other"
+    },
+    {
+      "name": "RXTOT23",
+      "label": "# PRESC MEDS INCL REFILLS 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXEXP23",
+      "label": "TOTAL RX-EXP 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXSLF23",
+      "label": "TOTAL RX-SELF/FAMILY AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXMCR23",
+      "label": "TOTAL RX-MEDICARE AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXMCD23",
+      "label": "TOTAL RX-MEDICAID AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXPRV23",
+      "label": "TOTAL RX-PRIVATE INS AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXVA23",
+      "label": "TOTAL RX-VA/CHAMPVA AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXTRI23",
+      "label": "TOTAL RX-TRICARE AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXOFD23",
+      "label": "TOTAL RX-OTHER FED AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXSTL23",
+      "label": "TOTAL RX-OTHER ST/LOCAL AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXWCP23",
+      "label": "TOTAL RX-WORKERS COMP AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXOSR23",
+      "label": "TOT RX-OTH UNCLASS SRCE AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXPTR23",
+      "label": "TOTAL RX-PRV & TRI AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "RXOTH23",
+      "label": "TOTAL RX-OTH COMBINED AMT 23",
+      "group": "rx"
+    },
+    {
+      "name": "TOTTCH23",
+      "label": "TOTAL HEALTH CARE CHARGES 23, EXCL RX",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTEXP23",
+      "label": "TOTAL HEALTH CARE EXP 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTSLF23",
+      "label": "TOTAL AMT PAID BY SELF/FAMILY 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTMCR23",
+      "label": "TOTAL AMT PAID BY MEDICARE 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTMCD23",
+      "label": "TOTAL AMT PAID BY MEDICAID 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTPRV23",
+      "label": "TOTAL AMT PAID BY PRIVATE INS 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTVA23",
+      "label": "TOTAL AMT PAID BY VA/CHAMPVA 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTTRI23",
+      "label": "TOTAL AMT PAID BY TRICARE 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTOFD23",
+      "label": "TOTAL AMT PAID BY OTHER FEDERAL 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTSTL23",
+      "label": "TOTAL AMT PAID BY OTH ST/LOCAL 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTWCP23",
+      "label": "TOTAL AMT PAID BY WORKERS COMP 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTOSR23",
+      "label": "TOTAL AMT PAID BY OTHER SOURCES 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTPTR23",
+      "label": "TOTAL AMT PAID BY PRV & TRI 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "TOTOTH23",
+      "label": "TOTAL AMT PAID BY OTH COMBINED 23",
+      "group": "expenditures_total"
+    },
+    {
+      "name": "FMRS1231",
+      "label": "MEMBER OF RESPONDING 12/31 FAMILY",
+      "group": "other"
+    },
+    {
+      "name": "INTVTYPE31",
+      "label": "WAS INTERVIEW IN-PERSON, BY PHONE, OR BY VIDEO R3/1",
+      "group": "other"
+    },
+    {
+      "name": "INTVTYPE42",
+      "label": "WAS INTERVIEW IN-PERSON, BY PHONE, OR BY VIDEO R4/2",
+      "group": "other"
+    },
+    {
+      "name": "INTVTYPE53",
+      "label": "WAS INTERVIEW IN-PERSON, BY PHONE, OR BY VIDEO R5/3",
+      "group": "other"
+    },
+    {
+      "name": "BEGRFM31",
+      "label": "R3/1 REFERENCE PERIOD BEGIN DATE: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "BEGRFY31",
+      "label": "R3/1 REFERENCE PERIOD BEGIN DATE: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFM31",
+      "label": "R3/1 REFERENCE PERIOD END DATE: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFY31",
+      "label": "R3/1 REFERENCE PERIOD END DATE: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "BEGRFM42",
+      "label": "R4/2 REFERENCE PERIOD BEGIN DATE: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "BEGRFY42",
+      "label": "R4/2 REFERENCE PERIOD BEGIN DATE: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFM42",
+      "label": "R4/2 REFERENCE PERIOD END DATE: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFY42",
+      "label": "R4/2 REFERENCE PERIOD END DATE: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "BEGRFM53",
+      "label": "R5/3 REFERENCE PERIOD BEGIN DATE: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "BEGRFY53",
+      "label": "R5/3 REFERENCE PERIOD BEGIN DATE: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFM53",
+      "label": "R5/3 REFERENCE PERIOD END DATE: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFY53",
+      "label": "R5/3 REFERENCE PERIOD END DATE: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFM23",
+      "label": "2023 REFERENCE PERIOD END DATE: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "ENDRFY23",
+      "label": "2023 REFERENCE PERIOD END DATE: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "KEYNESS",
+      "label": "PERSON KEY STATUS",
+      "group": "other"
+    },
+    {
+      "name": "ELGRND31",
+      "label": "ELIGIBILITY - R3/1",
+      "group": "other"
+    },
+    {
+      "name": "ELGRND42",
+      "label": "ELIGIBILITY - R4/2",
+      "group": "other"
+    },
+    {
+      "name": "ELGRND53",
+      "label": "ELIGIBILITY - R5/3",
+      "group": "other"
+    },
+    {
+      "name": "ELGRND23",
+      "label": "ELIGIBILITY STATUS AS OF 12/31/23",
+      "group": "other"
+    },
+    {
+      "name": "PSTATS31",
+      "label": "PERSON DISPOSITION STATUS - R3/1",
+      "group": "other"
+    },
+    {
+      "name": "PSTATS42",
+      "label": "PERSON DISPOSITION STATUS - R4/2",
+      "group": "other"
+    },
+    {
+      "name": "PSTATS53",
+      "label": "PERSON DISPOSITION STATUS - R5/3",
+      "group": "other"
+    },
+    {
+      "name": "RURSLT31",
+      "label": "RU RESULT - R3/1",
+      "group": "other"
+    },
+    {
+      "name": "RURSLT42",
+      "label": "RU RESULT - R4/2",
+      "group": "other"
+    },
+    {
+      "name": "RURSLT53",
+      "label": "RU RESULT - R5/3",
+      "group": "other"
+    },
+    {
+      "name": "DOBMM",
+      "label": "DATE OF BIRTH: MONTH",
+      "group": "other"
+    },
+    {
+      "name": "DOBYY",
+      "label": "DATE OF BIRTH: YEAR",
+      "group": "other"
+    },
+    {
+      "name": "MOPID31X",
+      "label": "PID OF PERSON S MOM - RD 3/1",
+      "group": "other"
+    },
+    {
+      "name": "MOPID42X",
+      "label": "PID OF PERSON S MOM - RD 4/2",
+      "group": "other"
+    },
+    {
+      "name": "MOPID53X",
+      "label": "PID OF PERSON S MOM - RD 5/3",
+      "group": "other"
+    },
+    {
+      "name": "DAPID31X",
+      "label": "PID OF PERSON S DAD - RD 3/1",
+      "group": "other"
+    },
+    {
+      "name": "DAPID42X",
+      "label": "PID OF PERSON S DAD - RD 4/2",
+      "group": "other"
+    },
+    {
+      "name": "DAPID53X",
+      "label": "PID OF PERSON S DAD - RD 5/3",
+      "group": "other"
+    },
+    {
+      "name": "CHDAGED",
+      "label": "AGE OF DIAGNOSIS-CORONARY HEART DISEASE",
+      "group": "other"
+    },
+    {
+      "name": "RTHLTH31",
+      "label": "PERCEIVED HEALTH STATUS - RD 3/1",
+      "group": "other"
+    },
+    {
+      "name": "RTHLTH42",
+      "label": "PERCEIVED HEALTH STATUS - RD 4/2",
+      "group": "other"
+    },
+    {
+      "name": "RTHLTH53",
+      "label": "PERCEIVED HEALTH STATUS - RD 5/3",
+      "group": "other"
+    },
+    {
+      "name": "MNHLTH31",
+      "label": "PERCEIVED MENTAL HEALTH STATUS - RD 3/1",
+      "group": "other"
+    },
+    {
+      "name": "MNHLTH42",
+      "label": "PERCEIVED MENTAL HEALTH STATUS - RD 4/2",
+      "group": "other"
+    },
+    {
+      "name": "MNHLTH53",
+      "label": "PERCEIVED MENTAL HEALTH STATUS - RD 5/3",
+      "group": "other"
+    },
+    {
+      "name": "SLFCM31H",
+      "label": "SELF-EMPLOYED AT RD 3/1 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "SLFCM42H",
+      "label": "SELF-EMPLOYED AT RD 4/2 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "SLFCM53H",
+      "label": "SELF-EMPLOYED AT RD 5/3 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "NMEMP31H",
+      "label": "NUMBER OF EMPLOYEES AT RD 3/1 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "NMEMP42H",
+      "label": "NUMBER OF EMPLOYEES AT RD 4/2 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "NMEMP53H",
+      "label": "NUMBER OF EMPLOYEES AT RD 5/3 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "INDCT31H",
+      "label": "INDUSTRY GRP P27 RD 3 CMJ ONLY (2007 CENSUS IND) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "INDCT31H_17",
+      "label": "INDUSTRY GROUP RD 3/1 CMJ (2017 CENSUS IND) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "INDCT42H_17",
+      "label": "INDUSTRY GROUP RD 4/2 CMJ (2017 CENSUS IND) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "INDCT53H_17",
+      "label": "INDUSTRY GROUP RD 5/3 CMJ (2017 CENSUS IND) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "OCCCT31H",
+      "label": "OCCUPATION GRP P27 RD 3 CMJ ONLY (2010 CENSUS OCC) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "OCCCT31H_18",
+      "label": "OCCUPATION GROUP RD 3/1 CMJ (2018 CENSUS OCC) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "OCCCT42H_18",
+      "label": "OCCUPATION GROUP RD 4/2 CMJ (2018 CENSUS OCC) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "OCCCT53H_18",
+      "label": "OCCUPATION GROUP RD 5/3 CMJ (2018 CENSUS OCC) (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "JBORG31H",
+      "label": "PRV, ST-LC GOV, FED GOV RD 3/1 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "JBORG42H",
+      "label": "PRV, ST-LC GOV, FED GOV RD 4/2 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "JBORG53H",
+      "label": "PRV, ST-LC GOV, FED GOV RD 5/3 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "CMJHLD31",
+      "label": "HLTH INSUR HELD FROM RD 3/1 CMJ (PRPL)",
+      "group": "other"
+    },
+    {
+      "name": "CMJHLD42",
+      "label": "HLTH INSUR HELD FROM RD 4/2 CMJ (PRPL)",
+      "group": "other"
+    },
+    {
+      "name": "CMJHLD53",
+      "label": "HLTH INSUR HELD FROM RD 5/3 CMJ (PRPL)",
+      "group": "other"
+    },
+    {
+      "name": "OFEMP31H",
+      "label": "EMP OFFERS HEALTH INS RD 3/1 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "OFEMP42H",
+      "label": "EMP OFFERS HEALTH INS RD 4/2 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "OFEMP53H",
+      "label": "EMP OFFERS HEALTH INS RD 5/3 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "PYVAC31H",
+      "label": "PAID VACATION AT RD 3/1 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "PYVAC42H",
+      "label": "PAID VACATION AT RD 4/2 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "PYVAC53H",
+      "label": "PAID VACATION AT RD 5/3 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "SCPAY31H",
+      "label": "PAID SICK LEAVE AT RD 3/1 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "SCPAY42H",
+      "label": "PAID SICK LEAVE AT RD 4/2 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "SCPAY53H",
+      "label": "PAID SICK LEAVE AT RD 5/3 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "RTPLN31H",
+      "label": "PENSION PLAN AT RD 3/1 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "RTPLN42H",
+      "label": "PENSION PLAN AT RD 4/2 CMJ (IMP)",
+      "group": "other"
+    },
+    {
+      "name": "RTPLN53H",
+      "label": "PENSION PLAN AT RD 5/3 CMJ (IMP)",
+      "group": "other"
     }
   ]
 }
