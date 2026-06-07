@@ -593,16 +593,19 @@ function renderDetail(v) {
   detailContent.hidden = false;
 
   const dist       = v.distribution || [];
-  const valid      = dist.filter(d => !d.inapplicable);
+  const normal     = dist.filter(d => !d.inapplicable && !d.outlier);
+  const outliers   = dist.filter(d => d.outlier);
   const inapps     = dist.filter(d => d.inapplicable);
-  const maxN       = Math.max(...valid.map(d => d.n), 1);
+  const maxN       = Math.max(...normal.map(d => d.n), 1);
   const n_universe = v.n_universe;
   const n_total    = v.n_total;
 
-  function makeRow(d) {
-    const w     = d.inapplicable ? (d.n / n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
-    const color = d.inapplicable ? INAPP_COLOR : BAR_COLOR;
-    return `<div class="dist-row${d.inapplicable ? ' inapplicable' : ''}">
+  function makeRow(d, forceColor) {
+    const isSpecial = d.inapplicable || d.outlier;
+    const w     = isSpecial ? (d.n / n_total * 100).toFixed(1) : (d.n / maxN * 100).toFixed(1);
+    const color = forceColor || (isSpecial ? INAPP_COLOR : BAR_COLOR);
+    const cls   = d.inapplicable ? ' inapplicable' : (d.outlier ? ' inapplicable' : '');
+    return `<div class="dist-row${cls}">
       <div class="dist-label">
         ${escHtml(d.label)}<span class="dist-val-code">${escHtml(d.value)}</span>
       </div>
@@ -648,15 +651,16 @@ function renderDetail(v) {
            <span class="detail-stat-lbl">In universe</span>
          </div>
          <div class="detail-stat">
-           <span class="detail-stat-val">${valid.length}</span>
+           <span class="detail-stat-val">${normal.length}</span>
            <span class="detail-stat-lbl">Response codes</span>
          </div>
        </div>
      </div>
      ${deepDiveHtml}
      <div class="dist-wrap">
-       ${valid.length ? `<p class="dist-section-label">Response distribution</p>${valid.map(makeRow).join('')}` : ''}
-       ${inapps.length ? `<p class="dist-section-label" style="margin-top:20px">Outside universe / missing</p>${inapps.map(makeRow).join('')}` : ''}
+       ${normal.length ? `<p class="dist-section-label">Response distribution</p>${normal.map(d => makeRow(d)).join('')}` : ''}
+       ${outliers.length ? `<p class="dist-section-label" style="margin-top:20px">Extreme values (top 5% outliers)</p>${outliers.map(d => makeRow(d)).join('')}` : ''}
+       ${inapps.length ? `<p class="dist-section-label" style="margin-top:20px">Outside universe / missing</p>${inapps.map(d => makeRow(d)).join('')}` : ''}
      </div>`;
 
   requestAnimationFrame(() => requestAnimationFrame(() => {
