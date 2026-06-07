@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-07 (session 24)
+> Last updated: 2026-06-07 (session 25)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -147,13 +147,29 @@ Gateway → two columns: Industry Research + Play with the Data.
 
 **Play with the Data projects:**
 - `/research/data` — NSFG 2022–2023 Female Respondent (5,586 respondents, 1,912 variables, 21 deep-dive analysis pages)
-- `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 74 variables, 8 topic groups) ✅ NEW session 24
+- `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 1,368 variables, 25 topic sections) ✅ session 24–25
+- `/research/meps-expenditure` — MEPS Expenditure by Payer deep-dive ✅ NEW session 25
+
+**MEPS explorer (`/research/meps`) details:**
+- Section dropdown (25 sections) in left panel above search
+- REPORT badges (blue) on 8 expenditure variables → links to `/research/meps-expenditure`
+- Regeneration script: `_data_sources/meps2023/gen_meps_data.py` (reads h251.dta)
+
+**MEPS Expenditure overview (`/research/meps-expenditure`) details:**
+- Top chart: 100% stacked bar — % with $0 vs spent > $0 for each payer; clickable to filter bottom chart
+- Bottom chart: sorted distribution curve (empirical CDF) for selected payer among users with >$0 spending
+  - X axis: percentile rank 0–100%; Y axis: $ amount clipped at P95
+  - Annotations: Q1 / Median / Q3 (vertical dashed lines + dots) + Mean (horizontal rose dashed line)
+  - Stat cards above chart: n users, Q1, Median, Q3, Mean, P95 + true max
+  - Default selection: Total on page load
+- Payers: Total, Self/OOP, Private Ins., Medicare, Medicaid, VA/CHAMPVA, TRICARE, Other
+- Data: `public/data/meps_exp_overview.json` (200-point distribution curves + stats per payer)
 
 **MEPS 2023 data storage:**
-- Live JSON files: `public/data/meps_*.json` (9 files, in git, Cloudflare-hosted — permanent)
+- Live JSON files: `public/data/meps_*.json` (25 section files + meps_meta.json + meps_exp_overview.json)
 - Raw source files: `_data_sources/meps2023/` (gitignored, local only) — h251.dta, h249.dta, h248a.dta + codebooks
-- Regeneration script: `_data_sources/meps2023/gen_meps_data.py`
-- Original AHRQ download: HC-251 (FYC), HC-249 (Conditions), HC-248A (RX) — re-downloadable from meps.ahrq.gov if needed
+- Regeneration scripts: `gen_meps_data.py` (explorer), computed in-session for expenditure overview
+- Original AHRQ download: HC-251 (FYC), HC-249 (Conditions), HC-248A (RX) — re-downloadable from meps.ahrq.gov
 
 ### Nature Never Judges (`/photography`) ✅ Index + 1 detail page
 
@@ -207,7 +223,7 @@ Content not written.
 - [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
-- [ ] **MEPS deep-dive analysis pages** — similar to NSFG analysis pages (INSCOV23, TOTSLF23, DLAYCA42, etc.)
+- [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: insurance coverage (INSCOV23), access barriers (DLAYCA42), etc.
 - [ ] **Now page** — content not written
 - [ ] **A Collection of Rabbit Holes** — content not written
 
