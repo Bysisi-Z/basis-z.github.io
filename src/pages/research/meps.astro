@@ -35,15 +35,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <div id="explorer">
 
-      <div class="tabs-scroll-wrap">
-        <button class="tabs-arrow tabs-arrow-left" id="tabs-arrow-left" aria-label="Scroll left" hidden>‹</button>
-        <div id="section-tabs" role="tablist" aria-label="Topic groups"></div>
-        <button class="tabs-arrow tabs-arrow-right" id="tabs-arrow-right" aria-label="Scroll right" hidden>›</button>
-      </div>
-
       <div class="panels">
 
         <aside class="panel-vars">
+          <div class="section-select-wrap">
+            <select id="section-select" aria-label="Select topic section"></select>
+          </div>
           <div class="search-wrap">
             <svg class="search-icon" viewBox="0 0 16 16" fill="none">
               <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/>
@@ -155,40 +152,32 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .meps-desc strong { font-weight: 400; color: var(--ink); }
 
-/* ── Tabs ────────────────────────────────────────────────────────────────── */
-.tabs-scroll-wrap {
-  display: flex; align-items: center; gap: 4px;
-  border-bottom: 1px solid var(--rule); margin-bottom: 0;
-  position: relative;
-}
-#section-tabs {
-  display: flex; gap: 0; overflow-x: auto; scroll-behavior: smooth;
-  scrollbar-width: none; -ms-overflow-style: none; flex: 1;
-}
-#section-tabs::-webkit-scrollbar { display: none; }
-.sec-tab {
-  font-family: var(--sans); font-size: 11px; font-weight: 300;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--stone); background: none; border: none;
-  border-bottom: 2px solid transparent; padding: 14px 18px 12px;
-  cursor: pointer; white-space: nowrap; flex-shrink: 0;
-  transition: color 0.2s, border-color 0.2s;
-}
-.sec-tab:hover { color: var(--ink); }
-.sec-tab.active { color: var(--rose); border-bottom-color: var(--rose); font-weight: 400; }
-.tabs-arrow {
-  font-family: var(--serif); font-size: 20px; font-weight: 300;
-  color: var(--stone); background: none; border: none; cursor: pointer;
-  padding: 8px 6px; flex-shrink: 0; transition: color 0.18s;
-}
-.tabs-arrow:hover { color: var(--ink); }
-
 /* ── Two-panel ────────────────────────────────────────────────────────────── */
 .panels {
   display: grid; grid-template-columns: 340px 1fr;
-  height: calc(100vh - 340px); min-height: 460px;
-  border: 1px solid var(--rule); border-top: none;
+  height: calc(100vh - 280px); min-height: 460px;
+  border: 1px solid var(--rule);
 }
+
+/* ── Section dropdown ─────────────────────────────────────────────────────── */
+.section-select-wrap {
+  padding: 12px 16px; border-bottom: 1px solid var(--rule); flex-shrink: 0;
+}
+#section-select {
+  width: 100%;
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--ink); background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 4px;
+  padding: 8px 28px 8px 10px;
+  cursor: pointer; outline: none;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23847B7B' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color 0.18s;
+}
+#section-select:focus { border-color: rgba(193,125,157,0.5); }
 
 /* ── Left: variable list ──────────────────────────────────────────────────── */
 .panel-vars {
@@ -343,7 +332,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 /* ── Mobile ───────────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
   .panels { grid-template-columns: 1fr; height: auto; }
-  .panel-vars { border-right: none; border-bottom: 1px solid var(--rule); height: 455px; min-height: 0; overflow: hidden; }
+  .panel-vars { border-right: none; border-bottom: 1px solid var(--rule); height: 480px; min-height: 0; overflow: hidden; }
   .panel-detail { height: auto; min-height: 0; overflow: visible; }
   #detail-content { overflow-y: visible; height: auto; }
   .dist-row { grid-template-columns: 120px 1fr 42px 52px; gap: 0 8px; }
@@ -387,7 +376,7 @@ let currentVar   = null;
 let filteredVars = [];
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
-const secTabsEl     = document.getElementById('section-tabs');
+const selectEl      = document.getElementById('section-select');
 const varListEl     = document.getElementById('var-list');
 const varCountEl    = document.getElementById('var-count');
 const loadingEl     = document.getElementById('loading-badge');
@@ -405,53 +394,26 @@ async function fetchJSON(url) {
 try {
   META = await fetchJSON('/data/meps_meta.json');
 } catch(e) {
-  secTabsEl.textContent = 'Error loading data.';
+  selectEl.innerHTML = '<option>Error loading data</option>';
   return;
 }
 
-buildGroupTabs();
-initTabsArrow();
+buildGroupSelect();
+selectEl.addEventListener('change', () => selectGroup(selectEl.value));
 await selectGroup(META.groups[0].key);
 
-// ── Group tabs ────────────────────────────────────────────────────────────────
-function buildGroupTabs() {
+// ── Group dropdown ────────────────────────────────────────────────────────────
+function buildGroupSelect() {
   META.groups.forEach(g => {
-    const btn = document.createElement('button');
-    btn.className   = 'sec-tab';
-    btn.dataset.key = g.key;
-    btn.textContent = g.label;
-    btn.title       = `${g.label} (${g.n_vars} vars)`;
-    btn.setAttribute('role', 'tab');
-    btn.addEventListener('click', () => selectGroup(g.key));
-    secTabsEl.appendChild(btn);
+    const opt = document.createElement('option');
+    opt.value       = g.key;
+    opt.textContent = `${g.label} (${g.n_vars})`;
+    selectEl.appendChild(opt);
   });
 }
 
-function setActiveTab(key) {
-  secTabsEl.querySelectorAll('.sec-tab').forEach(b =>
-    b.classList.toggle('active', b.dataset.key === key)
-  );
-}
-
-// ── Tabs scroll arrows ────────────────────────────────────────────────────────
-function initTabsArrow() {
-  const btnL = document.getElementById('tabs-arrow-left');
-  const btnR = document.getElementById('tabs-arrow-right');
-  if (!btnL || !btnR) return;
-  function sync() {
-    const overflows = secTabsEl.scrollWidth > secTabsEl.clientWidth + 2;
-    const atStart   = secTabsEl.scrollLeft <= 2;
-    const atEnd     = secTabsEl.scrollLeft + secTabsEl.clientWidth >= secTabsEl.scrollWidth - 4;
-    btnL.hidden = !overflows || atStart;
-    btnR.hidden = !overflows || atEnd;
-  }
-  btnL.addEventListener('click', () => secTabsEl.scrollBy({ left: -220, behavior: 'smooth' }));
-  btnR.addEventListener('click', () => secTabsEl.scrollBy({ left:  220, behavior: 'smooth' }));
-  secTabsEl.addEventListener('scroll', sync, { passive: true });
-  window.addEventListener('resize', sync);
-  requestAnimationFrame(() => requestAnimationFrame(sync));
-  setTimeout(sync, 200);
-  window.addEventListener('load', sync);
+function setActiveGroup(key) {
+  selectEl.value = key;
 }
 
 // ── Group selection ────────────────────────────────────────────────────────────
@@ -461,7 +423,7 @@ async function selectGroup(key) {
     return;
   }
   currentGroup = key;
-  setActiveTab(key);
+  setActiveGroup(key);
   currentVar = null;
   showEmpty();
   searchEl.value = '';
@@ -548,7 +510,7 @@ async function selectVarGlobal(groupKey, varName) {
     loadingEl.hidden = true;
   }
   currentGroup = groupKey;
-  setActiveTab(groupKey);
+  setActiveGroup(groupKey);
   const varData = groupCache[groupKey].find(v => v.name === varName);
   if (!varData) return;
   currentVar = varData;
