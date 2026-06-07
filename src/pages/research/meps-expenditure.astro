@@ -604,9 +604,11 @@ function drawComposition() {
                : activeDim === 'income' ? data.income_groups
                : null;
 
+  const showLegend = W >= 560;
+
   if (!groups) {
     // ── Single overall bar ────────────────────────────────────────────────────
-    const BAR_H = 60, PAD_T = 20, PAD_B = 60;
+    const BAR_H = 60, PAD_T = 20, PAD_B = showLegend ? 60 : 14;
     const SVG_H = PAD_T + BAR_H + PAD_B;
     svg.setAttribute('viewBox', `0 0 ${W} ${SVG_H}`);
     svg.setAttribute('height', SVG_H);
@@ -630,24 +632,25 @@ function drawComposition() {
     });
     svg.appendChild(svgEl('rect', { x: barL, y: barY, width: barW, height: BAR_H,
       fill: 'none', stroke: RULE, 'stroke-width': 0.8 }));
-    // Legend
-    const LEG_Y = PAD_T + BAR_H + 12;
-    const LEG_ITEM = Math.min(barW / segments.length, 140);
-    segments.forEach((p, i) => {
-      const lx = barL + i * LEG_ITEM;
-      svg.appendChild(svgEl('rect', { x: lx, y: LEG_Y, width: 12, height: 12, fill: SEG_COLORS[i+1] }));
-      svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 12,
-        'font-weight': 300, fill: STONE, x: lx + 18, y: LEG_Y + 10 }, p.label));
-    });
+    if (showLegend) {
+      const LEG_Y = PAD_T + BAR_H + 12;
+      const LEG_ITEM = Math.min(barW / segments.length, 140);
+      segments.forEach((p, i) => {
+        const lx = barL + i * LEG_ITEM;
+        svg.appendChild(svgEl('rect', { x: lx, y: LEG_Y, width: 12, height: 12, fill: SEG_COLORS[i+1] }));
+        svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 12,
+          'font-weight': 300, fill: STONE, x: lx + 18, y: LEG_Y + 10 }, p.label));
+      });
+    }
 
   } else {
     // ── Matrix of bars: one row per subgroup ─────────────────────────────────
-    const ROW_H  = 44;
+    const ROW_H   = 44;
     const ROW_GAP = 4;
-    const LABEL_W = 150;
-    const PAD_T  = 14;
-    const PAD_B  = 56;
-    const SVG_H  = PAD_T + groups.length * (ROW_H + ROW_GAP) + PAD_B;
+    const LABEL_W = W < 560 ? 90 : 150;
+    const PAD_T   = 14;
+    const PAD_B   = showLegend ? 56 : 14;
+    const SVG_H   = PAD_T + groups.length * (ROW_H + ROW_GAP) + PAD_B;
     svg.setAttribute('viewBox', `0 0 ${W} ${SVG_H}`);
     svg.setAttribute('height', SVG_H);
 
@@ -658,12 +661,12 @@ function drawComposition() {
       const rowY = PAD_T + gi * (ROW_H + ROW_GAP);
 
       // Row label
-      svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 12,
-        'font-weight': 400, fill: INK, 'text-anchor': 'end', x: matBarL - 10, y: rowY + ROW_H/2 + 4 },
+      svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': W < 560 ? 10 : 12,
+        'font-weight': 400, fill: INK, 'text-anchor': 'end', x: matBarL - 6, y: rowY + ROW_H/2 + 4 },
         grp.label));
-      if (grp.sublabel) svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif',
+      if (grp.sublabel && W >= 560) svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif',
         'font-size': 10, 'font-weight': 300, fill: STONE, 'text-anchor': 'end',
-        x: matBarL - 10, y: rowY + ROW_H/2 + 16 }, grp.sublabel));
+        x: matBarL - 6, y: rowY + ROW_H/2 + 16 }, grp.sublabel));
 
       // Stacked bar for this group
       const rowPayers = grp.payers; // 7 payers
@@ -684,15 +687,17 @@ function drawComposition() {
         fill: 'none', stroke: RULE, 'stroke-width': 0.8 }));
     });
 
-    // Legend below matrix
-    const LEG_Y = PAD_T + groups.length * (ROW_H + ROW_GAP) + 12;
-    const LEG_ITEM = Math.min(matBarW / 7, 140);
-    payers.slice(1).forEach((p, i) => {
-      const lx = matBarL + i * LEG_ITEM;
-      svg.appendChild(svgEl('rect', { x: lx, y: LEG_Y, width: 12, height: 12, fill: SEG_COLORS[i+1] }));
-      svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 11,
-        'font-weight': 300, fill: STONE, x: lx + 16, y: LEG_Y + 9 }, p.label));
-    });
+    if (showLegend) {
+      // Legend below matrix
+      const LEG_Y = PAD_T + groups.length * (ROW_H + ROW_GAP) + 12;
+      const LEG_ITEM = Math.min(matBarW / 7, 140);
+      payers.slice(1).forEach((p, i) => {
+        const lx = matBarL + i * LEG_ITEM;
+        svg.appendChild(svgEl('rect', { x: lx, y: LEG_Y, width: 12, height: 12, fill: SEG_COLORS[i+1] }));
+        svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 11,
+          'font-weight': 300, fill: STONE, x: lx + 16, y: LEG_Y + 9 }, p.label));
+      });
+    }
   }
 }
 

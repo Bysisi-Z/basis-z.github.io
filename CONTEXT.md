@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-07 (session 26)
+> Last updated: 2026-06-07 (session 27)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -154,9 +154,15 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Section dropdown (25 sections) in left panel above search
 - REPORT badges (blue) on 8 expenditure variables → links to `/research/meps-expenditure`
 - Regeneration script: `_data_sources/meps2023/gen_meps_data.py` (reads h251.dta)
+- **Split by toggle (session 27):** Overall / Age group / Income level in detail panel header; state persists across variable/section switches; split files fetched on demand and cached
 
-**MEPS Expenditure overview (`/research/meps-expenditure`) details — session 25–26:**
-- **Chart 1 (top, fixed):** 100% horizontal stacked bar — dollar share by payer (Private 37.2%, Medicare 32.5%, Self 12.3%, Medicaid 12.1%, VA 2.8%, Other 2.0%, TRICARE 1.2%). Not filterable.
+**Age groups:** 0–17 / 18–34 / 35–49 / 50–64 / 65–74 / 75+ (variable: AGE23X)
+**Income groups:** Poor/Near poor (<125% FPL) / Low (125–199%) / Middle (200–399%) / High (≥400%) (variable: POVCAT23, codes 1+2 merged)
+**Split data:** `public/data/meps_{section}_split.json` (25 files, ~2.7MB total) — keyed by varname → {age: {groupKey: {label,n,dist}}, income: {...}}. Bins aligned to overall distribution for cross-group comparison. Regeneration: `_data_sources/meps2023/gen_meps_splits.py`
+
+**MEPS Expenditure overview (`/research/meps-expenditure`) details — session 25–27:**
+- **Split by toggle (session 27):** Overall / Age group / Income level — switches composition chart (Chart 1) to matrix of stacked bars, one row per subgroup
+- **Chart 1 (top):** 100% horizontal stacked bar — dollar share by payer. Overall: single bar. Split: matrix (6 rows age / 4 rows income)
 - **Payer glossary:** 7-item grid below chart 1, color-coded, explains each payer in plain English
 - **Chart 2:** 100% stacked bar — % with $0 vs >$0 for each payer; clickable to filter chart 3
 - **Chart 3:** Sorted distribution curve (empirical CDF) for selected payer, users with >$0 only
@@ -164,20 +170,23 @@ Gateway → two columns: Industry Research + Play with the Data.
   - Annotations: Q1/Median/Q3 vertical dashed lines + Mean horizontal rose line; all bold
   - Stat cards: n users, Q1, Median, Q3, Mean (rose), P95, true max
   - Default: Total selected on page load
+- **Section labels:** Inter 600, 15px, rose color, rose gradient background strip (left→transparent)
 - **Payers:** Total, Self/OOP, Private Ins., Medicare, Medicaid, VA/CHAMPVA, TRICARE, Other (=TOTOFD+TOTSTL+TOTWCP+TOTOSR)
 - **Removed:** TOTPTR23, TOTOTH23 (aggregate/derived variables — excluded from explorer and REPORT badges)
 - **Additive check:** payer components sum to TOTEXP23 at person level (max diff = $4, rounding only)
-- Data: `public/data/meps_exp_overview.json` (200-pt curves + stats per payer)
+- Data: `public/data/meps_exp_overview.json` (200-pt curves + stats per payer + age_groups + income_groups)
 
 **MEPS explorer updates (session 26):**
 - Long-tail count variables (OBTOTV23, RXTOT23, etc.) now split at P95: normal bins + gray "Extreme values" outlier section
 - Income/wage variables use dollar bins
 - `outlier: true` flag in JSON; explorer shows 3 sections: Response distribution / Extreme values / Outside universe
 
+**Typography (session 27):** Inter weight 600 added to Google Fonts load in BaseLayout.astro
+
 **MEPS 2023 data storage:**
-- Live JSON files: `public/data/meps_*.json` (25 section files + meps_meta.json + meps_exp_overview.json)
+- Live JSON files: `public/data/meps_*.json` (25 section files + meps_meta.json + meps_exp_overview.json + 25 split files)
 - Raw source files: `_data_sources/meps2023/` (gitignored, local only) — h251.dta, h249.dta, h248a.dta + codebooks
-- Regeneration scripts: `gen_meps_data.py` (explorer), computed in-session for expenditure overview
+- Regeneration scripts: `gen_meps_data.py` (explorer), `gen_meps_splits.py` (split data), computed in-session for expenditure overview
 - Original AHRQ download: HC-251 (FYC), HC-249 (Conditions), HC-248A (RX) — re-downloadable from meps.ahrq.gov
 
 ### Nature Never Judges (`/photography`) ✅ Index + 1 detail page
