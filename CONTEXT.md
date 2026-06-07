@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-07 (session 25)
+> Last updated: 2026-06-07 (session 26)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -155,15 +155,24 @@ Gateway → two columns: Industry Research + Play with the Data.
 - REPORT badges (blue) on 8 expenditure variables → links to `/research/meps-expenditure`
 - Regeneration script: `_data_sources/meps2023/gen_meps_data.py` (reads h251.dta)
 
-**MEPS Expenditure overview (`/research/meps-expenditure`) details:**
-- Top chart: 100% stacked bar — % with $0 vs spent > $0 for each payer; clickable to filter bottom chart
-- Bottom chart: sorted distribution curve (empirical CDF) for selected payer among users with >$0 spending
-  - X axis: percentile rank 0–100%; Y axis: $ amount clipped at P95
-  - Annotations: Q1 / Median / Q3 (vertical dashed lines + dots) + Mean (horizontal rose dashed line)
-  - Stat cards above chart: n users, Q1, Median, Q3, Mean, P95 + true max
-  - Default selection: Total on page load
-- Payers: Total, Self/OOP, Private Ins., Medicare, Medicaid, VA/CHAMPVA, TRICARE, Other
-- Data: `public/data/meps_exp_overview.json` (200-point distribution curves + stats per payer)
+**MEPS Expenditure overview (`/research/meps-expenditure`) details — session 25–26:**
+- **Chart 1 (top, fixed):** 100% horizontal stacked bar — dollar share by payer (Private 37.2%, Medicare 32.5%, Self 12.3%, Medicaid 12.1%, VA 2.8%, Other 2.0%, TRICARE 1.2%). Not filterable.
+- **Payer glossary:** 7-item grid below chart 1, color-coded, explains each payer in plain English
+- **Chart 2:** 100% stacked bar — % with $0 vs >$0 for each payer; clickable to filter chart 3
+- **Chart 3:** Sorted distribution curve (empirical CDF) for selected payer, users with >$0 only
+  - X axis: percentile rank 0–100%; Y axis: $ clipped at P95
+  - Annotations: Q1/Median/Q3 vertical dashed lines + Mean horizontal rose line; all bold
+  - Stat cards: n users, Q1, Median, Q3, Mean (rose), P95, true max
+  - Default: Total selected on page load
+- **Payers:** Total, Self/OOP, Private Ins., Medicare, Medicaid, VA/CHAMPVA, TRICARE, Other (=TOTOFD+TOTSTL+TOTWCP+TOTOSR)
+- **Removed:** TOTPTR23, TOTOTH23 (aggregate/derived variables — excluded from explorer and REPORT badges)
+- **Additive check:** payer components sum to TOTEXP23 at person level (max diff = $4, rounding only)
+- Data: `public/data/meps_exp_overview.json` (200-pt curves + stats per payer)
+
+**MEPS explorer updates (session 26):**
+- Long-tail count variables (OBTOTV23, RXTOT23, etc.) now split at P95: normal bins + gray "Extreme values" outlier section
+- Income/wage variables use dollar bins
+- `outlier: true` flag in JSON; explorer shows 3 sections: Response distribution / Extreme values / Outside universe
 
 **MEPS 2023 data storage:**
 - Live JSON files: `public/data/meps_*.json` (25 section files + meps_meta.json + meps_exp_overview.json)
