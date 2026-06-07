@@ -123,7 +123,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const data   = await fetch('/data/meps_exp_overview.json').then(r => r.json());
 const payers  = data.payers;
-let selected  = null;
+let selected  = 0; // default: Total
 
 const ML = 72, MR = 28, MT = 24, MB = 50;
 const COV_H     = 120;
