@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-07 (session 23)
+> Last updated: 2026-06-07 (session 24)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -57,6 +57,8 @@ src/
 │   ├── explorer.astro         # World Explorer profile page ✅ NEW
 │   ├── career/index.astro     # Journey — dual timeline
 │   ├── research/index.astro   # Decoding — gateway page
+│   ├── research/data.astro    # NSFG 2022–2023 explorer ✅
+│   ├── research/meps.astro    # MEPS 2023 explorer ✅ NEW (session 24)
 │   ├── photography/index.astro# Nature Never Judges — mixed grid
 │   ├── photography/[slug].astro # Hiking guide article template
 │   ├── writing/index.astro    # Wandering — post list
@@ -141,7 +143,17 @@ Easter eggs: stork (Born), bamboo (Chengdu), Shanghai skyline, Swiss Alps + flag
 
 ### Decoding (`/research`) ✅ Live
 
-Gateway → two columns: Industry Research + Play with the Data (NSFG explorer at `/research/data`).
+Gateway → two columns: Industry Research + Play with the Data.
+
+**Play with the Data projects:**
+- `/research/data` — NSFG 2022–2023 Female Respondent (5,586 respondents, 1,912 variables, 21 deep-dive analysis pages)
+- `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 74 variables, 8 topic groups) ✅ NEW session 24
+
+**MEPS 2023 data storage:**
+- Live JSON files: `public/data/meps_*.json` (9 files, in git, Cloudflare-hosted — permanent)
+- Raw source files: `_data_sources/meps2023/` (gitignored, local only) — h251.dta, h249.dta, h248a.dta + codebooks
+- Regeneration script: `_data_sources/meps2023/gen_meps_data.py`
+- Original AHRQ download: HC-251 (FYC), HC-249 (Conditions), HC-248A (RX) — re-downloadable from meps.ahrq.gov if needed
 
 ### Nature Never Judges (`/photography`) ✅ Index + 1 detail page
 
@@ -191,10 +203,11 @@ Content not written.
 ## 6. Pending Work
 
 - [ ] **Explorer modules** — fill music, books, food, outdoor stats content
-- [ ] **Mountain Calling grid** — add real photos (5 CSS gradient placeholders remain)
+- [ ] **Nature Never Judges grid** — add real photos (5 CSS gradient placeholders remain)
 - [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
+- [ ] **MEPS deep-dive analysis pages** — similar to NSFG analysis pages (INSCOV23, TOTSLF23, DLAYCA42, etc.)
 - [ ] **Now page** — content not written
 - [ ] **A Collection of Rabbit Holes** — content not written
 
