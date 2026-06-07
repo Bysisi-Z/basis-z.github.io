@@ -18,8 +18,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       </p>
     </div>
 
-    <!-- Top: coverage bars -->
-    <div class="section-label">Coverage — share of respondents with any expenditure</div>
+    <!-- Top: payer composition stacked bar (fixed — not affected by filter) -->
+    <div class="section-label">Dollar share by payer — % of total healthcare expenditure</div>
+    <div class="chart-container" style="margin-bottom:2px">
+      <svg id="composition-svg" width="100%" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <!-- Coverage bars (clickable filter) -->
+    <div class="section-label" style="margin-top:2px">Coverage — share of respondents with any expenditure</div>
     <div class="chart-container" style="margin-bottom:2px">
       <svg id="coverage-svg" width="100%" xmlns="http://www.w3.org/2000/svg"></svg>
     </div>
@@ -387,7 +393,100 @@ function drawDist() {
     `Y-axis clipped at P95 = ${fmt(p.u_p95)}.  True max = ${fmtFull(p.u_max)}.`));
 }
 
-function drawAll() { drawCoverage(); drawDist(); }
+// ── Composition chart (how Total splits into payers) ─────────────────────────
+// Colors for each payer segment (index 0 = Total, skipped; 1-7 shown)
+const SEG_COLORS = [
+  null,          // Total — not shown
+  '#c17d9d',     // Self/OOP — rose
+  '#9b6080',     // Private — darker rose
+  '#847B7B',     // Medicare — stone
+  '#a59898',     // Medicaid — lighter stone
+  '#b8b0ae',     // VA/CHAMPVA
+  '#cec8c6',     // TRICARE
+  '#ddd8d6',     // Other
+];
+
+function drawComposition() {
+  const svg = document.getElementById('composition-svg');
+  svg.innerHTML = '';
+  const W = svg.getBoundingClientRect().width || 1200;
+
+  const BAR_H   = 60;
+  const PAD_T   = 20;
+  const PAD_B   = 60;  // space for legend
+  const SVG_H   = PAD_T + BAR_H + PAD_B;
+  svg.setAttribute('viewBox', `0 0 ${W} ${SVG_H}`);
+  svg.setAttribute('height', SVG_H);
+
+  const barL = ML;
+  const barW = W - ML - MR;
+  const barY = PAD_T;
+
+  // Non-Total payers (index 1..7)
+  const segments = payers.slice(1);
+  const totalShare = segments.reduce((s, p) => s + p.share_pct, 0);
+
+  let curX = barL;
+  segments.forEach((p, i) => {
+    const segW = (p.share_pct / totalShare) * barW;
+    const color = SEG_COLORS[i + 1];
+
+    // segment rect — always full opacity, not filterable
+    svg.appendChild(svgEl('rect', {
+      x: curX, y: barY, width: segW, height: BAR_H, fill: color,
+    }));
+
+    // label inside (only if wide enough)
+    if (segW > 44) {
+      svg.appendChild(svgEl('text', {
+        'font-family': 'Inter,sans-serif', 'font-size': segW > 80 ? 15 : 12,
+        'font-weight': 500, 'text-anchor': 'middle',
+        fill: '#fff', x: curX + segW / 2, y: barY + BAR_H / 2 - 4,
+      }, p.share_pct + '%'));
+      if (segW > 90) {
+        svg.appendChild(svgEl('text', {
+          'font-family': 'Inter,sans-serif', 'font-size': 11,
+          'font-weight': 300, 'text-anchor': 'middle',
+          fill: 'rgba(255,255,255,0.9)', x: curX + segW / 2, y: barY + BAR_H / 2 + 13,
+        }, p.label));
+      }
+    }
+
+    curX += segW;
+  });
+
+  // border around full bar
+  svg.appendChild(svgEl('rect', {
+    x: barL, y: barY, width: barW, height: BAR_H,
+    fill: 'none', stroke: RULE, 'stroke-width': 0.8,
+  }));
+
+  // Legend below bar
+  const LEG_Y    = PAD_T + BAR_H + 12;
+  const LEG_ITEM = Math.min(barW / segments.length, 140);
+  segments.forEach((p, i) => {
+    const lx = barL + i * LEG_ITEM;
+    const color = SEG_COLORS[i + 1];
+    svg.appendChild(svgEl('rect', { x: lx, y: LEG_Y, width: 12, height: 12, fill: color }));
+    svg.appendChild(svgEl('text', {
+      'font-family': 'Inter,sans-serif', 'font-size': 12, 'font-weight': 300,
+      fill: STONE, x: lx + 18, y: LEG_Y + 10,
+    }, p.label));
+    // Add note tooltip as title element for hover
+    if (p.note) {
+      const g = svgEl('title', {}, p.note);
+      svg.appendChild(g);
+    }
+  });
+
+  // "Other" note — short version
+  svg.appendChild(svgEl('text', {
+    'font-family': 'Inter,sans-serif', 'font-size': 9, 'font-weight': 300,
+    fill: '#B0A8A5', 'text-anchor': 'end', x: W - MR, y: LEG_Y + 9,
+  }, '* Other = Other Federal + State/Local + Workers Comp + Other Sources'));
+}
+
+function drawAll() { drawCoverage(); drawComposition(); drawDist(); }
 drawAll();
 window.addEventListener('resize', drawAll);
 

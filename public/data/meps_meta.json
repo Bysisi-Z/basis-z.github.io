@@ -3,7 +3,7 @@
   "source": "Agency for Healthcare Research and Quality (AHRQ)",
   "n_total": 18640,
   "year": 2023,
-  "note": "Medical Expenditure Panel Survey (MEPS) 2023 Full-Year Consolidated file. 18,640 inscope respondents. All 1368 variables from HC-251.",
+  "note": "Medical Expenditure Panel Survey (MEPS) 2023 Full-Year Consolidated file. 18,640 inscope respondents. All 1366 variables from HC-251.",
   "groups": [
     {
       "key": "admin",
@@ -123,7 +123,7 @@
     {
       "key": "expenditures_total",
       "label": "Expenditures \u2014 Total Summary",
-      "n_vars": 14
+      "n_vars": 12
     },
     {
       "key": "other",
@@ -6580,16 +6580,6 @@
     {
       "name": "TOTOSR23",
       "label": "TOTAL AMT PAID BY OTHER SOURCES 23",
-      "group": "expenditures_total"
-    },
-    {
-      "name": "TOTPTR23",
-      "label": "TOTAL AMT PAID BY PRV & TRI 23",
-      "group": "expenditures_total"
-    },
-    {
-      "name": "TOTOTH23",
-      "label": "TOTAL AMT PAID BY OTH COMBINED 23",
       "group": "expenditures_total"
     },
     {
