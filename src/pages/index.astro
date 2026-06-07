@@ -81,7 +81,7 @@ const modules = [
 {
   if (window.innerWidth > 768) { /* desktop: flat list, no drum */ }
   else {
-  const ITEM_H = 84;
+  const ITEM_H = 80;
   const N = 6;
   const track = document.getElementById('drum-track') as HTMLElement;
   const wrap  = document.getElementById('drum-wrap')  as HTMLElement;
@@ -92,8 +92,9 @@ const modules = [
   let resumeTimer: ReturnType<typeof setTimeout>;
 
   function posY(i: number) {
-    // center the item at i: 2 items above center visible
-    return -(i * ITEM_H) + 2 * ITEM_H;
+    // center item i vertically in drum-wrap
+    const wrapH = wrap.clientHeight;
+    return -(i * ITEM_H) + wrapH / 2 - ITEM_H / 2;
   }
 
   function render(animated: boolean) {
@@ -483,47 +484,54 @@ const modules = [
       position: fixed;
       inset: 0;
       grid-template-columns: 1fr;
-      grid-template-rows: 50vh 50vh;
+      grid-template-rows: 33vh 67vh;
       overflow: hidden;
     }
 
-    /* ── Rose panel ── */
+    /* ── Rose panel (1/3) ── */
     .identity {
-      padding: 20px 24px 18px;
+      padding: 14px 20px;
       flex-direction: row;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
       flex-shrink: 0;
     }
     .identity::before, .identity::after { display: none; }
 
-    .identity-top { flex: 1; min-width: 0; }
+    .identity-top {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-    /* Si */
-    .si-wrap { margin-bottom: 0; }
-    .si       { font-size: clamp(60px, 16vw, 84px); transform: translate(10px, 6px); }
-    .si-ghost { font-size: clamp(78px, 21vw, 108px); top: 12px; left: -8px; }
-    .si-rule  { margin-top: 8px; margin-bottom: 8px; }
-    .si-rule-a, .si-rule-b { width: 80px; }
-    .si-rule-b { margin-left: 12px; }
-    .tagline  { font-size: clamp(13px, 3.4vw, 16px); }
+    /* Si — smaller, ghost hidden */
+    .si-ghost { display: none; }
+    .si-wrap  { margin-bottom: 2px; }
+    .si       { font-size: clamp(42px, 11vw, 58px); transform: translate(6px, 4px); }
+    .si-rule  { margin-top: 6px; margin-bottom: 8px; }
+    .si-rule-a, .si-rule-b { width: 64px; }
+    .si-rule-b { margin-left: 10px; }
+    .tagline  { font-size: clamp(12px, 3vw, 14px); line-height: 1.5; }
 
-    /* Contact: horizontal icons only */
+    /* Contact: vertical icons on the right */
     .contact {
-      flex-direction: row;
-      gap: 18px;
+      flex-direction: column;
+      gap: 14px;
       align-items: center;
       flex-shrink: 0;
     }
     .cl-text { display: none; }
-    .contact-link svg { width: 22px; height: 22px; }
+    .contact-link svg { width: 20px; height: 20px; }
 
-    /* ── Drum panel fills rest ── */
+    /* ── Drum panel (2/3): show 3 items ── */
     .modules-panel {
       padding: 0 14px;
       overflow: hidden;
     }
     .drum-wrap { height: 100%; }
+    .drum-veil { height: 20%; }
     .mod { height: 80px; gap: 0 14px; padding: 0 10px; }
     .mod-title { font-size: clamp(18px, 4.8vw, 24px); }
     .mod-desc  { font-size: 11px; }
