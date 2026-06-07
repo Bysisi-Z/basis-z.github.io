@@ -329,11 +329,6 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
       </div>
     )}
 
-    <div id="map-lightbox" aria-hidden="true">
-      <button class="map-lb-close" aria-label="Close">✕</button>
-      <img class="map-lb-img" src="" alt="" />
-    </div>
-
     <div class="body-text">
       <p class="lead">{body.lead}</p>
       {body.paragraphs.map(p => <p>{p}</p>)}
@@ -451,12 +446,16 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
   </div>
 </BaseLayout>
 
+<div id="map-lightbox" aria-hidden="true">
+  <button class="map-lb-close" aria-label="Close">✕</button>
+  <img class="map-lb-img" src="" alt="" />
+</div>
+
 <style>
   .article {
     max-width: 960px;
     margin: 0 auto;
     padding: 0 clamp(20px, 4vw, 48px);
-    overflow-x: hidden;
   }
 
   /* Language bar */
@@ -587,7 +586,7 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
 
   /* Route map */
   .route-map-wrap {
-    margin: 36px calc(-1 * clamp(20px, 4vw, 48px)) 40px;
+    margin: 36px 0 40px;
   }
   .map-zoom-btn {
     display: block; width: 100%;
