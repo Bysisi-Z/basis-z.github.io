@@ -111,6 +111,18 @@
   .y1 { background: var(--yr1); }
   .y0 { background: var(--yr0); }
 
+  /* no-method row */
+  .method-row.no-method {
+    border: 1.5px dashed #B0A8A5;
+    background: rgba(176,168,165,.06) !important;
+    border-radius: 6px;
+  }
+  .method-row.no-method .method-label { color: var(--stone); font-weight: 400; font-style: italic; }
+  .method-row.no-method .bar-track { background: rgba(176,168,165,.12); }
+  .method-row.no-method .bar-fill { background: rgba(176,168,165,.35); }
+  .method-row.no-method .bv-n { color: var(--stone); }
+  .method-row.no-method .bv-pct { color: var(--stone); opacity: .8; }
+
   /* others note below row */
   .others-note {
     font-size: 11.5px; color: var(--stone);
@@ -255,6 +267,18 @@ const ROWS = [
   {name:'Patch',      drug:true,data:{'yr-3':{n:23,  pu:0.7, pt:0.4,pd:1.2}, 'yr-2':{n:27,  pu:0.8, pt:0.5,pd:1.5}, 'yr-1':{n:35,  pu:1.0, pt:0.6,pd:1.9}, 'interview':{n:28,  pu:0.8, pt:0.5,pd:1.6}}},
 ];
 
+// Only shown in "All respondents" mode — women who used no method in that year
+const NO_METHOD = {
+  name: 'No method used',
+  subtext: 'Includes women outside the contraceptive calendar universe and those who reported no method use in any month of that year',
+  data: {
+    'yr-3':      {n:2122, pt:38.0},
+    'yr-2':      {n:2087, pt:37.4},
+    'yr-1':      {n:1946, pt:34.8},
+    'interview': {n:2037, pt:36.5},
+  }
+};
+
 const DENOMS = {
   'yr-3':      {n_universe:4442, n_users:3464, n_drug:1867},
   'yr-2':      {n_universe:4555, n_users:3499, n_drug:1832},
@@ -349,6 +373,42 @@ function updateBars() {
       chart.appendChild(note);
     }
   });
+
+  // No-method row — only in "All respondents" mode
+  if (currentDenom === 'total') {
+    const row = document.createElement('div');
+    row.className = 'method-row no-method';
+
+    const lbl = document.createElement('div');
+    lbl.className = 'method-label';
+    lbl.textContent = NO_METHOD.name;
+
+    const barsCol = document.createElement('div');
+    barsCol.className = 'bars-col';
+    YEARS.forEach((yr, i) => {
+      const d = NO_METHOD.data[yr];
+      const barRow = document.createElement('div');
+      barRow.className = 'bar-row';
+      const track = document.createElement('div');
+      track.className = 'bar-track';
+      const fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      fill.style.width = (d.pt / maxPct * 100).toFixed(1) + '%';
+      track.appendChild(fill);
+      const val = document.createElement('div');
+      val.className = 'bar-val';
+      val.innerHTML = '<span class="bv-n">' + d.n.toLocaleString() + '</span><span class="bv-pct">' + fmt(d.pt) + '%</span>';
+      barRow.appendChild(track); barRow.appendChild(val);
+      barsCol.appendChild(barRow);
+    });
+    row.appendChild(lbl); row.appendChild(barsCol);
+    chart.appendChild(row);
+
+    const note = document.createElement('div');
+    note.className = 'others-note';
+    note.textContent = 'Includes: ' + NO_METHOD.subtext;
+    chart.appendChild(note);
+  }
 }
 
 function updateTable() {
@@ -373,6 +433,20 @@ function updateTable() {
     tr.innerHTML = html;
     tbody.appendChild(tr);
   });
+
+  // No-method row in table — only for "All respondents"
+  if (currentDenom === 'total') {
+    const tr = document.createElement('tr');
+    tr.style.cssText = 'opacity:.8; border-top: 1px dashed var(--rule);';
+    let html = '<td style="color:var(--stone);font-style:italic">' + NO_METHOD.name + '</td>';
+    YEARS.forEach(yr => {
+      const d = NO_METHOD.data[yr];
+      const cls = yr === 'interview' ? ' class="hi"' : '';
+      html += '<td' + cls + '><span class="n-val" style="color:var(--stone)">' + d.n.toLocaleString() + '</span><span class="pct-val">' + fmt(d.pt) + '%</span></td>';
+    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  }
 
   const dr = document.createElement('tr');
   dr.className = 'denom-footer-row';

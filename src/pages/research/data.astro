@@ -320,7 +320,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 /* ── Two-panel ─────────────────────────────────────────────────────────────── */
 .panels {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 340px 1fr;
   height: max(680px, calc(100vh - 260px));
   border: 1px solid var(--rule);
   border-top: none;
@@ -454,6 +454,42 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   color: #4a9c6e; border: 1px solid rgba(74,156,110,0.4);
   padding: 1px 5px; border-radius: 2px;
 }
+
+/* ── 2-level group rows ──────────────────────────────────────────────────────── */
+.var-group-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 10px 7px 10px;
+  cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--rule);
+  background: rgba(130,120,120,.04);
+}
+.var-group-header:hover { background: rgba(193,125,157,.06); }
+.var-group-chevron {
+  font-size: 9px; color: var(--stone);
+  flex-shrink: 0; width: 10px; text-align: center;
+  transition: transform .15s;
+  display: inline-block;
+}
+.var-group-header.expanded .var-group-chevron { transform: rotate(90deg); }
+.var-group-qcode {
+  font-family: var(--sans); font-size: 10px; font-weight: 600;
+  color: #4a9c6e; letter-spacing: .06em; flex-shrink: 0;
+}
+.var-group-title {
+  flex: 1; font-size: 12px; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.var-group-count {
+  font-size: 10px; color: var(--stone); flex-shrink: 0;
+  background: rgba(130,120,120,.12); padding: 1px 6px; border-radius: 10px;
+}
+.var-group-children { border-bottom: 1px solid var(--rule); }
+.var-group-children .var-item {
+  padding-left: 20px;
+  border-left: 2px solid rgba(74,156,110,.2);
+  border-bottom: none;
+}
+.var-group-children .var-item:last-child { border-bottom: none; }
 
 /* Section label shown in global search results */
 .var-item-section {
@@ -826,8 +862,9 @@ let filteredVars  = [];
 let ageCounts     = null;    // loaded lazily
 let ageGroupSplit = false;   // toggle state
 let activeTypeFilter = 'raw';
-let groups     = null;
-let varToGroup = null;
+let groups        = null;
+let varToGroup    = null;
+let expandedGroups = new Set();   // group IDs currently expanded
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const secTabsEl   = document.getElementById('section-tabs');
@@ -998,6 +1035,7 @@ async function selectSection(key) {
     loadingEl.hidden = true;
   }
 
+  expandedGroups.clear();
   renderVarList(sectionCache[key]);
 }
 
@@ -1045,32 +1083,108 @@ function renderVarList(vars) {
     return;
   }
 
-  // ── Section search: filter within current section ───────────────────────────
+  // ── Section view: filter + 2-level group rendering ──────────────────────────
   filteredVars = (vars || []).filter(v =>
     matchesTypeFilter(v) &&
     (!query || v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query))
   );
   varCountEl.textContent = `${filteredVars.length} variable${filteredVars.length !== 1 ? 's' : ''}`;
 
+  // Auto-expand the group of the currently selected var
+  if (currentVar && varToGroup?.[currentVar.name]) {
+    expandedGroups.add(varToGroup[currentVar.name]);
+  }
+
   const frag = document.createDocumentFragment();
+  const renderedGroupIds = new Set();
+
   filteredVars.forEach(v => {
-    const item = document.createElement('div');
-    item.className  = 'var-item' + (currentVar?.name === v.name ? ' selected' : '');
-    item.dataset.name = v.name;
-    item.setAttribute('role', 'option');
-    item.innerHTML =
-      `<span class="var-item-label">${escHtml(v.label)}</span>` +
-      `<span class="var-item-bottom">` +
-        `<span class="var-item-name">${v.name}</span>` +
-        `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
-        (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
-        (varToGroup?.[v.name] ? `<span class="var-item-group">group</span>` : '') +
-      `</span>`;
-    item.addEventListener('click', () => selectVar(v.name));
-    frag.appendChild(item);
+    const gid = varToGroup?.[v.name];
+
+    if (!gid || !groups?.[gid]) {
+      // ── ungrouped variable ─────────────────────────────────────────────────
+      const item = document.createElement('div');
+      item.className  = 'var-item' + (currentVar?.name === v.name ? ' selected' : '');
+      item.dataset.name = v.name;
+      item.setAttribute('role', 'option');
+      item.innerHTML =
+        `<span class="var-item-label">${escHtml(v.label)}</span>` +
+        `<span class="var-item-bottom">` +
+          `<span class="var-item-name">${v.name}</span>` +
+          `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
+          (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
+        `</span>`;
+      item.addEventListener('click', () => selectVar(v.name));
+      frag.appendChild(item);
+      return;
+    }
+
+    if (renderedGroupIds.has(gid)) return;   // already rendered inside a group header
+    renderedGroupIds.add(gid);
+
+    // ── group header ───────────────────────────────────────────────────────────
+    const group = groups[gid];
+    const groupVars = filteredVars.filter(fv => varToGroup?.[fv.name] === gid);
+    const isExpanded = expandedGroups.has(gid);
+
+    // Use first var's label when title is just a repeat of the qcode
+    const groupTitle = group.title.trim() === group.qcode.trim()
+      ? (groupVars[0]?.label || group.title)
+      : group.title;
+
+    const header = document.createElement('div');
+    header.className = 'var-group-header' + (isExpanded ? ' expanded' : '');
+    header.dataset.gid = gid;
+    header.innerHTML =
+      `<span class="var-group-chevron">▶</span>` +
+      `<span class="var-group-qcode">${escHtml(group.qcode)}</span>` +
+      `<span class="var-group-title">${escHtml(groupTitle)}</span>` +
+      `<span class="var-group-count">${groupVars.length}</span>`;
+    header.addEventListener('click', () => toggleGroup(gid));
+    frag.appendChild(header);
+
+    // ── group children (hidden unless expanded) ────────────────────────────────
+    const children = document.createElement('div');
+    children.className = 'var-group-children';
+    children.dataset.gid = gid;
+    children.hidden = !isExpanded;
+
+    groupVars.forEach(gv => {
+      const item = document.createElement('div');
+      item.className  = 'var-item' + (currentVar?.name === gv.name ? ' selected' : '');
+      item.dataset.name = gv.name;
+      item.setAttribute('role', 'option');
+      item.innerHTML =
+        `<span class="var-item-label">${escHtml(gv.label)}</span>` +
+        `<span class="var-item-bottom">` +
+          `<span class="var-item-name">${gv.name}</span>` +
+          `<span class="var-item-type ${typeClass(gv.variable_type)}">${gv.variable_type || '—'}</span>` +
+          (REPORT_VARS.has(gv.name) ? `<span class="var-item-report">report</span>` : '') +
+        `</span>`;
+      item.addEventListener('click', () => selectVar(gv.name));
+      children.appendChild(item);
+    });
+
+    frag.appendChild(children);
   });
+
   varListEl.innerHTML = '';
   varListEl.appendChild(frag);
+}
+
+// ── Toggle a group open/closed ────────────────────────────────────────────────
+function toggleGroup(gid) {
+  if (expandedGroups.has(gid)) {
+    expandedGroups.delete(gid);
+  } else {
+    expandedGroups.add(gid);
+  }
+  const header   = varListEl.querySelector(`.var-group-header[data-gid="${CSS.escape(gid)}"]`);
+  const children = varListEl.querySelector(`.var-group-children[data-gid="${CSS.escape(gid)}"]`);
+  if (!header || !children) return;
+  const expanded = expandedGroups.has(gid);
+  header.classList.toggle('expanded', expanded);
+  children.hidden = !expanded;
 }
 
 // ── Click a global search result: load section if needed, then show detail ────
