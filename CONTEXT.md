@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-08 (session 31)
+> Last updated: 2026-06-08 (session 32)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -184,14 +184,14 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Source file: `public/nsfg-method-trends.html` (standalone, no Astro build dependency)
 - **Key findings:** Pill declining 31% → 26% of method users over 4 years; IUD rising 15% → 16%; in drug market Pill = ~51%, IUD = ~33%
 
-**NSFG age analysis (`/nsfg-method-age.html`) — session 31:**
+**NSFG age analysis (`/nsfg-method-age.html`) — session 31–32:**
 - Focus: pill (code 3), IUD (code 19), implant (code 9), ring (code 26) by age group across METHX calendar
 - Age groups: 15–19 / 20–24 / 25–29 / 30–34 / 35–39 / 40–44 / 45–50 (7 groups; last group covers full NSFG universe including 1 age-50 respondent)
 - 3-way denominator toggle: method users in age group (default) / all respondents / hormonal+LARC users
 - **Section A — context stacked bar:** full bar = n_total per age group; segments = no method (light) | other methods (stone) | non-EC drug (rose). Always interview-year snapshot, unaffected by denominator toggle.
-- **Section A — 4 method panels:** horizontal bars by age group, all bars use that method's color (not age gradient). Shows "all ages X%" badge in card header; sub-label shows denominator type. Bars scaled to each method's own max.
-- **Section B — dumbbell charts:** ○ yr−3 → ● interview yr per age group. All dots and labels: single neutral color (#5A5350). Connecting line: teal (#5BAD8B) = increasing, rose (#D07090) = declining. Intermediate yr-2/yr-1 dots (small, faint) show trajectory shape. Faded rows (opacity 0.35) = n < 15. Δ pp shown on right in line color.
-- **Color principle:** colors encode meaning only — method color for bars, teal/rose for direction only on dumbbell. No decorative age gradients.
+- **Section A — 4 method panels:** horizontal bars by age group, all bars use rose (#C17D9D) — single color for all 4 methods (not method-specific colors). Shows "all ages X%" badge in card header; sub-label shows denominator type. Bars scaled to each method's own max.
+- **Section B — dumbbell charts:** ○ yr−3 → ● interview yr per age group. All dots: rose (#C17D9D). Axis labels: black (#1A1A1A). Connecting line: teal (#5BAD8B) = increasing, red (#E53935) = declining. Intermediate yr-2/yr-1 dots (small, faint rose) show trajectory shape. Rows with n < 15 show a stone `!` badge (circle) left of the age label; hover tooltip shows exact n for yr−3 and interview yr. No opacity fading. Δ pp shown on right in line color. Left margin: 56 (wider to accommodate badge).
+- **Color principle:** colors encode meaning only — rose for all dots/bars, teal/red for direction only on dumbbell. No decorative per-method or age gradients.
 - Data: inline JSON in HTML; raw source: `~/Downloads/NSFG-2022-2023-FemRespPUFData/NSFG_2022_2023_FemRespPUFData.csv`
 - NSFG explorer: each METHX variable now shows 2 report cards ("Full breakdown →" trends page, "Age breakdown →" this page)
 - **Key findings:** Pill strong youth bias (51% of teen method users) declining fastest in young women (−13 to −15 pp over 4 yrs); IUD growing in all age groups, fastest under 30 (+3.6–3.9 pp); Implant concentrated in 20–24, stable; Ring peaks in 35–39, small n.
