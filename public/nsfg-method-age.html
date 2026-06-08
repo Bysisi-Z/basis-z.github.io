@@ -212,7 +212,7 @@ body{
 <!-- Section B: 4-year trend (line charts) -->
 <div class="section">
   <div class="section-title">Yr −3 → Interview Year: How Each Age Group Shifted</div>
-  <div class="section-desc">Each row is one age group. Open circle = yr −3, filled circle = interview year. Intermediate dots (yr −2, yr −1) show the trajectory shape. Line color: <span style="color:#5BAD8B;font-weight:600">teal = increasing</span>, <span style="color:#D07090;font-weight:600">rose = declining</span>. Faded rows indicate small sample sizes (n &lt; 15).</div>
+  <div class="section-desc">Each row is one age group. Open circle = yr −3, filled circle = interview year. Intermediate dots (yr −2, yr −1) show the trajectory shape. Line color: <span style="color:#5BAD8B;font-weight:600">teal = increasing</span>, <span style="color:#E53935;font-weight:600">red = declining</span>. Rows marked <strong style="color:#847B7B">!</strong> have small sample sizes (n &lt; 15) — interpret with caution.</div>
   <div class="method-grid" id="lines-grid"></div>
 </div>
 
@@ -263,9 +263,9 @@ const AGE_COLORS = ['#E596C8','#D182B8','#C17D9D','#A06882','#897080','#847B7B',
 
 const METHODS = [
   {key:'pill',    label:'Pill',            color:'#C17D9D'},
-  {key:'iud',     label:'IUD',             color:'#4A8EC2'},
-  {key:'implant', label:'Implant',         color:'#8A6EC0'},
-  {key:'ring',    label:'Ring (NuvaRing)', color:'#5BAD8B'},
+  {key:'iud',     label:'IUD',             color:'#C17D9D'},
+  {key:'implant', label:'Implant',         color:'#C17D9D'},
+  {key:'ring',    label:'Ring (NuvaRing)', color:'#C17D9D'},
 ];
 
 let currentDenom = 'pu';
@@ -352,7 +352,7 @@ function buildDumbbell(method) {
   if (!el) return;
 
   const W = 390, H = 212;
-  const mg = {top: 22, right: 50, bottom: 10, left: 40};
+  const mg = {top: 22, right: 50, bottom: 10, left: 56};
   const pw = W - mg.left - mg.right;   // 300
   const ph = H - mg.top - mg.bottom;   // 180
   const rowH = ph / AGE_LABELS.length; // ~25.7px
@@ -375,12 +375,11 @@ function buildDumbbell(method) {
   for (let t = 0; t <= xmax; t += ts) {
     const x = xs(t).toFixed(1);
     s += `<line x1="${x}" y1="-5" x2="${x}" y2="${ph}" stroke="#E2DEDB" stroke-width="1" stroke-dasharray="${t > 0 ? '3,3' : ''}"/>`;
-    s += `<text x="${x}" y="-9" text-anchor="middle" font-size="9" fill="#9E9490" font-family="Inter,sans-serif">${t}%</text>`;
+    s += `<text x="${x}" y="-9" text-anchor="middle" font-size="9" fill="#1A1A1A" font-family="Inter,sans-serif">${t}%</text>`;
   }
 
-  const DOT  = '#5A5350';  // single neutral for all dots + age labels
-  const FADE = 0.35;       // opacity for small-n rows
-
+  const DOT  = '#1A1A1A';  // axis labels → black
+  const ROSE = '#C17D9D';  // all dots
   AGE_LABELS.forEach((ag, i) => {
     const y = rowH * i + rowH / 2;
 
@@ -393,35 +392,44 @@ function buildDumbbell(method) {
 
     const x3 = xs(v3), x2 = xs(v2), x1 = xs(v1), xi = xs(vi);
     const delta   = vi - v3;
+    const isSmall = n3 < 15 || ni < 15;
     const isUp    = delta >= 0;
-    const lineCol = isUp ? '#5BAD8B' : '#D07090';
-    const op      = (n3 < 15 || ni < 15) ? FADE : 1;
+    const lineCol = isUp ? '#5BAD8B' : '#E53935';
 
-    // Age label — neutral, uniform
-    s += `<text x="-5" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${DOT}" font-weight="600" font-family="Inter,sans-serif" opacity="${op}">${ag}</text>`;
+    // Age label
+    s += `<text x="-5" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${DOT}" font-weight="600" font-family="Inter,sans-serif">${ag}</text>`;
+
+    // Small-n warning badge — circle with "!" and native SVG tooltip
+    if (isSmall) {
+      const tip = `Sample too small (n < 15) — yr−3: n=${n3}, interview: n=${ni}`;
+      s += `<g cursor="help"><title>${tip}</title>`;
+      s += `<circle cx="-51" cy="${y.toFixed(1)}" r="5" fill="#847B7B"/>`;
+      s += `<text x="-51" y="${(y+3.5).toFixed(1)}" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="Inter,sans-serif">!</text>`;
+      s += `</g>`;
+    }
 
     // Row guide
     s += `<line x1="0" y1="${y.toFixed(1)}" x2="${pw}" y2="${y.toFixed(1)}" stroke="#F2EEEB" stroke-width="1"/>`;
 
-    // Connecting line — the only color signal (green / rose)
+    // Connecting line
     const lx1 = Math.min(x3, xi).toFixed(1), lx2 = Math.max(x3, xi).toFixed(1);
-    s += `<line x1="${lx1}" y1="${y.toFixed(1)}" x2="${lx2}" y2="${y.toFixed(1)}" stroke="${lineCol}" stroke-width="2.5" stroke-opacity="${op * 0.75}" stroke-linecap="round"/>`;
+    s += `<line x1="${lx1}" y1="${y.toFixed(1)}" x2="${lx2}" y2="${y.toFixed(1)}" stroke="${lineCol}" stroke-width="2.5" stroke-opacity="0.75" stroke-linecap="round"/>`;
 
-    // Intermediate dots (yr-2, yr-1) — neutral, small
+    // Intermediate dots (yr-2, yr-1)
     [[x2, v2, 'yr-2', 'Yr −2'], [x1, v1, 'yr-1', 'Yr −1']].forEach(([xm, vm, yrk, lbl]) => {
       const nm = DATA.methods[method.key][ag][yrk].n;
-      s += `<circle cx="${xm.toFixed(1)}" cy="${y.toFixed(1)}" r="2.5" fill="${DOT}" opacity="${op * 0.45}"><title>${lbl}: n=${nm}, ${vm.toFixed(1)}%</title></circle>`;
+      s += `<circle cx="${xm.toFixed(1)}" cy="${y.toFixed(1)}" r="2.5" fill="${ROSE}" opacity="0.45"><title>${lbl}: n=${nm}, ${vm.toFixed(1)}%</title></circle>`;
     });
 
-    // yr-3 open circle — neutral
-    s += `<circle cx="${x3.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="white" stroke="${DOT}" stroke-width="1.8" opacity="${op}"><title>Yr −3: n=${n3}, ${v3.toFixed(1)}%</title></circle>`;
+    // yr-3 open circle
+    s += `<circle cx="${x3.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="white" stroke="${ROSE}" stroke-width="1.8"><title>Yr −3: n=${n3}, ${v3.toFixed(1)}%</title></circle>`;
 
-    // Interview filled circle — neutral
-    s += `<circle cx="${xi.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${DOT}" stroke="white" stroke-width="1.5" opacity="${op}"><title>Interview yr: n=${ni}, ${vi.toFixed(1)}%</title></circle>`;
+    // Interview filled circle
+    s += `<circle cx="${xi.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${ROSE}" stroke="white" stroke-width="1.5"><title>Interview yr: n=${ni}, ${vi.toFixed(1)}%</title></circle>`;
 
-    // Delta — line color, the only color that encodes meaning
+    // Delta
     const sign = delta > 0 ? '+' : '';
-    s += `<text x="${(pw + 5).toFixed(1)}" y="${(y + 3.5).toFixed(1)}" font-size="9.5" fill="${lineCol}" font-family="Inter,sans-serif" font-weight="600" opacity="${op}">${sign}${delta.toFixed(1)}</text>`;
+    s += `<text x="${(pw + 5).toFixed(1)}" y="${(y + 3.5).toFixed(1)}" font-size="9.5" fill="${lineCol}" font-family="Inter,sans-serif" font-weight="600">${sign}${delta.toFixed(1)}</text>`;
   });
 
   s += `</g></svg>`;
