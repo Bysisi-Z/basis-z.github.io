@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-08 (session 28)
+> Last updated: 2026-06-08 (session 29)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -148,7 +148,8 @@ Gateway → two columns: Industry Research + Play with the Data.
 **Play with the Data projects:**
 - `/research/data` — NSFG 2022–2023 Female Respondent (5,586 respondents, 1,912 variables, 21 deep-dive analysis pages)
 - `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 1,368 variables, 25 topic sections) ✅ session 24–25
-- `/research/meps-expenditure` — MEPS Expenditure by Payer deep-dive ✅ NEW session 25
+- `/research/meps-expenditure` — MEPS Expenditure by Payer deep-dive ✅ session 25
+- `/nsfg-method-trends.html` — NSFG contraceptive method usage across 4 years ✅ NEW session 29
 
 **MEPS explorer (`/research/meps`) details:**
 - Section dropdown (25 sections) in left panel above search
@@ -159,6 +160,19 @@ Gateway → two columns: Industry Research + Play with the Data.
 **Age groups:** 0–17 / 18–34 / 35–49 / 50–64 / 65–74 / 75+ (variable: AGE23X)
 **Income groups:** Poor/Near poor (<125% FPL) / Low (125–199%) / Middle (200–399%) / High (≥400%) (variable: POVCAT23, codes 1+2 merged)
 **Split data:** `public/data/meps_{section}_split.json` (25 files, ~2.7MB total) — keyed by varname → {age: {groupKey: {label,n,dist}}, income: {...}}. Bins aligned to overall distribution for cross-group comparison. Regeneration: `_data_sources/meps2023/gen_meps_splits.py`
+
+**NSFG method trends (`/nsfg-method-trends.html`) — session 29:**
+- Contraceptive method use across the 4 years before interview (interview yr−3 to interview yr)
+- METHX layout: 48 months × 4 slots = METHX1–METHX192; months 1–12 = yr−3, 13–24 = yr−2, 25–36 = yr−1, 37–48 = interview yr
+- All methods sorted by interview year usage (descending); Others = grouped minor methods
+- **3-way denominator toggle:**
+  - Method users that year — women who used any contraceptive method (n ≈ 3,464–3,640)
+  - All respondents — full 5,586 sample
+  - Non-EC contraception drug — women who used pill/IUD/implant/Depo/ring/patch (no EC); n ≈ 1,776–1,877
+- Blue warning banner (always visible): percentages don't sum to 100% — one woman counted once per method per year
+- METHX1–METHX192 all carry REPORT badge in NSFG explorer linking to this page
+- Source file: `public/nsfg-method-trends.html` (standalone, no Astro build dependency)
+- **Key findings:** Pill declining 31% → 26% of method users over 4 years; IUD rising 15% → 16%; in drug market Pill = ~51%, IUD = ~33%
 
 **MEPS Expenditure overview (`/research/meps-expenditure`) details — session 25–27:**
 - **Split by toggle (session 27):** Overall / Age group / Income level — switches composition chart (Chart 1) to matrix of stacked bars, one row per subgroup
@@ -243,6 +257,7 @@ Content not written.
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
 - [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: insurance coverage (INSCOV23), access barriers (DLAYCA42), etc.
+- [x] **NSFG method trends page** — `/nsfg-method-trends.html` ✅ done session 29; METHX1–192 all badged
 - [ ] **Now page** — content not written
 - [ ] **A Collection of Rabbit Holes** — content not written
 
