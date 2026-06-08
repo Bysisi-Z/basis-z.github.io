@@ -205,17 +205,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 .nsfg-reports-btn {
   display: inline-block;
-  margin-top: 14px;
+  margin-top: 16px;
   font-size: 12px;
   font-weight: 400;
-  color: var(--stone);
+  color: #fff;
   text-decoration: none;
-  border: 1px solid var(--rule);
+  background: var(--rose);
+  border: 1px solid var(--rose);
   border-radius: 20px;
-  padding: 5px 14px;
-  transition: color .15s, border-color .15s;
+  padding: 6px 16px;
+  letter-spacing: .02em;
+  transition: opacity .15s;
 }
-.nsfg-reports-btn:hover { color: var(--rose); border-color: var(--rose); }
+.nsfg-reports-btn:hover { opacity: .82; }
 
 /* ── Explorer wider container ──────────────────────────────────────────────── */
 .explorer-wrap {

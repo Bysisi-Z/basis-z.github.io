@@ -31,6 +31,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <p class="meps-desc">
         The Medical Expenditure Panel Survey (MEPS), conducted by AHRQ since 1996, collects nationally representative data on healthcare use, costs, and insurance coverage in the US. This explorer covers the 2023 Full-Year Consolidated file — <strong>18,640</strong> inscope respondents, <strong>1,368</strong> variables across 25 topic sections.
       </p>
+      <a href="/meps-reports.html" class="meps-reports-btn">See all individual reports →</a>
     </div>
 
     <div id="explorer">
@@ -151,6 +152,21 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   color: var(--stone); line-height: 1.75; max-width: 760px; margin: 0;
 }
 .meps-desc strong { font-weight: 400; color: var(--ink); }
+.meps-reports-btn {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  background: var(--rose);
+  border: 1px solid var(--rose);
+  border-radius: 20px;
+  padding: 6px 16px;
+  letter-spacing: .02em;
+  transition: opacity .15s;
+}
+.meps-reports-btn:hover { opacity: .82; }
 
 /* ── Two-panel ────────────────────────────────────────────────────────────── */
 .panels {
