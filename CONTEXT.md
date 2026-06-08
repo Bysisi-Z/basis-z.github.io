@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-07 (session 27)
+> Last updated: 2026-06-08 (session 28)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -172,6 +172,7 @@ Gateway → two columns: Industry Research + Play with the Data.
   - Default: Total selected on page load
 - **Section labels:** Inter 600, 15px, rose color, rose gradient background strip (left→transparent)
 - **Payers:** Total, Self/OOP, Private Ins., Medicare, Medicaid, VA/CHAMPVA, TRICARE, Other (=TOTOFD+TOTSTL+TOTWCP+TOTOSR)
+- **Medicare glossary (session 28):** expanded to explain under-65 coverage — SSDI (24 months), ESRD, ALS
 - **Removed:** TOTPTR23, TOTOTH23 (aggregate/derived variables — excluded from explorer and REPORT badges)
 - **Additive check:** payer components sum to TOTEXP23 at person level (max diff = $4, rounding only)
 - Data: `public/data/meps_exp_overview.json` (200-pt curves + stats per payer + age_groups + income_groups)
