@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pill, IUD, Implant & Ring by Age — NSFG 2022–2023</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #FAFAF8;
+  --ink:   #1A1A1A;
+  --rose:  #c17d9d;
+  --stone: #847B7B;
+  --rule:  #E2DEDB;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Inter',sans-serif;font-weight:300;font-size:15px;line-height:1.6;
+  padding:clamp(32px,5vw,64px) clamp(20px,6vw,80px);
+}
+.page{max-width:1060px;margin:0 auto}
+
+/* header */
+.page-header{margin-bottom:40px}
+.page-header h1{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.5vw,40px);
+  font-weight:300;font-style:italic;line-height:1.2;margin-bottom:10px;
+}
+.page-header p{color:var(--stone);font-size:14px;max-width:600px;line-height:1.7}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.meta-chip{font-size:12px;color:var(--stone);border:1px solid var(--rule);border-radius:20px;padding:3px 12px}
+
+/* section */
+.section{margin-bottom:52px}
+.section-title{
+  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--rose);
+  background:linear-gradient(to right,rgba(193,125,157,.08),transparent);
+  padding:6px 12px;margin-bottom:8px;display:inline-block;
+}
+.section-desc{font-size:13px;color:var(--stone);margin-bottom:24px;max-width:640px;line-height:1.65}
+
+/* denominator toggle */
+.controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.controls label{font-size:12px;color:var(--stone);white-space:nowrap}
+.toggle-group{display:flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.denom-btn{
+  padding:5px 13px;font-size:12px;font-family:'Inter',sans-serif;font-weight:400;
+  background:none;border:none;cursor:pointer;color:var(--stone);
+  transition:background .15s,color .15s;line-height:1.4;white-space:nowrap;
+}
+.denom-btn+.denom-btn{border-left:1px solid var(--rule)}
+.denom-btn.active{background:var(--rose);color:#fff}
+.denom-note{
+  background:rgba(193,125,157,.05);border-left:3px solid var(--rose);
+  padding:10px 14px;font-size:13px;color:var(--stone);
+  border-radius:0 6px 6px 0;margin-bottom:32px;line-height:1.6;
+}
+.denom-note strong{color:var(--ink)}
+
+/* 2×2 method grid */
+.method-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:24px 28px;
+}
+@media(max-width:660px){.method-grid{grid-template-columns:1fr}}
+.method-card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:18px 20px}
+.method-card-title{
+  font-size:12.5px;font-weight:600;letter-spacing:.02em;
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.method-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.overall-badge{
+  margin-left:auto;font-size:11px;font-weight:600;color:var(--stone);
+  background:rgba(0,0,0,.05);border-radius:20px;padding:2px 9px;white-space:nowrap;
+}
+.overall-badge em{font-style:normal;color:var(--ink)}
+.chart-denom-tag{
+  font-size:10.5px;color:var(--stone);font-weight:300;margin-top:-10px;
+  margin-bottom:12px;font-style:italic;
+}
+
+/* bar chart — Section A */
+.bar-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.bar-age-lbl{font-size:11px;color:var(--stone);min-width:34px;text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:13px;background:rgba(0,0,0,.04);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .3s ease}
+.bar-stat{display:flex;gap:5px;font-size:11px;min-width:74px}
+.bar-n{color:var(--stone)}
+.bar-pct{font-weight:600;color:var(--ink);min-width:34px}
+
+/* legend for age groups */
+.age-legend{
+  display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:20px;
+  padding:10px 14px;background:rgba(0,0,0,.02);border-radius:8px;
+}
+.ag-item{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--stone)}
+.ag-swatch{width:18px;height:3px;border-radius:2px;flex-shrink:0}
+
+/* line chart */
+.linechart-wrap{width:100%;overflow:hidden}
+
+/* context stacked bar chart */
+.ctx-chart{margin-bottom:32px}
+.ctx-sub-title{font-size:11px;font-weight:600;color:var(--stone);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.ctx-legend{display:flex;gap:10px 22px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.ctx-leg-item{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--stone)}
+.ctx-leg-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.ctx-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.ctx-age-lbl{min-width:36px;text-align:right;font-size:11px;font-weight:600;flex-shrink:0}
+.ctx-bar{flex:1;height:20px;display:flex;border-radius:3px;overflow:hidden}
+.ctx-seg{height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .3s ease}
+.ctx-seg-label{font-size:9.5px;font-weight:600;white-space:nowrap;padding:0 4px;pointer-events:none}
+.ctx-seg.nonuse{background:#EAE5E1}
+.ctx-seg.nonuse .ctx-seg-label{color:var(--stone)}
+.ctx-seg.other {background:#A8A09C}
+.ctx-seg.other .ctx-seg-label{color:rgba(255,255,255,.9)}
+.ctx-seg.drug  {background:var(--rose)}
+.ctx-seg.drug  .ctx-seg-label{color:rgba(255,255,255,.95)}
+.ctx-n-lbl{font-size:10px;color:var(--stone);min-width:46px;flex-shrink:0}
+
+/* findings callout */
+.findings{
+  background:rgba(193,125,157,.04);border:1px solid rgba(193,125,157,.2);
+  border-radius:12px;padding:24px 28px;margin-bottom:40px;
+}
+.findings h3{
+  font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;font-weight:300;
+  color:var(--rose);margin-bottom:18px;
+}
+.finding{margin-bottom:14px;font-size:14px;line-height:1.75}
+.finding+.finding{border-top:1px solid var(--rule);padding-top:14px}
+.finding strong{color:var(--ink);font-weight:600}
+
+/* data table */
+.tbl-block{margin-bottom:28px}
+.tbl-method-lbl{
+  font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:6px;padding-left:2px;
+}
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{
+  font-weight:600;padding:5px 10px;border-bottom:1px solid var(--rule);
+  text-align:left;color:var(--stone);font-size:11px;letter-spacing:.04em;
+  background:rgba(0,0,0,.02);
+}
+.data-table td{padding:5px 10px;border-bottom:1px solid rgba(226,222,219,.5)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table .col-now{color:var(--rose);font-weight:600}
+.nv{color:var(--stone);font-size:10.5px;margin-right:4px}
+.pv{font-weight:600}
+
+/* footnote */
+.footnote{font-size:12px;color:var(--stone);margin-top:14px;line-height:1.75}
+.footnote strong{color:var(--ink)}
+
+/* back link */
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--stone);text-decoration:none;
+  margin-bottom:28px;border:1px solid var(--rule);border-radius:20px;padding:4px 14px;
+  transition:color .15s,border-color .15s;
+}
+.back-link:hover{color:var(--rose);border-color:var(--rose)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<a href="/research/data" class="back-link">← NSFG Explorer</a>
+
+<div class="page-header">
+  <h1>Pill, IUD, Implant & Ring —<br>Who Uses Them, and Is That Shifting?</h1>
+  <p>Age-stratified use of four hormonal and LARC contraceptive methods, across a four-year retrospective calendar. Each respondent's age is fixed at the time of interview.</p>
+  <div class="meta">
+    <span class="meta-chip">NSFG 2022–2023</span>
+    <span class="meta-chip">N = 5,586 female respondents</span>
+    <span class="meta-chip">METHX calendar · 4 years × 4 methods × 7 age groups</span>
+  </div>
+</div>
+
+<!-- Denominator toggle -->
+<div class="controls">
+  <label>Show % of —</label>
+  <div class="toggle-group">
+    <button class="denom-btn active" data-key="pu" onclick="setDenom('pu')">Method users in age group</button>
+    <button class="denom-btn" data-key="pt" onclick="setDenom('pt')">All respondents in age group</button>
+    <button class="denom-btn" data-key="pd" onclick="setDenom('pd')">Hormonal/LARC users in age group</button>
+  </div>
+</div>
+<div id="denom-note" class="denom-note"></div>
+
+<!-- Section A: current snapshot (bars) -->
+<div class="section">
+  <div class="section-title">Age Profile — Interview Year (Current Snapshot)</div>
+  <div class="section-desc">For each method: share of each age group that used it during the interview year. Bars are scaled to each method's own maximum — do not compare widths across methods.</div>
+
+  <!-- Context stacked bar -->
+  <div class="ctx-chart">
+    <div class="ctx-sub-title">Contraceptive market overview — full bar = all respondents in age group</div>
+    <div class="ctx-legend">
+      <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#EAE5E1;border:1px solid #D0CBC7"></div>No method used</div>
+      <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#A8A09C"></div>Other methods (condom, withdrawal, sterilization, rhythm…)</div>
+      <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:var(--rose)"></div>Non-EC contraceptive drug (pill, IUD, implant, Depo, ring, patch)</div>
+    </div>
+    <div id="ctx-bars"></div>
+  </div>
+
+  <div class="method-grid" id="bars-grid"></div>
+</div>
+
+<!-- Section B: 4-year trend (line charts) -->
+<div class="section">
+  <div class="section-title">Yr −3 → Interview Year: How Each Age Group Shifted</div>
+  <div class="section-desc">Each row is one age group. Open circle = yr −3, filled circle = interview year. Intermediate dots (yr −2, yr −1) show the trajectory shape. Line color: <span style="color:#5BAD8B;font-weight:600">teal = increasing</span>, <span style="color:#D07090;font-weight:600">rose = declining</span>. Faded rows indicate small sample sizes (n &lt; 15).</div>
+  <div class="method-grid" id="lines-grid"></div>
+</div>
+
+<!-- Key findings -->
+<div class="findings">
+  <h3>What the data shows</h3>
+  <div class="finding">
+    <strong>Pill: strong youth preference, and it is eroding.</strong>
+    Pill is the default contraceptive for young women — 51% of teen method users rely on it versus 16% of women 45–50. But this gap is not stable: among teens, pill share dropped from 64% in yr −3 to 51% at interview; among 20–24-year-olds from 54% to 39%. Rates in older groups changed little. The age spread is widening because young women are moving away from pill faster than older cohorts are.
+  </div>
+  <div class="finding">
+    <strong>IUD: catching up with younger cohorts, and the trend is sustained.</strong>
+    IUD use peaks at ages 25–39 and has historically been low among teens — but every age group under 30 shows consistent growth over four years. Teen IUD uptake among method users more than doubled (3% → 7%); 20–24-year-olds rose from 9% to 13%. The age gradient is flattening. Among women already using a hormonal or LARC method, the IUD's share is rising across all age groups.
+  </div>
+  <div class="finding">
+    <strong>Implant: sharply concentrated in 20–24, stable over time.</strong>
+    Implant use drops steeply with age and is concentrated in the 20–24 group (~12% of method users). Unlike IUD, the age profile has not changed meaningfully over four years — it appears to occupy a stable demographic niche, with the 15–19 cohort showing very slight growth from a small base.
+  </div>
+  <div class="finding">
+    <strong>Ring: mid-age preference, small sample, no clear trend.</strong>
+    The ring is the only method here that does not peak in younger women — use is highest among 35–39-year-olds (~3% of method users). With only ~70 users per year in the sample, confidence intervals are wide and no temporal trend is detectable. Its users may skew toward women experienced with hormonal methods who prefer a non-daily option without the commitment of a LARC.
+  </div>
+</div>
+
+<!-- Data table -->
+<div class="section">
+  <div class="section-title">Full Data</div>
+  <div id="table-wrap"></div>
+  <p class="footnote">
+    <strong>Age at interview.</strong> In yr −3, women in the 15–19 group were aged 12–16 — many were not yet contraceptively active, so denominators are small and estimates less reliable (shown as dashed lines above).<br>
+    <strong>Counting rule:</strong> A respondent is counted once per year if she used that method in any month of the 12-month window (METHX1–192 calendar slots, 4 slots per month).<br>
+    <strong>Method codes:</strong> Pill = code 3, IUD = code 19, Implant = code 9, Ring (NuvaRing) = code 26.<br>
+    <strong>Drug-market denominator:</strong> women who used any of: pill, IUD, implant, Depo, ring, or patch in that year.<br>
+    <strong>Source:</strong> NSFG 2022–2023 Female Respondent PUF · N = 5,586.
+  </p>
+</div>
+
+</div>
+<script>
+const DATA = {"methods":{"pill":{"15–19":{"yr-3":{"n":61,"pu":64.2,"pt":8.4,"pd":74.4},"yr-2":{"n":89,"pu":59.7,"pt":12.2,"pd":75.4},"yr-1":{"n":133,"pu":58.8,"pt":18.2,"pd":73.5},"interview":{"n":129,"pu":51.2,"pt":17.7,"pd":66.8}},"20–24":{"yr-3":{"n":181,"pu":54.0,"pt":29.9,"pd":68.3},"yr-2":{"n":165,"pu":48.1,"pt":27.2,"pd":62.7},"yr-1":{"n":161,"pu":42.9,"pt":26.6,"pd":59.4},"interview":{"n":146,"pu":39.2,"pt":24.1,"pd":55.7}},"25–29":{"yr-3":{"n":242,"pu":42.8,"pt":30.1,"pd":63.0},"yr-2":{"n":214,"pu":38.4,"pt":26.7,"pd":59.8},"yr-1":{"n":189,"pu":33.3,"pt":23.5,"pd":53.2},"interview":{"n":162,"pu":30.2,"pt":20.2,"pd":50.6}},"30–34":{"yr-3":{"n":210,"pu":28.6,"pt":20.4,"pd":53.2},"yr-2":{"n":197,"pu":27.4,"pt":19.2,"pd":51.6},"yr-1":{"n":188,"pu":26.4,"pt":18.3,"pd":51.2},"interview":{"n":164,"pu":23.7,"pt":16.0,"pd":49.1}},"35–39":{"yr-3":{"n":162,"pu":25.4,"pt":17.5,"pd":49.5},"yr-2":{"n":139,"pu":21.6,"pt":15.0,"pd":44.3},"yr-1":{"n":140,"pu":20.8,"pt":15.1,"pd":44.6},"interview":{"n":119,"pu":18.4,"pt":12.8,"pd":40.9}},"40–44":{"yr-3":{"n":135,"pu":22.8,"pt":16.9,"pd":52.1},"yr-2":{"n":126,"pu":21.6,"pt":15.8,"pd":51.0},"yr-1":{"n":118,"pu":20.2,"pt":14.8,"pd":48.4},"interview":{"n":115,"pu":20.2,"pt":14.4,"pd":48.1}},"45–50":{"yr-3":{"n":87,"pu":18.0,"pt":12.6,"pd":56.1},"yr-2":{"n":84,"pu":17.6,"pt":12.1,"pd":56.0},"yr-1":{"n":78,"pu":16.3,"pt":11.3,"pd":53.8},"interview":{"n":73,"pu":15.8,"pt":10.5,"pd":53.3}}},"iud":{"15–19":{"yr-3":{"n":3,"pu":3.2,"pt":0.4,"pd":3.7},"yr-2":{"n":5,"pu":3.4,"pt":0.7,"pd":4.2},"yr-1":{"n":11,"pu":4.9,"pt":1.5,"pd":6.1},"interview":{"n":18,"pu":7.1,"pt":2.5,"pd":9.3}},"20–24":{"yr-3":{"n":31,"pu":9.3,"pt":5.1,"pd":11.7},"yr-2":{"n":42,"pu":12.2,"pt":6.9,"pd":16.0},"yr-1":{"n":43,"pu":11.5,"pt":7.1,"pd":15.9},"interview":{"n":48,"pu":12.9,"pt":7.9,"pd":18.3}},"25–29":{"yr-3":{"n":95,"pu":16.8,"pt":11.8,"pd":24.7},"yr-2":{"n":104,"pu":18.7,"pt":13.0,"pd":29.1},"yr-1":{"n":108,"pu":19.0,"pt":13.4,"pd":30.4},"interview":{"n":104,"pu":19.4,"pt":13.0,"pd":32.5}},"30–34":{"yr-3":{"n":126,"pu":17.2,"pt":12.3,"pd":31.9},"yr-2":{"n":131,"pu":18.2,"pt":12.7,"pd":34.3},"yr-1":{"n":131,"pu":18.4,"pt":12.7,"pd":35.7},"interview":{"n":127,"pu":18.4,"pt":12.4,"pd":38.0}},"35–39":{"yr-3":{"n":118,"pu":18.5,"pt":12.7,"pd":36.1},"yr-2":{"n":125,"pu":19.4,"pt":13.5,"pd":39.8},"yr-1":{"n":132,"pu":19.6,"pt":14.2,"pd":42.0},"interview":{"n":127,"pu":19.6,"pt":13.7,"pd":43.6}},"40–44":{"yr-3":{"n":94,"pu":15.9,"pt":11.8,"pd":36.3},"yr-2":{"n":94,"pu":16.2,"pt":11.8,"pd":38.1},"yr-1":{"n":95,"pu":16.3,"pt":11.9,"pd":38.9},"interview":{"n":96,"pu":16.8,"pt":12.0,"pd":40.2}},"45–50":{"yr-3":{"n":66,"pu":13.7,"pt":9.5,"pd":42.6},"yr-2":{"n":64,"pu":13.4,"pt":9.2,"pd":42.7},"yr-1":{"n":64,"pu":13.4,"pt":9.2,"pd":44.1},"interview":{"n":63,"pu":13.6,"pt":9.1,"pd":46.0}}},"implant":{"15–19":{"yr-3":{"n":5,"pu":5.3,"pt":0.7,"pd":6.1},"yr-2":{"n":12,"pu":8.1,"pt":1.6,"pd":10.2},"yr-1":{"n":20,"pu":8.8,"pt":2.7,"pd":11.0},"interview":{"n":20,"pu":7.9,"pt":2.7,"pd":10.4}},"20–24":{"yr-3":{"n":41,"pu":12.2,"pt":6.8,"pd":15.5},"yr-2":{"n":47,"pu":13.7,"pt":7.8,"pd":17.9},"yr-1":{"n":45,"pu":12.0,"pt":7.4,"pd":16.6},"interview":{"n":44,"pu":11.8,"pt":7.3,"pd":16.8}},"25–29":{"yr-3":{"n":41,"pu":7.2,"pt":5.1,"pd":10.7},"yr-2":{"n":33,"pu":5.9,"pt":4.1,"pd":9.2},"yr-1":{"n":36,"pu":6.3,"pt":4.5,"pd":10.1},"interview":{"n":37,"pu":6.9,"pt":4.6,"pd":11.6}},"30–34":{"yr-3":{"n":42,"pu":5.7,"pt":4.1,"pd":10.6},"yr-2":{"n":40,"pu":5.6,"pt":3.9,"pd":10.5},"yr-1":{"n":40,"pu":5.6,"pt":3.9,"pd":10.9},"interview":{"n":38,"pu":5.5,"pt":3.7,"pd":11.4}},"35–39":{"yr-3":{"n":23,"pu":3.6,"pt":2.5,"pd":7.0},"yr-2":{"n":26,"pu":4.0,"pt":2.8,"pd":8.3},"yr-1":{"n":23,"pu":3.4,"pt":2.5,"pd":7.3},"interview":{"n":20,"pu":3.1,"pt":2.2,"pd":6.9}},"40–44":{"yr-3":{"n":7,"pu":1.2,"pt":0.9,"pd":2.7},"yr-2":{"n":5,"pu":0.9,"pt":0.6,"pd":2.0},"yr-1":{"n":6,"pu":1.0,"pt":0.8,"pd":2.5},"interview":{"n":7,"pu":1.2,"pt":0.9,"pd":2.9}},"45–50":{"yr-3":{"n":1,"pu":0.2,"pt":0.1,"pd":0.6},"yr-2":{"n":1,"pu":0.2,"pt":0.1,"pd":0.7},"yr-1":{"n":1,"pu":0.2,"pt":0.1,"pd":0.7},"interview":{"n":1,"pu":0.2,"pt":0.1,"pd":0.7}}},"ring":{"15–19":{"yr-3":{"n":2,"pu":2.1,"pt":0.3,"pd":2.4},"yr-2":{"n":0,"pu":0.0,"pt":0.0,"pd":0.0},"yr-1":{"n":2,"pu":0.9,"pt":0.3,"pd":1.1},"interview":{"n":3,"pu":1.2,"pt":0.4,"pd":1.6}},"20–24":{"yr-3":{"n":4,"pu":1.2,"pt":0.7,"pd":1.5},"yr-2":{"n":4,"pu":1.2,"pt":0.7,"pd":1.5},"yr-1":{"n":8,"pu":2.1,"pt":1.3,"pd":3.0},"interview":{"n":7,"pu":1.9,"pt":1.2,"pd":2.7}},"25–29":{"yr-3":{"n":10,"pu":1.8,"pt":1.2,"pd":2.6},"yr-2":{"n":12,"pu":2.2,"pt":1.5,"pd":3.4},"yr-1":{"n":13,"pu":2.3,"pt":1.6,"pd":3.7},"interview":{"n":12,"pu":2.2,"pt":1.5,"pd":3.8}},"30–34":{"yr-3":{"n":15,"pu":2.0,"pt":1.5,"pd":3.8},"yr-2":{"n":13,"pu":1.8,"pt":1.3,"pd":3.4},"yr-1":{"n":15,"pu":2.1,"pt":1.5,"pd":4.1},"interview":{"n":12,"pu":1.7,"pt":1.2,"pd":3.6}},"35–39":{"yr-3":{"n":26,"pu":4.1,"pt":2.8,"pd":8.0},"yr-2":{"n":22,"pu":3.4,"pt":2.4,"pd":7.0},"yr-1":{"n":23,"pu":3.4,"pt":2.5,"pd":7.3},"interview":{"n":20,"pu":3.1,"pt":2.2,"pd":6.9}},"40–44":{"yr-3":{"n":16,"pu":2.7,"pt":2.0,"pd":6.2},"yr-2":{"n":17,"pu":2.9,"pt":2.1,"pd":6.9},"yr-1":{"n":16,"pu":2.7,"pt":2.0,"pd":6.6},"interview":{"n":14,"pu":2.5,"pt":1.8,"pd":5.9}},"45–50":{"yr-3":{"n":2,"pu":0.4,"pt":0.3,"pd":1.3},"yr-2":{"n":2,"pu":0.4,"pt":0.3,"pd":1.3},"yr-1":{"n":3,"pu":0.6,"pt":0.4,"pd":2.1},"interview":{"n":3,"pu":0.6,"pt":0.4,"pd":2.2}}}},"denoms":{"15–19":{"yr-3":{"n_total":730,"n_users":95,"n_drug":82},"yr-2":{"n_total":730,"n_users":149,"n_drug":118},"yr-1":{"n_total":730,"n_users":226,"n_drug":181},"interview":{"n_total":730,"n_users":252,"n_drug":193}},"20–24":{"yr-3":{"n_total":606,"n_users":335,"n_drug":265},"yr-2":{"n_total":606,"n_users":343,"n_drug":263},"yr-1":{"n_total":606,"n_users":375,"n_drug":271},"interview":{"n_total":606,"n_users":372,"n_drug":262}},"25–29":{"yr-3":{"n_total":803,"n_users":566,"n_drug":384},"yr-2":{"n_total":803,"n_users":557,"n_drug":358},"yr-1":{"n_total":803,"n_users":567,"n_drug":355},"interview":{"n_total":803,"n_users":537,"n_drug":320}},"30–34":{"yr-3":{"n_total":1028,"n_users":734,"n_drug":395},"yr-2":{"n_total":1028,"n_users":719,"n_drug":382},"yr-1":{"n_total":1028,"n_users":713,"n_drug":367},"interview":{"n_total":1028,"n_users":691,"n_drug":334}},"35–39":{"yr-3":{"n_total":928,"n_users":638,"n_drug":327},"yr-2":{"n_total":928,"n_users":645,"n_drug":314},"yr-1":{"n_total":928,"n_users":672,"n_drug":314},"interview":{"n_total":928,"n_users":647,"n_drug":291}},"40–44":{"yr-3":{"n_total":798,"n_users":592,"n_drug":259},"yr-2":{"n_total":798,"n_users":582,"n_drug":247},"yr-1":{"n_total":798,"n_users":584,"n_drug":244},"interview":{"n_total":798,"n_users":570,"n_drug":239}},"45–50":{"yr-3":{"n_total":693,"n_users":482,"n_drug":155},"yr-2":{"n_total":693,"n_users":478,"n_drug":150},"yr-1":{"n_total":693,"n_users":479,"n_drug":145},"interview":{"n_total":693,"n_users":462,"n_drug":137}}},"age_labels":["15–19","20–24","25–29","30–34","35–39","40–44","45–50"],"years":["yr-3","yr-2","yr-1","interview"]};;
+
+const AGE_LABELS  = DATA.age_labels;
+const YEARS       = DATA.years;
+const YEAR_LABELS = ['Yr −3','Yr −2','Yr −1','Interview yr'];
+
+// Rose → stone gradient, 7 steps
+const AGE_COLORS = ['#E596C8','#D182B8','#C17D9D','#A06882','#897080','#847B7B','#6B6060'];
+
+const METHODS = [
+  {key:'pill',    label:'Pill',            color:'#C17D9D'},
+  {key:'iud',     label:'IUD',             color:'#4A8EC2'},
+  {key:'implant', label:'Implant',         color:'#8A6EC0'},
+  {key:'ring',    label:'Ring (NuvaRing)', color:'#5BAD8B'},
+];
+
+let currentDenom = 'pu';
+
+function setDenom(key) {
+  currentDenom = key;
+  document.querySelectorAll('.denom-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
+  updateNote();
+  renderBarsGrid();
+  renderLinesGrid();
+  renderTable();
+}
+
+function updateNote() {
+  const notes = {
+    pu: '<strong>Denominator: women who used any contraceptive method in that age group that year.</strong> Controls for age differences in sexual activity, isolating method preference among those actively using contraception.',
+    pt: '<strong>Denominator: all respondents in that age group</strong> (N 606–1,028 per group, fixed). Population-level prevalence — lower for teens because fewer are sexually active.',
+    pd: '<strong>Denominator: women who used any hormonal or LARC method</strong> (pill, IUD, implant, Depo, ring, or patch) in that age group that year. Narrows the frame to the hormonal/LARC market — best for comparing these four methods head-to-head.',
+  };
+  document.getElementById('denom-note').innerHTML = notes[currentDenom];
+}
+
+/* ─── Section A: Bar charts ─────────────────────────── */
+
+function renderBarsGrid() {
+  const grid = document.getElementById('bars-grid');
+  const dnKey = currentDenom === 'pu' ? 'n_users' : currentDenom === 'pt' ? 'n_total' : 'n_drug';
+  const denomShort = currentDenom === 'pu' ? '% of method users' : currentDenom === 'pt' ? '% of all respondents' : '% of hormonal/LARC users';
+  let html = '';
+  METHODS.forEach(m => {
+    const vals = AGE_LABELS.map(ag => DATA.methods[m.key][ag]['interview'][currentDenom]);
+    const maxVal = Math.max(...vals) || 1;
+
+    // Overall rate (all ages combined, interview year)
+    const totalN    = AGE_LABELS.reduce((s, ag) => s + DATA.methods[m.key][ag]['interview'].n, 0);
+    const totalDnom = AGE_LABELS.reduce((s, ag) => s + DATA.denoms[ag]['interview'][dnKey], 0);
+    const overallPct = totalDnom > 0 ? (totalN / totalDnom * 100).toFixed(1) : '—';
+
+    let rows = '';
+    AGE_LABELS.forEach((ag, i) => {
+      const d = DATA.methods[m.key][ag]['interview'];
+      const pct = d[currentDenom];
+      const w = (pct / maxVal * 100).toFixed(1);
+      rows += `<div class="bar-row">
+        <div class="bar-age-lbl">${ag}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${m.color}"></div></div>
+        <div class="bar-stat"><span class="bar-n">n=${d.n}</span><span class="bar-pct">${pct.toFixed(1)}%</span></div>
+      </div>`;
+    });
+    html += `<div class="method-card">
+      <div class="method-card-title">
+        <div class="method-dot" style="background:${m.color}"></div>
+        ${m.label}
+        <span class="overall-badge">all ages <em>${overallPct}%</em></span>
+      </div>
+      <div class="chart-denom-tag">${denomShort} · bars scaled to method maximum</div>
+      ${rows}
+    </div>`;
+  });
+  grid.innerHTML = html;
+}
+
+/* ─── Section B: Dumbbell charts ────────────────────── */
+
+function renderLinesGrid() {
+  const grid = document.getElementById('lines-grid');
+  const denomShort = currentDenom === 'pu' ? '% of method users'
+                   : currentDenom === 'pt' ? '% of all respondents'
+                   : '% of hormonal/LARC users';
+  let html = '';
+  METHODS.forEach(m => {
+    html += `<div class="method-card">
+      <div class="method-card-title"><div class="method-dot" style="background:${m.color}"></div>${m.label}</div>
+      <div class="chart-denom-tag">${denomShort} &nbsp;·&nbsp; ○ yr −3 &nbsp;→&nbsp; ● interview yr &nbsp;·&nbsp; Δ in pp</div>
+      <div class="linechart-wrap" id="lc-${m.key}"></div>
+    </div>`;
+  });
+  grid.innerHTML = html;
+  METHODS.forEach(m => buildDumbbell(m));
+}
+
+function buildDumbbell(method) {
+  const el = document.getElementById(`lc-${method.key}`);
+  if (!el) return;
+
+  const W = 390, H = 212;
+  const mg = {top: 22, right: 50, bottom: 10, left: 40};
+  const pw = W - mg.left - mg.right;   // 300
+  const ph = H - mg.top - mg.bottom;   // 180
+  const rowH = ph / AGE_LABELS.length; // ~25.7px
+
+  // X scale: max across all 4 years
+  let maxVal = 0;
+  AGE_LABELS.forEach(ag => YEARS.forEach(yr => {
+    const v = DATA.methods[method.key][ag][yr][currentDenom];
+    if (v > maxVal) maxVal = v;
+  }));
+  const xmax = Math.ceil(maxVal / 5) * 5 || 5;
+  const xs = v => (v / xmax * pw);
+
+  let ts = xmax <= 6 ? 2 : xmax <= 20 ? 5 : xmax <= 50 ? 10 : 20;
+
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg">`;
+  s += `<g transform="translate(${mg.left},${mg.top})">`;
+
+  // Top X axis
+  for (let t = 0; t <= xmax; t += ts) {
+    const x = xs(t).toFixed(1);
+    s += `<line x1="${x}" y1="-5" x2="${x}" y2="${ph}" stroke="#E2DEDB" stroke-width="1" stroke-dasharray="${t > 0 ? '3,3' : ''}"/>`;
+    s += `<text x="${x}" y="-9" text-anchor="middle" font-size="9" fill="#9E9490" font-family="Inter,sans-serif">${t}%</text>`;
+  }
+
+  const DOT  = '#5A5350';  // single neutral for all dots + age labels
+  const FADE = 0.35;       // opacity for small-n rows
+
+  AGE_LABELS.forEach((ag, i) => {
+    const y = rowH * i + rowH / 2;
+
+    const v3 = DATA.methods[method.key][ag]['yr-3'][currentDenom];
+    const v2 = DATA.methods[method.key][ag]['yr-2'][currentDenom];
+    const v1 = DATA.methods[method.key][ag]['yr-1'][currentDenom];
+    const vi = DATA.methods[method.key][ag]['interview'][currentDenom];
+    const n3 = DATA.methods[method.key][ag]['yr-3'].n;
+    const ni = DATA.methods[method.key][ag]['interview'].n;
+
+    const x3 = xs(v3), x2 = xs(v2), x1 = xs(v1), xi = xs(vi);
+    const delta   = vi - v3;
+    const isUp    = delta >= 0;
+    const lineCol = isUp ? '#5BAD8B' : '#D07090';
+    const op      = (n3 < 15 || ni < 15) ? FADE : 1;
+
+    // Age label — neutral, uniform
+    s += `<text x="-5" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${DOT}" font-weight="600" font-family="Inter,sans-serif" opacity="${op}">${ag}</text>`;
+
+    // Row guide
+    s += `<line x1="0" y1="${y.toFixed(1)}" x2="${pw}" y2="${y.toFixed(1)}" stroke="#F2EEEB" stroke-width="1"/>`;
+
+    // Connecting line — the only color signal (green / rose)
+    const lx1 = Math.min(x3, xi).toFixed(1), lx2 = Math.max(x3, xi).toFixed(1);
+    s += `<line x1="${lx1}" y1="${y.toFixed(1)}" x2="${lx2}" y2="${y.toFixed(1)}" stroke="${lineCol}" stroke-width="2.5" stroke-opacity="${op * 0.75}" stroke-linecap="round"/>`;
+
+    // Intermediate dots (yr-2, yr-1) — neutral, small
+    [[x2, v2, 'yr-2', 'Yr −2'], [x1, v1, 'yr-1', 'Yr −1']].forEach(([xm, vm, yrk, lbl]) => {
+      const nm = DATA.methods[method.key][ag][yrk].n;
+      s += `<circle cx="${xm.toFixed(1)}" cy="${y.toFixed(1)}" r="2.5" fill="${DOT}" opacity="${op * 0.45}"><title>${lbl}: n=${nm}, ${vm.toFixed(1)}%</title></circle>`;
+    });
+
+    // yr-3 open circle — neutral
+    s += `<circle cx="${x3.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="white" stroke="${DOT}" stroke-width="1.8" opacity="${op}"><title>Yr −3: n=${n3}, ${v3.toFixed(1)}%</title></circle>`;
+
+    // Interview filled circle — neutral
+    s += `<circle cx="${xi.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${DOT}" stroke="white" stroke-width="1.5" opacity="${op}"><title>Interview yr: n=${ni}, ${vi.toFixed(1)}%</title></circle>`;
+
+    // Delta — line color, the only color that encodes meaning
+    const sign = delta > 0 ? '+' : '';
+    s += `<text x="${(pw + 5).toFixed(1)}" y="${(y + 3.5).toFixed(1)}" font-size="9.5" fill="${lineCol}" font-family="Inter,sans-serif" font-weight="600" opacity="${op}">${sign}${delta.toFixed(1)}</text>`;
+  });
+
+  s += `</g></svg>`;
+  el.innerHTML = s;
+}
+
+/* ─── Context stacked bar ────────────────────────────── */
+
+function renderContextBars() {
+  const el = document.getElementById('ctx-bars');
+  if (!el) return;
+
+  let html = '';
+  AGE_LABELS.forEach((ag, i) => {
+    const dn      = DATA.denoms[ag]['interview'];
+    const nTotal  = dn.n_total;
+    const nDrug   = dn.n_drug;
+    const nUsers  = dn.n_users;
+    const nOther  = nUsers - nDrug;
+    const nNone   = nTotal - nUsers;
+
+    const pNone  = nNone  / nTotal * 100;
+    const pOther = nOther / nTotal * 100;
+    const pDrug  = nDrug  / nTotal * 100;
+
+    const lbl = (pct, n) => pct >= 9 ? `${pct.toFixed(0)}%` : '';
+
+    html += `<div class="ctx-bar-row">
+      <div class="ctx-age-lbl" style="color:${AGE_COLORS[i]}">${ag}</div>
+      <div class="ctx-bar">
+        <div class="ctx-seg nonuse" style="width:${pNone.toFixed(2)}%"
+             title="No method: n=${nNone} (${pNone.toFixed(1)}%)">
+          <span class="ctx-seg-label">${lbl(pNone, nNone)}</span>
+        </div>
+        <div class="ctx-seg other" style="width:${pOther.toFixed(2)}%"
+             title="Other methods: n=${nOther} (${pOther.toFixed(1)}%)">
+          <span class="ctx-seg-label">${lbl(pOther, nOther)}</span>
+        </div>
+        <div class="ctx-seg drug" style="width:${pDrug.toFixed(2)}%"
+             title="Non-EC drug (pill/IUD/implant/Depo/ring/patch): n=${nDrug} (${pDrug.toFixed(1)}%)">
+          <span class="ctx-seg-label">${lbl(pDrug, nDrug)}</span>
+        </div>
+      </div>
+      <div class="ctx-n-lbl">n=${nTotal.toLocaleString()}</div>
+    </div>`;
+  });
+
+  el.innerHTML = html;
+}
+
+/* ─── Age legend ─────────────────────────────────────── */
+
+function buildAgeLegend() {
+  document.getElementById('age-legend').innerHTML =
+    AGE_LABELS.map((ag, i) =>
+      `<div class="ag-item"><div class="ag-swatch" style="background:${AGE_COLORS[i]}"></div>${ag}</div>`
+    ).join('');
+}
+
+/* ─── Data table ─────────────────────────────────────── */
+
+function renderTable() {
+  let html = '';
+  METHODS.forEach(m => {
+    html += `<div class="tbl-block">`;
+    html += `<div class="tbl-method-lbl" style="color:${m.color}">${m.label}</div>`;
+    html += `<table class="data-table"><thead><tr>
+      <th>Age group</th>
+      ${YEARS.map((yr,i) => `<th${yr==='interview'?' class="col-now"':''}>${YEAR_LABELS[i]}</th>`).join('')}
+    </tr></thead><tbody>`;
+
+    AGE_LABELS.forEach((ag, ai) => {
+      html += `<tr>`;
+      html += `<td style="color:${AGE_COLORS[ai]};font-weight:600;font-size:12px">${ag}</td>`;
+      YEARS.forEach(yr => {
+        const d = DATA.methods[m.key][ag][yr];
+        const isNow = yr === 'interview';
+        html += `<td${isNow?' class="col-now"':''}>
+          <span class="nv">n=${d.n}</span><span class="pv">${d[currentDenom].toFixed(1)}%</span>
+        </td>`;
+      });
+      html += `</tr>`;
+    });
+
+    // Denom totals row
+    const dnKey = currentDenom === 'pu' ? 'n_users' : currentDenom === 'pt' ? 'n_total' : 'n_drug';
+    html += `<tr style="opacity:.65;border-top:1px solid var(--rule)">
+      <td style="color:var(--stone);font-size:11px;font-style:italic">Denominator (all ages)</td>
+      ${YEARS.map((yr,i) => {
+        const tot = AGE_LABELS.reduce((s,ag) => s + DATA.denoms[ag][yr][dnKey], 0);
+        return `<td${yr==='interview'?' class="col-now"':''}><span style="color:var(--stone);font-size:11px">${tot.toLocaleString()}</span></td>`;
+      }).join('')}
+    </tr>`;
+
+    html += `</tbody></table></div>`;
+  });
+  document.getElementById('table-wrap').innerHTML = html;
+}
+
+// Init
+updateNote();
+renderContextBars();
+renderBarsGrid();
+renderLinesGrid();
+renderTable();
+</script>
+</body>
+</html>
