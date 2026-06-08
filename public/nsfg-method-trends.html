@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contraceptive Method Usage — 4-Year Retrospective</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:    #FAFAF8;
+    --ink:   #1A1A1A;
+    --rose:  #c17d9d;
+    --stone: #847B7B;
+    --rule:  #E2DEDB;
+    --yr3:   #C9C2C0;
+    --yr2:   #A89FAD;
+    --yr1:   #987A95;
+    --yr0:   #c17d9d;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: clamp(32px,6vw,72px) clamp(20px,6vw,80px);
+  }
+  .page { max-width: 980px; margin: 0 auto; }
+
+  /* header */
+  .page-header { margin-bottom: 48px; }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px,4vw,42px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.2; margin-bottom: 12px;
+  }
+  .page-header p { color: var(--stone); font-size: 14px; max-width: 620px; line-height: 1.7; }
+  .meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .meta-chip {
+    font-size: 12px; color: var(--stone);
+    border: 1px solid var(--rule); border-radius: 20px; padding: 3px 12px;
+  }
+
+  /* section */
+  .section { margin-bottom: 52px; }
+  .section-title {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--rose);
+    background: linear-gradient(to right, rgba(193,125,157,.08), transparent);
+    padding: 6px 12px; margin-bottom: 24px; display: inline-block;
+  }
+
+  /* toggle */
+  .controls { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .controls label { font-size: 12px; color: var(--stone); }
+  .toggle-group { display: flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+  .toggle-btn {
+    padding: 5px 14px; font-size: 12px; font-family: 'Inter', sans-serif;
+    font-weight: 400; background: none; border: none; cursor: pointer;
+    color: var(--stone); transition: background .15s, color .15s; line-height: 1.4;
+  }
+  .toggle-btn + .toggle-btn { border-left: 1px solid var(--rule); }
+  .toggle-btn.active { background: var(--rose); color: #fff; }
+
+  /* denom note */
+  .denom-note {
+    background: rgba(193,125,157,.05);
+    border-left: 3px solid var(--rose);
+    padding: 12px 16px; font-size: 14px; color: var(--stone);
+    border-radius: 0 6px 6px 0; margin-bottom: 24px; line-height: 1.7;
+  }
+  .denom-note strong { color: var(--ink); font-weight: 600; }
+
+  /* legend */
+  .legend {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-bottom: 28px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--stone); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* bar chart */
+  .method-row {
+    display: flex; flex-direction: column;
+    padding: 10px 12px 12px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+  }
+  .method-row:nth-child(odd)  { background: rgba(130,120,120,.04); }
+  .method-row:nth-child(even) { background: transparent; }
+  .method-label {
+    font-size: 12px; font-weight: 600; color: var(--ink);
+    letter-spacing: .01em; margin-bottom: 7px;
+  }
+  .bars-col { display: flex; flex-direction: column; gap: 5px; }
+  .bar-row { display: flex; align-items: center; gap: 8px; }
+  .bar-track { flex: 1; height: 10px; background: rgba(130,120,120,.08); border-radius: 2px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 2px; transition: width .5s cubic-bezier(.4,0,.2,1); }
+  .bar-val { font-size: 11px; color: var(--stone); min-width: 90px; white-space: nowrap; }
+  .bar-val.current { color: var(--rose); }
+  .bar-val .bv-n { font-weight: 400; color: var(--ink); }
+  .bar-val.current .bv-n { color: var(--rose); }
+  .bar-val .bv-pct { font-size: 10.5px; color: var(--stone); margin-left: 6px; }
+  .bar-val.current .bv-pct { color: var(--rose); opacity: .8; }
+  .y3 { background: var(--yr3); }
+  .y2 { background: var(--yr2); }
+  .y1 { background: var(--yr1); }
+  .y0 { background: var(--yr0); }
+
+  /* others note below row */
+  .others-note {
+    font-size: 11.5px; color: var(--stone);
+    margin-top: 4px; line-height: 1.6;
+  }
+
+  /* callout */
+  .drug-callout {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    background: #4a7fc1;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    line-height: 1.7;
+    color: #fff;
+  }
+  .drug-callout .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .drug-callout .callout-body { font-size: 13.5px; }
+  .drug-callout strong { font-size: 15px; font-weight: 600; display: block; margin-bottom: 3px; }
+  .drug-callout span { opacity: .9; }
+
+  /* table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+  .data-table thead tr { border-bottom: 2px solid var(--rule); }
+  .data-table th {
+    font-weight: 600; font-size: 11px; letter-spacing: .04em;
+    color: var(--stone); padding: 8px 12px; text-align: right;
+  }
+  .data-table th:first-child { text-align: left; }
+  .data-table td {
+    padding: 10px 12px; text-align: right;
+    border-bottom: 1px solid var(--rule); color: var(--stone); vertical-align: middle;
+  }
+  .data-table td:first-child { text-align: left; color: var(--ink); font-weight: 400; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover td { background: rgba(193,125,157,.04); }
+  .n-val { display: block; color: var(--ink); font-weight: 400; }
+  .pct-val { display: block; font-size: 11.5px; margin-top: 1px; }
+  .data-table th.hi, .data-table td.hi { background: rgba(193,125,157,.06); }
+  .data-table td.hi .n-val { color: var(--rose); }
+  .data-table td.hi .pct-val { color: var(--rose); opacity: .75; }
+  .others-subtext { font-size: 11px; color: var(--stone); font-style: italic; font-weight: 300; display: block; margin-top: 2px; }
+  .denom-footer-row td {
+    font-size: 12px; color: var(--stone); border-top: 1px dashed var(--rule);
+    border-bottom: none !important; padding: 6px 12px;
+  }
+  .denom-footer-row td:first-child { font-style: italic; }
+
+  hr { border: none; border-top: 1px solid var(--rule); margin: 48px 0; }
+  .footnote {
+    font-size: 12px; color: var(--stone); margin-top: 20px;
+    padding-top: 16px; border-top: 1px solid var(--rule); line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>Contraceptive Method Use,<br>Four Years Before Interview</h1>
+    <p>For each year relative to interview date, the share of women who reported using each method in any month of that year.</p>
+    <div class="meta">
+      <span class="meta-chip">NSFG 2022–2023</span>
+      <span class="meta-chip">N = 5,586 female respondents</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Usage Rate by Year</div>
+
+    <div class="controls">
+      <label>Show % of —</label>
+      <div class="toggle-group">
+        <button class="toggle-btn" id="btn-users" onclick="setDenom('users')">Method users that year</button>
+        <button class="toggle-btn" id="btn-total" onclick="setDenom('total')">All respondents (5,586)</button>
+        <button class="toggle-btn" id="btn-drug" onclick="setDenom('drug')">Non-EC contraception drug</button>
+      </div>
+    </div>
+
+    <div id="denom-note" class="denom-note"></div>
+    <div id="drug-callout" class="drug-callout">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <strong>Percentages do not sum to 100%</strong>
+        <span>Each respondent is counted once per method she used in a given year. A woman who used both pill and condom appears in both rows. Percentages reflect individual method prevalence, not mutually exclusive shares.</span>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot y3"></div> Interview yr − 3</div>
+      <div class="legend-item"><div class="legend-dot y2"></div> Interview yr − 2</div>
+      <div class="legend-item"><div class="legend-dot y1"></div> Interview yr − 1</div>
+      <div class="legend-item"><div class="legend-dot y0"></div> Interview year</div>
+    </div>
+
+    <div id="bar-chart"></div>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <div class="section-title">Full Data</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Yr − 3</th>
+          <th>Yr − 2</th>
+          <th>Yr − 1</th>
+          <th class="hi">Interview yr</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <p class="footnote">
+      <strong>Counting rule:</strong> A respondent is counted once per year if she reported the method in any month within that year.<br>
+      <strong>Default denominator:</strong> women who used at least one contraceptive method that year.<br>
+      <strong>Others includes:</strong> Safe period (BBT/cervical mucus), Diaphragm, Female condom, Foam, Jelly/cream, Cervical cap, Suppository, Today sponge, Other method, Respondent sterile, Partner sterile.
+    </p>
+  </div>
+
+</div>
+<script>
+// pct fields: pu = % of method users, pt = % of all 5586, pd = % of non-EC drug market universe
+// sorted by interview year pu descending; drug=true marks non-EC drug-market rows
+const ROWS = [
+  {name:'Condom',              data:{'yr-3':{n:1050,pu:30.3,pt:18.8},'yr-2':{n:1022,pu:29.2,pt:18.3},'yr-1':{n:1114,pu:30.6,pt:19.9},'interview':{n:995, pu:28.0,pt:17.8}}},
+  {name:'Pill',       drug:true,data:{'yr-3':{n:1078,pu:31.1,pt:19.3,pd:57.7},'yr-2':{n:1014,pu:29.0,pt:18.2,pd:55.3},'yr-1':{n:1007,pu:27.7,pt:18.0,pd:53.6},'interview':{n:908, pu:25.6,pt:16.3,pd:51.1}}},
+  {name:'Withdrawal',          data:{'yr-3':{n:823, pu:23.8,pt:14.7},'yr-2':{n:854, pu:24.4,pt:15.3},'yr-1':{n:909, pu:25.0,pt:16.3},'interview':{n:885, pu:24.9,pt:15.8}}},
+  {name:'Female sterilization',data:{'yr-3':{n:511, pu:14.8,pt:9.1}, 'yr-2':{n:522, pu:14.9,pt:9.3}, 'yr-1':{n:548, pu:15.1,pt:9.8}, 'interview':{n:561, pu:15.8,pt:10.0}}},
+  {name:'IUD',        drug:true,data:{'yr-3':{n:533, pu:15.4,pt:9.5, pd:28.5},'yr-2':{n:565, pu:16.1,pt:10.1,pd:30.8},'yr-1':{n:584, pu:16.0,pt:10.5,pd:31.1},'interview':{n:583, pu:16.4,pt:10.4,pd:32.8}}},
+  {name:'Calendar / rhythm',   data:{'yr-3':{n:248, pu:7.2, pt:4.4}, 'yr-2':{n:262, pu:7.5, pt:4.7}, 'yr-1':{n:296, pu:8.1, pt:5.3}, 'interview':{n:283, pu:8.0, pt:5.1}}},
+  {name:"Partner's vasectomy", data:{'yr-3':{n:248, pu:7.2, pt:4.4}, 'yr-2':{n:265, pu:7.6, pt:4.7}, 'yr-1':{n:315, pu:8.7, pt:5.6}, 'interview':{n:319, pu:9.0, pt:5.7}}},
+  {name:'Implant',    drug:true,data:{'yr-3':{n:160, pu:4.6, pt:2.9,pd:8.6}, 'yr-2':{n:164, pu:4.7, pt:2.9,pd:9.0}, 'yr-1':{n:171, pu:4.7, pt:3.1,pd:9.1}, 'interview':{n:167, pu:4.7, pt:3.0,pd:9.4}}},
+  {name:'Depo',       drug:true,data:{'yr-3':{n:143, pu:4.1, pt:2.6,pd:7.7}, 'yr-2':{n:143, pu:4.1, pt:2.6,pd:7.8}, 'yr-1':{n:160, pu:4.4, pt:2.9,pd:8.5}, 'interview':{n:143, pu:4.0, pt:2.6,pd:8.1}}},
+  {name:'Others',
+   subtext:'Safe period (BBT/mucus), Diaphragm, Female condom, Foam, Jelly/cream, Suppository, Cervical cap, Today sponge, Other method, Respondent/partner sterile',
+                               data:{'yr-3':{n:114, pu:3.3, pt:2.0}, 'yr-2':{n:108, pu:3.1, pt:1.9}, 'yr-1':{n:119, pu:3.3, pt:2.1}, 'interview':{n:113, pu:3.2, pt:2.0}}},
+  {name:'Ring',       drug:true,data:{'yr-3':{n:75,  pu:2.2, pt:1.3,pd:4.0}, 'yr-2':{n:70,  pu:2.0, pt:1.3,pd:3.8}, 'yr-1':{n:80,  pu:2.2, pt:1.4,pd:4.3}, 'interview':{n:71,  pu:2.0, pt:1.3,pd:4.0}}},
+  {name:'Patch',      drug:true,data:{'yr-3':{n:23,  pu:0.7, pt:0.4,pd:1.2}, 'yr-2':{n:27,  pu:0.8, pt:0.5,pd:1.5}, 'yr-1':{n:35,  pu:1.0, pt:0.6,pd:1.9}, 'interview':{n:28,  pu:0.8, pt:0.5,pd:1.6}}},
+];
+
+const DENOMS = {
+  'yr-3':      {n_universe:4442, n_users:3464, n_drug:1867},
+  'yr-2':      {n_universe:4555, n_users:3499, n_drug:1832},
+  'yr-1':      {n_universe:4694, n_users:3640, n_drug:1877},
+  'interview': {n_universe:4762, n_users:3549, n_drug:1776},
+};
+const YEARS = ['yr-3','yr-2','yr-1','interview'];
+const YCLASSES = ['y3','y2','y1','y0'];
+const N_TOTAL = 5586;
+const MAX_PCT = {users: 35, total: 22, drug: 65};
+
+let currentDenom = 'users';
+
+function fmt(v) { return v.toFixed(1); }  // always 1 decimal
+
+function setDenom(denom) {
+  currentDenom = denom;
+  document.getElementById('btn-users').classList.toggle('active', denom === 'users');
+  document.getElementById('btn-total').classList.toggle('active', denom === 'total');
+  document.getElementById('btn-drug').classList.toggle('active', denom === 'drug');
+  updateNote(); updateBars(); updateTable();
+}
+
+function updateNote() {
+  const el = document.getElementById('denom-note');
+  const denomLabel = (yr, key) => {
+    const label = yr === 'interview' ? 'Interview yr' : 'Yr ' + yr.replace('yr-','−');
+    return label + ' <strong>N = ' + DENOMS[yr][key].toLocaleString() + '</strong>';
+  };
+  if (currentDenom === 'users') {
+    const parts = YEARS.map(yr => denomLabel(yr, 'n_users')).join(' &nbsp;·&nbsp; ');
+    el.innerHTML = '<strong>Denominator: women who used any contraceptive method that year</strong> — each bar shows what share of this pool used that specific method.<br>' + parts;
+  } else if (currentDenom === 'total') {
+    el.innerHTML = '<strong>Denominator: all 5,586 respondents</strong> — includes those who used no contraception. Each bar\'s % is out of the full sample regardless of method use.';
+  } else {
+    const parts = YEARS.map(yr => denomLabel(yr, 'n_drug')).join(' &nbsp;·&nbsp; ');
+    el.innerHTML = '<strong>Denominator: women who used any non-EC contraceptive drug (pill, IUD, implant, Depo, ring, or patch) that year</strong> — each bar shows that method\'s share within this pool.<br>' + parts;
+  }
+}
+
+function updateBars() {
+  const chart = document.getElementById('bar-chart');
+  chart.innerHTML = '';
+  const pk = currentDenom === 'users' ? 'pu' : currentDenom === 'total' ? 'pt' : 'pd';
+  const maxPct = MAX_PCT[currentDenom];
+  const drugMode = currentDenom === 'drug';
+
+  ROWS.forEach(item => {
+    if (drugMode && !item.drug) return;
+    const row = document.createElement('div');
+    row.className = 'method-row';
+
+    const lbl = document.createElement('div');
+    lbl.className = 'method-label';
+    lbl.textContent = item.name;
+
+    const barsCol = document.createElement('div');
+    barsCol.className = 'bars-col';
+    row.appendChild(lbl);
+
+    YEARS.forEach((yr, i) => {
+      const d = item.data[yr];
+      const pct = d[pk];
+      const isNow = yr === 'interview';
+
+      const barRow = document.createElement('div');
+      barRow.className = 'bar-row';
+
+      const track = document.createElement('div');
+      track.className = 'bar-track';
+      const fill = document.createElement('div');
+      fill.className = 'bar-fill ' + YCLASSES[i];
+      fill.style.width = (pct / maxPct * 100).toFixed(1) + '%';
+      track.appendChild(fill);
+
+      const val = document.createElement('div');
+      val.className = 'bar-val' + (isNow ? ' current' : '');
+      val.innerHTML = '<span class="bv-n">' + d.n.toLocaleString() + '</span><span class="bv-pct">' + fmt(pct) + '%</span>';
+
+      barRow.appendChild(track);
+      barRow.appendChild(val);
+      barsCol.appendChild(barRow);
+    });
+
+    row.appendChild(barsCol);
+    chart.appendChild(row);
+
+    if (item.subtext) {
+      const note = document.createElement('div');
+      note.className = 'others-note';
+      note.textContent = 'Includes: ' + item.subtext;
+      chart.appendChild(note);
+    }
+  });
+}
+
+function updateTable() {
+  const pk = currentDenom === 'users' ? 'pu' : currentDenom === 'total' ? 'pt' : 'pd';
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  const drugMode = currentDenom === 'drug';
+
+  ROWS.forEach(item => {
+    if (drugMode && !item.drug) return;
+    const tr = document.createElement('tr');
+    let nameCell = item.name;
+    if (item.subtext) {
+      nameCell += '<span class="others-subtext">' + item.subtext + '</span>';
+    }
+    let html = '<td>' + nameCell + '</td>';
+    YEARS.forEach(yr => {
+      const d = item.data[yr];
+      const cls = yr === 'interview' ? ' class="hi"' : '';
+      html += '<td' + cls + '><span class="n-val">' + d.n.toLocaleString() + '</span><span class="pct-val">' + fmt(d[pk]) + '%</span></td>';
+    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+
+  const dr = document.createElement('tr');
+  dr.className = 'denom-footer-row';
+  const dlabel = currentDenom === 'users' ? 'Method users (denominator)'
+               : currentDenom === 'total' ? 'All respondents (denominator)'
+               : 'Drug market users (denominator)';
+  let dhtml = '<td>' + dlabel + '</td>';
+  YEARS.forEach(yr => {
+    const v = currentDenom === 'users' ? DENOMS[yr].n_users
+            : currentDenom === 'total' ? N_TOTAL
+            : DENOMS[yr].n_drug;
+    const cls = yr === 'interview' ? ' class="hi"' : '';
+    dhtml += '<td' + cls + '>' + v.toLocaleString() + '</td>';
+  });
+  dr.innerHTML = dhtml;
+  tbody.appendChild(dr);
+}
+
+setDenom('users');
+</script>
+</body>
+</html>
