@@ -1610,21 +1610,23 @@ function renderDetail(v) {
     METHX191: { text: 'Contraceptive method use across the 4 years before interview — see how pill, IUD, condom, withdrawal and other methods were used over time.', href: '/nsfg-method-trends.html' },
     METHX192: { text: 'Contraceptive method use across the 4 years before interview — see how pill, IUD, condom, withdrawal and other methods were used over time.', href: '/nsfg-method-trends.html' },
   };
-  const diveInfo = DEEPDIVE_MAP[v.name];
-  const deepDiveHtml = diveInfo
-    ? `<div class="deepdive-hint">
+  const diveInfo  = DEEPDIVE_MAP[v.name];
+  const isMethx   = /^METHX\d+$/.test(v.name);
+  const diveIcon  = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="8" width="3" height="5" rx="1" fill="#c17d9d"/><rect x="5.5" y="5" width="3" height="8" rx="1" fill="#c17d9d"/><rect x="10" y="2" width="3" height="11" rx="1" fill="#c17d9d"/></svg>`;
+  const makeCard  = (text, href, label) => `<div class="deepdive-hint">
          <div class="deepdive-hint-info">
-           <div class="deepdive-icon">
-             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <rect x="1" y="8" width="3" height="5" rx="1" fill="#c17d9d"/>
-               <rect x="5.5" y="5" width="3" height="8" rx="1" fill="#c17d9d"/>
-               <rect x="10" y="2" width="3" height="11" rx="1" fill="#c17d9d"/>
-             </svg>
-           </div>
-           <div class="deepdive-text">${escHtml(diveInfo.text)}</div>
+           <div class="deepdive-icon">${diveIcon}</div>
+           <div class="deepdive-text">${text}</div>
          </div>
-         <a class="deepdive-btn" href="${escHtml(diveInfo.href)}" target="_blank">Full breakdown →</a>
-       </div>`
+         <a class="deepdive-btn" href="${escHtml(href)}" target="_blank">${label} →</a>
+       </div>`;
+  const deepDiveHtml = diveInfo
+    ? makeCard(escHtml(diveInfo.text), diveInfo.href, 'Full breakdown') +
+      (isMethx ? makeCard(
+        'Pill, IUD, implant &amp; ring by age group — who uses each method and how that profile shifted over 4 years.',
+        '/nsfg-method-age.html',
+        'Age breakdown'
+      ) : '')
     : '';
 
   // Notes section
