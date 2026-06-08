@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-08 (session 30)
+> Last updated: 2026-06-08 (session 31)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -149,7 +149,8 @@ Gateway → two columns: Industry Research + Play with the Data.
 - `/research/data` — NSFG 2022–2023 Female Respondent (5,586 respondents, 1,912 variables, 213 REPORT badges)
 - `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 1,368 variables, 25 topic sections) ✅ session 24–25
 - `/research/meps-expenditure` — MEPS Expenditure by Payer deep-dive ✅ session 25
-- `/nsfg-method-trends.html` — NSFG contraceptive method usage across 4 years ✅ NEW session 29
+- `/nsfg-method-trends.html` — NSFG contraceptive method usage across 4 years ✅ session 29
+- `/nsfg-method-age.html` — Pill/IUD/implant/ring by age group × 4 years ✅ NEW session 31
 
 **NSFG explorer updates (session 30):**
 - Left panel width: 300px → 340px
@@ -179,9 +180,25 @@ Gateway → two columns: Industry Research + Play with the Data.
   - All respondents — full 5,586 sample
   - Non-EC contraception drug — women who used pill/IUD/implant/Depo/ring/patch (no EC); n ≈ 1,776–1,877
 - Blue warning banner (always visible): percentages don't sum to 100% — one woman counted once per method per year
-- METHX1–METHX192 all carry REPORT badge in NSFG explorer linking to this page
+- METHX1–METHX192 carry REPORT badge linking to this page AND to `/nsfg-method-age.html` (two cards since session 31)
 - Source file: `public/nsfg-method-trends.html` (standalone, no Astro build dependency)
 - **Key findings:** Pill declining 31% → 26% of method users over 4 years; IUD rising 15% → 16%; in drug market Pill = ~51%, IUD = ~33%
+
+**NSFG age analysis (`/nsfg-method-age.html`) — session 31:**
+- Focus: pill (code 3), IUD (code 19), implant (code 9), ring (code 26) by age group across METHX calendar
+- Age groups: 15–19 / 20–24 / 25–29 / 30–34 / 35–39 / 40–44 / 45–50 (7 groups; last group covers full NSFG universe including 1 age-50 respondent)
+- 3-way denominator toggle: method users in age group (default) / all respondents / hormonal+LARC users
+- **Section A — context stacked bar:** full bar = n_total per age group; segments = no method (light) | other methods (stone) | non-EC drug (rose). Always interview-year snapshot, unaffected by denominator toggle.
+- **Section A — 4 method panels:** horizontal bars by age group, all bars use that method's color (not age gradient). Shows "all ages X%" badge in card header; sub-label shows denominator type. Bars scaled to each method's own max.
+- **Section B — dumbbell charts:** ○ yr−3 → ● interview yr per age group. All dots and labels: single neutral color (#5A5350). Connecting line: teal (#5BAD8B) = increasing, rose (#D07090) = declining. Intermediate yr-2/yr-1 dots (small, faint) show trajectory shape. Faded rows (opacity 0.35) = n < 15. Δ pp shown on right in line color.
+- **Color principle:** colors encode meaning only — method color for bars, teal/rose for direction only on dumbbell. No decorative age gradients.
+- Data: inline JSON in HTML; raw source: `~/Downloads/NSFG-2022-2023-FemRespPUFData/NSFG_2022_2023_FemRespPUFData.csv`
+- NSFG explorer: each METHX variable now shows 2 report cards ("Full breakdown →" trends page, "Age breakdown →" this page)
+- **Key findings:** Pill strong youth bias (51% of teen method users) declining fastest in young women (−13 to −15 pp over 4 yrs); IUD growing in all age groups, fastest under 30 (+3.6–3.9 pp); Implant concentrated in 20–24, stable; Ring peaks in 35–39, small n.
+
+**All NSFG deep-dive analysis pages (pill/iud/implant/depo/ring/patch/condom/vasectomy/withdrawal/method-comparison) — session 31:**
+- Bar chart unit labels added: COUNT chip (gray) on count charts, RATE % chip (blue) on race/rate charts
+- Count bars now show `n · share%` format (e.g. "929 · 92%")
 
 **MEPS Expenditure overview (`/research/meps-expenditure`) details — session 25–27:**
 - **Split by toggle (session 27):** Overall / Age group / Income level — switches composition chart (Chart 1) to matrix of stacked bars, one row per subgroup
@@ -267,6 +284,7 @@ Content not written.
 - [ ] **Journey detail pages** — timeline cards link to `#`
 - [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: insurance coverage (INSCOV23), access barriers (DLAYCA42), etc.
 - [x] **NSFG method trends page** — `/nsfg-method-trends.html` ✅ done session 29; METHX1–192 all badged
+- [x] **NSFG age analysis page** — `/nsfg-method-age.html` ✅ done session 31; linked from METHX group
 - [ ] **Now page** — content not written
 - [ ] **A Collection of Rabbit Holes** — content not written
 
