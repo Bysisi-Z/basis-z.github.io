@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-08 (session 32)
+> Last updated: 2026-06-09 (session 33)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -150,7 +150,9 @@ Gateway → two columns: Industry Research + Play with the Data.
 - `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 1,368 variables, 25 topic sections) ✅ session 24–25
 - `/research/meps-expenditure` — MEPS Expenditure by Payer deep-dive ✅ session 25
 - `/nsfg-method-trends.html` — NSFG contraceptive method usage across 4 years ✅ session 29
-- `/nsfg-method-age.html` — Pill/IUD/implant/ring by age group × 4 years ✅ NEW session 31
+- `/nsfg-method-age.html` — Pill/IUD/implant/ring/Depo by age group × 4 years ✅ session 31–33
+- `/nsfg-reports.html` — NSFG reports index: 11 EA reports + 2 METHX reports ✅ session 33
+- `/meps-reports.html` — MEPS reports index: 1 live + 3 coming soon ✅ session 33
 
 **NSFG explorer updates (session 30):**
 - Left panel width: 300px → 340px
@@ -282,9 +284,12 @@ Content not written.
 - [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
-- [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: insurance coverage (INSCOV23), access barriers (DLAYCA42), etc.
+- [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: INSCOV23 (insurance coverage), DLAYCA42 (delayed care), TOTSLF23 (OOP spending); stubs in `/meps-reports.html`
 - [x] **NSFG method trends page** — `/nsfg-method-trends.html` ✅ done session 29; METHX1–192 all badged
-- [x] **NSFG age analysis page** — `/nsfg-method-age.html` ✅ done session 31; linked from METHX group
+- [x] **NSFG age analysis page** — `/nsfg-method-age.html` ✅ done session 31–33; 5 methods (pill/IUD/implant/ring/Depo); citations on pill/IUD/implant findings
+- [x] **NSFG reports index** — `/nsfg-reports.html` ✅ session 33; 13 reports in 2 groups (EA + METHX)
+- [x] **MEPS reports index** — `/meps-reports.html` ✅ session 33; 1 live + 3 coming-soon stubs
+- [x] **Explorer report buttons** — filled rose "See all individual reports →" button in both NSFG and MEPS explorer headers
 - [ ] **Now page** — content not written
 - [ ] **A Collection of Rabbit Holes** — content not written
 
