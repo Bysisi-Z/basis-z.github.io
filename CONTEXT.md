@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-08 (session 29)
+> Last updated: 2026-06-08 (session 30)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -146,10 +146,19 @@ Easter eggs: stork (Born), bamboo (Chengdu), Shanghai skyline, Swiss Alps + flag
 Gateway → two columns: Industry Research + Play with the Data.
 
 **Play with the Data projects:**
-- `/research/data` — NSFG 2022–2023 Female Respondent (5,586 respondents, 1,912 variables, 21 deep-dive analysis pages)
+- `/research/data` — NSFG 2022–2023 Female Respondent (5,586 respondents, 1,912 variables, 213 REPORT badges)
 - `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 1,368 variables, 25 topic sections) ✅ session 24–25
 - `/research/meps-expenditure` — MEPS Expenditure by Payer deep-dive ✅ session 25
 - `/nsfg-method-trends.html` — NSFG contraceptive method usage across 4 years ✅ NEW session 29
+
+**NSFG explorer updates (session 30):**
+- Left panel width: 300px → 340px
+- 2-level grouped sidebar: grouped variables collapse to qcode header (title + count); click to expand; current var's group auto-expands; resets on section switch; 19 groups where title = qcode fall back to first var's label
+- Groups: 83 groups, 710 grouped variables (from `nsfg_groups.json`)
+
+**NSFG method trends updates (session 29–30):**
+- "No method used" row visible only in All Respondents mode — gray dashed border + faint bar; n ≈ 1,946–2,122 (~35–38% of all respondents)
+- Non-EC drug market filter: pill + IUD + implant + Depo + ring + patch (EC excluded); universe n ≈ 1,776–1,867
 
 **MEPS explorer (`/research/meps`) details:**
 - Section dropdown (25 sections) in left panel above search
