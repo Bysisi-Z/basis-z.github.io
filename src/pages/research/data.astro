@@ -34,6 +34,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <p class="nsfg-desc">
         The National Survey of Family Growth (NSFG), conducted by the CDC's National Center for Health Statistics since 1973, collects data on pregnancy, contraception use, marriage, fertility, and reproductive health across the U.S. population. This explorer covers the 2022–2023 cycle — <strong>5,586</strong> female respondents aged 15–49, <strong>1,912</strong> variables across 10 survey sections.
       </p>
+      <a href="/nsfg-reports.html" class="nsfg-reports-btn">See all individual reports →</a>
     </div>
 
     <div id="explorer">
@@ -201,6 +202,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   max-width: 780px; margin: 0;
 }
 .nsfg-desc strong { color: var(--ink); font-weight: 400; }
+
+.nsfg-reports-btn {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--stone);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  padding: 5px 14px;
+  transition: color .15s, border-color .15s;
+}
+.nsfg-reports-btn:hover { color: var(--rose); border-color: var(--rose); }
 
 /* ── Explorer wider container ──────────────────────────────────────────────── */
 .explorer-wrap {

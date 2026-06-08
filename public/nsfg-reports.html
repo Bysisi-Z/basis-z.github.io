@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSFG Individual Reports — All Analysis Pages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:    #FAFAF8;
+      --ink:   #1A1A1A;
+      --rose:  #c17d9d;
+      --stone: #847B7B;
+      --rule:  #E2DEDB;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: clamp(32px, 6vw, 72px) clamp(20px, 6vw, 80px);
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--stone);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color .15s, border-color .15s;
+      margin-bottom: 36px;
+      letter-spacing: .04em;
+    }
+    .back-link:hover { color: var(--rose); border-color: var(--rose); }
+
+    .page-header { margin-bottom: 48px; }
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(28px, 4vw, 38px);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .page-header p {
+      color: var(--stone);
+      font-size: 13px;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .section-label span {
+      color: var(--stone);
+      font-weight: 300;
+      letter-spacing: .04em;
+      text-transform: none;
+      font-size: 11px;
+      margin-left: 10px;
+    }
+
+    .report-group { margin-bottom: 48px; }
+
+    .report-card {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: background .12s;
+    }
+    .report-card:first-of-type { border-top: 1px solid var(--rule); }
+    .report-card:hover .report-title { color: var(--rose); }
+
+    .report-num {
+      font-size: 11px;
+      color: var(--stone);
+      min-width: 28px;
+      flex-shrink: 0;
+      font-weight: 400;
+    }
+    .report-body { flex: 1; }
+    .report-title {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 2px;
+      transition: color .15s;
+    }
+    .report-desc {
+      font-size: 12px;
+      color: var(--stone);
+      line-height: 1.55;
+    }
+    .report-arrow {
+      font-size: 13px;
+      color: var(--rule);
+      flex-shrink: 0;
+      transition: color .15s;
+    }
+    .report-card:hover .report-arrow { color: var(--rose); }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 2px 7px;
+      border-radius: 20px;
+      vertical-align: middle;
+      margin-left: 8px;
+      position: relative;
+      top: -1px;
+    }
+    .badge-ea   { background: #EEF3FA; color: #4a7fc1; }
+    .badge-methx { background: #F5EEF5; color: #9B6B9B; }
+  </style>
+</head>
+<body>
+
+<a href="/research/data" class="back-link">← NSFG Explorer</a>
+
+<div class="page-header">
+  <h1>NSFG Individual Reports</h1>
+  <p>All deep-dive analysis pages built from the 2022–2023 NSFG Female Respondent data. EA reports cover method discontinuation (survey section EA); METHX reports use the 48-month contraceptive calendar.</p>
+</div>
+
+<!-- EA reports -->
+<div class="report-group">
+  <div class="section-label">Method Discontinuation <span>EA section · who stopped, and why</span></div>
+
+  <a class="report-card" href="/pill-analysis.html">
+    <span class="report-num">EA-1</span>
+    <div class="report-body">
+      <div class="report-title">Birth Control Pills <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Discontinuation rate, reasons for stopping, and racial/ethnic breakdown. 28.9% of pill users stopped during the reference period.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/condom-analysis.html">
+    <span class="report-num">EA-2</span>
+    <div class="report-body">
+      <div class="report-title">Condoms <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Discontinuation patterns for male condom use. 7.6% of users stopped during the reference period.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/vasectomy-analysis.html">
+    <span class="report-num">EA-3</span>
+    <div class="report-body">
+      <div class="report-title">Partner's Vasectomy <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Reliance on partner vasectomy as contraception. 0.2% discontinuation rate reflects the permanent nature of the method.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/depo-analysis.html">
+    <span class="report-num">EA-4</span>
+    <div class="report-body">
+      <div class="report-title">Depo-Provera (Injectable) <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Discontinuation rate and reasons for the injectable contraceptive. 34.2% of users stopped — the highest rate among hormonal methods.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/withdrawal-analysis.html">
+    <span class="report-num">EA-6</span>
+    <div class="report-body">
+      <div class="report-title">Withdrawal <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Discontinuation patterns for the withdrawal method. 5.1% of users stopped during the reference period.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/patch-analysis.html">
+    <span class="report-num">EA-9</span>
+    <div class="report-body">
+      <div class="report-title">Contraceptive Patch <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Patch discontinuation rate and reasons. 32.6% of users stopped — among the higher rates for hormonal methods.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/ring-analysis.html">
+    <span class="report-num">EA-10</span>
+    <div class="report-body">
+      <div class="report-title">Vaginal Ring (NuvaRing) <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Ring discontinuation patterns and user demographics. 34.0% of users stopped during the reference period.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/ec-analysis.html">
+    <span class="report-num">EA-11</span>
+    <div class="report-body">
+      <div class="report-title">Emergency Contraception <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Usage patterns for emergency contraception (morning-after pill). Distinct from regular contraceptive methods — not a discontinuation analysis.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/implant-analysis.html">
+    <span class="report-num">EA-13c</span>
+    <div class="report-body">
+      <div class="report-title">Hormonal Implant <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Implant discontinuation rate and reasons for removal. 29.1% of users stopped — notable given the 3-year effective duration.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/iud-analysis.html">
+    <span class="report-num">EA-13d</span>
+    <div class="report-body">
+      <div class="report-title">IUD (Intrauterine Device) <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">IUD discontinuation rate and reasons. 23.4% of users stopped — lowest among LARCs despite long effective duration.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/method-comparison.html">
+    <span class="report-num">EA-16/17</span>
+    <div class="report-body">
+      <div class="report-title">Method Dissatisfaction — Cross-Method Comparison <span class="badge badge-ea">REPORT</span></div>
+      <div class="report-desc">Side-by-side comparison of dissatisfaction rates across all contraceptive methods. Includes METHDISS and METHSTOP01–09 variables.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+</div>
+
+<!-- METHX reports -->
+<div class="report-group">
+  <div class="section-label">Longitudinal Calendar Analyses <span>METHX section · 48-month retrospective</span></div>
+
+  <a class="report-card" href="/nsfg-method-trends.html">
+    <span class="report-num">METHX</span>
+    <div class="report-body">
+      <div class="report-title">Contraceptive Method Usage — 4-Year Retrospective <span class="badge badge-methx">REPORT</span></div>
+      <div class="report-desc">All methods tracked across the 4 years before interview. Three-way denominator toggle: method users / all respondents / non-EC drug market. Pill declining 31% → 26%; IUD rising.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+
+  <a class="report-card" href="/nsfg-method-age.html">
+    <span class="report-num">METHX</span>
+    <div class="report-body">
+      <div class="report-title">Pill, IUD, Implant, Ring & Depo by Age Group <span class="badge badge-methx">REPORT</span></div>
+      <div class="report-desc">Age-stratified use of five methods across seven age groups (15–50) and four years. Dumbbell charts show yr−3 → interview year shift per cohort.</div>
+    </div>
+    <span class="report-arrow">→</span>
+  </a>
+</div>
+
+</body>
+</html>
