@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-09 (session 35)
+> Last updated: 2026-06-09 (session 36)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -233,16 +233,29 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Regeneration scripts: `gen_meps_data.py` (explorer), `gen_meps_splits.py` (split data), computed in-session for expenditure overview
 - Original AHRQ download: HC-251 (FYC), HC-249 (Conditions), HC-248A (RX) — re-downloadable from meps.ahrq.gov
 
-### Nature Never Judges (`/photography`) ✅ Index + 1 detail page
+### Nature Never Judges (`/photography`) ✅ Index + 2 detail pages
 
 - Main title: **"Nature never judges"** (corrected grammar, session 23)
 - 6-card mixed grid (portrait = span 2, landscape = span 4)
-- Only Stoos Ridge Hike has a live detail page
+- Live detail pages: Stoos Ridge Hike, Oeschinensee Panorama Trail
 
 **Stoos Ridge Hike (`/photography/stoos-ridge-line`):**
 - iPad Safari fix: hero uses `100dvh` + `grid-template-rows: 1fr` + `height: 100%` on grid items (session 23)
 - Route map: negative margins removed, contained within article padding (session 23)
 - Lightbox moved outside `.article` to fix iOS fixed positioning (session 23)
+
+**Oeschinensee Panorama Trail (`/photography/oeschinensee`) — session 36:**
+- Circular loop, 8.5–9 km, ~430–500 m elevation, T2 moderate
+- Hero: `IMG_3898.jpeg` — wide panoramic of full lake from above
+- webcamUrl: `https://www.oeschinensee.ch/zh/` — also links to trail info + booking
+- 4 sections with inline photo galleries: Kandersteg evening (8 photos), Panorama Trail (6), Beauty of Oeschinensee (9), Around the Lake (3 incl. nail polish shot IMG_3908)
+- All photos: `public/images/oeschinensee/IMG_3666–3961.jpeg` (32 files total)
+- Full EN + 中文 bilingual
+
+**`[slug].astro` article system (session 36):**
+- Sections now support `photos?: { src, alt?, full?, pos? }[]` — renders a 2-col grid below the section text, full-bleed with negative margins
+- CSS: `.section-gallery` (2-col, 5px gap) · `.sg-img` (aspect-ratio 4/3, object-fit cover) · `.sg-full` (spans both cols, 16/9)
+- `ArticleHero`: `webcamHint` / `webcamHintZh` now configurable props (was hardcoded "ridge"); `webcamNote` / `webcamNoteZh` renders a note below the webcam button
 
 ### Trails (`/trails`) ✅ Live (session 34)
 
@@ -253,8 +266,9 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 
 **Map:** Leaflet.js + OpenStreetMap tiles, centered on Switzerland `[46.80, 8.22]` zoom 8.
 - Canton boundary overlay: semi-transparent rose tint (GeoJSON from `interactivethings/swiss-maps` GitHub Pages; fails gracefully)
-- No city markers (OSM tiles already show cities)
-- Stoos marker: black star ★ at `[47.00, 8.68]`; hover shows photo thumbnail (`/images/haute-route-alps.jpeg`) + italic "Stoos" label; click → `/photography/stoos-ridge-line`
+- Shared `starIcon` (★) used for all markers
+- Stoos marker: `[47.00, 8.68]`; hover → photo (`/images/haute-route-alps.jpeg`) + "Stoos Ridge"; click → `/photography/stoos-ridge-line`
+- Oeschinensee marker (session 36): `[46.484, 7.725]`; hover → photo (`/images/oeschinensee/IMG_3898.jpeg`) + "Oeschinensee"; click → `/photography/oeschinensee`
 
 **explorer.astro hike CTA (session 35):** Full-width photo card after bento grid → `/trails`. Photo: `public/images/hike-invite.jpg` (hiking in Swiss Alps, person facing mountains). `width:100%; height:auto` — no crop. Bottom gradient overlay + serif italic "Come hiking with me" + white border button "Explore the trails →".
 
@@ -299,7 +313,7 @@ Content not written.
 ## 6. Pending Work
 
 - [ ] **Explorer modules** — fill music, books, food, outdoor stats content
-- [ ] **Nature Never Judges grid** — add real photos (5 CSS gradient placeholders remain)
+- [ ] **Nature Never Judges grid** — add Oeschinensee card + real photos (4 CSS gradient placeholders remain for other slugs)
 - [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
