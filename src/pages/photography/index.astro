@@ -22,7 +22,7 @@ const entries = [
     slug: 'oeschinensee',
     category: 'Hiking Guide',
     title: 'Oeschinensee Panorama Trail',
-    orientation: 'landscape',
+    orientation: 'portrait',
     imgSrc: '/images/oeschinensee/IMG_3898.jpeg',
     imgAlt: 'Oeschinensee panorama from above, Bernese Oberland, Switzerland',
     note: 'Book in advance — one of the most popular destinations in the Bernese Oberland',
@@ -135,6 +135,7 @@ const entries = [
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-auto-rows: auto;
+    grid-auto-flow: dense;
     gap: 14px;
     padding-bottom: 80px;
     align-items: start;
