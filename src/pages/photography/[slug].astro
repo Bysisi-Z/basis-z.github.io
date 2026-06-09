@@ -33,6 +33,8 @@ interface Entry {
   stats: { label: string; value: string }[];
   meta: { label: string; value: string }[];
   webcamUrl?: string;
+  webcamHint?: string;
+  webcamHintZh?: string;
   heroIntro?: string[];
   routeOverview?: {
     direction: string;
@@ -81,6 +83,8 @@ export function getStaticPaths() {
       eyebrow: 'Hiking Guide · Schwyz · Switzerland',
       subtitle: '',
       webcamUrl: 'https://www.stoos.ch/en/pages/webcams',
+      webcamHint: 'Weather in the Alps changes quickly at altitude. Check the live webcam before your visit to confirm current conditions on the ridge.',
+      webcamHintZh: '阿尔卑斯山高海拔地区天气变化迅速，建议出发前查看实时摄像头，确认当前的山脊天气状况。',
       heroIntro: [
         'The Stoos Ridge hike is one of my favorite hikes in Switzerland.',
         'I first discovered it through a hiking YouTuber who included it in a list of his top hikes in the country. As soon as I saw the footage, I knew I had to visit.',
@@ -271,6 +275,7 @@ export function getStaticPaths() {
       titleHtml: 'Oeschinensee<br/>Panorama Trail',
       eyebrow: 'Hiking Guide · Bern · Switzerland',
       subtitle: '',
+      webcamUrl: 'https://www.oeschinensee.ch/zh/',
       langZh: true,
       heroIntro: [
         'Oeschinensee was not a spontaneous destination for me.',
@@ -417,7 +422,7 @@ export function getStaticPaths() {
 }
 
 const entry = Astro.props as Entry;
-const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl, heroIntro, heroIntroZh, routeOverview, routeOverviewZh, routeMapNote, routeMapNoteZh, langZh } = entry;
+const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl, webcamHint, webcamHintZh, heroIntro, heroIntroZh, routeOverview, routeOverviewZh, routeMapNote, routeMapNoteZh, langZh } = entry;
 ---
 
 <BaseLayout title={title} description={subtitle}>
@@ -431,6 +436,8 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     subtitle={subtitle}
     stats={stats}
     webcamUrl={webcamUrl}
+    webcamHint={webcamHint}
+    webcamHintZh={webcamHintZh}
     heroIntro={heroIntro}
     heroIntroZh={heroIntroZh}
     routeOverview={routeOverview}
