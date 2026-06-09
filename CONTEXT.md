@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-09 (session 36)
+> Last updated: 2026-06-09 (session 37)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -237,7 +237,16 @@ Gateway → two columns: Industry Research + Play with the Data.
 
 - Main title: **"Nature never judges"** (corrected grammar, session 23)
 - 6-card mixed grid (portrait = span 2, landscape = span 4)
-- Live detail pages: Stoos Ridge Hike, Oeschinensee Panorama Trail
+- Live detail pages: Stoos Ridge Hike, Oeschinensee Panorama Trail, Lucerne city guide
+
+**Lucerne (`/photography/lucerne`) — session 37:**
+- City travel essay, not hiking guide; orientation: landscape (full-width hero)
+- Hero: `DSC08012.jpg` — winter cityscape from across the lake, Hofkirche twin spires, snow
+- Photos in section 1 (both `full: true`): `DSC08014.jpg` (snow dock, birds), `DSC08025.jpg` (seagulls + misty Alps wide shot)
+- Photos at `/public/images/lucerne/DSC08012/14/25.jpg` (Sony camera, local only)
+- 3 sections: "The Lucerne Most Visitors See" · "Beyond Lucerne: Places Worth Exploring" (7 subheadings) · "Final Thoughts"
+- Full EN + 中文 bilingual
+- Index card: landscape, spans 4 cols; slot 3 (between Oeschinensee and First 5000m placeholder)
 
 **Stoos Ridge Hike (`/photography/stoos-ridge-line`):**
 - iPad Safari fix: hero uses `100dvh` + `grid-template-rows: 1fr` + `height: 100%` on grid items (session 23)
@@ -319,7 +328,7 @@ Content not written.
 ## 6. Pending Work
 
 - [ ] **Explorer modules** — fill music, books, food, outdoor stats content
-- [x] **Nature Never Judges grid** — Oeschinensee card live (portrait, IMG_3898, booking note) ✅ session 36; 4 CSS gradient placeholders remain
+- [x] **Nature Never Judges grid** — Oeschinensee card ✅ session 36; Lucerne city guide card ✅ session 37; 3 CSS gradient placeholders remain
 - [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`

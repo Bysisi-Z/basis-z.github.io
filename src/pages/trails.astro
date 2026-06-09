@@ -13,7 +13,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </header>
 
-  <div id="map" class="map-div"></div>
+  <div id="map" class="map-div">
+    <div class="map-hint">
+      <span class="map-hint-star">★</span>
+      Click a star to read the travel log
+    </div>
+  </div>
 
 </div>
 
@@ -66,6 +71,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     width: 100%;
     height: calc(100vh - 220px);
     min-height: 480px;
+    position: relative;
+  }
+
+  /* ── Map hint overlay ── */
+  .map-hint {
+    position: absolute;
+    top: 16px; left: 16px;
+    z-index: 1000;
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(26,26,26,0.82);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 300;
+    letter-spacing: 0.04em;
+    padding: 9px 16px 9px 12px;
+    border-radius: 6px;
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+    user-select: none;
+  }
+  .map-hint-star {
+    color: #e53935;
+    font-size: 17px;
+    line-height: 1;
   }
 
   /* ── Leaflet overrides to match site style ── */
@@ -84,28 +113,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   :global(.leaflet-tooltip::before) { display: none !important; }
 
-  :global(.stoos-hover-tip.leaflet-tooltip) {
+  /* ── Trail popup (click → large image) ── */
+  :global(.trail-popup .leaflet-popup-content-wrapper) {
     background: #fafaf8 !important;
-    color: var(--ink) !important;
+    border-radius: 10px !important;
     padding: 0 !important;
-    border-radius: 8px !important;
     overflow: hidden !important;
-    width: 160px !important;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.06) !important;
-    font-weight: 300 !important;
-    letter-spacing: 0 !important;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.07) !important;
   }
-  :global(.stoos-hover-tip.leaflet-tooltip img) {
+  :global(.trail-popup .leaflet-popup-content) {
+    margin: 0 !important;
+    line-height: 1 !important;
+  }
+  :global(.trail-popup .leaflet-popup-tip-container) { display: none !important; }
+  :global(.trail-popup .leaflet-popup-close-button) {
+    color: rgba(255,255,255,0.85) !important;
+    font-size: 20px !important;
+    top: 8px !important; right: 10px !important;
+    z-index: 10 !important;
+  }
+  :global(.trail-popup .leaflet-popup-close-button:hover) { color: #fff !important; }
+  :global(.trail-popup .tp-img) {
     display: block;
-    width: 160px;
-    height: 100px;
     object-fit: cover;
-    object-position: center 30%;
+    cursor: pointer;
+    transition: opacity 0.18s;
   }
-  :global(.stoos-hover-tip.leaflet-tooltip .tip-label) {
-    padding: 7px 10px 9px;
+  :global(.trail-popup .tp-img:hover) { opacity: 0.9; }
+  :global(.trail-popup .tp-label) {
+    padding: 10px 16px 13px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 300;
     font-style: italic;
     color: #1a1a1a;
@@ -188,7 +226,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     } catch (_) {}
   }
 
-  /* ── 5. Shared star icon ── */
+  /* ── 5. Icons ── */
   const starIcon = L.divIcon({
     className: '',
     html: `<div style="font-size:20px;line-height:1;color:#1a1a1a;cursor:pointer;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));user-select:none;">★</div>`,
@@ -196,29 +234,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     iconAnchor: [10, 10],
   });
 
-  /* ── 6. Markers ── */
-  const tipStoos = `<img src="/images/haute-route-alps.jpeg" alt="Stoos"><div class="tip-label">Stoos Ridge</div>`;
-  L.marker([47.00, 8.68], { icon: starIcon })
-    .bindTooltip(tipStoos, {
-      direction: 'top',
-      className: 'stoos-hover-tip',
-      offset: [0, -14],
-      opacity: 1,
-      sticky: false,
-    })
-    .on('click', () => { window.location.href = '/photography/stoos-ridge-line'; })
-    .addTo(map);
+  const starIconRed = L.divIcon({
+    className: '',
+    html: `<div style="font-size:22px;line-height:1;color:#e53935;cursor:pointer;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));user-select:none;">★</div>`,
+    iconSize:   [22, 22],
+    iconAnchor: [11, 11],
+  });
 
-  const tipOesch = `<img src="/images/oeschinensee/IMG_3898.jpeg" alt="Oeschinensee"><div class="tip-label">Oeschinensee</div>`;
-  L.marker([46.484, 7.725], { icon: starIcon })
-    .bindTooltip(tipOesch, {
-      direction: 'top',
-      className: 'stoos-hover-tip',
-      offset: [0, -14],
-      opacity: 1,
-      sticky: false,
-    })
-    .on('click', () => { window.location.href = '/photography/oeschinensee'; })
-    .addTo(map);
+  /* ── 6. Helper: make a marker with popup (click→image→link) + hover label ── */
+  function trailMarker(latlng, icon, imgSrc, label, href, imgPos) {
+    const popup = L.popup({ className: 'trail-popup', maxWidth: 480, autoPan: true })
+      .setContent(`<a href="${href}"><img src="${imgSrc}" alt="${label}" class="tp-img" style="object-position:${imgPos};width:480px;height:300px;"></a><div class="tp-label">${label}</div>`);
+    L.marker(latlng, { icon })
+      .bindTooltip(label, { direction: 'top', offset: [0, -14], opacity: 1 })
+      .bindPopup(popup)
+      .addTo(map);
+  }
+
+  /* Auto-adjust portrait images on popup open */
+  map.on('popupopen', function(e) {
+    const img = e.popup.getElement()?.querySelector('.tp-img');
+    if (!img) return;
+    function adjust() {
+      if (img.naturalHeight > img.naturalWidth) {
+        img.style.width  = '320px';
+        img.style.height = '480px';
+      } else {
+        img.style.width  = '480px';
+        img.style.height = '300px';
+      }
+    }
+    img.complete && img.naturalWidth > 0 ? adjust() : img.addEventListener('load', adjust);
+  });
+
+  trailMarker([47.050, 8.309], starIconRed,
+    '/images/lucerne/DSC08012.jpg',        'Lucerne',       '/photography/lucerne',           'center 50%');
+  trailMarker([47.00,  8.68],  starIcon,
+    '/images/haute-route-alps.jpeg',       'Stoos Ridge',   '/photography/stoos-ridge-line',  'center 30%');
+  trailMarker([46.484, 7.725], starIcon,
+    '/images/oeschinensee/IMG_3898.jpeg',  'Oeschinensee',  '/photography/oeschinensee',      'center 40%');
 })();
 </script>
