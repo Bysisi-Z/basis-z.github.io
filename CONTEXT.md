@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-09 (session 34)
+> Last updated: 2026-06-09 (session 35)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -256,7 +256,9 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 - No city markers (OSM tiles already show cities)
 - Stoos marker: black star ★ at `[47.00, 8.68]`; hover shows photo thumbnail (`/images/haute-route-alps.jpeg`) + italic "Stoos" label; click → `/photography/stoos-ridge-line`
 
-**explorer.astro change:** "a foreign country" wrapped in `.country-wrap` — dotted underline, hover shows dark tooltip "Where the trails lead →" linking to `/trails`. JS delay-hide keeps tooltip open when mouse moves into it.
+**explorer.astro hike CTA (session 35):** Full-width photo card after bento grid → `/trails`. Photo: `public/images/hike-invite.jpg` (hiking in Swiss Alps, person facing mountains). `width:100%; height:auto` — no crop. Bottom gradient overlay + serif italic "Come hiking with me" + white border button "Explore the trails →".
+
+**IMPORTANT — is:inline script:** explorer.astro uses `<script is:inline>` (NOT compiled by Vite). Never use TypeScript syntax (type casts, type annotations) inside this block — it will cause a JS syntax error that breaks the entire page.
 
 **Future:** Add more countries/hikes as new markers on the same map.
 
