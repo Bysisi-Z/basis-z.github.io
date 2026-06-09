@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-09 (session 37)
+> Last updated: 2026-06-10 (session 37)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -233,18 +233,20 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Regeneration scripts: `gen_meps_data.py` (explorer), `gen_meps_splits.py` (split data), computed in-session for expenditure overview
 - Original AHRQ download: HC-251 (FYC), HC-249 (Conditions), HC-248A (RX) — re-downloadable from meps.ahrq.gov
 
-### Nature Never Judges (`/photography`) ✅ Index + 2 detail pages
+### Nature Never Judges (`/photography`) ✅ Index + 3 detail pages
 
 - Main title: **"Nature never judges"** (corrected grammar, session 23)
 - 6-card mixed grid (portrait = span 2, landscape = span 4)
 - Live detail pages: Stoos Ridge Hike, Oeschinensee Panorama Trail, Lucerne city guide
 
 **Lucerne (`/photography/lucerne`) — session 37:**
+- Title: "Lucerne – The Most Swiss City in Switzerland"
 - City travel essay, not hiking guide; orientation: landscape (full-width hero)
 - Hero: `DSC08012.jpg` — winter cityscape from across the lake, Hofkirche twin spires, snow
-- Photos in section 1 (both `full: true`): `DSC08014.jpg` (snow dock, birds), `DSC08025.jpg` (seagulls + misty Alps wide shot)
-- Photos at `/public/images/lucerne/DSC08012/14/25.jpg` (Sony camera, local only)
-- 3 sections: "The Lucerne Most Visitors See" · "Beyond Lucerne: Places Worth Exploring" (7 subheadings) · "Final Thoughts"
+- Section 1 photos (4 total): `DSC08013.jpg` full (old town), `DSC08014.jpg` half (dock), `DSC08020.jpg` half (lake + duck), `DSC08025.jpg` full (seagulls + misty Alps)
+- Photos at `public/images/lucerne/` (Sony DSC08012/13/14/20/25.jpg — 5 files, in git)
+- 3 sections: "The Lucerne Most Visitors See" · "One Hour from Lucerne" (8 subheadings: Meggenhorn, Küssnacht, Hergiswil, Bürgenstock, Stans, Engelberg, Rigi, Stoos) · "Final Thoughts"
+- Stoos subheading links to `/photography/stoos-ridge-line`
 - Full EN + 中文 bilingual
 - Index card: landscape, spans 4 cols; slot 3 (between Oeschinensee and First 5000m placeholder)
 
@@ -281,9 +283,11 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 
 **Map:** Leaflet.js + OpenStreetMap tiles, centered on Switzerland `[46.80, 8.22]` zoom 8.
 - Canton boundary overlay: semi-transparent rose tint (GeoJSON from `interactivethings/swiss-maps` GitHub Pages; fails gracefully)
-- Shared `starIcon` (★) used for all markers
-- Stoos marker: `[47.00, 8.68]`; hover → photo (`/images/haute-route-alps.jpeg`) + "Stoos Ridge"; click → `/photography/stoos-ridge-line`
-- Oeschinensee marker (session 36): `[46.484, 7.725]`; hover → photo (`/images/oeschinensee/IMG_3898.jpeg`) + "Oeschinensee"; click → `/photography/oeschinensee`
+- Map hint overlay (top-left, dark semi-transparent): "★ Click a star to read the travel log"
+- **Marker interaction (session 37, all 3 markers):** hover → text label only; click → 480×300 popup with photo; click photo → navigate to article. Portrait images auto-detected (naturalHeight > naturalWidth → 320×480). CSS class `.trail-popup`.
+- Lucerne marker (session 37): `[47.050, 8.309]`; red star `#e53935` (22px); photo `DSC08012.jpg`; → `/photography/lucerne`
+- Stoos marker: `[47.00, 8.68]`; black star; photo `/images/haute-route-alps.jpeg`; → `/photography/stoos-ridge-line`
+- Oeschinensee marker: `[46.484, 7.725]`; black star; photo `IMG_3898.jpeg`; → `/photography/oeschinensee`
 
 **explorer.astro hike CTA (session 35):** Full-width photo card after bento grid → `/trails`. Photo: `public/images/hike-invite.jpg` (hiking in Swiss Alps, person facing mountains). `width:100%; height:auto` — no crop. Bottom gradient overlay + serif italic "Come hiking with me" + white border button "Explore the trails →".
 
@@ -328,7 +332,8 @@ Content not written.
 ## 6. Pending Work
 
 - [ ] **Explorer modules** — fill music, books, food, outdoor stats content
-- [x] **Nature Never Judges grid** — Oeschinensee card ✅ session 36; Lucerne city guide card ✅ session 37; 3 CSS gradient placeholders remain
+- [x] **Nature Never Judges grid** — Oeschinensee ✅ s36; Lucerne city guide ✅ s37; 3 CSS gradient placeholders remain
+- [x] **Lucerne city guide** — `/photography/lucerne` ✅ s37; trails map red star marker ✅; bilingual EN/中文 ✅; deployed ✅
 - [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
