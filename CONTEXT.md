@@ -255,7 +255,13 @@ Gateway → two columns: Industry Research + Play with the Data.
 **`[slug].astro` article system (session 36):**
 - Sections now support `photos?: { src, alt?, full?, pos? }[]` — renders a 2-col grid below the section text, full-bleed with negative margins
 - CSS: `.section-gallery` (2-col, 5px gap) · `.sg-img` (aspect-ratio 4/3, object-fit cover) · `.sg-full` (spans both cols, 16/9)
-- `ArticleHero`: `webcamHint` / `webcamHintZh` now configurable props (was hardcoded "ridge"); `webcamNote` / `webcamNoteZh` renders a note below the webcam button
+- `ArticleHero`: `webcamHint` / `webcamHintZh` now configurable props (was hardcoded "ridge"); `webcamNote` / `webcamNoteZh` renders a note below the webcam button (13px, `var(--stone)`)
+
+**`photography/index.astro` grid (session 36):**
+- `grid-auto-flow: dense` added — fills layout gaps when portrait cards don't fill a full 6-col row
+- Entry data now supports optional `note` field → renders as `.card-note` (11px, rgba white 60%) in card overlay below title
+- Oeschinensee card: portrait, `IMG_3898.jpeg`, note = "Book in advance — one of the most popular destinations in the Bernese Oberland"
+- yunnan-highland-trek placeholder replaced by Oeschinensee
 
 ### Trails (`/trails`) ✅ Live (session 34)
 
@@ -313,7 +319,7 @@ Content not written.
 ## 6. Pending Work
 
 - [ ] **Explorer modules** — fill music, books, food, outdoor stats content
-- [ ] **Nature Never Judges grid** — add Oeschinensee card + real photos (4 CSS gradient placeholders remain for other slugs)
+- [x] **Nature Never Judges grid** — Oeschinensee card live (portrait, IMG_3898, booking note) ✅ session 36; 4 CSS gradient placeholders remain
 - [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
