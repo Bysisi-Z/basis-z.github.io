@@ -66,6 +66,7 @@ interface Entry {
       days?: DayItem[];
       tipLabel?: string;
       tipItems?: { bold: string; text: string }[];
+      photos?: { src: string; alt?: string; full?: boolean; pos?: string }[];
     }[];
     closing: string[];
   };
@@ -263,6 +264,154 @@ export function getStaticPaths() {
         { src: '/images/stoos/stoos9.jpeg' },
       ],
     },
+    // ── Oeschinensee ────────────────────────────────────────────────────────
+    {
+      slug: 'oeschinensee',
+      title: 'Oeschinensee Panorama Trail, The Jewel of the Bernese Oberland',
+      titleHtml: 'Oeschinensee<br/>Panorama Trail',
+      eyebrow: 'Hiking Guide · Bern · Switzerland',
+      subtitle: '',
+      langZh: true,
+      heroIntro: [
+        'Oeschinensee was not a spontaneous destination for me.',
+        'Like many hikers, I had seen countless photographs of its famous turquoise water long before my visit. In fact, I was so excited about the trip that I painted my nails in a shade that closely matched the colour of the lake before leaving home. Completely unnecessary, of course — but probably a good indication of how much I had been looking forward to this.',
+        'I visited on July 26, 2024. Because Oeschinensee is quite far from where I live, I took an evening train to Kandersteg after work and stayed overnight. The plan was purely practical: save travel time and start the hike as early as possible the next morning.',
+        'What I did not expect was how much I would enjoy Kandersteg itself.',
+      ],
+      heroIntroZh: [
+        '这次 Oeschinensee 之行并非临时起意。',
+        '和许多徒步者一样，我在来之前已经见过无数张这个湖的照片。事实上，出发前我特意把指甲涂成了一个与湖水颜色高度接近的色调。完全没有必要——但或许这正说明了我有多期待这趟旅程。',
+        '我于 2024 年 7 月 26 日到访。因为 Oeschinensee 距离我住的地方相当远，我在下班后乘晚班火车到 Kandersteg 住了一晚。计划本来很实际：节省交通时间，第二天尽可能早出发徒步。',
+        '我没想到的是，Kandersteg 本身也让我留下了深刻的印象。',
+      ],
+      routeOverview: {
+        direction: 'Oeschinen Top Station → Heuberg → Oeschinensee → Loop',
+        stats: [
+          { label: 'Distance',    value: '8.5–9 km' },
+          { label: 'Elevation',   value: '~430–500 m' },
+          { label: 'Hiking time', value: '3–4 hours' },
+          { label: 'Difficulty',  value: 'Moderate (T2)' },
+        ],
+        note: 'The Panorama Trail is a circular loop starting and ending at the Oeschinen cable car top station. It climbs to the Heuberg viewpoint (~1,980 m), where the lake reveals its full turquoise colour from above, then descends to the lakeside and loops back. The trail is well maintained throughout and the difficulty is very manageable by Swiss hiking standards.',
+      },
+      routeOverviewZh: {
+        stats: [
+          { label: '距离',        value: '8.5–9 km' },
+          { label: '爬升',        value: '约 430–500 m' },
+          { label: '步行时长',    value: '3–4 小时' },
+          { label: '难度',        value: '中等（T2）' },
+        ],
+        note: '全景步道（Panorama Trail）是一条从 Oeschinen 缆车上站出发、环形返回的路线。先攀登至 Heuberg 观景点（约 1,980 m），在那里湖水的蓝绿色从高处完整呈现，随后下行至湖滨，绕行返回。全程路况良好，按瑞士徒步标准属于难度适中的路线。',
+      },
+      orientation: 'portrait',
+      imagePosition: 'left',
+      src: '/images/oeschinensee/IMG_3898.jpeg',
+      alt: 'Oeschinensee panorama from above, Bernese Oberland, Switzerland',
+      stats: [],
+      meta: [],
+      body: {
+        lead: '',
+        paragraphs: [],
+        sections: [
+          {
+            heading: 'Kandersteg: An Unexpected Highlight',
+            headingZh: 'Kandersteg：意外的惊喜',
+            blocks: [
+              { type: 'p', text: 'I arrived on a weekday evening, and by the time I checked into the hotel, most day visitors had already left. The village gradually settled into silence.', zh: '我在一个工作日傍晚抵达，等我办好入住手续，大多数当天的游客已经离去，小村子渐渐安静下来。' },
+              { type: 'p', text: 'After dinner, I took a walk along the river that flows through the valley, fed by snowmelt from the surrounding mountains. The only sounds were rushing water and the wind moving through the trees. There were very few people around, and for a while it felt as if the outside world had disappeared.', zh: '晚饭后，我沿着穿过山谷的河流散步，那条河由周围山峰的融雪补给。耳边只有流水声和树间的风声，四周几乎没有其他人，有片刻感觉仿佛外面的世界已经消失。' },
+              { type: 'p', text: 'One of my strongest memories from that evening was the moon rising above the mountains before sunset. Against the deepening blue sky, it appeared almost translucent, quietly emerging from behind the ridgeline. Combined with the silence of the valley and the fading daylight, it created <strong class="hl">one of those rare moments that photographs never quite capture</strong>.', zh: '那个傍晚最令我难忘的，是月亮在日落前升起在山峦之上。在渐深的蓝色天空映衬下，月亮几乎是半透明的，悄悄地从山脊背后现身。配上山谷的寂静与消退的光线，那是<strong class="hl">照片永远无法真正留住的那种时刻</strong>。' },
+              { type: 'p', text: 'Looking back, one of the biggest surprises of this trip was that my <strong class="hl">strongest memory came before the hike had even begun</strong>.', zh: '回想起来，这次旅程最大的意外，是<strong class="hl">最深刻的记忆发生在徒步开始之前</strong>。' },
+            ],
+            photos: [
+              { src: '/images/oeschinensee/IMG_3675.jpeg', alt: 'Kandersteg valley with chalets and the Alps', full: true, pos: 'center 40%' },
+              { src: '/images/oeschinensee/IMG_3669.jpeg', alt: 'Chalets along the glacial river, Kandersteg' },
+              { src: '/images/oeschinensee/IMG_3666.jpeg', alt: 'Traditional chalet with Balmhorn peak, Kandersteg', pos: 'center 25%' },
+              { src: '/images/oeschinensee/IMG_3672.jpeg', alt: 'Balmhorn through summer foliage, Kandersteg', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3685.jpeg', alt: 'Rocky scree field and glacier peak, Kandersteg', pos: 'center 25%' },
+              { src: '/images/oeschinensee/IMG_3690.jpeg', alt: 'Geological rock striations and hiking boots', pos: 'center 55%' },
+              { src: '/images/oeschinensee/IMG_3702.jpeg', alt: 'Candlelit restaurant terrace, Kandersteg evening', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3711.jpeg', alt: 'Hotel balcony at dusk, mountains and geraniums', full: true, pos: 'center 45%' },
+            ],
+          },
+          {
+            heading: 'Hiking the Panorama Trail',
+            headingZh: '全景步道',
+            blocks: [
+              { type: 'p', text: 'The next morning, I took one of the first cable cars up the mountain.', zh: '第二天早上，我赶上了最早几班缆车上山。' },
+              { type: 'p', text: 'This is something I would <strong class="hl">strongly recommend</strong> for popular destinations in Switzerland. Starting early allows you to experience the landscape before the crowds arrive, and the atmosphere feels entirely different when the trails are still quiet.', zh: '对于瑞士热门目的地，这是我<strong class="hl">强烈推荐</strong>的做法。早出发可以在人潮到来之前感受这片风景，路上还安静的时候，整个氛围完全不同。' },
+              { type: 'p', text: 'I followed the official Panorama Trail, which offers some of the best views of Oeschinensee while remaining accessible to most hikers. The trail is <strong class="hl">well maintained throughout</strong>, and the difficulty is very manageable by Swiss hiking standards.', zh: '我走的是官方的全景步道（Panorama Trail），这条路线能欣赏到 Oeschinensee 的最佳视角，同时大多数徒步者都能应对。<strong class="hl">全程路况良好</strong>，按瑞士徒步标准难度适中。' },
+            ],
+            photos: [
+              { src: '/images/oeschinensee/IMG_3745.jpeg', alt: 'Blüemlisalp summit through pine trees, Panorama Trail', full: true, pos: 'center 40%' },
+              { src: '/images/oeschinensee/IMG_3730.jpeg', alt: 'Forest trail with rock face, Panorama Trail approach', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3733.jpeg', alt: 'Alpine cliff with vegetation, Panorama Trail', pos: 'center 35%' },
+              { src: '/images/oeschinensee/IMG_3796.jpeg', alt: 'Blüemlisalp north face with hikers on trail, Oeschinensee', full: true, pos: 'center 40%' },
+              { src: '/images/oeschinensee/IMG_3800.jpeg', alt: 'Wildflowers and rocky path, Panorama Trail', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3905.jpeg', alt: 'Rock ledge steps with mountain and lake, Panorama Trail', pos: 'center 30%' },
+            ],
+          },
+          {
+            heading: 'The Beauty of Oeschinensee',
+            headingZh: '湖之美',
+            blocks: [
+              { type: 'p', text: 'What makes Oeschinensee special is not simply the lake itself, but the <strong class="hl">perspective from above</strong>.', zh: 'Oeschinensee 的特别之处，不仅仅在于湖本身，更在于<strong class="hl">从高处俯瞰的视角</strong>。' },
+              { type: 'p', text: 'As I gained elevation along the Panorama Trail, the lake gradually revealed its famous turquoise colour. Seen from higher on the mountainside, the water takes on an extraordinary shade of blue that is difficult to describe and even harder to capture accurately in photographs.', zh: '沿全景步道爬升时，湖水那著名的蓝绿色逐渐展现出来。从山腰往下看，湖水呈现出一种极为特别的蓝，很难用语言描述，更难被相机准确捕捉。' },
+              { type: 'p', text: 'For photographers, there is one small observation worth mentioning. While clear skies usually sound ideal, Oeschinensee can be even more beautiful when there are a <strong class="hl">few clouds overhead</strong>. Reflections and cloud shadows drifting across the lake create additional layers and textures that make the scenery even more dramatic.', zh: '对摄影者来说，有一个小小的观察值得一提。虽然晴天听起来总是理想的，但 Oeschinensee 在<strong class="hl">天空有几朵云</strong>时往往更美。倒影与云影飘过湖面，给画面增添了层次和质感，让风景更加震撼。' },
+              { type: 'p', text: 'During my visit, the weather was perfectly clear from morning to evening. The visibility was excellent, but I never got the chance to photograph the cloud reflections I had hoped to see. <strong class="hl">A good reason to go back.</strong>', zh: '我造访那天，从早到晚都是万里无云。能见度极好，但我始终没有等到期待中的云影倒影。<strong class="hl">这也是下次再来的好理由。</strong>' },
+            ],
+            photos: [
+              { src: '/images/oeschinensee/IMG_3882.jpeg', alt: 'Oeschinensee panorama from high above with meadow trails', full: true, pos: 'center 45%' },
+              { src: '/images/oeschinensee/IMG_3760.jpeg', alt: 'Pink and purple wildflowers above Oeschinensee', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3766.jpeg', alt: 'Yellow gentian flowers and Blüemlisalp above the lake', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3792.jpeg', alt: 'Turquoise Oeschinensee framed through pine branches', full: true, pos: 'center 40%' },
+              { src: '/images/oeschinensee/IMG_3776.jpeg', alt: 'Hikers at viewpoint above Oeschinensee', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3795.jpeg', alt: 'White alpine daisies above Oeschinensee', pos: 'center 35%' },
+              { src: '/images/oeschinensee/IMG_3789.jpeg', alt: 'Dried thistle heads with cliff and lake below', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3886.jpeg', alt: 'Cliff face and turquoise lake, Oeschinensee', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3859.jpeg', alt: 'Smooth rock slab with lake and valley below, Oeschinensee', full: true, pos: 'center 40%' },
+            ],
+          },
+          {
+            heading: 'Around the Lake',
+            headingZh: '湖边时光',
+            blocks: [
+              { type: 'p', text: 'Once you reach the lakeshore, there are plenty of opportunities to slow down and enjoy the surroundings.', zh: '抵达湖滨后，有很多机会放慢脚步，好好享受周围的一切。' },
+              { type: 'p', text: 'During summer, visitors can swim in the lake, rent a rowing boat, relax by the water, or simply sit and take in the scenery. There is also a restaurant near the lakeshore where you can stop for a meal, coffee, or a cold drink.', zh: '夏天，游客可以在湖中游泳、租一艘划艇、在湖边休息，或者只是坐下来欣赏风景。湖滨附近还有一家餐厅，可以停下来用餐、喝咖啡或来一杯冷饮。' },
+              { type: 'p', text: 'One of the reasons I find Oeschinensee so compelling is that it offers more than just a hiking experience. It combines alpine scenery, a beautiful lake, outdoor activities, and easy accessibility in a way that <strong class="hl">appeals to almost anyone</strong>.', zh: 'Oeschinensee 吸引我的原因之一，正是它不仅仅是一次徒步体验。它将高山风光、美丽的湖泊、户外活动与便捷的到达方式融为一体，<strong class="hl">几乎所有人都能在这里找到自己的位置</strong>。' },
+            ],
+            photos: [
+              { src: '/images/oeschinensee/IMG_3818.jpeg', alt: 'Alpine cows resting above Oeschinensee', pos: 'center 30%' },
+              { src: '/images/oeschinensee/IMG_3835.jpeg', alt: 'Coffee and sunglasses at the mountain restaurant, Oeschinensee', pos: 'center 50%' },
+              { src: '/images/oeschinensee/IMG_3908.jpeg', alt: 'Turquoise nail polish on hiking pole grip above Oeschinensee', full: true, pos: 'center 40%' },
+            ],
+          },
+          {
+            heading: 'Practical Tips',
+            headingZh: '实用建议',
+            blocks: [
+              { type: 'subheading', num: '1', text: 'Start early', zh: '早点出发' },
+              { type: 'p', text: 'I highly recommend taking one of the first cable cars of the day. Early mornings offer <strong class="hl">quieter trails, softer light</strong>, and a much more peaceful experience overall.', zh: '我强烈建议赶上当天最早几班缆车。清晨意味着<strong class="hl">更安静的步道、更柔和的光线</strong>，整体体验也会平静得多。' },
+              { type: 'subheading', num: '2', text: 'Bring some cash', zh: '带些现金' },
+              { type: 'p', text: 'When I visited in July 2024, one of the mountain huts along the trail <strong class="hl">accepted cash only</strong>. This may have changed since then, but carrying a small amount of Swiss francs is still a good idea.', zh: '我于 2024 年 7 月到访时，步道沿途一间山间小屋<strong class="hl">只收现金</strong>。情况可能已有所变化，但随身携带少量瑞士法郎仍是个好习惯。' },
+              { type: 'subheading', num: '3', text: 'Card payments near the base', zh: '底部区域可刷卡' },
+              { type: 'p', text: 'The restaurants and facilities near the cable car station and main visitor areas accepted card payments without any issues during my visit.', zh: '我造访期间，缆车站附近的餐厅和主要游客区的设施均可正常刷卡消费。' },
+            ],
+          },
+          {
+            heading: 'Final Thoughts',
+            headingZh: '结语',
+            blocks: [
+              { type: 'p', text: 'Oeschinensee is one of the most photographed lakes in Switzerland, and for good reason. The combination of turquoise water, dramatic mountain scenery, and an accessible hiking trail makes it easy to understand why it has become such a popular destination.', zh: 'Oeschinensee 是瑞士被拍摄最多的湖泊之一，这是有道理的。蓝绿色的湖水、壮观的山地风光与便捷的徒步路线相结合，不难理解它为何会成为如此受欢迎的目的地。' },
+              { type: 'p', text: 'Yet when I look back on this trip, what I remember most is not only the lake itself. I remember the quiet evening in Kandersteg, the sound of the river flowing through the valley, and the pale moon rising above the mountains before sunset.', zh: '然而当我回望这次旅程，最令我难忘的并不只是湖本身。我记得 Kandersteg 那个安静的傍晚，记得河水在山谷中流淌的声音，还有那弯月亮在日落前悄然升起在山顶之上。' },
+              { type: 'p', text: '<strong class="hl">Sometimes the most memorable part of a journey is not the destination, but the moments that happen along the way.</strong>', zh: '<strong class="hl">有时候，旅途中最令人难忘的，不是目的地本身，而是沿途发生的那些时刻。</strong>' },
+              { type: 'p', text: 'If you have visited, or are planning to go, feel free to leave a comment and share your experience.', zh: '如果你去过，或者正在计划前往，欢迎在下方留言分享你的体验。' },
+            ],
+          },
+        ],
+        closing: [],
+      },
+      gallery: [],
+    },
   ];
   return entries.map(e => ({ params: { slug: e.slug }, props: e }));
 }
@@ -352,71 +501,87 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     )}
 
     {body.sections.map(section => (
-      <div class={`body-text${section.blocks?.some(b => b.type === 'subheading') ? ' compact' : ''}`}>
-        <h2 class="section-heading">
-          <span class="lang-en">{section.heading}</span>
-          {section.headingZh && <span class="lang-zh">{section.headingZh}</span>}
-        </h2>
+      <>
+        <div class={`body-text${section.blocks?.some(b => b.type === 'subheading') ? ' compact' : ''}`}>
+          <h2 class="section-heading">
+            <span class="lang-en">{section.heading}</span>
+            {section.headingZh && <span class="lang-zh">{section.headingZh}</span>}
+          </h2>
 
-        {section.paragraphs?.map(p => <p>{p}</p>)}
+          {section.paragraphs?.map(p => <p>{p}</p>)}
 
-        {section.blocks?.map(b => {
-          if (b.type === 'p') return (
-            <>
-              <p class="lang-en" set:html={b.text}></p>
-              {b.zh && <p class="lang-zh" set:html={b.zh}></p>}
-            </>
-          );
-          if (b.type === 'subheading') return (
-            <h3 class="sub-heading">
-              <span class="sub-num">{b.num}</span>
-              <span class="sub-heading-text lang-en">{b.text}</span>
-              {b.zh && <span class="sub-heading-text lang-zh">{b.zh}</span>}
-            </h3>
-          );
-          if (b.type === 'ul') return (
-            <>
-              <div class="ul-wrap lang-en">
-                {b.intro && <p class="ul-intro" set:html={b.intro}></p>}
-                <ul class="body-list">
-                  {b.items.map(item => <li set:html={item}></li>)}
-                </ul>
-              </div>
-              {(b.zhItems || b.zhIntro) && (
-                <div class="ul-wrap lang-zh">
-                  {b.zhIntro && <p class="ul-intro" set:html={b.zhIntro}></p>}
+          {section.blocks?.map(b => {
+            if (b.type === 'p') return (
+              <>
+                <p class="lang-en" set:html={b.text}></p>
+                {b.zh && <p class="lang-zh" set:html={b.zh}></p>}
+              </>
+            );
+            if (b.type === 'subheading') return (
+              <h3 class="sub-heading">
+                <span class="sub-num">{b.num}</span>
+                <span class="sub-heading-text lang-en">{b.text}</span>
+                {b.zh && <span class="sub-heading-text lang-zh">{b.zh}</span>}
+              </h3>
+            );
+            if (b.type === 'ul') return (
+              <>
+                <div class="ul-wrap lang-en">
+                  {b.intro && <p class="ul-intro" set:html={b.intro}></p>}
                   <ul class="body-list">
-                    {(b.zhItems ?? b.items).map(item => <li set:html={item}></li>)}
+                    {b.items.map(item => <li set:html={item}></li>)}
                   </ul>
                 </div>
-              )}
-            </>
-          );
-        })}
+                {(b.zhItems || b.zhIntro) && (
+                  <div class="ul-wrap lang-zh">
+                    {b.zhIntro && <p class="ul-intro" set:html={b.zhIntro}></p>}
+                    <ul class="body-list">
+                      {(b.zhItems ?? b.items).map(item => <li set:html={item}></li>)}
+                    </ul>
+                  </div>
+                )}
+              </>
+            );
+          })}
 
-        {section.days && (
-          <div class="day-list">
-            {section.days.map(d => (
-              <div class="day-item">
-                <div class="day-num">{d.num}</div>
-                <div>
-                  <div class="day-title">{d.title}</div>
-                  <div class="day-detail">{d.detail}</div>
+          {section.days && (
+            <div class="day-list">
+              {section.days.map(d => (
+                <div class="day-item">
+                  <div class="day-num">{d.num}</div>
+                  <div>
+                    <div class="day-title">{d.title}</div>
+                    <div class="day-detail">{d.detail}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
 
-        {section.tipLabel && section.tipItems && (
-          <div class="tip-box">
-            <p class="tip-label">{section.tipLabel}</p>
-            {section.tipItems.map(t => (
-              <p><strong class="tip-bold">{t.bold}</strong> {t.text}</p>
+          {section.tipLabel && section.tipItems && (
+            <div class="tip-box">
+              <p class="tip-label">{section.tipLabel}</p>
+              {section.tipItems.map(t => (
+                <p><strong class="tip-bold">{t.bold}</strong> {t.text}</p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {section.photos && section.photos.length > 0 && (
+          <div class="section-gallery">
+            {section.photos.map(img => (
+              <img
+                src={img.src}
+                alt={img.alt ?? ''}
+                class={`sg-img${img.full ? ' sg-full' : ''}`}
+                style={img.pos ? `object-position:${img.pos}` : ''}
+                loading="lazy"
+              />
             ))}
           </div>
         )}
-      </div>
+      </>
     ))}
 
     {entry.gallery && entry.gallery.length > 0 && (
@@ -648,6 +813,30 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     transition: color 0.15s;
   }
   .map-lb-close:hover { color: #fff; }
+
+  /* ── Section photo gallery ── */
+  .section-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin: 40px calc(-1 * clamp(20px, 4vw, 48px));
+  }
+  .sg-img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    object-position: center 35%;
+  }
+  .sg-full {
+    grid-column: 1 / -1;
+    aspect-ratio: 16/9;
+  }
+  @media (max-width: 600px) {
+    .section-gallery { gap: 3px; }
+    .sg-img { aspect-ratio: 3/2; }
+    .sg-full { aspect-ratio: 4/3; }
+  }
 
   /* Inline image */
   .inline-img-wrap {

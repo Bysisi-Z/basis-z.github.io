@@ -188,18 +188,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     } catch (_) {}
   }
 
-  /* ── 5. Stoos star marker ── */
-  const stoosIcon = L.divIcon({
+  /* ── 5. Shared star icon ── */
+  const starIcon = L.divIcon({
     className: '',
     html: `<div style="font-size:20px;line-height:1;color:#1a1a1a;cursor:pointer;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));user-select:none;">★</div>`,
     iconSize:   [20, 20],
     iconAnchor: [10, 10],
   });
 
-  const tipHtml = `<img src="/images/haute-route-alps.jpeg" alt="Stoos"><div class="tip-label">Stoos</div>`;
-
-  L.marker([47.00, 8.68], { icon: stoosIcon })
-    .bindTooltip(tipHtml, {
+  /* ── 6. Markers ── */
+  const tipStoos = `<img src="/images/haute-route-alps.jpeg" alt="Stoos"><div class="tip-label">Stoos Ridge</div>`;
+  L.marker([47.00, 8.68], { icon: starIcon })
+    .bindTooltip(tipStoos, {
       direction: 'top',
       className: 'stoos-hover-tip',
       offset: [0, -14],
@@ -207,6 +207,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       sticky: false,
     })
     .on('click', () => { window.location.href = '/photography/stoos-ridge-line'; })
+    .addTo(map);
+
+  const tipOesch = `<img src="/images/oeschinensee/IMG_3898.jpeg" alt="Oeschinensee"><div class="tip-label">Oeschinensee</div>`;
+  L.marker([46.484, 7.725], { icon: starIcon })
+    .bindTooltip(tipOesch, {
+      direction: 'top',
+      className: 'stoos-hover-tip',
+      offset: [0, -14],
+      opacity: 1,
+      sticky: false,
+    })
+    .on('click', () => { window.location.href = '/photography/oeschinensee'; })
     .addTo(map);
 })();
 </script>
