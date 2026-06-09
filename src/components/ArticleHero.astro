@@ -13,6 +13,8 @@ interface Props {
   webcamUrl?: string;
   webcamHint?: string;
   webcamHintZh?: string;
+  webcamNote?: string;
+  webcamNoteZh?: string;
   heroIntro?: string[];
   heroIntroZh?: string[];
   routeOverview?: {
@@ -39,6 +41,8 @@ const {
   webcamUrl,
   webcamHint = 'Weather in the Alps changes quickly at altitude. Check the live webcam before your visit to confirm current conditions.',
   webcamHintZh = '阿尔卑斯山高海拔地区天气变化迅速，建议出发前查看实时摄像头，确认当前天气状况。',
+  webcamNote,
+  webcamNoteZh,
   heroIntro,
   heroIntroZh,
   routeOverview,
@@ -116,6 +120,8 @@ const {
             </svg>
             View Live Webcam →
           </a>
+          {webcamNote && <p class="split-wc-note lang-en">{webcamNote}</p>}
+          {webcamNoteZh && <p class="split-wc-note lang-zh">{webcamNoteZh}</p>}
         </div>
       )}
     </div>
@@ -292,6 +298,12 @@ const {
     transition: opacity 0.2s;
   }
   .split-wc-btn:hover { opacity: 0.82; }
+  .split-wc-note {
+    font-family: var(--sans); font-size: 11px; font-weight: 300;
+    color: var(--stone); line-height: 1.65;
+    text-align: center; margin: 0;
+    padding: 0 4px;
+  }
 
   .split-stats {
     display: grid;

@@ -35,6 +35,8 @@ interface Entry {
   webcamUrl?: string;
   webcamHint?: string;
   webcamHintZh?: string;
+  webcamNote?: string;
+  webcamNoteZh?: string;
   heroIntro?: string[];
   routeOverview?: {
     direction: string;
@@ -276,6 +278,8 @@ export function getStaticPaths() {
       eyebrow: 'Hiking Guide · Bern · Switzerland',
       subtitle: '',
       webcamUrl: 'https://www.oeschinensee.ch/zh/',
+      webcamNote: 'Before heading out, check the official website for trail opening info and hours — and book your tickets in advance. This is one of the most popular destinations in the Bernese Oberland.',
+      webcamNoteZh: '出发前记得在官网查看步道开放信息和时间，并提前购票预约——这是伯尔尼高地最热门的目的地之一。',
       langZh: true,
       heroIntro: [
         'Oeschinensee was not a spontaneous destination for me.',
@@ -422,7 +426,7 @@ export function getStaticPaths() {
 }
 
 const entry = Astro.props as Entry;
-const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl, webcamHint, webcamHintZh, heroIntro, heroIntroZh, routeOverview, routeOverviewZh, routeMapNote, routeMapNoteZh, langZh } = entry;
+const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, meta, body, webcamUrl, webcamHint, webcamHintZh, webcamNote, webcamNoteZh, heroIntro, heroIntroZh, routeOverview, routeOverviewZh, routeMapNote, routeMapNoteZh, langZh } = entry;
 ---
 
 <BaseLayout title={title} description={subtitle}>
@@ -438,6 +442,8 @@ const { title, eyebrow, subtitle, orientation, imagePosition, src, alt, stats, m
     webcamUrl={webcamUrl}
     webcamHint={webcamHint}
     webcamHintZh={webcamHintZh}
+    webcamNote={webcamNote}
+    webcamNoteZh={webcamNoteZh}
     heroIntro={heroIntro}
     heroIntroZh={heroIntroZh}
     routeOverview={routeOverview}
