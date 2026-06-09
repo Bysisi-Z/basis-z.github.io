@@ -19,11 +19,13 @@ const entries = [
     ph: 'ph-1',
   },
   {
-    slug: 'yunnan-highland-trek',
-    category: 'Trail Notes',
-    title: 'Yunnan Highland Trek',
+    slug: 'oeschinensee',
+    category: 'Hiking Guide',
+    title: 'Oeschinensee Panorama Trail',
     orientation: 'landscape',
-    ph: 'ph-2',
+    imgSrc: '/images/oeschinensee/IMG_3898.jpeg',
+    imgAlt: 'Oeschinensee panorama from above, Bernese Oberland, Switzerland',
+    note: 'Book in advance — one of the most popular destinations in the Bernese Oberland',
   },
   {
     slug: 'first-5000m-summit',
@@ -82,6 +84,7 @@ const entries = [
           <div class="card-overlay">
             <span class="card-category">{e.category}</span>
             <h2 class="card-title">{e.title}</h2>
+            {e.note && <p class="card-note">{e.note}</p>}
           </div>
         </a>
       ))}
@@ -188,6 +191,12 @@ const entries = [
     font-size: clamp(17px, 2vw, 22px);
     font-weight: 400; font-style: italic;
     line-height: 1.2; color: #fff;
+  }
+  .card-note {
+    font-family: var(--sans); font-size: 11px; font-weight: 300;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.6);
+    margin: 6px 0 0; line-height: 1.5;
   }
 
   /* ── Gradient placeholders ── */
