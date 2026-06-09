@@ -156,6 +156,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
     </div><!-- /bento -->
+
+    <!-- ── Hike CTA ── -->
+    <a href="/trails" class="hike-cta">
+      <img src="/images/hike-invite.jpg" alt="Hiking in the Swiss Alps" class="hike-cta-bg" />
+      <div class="hike-cta-content">
+        <p class="hike-cta-title">Come hiking with me</p>
+        <span class="hike-cta-btn">Explore the trails →</span>
+      </div>
+    </a>
+
   </div><!-- /outer-wrap -->
 
   <!-- ── Fun fact ── -->
@@ -511,6 +521,77 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   @keyframes shimmer {
     0%   { background-position: 200% 0; }
     100% { background-position: -200% 0; }
+  }
+
+  /* ── Hike CTA ── */
+  .hike-cta {
+    display: block;
+    position: relative;
+    margin-top: 52px;
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .hike-cta-bg {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.7s ease;
+  }
+  .hike-cta:hover .hike-cta-bg { transform: scale(1.04); }
+
+  /* bottom-up gradient overlay */
+  .hike-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(8, 6, 4, 0.72) 0%,
+      rgba(8, 6, 4, 0.22) 48%,
+      transparent 72%
+    );
+  }
+  .hike-cta-content {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px 48px;
+    gap: 18px;
+  }
+  .hike-cta-title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.8vw, 54px);
+    font-weight: 300; font-style: italic;
+    color: rgba(255,255,255,0.96);
+    line-height: 1.1;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.25);
+    margin: 0;
+  }
+  .hike-cta-btn {
+    display: inline-block;
+    padding: 9px 22px;
+    font-family: var(--sans);
+    font-size: 11px; font-weight: 300;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+    border: 1.5px solid rgba(255,255,255,0.55);
+    border-radius: 6px;
+    width: fit-content;
+    transition: border-color 0.22s, background 0.22s, color 0.22s;
+  }
+  .hike-cta:hover .hike-cta-btn {
+    border-color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.1);
+    color: white;
+  }
+
+  @media (max-width: 680px) {
+    .hike-cta { height: 340px; }
+    .hike-cta-content { padding: 28px 28px; gap: 14px; }
   }
 
   /* ── Mobile: hero ── */
