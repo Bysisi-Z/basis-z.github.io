@@ -735,10 +735,10 @@ if (eggBtn && eggBox) {
 
 /* ── "a foreign country" tooltip ── */
 (() => {
-  const wrap = document.querySelector('.country-wrap') as HTMLElement | null;
-  const tip  = document.querySelector('.country-tip')  as HTMLElement | null;
+  const wrap = document.querySelector('.country-wrap');
+  const tip  = document.querySelector('.country-tip');
   if (!wrap || !tip) return;
-  let timer: ReturnType<typeof setTimeout>;
+  let timer;
 
   const show = () => { clearTimeout(timer); tip.classList.add('visible'); };
   const hide = () => { timer = setTimeout(() => tip.classList.remove('visible'), 120); };
