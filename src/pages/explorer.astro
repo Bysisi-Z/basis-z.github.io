@@ -22,7 +22,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="intro-p">Things simply are what they are. Over time, that became a part of me as well. I prefer curiosity over certainty, understanding over judgment, and learning over proving.</p>
       <p class="intro-p">My friends often describe me as an INTP. I usually tell them I am probably an <strong class="text-blue">ONTP</strong>.</p>
       <p class="intro-p">I enjoy ideas, but I gain energy outdoors. Some of my favorite days begin before sunrise, with a train ride toward the mountains and no particular urgency beyond seeing where the trail leads.</p>
-      <p class="intro-p">Curiosity also has a habit of pulling me in unexpected directions. Over the years, it has led me to languages, musical instruments, history, strategy, photography, long conversations, and even <strong>a foreign country</strong>!</p>
+      <p class="intro-p">Curiosity also has a habit of pulling me in unexpected directions. Over the years, it has led me to languages, musical instruments, history, strategy, photography, long conversations, and even <span class="country-wrap"><strong>a foreign country</strong><span class="country-tip" role="tooltip"><a href="/trails" class="country-tip-link">Where the trails lead&nbsp;→</a></span></span>!</p>
       <p class="intro-p">This website is simply a collection of things I find interesting, beautiful, or worth exploring. Places I have visited. Ideas I have encountered. Questions I am still thinking about. And whatever happens to catch my curiosity next.</p>
     </div>
   </div>
@@ -251,6 +251,65 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     content: '—';
     position: absolute; left: 0;
     color: var(--rose); font-size: 11px;
+  }
+
+  /* ── "a foreign country" tooltip ── */
+  .country-wrap {
+    position: relative;
+    display: inline;
+  }
+  .country-wrap > strong {
+    cursor: default;
+    border-bottom: 1px dotted rgba(193,125,157,0.55);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .country-wrap:hover > strong,
+  .country-wrap:focus-within > strong {
+    color: var(--rose);
+    border-bottom-color: var(--rose);
+  }
+  .country-tip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    border-radius: 7px;
+    padding: 7px 13px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    transform: translateX(-50%) translateY(4px);
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .country-tip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1a1a1a;
+  }
+  .country-tip.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .country-tip-link {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: #c17d9d;
+    text-decoration: none;
+    display: block;
+  }
+  .country-tip-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   /* ── Outer wrap ── */
@@ -672,5 +731,21 @@ if (eggBtn && eggBox) {
       .attr('fill', '#c17d9d')
       .text(s.year);
   });
+})();
+
+/* ── "a foreign country" tooltip ── */
+(() => {
+  const wrap = document.querySelector('.country-wrap') as HTMLElement | null;
+  const tip  = document.querySelector('.country-tip')  as HTMLElement | null;
+  if (!wrap || !tip) return;
+  let timer: ReturnType<typeof setTimeout>;
+
+  const show = () => { clearTimeout(timer); tip.classList.add('visible'); };
+  const hide = () => { timer = setTimeout(() => tip.classList.remove('visible'), 120); };
+
+  wrap.addEventListener('mouseenter', show);
+  wrap.addEventListener('mouseleave', hide);
+  tip.addEventListener('mouseenter',  show);
+  tip.addEventListener('mouseleave',  hide);
 })();
 </script>

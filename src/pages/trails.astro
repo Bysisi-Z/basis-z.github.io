@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Swiss Trails" description="Hiking guides from Switzerland — where the trails lead.">
+
+<div class="trails-page">
+
+  <header class="trails-header">
+    <div class="wrap">
+      <a href="/explorer" class="back-link">← World Explorer</a>
+      <h1 class="trails-title">Trails lead to <em class="title-accent">the world</em></h1>
+    </div>
+  </header>
+
+  <div id="map" class="map-div"></div>
+
+</div>
+
+</BaseLayout>
+
+<style>
+  .trails-page { background: var(--bg); }
+
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 60px);
+  }
+
+  .trails-header {
+    padding-top: 52px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 11px; font-weight: 300;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--stone); text-decoration: none;
+    transition: color 0.2s;
+    margin-bottom: 18px;
+  }
+  .back-link:hover { color: var(--rose); }
+  .trails-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 72px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.15; color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .title-accent {
+    color: var(--rose);
+    font-style: italic;
+  }
+  .trails-sub {
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 300;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  /* ── Leaflet map container ── */
+  .map-div {
+    width: 100%;
+    height: calc(100vh - 220px);
+    min-height: 480px;
+  }
+
+  /* ── Leaflet overrides to match site style ── */
+  :global(.leaflet-tooltip) {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.06em !important;
+    background: rgba(26,26,26,0.88) !important;
+    color: #f0e8e0 !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: 4px 8px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25) !important;
+    white-space: nowrap !important;
+  }
+  :global(.leaflet-tooltip::before) { display: none !important; }
+
+  :global(.stoos-hover-tip.leaflet-tooltip) {
+    background: #fafaf8 !important;
+    color: var(--ink) !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    width: 160px !important;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.06) !important;
+    font-weight: 300 !important;
+    letter-spacing: 0 !important;
+  }
+  :global(.stoos-hover-tip.leaflet-tooltip img) {
+    display: block;
+    width: 160px;
+    height: 100px;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  :global(.stoos-hover-tip.leaflet-tooltip .tip-label) {
+    padding: 7px 10px 9px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+    color: #1a1a1a;
+    line-height: 1;
+  }
+
+  :global(.leaflet-control-zoom a) {
+    font-family: 'Inter', sans-serif !important;
+    color: var(--ink) !important;
+  }
+  :global(.leaflet-control-attribution) {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 9px !important;
+    color: var(--stone) !important;
+    background: rgba(250,250,248,0.85) !important;
+  }
+</style>
+
+<script>
+(async () => {
+  /* ── 1. Load Leaflet CSS ── */
+  await new Promise<void>(resolve => {
+    const link = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+    link.onload  = () => resolve();
+    link.onerror = () => resolve(); // don't block on error
+    document.head.appendChild(link);
+  });
+
+  /* ── 2. Load Leaflet JS ── */
+  await new Promise<void>((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+    script.onload  = () => resolve();
+    script.onerror = () => reject(new Error('Leaflet failed to load'));
+    document.head.appendChild(script);
+  });
+
+  const L = (window as any).L;
+
+  /* ── 3. Initialise map ── */
+  const map = L.map('map', {
+    center: [46.80, 8.22],
+    zoom: 8,
+    zoomControl: true,
+    scrollWheelZoom: true,
+  });
+
+  /* OpenStreetMap tiles */
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:
+      '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19,
+  }).addTo(map);
+
+  /* ── 4. Canton boundary overlay (pink tint) ── */
+  const cantonUrls = [
+    'https://raw.githubusercontent.com/interactivethings/swiss-maps/gh-pages/maps/cantons.geo.json',
+    'https://raw.githubusercontent.com/hpfast/swisstopogeojson/master/ch_cantons.json',
+  ];
+
+  let cantonLoaded = false;
+  for (const url of cantonUrls) {
+    if (cantonLoaded) break;
+    try {
+      const r = await fetch(url);
+      if (!r.ok) continue;
+      const data = await r.json();
+      L.geoJSON(data, {
+        style: () => ({
+          color: '#c17d9d',
+          weight: 1.2,
+          opacity: 0.55,
+          fillColor: '#c17d9d',
+          fillOpacity: 0.06,
+        }),
+      }).addTo(map);
+      cantonLoaded = true;
+    } catch (_) {}
+  }
+
+  /* ── 5. Stoos star marker ── */
+  const stoosIcon = L.divIcon({
+    className: '',
+    html: `<div style="font-size:20px;line-height:1;color:#1a1a1a;cursor:pointer;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));user-select:none;">★</div>`,
+    iconSize:   [20, 20],
+    iconAnchor: [10, 10],
+  });
+
+  const tipHtml = `<img src="/images/haute-route-alps.jpeg" alt="Stoos"><div class="tip-label">Stoos</div>`;
+
+  L.marker([47.00, 8.68], { icon: stoosIcon })
+    .bindTooltip(tipHtml, {
+      direction: 'top',
+      className: 'stoos-hover-tip',
+      offset: [0, -14],
+      opacity: 1,
+      sticky: false,
+    })
+    .on('click', () => { window.location.href = '/photography/stoos-ridge-line'; })
+    .addTo(map);
+})();
+</script>

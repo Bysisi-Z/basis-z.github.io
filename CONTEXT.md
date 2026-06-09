@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-09 (session 33)
+> Last updated: 2026-06-09 (session 34)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -54,7 +54,8 @@ src/
 │   └── Watermark.astro        # Photo watermark overlay
 ├── pages/
 │   ├── index.astro            # Homepage — 1-screen layout, drum wheel mobile
-│   ├── explorer.astro         # World Explorer profile page ✅ NEW
+│   ├── explorer.astro         # World Explorer profile page ✅
+│   ├── trails.astro           # Trails lead to the world — Leaflet map ✅ NEW (session 34)
 │   ├── career/index.astro     # Journey — dual timeline
 │   ├── research/index.astro   # Decoding — gateway page
 │   ├── research/data.astro    # NSFG 2022–2023 explorer ✅
@@ -242,6 +243,22 @@ Gateway → two columns: Industry Research + Play with the Data.
 - iPad Safari fix: hero uses `100dvh` + `grid-template-rows: 1fr` + `height: 100%` on grid items (session 23)
 - Route map: negative margins removed, contained within article padding (session 23)
 - Lightbox moved outside `.article` to fix iOS fixed positioning (session 23)
+
+### Trails (`/trails`) ✅ Live (session 34)
+
+Hiking guide overview page, linked from "a foreign country" hover tooltip in `/explorer`.
+
+**Title:** "Trails lead to *the world*" — "the world" in rose italic. No subtitle.
+**Back link:** ← World Explorer → `/explorer`
+
+**Map:** Leaflet.js + OpenStreetMap tiles, centered on Switzerland `[46.80, 8.22]` zoom 8.
+- Canton boundary overlay: semi-transparent rose tint (GeoJSON from `interactivethings/swiss-maps` GitHub Pages; fails gracefully)
+- No city markers (OSM tiles already show cities)
+- Stoos marker: black star ★ at `[47.00, 8.68]`; hover shows photo thumbnail (`/images/haute-route-alps.jpeg`) + italic "Stoos" label; click → `/photography/stoos-ridge-line`
+
+**explorer.astro change:** "a foreign country" wrapped in `.country-wrap` — dotted underline, hover shows dark tooltip "Where the trails lead →" linking to `/trails`. JS delay-hide keeps tooltip open when mouse moves into it.
+
+**Future:** Add more countries/hikes as new markers on the same map.
 
 ### CV (`/cv`) ✅ Live
 
