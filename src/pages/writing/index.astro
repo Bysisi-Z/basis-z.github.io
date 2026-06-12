@@ -28,8 +28,31 @@ const posts = [
       <div class="page-intro">
         <p>In an age where AI can generate words in seconds, there is still something meaningful about expressing my own thoughts by typing out every word myself.</p>
         <p>Although English is my working language, Chinese is the language in which I think. For that reason, every essay in this section is first written in Chinese and then translated into English. You'll find a language switch at the top of each page.</p>
-        <p>Please allow me to offer you a cup of tea — or coffee, if you prefer.</p>
-        <p class="invite">Let's sit down and have a conversation.</p>
+        <div class="coffee-wrap">
+          <audio id="coffee-audio" src="/audio/coffee-invite.m4a" preload="none"></audio>
+          <button class="coffee-btn" id="coffee-btn" aria-label="Play a message" title="Click me">
+          <svg class="coffee-svg" viewBox="0 0 82 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Steam wisps -->
+            <path d="M24 30 Q20 20 24 9 Q28 20 24 30Z" fill="#ecd2e0"/>
+            <path d="M38 27 Q34 15 38 3 Q42 15 38 27Z" fill="#d4a0b8"/>
+            <path d="M52 30 Q48 20 52 9 Q56 20 52 30Z" fill="#ecd2e0"/>
+            <!-- Saucer -->
+            <ellipse cx="40" cy="74" rx="29" ry="6" fill="#d4a0b8"/>
+            <!-- Cup body -->
+            <path d="M12 32 L17 70 L63 70 L68 32Z" fill="#c17d9d"/>
+            <!-- Handle -->
+            <path d="M68 42 Q80 42 80 52 Q80 63 68 63 L68 59 Q75 59 75 52 Q75 45 68 45Z" fill="#d4a0b8"/>
+            <!-- Coffee surface -->
+            <ellipse cx="40" cy="33" rx="28" ry="6" fill="#a3607e"/>
+            <!-- Reflection -->
+            <ellipse cx="33" cy="32" rx="9" ry="2" fill="#c17d9d" opacity="0.45"/>
+          </svg>
+          </button>
+          <div>
+            <p>Please allow me to offer you a cup of tea — or coffee, if you prefer.</p>
+            <p class="invite">Let's sit down and have a conversation.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -75,6 +98,35 @@ const posts = [
     font-style: italic; color: var(--stone);
     margin-bottom: 0;
   }
+  .coffee-wrap {
+    display: flex; align-items: flex-start; gap: 28px;
+    margin-top: 0.4em;
+  }
+  .coffee-btn {
+    background: none; border: none; padding: 0; cursor: pointer;
+    flex-shrink: 0; margin-top: 4px;
+    transition: transform 0.2s;
+  }
+  .coffee-btn:hover { transform: translateY(-3px); }
+  .coffee-btn.playing .coffee-svg { filter: drop-shadow(0 0 8px rgba(193,125,157,0.5)); }
+  .coffee-svg {
+    width: 56px; height: auto;
+    display: block;
+    transition: filter 0.3s;
+  }
+  /* Steam animation when playing */
+  @keyframes steam-rise {
+    0%   { opacity: 0.4; transform: translateY(0); }
+    50%  { opacity: 1;   transform: translateY(-4px); }
+    100% { opacity: 0.4; transform: translateY(0); }
+  }
+  .coffee-btn.playing svg path:nth-child(1),
+  .coffee-btn.playing svg path:nth-child(2),
+  .coffee-btn.playing svg path:nth-child(3) {
+    animation: steam-rise 1.4s ease-in-out infinite;
+  }
+  .coffee-btn.playing svg path:nth-child(2) { animation-delay: 0.25s; }
+  .coffee-btn.playing svg path:nth-child(3) { animation-delay: 0.5s; }
 
   .blog-list { padding-top: 64px; }
   .blog-item {
@@ -104,6 +156,21 @@ const posts = [
 </style>
 
 <script>
+  // Coffee cup easter egg
+  const btn = document.getElementById('coffee-btn');
+  const audio = document.getElementById('coffee-audio');
+  btn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      btn.classList.add('playing');
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      btn.classList.remove('playing');
+    }
+  });
+  audio.addEventListener('ended', () => btn.classList.remove('playing'));
+
   // Fade-in cards
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
