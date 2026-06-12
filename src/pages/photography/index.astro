@@ -74,6 +74,7 @@ const entries = [
     <header class="page-header">
       <h1 class="page-title">Nature never judges</h1>
       <p class="page-sub">Trails walked, peaks reached, silences found.</p>
+      <a href="/trails" class="map-link">View all trails on the map →</a>
     </header>
   </div>
 
@@ -137,6 +138,18 @@ const entries = [
     font-weight: 300; font-style: italic;
     color: var(--stone);
   }
+  .map-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 300;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--pink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .map-link:hover { border-bottom-color: var(--pink); }
 
   /* ── Mixed grid ── */
   .cards-grid {
