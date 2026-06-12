@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-10 (session 37)
+> Last updated: 2026-06-12 (session 38)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -239,8 +239,8 @@ Gateway → two columns: Industry Research + Play with the Data.
 - 6-card mixed grid (portrait = span 2, landscape = span 4)
 - Live detail pages: Stoos Ridge Hike, Oeschinensee Panorama Trail, Lucerne city guide
 
-**Lucerne (`/photography/lucerne`) — session 37:**
-- Title: "Lucerne – The Most Swiss City in Switzerland"
+**Lucerne (`/photography/lucerne`) — session 37–38:**
+- Title: "Lucerne – The Heart of Switzerland" (renamed s38; was "The Most Swiss City in Switzerland")
 - City travel essay, not hiking guide; orientation: landscape (full-width hero)
 - Hero: `DSC08012.jpg` — winter cityscape from across the lake, Hofkirche twin spires, snow
 - Section 1 photos (4 total): `DSC08013.jpg` full (old town), `DSC08014.jpg` half (dock), `DSC08020.jpg` half (lake + duck), `DSC08025.jpg` full (seagulls + misty Alps)
@@ -273,6 +273,7 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Entry data now supports optional `note` field → renders as `.card-note` (11px, rgba white 60%) in card overlay below title
 - Oeschinensee card: portrait, `IMG_3898.jpeg`, note = "Book in advance — one of the most popular destinations in the Bernese Oberland"
 - yunnan-highland-trek placeholder replaced by Oeschinensee
+- **Session 38:** "VIEW ALL TRAILS ON THE MAP →" button link added in page header below subtitle → `/trails`; rose border button, hover fills rose
 
 ### Trails (`/trails`) ✅ Live (session 34)
 
@@ -284,7 +285,7 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 **Map:** Leaflet.js + OpenStreetMap tiles, centered on Switzerland `[46.80, 8.22]` zoom 8.
 - Canton boundary overlay: semi-transparent rose tint (GeoJSON from `interactivethings/swiss-maps` GitHub Pages; fails gracefully)
 - Map hint overlay (top-left, dark semi-transparent): "★ Click a star to read the travel log"
-- **Marker interaction (session 37, all 3 markers):** hover → text label only; click → 480×300 popup with photo; click photo → navigate to article. Portrait images auto-detected (naturalHeight > naturalWidth → 320×480). CSS class `.trail-popup`.
+- **Marker interaction (session 37–38):** hover → text label only; click → popup with full-ratio photo (600px wide, height auto, no cropping); click photo → navigate to article. CSS class `.trail-popup`. maxWidth: 600.
 - Lucerne marker (session 37): `[47.050, 8.309]`; red star `#e53935` (22px); photo `DSC08012.jpg`; → `/photography/lucerne`
 - Stoos marker: `[47.00, 8.68]`; black star; photo `/images/haute-route-alps.jpeg`; → `/photography/stoos-ridge-line`
 - Oeschinensee marker: `[46.484, 7.725]`; black star; photo `IMG_3898.jpeg`; → `/photography/oeschinensee`
@@ -308,6 +309,12 @@ Professional profile: photo + summary, 5 work entries with vine bullets, educati
 ### Wandering (`/writing`) ⚠️ Index only
 
 2 placeholder posts. No detail pages.
+
+**Session 38 — index page updates:**
+- Title changed from "Writing" → "Wandering"
+- Intro text added (EN only, 900px wide): 4 paragraphs inviting reader to sit and converse
+- Coffee cup SVG easter egg: clicking the cup plays audio (`public/audio/coffee-invite.m4a`); steam wisps animate while playing; stops on click or end. Demo TTS voice in place — swap file with real recording when ready.
+- Coffee cup SVG uses rose palette: `#c17d9d` (cup body), `#d4a0b8` (saucer/handle), `#ecd2e0` (steam wisps)
 
 ### Now (`/now`) ⚠️ Placeholder
 
@@ -338,6 +345,7 @@ Content not written.
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
 - [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: INSCOV23 (insurance coverage), DLAYCA42 (delayed care), TOTSLF23 (OOP spending); stubs in `/meps-reports.html`
+- [x] **MEPS explorer label fixes (s38)** — Yes/No auto-applied to all {1,2}-only vars; -2 (prev round) and -10 (top coded) added to MISSING_VALS; employment categoricals fully labelled (HRHOW, INDCAT, OCCCAT, NWK, BSNTY, JOBORG, CHGJ, YCHJ, STJBMM, EMPST*H); both main + split JSON regenerated
 - [x] **NSFG method trends page** — `/nsfg-method-trends.html` ✅ done session 29; METHX1–192 all badged
 - [x] **NSFG age analysis page** — `/nsfg-method-age.html` ✅ done session 31–33; 5 methods (pill/IUD/implant/ring/Depo); citations on pill/IUD/implant findings
 - [x] **NSFG reports index** — `/nsfg-reports.html` ✅ session 33; 13 reports in 2 groups (EA + METHX)
