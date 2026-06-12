@@ -23,7 +23,14 @@ const posts = [
   <div class="content-wrap">
 
     <div class="page-header">
-      <h1 class="page-title"><em>Writing</em></h1>
+      <h1 class="page-title"><em>Wandering</em></h1>
+
+      <div class="page-intro">
+        <p>In an age where AI can generate words in seconds, there is still something meaningful about expressing my own thoughts by typing out every word myself.</p>
+        <p>Although English is my working language, Chinese is the language in which I think. For that reason, every essay in this section is first written in Chinese and then translated into English. You'll find a language switch at the top of each page.</p>
+        <p>Please allow me to offer you a cup of tea — or coffee, if you prefer.</p>
+        <p class="invite">Let's sit down and have a conversation.</p>
+      </div>
     </div>
 
     <div class="blog-list">
@@ -47,6 +54,28 @@ const posts = [
 </BaseLayout>
 
 <style>
+  .page-header { padding-top: 64px; padding-bottom: 52px; border-bottom: 1px solid var(--rule); }
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(44px, 8vw, 88px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.05; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 28px;
+  }
+
+  /* Intro text */
+  .page-intro { max-width: 560px; }
+  .page-intro p {
+    font-family: var(--serif);
+    font-size: clamp(16px, 1.6vw, 19px);
+    font-weight: 300; line-height: 1.85;
+    color: var(--ink); margin-bottom: 1.2em;
+  }
+  .page-intro p.invite {
+    font-style: italic; color: var(--stone);
+    margin-bottom: 0;
+  }
+
   .blog-list { padding-top: 64px; }
   .blog-item {
     display: grid; grid-template-columns: 100px 1fr;
@@ -75,6 +104,7 @@ const posts = [
 </style>
 
 <script>
+  // Fade-in cards
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
