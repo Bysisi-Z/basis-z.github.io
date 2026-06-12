@@ -64,23 +64,16 @@ const posts = [
   }
 
   /* Intro text */
-  .page-intro {
-    columns: 2; column-gap: 56px;
-    max-width: 900px;
-  }
+  .page-intro { max-width: 900px; }
   .page-intro p {
     font-family: var(--serif);
     font-size: clamp(15px, 1.4vw, 17px);
     font-weight: 300; line-height: 1.8;
-    color: var(--ink); margin-bottom: 1em;
-    break-inside: avoid;
+    color: var(--ink); margin-bottom: 0.9em;
   }
   .page-intro p.invite {
     font-style: italic; color: var(--stone);
     margin-bottom: 0;
-  }
-  @media (max-width: 640px) {
-    .page-intro { columns: 1; }
   }
 
   .blog-list { padding-top: 64px; }
