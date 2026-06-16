@@ -209,6 +209,11 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Key trends (2017–2019): Pill 25.9%→21.9% of method users (declining); IUD 11.4%→13.2% (rising); Condom ~32% stable; Female sterilization 20%→22% (rising)
 - Data generation scripts: `~/Downloads/gen_nsfg1719_method_trends.py`, `~/Downloads/gen_nsfg1719_method_age.py`; source: `2017_2019_FemRespData.dat` (n=6,141)
 
+**NSFG explorer group UX (session 43):**
+- Groups now **default-expanded** on load: `expandedGroups = new Set(Object.keys(d.groups))` called in both group-load callbacks (initial + cycle switch)
+- Group title no longer truncates: removed `white-space:nowrap; overflow:hidden; text-overflow:ellipsis`; replaced with `min-width:0; word-break:break-word`
+- Group header flex changed to `align-items:flex-start`; chevron/qcode/count get `margin-top` to align with first text line
+
 **NSFG explorer updates (session 30):**
 - Left panel width: 300px → 340px
 - 2-level grouped sidebar: grouped variables collapse to qcode header (title + count); click to expand; current var's group auto-expands; resets on section switch; 19 groups where title = qcode fall back to first var's label
