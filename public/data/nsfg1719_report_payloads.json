@@ -1,0 +1,688 @@
+{
+  "pill": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 4181,
+    "n_stopped": 1448,
+    "n_no_ea17": 1968,
+    "n_had_ea17": 2213,
+    "n_had_ea17_no_stop": 765,
+    "pct_of_users": 34.6,
+    "pct_of_ea17": 65.4,
+    "slot_counts": {
+      "METHSTOP01": 1331,
+      "METHSTOP02": 93,
+      "METHSTOP03": 20,
+      "METHSTOP04": 2,
+      "METHSTOP05": 1,
+      "METHSTOP06": 1,
+      "METHSTOP07": 0,
+      "METHSTOP08": 0,
+      "METHSTOP09": 0,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Depo-Provera, injectables": 275,
+      "Condom": 193,
+      "IUD": 156,
+      "Vaginal contraceptive ring": 130,
+      "Withdrawal, pulling out": 110,
+      "Contraceptive patch": 91,
+      "Hormonal implant": 58,
+      "Code 14": 25,
+      "Calendar/rhythm method": 24,
+      "Code 18": 15
+    },
+    "age_dist": {
+      "30–34": 321,
+      "20–24": 188,
+      "15–19": 65,
+      "25–29": 272,
+      "40–44": 181,
+      "45–50": 173,
+      "35–39": 248
+    },
+    "race_dist_pct": {
+      "NH White": {
+        "pct": 33.9,
+        "n_stopped": 728,
+        "n_users": 2149
+      },
+      "NH Black": {
+        "pct": 34.2,
+        "n_stopped": 262,
+        "n_users": 767
+      },
+      "Hispanic": {
+        "pct": 35.5,
+        "n_stopped": 331,
+        "n_users": 933
+      },
+      "NH Other/Multiple": {
+        "pct": 38.3,
+        "n_stopped": 127,
+        "n_users": 332
+      }
+    },
+    "note_users": null
+  },
+  "condom": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 5009,
+    "n_stopped": 356,
+    "n_no_ea17": 2613,
+    "n_had_ea17": 2396,
+    "n_had_ea17_no_stop": 2040,
+    "pct_of_users": 7.1,
+    "pct_of_ea17": 14.9,
+    "slot_counts": {
+      "METHSTOP01": 152,
+      "METHSTOP02": 177,
+      "METHSTOP03": 23,
+      "METHSTOP04": 3,
+      "METHSTOP05": 1,
+      "METHSTOP06": 0,
+      "METHSTOP07": 0,
+      "METHSTOP08": 0,
+      "METHSTOP09": 0,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Birth control pills": 193,
+      "Withdrawal, pulling out": 65,
+      "Depo-Provera, injectables": 59,
+      "Vaginal contraceptive ring": 37,
+      "IUD": 36,
+      "Calendar/rhythm method": 16,
+      "Contraceptive patch": 15,
+      "Hormonal implant": 12,
+      "Code 14": 12,
+      "Code 17": 7
+    },
+    "age_dist": {
+      "30–34": 76,
+      "25–29": 80,
+      "20–24": 42,
+      "40–44": 45,
+      "35–39": 60,
+      "45–50": 41,
+      "15–19": 12
+    },
+    "race_dist_pct": {
+      "NH Other/Multiple": {
+        "pct": 7.1,
+        "n_stopped": 31,
+        "n_users": 436
+      },
+      "NH White": {
+        "pct": 9.0,
+        "n_stopped": 206,
+        "n_users": 2297
+      },
+      "NH Black": {
+        "pct": 5.7,
+        "n_stopped": 57,
+        "n_users": 1002
+      },
+      "Hispanic": {
+        "pct": 4.9,
+        "n_stopped": 62,
+        "n_users": 1274
+      }
+    },
+    "note_users": null
+  },
+  "vasectomy": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 650,
+    "n_stopped": 4,
+    "n_no_ea17": 285,
+    "n_had_ea17": 365,
+    "n_had_ea17_no_stop": 361,
+    "pct_of_users": 0.6,
+    "pct_of_ea17": 1.1,
+    "slot_counts": {
+      "METHSTOP01": 1,
+      "METHSTOP02": 3,
+      "METHSTOP03": 1,
+      "METHSTOP04": 0,
+      "METHSTOP05": 0,
+      "METHSTOP06": 0,
+      "METHSTOP07": 0,
+      "METHSTOP08": 0,
+      "METHSTOP09": 0,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Birth control pills": 2,
+      "Condom": 2,
+      "Withdrawal, pulling out": 2,
+      "Depo-Provera, injectables": 2,
+      "Code 14": 1,
+      "Code 17": 1,
+      "Vaginal contraceptive ring": 1
+    },
+    "age_dist": {
+      "35–39": 2,
+      "40–44": 1,
+      "45–50": 1
+    },
+    "race_dist_pct": {
+      "NH White": {
+        "pct": 0.7,
+        "n_stopped": 3,
+        "n_users": 435
+      },
+      "Hispanic": {
+        "pct": 0.0,
+        "n_stopped": 0,
+        "n_users": 104
+      },
+      "NH Other/Multiple": {
+        "pct": 0.0,
+        "n_stopped": 0,
+        "n_users": 45
+      },
+      "NH Black": {
+        "pct": 1.5,
+        "n_stopped": 1,
+        "n_users": 66
+      }
+    },
+    "note_users": null
+  },
+  "depo": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 1500,
+    "n_stopped": 662,
+    "n_no_ea17": 513,
+    "n_had_ea17": 987,
+    "n_had_ea17_no_stop": 325,
+    "pct_of_users": 44.1,
+    "pct_of_ea17": 67.1,
+    "slot_counts": {
+      "METHSTOP01": 403,
+      "METHSTOP02": 193,
+      "METHSTOP03": 51,
+      "METHSTOP04": 14,
+      "METHSTOP05": 1,
+      "METHSTOP06": 0,
+      "METHSTOP07": 0,
+      "METHSTOP08": 0,
+      "METHSTOP09": 0,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Birth control pills": 275,
+      "IUD": 84,
+      "Vaginal contraceptive ring": 66,
+      "Condom": 59,
+      "Contraceptive patch": 59,
+      "Withdrawal, pulling out": 44,
+      "Hormonal implant": 32,
+      "Code 14": 9,
+      "Code 15": 6,
+      "Code 17": 6
+    },
+    "age_dist": {
+      "30–34": 143,
+      "35–39": 110,
+      "40–44": 98,
+      "20–24": 96,
+      "25–29": 128,
+      "15–19": 30,
+      "45–50": 57
+    },
+    "race_dist_pct": {
+      "NH Black": {
+        "pct": 41.2,
+        "n_stopped": 192,
+        "n_users": 466
+      },
+      "Hispanic": {
+        "pct": 40.6,
+        "n_stopped": 158,
+        "n_users": 389
+      },
+      "NH White": {
+        "pct": 47.4,
+        "n_stopped": 255,
+        "n_users": 538
+      },
+      "NH Other/Multiple": {
+        "pct": 53.3,
+        "n_stopped": 57,
+        "n_users": 107
+      }
+    },
+    "note_users": null
+  },
+  "withdrawal": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 3440,
+    "n_stopped": 205,
+    "n_no_ea17": 1657,
+    "n_had_ea17": 1783,
+    "n_had_ea17_no_stop": 1578,
+    "pct_of_users": 6.0,
+    "pct_of_ea17": 11.5,
+    "slot_counts": {
+      "METHSTOP01": 70,
+      "METHSTOP02": 80,
+      "METHSTOP03": 47,
+      "METHSTOP04": 5,
+      "METHSTOP05": 3,
+      "METHSTOP06": 0,
+      "METHSTOP07": 0,
+      "METHSTOP08": 0,
+      "METHSTOP09": 0,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Birth control pills": 110,
+      "Condom": 65,
+      "Depo-Provera, injectables": 44,
+      "Calendar/rhythm method": 23,
+      "Vaginal contraceptive ring": 22,
+      "Contraceptive patch": 17,
+      "IUD": 16,
+      "Code 14": 7,
+      "Hormonal implant": 7,
+      "Code 15": 4
+    },
+    "age_dist": {
+      "45–50": 22,
+      "35–39": 39,
+      "30–34": 37,
+      "25–29": 40,
+      "15–19": 10,
+      "20–24": 23,
+      "40–44": 34
+    },
+    "race_dist_pct": {
+      "NH Other/Multiple": {
+        "pct": 6.6,
+        "n_stopped": 20,
+        "n_users": 305
+      },
+      "NH White": {
+        "pct": 7.3,
+        "n_stopped": 117,
+        "n_users": 1595
+      },
+      "Hispanic": {
+        "pct": 4.3,
+        "n_stopped": 37,
+        "n_users": 853
+      },
+      "NH Black": {
+        "pct": 4.5,
+        "n_stopped": 31,
+        "n_users": 687
+      }
+    },
+    "note_users": null
+  },
+  "patch": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 469,
+    "n_stopped": 180,
+    "n_no_ea17": 114,
+    "n_had_ea17": 355,
+    "n_had_ea17_no_stop": 175,
+    "pct_of_users": 38.4,
+    "pct_of_ea17": 50.7,
+    "slot_counts": {
+      "METHSTOP01": 65,
+      "METHSTOP02": 69,
+      "METHSTOP03": 26,
+      "METHSTOP04": 12,
+      "METHSTOP05": 6,
+      "METHSTOP06": 1,
+      "METHSTOP07": 0,
+      "METHSTOP08": 0,
+      "METHSTOP09": 0,
+      "METHSTOP10": 1
+    },
+    "other_methods": {
+      "Birth control pills": 91,
+      "Depo-Provera, injectables": 59,
+      "Vaginal contraceptive ring": 37,
+      "IUD": 25,
+      "Withdrawal, pulling out": 17,
+      "Condom": 15,
+      "Hormonal implant": 10,
+      "Calendar/rhythm method": 3,
+      "Code 14": 2,
+      "Code 13": 2
+    },
+    "age_dist": {
+      "35–39": 42,
+      "30–34": 62,
+      "20–24": 19,
+      "40–44": 19,
+      "15–19": 5,
+      "25–29": 26,
+      "45–50": 7
+    },
+    "race_dist_pct": {
+      "Hispanic": {
+        "pct": 33.6,
+        "n_stopped": 46,
+        "n_users": 137
+      },
+      "NH White": {
+        "pct": 39.6,
+        "n_stopped": 74,
+        "n_users": 187
+      },
+      "NH Other/Multiple": {
+        "pct": 50.0,
+        "n_stopped": 17,
+        "n_users": 34
+      },
+      "NH Black": {
+        "pct": 38.7,
+        "n_stopped": 43,
+        "n_users": 111
+      }
+    },
+    "note_users": null
+  },
+  "ring": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 530,
+    "n_stopped": 234,
+    "n_no_ea17": 96,
+    "n_had_ea17": 434,
+    "n_had_ea17_no_stop": 200,
+    "pct_of_users": 44.2,
+    "pct_of_ea17": 53.9,
+    "slot_counts": {
+      "METHSTOP01": 80,
+      "METHSTOP02": 69,
+      "METHSTOP03": 50,
+      "METHSTOP04": 20,
+      "METHSTOP05": 10,
+      "METHSTOP06": 2,
+      "METHSTOP07": 2,
+      "METHSTOP08": 0,
+      "METHSTOP09": 1,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Birth control pills": 130,
+      "Depo-Provera, injectables": 66,
+      "Contraceptive patch": 37,
+      "Condom": 37,
+      "IUD": 35,
+      "Withdrawal, pulling out": 22,
+      "Hormonal implant": 11,
+      "Code 14": 7,
+      "Code 17": 4,
+      "Calendar/rhythm method": 4
+    },
+    "age_dist": {
+      "30–34": 65,
+      "35–39": 55,
+      "20–24": 25,
+      "25–29": 45,
+      "15–19": 3,
+      "40–44": 28,
+      "45–50": 13
+    },
+    "race_dist_pct": {
+      "NH White": {
+        "pct": 45.3,
+        "n_stopped": 124,
+        "n_users": 274
+      },
+      "NH Black": {
+        "pct": 49.0,
+        "n_stopped": 48,
+        "n_users": 98
+      },
+      "Hispanic": {
+        "pct": 35.8,
+        "n_stopped": 43,
+        "n_users": 120
+      },
+      "NH Other/Multiple": {
+        "pct": 50.0,
+        "n_stopped": 19,
+        "n_users": 38
+      }
+    },
+    "note_users": null
+  },
+  "ec": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 1363,
+    "n_stopped": 0,
+    "n_no_ea17": 547,
+    "n_had_ea17": 816,
+    "n_had_ea17_no_stop": 816,
+    "pct_of_users": 0.0,
+    "pct_of_ea17": 0.0,
+    "slot_counts": {},
+    "other_methods": {},
+    "age_dist": {},
+    "race_dist_pct": {
+      "Hispanic": {
+        "pct": 0.0,
+        "n_stopped": 0,
+        "n_users": 410
+      },
+      "NH White": {
+        "pct": 0.0,
+        "n_stopped": 0,
+        "n_users": 604
+      },
+      "NH Black": {
+        "pct": 0.0,
+        "n_stopped": 0,
+        "n_users": 233
+      },
+      "NH Other/Multiple": {
+        "pct": 0.0,
+        "n_stopped": 0,
+        "n_users": 116
+      }
+    },
+    "note_users": null
+  },
+  "iud": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": 1096,
+    "n_stopped": 392,
+    "n_no_ea17": 337,
+    "n_had_ea17": 759,
+    "n_had_ea17_no_stop": 367,
+    "pct_of_users": 35.8,
+    "pct_of_ea17": 51.6,
+    "slot_counts": {
+      "METHSTOP01": 216,
+      "METHSTOP02": 103,
+      "METHSTOP03": 47,
+      "METHSTOP04": 19,
+      "METHSTOP05": 5,
+      "METHSTOP06": 1,
+      "METHSTOP07": 0,
+      "METHSTOP08": 1,
+      "METHSTOP09": 0,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Birth control pills": 156,
+      "Depo-Provera, injectables": 84,
+      "Condom": 36,
+      "Vaginal contraceptive ring": 35,
+      "Contraceptive patch": 25,
+      "Hormonal implant": 17,
+      "Withdrawal, pulling out": 16,
+      "Code 12": 4,
+      "Code 13": 3,
+      "Code 15": 2
+    },
+    "age_dist": {
+      "45–50": 30,
+      "20–24": 33,
+      "25–29": 94,
+      "30–34": 108,
+      "40–44": 44,
+      "35–39": 76,
+      "15–19": 7
+    },
+    "race_dist_pct": {
+      "NH White": {
+        "pct": 37.2,
+        "n_stopped": 197,
+        "n_users": 529
+      },
+      "Hispanic": {
+        "pct": 32.8,
+        "n_stopped": 106,
+        "n_users": 323
+      },
+      "NH Black": {
+        "pct": 39.1,
+        "n_stopped": 63,
+        "n_users": 161
+      },
+      "NH Other/Multiple": {
+        "pct": 31.3,
+        "n_stopped": 26,
+        "n_users": 83
+      }
+    },
+    "note_users": "n_users derived from EVIUDTYP1 non-missing"
+  },
+  "implant": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_users": null,
+    "n_stopped": 156,
+    "n_no_ea17": 0,
+    "n_had_ea17": 156,
+    "n_had_ea17_no_stop": 0,
+    "pct_of_users": null,
+    "pct_of_ea17": 100.0,
+    "slot_counts": {
+      "METHSTOP01": 88,
+      "METHSTOP02": 43,
+      "METHSTOP03": 16,
+      "METHSTOP04": 6,
+      "METHSTOP05": 2,
+      "METHSTOP06": 0,
+      "METHSTOP07": 1,
+      "METHSTOP08": 0,
+      "METHSTOP09": 0,
+      "METHSTOP10": 0
+    },
+    "other_methods": {
+      "Birth control pills": 58,
+      "Depo-Provera, injectables": 32,
+      "IUD": 17,
+      "Condom": 12,
+      "Vaginal contraceptive ring": 11,
+      "Contraceptive patch": 10,
+      "Withdrawal, pulling out": 7,
+      "Code 24": 2,
+      "Calendar/rhythm method": 2,
+      "Code 21": 1
+    },
+    "age_dist": {
+      "25–29": 39,
+      "15–19": 9,
+      "20–24": 39,
+      "35–39": 10,
+      "40–44": 14,
+      "45–50": 16,
+      "30–34": 29
+    },
+    "race_dist_pct": {
+      "NH Black": {
+        "pct": 100.0,
+        "n_stopped": 35,
+        "n_users": 35
+      },
+      "NH White": {
+        "pct": 100.0,
+        "n_stopped": 63,
+        "n_users": 63
+      },
+      "Hispanic": {
+        "pct": 100.0,
+        "n_stopped": 41,
+        "n_users": 41
+      },
+      "NH Other/Multiple": {
+        "pct": 100.0,
+        "n_stopped": 17,
+        "n_users": 17
+      }
+    },
+    "note_users": "n_users unavailable (2017-2019 lacks standalone 'ever used implant' question)"
+  },
+  "method-comparison": {
+    "cycle": "2017-2019",
+    "total": 6141,
+    "n_methdiss": 2484,
+    "pct_methdiss": 40.4,
+    "methods": {
+      "Birth control pills": {
+        "n_stopped": 1448,
+        "n_users": 4181,
+        "pct": 34.6
+      },
+      "Condom": {
+        "n_stopped": 356,
+        "n_users": 5009,
+        "pct": 7.1
+      },
+      "Partner's vasectomy": {
+        "n_stopped": 4,
+        "n_users": 650,
+        "pct": 0.6
+      },
+      "Withdrawal": {
+        "n_stopped": 205,
+        "n_users": 3440,
+        "pct": 6.0
+      },
+      "Depo-Provera": {
+        "n_stopped": 662,
+        "n_users": 1500,
+        "pct": 44.1
+      },
+      "Hormonal implant": {
+        "n_stopped": 156,
+        "n_users": null,
+        "pct": null
+      },
+      "IUD": {
+        "n_stopped": 392,
+        "n_users": 1096,
+        "pct": 35.8
+      },
+      "Contraceptive patch": {
+        "n_stopped": 180,
+        "n_users": 469,
+        "pct": 38.4
+      },
+      "Vaginal ring": {
+        "n_stopped": 234,
+        "n_users": 530,
+        "pct": 44.2
+      }
+    }
+  }
+}

@@ -911,22 +911,24 @@ const ALL_AGE_GROUPS = ['15–19','20–24','25–29','30–34','35–39','40–
 // ── Cycle configuration ───────────────────────────────────────────────────────
 const CYCLES = {
   '2022-2023': {
-    prefix:       '/data/nsfg_',
-    badge:        '2022–2023',
-    descSuffix:   'This explorer covers the 2022–2023 cycle — <strong>5,586</strong> female respondents aged 15–49, <strong>1,912</strong> variables across 10 survey sections.',
-    sourceLabel:  '2022–2023 National Survey of Family Growth',
-    hasAgeData:   true,
-    hasGroups:    true,
-    reportsHref:  '/nsfg-reports.html',
+    prefix:         '/data/nsfg_',
+    badge:          '2022–2023',
+    descSuffix:     'This explorer covers the 2022–2023 cycle — <strong>5,586</strong> female respondents aged 15–49, <strong>1,912</strong> variables across 10 survey sections.',
+    sourceLabel:    '2022–2023 National Survey of Family Growth',
+    hasAgeData:     true,
+    ageCountsFile:  '/data/nsfg_age_counts.json',
+    hasGroups:      true,
+    reportsHref:    '/nsfg-reports.html',
   },
   '2017-2019': {
-    prefix:       '/data/nsfg1719_',
-    badge:        '2017–2019',
-    descSuffix:   'This explorer covers the 2017–2019 cycle — <strong>6,141</strong> female respondents aged 15–44, <strong>2,609</strong> variables across 10 survey sections.',
-    sourceLabel:  '2017–2019 National Survey of Family Growth',
-    hasAgeData:   false,
-    hasGroups:    false,
-    reportsHref:  '/nsfg-reports.html',
+    prefix:         '/data/nsfg1719_',
+    badge:          '2017–2019',
+    descSuffix:     'This explorer covers the 2017–2019 cycle — <strong>6,141</strong> female respondents aged 15–49, <strong>2,609</strong> variables across 10 survey sections.',
+    sourceLabel:    '2017–2019 National Survey of Family Growth',
+    hasAgeData:     true,
+    ageCountsFile:  '/data/nsfg1719_age_counts.json',
+    hasGroups:      false,
+    reportsHref:    '/nsfg-reports.html',
   },
 };
 
@@ -979,9 +981,12 @@ initTabsArrow();
 initAgeToggle();
 initTypeFilter();
 initCyclePicker();
-// Load age counts + groups lazily (2022-2023 only)
+// Load age counts + groups lazily
 if (CYCLES[currentCycle].hasAgeData) {
-  fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
+  fetchJSON(CYCLES[currentCycle].ageCountsFile).then(d => {
+    ageCounts = d;
+    if (ageGroupSplit && currentVar) renderDetail(currentVar);
+  }).catch(() => {});
 }
 if (CYCLES[currentCycle].hasGroups) {
   fetchJSON('/data/nsfg_groups.json').then(d => {
@@ -1112,7 +1117,10 @@ async function switchCycle(key) {
   if (!ok) return;
 
   if (cfg.hasAgeData) {
-    fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
+    fetchJSON(cfg.ageCountsFile).then(d => {
+      ageCounts = d;
+      if (ageGroupSplit && currentVar) renderDetail(currentVar);
+    }).catch(() => {});
   }
   if (cfg.hasGroups) {
     fetchJSON('/data/nsfg_groups.json').then(d => {

@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-12 (session 38)
+> Last updated: 2026-06-16 (session 39)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -147,13 +147,22 @@ Easter eggs: stork (Born), bamboo (Chengdu), Shanghai skyline, Swiss Alps + flag
 Gateway → two columns: Industry Research + Play with the Data.
 
 **Play with the Data projects:**
-- `/research/data` — NSFG 2022–2023 Female Respondent (5,586 respondents, 1,912 variables, 213 REPORT badges)
+- `/research/data` — NSFG Explorer with **cycle switcher** ✅ session 39
+  - **2022–2023** cycle: 5,586 respondents, 1,912 variables (default)
+  - **2017–2019** cycle: 6,141 respondents, 2,609 variables (note: 2019–2021 cycle does not exist — COVID caused NSFG to skip directly to 2022–2023)
+  - Cycle picker in header; selected variable persists across cycle switches for easy comparison; age split toggle hidden in 2017–2019 mode
 - `/research/meps` — MEPS 2023 Full-Year Consolidated HC-251 (18,640 respondents, 1,368 variables, 25 topic sections) ✅ session 24–25
 - `/research/meps-expenditure` — MEPS Expenditure by Payer deep-dive ✅ session 25
 - `/nsfg-method-trends.html` — NSFG contraceptive method usage across 4 years ✅ session 29
 - `/nsfg-method-age.html` — Pill/IUD/implant/ring/Depo by age group × 4 years ✅ session 31–33
 - `/nsfg-reports.html` — NSFG reports index: 11 EA reports + 2 METHX reports ✅ session 33
 - `/meps-reports.html` — MEPS reports index: 1 live + 3 coming soon ✅ session 33
+
+**NSFG explorer cycle switcher (session 39):**
+- Data pipeline: `~/Downloads/gen_nsfg1719_data.py` — parses Stata `.dct` (column positions) + `.do` (value labels), assigns sections via label prefix (e.g. `EA-` → Section E), outputs `public/data/nsfg1719_*.json`
+- Raw source: `~/Downloads/2017_2019_FemRespData.dat` + `2017_2019_FemRespSetup.dct` + `.do` (local, not in git)
+- Gotcha: labels with embedded quotes (e.g. `"NuvaRing"`) require greedy regex `\"(.+)\"` not `\"([^\"]+)\"` — fixed in script
+- 2017–2019 has no pre-computed age breakdown → age split toggle hidden when that cycle active
 
 **NSFG explorer updates (session 30):**
 - Left panel width: 300px → 340px
