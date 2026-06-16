@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-16 (session 40)
+> Last updated: 2026-06-16 (session 41)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -172,6 +172,19 @@ Gateway → two columns: Industry Research + Play with the Data.
 - IUD n_users in 2017–2019: derived from EVIUDTYP1 universe (1,096); IMPLANT has no standalone "ever used" question — n_stopped shown only
 - Switch-back restores original DOM (saved before first switch); individual records table hidden in 2017–2019 mode
 - 2017–2019 dissatisfied rates: pill 34.6%, condom 7.1%, vasectomy 0.6%, depo 44.1%, withdrawal 6.0%, patch 38.4%, ring 44.2%, IUD 35.8%
+
+**NSFG explorer REPORT badge fix + 1719 deep-dive (session 41):**
+- **Bug fixed:** `REPORT_VARS` (Set) and `DEEPDIVE_MAP` / `varToGroup` use uppercase keys; 2017–2019 EA variables are lowercase (`pill`, `condom`, etc.) → all REPORT + GROUP badges were missing in 1719 mode
+- **Fix location:** `src/pages/research/data.astro` — 8 lookup sites now use `.toUpperCase()` on `v.name`; isMethx regex has `i` flag
+- **Added:** `DEEPDIVE_MAP_1719` with correct 1719 stats per method; `renderDetail` picks map based on `currentCycle`
+- **Note:** METHX1–192 keep uppercase in 1719; only EA method vars (pill, condom…) are lowercase
+
+**NSFG method trends + age analysis 2017–2019 (session 41):**
+- `/nsfg-method-trends.html` now has **2022–2023 / 2017–2019 cycle picker**; `ROWS_1719`, `DENOMS_1719`, `NO_METHOD_1719` inlined
+- `/nsfg-method-age.html` now has **2022–2023 / 2017–2019 cycle picker**; `DATA_1719` inlined (5 methods × 7 age groups × 4 years)
+- METHX codes in 2017–2019: 1=no method, 3=pill, 4=condom, 5=vasectomy, 6=sterilization, 7=withdrawal, 8=Depo, 9=implant, 10=rhythm, 19=IUD, 20=EC, 21=other method, 22=respondent sterile, 23=partner sterile, 25=patch, 26=ring, 55=continuation
+- Key trends (2017–2019): Pill 25.9%→21.9% of method users (declining); IUD 11.4%→13.2% (rising); Condom ~32% stable; Female sterilization 20%→22% (rising)
+- Data generation scripts: `~/Downloads/gen_nsfg1719_method_trends.py`, `~/Downloads/gen_nsfg1719_method_age.py`; source: `2017_2019_FemRespData.dat` (n=6,141)
 
 **NSFG explorer updates (session 30):**
 - Left panel width: 300px → 340px
@@ -371,6 +384,8 @@ Content not written.
 - [x] **Explorer report buttons** — filled rose "See all individual reports →" button in both NSFG and MEPS explorer headers
 - [x] **NSFG 2017-2019 age split** — ✅ session 40; age counts generated, toggle enabled for both cycles
 - [x] **Individual reports 2017-2019 view** — ✅ session 40; all 11 pages have cycle picker; payloads in `nsfg1719_report_payloads.json`
+- [x] **NSFG explorer REPORT badge in 1719 mode** — ✅ session 41; fixed `.toUpperCase()` bug; DEEPDIVE_MAP_1719 with correct stats
+- [x] **METHX longitudinal pages 2017-2019** — ✅ session 41; method-trends + method-age both have cycle picker; data inlined from raw .dat
 - [ ] **Now page** — content not written
 - [ ] **A Collection of Rabbit Holes** — content not written
 
