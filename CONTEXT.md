@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-16 (session 41)
+> Last updated: 2026-06-16 (session 42)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -178,6 +178,15 @@ Gateway → two columns: Industry Research + Play with the Data.
 - **Fix location:** `src/pages/research/data.astro` — 8 lookup sites now use `.toUpperCase()` on `v.name`; isMethx regex has `i` flag
 - **Added:** `DEEPDIVE_MAP_1719` with correct 1719 stats per method; `renderDetail` picks map based on `currentCycle`
 - **Note:** METHX1–192 keep uppercase in 1719; only EA method vars (pill, condom…) are lowercase
+
+**NSFG method-age sexual activity split (session 42):**
+- `/nsfg-method-age.html` overview bar now has **"Sexual activity split"** toggle button (next to subtitle)
+- When active: "No method" segment splits into 2 → "Not recently sexually active" (gray) + "Sexually active, no contraception" (amber `#C49A7C`)
+- Definition: sexually active = `HADSEX=1` AND `LSEXDATE` within 12 months of interview (`CMINTVW`); not active = `HADSEX=2` OR last sex >12mo
+- Data: `public/data/nsfg_sex_activity_split.json` (both cycles); generation script: `/tmp/nsfg_work/gen_sex_activity_split.py`
+- Toggle updates legend; both 2022–2023 and 2017–2019 cycle data included
+- **Key finding:** 15–19 "no method +10pp" is almost entirely "not sexually active" (2022–23: 60.7% vs 2017–19: 50.0%); sexually-active-no-method actually *declined* (4.0% → 2.7%). For 30–34, unprotected active sex rose (15.4% → 18.9%).
+- Raw source: `NSFG_2022_2023_FemRespPUFData.csv` (in zip at `~/Downloads/`), `2017_2019_FemRespData.dat`
 
 **NSFG method trends + age analysis 2017–2019 (session 41):**
 - `/nsfg-method-trends.html` now has **2022–2023 / 2017–2019 cycle picker**; `ROWS_1719`, `DENOMS_1719`, `NO_METHOD_1719` inlined
