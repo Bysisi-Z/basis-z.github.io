@@ -179,17 +179,28 @@
     font-size: 12px; color: var(--stone); margin-top: 20px;
     padding-top: 16px; border-top: 1px solid var(--rule); line-height: 1.8;
   }
+  /* cycle picker */
+  .cycle-picker{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+  .cycle-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:400;letter-spacing:.04em;color:var(--stone);background:transparent;border:1px solid var(--rule);border-radius:20px;padding:5px 14px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+  .cycle-btn:hover{border-color:rgba(193,125,157,.4);color:var(--ink)}
+  .cycle-btn.active{background:var(--rose);color:#fff;border-color:var(--rose)}
+  .cycle-btn .cycle-n{font-size:10px;font-weight:300;opacity:.8}
 </style>
 </head>
 <body>
 <div class="page">
 
+  <div class="cycle-picker">
+    <button class="cycle-btn active" data-cycle="2223" onclick="switchTrendsCycle('2223')">2022–2023 <span class="cycle-n">n=5,586</span></button>
+    <button class="cycle-btn" data-cycle="1719" onclick="switchTrendsCycle('1719')">2017–2019 <span class="cycle-n">n=6,141</span></button>
+  </div>
+
   <div class="page-header">
     <h1>Contraceptive Method Use,<br>Four Years Before Interview</h1>
-    <p>For each year relative to interview date, the share of women who reported using each method in any month of that year. Interviews were conducted January 2022 – December 2023; year labels are approximate calendar equivalents.</p>
+    <p id="page-intro">For each year relative to interview date, the share of women who reported using each method in any month of that year. Interviews were conducted January 2022 – December 2023; year labels are approximate calendar equivalents.</p>
     <div class="meta">
-      <span class="meta-chip">NSFG 2022–2023</span>
-      <span class="meta-chip">N = 5,586 female respondents</span>
+      <span class="meta-chip" id="meta-cycle">NSFG 2022–2023</span>
+      <span class="meta-chip" id="meta-n">N = 5,586 female respondents</span>
     </div>
   </div>
 
@@ -200,7 +211,7 @@
       <label>Show % of —</label>
       <div class="toggle-group">
         <button class="toggle-btn" id="btn-users" onclick="setDenom('users')">Method users that year</button>
-        <button class="toggle-btn" id="btn-total" onclick="setDenom('total')">All respondents (5,586)</button>
+        <button class="toggle-btn" id="btn-total" onclick="setDenom('total')">All respondents (<span id="total-n-label">5,586</span>)</button>
         <button class="toggle-btn" id="btn-drug" onclick="setDenom('drug')">Non-EC contraception drug</button>
       </div>
     </div>
@@ -249,9 +260,9 @@
 
 </div>
 <script>
-// pct fields: pu = % of method users, pt = % of all 5586, pd = % of non-EC drug market universe
+// pct fields: pu = % of method users, pt = % of all respondents, pd = % of non-EC drug market universe
 // sorted by interview year pu descending; drug=true marks non-EC drug-market rows
-const ROWS = [
+const ROWS_2223 = [
   {name:'Condom',              data:{'yr-3':{n:1050,pu:30.3,pt:18.8},'yr-2':{n:1022,pu:29.2,pt:18.3},'yr-1':{n:1114,pu:30.6,pt:19.9},'interview':{n:995, pu:28.0,pt:17.8}}},
   {name:'Pill',       drug:true,data:{'yr-3':{n:1078,pu:31.1,pt:19.3,pd:57.7},'yr-2':{n:1014,pu:29.0,pt:18.2,pd:55.3},'yr-1':{n:1007,pu:27.7,pt:18.0,pd:53.6},'interview':{n:908, pu:25.6,pt:16.3,pd:51.1}}},
   {name:'Withdrawal',          data:{'yr-3':{n:823, pu:23.8,pt:14.7},'yr-2':{n:854, pu:24.4,pt:15.3},'yr-1':{n:909, pu:25.0,pt:16.3},'interview':{n:885, pu:24.9,pt:15.8}}},
@@ -267,33 +278,77 @@ const ROWS = [
   {name:'Ring',       drug:true,data:{'yr-3':{n:75,  pu:2.2, pt:1.3,pd:4.0}, 'yr-2':{n:70,  pu:2.0, pt:1.3,pd:3.8}, 'yr-1':{n:80,  pu:2.2, pt:1.4,pd:4.3}, 'interview':{n:71,  pu:2.0, pt:1.3,pd:4.0}}},
   {name:'Patch',      drug:true,data:{'yr-3':{n:23,  pu:0.7, pt:0.4,pd:1.2}, 'yr-2':{n:27,  pu:0.8, pt:0.5,pd:1.5}, 'yr-1':{n:35,  pu:1.0, pt:0.6,pd:1.9}, 'interview':{n:28,  pu:0.8, pt:0.5,pd:1.6}}},
 ];
-
-// Only shown in "All respondents" mode — women who used no method in that year
-const NO_METHOD = {
+const NO_METHOD_2223 = {
   name: 'No method used',
   subtext: 'Includes women outside the contraceptive calendar universe and those who reported no method use in any month of that year',
-  data: {
-    'yr-3':      {n:2122, pt:38.0},
-    'yr-2':      {n:2087, pt:37.4},
-    'yr-1':      {n:1946, pt:34.8},
-    'interview': {n:2037, pt:36.5},
-  }
+  data: {'yr-3':{n:2122,pt:38.0},'yr-2':{n:2087,pt:37.4},'yr-1':{n:1946,pt:34.8},'interview':{n:2037,pt:36.5}}
+};
+const DENOMS_2223 = {
+  'yr-3':{n_universe:4442,n_users:3464,n_drug:1867},
+  'yr-2':{n_universe:4555,n_users:3499,n_drug:1832},
+  'yr-1':{n_universe:4694,n_users:3640,n_drug:1877},
+  'interview':{n_universe:4762,n_users:3549,n_drug:1776},
 };
 
-const DENOMS = {
-  'yr-3':      {n_universe:4442, n_users:3464, n_drug:1867},
-  'yr-2':      {n_universe:4555, n_users:3499, n_drug:1832},
-  'yr-1':      {n_universe:4694, n_users:3640, n_drug:1877},
-  'interview': {n_universe:4762, n_users:3549, n_drug:1776},
+// ── 2017-2019 METHX calendar data ──────────────────────────────────────────
+const ROWS_1719 = [
+  {name:'Condom', data:{'yr-3':{n:1304,pu:32.6,pt:21.2},'yr-2':{n:1397,pu:33.3,pt:22.7},'yr-1':{n:1453,pu:33.3,pt:23.7},'interview':{n:1260,pu:29.6,pt:20.5}}},
+  {name:'Pill', drug:true,data:{'yr-3':{n:1037,pu:25.9,pt:16.9,pd:54.4},'yr-2':{n:1041,pu:24.8,pt:17.0,pd:52.1},'yr-1':{n:1044,pu:23.9,pt:17.0,pd:50.5},'interview':{n:933,pu:21.9,pt:15.2,pd:47.6}}},
+  {name:'Female sterilization', data:{'yr-3':{n:799,pu:20.0,pt:13.0},'yr-2':{n:849,pu:20.2,pt:13.8},'yr-1':{n:910,pu:20.9,pt:14.8},'interview':{n:945,pu:22.2,pt:15.4}}},
+  {name:'Withdrawal', data:{'yr-3':{n:680,pu:17.0,pt:11.1},'yr-2':{n:764,pu:18.2,pt:12.4},'yr-1':{n:836,pu:19.2,pt:13.6},'interview':{n:761,pu:17.9,pt:12.4}}},
+  {name:'IUD', drug:true,data:{'yr-3':{n:458,pu:11.4,pt:7.5,pd:24.0},'yr-2':{n:511,pu:12.2,pt:8.3,pd:25.6},'yr-1':{n:569,pu:13.0,pt:9.3,pd:27.5},'interview':{n:562,pu:13.2,pt:9.2,pd:28.7}}},
+  {name:"Partner's vasectomy", data:{'yr-3':{n:242,pu:6.0,pt:3.9},'yr-2':{n:271,pu:6.5,pt:4.4},'yr-1':{n:302,pu:6.9,pt:4.9},'interview':{n:298,pu:7.0,pt:4.9}}},
+  {name:'Depo', drug:true,data:{'yr-3':{n:239,pu:6.0,pt:3.9,pd:12.5},'yr-2':{n:252,pu:6.0,pt:4.1,pd:12.6},'yr-1':{n:244,pu:5.6,pt:4.0,pd:11.8},'interview':{n:224,pu:5.3,pt:3.6,pd:11.4}}},
+  {name:'Calendar / rhythm', data:{'yr-3':{n:146,pu:3.6,pt:2.4},'yr-2':{n:169,pu:4.0,pt:2.8},'yr-1':{n:184,pu:4.2,pt:3.0},'interview':{n:165,pu:3.9,pt:2.7}}},
+  {name:'Implant', drug:true,data:{'yr-3':{n:143,pu:3.6,pt:2.3,pd:7.5},'yr-2':{n:186,pu:4.4,pt:3.0,pd:9.3},'yr-1':{n:205,pu:4.7,pt:3.3,pd:9.9},'interview':{n:191,pu:4.5,pt:3.1,pd:9.7}}},
+  {name:'Ring', drug:true,data:{'yr-3':{n:69,pu:1.7,pt:1.1,pd:3.6},'yr-2':{n:69,pu:1.6,pt:1.1,pd:3.5},'yr-1':{n:74,pu:1.7,pt:1.2,pd:3.6},'interview':{n:69,pu:1.6,pt:1.1,pd:3.5}}},
+  {name:'Patch', drug:true,data:{'yr-3':{n:25,pu:0.6,pt:0.4,pd:1.3},'yr-2':{n:31,pu:0.7,pt:0.5,pd:1.6},'yr-1':{n:32,pu:0.7,pt:0.5,pd:1.5},'interview':{n:29,pu:0.7,pt:0.5,pd:1.5}}},
+  {name:'Others',
+   subtext:'Safe period (BBT/mucus), Diaphragm, Female condom, Foam, Jelly/cream, Suppository, Cervical cap, Today sponge, Other method, Respondent/partner sterile',
+   data:{'yr-3':{n:46,pu:1.1,pt:0.7},'yr-2':{n:54,pu:1.3,pt:0.9},'yr-1':{n:52,pu:1.2,pt:0.8},'interview':{n:49,pu:1.2,pt:0.8}}},
+];
+const NO_METHOD_1719 = {
+  name: 'No method used',
+  subtext: 'Includes women outside the contraceptive calendar universe and those who reported no method use in any month of that year',
+  data: {'yr-3':{n:2140,pt:34.8},'yr-2':{n:1940,pt:31.6},'yr-1':{n:1780,pt:29.0},'interview':{n:1886,pt:30.7}}
 };
+const DENOMS_1719 = {
+  'yr-3':{n_universe:5009,n_users:4001,n_drug:1906},
+  'yr-2':{n_universe:5197,n_users:4201,n_drug:1998},
+  'yr-1':{n_universe:5352,n_users:4361,n_drug:2066},
+  'interview':{n_universe:5440,n_users:4255,n_drug:1961},
+};
+
+// ── Active dataset (switches on cycle toggle) ────────────────────────────────
+let ROWS = ROWS_2223;
+let NO_METHOD = NO_METHOD_2223;
+let DENOMS = DENOMS_2223;
 const YEARS = ['yr-3','yr-2','yr-1','interview'];
 const YCLASSES = ['y3','y2','y1','y0'];
-const N_TOTAL = 5586;
+let N_TOTAL = 5586;
 const MAX_PCT = {users: 35, total: 22, drug: 65};
 
 let currentDenom = 'users';
 
-function fmt(v) { return v.toFixed(1); }  // always 1 decimal
+function fmt(v) { return v.toFixed(1); }
+
+function switchTrendsCycle(cycle) {
+  if (cycle === '1719') {
+    ROWS = ROWS_1719; NO_METHOD = NO_METHOD_1719; DENOMS = DENOMS_1719; N_TOTAL = 6141;
+    document.getElementById('page-intro').textContent = 'For each year relative to interview date, the share of women who reported using each method in any month of that year. Interviews were conducted August 2017 – November 2019; year labels are approximate calendar equivalents.';
+    document.getElementById('meta-cycle').textContent = 'NSFG 2017–2019';
+    document.getElementById('meta-n').textContent = 'N = 6,141 female respondents';
+    document.getElementById('total-n-label').textContent = '6,141';
+  } else {
+    ROWS = ROWS_2223; NO_METHOD = NO_METHOD_2223; DENOMS = DENOMS_2223; N_TOTAL = 5586;
+    document.getElementById('page-intro').textContent = 'For each year relative to interview date, the share of women who reported using each method in any month of that year. Interviews were conducted January 2022 – December 2023; year labels are approximate calendar equivalents.';
+    document.getElementById('meta-cycle').textContent = 'NSFG 2022–2023';
+    document.getElementById('meta-n').textContent = 'N = 5,586 female respondents';
+    document.getElementById('total-n-label').textContent = '5,586';
+  }
+  document.querySelectorAll('.cycle-btn').forEach(b => b.classList.toggle('active', b.dataset.cycle === cycle));
+  updateNote(); updateBars(); updateTable();
+}
 
 function setDenom(denom) {
   currentDenom = denom;
@@ -313,7 +368,7 @@ function updateNote() {
     const parts = YEARS.map(yr => denomLabel(yr, 'n_users')).join(' &nbsp;·&nbsp; ');
     el.innerHTML = '<strong>Denominator: women who used any contraceptive method that year</strong> — each bar shows what share of this pool used that specific method.<br>' + parts;
   } else if (currentDenom === 'total') {
-    el.innerHTML = '<strong>Denominator: all 5,586 respondents</strong> — includes those who used no contraception. Each bar\'s % is out of the full sample regardless of method use.';
+    el.innerHTML = '<strong>Denominator: all ' + N_TOTAL.toLocaleString() + ' respondents</strong> — includes those who used no contraception. Each bar\'s % is out of the full sample regardless of method use.';
   } else {
     const parts = YEARS.map(yr => denomLabel(yr, 'n_drug')).join(' &nbsp;·&nbsp; ');
     el.innerHTML = '<strong>Denominator: women who used any non-EC contraceptive drug (pill, IUD, implant, Depo, ring, or patch) that year</strong> — each bar shows that method\'s share within this pool.<br>' + parts;
