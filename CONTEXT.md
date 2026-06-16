@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context
 
-> Last updated: 2026-06-16 (session 42)
+> Last updated: 2026-06-16 (session 42, mid-session pause)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -187,6 +187,9 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Toggle updates legend; both 2022–2023 and 2017–2019 cycle data included
 - **Key finding:** 15–19 "no method +10pp" is almost entirely "not sexually active" (2022–23: 60.7% vs 2017–19: 50.0%); sexually-active-no-method actually *declined* (4.0% → 2.7%). For 30–34, unprotected active sex rose (15.4% → 18.9%).
 - Raw source: `NSFG_2022_2023_FemRespPUFData.csv` (in zip at `~/Downloads/`), `2017_2019_FemRespData.dat`
+- **Methodology note boxes added (session 42):** three gray `.meth-note` boxes added to page — one per section (overview bar, method bars, 4-year trend), each explaining window coverage, variable definitions, denominator logic, and limitations
+- **Key caveat documented:** `LSEXDATE`-based sexual activity classification applies to interview year only; yr−3/yr−2/yr−1 sexual activity status cannot be derived (no monthly sex calendar in NSFG). For ages 25+ this limitation is minimal; for 15–19 in yr−3 it is substantial.
+- **Pending challenge items** (mid-session 42, conversation paused): user is reviewing methodology and has more challenges to raise in next session
 
 **NSFG method trends + age analysis 2017–2019 (session 41):**
 - `/nsfg-method-trends.html` now has **2022–2023 / 2017–2019 cycle picker**; `ROWS_1719`, `DENOMS_1719`, `NO_METHOD_1719` inlined
