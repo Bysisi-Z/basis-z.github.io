@@ -1,11 +1,13 @@
-# Sisi Personal Website — Project Context
+# Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-16 (session 42, mid-session pause)
+> Last updated: 2026-06-16 (session 43)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
 > Deploy: Cloudflare Pages (auto-deploy on push to `main`)
 > Build cmd: `npm run build` → output dir `dist`
+>
+> **Sister site (副站):** `2SIMBO.com` — industry analysis · Repo: `Bysisi-Z/2simbo-nsfg` · Local: `~/Desktop/2simbo-nsfg` · Context: `~/Desktop/2simbo-nsfg/CONTEXT.md`
 
 ---
 
