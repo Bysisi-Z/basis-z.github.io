@@ -1261,8 +1261,8 @@ function renderVarList(vars) {
         `<span class="var-item-bottom">` +
           `<span class="var-item-name">${v.name}</span>` +
           `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
-          (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
-          (varToGroup?.[v.name] ? `<span class="var-item-group">group</span>` : '') +
+          (REPORT_VARS.has(v.name.toUpperCase()) ? `<span class="var-item-report">report</span>` : '') +
+          (varToGroup?.[v.name.toUpperCase()] ? `<span class="var-item-group">group</span>` : '') +
         `</span>` +
         `<span class="var-item-section">${escHtml(shortSecName(v._secLabel))}</span>`;
       item.addEventListener('click', () => selectVarGlobal(v._secKey, v.name));
@@ -1289,7 +1289,7 @@ function renderVarList(vars) {
   const renderedGroupIds = new Set();
 
   filteredVars.forEach(v => {
-    const gid = varToGroup?.[v.name];
+    const gid = varToGroup?.[v.name.toUpperCase()];
 
     if (!gid || !groups?.[gid]) {
       // ── ungrouped variable ─────────────────────────────────────────────────
@@ -1302,7 +1302,7 @@ function renderVarList(vars) {
         `<span class="var-item-bottom">` +
           `<span class="var-item-name">${v.name}</span>` +
           `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
-          (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
+          (REPORT_VARS.has(v.name.toUpperCase()) ? `<span class="var-item-report">report</span>` : '') +
         `</span>`;
       item.addEventListener('click', () => selectVar(v.name));
       frag.appendChild(item);
@@ -1314,7 +1314,7 @@ function renderVarList(vars) {
 
     // ── group header ───────────────────────────────────────────────────────────
     const group = groups[gid];
-    const groupVars = filteredVars.filter(fv => varToGroup?.[fv.name] === gid);
+    const groupVars = filteredVars.filter(fv => varToGroup?.[fv.name.toUpperCase()] === gid);
     const isExpanded = expandedGroups.has(gid);
 
     // Use first var's label when title is just a repeat of the qcode
@@ -1349,7 +1349,7 @@ function renderVarList(vars) {
         `<span class="var-item-bottom">` +
           `<span class="var-item-name">${gv.name}</span>` +
           `<span class="var-item-type ${typeClass(gv.variable_type)}">${gv.variable_type || '—'}</span>` +
-          (REPORT_VARS.has(gv.name) ? `<span class="var-item-report">report</span>` : '') +
+          (REPORT_VARS.has(gv.name.toUpperCase()) ? `<span class="var-item-report">report</span>` : '') +
         `</span>`;
       item.addEventListener('click', () => selectVar(gv.name));
       children.appendChild(item);
@@ -1578,7 +1578,7 @@ function renderDetail(v) {
   const tc = typeClass(v.variable_type);
 
   // Group hint
-  const groupId = varToGroup?.[v.name];
+  const groupId = varToGroup?.[v.name.toUpperCase()];
   const group   = groupId ? groups?.[groupId] : null;
   const groupHintHtml = group
     ? `<div class="group-hint">
@@ -1806,8 +1806,30 @@ function renderDetail(v) {
     METHX191: { text: 'Contraceptive method use across the 4 years before interview — see how pill, IUD, condom, withdrawal and other methods were used over time.', href: '/nsfg-method-trends.html' },
     METHX192: { text: 'Contraceptive method use across the 4 years before interview — see how pill, IUD, condom, withdrawal and other methods were used over time.', href: '/nsfg-method-trends.html' },
   };
-  const diveInfo  = DEEPDIVE_MAP[v.name];
-  const isMethx   = /^METHX\d+$/.test(v.name);
+  const DEEPDIVE_MAP_1719 = {
+    PILL:     { text: '34.6% of pill users stopped due to dissatisfaction — 1,448 out of 4,181. (2017–2019)', href: '/pill-analysis.html' },
+    CONDOM:   { text: '7.1% of condom users stopped due to dissatisfaction — 356 out of 5,009. (2017–2019)', href: '/condom-analysis.html' },
+    VASECTMY: { text: '0.6% — 4 out of 650 women listed vasectomy as stopped due to dissatisfaction. (2017–2019)', href: '/vasectomy-analysis.html' },
+    DEPOPROV: { text: '44.1% of Depo users stopped due to dissatisfaction — 662 out of 1,500. Highest rate among all hormonal methods. (2017–2019)', href: '/depo-analysis.html' },
+    WIDRAWAL: { text: '6.0% of withdrawal users stopped due to dissatisfaction — 205 out of 3,440. (2017–2019)', href: '/withdrawal-analysis.html' },
+    PATCH:    { text: '38.4% of patch users stopped due to dissatisfaction — 180 out of 469. (2017–2019)', href: '/patch-analysis.html' },
+    RING:     { text: '44.2% of vaginal ring users stopped due to dissatisfaction — 234 out of 530. (2017–2019)', href: '/ring-analysis.html' },
+    MORNPILL: { text: 'EC is a one-time backup and does not appear in the EA-17 dissatisfaction question. See patterns for EC users. (2017–2019)', href: '/ec-analysis.html' },
+    IMPLANT:  { text: '156 implant users stopped due to dissatisfaction in 2017–2019. No standalone "ever used" question — rate not computed.', href: '/implant-analysis.html' },
+    IUD:      { text: '35.8% of IUD users stopped due to dissatisfaction — 392 out of 1,096. (2017–2019)', href: '/iud-analysis.html' },
+    METHDISS:   { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP01: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP02: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP03: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP04: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP05: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP06: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP07: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP08: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+    METHSTOP09: { text: 'Compare dissatisfied rates across all 9 contraceptive methods side by side — 2017–2019 cycle data.', href: '/method-comparison.html' },
+  };
+  const diveInfo  = (currentCycle === '2017-2019' ? DEEPDIVE_MAP_1719 : DEEPDIVE_MAP)[v.name.toUpperCase()];
+  const isMethx   = /^METHX\d+$/i.test(v.name);
   const diveIcon  = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="8" width="3" height="5" rx="1" fill="#c17d9d"/><rect x="5.5" y="5" width="3" height="8" rx="1" fill="#c17d9d"/><rect x="10" y="2" width="3" height="11" rx="1" fill="#c17d9d"/></svg>`;
   const makeCard  = (text, href, label) => `<div class="deepdive-hint">
          <div class="deepdive-hint-info">
