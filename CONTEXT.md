@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-16 (session 43)
+> Last updated: 2026-06-16 (session 44)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -217,7 +217,8 @@ Gateway → two columns: Industry Research + Play with the Data.
 **NSFG explorer updates (session 30):**
 - Left panel width: 300px → 340px
 - 2-level grouped sidebar: grouped variables collapse to qcode header (title + count); click to expand; current var's group auto-expands; resets on section switch; 19 groups where title = qcode fall back to first var's label
-- Groups: 83 groups, 710 grouped variables (from `nsfg_groups.json`)
+- Groups: 84 groups, 710 grouped variables (from `nsfg_groups.json`)
+- **Session 44 group fixes:** ED-6 title → "Method used in last 48 months"; EA-21 split into EA-21-reasons (REASIUD01–06) + EA-21-type (TYPEIUD_1/2)
 
 **NSFG method trends updates (session 29–30):**
 - "No method used" row visible only in All Respondents mode — gray dashed border + faint bar; n ≈ 1,946–2,122 (~35–38% of all respondents)
