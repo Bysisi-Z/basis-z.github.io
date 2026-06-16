@@ -111,12 +111,25 @@ body{
 .ctx-bar{flex:1;height:20px;display:flex;border-radius:3px;overflow:hidden}
 .ctx-seg{height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .3s ease}
 .ctx-seg-label{font-size:9.5px;font-weight:600;white-space:nowrap;padding:0 4px;pointer-events:none}
-.ctx-seg.nonuse{background:#EAE5E1}
-.ctx-seg.nonuse .ctx-seg-label{color:var(--stone)}
-.ctx-seg.other {background:#A8A09C}
-.ctx-seg.other .ctx-seg-label{color:rgba(255,255,255,.9)}
-.ctx-seg.drug  {background:var(--rose)}
-.ctx-seg.drug  .ctx-seg-label{color:rgba(255,255,255,.95)}
+.ctx-seg.nonuse  {background:#EAE5E1}
+.ctx-seg.nonuse  .ctx-seg-label{color:var(--stone)}
+.ctx-seg.activenm{background:#C49A7C}
+.ctx-seg.activenm .ctx-seg-label{color:rgba(255,255,255,.95)}
+.ctx-seg.other  {background:#A8A09C}
+.ctx-seg.other  .ctx-seg-label{color:rgba(255,255,255,.9)}
+.ctx-seg.drug   {background:var(--rose)}
+.ctx-seg.drug   .ctx-seg-label{color:rgba(255,255,255,.95)}
+.ctx-sex-toggle{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--stone);
+  background:transparent;border:1px solid var(--rule);border-radius:12px;
+  padding:3px 10px;cursor:pointer;transition:border-color .15s,color .15s,background .15s;
+  margin-left:10px;vertical-align:middle;font-family:'Inter',sans-serif;
+}
+.ctx-sex-toggle:hover{border-color:rgba(193,125,157,.4);color:var(--ink)}
+.ctx-sex-toggle.active{background:#C49A7C;color:#fff;border-color:#C49A7C}
+.ctx-leg-2{display:none;gap:10px 22px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.ctx-leg-2.visible{display:flex}
 .ctx-n-lbl{font-size:10px;color:var(--stone);min-width:46px;flex-shrink:0}
 
 /* findings callout */
@@ -207,11 +220,20 @@ body{
 
   <!-- Context stacked bar -->
   <div class="ctx-chart">
-    <div class="ctx-sub-title">Contraceptive market overview — full bar = all respondents in age group</div>
-    <div class="ctx-legend">
+    <div class="ctx-sub-title">
+      Contraceptive market overview — full bar = all respondents in age group
+      <button id="sex-split-btn" class="ctx-sex-toggle" onclick="toggleSexSplit()">Sexual activity split</button>
+    </div>
+    <div class="ctx-legend" id="ctx-leg-default">
       <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#EAE5E1;border:1px solid #D0CBC7"></div>No method used</div>
       <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#A8A09C"></div>Other methods (condom, withdrawal, sterilization, rhythm…)</div>
       <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:var(--rose)"></div>Non-EC contraceptive drug (pill, IUD, implant, Depo, ring, patch)</div>
+    </div>
+    <div class="ctx-leg-2" id="ctx-leg-split">
+      <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#EAE5E1;border:1px solid #D0CBC7"></div>Not recently sexually active</div>
+      <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#C49A7C"></div>Sexually active, no contraception</div>
+      <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#A8A09C"></div>Other methods (condom, withdrawal…)</div>
+      <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:var(--rose)"></div>Non-EC drug (pill, IUD, implant, Depo…)</div>
     </div>
     <div id="ctx-bars"></div>
   </div>
@@ -277,6 +299,7 @@ body{
     <strong>Counting rule:</strong> A respondent is counted once per year if she used that method in any month of the 12-month window (METHX1–192 calendar slots, 4 slots per month).<br>
     <strong>Method codes:</strong> Pill = code 3, IUD = code 19, Implant = code 9, Ring (NuvaRing) = code 26.<br>
     <strong>Drug-market denominator:</strong> women who used any of: pill, IUD, implant, Depo, ring, or patch in that year.<br>
+    <strong>Sexual activity split:</strong> "Sexually active" = HADSEX=Yes AND last sexual intercourse (LSEXDATE) within 12 months of interview. "Not recently sexually active" = never had sex (HADSEX=No) or last sex &gt;12 months ago. Applies to interview-year overview bar only.<br>
     <strong>Source:</strong> NSFG Female Respondent PUF · <span id="age-footnote-src">2022–2023, N = 5,586</span>.
   </p>
 </div>
@@ -287,10 +310,41 @@ const DATA_2223 = {"methods":{"pill":{"15–19":{"yr-3":{"n":61,"pu":64.2,"pt":8
 
 const DATA_1719 = {"methods":{"pill":{"15–19":{"yr-3":{"n":80,"pu":45.5,"pt":8.2,"pd":68.4},"yr-2":{"n":128,"pu":46.0,"pt":13.2,"pd":71.5},"yr-1":{"n":179,"pu":45.0,"pt":18.5,"pd":67.5},"interview":{"n":187,"pu":43.1,"pt":19.3,"pd":62.5}},"20–24":{"yr-3":{"n":228,"pu":42.1,"pt":28.1,"pd":62.5},"yr-2":{"n":233,"pu":39.6,"pt":28.7,"pd":59.0},"yr-1":{"n":212,"pu":35.3,"pt":26.1,"pd":54.4},"interview":{"n":189,"pu":32.9,"pt":23.3,"pd":52.8}},"25–29":{"yr-3":{"n":258,"pu":34.5,"pt":25.4,"pd":56.6},"yr-2":{"n":234,"pu":30.7,"pt":23.0,"pd":51.0},"yr-1":{"n":218,"pu":28.1,"pt":21.5,"pd":47.8},"interview":{"n":185,"pu":25.2,"pt":18.2,"pd":44.4}},"30–34":{"yr-3":{"n":217,"pu":26.6,"pt":20.8,"pd":48.4},"yr-2":{"n":200,"pu":24.3,"pt":19.2,"pd":45.2},"yr-1":{"n":205,"pu":24.7,"pt":19.6,"pd":46.5},"interview":{"n":173,"pu":21.7,"pt":16.6,"pd":43.1}},"35–39":{"yr-3":{"n":111,"pu":16.6,"pt":13.0,"pd":43.9},"yr-2":{"n":120,"pu":17.6,"pt":14.0,"pd":46.0},"yr-1":{"n":109,"pu":16.0,"pt":12.7,"pd":43.1},"interview":{"n":88,"pu":13.4,"pt":10.3,"pd":37.9}},"40–44":{"yr-3":{"n":82,"pu":15.2,"pt":11.5,"pd":53.9},"yr-2":{"n":74,"pu":13.4,"pt":10.4,"pd":48.4},"yr-1":{"n":73,"pu":13.1,"pt":10.3,"pd":46.8},"interview":{"n":70,"pu":12.8,"pt":9.8,"pd":45.5}},"45–50":{"yr-3":{"n":61,"pu":11.7,"pt":8.3,"pd":53.0},"yr-2":{"n":52,"pu":9.9,"pt":7.1,"pd":47.7},"yr-1":{"n":48,"pu":9.1,"pt":6.6,"pd":45.7},"interview":{"n":41,"pu":7.9,"pt":5.6,"pd":41.0}}},"iud":{"15–19":{"yr-3":{"n":7,"pu":4.0,"pt":0.7,"pd":6.0},"yr-2":{"n":8,"pu":2.9,"pt":0.8,"pd":4.5},"yr-1":{"n":15,"pu":3.8,"pt":1.5,"pd":5.7},"interview":{"n":26,"pu":6.0,"pt":2.7,"pd":8.7}},"20–24":{"yr-3":{"n":36,"pu":6.7,"pt":4.4,"pd":9.9},"yr-2":{"n":51,"pu":8.7,"pt":6.3,"pd":12.9},"yr-1":{"n":68,"pu":11.3,"pt":8.4,"pd":17.4},"interview":{"n":60,"pu":10.4,"pt":7.4,"pd":16.8}},"25–29":{"yr-3":{"n":91,"pu":12.2,"pt":9.0,"pd":20.0},"yr-2":{"n":112,"pu":14.7,"pt":11.0,"pd":24.4},"yr-1":{"n":134,"pu":17.3,"pt":13.2,"pd":29.4},"interview":{"n":129,"pu":17.6,"pt":12.7,"pd":30.9}},"30–34":{"yr-3":{"n":131,"pu":16.1,"pt":12.5,"pd":29.2},"yr-2":{"n":138,"pu":16.8,"pt":13.2,"pd":31.2},"yr-1":{"n":145,"pu":17.5,"pt":13.9,"pd":32.9},"interview":{"n":140,"pu":17.6,"pt":13.4,"pd":34.9}},"35–39":{"yr-3":{"n":93,"pu":13.9,"pt":10.9,"pd":36.8},"yr-2":{"n":99,"pu":14.5,"pt":11.6,"pd":37.9},"yr-1":{"n":98,"pu":14.4,"pt":11.5,"pd":38.7},"interview":{"n":95,"pu":14.4,"pt":11.1,"pd":40.9}},"40–44":{"yr-3":{"n":60,"pu":11.2,"pt":8.4,"pd":39.5},"yr-2":{"n":64,"pu":11.6,"pt":9.0,"pd":41.8},"yr-1":{"n":67,"pu":12.0,"pt":9.4,"pd":42.9},"interview":{"n":69,"pu":12.6,"pt":9.7,"pd":44.8}},"45–50":{"yr-3":{"n":40,"pu":7.7,"pt":5.5,"pd":34.8},"yr-2":{"n":39,"pu":7.4,"pt":5.3,"pd":35.8},"yr-1":{"n":42,"pu":8.0,"pt":5.7,"pd":40.0},"interview":{"n":43,"pu":8.3,"pt":5.9,"pd":43.0}}},"implant":{"15–19":{"yr-3":{"n":7,"pu":4.0,"pt":0.7,"pd":6.0},"yr-2":{"n":13,"pu":4.7,"pt":1.3,"pd":7.3},"yr-1":{"n":29,"pu":7.3,"pt":3.0,"pd":10.9},"interview":{"n":29,"pu":6.7,"pt":3.0,"pd":9.7}},"20–24":{"yr-3":{"n":45,"pu":8.3,"pt":5.5,"pd":12.3},"yr-2":{"n":60,"pu":10.2,"pt":7.4,"pd":15.2},"yr-1":{"n":63,"pu":10.5,"pt":7.8,"pd":16.2},"interview":{"n":58,"pu":10.1,"pt":7.1,"pd":16.2}},"25–29":{"yr-3":{"n":47,"pu":6.3,"pt":4.6,"pd":10.3},"yr-2":{"n":57,"pu":7.5,"pt":5.6,"pd":12.4},"yr-1":{"n":58,"pu":7.5,"pt":5.7,"pd":12.7},"interview":{"n":53,"pu":7.2,"pt":5.2,"pd":12.7}},"30–34":{"yr-3":{"n":26,"pu":3.2,"pt":2.5,"pd":5.8},"yr-2":{"n":36,"pu":4.4,"pt":3.4,"pd":8.1},"yr-1":{"n":36,"pu":4.3,"pt":3.4,"pd":8.2},"interview":{"n":30,"pu":3.8,"pt":2.9,"pd":7.5}},"35–39":{"yr-3":{"n":12,"pu":1.8,"pt":1.4,"pd":4.7},"yr-2":{"n":13,"pu":1.9,"pt":1.5,"pd":5.0},"yr-1":{"n":13,"pu":1.9,"pt":1.5,"pd":5.1},"interview":{"n":15,"pu":2.3,"pt":1.8,"pd":6.5}},"40–44":{"yr-3":{"n":5,"pu":0.9,"pt":0.7,"pd":3.3},"yr-2":{"n":5,"pu":0.9,"pt":0.7,"pd":3.3},"yr-1":{"n":4,"pu":0.7,"pt":0.6,"pd":2.6},"interview":{"n":4,"pu":0.7,"pt":0.6,"pd":2.6}},"45–50":{"yr-3":{"n":1,"pu":0.2,"pt":0.1,"pd":0.9},"yr-2":{"n":2,"pu":0.4,"pt":0.3,"pd":1.8},"yr-1":{"n":2,"pu":0.4,"pt":0.3,"pd":1.9},"interview":{"n":2,"pu":0.4,"pt":0.3,"pd":2.0}}},"ring":{"15–19":{"yr-3":{"n":1,"pu":0.6,"pt":0.1,"pd":0.9},"yr-2":{"n":1,"pu":0.4,"pt":0.1,"pd":0.6},"yr-1":{"n":7,"pu":1.8,"pt":0.7,"pd":2.6},"interview":{"n":5,"pu":1.2,"pt":0.5,"pd":1.7}},"20–24":{"yr-3":{"n":7,"pu":1.3,"pt":0.9,"pd":1.9},"yr-2":{"n":14,"pu":2.4,"pt":1.7,"pd":3.5},"yr-1":{"n":13,"pu":2.2,"pt":1.6,"pd":3.3},"interview":{"n":12,"pu":2.1,"pt":1.5,"pd":3.4}},"25–29":{"yr-3":{"n":15,"pu":2.0,"pt":1.5,"pd":3.3},"yr-2":{"n":11,"pu":1.4,"pt":1.1,"pd":2.4},"yr-1":{"n":12,"pu":1.5,"pt":1.2,"pd":2.6},"interview":{"n":11,"pu":1.5,"pt":1.1,"pd":2.6}},"30–34":{"yr-3":{"n":25,"pu":3.1,"pt":2.4,"pd":5.6},"yr-2":{"n":24,"pu":2.9,"pt":2.3,"pd":5.4},"yr-1":{"n":20,"pu":2.4,"pt":1.9,"pd":4.5},"interview":{"n":21,"pu":2.6,"pt":2.0,"pd":5.2}},"35–39":{"yr-3":{"n":12,"pu":1.8,"pt":1.4,"pd":4.7},"yr-2":{"n":9,"pu":1.3,"pt":1.1,"pd":3.4},"yr-1":{"n":10,"pu":1.5,"pt":1.2,"pd":4.0},"interview":{"n":9,"pu":1.4,"pt":1.1,"pd":3.9}},"40–44":{"yr-3":{"n":5,"pu":0.9,"pt":0.7,"pd":3.3},"yr-2":{"n":5,"pu":0.9,"pt":0.7,"pd":3.3},"yr-1":{"n":7,"pu":1.3,"pt":1.0,"pd":4.5},"interview":{"n":6,"pu":1.1,"pt":0.8,"pd":3.9}},"45–50":{"yr-3":{"n":4,"pu":0.8,"pt":0.5,"pd":3.5},"yr-2":{"n":5,"pu":1.0,"pt":0.7,"pd":4.6},"yr-1":{"n":5,"pu":1.0,"pt":0.7,"pd":4.8},"interview":{"n":5,"pu":1.0,"pt":0.7,"pd":5.0}}},"depo":{"15–19":{"yr-3":{"n":28,"pu":15.9,"pt":2.9,"pd":23.9},"yr-2":{"n":37,"pu":13.3,"pt":3.8,"pd":20.7},"yr-1":{"n":53,"pu":13.3,"pt":5.5,"pd":20.0},"interview":{"n":61,"pu":14.1,"pt":6.3,"pd":20.4}},"20–24":{"yr-3":{"n":61,"pu":11.3,"pt":7.5,"pd":16.7},"yr-2":{"n":60,"pu":10.2,"pt":7.4,"pd":15.2},"yr-1":{"n":50,"pu":8.3,"pt":6.2,"pd":12.8},"interview":{"n":42,"pu":7.3,"pt":5.2,"pd":11.7}},"25–29":{"yr-3":{"n":58,"pu":7.8,"pt":5.7,"pd":12.7},"yr-2":{"n":61,"pu":8.0,"pt":6.0,"pd":13.3},"yr-1":{"n":49,"pu":6.3,"pt":4.8,"pd":10.7},"interview":{"n":38,"pu":5.2,"pt":3.7,"pd":9.1}},"30–34":{"yr-3":{"n":52,"pu":6.4,"pt":5.0,"pd":11.6},"yr-2":{"n":51,"pu":6.2,"pt":4.9,"pd":11.5},"yr-1":{"n":46,"pu":5.5,"pt":4.4,"pd":10.4},"interview":{"n":41,"pu":5.2,"pt":3.9,"pd":10.2}},"35–39":{"yr-3":{"n":24,"pu":3.6,"pt":2.8,"pd":9.5},"yr-2":{"n":24,"pu":3.5,"pt":2.8,"pd":9.2},"yr-1":{"n":26,"pu":3.8,"pt":3.0,"pd":10.3},"interview":{"n":25,"pu":3.8,"pt":2.9,"pd":10.8}},"40–44":{"yr-3":{"n":5,"pu":0.9,"pt":0.7,"pd":3.3},"yr-2":{"n":7,"pu":1.3,"pt":1.0,"pd":4.6},"yr-1":{"n":7,"pu":1.3,"pt":1.0,"pd":4.5},"interview":{"n":9,"pu":1.6,"pt":1.3,"pd":5.8}},"45–50":{"yr-3":{"n":11,"pu":2.1,"pt":1.5,"pd":9.6},"yr-2":{"n":12,"pu":2.3,"pt":1.6,"pd":11.0},"yr-1":{"n":13,"pu":2.5,"pt":1.8,"pd":12.4},"interview":{"n":8,"pu":1.5,"pt":1.1,"pd":8.0}}}},"denoms":{"15–19":{"yr-3":{"n_total":970,"n_users":176,"n_drug":117},"yr-2":{"n_total":970,"n_users":278,"n_drug":179},"yr-1":{"n_total":970,"n_users":398,"n_drug":265},"interview":{"n_total":970,"n_users":434,"n_drug":299}},"20–24":{"yr-3":{"n_total":812,"n_users":541,"n_drug":365},"yr-2":{"n_total":812,"n_users":588,"n_drug":395},"yr-1":{"n_total":812,"n_users":600,"n_drug":390},"interview":{"n_total":812,"n_users":575,"n_drug":358}},"25–29":{"yr-3":{"n_total":1016,"n_users":747,"n_drug":456},"yr-2":{"n_total":1016,"n_users":763,"n_drug":459},"yr-1":{"n_total":1016,"n_users":775,"n_drug":456},"interview":{"n_total":1016,"n_users":733,"n_drug":417}},"30–34":{"yr-3":{"n_total":1044,"n_users":816,"n_drug":448},"yr-2":{"n_total":1044,"n_users":822,"n_drug":442},"yr-1":{"n_total":1044,"n_users":830,"n_drug":441},"interview":{"n_total":1044,"n_users":796,"n_drug":401}},"35–39":{"yr-3":{"n_total":855,"n_users":667,"n_drug":253},"yr-2":{"n_total":855,"n_users":683,"n_drug":261},"yr-1":{"n_total":855,"n_users":682,"n_drug":253},"interview":{"n_total":855,"n_users":659,"n_drug":232}},"40–44":{"yr-3":{"n_total":712,"n_users":538,"n_drug":152},"yr-2":{"n_total":712,"n_users":551,"n_drug":153},"yr-1":{"n_total":712,"n_users":558,"n_drug":156},"interview":{"n_total":712,"n_users":548,"n_drug":154}},"45–50":{"yr-3":{"n_total":732,"n_users":521,"n_drug":115},"yr-2":{"n_total":732,"n_users":525,"n_drug":109},"yr-1":{"n_total":732,"n_users":525,"n_drug":105},"interview":{"n_total":732,"n_users":520,"n_drug":100}}},"age_labels":["15–19","20–24","25–29","30–34","35–39","40–44","45–50"],"years":["yr-3","yr-2","yr-1","interview"]};
 
+const SEX_SPLIT_2223 = {
+  "15–19": {drug:188,other:65,active_nm:20,inactive:14,no_sex:443,total:730},
+  "20–24": {drug:253,other:121,active_nm:59,inactive:28,no_sex:144,total:606},
+  "25–29": {drug:308,other:232,active_nm:133,inactive:43,no_sex:87,total:803},
+  "30–34": {drug:328,other:366,active_nm:194,inactive:73,no_sex:65,total:1028},
+  "35–39": {drug:276,other:372,active_nm:164,inactive:77,no_sex:39,total:928},
+  "40–44": {drug:229,other:345,active_nm:110,inactive:78,no_sex:35,total:798},
+  "45–50": {drug:138,other:328,active_nm:105,inactive:90,no_sex:31,total:693}
+};
+const SEX_SPLIT_1719 = {
+  "15–19": {drug:299,other:135,active_nm:39,inactive:11,no_sex:485,total:970},
+  "20–24": {drug:358,other:219,active_nm:97,inactive:36,no_sex:102,total:812},
+  "25–29": {drug:417,other:318,active_nm:161,inactive:68,no_sex:52,total:1016},
+  "30–34": {drug:401,other:395,active_nm:161,inactive:58,no_sex:29,total:1044},
+  "35–39": {drug:232,other:429,active_nm:130,inactive:55,no_sex:9,total:855},
+  "40–44": {drug:154,other:395,active_nm:99,inactive:58,no_sex:6,total:712},
+  "45–50": {drug:100,other:423,active_nm:109,inactive:89,no_sex:11,total:732}
+};
+let SEX_SPLIT = SEX_SPLIT_2223;
+
 let DATA = DATA_2223;
+let showSexSplit = false;
+
+function toggleSexSplit() {
+  showSexSplit = !showSexSplit;
+  const btn = document.getElementById('sex-split-btn');
+  btn.classList.toggle('active', showSexSplit);
+  document.getElementById('ctx-leg-default').style.display = showSexSplit ? 'none' : '';
+  document.getElementById('ctx-leg-split').classList.toggle('visible', showSexSplit);
+  renderContextBars();
+}
 
 function switchAgeCycle(cycle) {
   DATA = cycle === '1719' ? DATA_1719 : DATA_2223;
+  SEX_SPLIT = cycle === '1719' ? SEX_SPLIT_1719 : SEX_SPLIT_2223;
   document.querySelectorAll('.cycle-btn').forEach(b => b.classList.toggle('active', b.dataset.cycle === cycle));
   const is1719 = cycle === '1719';
   document.getElementById('age-meta-cycle').textContent = is1719 ? 'NSFG 2017–2019' : 'NSFG 2022–2023';
@@ -488,39 +542,76 @@ function renderContextBars() {
   const el = document.getElementById('ctx-bars');
   if (!el) return;
 
+  const lbl = (pct) => pct >= 9 ? `${pct.toFixed(0)}%` : '';
+
   let html = '';
   AGE_LABELS.forEach((ag, i) => {
-    const dn      = DATA.denoms[ag]['interview'];
-    const nTotal  = dn.n_total;
-    const nDrug   = dn.n_drug;
-    const nUsers  = dn.n_users;
-    const nOther  = nUsers - nDrug;
-    const nNone   = nTotal - nUsers;
+    if (showSexSplit) {
+      const s       = SEX_SPLIT[ag];
+      const nTotal  = s.total;
+      const nNotAct = s.no_sex + s.inactive;
+      const nActNm  = s.active_nm;
+      const nOther  = s.other;
+      const nDrug   = s.drug;
 
-    const pNone  = nNone  / nTotal * 100;
-    const pOther = nOther / nTotal * 100;
-    const pDrug  = nDrug  / nTotal * 100;
+      const pNotAct = nNotAct / nTotal * 100;
+      const pActNm  = nActNm  / nTotal * 100;
+      const pOther  = nOther  / nTotal * 100;
+      const pDrug   = nDrug   / nTotal * 100;
 
-    const lbl = (pct, n) => pct >= 9 ? `${pct.toFixed(0)}%` : '';
+      html += `<div class="ctx-bar-row">
+        <div class="ctx-age-lbl" style="color:${AGE_COLORS[i]}">${ag}</div>
+        <div class="ctx-bar">
+          <div class="ctx-seg nonuse" style="width:${pNotAct.toFixed(2)}%"
+               title="Not recently sexually active (never had sex or last sex >12mo): n=${nNotAct} (${pNotAct.toFixed(1)}%)">
+            <span class="ctx-seg-label">${lbl(pNotAct)}</span>
+          </div>
+          <div class="ctx-seg activenm" style="width:${pActNm.toFixed(2)}%"
+               title="Sexually active, no contraception (HADSEX=yes, last sex ≤12mo, METHX=no method): n=${nActNm} (${pActNm.toFixed(1)}%)">
+            <span class="ctx-seg-label">${lbl(pActNm)}</span>
+          </div>
+          <div class="ctx-seg other" style="width:${pOther.toFixed(2)}%"
+               title="Other methods (condom, withdrawal, sterilization…): n=${nOther} (${pOther.toFixed(1)}%)">
+            <span class="ctx-seg-label">${lbl(pOther)}</span>
+          </div>
+          <div class="ctx-seg drug" style="width:${pDrug.toFixed(2)}%"
+               title="Non-EC drug (pill/IUD/implant/Depo/ring/patch): n=${nDrug} (${pDrug.toFixed(1)}%)">
+            <span class="ctx-seg-label">${lbl(pDrug)}</span>
+          </div>
+        </div>
+        <div class="ctx-n-lbl">n=${nTotal.toLocaleString()}</div>
+      </div>`;
+    } else {
+      const dn      = DATA.denoms[ag]['interview'];
+      const nTotal  = dn.n_total;
+      const nDrug   = dn.n_drug;
+      const nUsers  = dn.n_users;
+      const nOther  = nUsers - nDrug;
+      const nNone   = nTotal - nUsers;
 
-    html += `<div class="ctx-bar-row">
-      <div class="ctx-age-lbl" style="color:${AGE_COLORS[i]}">${ag}</div>
-      <div class="ctx-bar">
-        <div class="ctx-seg nonuse" style="width:${pNone.toFixed(2)}%"
-             title="No method: n=${nNone} (${pNone.toFixed(1)}%)">
-          <span class="ctx-seg-label">${lbl(pNone, nNone)}</span>
+      const pNone  = nNone  / nTotal * 100;
+      const pOther = nOther / nTotal * 100;
+      const pDrug  = nDrug  / nTotal * 100;
+
+      html += `<div class="ctx-bar-row">
+        <div class="ctx-age-lbl" style="color:${AGE_COLORS[i]}">${ag}</div>
+        <div class="ctx-bar">
+          <div class="ctx-seg nonuse" style="width:${pNone.toFixed(2)}%"
+               title="No method: n=${nNone} (${pNone.toFixed(1)}%)">
+            <span class="ctx-seg-label">${lbl(pNone)}</span>
+          </div>
+          <div class="ctx-seg other" style="width:${pOther.toFixed(2)}%"
+               title="Other methods: n=${nOther} (${pOther.toFixed(1)}%)">
+            <span class="ctx-seg-label">${lbl(pOther)}</span>
+          </div>
+          <div class="ctx-seg drug" style="width:${pDrug.toFixed(2)}%"
+               title="Non-EC drug (pill/IUD/implant/Depo/ring/patch): n=${nDrug} (${pDrug.toFixed(1)}%)">
+            <span class="ctx-seg-label">${lbl(pDrug)}</span>
+          </div>
         </div>
-        <div class="ctx-seg other" style="width:${pOther.toFixed(2)}%"
-             title="Other methods: n=${nOther} (${pOther.toFixed(1)}%)">
-          <span class="ctx-seg-label">${lbl(pOther, nOther)}</span>
-        </div>
-        <div class="ctx-seg drug" style="width:${pDrug.toFixed(2)}%"
-             title="Non-EC drug (pill/IUD/implant/Depo/ring/patch): n=${nDrug} (${pDrug.toFixed(1)}%)">
-          <span class="ctx-seg-label">${lbl(pDrug, nDrug)}</span>
-        </div>
-      </div>
-      <div class="ctx-n-lbl">n=${nTotal.toLocaleString()}</div>
-    </div>`;
+        <div class="ctx-n-lbl">n=${nTotal.toLocaleString()}</div>
+      </div>`;
+    }
   });
 
   el.innerHTML = html;
