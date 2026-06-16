@@ -191,6 +191,15 @@ Gateway → two columns: Industry Research + Play with the Data.
 - **Key caveat documented:** `LSEXDATE`-based sexual activity classification applies to interview year only; yr−3/yr−2/yr−1 sexual activity status cannot be derived (no monthly sex calendar in NSFG). For ages 25+ this limitation is minimal; for 15–19 in yr−3 it is substantial.
 - **Pending challenge items** (mid-session 42, conversation paused): user is reviewing methodology and has more challenges to raise in next session
 
+**NSFG method-age EC-8 "Sexually active that year" denominator (session 43):**
+- 4th denominator toggle added to `/nsfg-method-age.html`: **"Sexually active that year"** (`pa` key)
+- Uses EC-8 `MONSX`/`MONSX2`–`MONSX48` monthly sexual intercourse indicators (value `1` = had sex that month)
+- `n_active` per year = respondents with ≥1 MONSX slot = 1 in that 12-month window; year-specific denominator (varies yr-3→interview unlike other toggles)
+- `pa` numerator = used method AND sexually active in same year (intersection per respondent, not simple division)
+- Both 2022–2023 and 2017–2019 data regenerated with `pa` and `n_active`; gen script: `~/Downloads/gen_method_age_with_active.py`
+- **Code correction:** 2022–2023 ring METHX code is **26** (same as 2017–2019), not 22 as previously assumed. Patch also 25 (not 21). DRUG codes updated to `{3,8,9,19,25,26}` for both cycles.
+- **Impact on 15–19 yr-3:** n_active=55 vs n_total=730; pill pa=54.5% vs pu=64.2% — denominator correction removes non-sexually-active from baseline, substantially changing rates for young cohorts in early years
+
 **NSFG method trends + age analysis 2017–2019 (session 41):**
 - `/nsfg-method-trends.html` now has **2022–2023 / 2017–2019 cycle picker**; `ROWS_1719`, `DENOMS_1719`, `NO_METHOD_1719` inlined
 - `/nsfg-method-age.html` now has **2022–2023 / 2017–2019 cycle picker**; `DATA_1719` inlined (5 methods × 7 age groups × 4 years)
