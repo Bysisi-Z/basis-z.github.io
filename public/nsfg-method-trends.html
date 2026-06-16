@@ -81,6 +81,7 @@
     margin-bottom: 28px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);
   }
   .legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--stone); }
+  .yr-cal { font-size: 11px; color: var(--stone); opacity: 0.75; margin-left: 2px; }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
   /* bar chart */
@@ -185,7 +186,7 @@
 
   <div class="page-header">
     <h1>Contraceptive Method Use,<br>Four Years Before Interview</h1>
-    <p>For each year relative to interview date, the share of women who reported using each method in any month of that year.</p>
+    <p>For each year relative to interview date, the share of women who reported using each method in any month of that year. Interviews were conducted January 2022 – December 2023; year labels are approximate calendar equivalents.</p>
     <div class="meta">
       <span class="meta-chip">NSFG 2022–2023</span>
       <span class="meta-chip">N = 5,586 female respondents</span>
@@ -214,10 +215,10 @@
     </div>
 
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot y3"></div> Interview yr − 3</div>
-      <div class="legend-item"><div class="legend-dot y2"></div> Interview yr − 2</div>
-      <div class="legend-item"><div class="legend-dot y1"></div> Interview yr − 1</div>
-      <div class="legend-item"><div class="legend-dot y0"></div> Interview year</div>
+      <div class="legend-item"><div class="legend-dot y3"></div> Yr − 3 <span class="yr-cal">≈ 2019–2020</span></div>
+      <div class="legend-item"><div class="legend-dot y2"></div> Yr − 2 <span class="yr-cal">≈ 2020–2021</span></div>
+      <div class="legend-item"><div class="legend-dot y1"></div> Yr − 1 <span class="yr-cal">≈ 2021–2022</span></div>
+      <div class="legend-item"><div class="legend-dot y0"></div> Interview yr <span class="yr-cal">≈ 2022–2023</span></div>
     </div>
 
     <div id="bar-chart"></div>

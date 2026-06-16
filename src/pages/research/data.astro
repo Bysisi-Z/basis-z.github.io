@@ -29,12 +29,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <a class="back-crumb" href="/research">← Decoding</a>
       <div class="nsfg-title-row">
         <h1 class="nsfg-title">US NSFG Survey — <em>Female Respondent</em></h1>
-        <span class="nsfg-badge">2022–2023</span>
+        <span class="nsfg-badge" id="cycle-badge">2022–2023</span>
+      </div>
+      <!-- Cycle picker -->
+      <div class="cycle-picker" id="cycle-picker">
+        <button class="cycle-btn active" data-cycle="2022-2023">2022–2023 <span class="cycle-n">n=5,586</span></button>
+        <button class="cycle-btn" data-cycle="2017-2019">2017–2019 <span class="cycle-n">n=6,141</span></button>
       </div>
       <p class="nsfg-desc">
-        The National Survey of Family Growth (NSFG), conducted by the CDC's National Center for Health Statistics since 1973, collects data on pregnancy, contraception use, marriage, fertility, and reproductive health across the U.S. population. This explorer covers the 2022–2023 cycle — <strong>5,586</strong> female respondents aged 15–49, <strong>1,912</strong> variables across 10 survey sections.
+        The National Survey of Family Growth (NSFG), conducted by the CDC's National Center for Health Statistics since 1973, collects data on pregnancy, contraception use, marriage, fertility, and reproductive health across the U.S. population. <span id="cycle-desc-dynamic">This explorer covers the 2022–2023 cycle — <strong>5,586</strong> female respondents aged 15–49, <strong>1,912</strong> variables across 10 survey sections.</span>
       </p>
-      <a href="/nsfg-reports.html" class="nsfg-reports-btn">See all individual reports →</a>
+      <a href="/nsfg-reports.html" class="nsfg-reports-btn" id="nsfg-reports-btn">See all individual reports →</a>
     </div>
 
     <div id="explorer">
@@ -98,8 +103,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       </div>
     </div>
 
-    <p class="source-note">
-      Source: NCHS, <em>2022–2023 National Survey of Family Growth</em>, Public Use Data File.
+    <p class="source-note" id="source-note">
+      Source: NCHS, <em id="source-note-cycle">2022–2023 National Survey of Family Growth</em>, Public Use Data File.
       Percentages for each code are calculated among respondents in the variable's universe (excluding inapplicable).
     </p>
   </div>
@@ -218,6 +223,39 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   transition: opacity .15s;
 }
 .nsfg-reports-btn:hover { opacity: .82; }
+
+/* ── Cycle picker ──────────────────────────────────────────────────────────── */
+.cycle-picker {
+  display: flex; gap: 6px;
+  margin: 14px 0 12px;
+}
+.cycle-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--stone); background: transparent;
+  border: 1px solid var(--rule); border-radius: 20px;
+  padding: 5px 14px; cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.cycle-btn:hover {
+  border-color: rgba(193,125,157,0.4);
+  color: var(--ink);
+}
+.cycle-btn.active {
+  background: var(--rose); color: #fff;
+  border-color: var(--rose);
+}
+.cycle-btn.active .cycle-n { opacity: 0.8; }
+.cycle-n {
+  font-size: 10px; font-weight: 300;
+  letter-spacing: 0.02em;
+  opacity: 0.7;
+}
+.cycle-loading {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  color: var(--stone); margin-left: 8px; align-self: center;
+}
 
 /* ── Explorer wider container ──────────────────────────────────────────────── */
 .explorer-wrap {
@@ -870,6 +908,28 @@ const REPORT_VARS = new Set(['PILL','CONDOM','VASECTMY','DEPOPROV','WIDRAWAL','P
 
 const ALL_AGE_GROUPS = ['15–19','20–24','25–29','30–34','35–39','40–44','45–50'];
 
+// ── Cycle configuration ───────────────────────────────────────────────────────
+const CYCLES = {
+  '2022-2023': {
+    prefix:       '/data/nsfg_',
+    badge:        '2022–2023',
+    descSuffix:   'This explorer covers the 2022–2023 cycle — <strong>5,586</strong> female respondents aged 15–49, <strong>1,912</strong> variables across 10 survey sections.',
+    sourceLabel:  '2022–2023 National Survey of Family Growth',
+    hasAgeData:   true,
+    hasGroups:    true,
+    reportsHref:  '/nsfg-reports.html',
+  },
+  '2017-2019': {
+    prefix:       '/data/nsfg1719_',
+    badge:        '2017–2019',
+    descSuffix:   'This explorer covers the 2017–2019 cycle — <strong>6,141</strong> female respondents aged 15–44, <strong>2,609</strong> variables across 10 survey sections.',
+    sourceLabel:  '2017–2019 National Survey of Family Growth',
+    hasAgeData:   false,
+    hasGroups:    false,
+    reportsHref:  '/nsfg-reports.html',
+  },
+};
+
 // ── State ─────────────────────────────────────────────────────────────────────
 let META          = null;
 let sectionCache  = {};
@@ -882,6 +942,8 @@ let activeTypeFilter = 'raw';
 let groups        = null;
 let varToGroup    = null;
 let expandedGroups = new Set();   // group IDs currently expanded
+let currentCycle  = '2022-2023';
+let DATA_PREFIX   = CYCLES['2022-2023'].prefix;
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const secTabsEl   = document.getElementById('section-tabs');
@@ -900,24 +962,33 @@ async function fetchJSON(url) {
 }
 
 // ── Load meta on boot ─────────────────────────────────────────────────────────
-try {
-  META = await fetchJSON('/data/nsfg_meta.json');
-} catch(e) {
-  secTabsEl.textContent = 'Error loading data.';
-  return;
+async function loadMeta() {
+  try {
+    META = await fetchJSON(`${DATA_PREFIX}meta.json`);
+  } catch(e) {
+    secTabsEl.textContent = 'Error loading data.';
+    return false;
+  }
+  return true;
 }
+
+if (!await loadMeta()) return;
 
 buildSectionTabs();
 initTabsArrow();
 initAgeToggle();
 initTypeFilter();
-// Load age counts in background — ready by the time user opens the toggle
-fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
-fetchJSON('/data/nsfg_groups.json').then(d => {
-  groups = d.groups; varToGroup = d.var_to_group;
-  // Re-render current list so GROUP badges appear
-  if (currentSec && sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
-}).catch(() => {});
+initCyclePicker();
+// Load age counts + groups lazily (2022-2023 only)
+if (CYCLES[currentCycle].hasAgeData) {
+  fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
+}
+if (CYCLES[currentCycle].hasGroups) {
+  fetchJSON('/data/nsfg_groups.json').then(d => {
+    groups = d.groups; varToGroup = d.var_to_group;
+    if (currentSec && sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
+  }).catch(() => {});
+}
 await selectSection(META.sections[0].key);
 
 // ── Section tabs ──────────────────────────────────────────────────────────────
@@ -986,6 +1057,100 @@ function matchesTypeFilter(v) {
   return true;
 }
 
+// ── Cycle picker ──────────────────────────────────────────────────────────────
+function initCyclePicker() {
+  document.querySelectorAll('.cycle-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchCycle(btn.dataset.cycle));
+  });
+}
+
+async function switchCycle(key) {
+  if (key === currentCycle) return;
+
+  // Remember current selection before resetting
+  const prevVarName = currentVar?.name || null;
+  const prevSecKey  = currentSec || null;
+
+  currentCycle = key;
+  DATA_PREFIX  = CYCLES[key].prefix;
+  const cfg    = CYCLES[key];
+
+  // Update UI immediately
+  document.querySelectorAll('.cycle-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.cycle === key)
+  );
+  const badgeEl = document.getElementById('cycle-badge');
+  if (badgeEl) badgeEl.textContent = cfg.badge;
+  const descEl = document.getElementById('cycle-desc-dynamic');
+  if (descEl) descEl.innerHTML = cfg.descSuffix;
+  const srcEl = document.getElementById('source-note-cycle');
+  if (srcEl) srcEl.textContent = cfg.sourceLabel;
+
+  // Show/hide age split toggle
+  const ageFilterEl = document.querySelector('.age-filter');
+  if (ageFilterEl) ageFilterEl.style.display = cfg.hasAgeData ? '' : 'none';
+  if (!cfg.hasAgeData && ageGroupSplit) {
+    ageGroupSplit = false;
+    const cb = document.getElementById('age-split-cb');
+    if (cb) cb.checked = false;
+  }
+
+  // Reset caches
+  sectionCache  = {};
+  ageCounts     = null;
+  groups        = null;
+  varToGroup    = null;
+  expandedGroups.clear();
+  currentVar    = null;
+  currentSec    = null;
+  searchEl.value = '';
+
+  // Reload meta + lazily-loaded data
+  loadingEl.hidden = false;
+  const ok = await loadMeta();
+  loadingEl.hidden = true;
+  if (!ok) return;
+
+  if (cfg.hasAgeData) {
+    fetchJSON('/data/nsfg_age_counts.json').then(d => { ageCounts = d; }).catch(() => {});
+  }
+  if (cfg.hasGroups) {
+    fetchJSON('/data/nsfg_groups.json').then(d => {
+      groups = d.groups; varToGroup = d.var_to_group;
+      if (currentSec && sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
+    }).catch(() => {});
+  }
+
+  // Rebuild tabs
+  secTabsEl.innerHTML = '';
+  buildSectionTabs();
+
+  // Try to restore the previously selected variable in the new cycle
+  if (prevVarName) {
+    // Find which section the var lives in within the new meta
+    let targetSecKey = null;
+    for (const sec of META.sections) {
+      if (sec.variables.some(v => v.name === prevVarName)) {
+        targetSecKey = sec.key;
+        break;
+      }
+    }
+    if (targetSecKey) {
+      await selectSection(targetSecKey);
+      selectVar(prevVarName);
+      return;
+    }
+    // Variable not in new cycle — go to same section key if available, else first
+    const fallbackSec = META.sections.some(s => s.key === prevSecKey)
+      ? prevSecKey
+      : META.sections[0].key;
+    await selectSection(fallbackSec);
+    return;
+  }
+
+  await selectSection(META.sections[0].key);
+}
+
 // ── Age split toggle ──────────────────────────────────────────────────────────
 function initAgeToggle() {
   const cb = document.getElementById('age-split-cb');
@@ -1043,7 +1208,7 @@ async function selectSection(key) {
   if (!sectionCache[key]) {
     loadingEl.hidden = false;
     try {
-      sectionCache[key] = await fetchJSON(`/data/nsfg_section_${key}.json`);
+      sectionCache[key] = await fetchJSON(`${DATA_PREFIX}section_${key}.json`);
     } catch(e) {
       varCountEl.textContent = 'Load error';
       loadingEl.hidden = true;
@@ -1209,7 +1374,7 @@ async function selectVarGlobal(secKey, varName) {
   if (!sectionCache[secKey]) {
     loadingEl.hidden = false;
     try {
-      sectionCache[secKey] = await fetchJSON(`/data/nsfg_section_${secKey}.json`);
+      sectionCache[secKey] = await fetchJSON(`${DATA_PREFIX}section_${secKey}.json`);
     } catch(e) {
       loadingEl.hidden = true;
       return;
@@ -1251,10 +1416,16 @@ function selectVar(name) {
 
   currentVar = varData;
 
-  // Highlight selected
+  // Highlight selected and scroll into view
+  let selectedEl = null;
   varListEl.querySelectorAll('.var-item').forEach(el => {
-    el.classList.toggle('selected', el.dataset.name === name);
+    const isMatch = el.dataset.name === name;
+    el.classList.toggle('selected', isMatch);
+    if (isMatch) selectedEl = el;
   });
+  if (selectedEl) {
+    selectedEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
 
   renderDetail(varData);
 }
@@ -1268,7 +1439,7 @@ async function renderGroupView(groupId, fromVar) {
   if (!sectionCache[group.section]) {
     loadingEl.hidden = false;
     try {
-      sectionCache[group.section] = await fetchJSON(`/data/nsfg_section_${group.section}.json`);
+      sectionCache[group.section] = await fetchJSON(`${DATA_PREFIX}section_${group.section}.json`);
     } catch(e) { loadingEl.hidden = true; return; }
     loadingEl.hidden = true;
   }
@@ -1344,7 +1515,7 @@ async function switchVarListToSection(key) {
   if (!sectionCache[key]) {
     loadingEl.hidden = false;
     try {
-      sectionCache[key] = await fetchJSON(`/data/nsfg_section_${key}.json`);
+      sectionCache[key] = await fetchJSON(`${DATA_PREFIX}section_${key}.json`);
     } catch(e) { loadingEl.hidden = true; return; }
     loadingEl.hidden = true;
   }
