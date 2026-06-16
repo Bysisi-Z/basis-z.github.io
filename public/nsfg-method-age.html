@@ -163,6 +163,24 @@ body{
 .nv{color:var(--stone);font-size:10.5px;margin-right:4px}
 .pv{font-weight:600}
 
+/* methodology note box */
+.meth-note{
+  background:rgba(0,0,0,.025);border:1px solid var(--rule);
+  border-radius:8px;padding:13px 16px;margin-bottom:18px;
+  font-size:12px;line-height:1.75;color:var(--stone);
+}
+.meth-note-lbl{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--stone);opacity:.6;margin-bottom:6px;
+}
+.meth-note strong{color:var(--ink);font-weight:600}
+.meth-note code{
+  font-size:11px;background:rgba(0,0,0,.06);padding:1px 5px;
+  border-radius:3px;color:var(--ink);font-family:monospace;
+}
+.meth-note ul{margin:4px 0 0 0;padding-left:16px}
+.meth-note li{margin-bottom:2px}
+
 /* footnote */
 .footnote{font-size:12px;color:var(--stone);margin-top:14px;line-height:1.75}
 .footnote strong{color:var(--ink)}
@@ -235,9 +253,26 @@ body{
       <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:#A8A09C"></div>Other methods (condom, withdrawal…)</div>
       <div class="ctx-leg-item"><div class="ctx-leg-swatch" style="background:var(--rose)"></div>Non-EC drug (pill, IUD, implant, Depo…)</div>
     </div>
+    <div class="meth-note">
+      <div class="meth-note-lbl">Methodology — overview bar</div><br>
+      <strong>Window:</strong> Interview year only — METHX calendar months 37–48 (the 12 months immediately preceding each respondent's interview date).<br>
+      <strong>Method classification:</strong> A respondent is assigned to <em>Non-EC drug</em> if any METHX slot in months 37–48 equals pill <code>3</code>, Depo <code>8</code>, implant <code>9</code>, IUD <code>19</code>, patch <code>21/25</code>, or ring <code>22/26</code>. <em>Other methods</em> = any remaining non-zero, non-continuation code (condom, withdrawal, sterilization, rhythm, etc.). <em>No method</em> = all slots are code <code>1</code> or empty.<br>
+      <strong>Sexual activity split (toggle):</strong> Uses <code>HADSEX</code> and <code>LSEXDATE</code> (century-month of last sexual intercourse). <em>Sexually active</em> = <code>HADSEX = 1</code> AND <code>CMINTVW − LSEXDATE ≤ 12</code>. <em>Not recently active</em> = <code>HADSEX = 2</code> (never had sex) OR last sex more than 12 months before interview. This definition is specific to the interview-year window; sexual activity status in prior years (yr−3 through yr−1) cannot be reconstructed from <code>LSEXDATE</code> alone, as NSFG does not include a monthly sexual activity calendar.
+    </div>
     <div id="ctx-bars"></div>
   </div>
 
+  <div class="meth-note">
+    <div class="meth-note-lbl">Methodology — method bars</div><br>
+    <strong>Window:</strong> Interview year only (same METHX months 37–48 as overview bar above).<br>
+    <strong>Denominator toggle:</strong>
+    <ul>
+      <li><em>Method users in age group</em> — respondents who used any contraceptive in the interview year (<code>n_users</code>)</li>
+      <li><em>All respondents in age group</em> — all respondents regardless of sexual activity or method use (<code>n_total</code>)</li>
+      <li><em>Hormonal/LARC users in age group</em> — respondents who used pill, IUD, implant, Depo, patch, or ring in the interview year (<code>n_drug</code>)</li>
+    </ul>
+    <strong>Counting rule:</strong> A respondent is counted as a user of method X if she used it in any month of the 12-month window, regardless of how many months. Bars are scaled to each method's own maximum — widths are not comparable across methods.
+  </div>
   <div class="method-grid" id="bars-grid"></div>
 </div>
 
@@ -245,6 +280,12 @@ body{
 <div class="section">
   <div class="section-title">Yr −3 → Interview Year: How Each Age Group Shifted</div>
   <div class="section-desc">Each row is one age group. Open circle = yr −3, filled circle = interview year. Intermediate dots (yr −2, yr −1) show the trajectory shape. Line color: <span style="color:#5BAD8B;font-weight:600">teal = increasing</span>, <span style="color:#E53935;font-weight:600">red = declining</span>. Rows marked <strong style="color:#847B7B">!</strong> have small sample sizes (n &lt; 15) — interpret with caution.</div>
+
+  <div class="meth-note">
+    <div class="meth-note-lbl">Methodology — 4-year trend</div><br>
+    <strong>Windows:</strong> yr−3 = METHX months 1–12; yr−2 = 13–24; yr−1 = 25–36; interview year = 37–48. Each window covers 12 months. Respondent age is fixed at interview time — a respondent in the 15–19 group was aged 12–16 in yr−3.<br>
+    <strong>Denominator:</strong> The denominator (method users / all respondents / hormonal+LARC users) is the same toggle selected in Section A, and is computed from interview-year counts. It does <strong>not</strong> adjust year-by-year for changes in sexual activity status. This means, for younger age groups especially, low yr−3 values partly reflect respondents who were not yet sexually active at that time — this effect is inseparable from actual non-use of contraception within this dataset. For age groups 25 and older, where sexual activity rates are relatively stable across a 4-year span, this limitation is minimal.
+  </div>
   <div class="method-grid" id="lines-grid"></div>
 </div>
 
