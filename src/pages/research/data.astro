@@ -512,8 +512,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 /* ── 2-level group rows ──────────────────────────────────────────────────────── */
 .var-group-header {
-  display: flex; align-items: center; gap: 6px;
-  padding: 7px 10px 7px 10px;
+  display: flex; align-items: flex-start; gap: 6px;
+  padding: 8px 10px;
   cursor: pointer; user-select: none;
   border-bottom: 1px solid var(--rule);
   background: rgba(130,120,120,.04);
@@ -524,19 +524,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   flex-shrink: 0; width: 10px; text-align: center;
   transition: transform .15s;
   display: inline-block;
+  margin-top: 3px;
 }
 .var-group-header.expanded .var-group-chevron { transform: rotate(90deg); }
 .var-group-qcode {
   font-family: var(--sans); font-size: 10px; font-weight: 600;
   color: #4a9c6e; letter-spacing: .06em; flex-shrink: 0;
+  margin-top: 2px;
 }
 .var-group-title {
   flex: 1; font-size: 12px; color: var(--ink);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  min-width: 0; word-break: break-word;
 }
 .var-group-count {
   font-size: 10px; color: var(--stone); flex-shrink: 0;
   background: rgba(130,120,120,.12); padding: 1px 6px; border-radius: 10px;
+  margin-top: 2px;
 }
 .var-group-children { border-bottom: 1px solid var(--rule); }
 .var-group-children .var-item {
@@ -991,6 +994,7 @@ if (CYCLES[currentCycle].hasAgeData) {
 if (CYCLES[currentCycle].hasGroups) {
   fetchJSON('/data/nsfg_groups.json').then(d => {
     groups = d.groups; varToGroup = d.var_to_group;
+    expandedGroups = new Set(Object.keys(d.groups));
     if (currentSec && sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
   }).catch(() => {});
 }
@@ -1125,6 +1129,7 @@ async function switchCycle(key) {
   if (cfg.hasGroups) {
     fetchJSON('/data/nsfg_groups.json').then(d => {
       groups = d.groups; varToGroup = d.var_to_group;
+      expandedGroups = new Set(Object.keys(d.groups));
       if (currentSec && sectionCache[currentSec]) renderVarList(sectionCache[currentSec]);
     }).catch(() => {});
   }
