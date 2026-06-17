@@ -102,32 +102,35 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Redesigned (session 45)
+### Homepage (`/`) ✅ Redesigned (session 46)
 
-**Concept:** Full-bleed Ferris wheel photo (Lucerne, Pilatus visible), content floats on top. Inspired by `~/Downloads/IMG_1597.jpeg` — dusk Ferris wheel with lavender-periwinkle sky.
+**Concept:** Full-bleed AI-expanded night ferris wheel photo. No overlays or dark panels — content floats directly on photo. Design reference: ChatGPT-generated mockup (`~/Downloads/ChatGPT Image 2026年6月17日 23_22_45.png`).
 
-**Photo:** `public/images/homepage-ferris.jpeg` (source: `~/Downloads/IMG_1597.jpeg`)
-- `object-fit: cover; object-position: center 55%` — crop shifted down to show Pilatus mountain
+**Photo:** `public/images/homepage-ferris-night.png` (AI-expanded + night-enhanced version of `~/Downloads/IMG_1597.jpeg`)
+- `object-fit: cover; object-position: 62% center`
+- Also available: `homepage-ferris-wide.png` (lighter lavender version), `homepage-ferris-original.jpeg` (original portrait, too narrow for landscape desktop)
 
-**Desktop layout:**
-- `.photo-bg`: absolute, full viewport, photo covers everything
-- `.overlay`: directional gradient `rgba(12,6,32,0.62→0)` left→right — darker on identity side for text legibility
-- `.content-grid`: `display:grid; grid-template-columns: 44% 56%` — original layout structure preserved
-  - Left 44%: identity panel (transparent, white text) — Si + tagline + contact
-  - Right 56%: modules panel (transparent, white text) — flat list of 6 modules
-- All text: white, semi-transparent on inactive states
-- Module dividers: `rgba(255,255,255,0.14)`
-- Module hover: `rgba(255,255,255,0.07)` background
+**Desktop layout (`src/pages/index.astro`):**
+- `.photo-bg`: absolute, full viewport, no filters
+- `.content-grid`: `display:grid; grid-template-columns: 44% 56%`
+  - Left 44% `.left-panel`: `padding: 52px 56px 44px 200px`
+    - **Si logo**: Great Vibes italic 80px, `#C4A8E0`, glow text-shadow
+    - **Tagline**: Cormorant Garamond 300, `clamp(44px,5.2vw,82px)`, white; "sense" = italic + `#C4A8E0` + skewX(-8deg) + glow
+    - **Shooting-star rule**: `width:46%`, gradient white→purple→transparent
+    - **Module list**: 6 items, `padding-top:28px`, vertical connecting line left:12px top:74px bottom:55px
+      - Grid: `24px (◆bullet) | 28px (number) | 1fr (content)`
+      - ◆ bullet: `#C4A8E0`, 5-layer glow; hover: scale 1.8↔1.2 + twinkle animation 1.8s
+      - Number: Inter 600, `rgba(255,255,255,0.28)`
+      - Title: Cormorant Garamond italic 400, `clamp(22px,2.2vw,30px)`, white
+      - Desc: Nunito 300, 13px, `rgba(255,255,255,0.72)`
+      - Hover: `rgba(196,168,224,0.06)` background + continuous meteor animation 2.8s (bottom edge, left:68px → full width → fade)
+    - **Contact**: Nunito uppercase 11px, `rgba(196,168,224,0.75)`, border-top `rgba(196,168,224,0.15)`; hover: white + glow
+  - Right 56%: empty, photo shines through
+- No nav bar (`hideNav={true}`); module list IS the navigation
 
-**Mobile (≤768px):**
-- Photo still fills viewport (no separate panel)
-- content-grid switches to `grid-template-rows: 33vh 67vh`
-- Top 33vh: identity with overlay for readability
-- Bottom 67vh: drum wheel (same behavior as before)
+**Fonts loaded (page-level @import):** Great Vibes · Playfair Display (400/500 italic) · Nunito (300/400)
 
-**Font:** Great Vibes loaded via `@import` in page `<style>` for Si only.
-
-**Preview variants** (kept in `public/` for reference): `preview-v1.html` through `preview-v4.html`
+**Mobile (≤768px):** photo top 42vh + content panel below — design TBD (separate mobile-specific design planned)
 
 ### World Explorer (`/explorer`) ✅ Live
 

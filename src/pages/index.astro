@@ -92,7 +92,6 @@ const modules = [
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Shift right slightly so ferris wheel is prominent on the right */
     object-position: 62% center;
     display: block;
   }
@@ -277,10 +276,37 @@ const modules = [
   .mod-item:hover .mod-title { color: #fff; }
   .mod-item:hover .mod-bullet {
     color: #fff;
-    text-shadow:
-      0 0 8px rgba(196, 168, 224, 1),
-      0 0 20px rgba(196, 168, 224, 0.8),
-      0 0 40px rgba(196, 168, 224, 0.5);
+    animation: bullet-twinkle 1.8s ease-in-out infinite;
+  }
+
+  @keyframes bullet-twinkle {
+    0%   {
+      transform: scale(1.8);
+      text-shadow:
+        0 0 4px #fff,
+        0 0 10px #fff,
+        0 0 20px rgba(196, 168, 224, 1),
+        0 0 50px rgba(196, 168, 224, 1),
+        0 0 90px rgba(196, 168, 224, 0.7),
+        0 0 140px rgba(196, 168, 224, 0.4);
+    }
+    50%  {
+      transform: scale(1.2);
+      text-shadow:
+        0 0 2px rgba(255,255,255,0.4),
+        0 0 8px rgba(196, 168, 224, 0.5),
+        0 0 18px rgba(196, 168, 224, 0.2);
+    }
+    100% {
+      transform: scale(1.8);
+      text-shadow:
+        0 0 4px #fff,
+        0 0 10px #fff,
+        0 0 20px rgba(196, 168, 224, 1),
+        0 0 50px rgba(196, 168, 224, 1),
+        0 0 90px rgba(196, 168, 224, 0.7),
+        0 0 140px rgba(196, 168, 224, 0.4);
+    }
   }
 
   /* ── Meteor hover effect ── */
@@ -302,7 +328,7 @@ const modules = [
   }
 
   .mod-item:hover::after {
-    animation: item-meteor 1.4s ease-out infinite;
+    animation: item-meteor 2.8s ease-out infinite;
   }
 
   @keyframes item-meteor {
@@ -316,23 +342,29 @@ const modules = [
   .contact {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     margin-top: 28px;
     flex-shrink: 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(196, 168, 224, 0.15);
   }
 
   .contact-link {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.30);
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(196, 168, 224, 0.75);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.25s, text-shadow 0.25s;
   }
-  .contact-link:hover { color: rgba(255, 255, 255, 0.65); }
+  .contact-link:hover {
+    color: #fff;
+    text-shadow: 0 0 12px rgba(196, 168, 224, 0.8), 0 0 30px rgba(196, 168, 224, 0.4);
+  }
 
-  .sep { color: rgba(255, 255, 255, 0.18); font-size: 10px; }
+  .sep { color: rgba(196, 168, 224, 0.25); font-size: 10px; }
 
   /* Right column: transparent, photo shows through */
   .right-void { pointer-events: none; }
