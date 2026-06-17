@@ -23,6 +23,22 @@
 | `--stone` | `#847B7B` | Career events, secondary text, muted UI |
 | `--rule` | `#E2DEDB` | Borders, dividers |
 
+### ⚠️ Pending redesign — Soft Dusk (Apple Purple) scheme (session 44)
+
+用户决定将主站配色切换为苹果风格浅紫方案，token 对照：
+
+| New Token | Hex | 替换旧 token |
+|---|---|---|
+| `--bg` | `#F7F5FB` | 原 #FAFAF8 |
+| `--ink` | `#2B2640` | 原 #1A1A1A |
+| `--rose` → `--purple` | `#B8A9D4` | 原 #c17d9d |
+| `--purple-light` | `#D4CBE8` | 新增 |
+| `--accent` | `#8B7BB8` | 原 --rose 深用场景 |
+| `--stone` | `#5C5478` | 原 #847B7B |
+| `--rule` | `#E8E4F0` | 原 #E2DEDB |
+
+测试页：`~/Desktop/color-test.html` (Scheme 01 "Soft Dusk")
+
 ### Typography
 
 | Role | Font | Weight | Style |
