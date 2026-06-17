@@ -271,6 +271,9 @@ const modules = [
     line-height: 1.4;
   }
 
+  .mod-item:hover {
+    background: rgba(196, 168, 224, 0.06);
+  }
   .mod-item:hover .mod-title { color: #fff; }
   .mod-item:hover .mod-bullet {
     color: #fff;
@@ -278,6 +281,35 @@ const modules = [
       0 0 8px rgba(196, 168, 224, 1),
       0 0 20px rgba(196, 168, 224, 0.8),
       0 0 40px rgba(196, 168, 224, 0.5);
+  }
+
+  /* ── Meteor hover effect ── */
+  .mod-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 68px;   /* aligns to start of text (bullet 24px + gap 8px + num 28px + gap 8px) */
+    height: 1px;
+    width: 0;
+    opacity: 0;
+    background: linear-gradient(to right,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(235, 215, 255, 0.90) 45%,
+      rgba(196, 168, 224, 0.50) 72%,
+      rgba(100, 70, 160, 0.00) 100%
+    );
+    pointer-events: none;
+  }
+
+  .mod-item:hover::after {
+    animation: item-meteor 1.4s ease-out infinite;
+  }
+
+  @keyframes item-meteor {
+    0%   { width: 0;                  opacity: 1; }
+    55%  { width: calc(100% - 68px);  opacity: 1; }
+    80%  { width: calc(100% - 68px);  opacity: 0; }
+    100% { width: 0;                  opacity: 0; }
   }
 
   /* ── Contact ── */
