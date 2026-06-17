@@ -197,7 +197,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .nsfg-badge {
   font-family: var(--sans); font-size: 10px; font-weight: 400;
   letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  color: var(--rose); border: 1px solid rgba(169,126,194,0.4);
   padding: 2px 9px; border-radius: 2px; white-space: nowrap;
 }
 
@@ -239,7 +239,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   transition: border-color .15s, color .15s, background .15s;
 }
 .cycle-btn:hover {
-  border-color: rgba(193,125,157,0.4);
+  border-color: rgba(169,126,194,0.4);
   color: var(--ink);
 }
 .cycle-btn.active {
@@ -307,7 +307,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   transition: color 0.2s, background 0.2s, border-color 0.2s;
   border-radius: 6px 6px 0 0;
 }
-.sec-tab:hover { color: var(--ink); background: rgba(193,125,157,0.06); }
+.sec-tab:hover { color: var(--ink); background: rgba(169,126,194,0.06); }
 .sec-tab.active {
   background: var(--rose);
   color: #fff;
@@ -454,11 +454,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .var-list {
   flex: 1; overflow-y: scroll;
   scrollbar-width: auto;
-  scrollbar-color: #847B7B #dedad7;
+  scrollbar-color: #847B7B #EAE4F4;
 }
 .var-list::-webkit-scrollbar { width: 8px; }
-.var-list::-webkit-scrollbar-track { background: #dedad7; }
-.var-list::-webkit-scrollbar-thumb { background: #847B7B; border-radius: 4px; border: 1px solid #dedad7; }
+.var-list::-webkit-scrollbar-track { background: #EAE4F4; }
+.var-list::-webkit-scrollbar-thumb { background: #847B7B; border-radius: 4px; border: 1px solid #EAE4F4; }
 .var-list::-webkit-scrollbar-thumb:hover { background: #555; }
 
 .var-item {
@@ -470,9 +470,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   transition: background 0.15s, border-color 0.15s;
   min-height: 0;
 }
-.var-item:hover { background: rgba(193,125,157,0.04); }
+.var-item:hover { background: rgba(169,126,194,0.04); }
 .var-item.selected {
-  background: rgba(193,125,157,0.07);
+  background: rgba(169,126,194,0.07);
   border-left-color: var(--rose);
 }
 
@@ -518,7 +518,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   border-bottom: 1px solid var(--rule);
   background: rgba(130,120,120,.04);
 }
-.var-group-header:hover { background: rgba(193,125,157,.06); }
+.var-group-header:hover { background: rgba(169,126,194,.06); }
 .var-group-chevron {
   font-size: 9px; color: var(--stone);
   flex-shrink: 0; width: 10px; text-align: center;
@@ -579,11 +579,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 #detail-content {
   flex: 1; overflow-y: scroll;
   scrollbar-width: auto;
-  scrollbar-color: #847B7B #dedad7;
+  scrollbar-color: #847B7B #EAE4F4;
 }
 #detail-content::-webkit-scrollbar { width: 8px; }
-#detail-content::-webkit-scrollbar-track { background: #dedad7; }
-#detail-content::-webkit-scrollbar-thumb { background: #847B7B; border-radius: 4px; border: 1px solid #dedad7; }
+#detail-content::-webkit-scrollbar-track { background: #EAE4F4; }
+#detail-content::-webkit-scrollbar-thumb { background: #847B7B; border-radius: 4px; border: 1px solid #EAE4F4; }
 #detail-content::-webkit-scrollbar-thumb:hover { background: #555; }
 
 .detail-header {
@@ -607,14 +607,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .type-badge.raw      { color: var(--stone); border-color: rgba(132,123,123,.4); }
 .type-badge.computed { color: #7a9abf;      border-color: rgba(122,154,191,.4); }
-.type-badge.recode   { color: var(--rose);  border-color: rgba(193,125,157,.35); }
+.type-badge.recode   { color: var(--rose);  border-color: rgba(169,126,194,.35); }
 .type-badge.other    { color: var(--stone); border-color: var(--rule); }
 
 .drr-badge {
   font-family: var(--sans); font-size: 9px; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase;
   padding: 3px 8px; border-radius: 2px;
-  background: rgba(193,125,157,0.1); color: var(--rose);
+  background: rgba(169,126,194,0.1); color: var(--rose);
 }
 
 .detail-label-text {
@@ -645,8 +645,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; flex-wrap: wrap;
   padding: 12px 32px;
-  background: rgba(193,125,157,0.06);
-  border-bottom: 1px solid rgba(193,125,157,0.18);
+  background: rgba(169,126,194,0.06);
+  border-bottom: 1px solid rgba(169,126,194,0.18);
 }
 .group-hint-info {
   font-family: var(--sans); font-size: 12px; font-weight: 300;
@@ -656,7 +656,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .group-view-btn {
   font-family: var(--sans); font-size: 10px; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  color: var(--rose); border: 1px solid rgba(169,126,194,0.4);
   background: transparent; border-radius: 2px;
   padding: 5px 12px; cursor: pointer;
   transition: background 0.18s, color 0.18s;
@@ -669,8 +669,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; flex-wrap: wrap;
   padding: 12px 32px;
-  background: rgba(193,125,157,0.05);
-  border-bottom: 1px solid rgba(193,125,157,0.15);
+  background: rgba(169,126,194,0.05);
+  border-bottom: 1px solid rgba(169,126,194,0.15);
 }
 .deepdive-hint-info {
   display: flex; align-items: center; gap: 10px;
@@ -678,7 +678,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .deepdive-icon {
   width: 28px; height: 28px; flex-shrink: 0;
-  background: rgba(193,125,157,0.12); border-radius: 6px;
+  background: rgba(169,126,194,0.12); border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
 }
 .deepdive-text strong { color: var(--ink); font-weight: 400; }
@@ -715,7 +715,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .gv-qcode {
   font-family: var(--sans); font-size: 11px; font-weight: 400;
   letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--rose); border: 1px solid rgba(193,125,157,0.35);
+  color: var(--rose); border: 1px solid rgba(169,126,194,0.35);
   padding: 2px 8px; border-radius: 2px;
 }
 .gv-title {
@@ -741,7 +741,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   border-radius: 4px;
 }
 .gv-row:last-child { border-bottom: none; }
-.gv-row:hover { background: rgba(193,125,157,0.04); }
+.gv-row:hover { background: rgba(169,126,194,0.04); }
 .gv-label {
   font-family: var(--sans); font-size: 13px; font-weight: 300;
   color: var(--ink); line-height: 1.4;
@@ -807,8 +807,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .notes-box {
   margin: 0 32px 24px;
   padding: 14px 18px;
-  background: rgba(193,125,157,0.05);
-  border-left: 2px solid rgba(193,125,157,0.3);
+  background: rgba(169,126,194,0.05);
+  border-left: 2px solid rgba(169,126,194,0.3);
   border-radius: 0 6px 6px 0;
 }
 .notes-box p {
@@ -905,8 +905,8 @@ const TAB_SHORT = {
   sample_design:  'Sample Design',
 };
 
-const BAR_COLOR   = '#c17d9d';
-const INAPP_COLOR = '#E2DEDB';
+const BAR_COLOR   = '#A97EC2';
+const INAPP_COLOR = '#EAE4F4';
 const REPORT_VARS = new Set(['PILL','CONDOM','VASECTMY','DEPOPROV','WIDRAWAL','PATCH','RING','MORNPILL','IMPLANT','IUD','METHDISS','METHSTOP01','METHSTOP02','METHSTOP03','METHSTOP04','METHSTOP05','METHSTOP06','METHSTOP07','METHSTOP08','METHSTOP09','METHX1','METHX2','METHX3','METHX4','METHX5','METHX6','METHX7','METHX8','METHX9','METHX10','METHX11','METHX12','METHX13','METHX14','METHX15','METHX16','METHX17','METHX18','METHX19','METHX20','METHX21','METHX22','METHX23','METHX24','METHX25','METHX26','METHX27','METHX28','METHX29','METHX30','METHX31','METHX32','METHX33','METHX34','METHX35','METHX36','METHX37','METHX38','METHX39','METHX40','METHX41','METHX42','METHX43','METHX44','METHX45','METHX46','METHX47','METHX48','METHX49','METHX50','METHX51','METHX52','METHX53','METHX54','METHX55','METHX56','METHX57','METHX58','METHX59','METHX60','METHX61','METHX62','METHX63','METHX64','METHX65','METHX66','METHX67','METHX68','METHX69','METHX70','METHX71','METHX72','METHX73','METHX74','METHX75','METHX76','METHX77','METHX78','METHX79','METHX80','METHX81','METHX82','METHX83','METHX84','METHX85','METHX86','METHX87','METHX88','METHX89','METHX90','METHX91','METHX92','METHX93','METHX94','METHX95','METHX96','METHX97','METHX98','METHX99','METHX100','METHX101','METHX102','METHX103','METHX104','METHX105','METHX106','METHX107','METHX108','METHX109','METHX110','METHX111','METHX112','METHX113','METHX114','METHX115','METHX116','METHX117','METHX118','METHX119','METHX120','METHX121','METHX122','METHX123','METHX124','METHX125','METHX126','METHX127','METHX128','METHX129','METHX130','METHX131','METHX132','METHX133','METHX134','METHX135','METHX136','METHX137','METHX138','METHX139','METHX140','METHX141','METHX142','METHX143','METHX144','METHX145','METHX146','METHX147','METHX148','METHX149','METHX150','METHX151','METHX152','METHX153','METHX154','METHX155','METHX156','METHX157','METHX158','METHX159','METHX160','METHX161','METHX162','METHX163','METHX164','METHX165','METHX166','METHX167','METHX168','METHX169','METHX170','METHX171','METHX172','METHX173','METHX174','METHX175','METHX176','METHX177','METHX178','METHX179','METHX180','METHX181','METHX182','METHX183','METHX184','METHX185','METHX186','METHX187','METHX188','METHX189','METHX190','METHX191','METHX192']);
 
 const ALL_AGE_GROUPS = ['15–19','20–24','25–29','30–34','35–39','40–44','45–50'];
@@ -1835,7 +1835,7 @@ function renderDetail(v) {
   };
   const diveInfo  = (currentCycle === '2017-2019' ? DEEPDIVE_MAP_1719 : DEEPDIVE_MAP)[v.name.toUpperCase()];
   const isMethx   = /^METHX\d+$/i.test(v.name);
-  const diveIcon  = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="8" width="3" height="5" rx="1" fill="#c17d9d"/><rect x="5.5" y="5" width="3" height="8" rx="1" fill="#c17d9d"/><rect x="10" y="2" width="3" height="11" rx="1" fill="#c17d9d"/></svg>`;
+  const diveIcon  = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="8" width="3" height="5" rx="1" fill="#A97EC2"/><rect x="5.5" y="5" width="3" height="8" rx="1" fill="#A97EC2"/><rect x="10" y="2" width="3" height="11" rx="1" fill="#A97EC2"/></svg>`;
   const makeCard  = (text, href, label) => `<div class="deepdive-hint">
          <div class="deepdive-hint-info">
            <div class="deepdive-icon">${diveIcon}</div>

@@ -8,15 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:    #FAFAF8;
+    --bg:    #F6F3FC;
     --ink:   #1A1A1A;
-    --rose:  #c17d9d;
+    --rose:  #A97EC2;
     --stone: #847B7B;
-    --rule:  #E2DEDB;
+    --rule:  #EAE4F4;
     --yr3:   #C9C2C0;
     --yr2:   #A89FAD;
     --yr1:   #987A95;
-    --yr0:   #c17d9d;
+    --yr0:   #A97EC2;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -50,7 +50,7 @@
   .section-title {
     font-size: 11px; font-weight: 600; letter-spacing: .08em;
     text-transform: uppercase; color: var(--rose);
-    background: linear-gradient(to right, rgba(193,125,157,.08), transparent);
+    background: linear-gradient(to right, rgba(169,126,194,.08), transparent);
     padding: 6px 12px; margin-bottom: 24px; display: inline-block;
   }
 
@@ -68,7 +68,7 @@
 
   /* denom note */
   .denom-note {
-    background: rgba(193,125,157,.05);
+    background: rgba(169,126,194,.05);
     border-left: 3px solid var(--rose);
     padding: 12px 16px; font-size: 14px; color: var(--stone);
     border-radius: 0 6px 6px 0; margin-bottom: 24px; line-height: 1.7;
@@ -161,10 +161,10 @@
   }
   .data-table td:first-child { text-align: left; color: var(--ink); font-weight: 400; }
   .data-table tr:last-child td { border-bottom: none; }
-  .data-table tbody tr:hover td { background: rgba(193,125,157,.04); }
+  .data-table tbody tr:hover td { background: rgba(169,126,194,.04); }
   .n-val { display: block; color: var(--ink); font-weight: 400; }
   .pct-val { display: block; font-size: 11.5px; margin-top: 1px; }
-  .data-table th.hi, .data-table td.hi { background: rgba(193,125,157,.06); }
+  .data-table th.hi, .data-table td.hi { background: rgba(169,126,194,.06); }
   .data-table td.hi .n-val { color: var(--rose); }
   .data-table td.hi .pct-val { color: var(--rose); opacity: .75; }
   .others-subtext { font-size: 11px; color: var(--stone); font-style: italic; font-weight: 300; display: block; margin-top: 2px; }
@@ -182,7 +182,7 @@
   /* cycle picker */
   .cycle-picker{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
   .cycle-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:400;letter-spacing:.04em;color:var(--stone);background:transparent;border:1px solid var(--rule);border-radius:20px;padding:5px 14px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
-  .cycle-btn:hover{border-color:rgba(193,125,157,.4);color:var(--ink)}
+  .cycle-btn:hover{border-color:rgba(169,126,194,.4);color:var(--ink)}
   .cycle-btn.active{background:var(--rose);color:#fff;border-color:var(--rose)}
   .cycle-btn .cycle-n{font-size:10px;font-weight:300;opacity:.8}
 </style>

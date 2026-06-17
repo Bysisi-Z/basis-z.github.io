@@ -115,7 +115,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   /* ── Trail popup (click → large image) ── */
   :global(.trail-popup .leaflet-popup-content-wrapper) {
-    background: #fafaf8 !important;
+    background: #F7F5FB !important;
     border-radius: 10px !important;
     padding: 0 !important;
     overflow: hidden !important;
@@ -148,7 +148,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-size: 18px;
     font-weight: 300;
     font-style: italic;
-    color: #1a1a1a;
+    color: #1A1A1A;
     line-height: 1;
   }
 
@@ -217,10 +217,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const data = await r.json();
       L.geoJSON(data, {
         style: () => ({
-          color: '#c17d9d',
+          color: '#A97EC2',
           weight: 1.2,
           opacity: 0.55,
-          fillColor: '#c17d9d',
+          fillColor: '#A97EC2',
           fillOpacity: 0.06,
         }),
       }).addTo(map);
@@ -231,7 +231,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   /* ── 5. Icons ── */
   const starIcon = L.divIcon({
     className: '',
-    html: `<div style="font-size:20px;line-height:1;color:#1a1a1a;cursor:pointer;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));user-select:none;">★</div>`,
+    html: `<div style="font-size:20px;line-height:1;color:#1A1A1A;cursor:pointer;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));user-select:none;">★</div>`,
     iconSize:   [20, 20],
     iconAnchor: [10, 10],
   });

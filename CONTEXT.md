@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-16 (session 44)
+> Last updated: 2026-06-17 (session 45)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -13,31 +13,26 @@
 
 ## 1. Design System
 
-### Colors
+### Colors — Soft Dusk Purple scheme (session 45, LIVE)
+
+全站配色已从玫瑰粉切换为苹果风格暖紫，灵感来源于首页摩天轮照片的薰衣草黄昏天空：
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--bg` | `#FAFAF8` | Page background (warm off-white) |
-| `--ink` | `#1A1A1A` | Primary text |
-| `--rose` / `--pink` | `#c17d9d` | Life events, accents, active states |
-| `--stone` | `#847B7B` | Career events, secondary text, muted UI |
-| `--rule` | `#E2DEDB` | Borders, dividers |
+| `--bg` | `#F6F3FC` | Page background (very light lavender) |
+| `--ink` | `#1A1A1A` | Primary text (warm neutral, not purple) |
+| `--rose` / `--accent` | `#A97EC2` | Main accent — warm pink-purple (H≈288°, dusk sky) |
+| `--purple` | `#B8A9D4` | Light purple tint (secondary use) |
+| `--purple-light` | `#D4CBE8` | Lighter purple tint |
+| `--stone` | `#847B7B` | Career events, secondary text (warm neutral) |
+| `--rule` | `#EAE4F4` | Borders, dividers (light lavender) |
 
-### ⚠️ Pending redesign — Soft Dusk (Apple Purple) scheme (session 44)
-
-用户决定将主站配色切换为苹果风格浅紫方案，token 对照：
-
-| New Token | Hex | 替换旧 token |
-|---|---|---|
-| `--bg` | `#F7F5FB` | 原 #FAFAF8 |
-| `--ink` | `#2B2640` | 原 #1A1A1A |
-| `--rose` → `--purple` | `#B8A9D4` | 原 #c17d9d |
-| `--purple-light` | `#D4CBE8` | 新增 |
-| `--accent` | `#8B7BB8` | 原 --rose 深用场景 |
-| `--stone` | `#5C5478` | 原 #847B7B |
-| `--rule` | `#E8E4F0` | 原 #E2DEDB |
-
-测试页：`~/Desktop/color-test.html` (Scheme 01 "Soft Dusk")
+**Key color decisions (session 45):**
+- `--ink` and `--stone` deliberately kept warm/neutral (NOT purple) — avoids "everything purple" flatness, creates contrast with the accent
+- `--rose` value shifted from H=258° (cold blue-purple) to H=288° (warm pink-purple) to match the dusk warmth in the Ferris wheel photo
+- SVG easter eggs (Alps, vines, stork, confetti) updated to purple tint family: `#D4CBE8` / `#EDE8F5` / `#E4DCF4`
+- Scrollbar thumb: `#847B7B`, track: `#E4E0F0`
+- All 16 standalone `public/*.html` analysis pages updated with new `:root` tokens
 
 ### Typography
 
@@ -107,15 +102,32 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Complete
+### Homepage (`/`) ✅ Redesigned (session 45)
 
-**Desktop:** `position: fixed; inset: 0` grid — left identity panel (300px, rose) + right modules panel. Flat list of 6 modules, hover → rose title + arrow.
+**Concept:** Full-bleed Ferris wheel photo (Lucerne, Pilatus visible), content floats on top. Inspired by `~/Downloads/IMG_1597.jpeg` — dusk Ferris wheel with lavender-periwinkle sky.
 
-**Mobile (≤768px):** Fixed viewport grid `33vh / 67vh`:
-- **Top 33vh** — Rose identity panel: Si (Great Vibes, smaller on mobile, ghost hidden), double rule lines, tagline "Making sense of numbers and landscapes.", 3 contact icons (vertical stack right)
-- **Bottom 67vh** — Drum wheel: 3× duplicated items (18 total), center item rose-highlighted, top/bottom 20% gradient fade showing ~3 items at once, touch swipe + auto-scroll every 2.2s
+**Photo:** `public/images/homepage-ferris.jpeg` (source: `~/Downloads/IMG_1597.jpeg`)
+- `object-fit: cover; object-position: center 55%` — crop shifted down to show Pilatus mountain
+
+**Desktop layout:**
+- `.photo-bg`: absolute, full viewport, photo covers everything
+- `.overlay`: directional gradient `rgba(12,6,32,0.62→0)` left→right — darker on identity side for text legibility
+- `.content-grid`: `display:grid; grid-template-columns: 44% 56%` — original layout structure preserved
+  - Left 44%: identity panel (transparent, white text) — Si + tagline + contact
+  - Right 56%: modules panel (transparent, white text) — flat list of 6 modules
+- All text: white, semi-transparent on inactive states
+- Module dividers: `rgba(255,255,255,0.14)`
+- Module hover: `rgba(255,255,255,0.07)` background
+
+**Mobile (≤768px):**
+- Photo still fills viewport (no separate panel)
+- content-grid switches to `grid-template-rows: 33vh 67vh`
+- Top 33vh: identity with overlay for readability
+- Bottom 67vh: drum wheel (same behavior as before)
 
 **Font:** Great Vibes loaded via `@import` in page `<style>` for Si only.
+
+**Preview variants** (kept in `public/` for reference): `preview-v1.html` through `preview-v4.html`
 
 ### World Explorer (`/explorer`) ✅ Live
 
@@ -403,12 +415,13 @@ Content not written.
 - **"Nature Never Judges"** always has spaces — never concatenate
 - Portrait photos → split hero (42% photo | 58% text), `imagePosition: left|right`
 - Landscape photos → full-width hero with text overlay
-- Timeline: left = Life (rose), right = Career (stone). Year + title + tag all same color per side
-- Homepage: 1-screen no-scroll desktop, drum wheel mobile, `hideNav={true}`
+- Timeline: left = Life (`var(--rose)` = `#A97EC2`), right = Career (`var(--stone)` = `#847B7B`)
+- Homepage: 1-screen no-scroll desktop, drum wheel mobile, `hideNav={true}`, full-bleed photo bg
 - Nav: 2-row on mobile ≤640px (logo row + scrollable links strip)
-- `var(--rule)` (#E2DEDB) NEVER used as text color — minimum = `var(--stone)`
+- `var(--rule)` NEVER used as text color — minimum = `var(--stone)`
 - `strong.hl` (rose inline highlight) in `global.css` for hiking articles (bypasses Astro scoping)
 - Bilingual toggle (EN/中文): `html[data-lang="zh"]` attribute, `localStorage` key `sisi-article-lang`
+- **Color accent is `var(--rose)` = `#A97EC2`** (warm pink-purple H≈288°) — all inner pages still use this for highlights, badges, active states
 
 ---
 

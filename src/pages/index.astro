@@ -2,12 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const modules = [
-  { num: '01', title: 'Now',              desc: 'What I\'m doing and thinking about lately',           href: '/now' },
-  { num: '02', title: 'Journey',          desc: 'Professional path & the person behind it',            href: '/career' },
-  { num: '03', title: 'Decoding',         desc: 'Industry research, data analysis & market insights',  href: '/research' },
-  { num: '04', title: 'Nature Never Judges', desc: 'Landscape photography, hiking guides & alpine walks', href: '/photography' },
-  { num: '05', title: 'Wandering',        desc: 'Personal growth, reflections & inner landscapes',     href: '/writing' },
-  { num: '06', title: 'A Collection of Rabbit Holes', desc: 'Books, papers & ideas worth revisiting', href: '/reading' },
+  { num: '01', title: 'Now',                          desc: "What I'm doing and thinking about lately",          href: '/now' },
+  { num: '02', title: 'Journey',                      desc: 'Professional path & the person behind it',          href: '/career' },
+  { num: '03', title: 'Decoding',                     desc: 'Industry research, data analysis & market insights', href: '/research' },
+  { num: '04', title: 'Nature Never Judges',          desc: 'Landscape photography, hiking guides & alpine walks',href: '/photography' },
+  { num: '05', title: 'Wandering',                    desc: 'Personal growth, reflections & inner landscapes',    href: '/writing' },
+  { num: '06', title: 'A Collection of Rabbit Holes', desc: 'Books, papers & ideas worth revisiting',            href: '/reading' },
 ];
 ---
 
@@ -15,525 +15,322 @@ const modules = [
 
   <div class="layout">
 
-    <!-- ── Left identity panel ── -->
-    <aside class="identity">
-      <div class="identity-top">
-        <div class="si-wrap">
-          <span class="si-ghost" aria-hidden="true">Si</span>
-          <h1 class="si">Si</h1>
-        </div>
-        <div class="si-rule">
-          <span class="si-rule-a"></span>
-          <span class="si-rule-b"></span>
-        </div>
-        <p class="tagline">Making sense of<br>numbers and landscapes.</p>
-      </div>
-      <div class="contact">
-        <a class="contact-link" href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-            <rect width="24" height="24" rx="3" fill="rgba(255,255,255,0.25)"/>
-            <path fill="#fff" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-          <span class="cl-text">LinkedIn</span>
-        </a>
-        <a class="contact-link" href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)" aria-hidden="true">
-            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.5 6.5h-2v1h2v1h-2v1h1.5c.828 0 1.5.672 1.5 1.5v1c0 .828-.672 1.5-1.5 1.5H13v1h-1v-1H9.5V15H13v-1h-1.5C10.672 14 10 13.328 10 12.5v-1C10 10.672 10.672 10 11.5 10H13V9h1v1h1.5v1zm-5 3.5c-.276 0-.5.224-.5.5v1c0 .276.224.5.5.5H12v-2h-1.5zm3 0v2H13v-2h-.5z"/>
-          </svg>
-          <span class="cl-text">Red Note</span>
-        </a>
-        <a class="contact-link" href="mailto:sisi.zhang.ch@gmail.com">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="4" width="20" height="16" rx="2"/>
-            <path d="M2 7l10 7 10-7"/>
-          </svg>
-          <span class="cl-text">Email</span>
-        </a>
-      </div>
-    </aside>
+    <!-- Full-bleed photo -->
+    <div class="photo-bg" aria-hidden="true">
+      <img src="/images/homepage-ferris-night.png"
+           alt=""
+           loading="eager">
+    </div>
 
-    <!-- ── Right modules panel — drum wheel ── -->
-    <div class="modules-panel">
-      <div class="drum-wrap" id="drum-wrap">
-        <div class="drum-track" id="drum-track">
-          {[...modules, ...modules, ...modules].map((m, i) => (
-            <a class="mod" href={m.href} data-i={i}>
+    <!-- Content: sits above photo -->
+    <div class="content-grid">
+
+      <aside class="left-panel">
+
+        <!-- Si -->
+        <div class="si-wrap">
+          <div class="si-logo">Si</div>
+        </div>
+
+        <!-- Tagline -->
+        <div class="tagline-wrap">
+          <h1 class="tagline">Making <em class="sense">sense</em> of<br>numbers and<br>landscapes.</h1>
+          <div class="tagline-rule"></div>
+        </div>
+
+        <!-- Module nav -->
+        <nav class="module-list">
+          {modules.map(m => (
+            <a class="mod-item" href={m.href}>
+              <span class="mod-bullet">◆</span>
               <span class="mod-num">{m.num}</span>
-              <span class="mod-rule"></span>
               <span class="mod-body">
                 <span class="mod-title">{m.title}</span>
                 <span class="mod-desc">{m.desc}</span>
               </span>
-              <span class="mod-arrow">→</span>
             </a>
           ))}
+        </nav>
+
+        <!-- Contact -->
+        <div class="contact">
+          <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="contact-link">LinkedIn</a>
+          <span class="sep">·</span>
+          <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="contact-link">Red Note</a>
+          <span class="sep">·</span>
+          <a href="mailto:sisi.zhang.ch@gmail.com" class="contact-link">Email</a>
         </div>
-        <div class="drum-veil drum-veil-top"></div>
-        <div class="drum-veil drum-veil-bottom"></div>
-      </div>
+
+      </aside>
+
+      <!-- Right: empty — photo shines through -->
+      <div class="right-void"></div>
+
     </div>
 
   </div>
 
 </BaseLayout>
 
-<script>
-{
-  if (window.innerWidth > 768) { /* desktop: flat list, no drum */ }
-  else {
-  const ITEM_H = 80;
-  const N = 6;
-  const track = document.getElementById('drum-track') as HTMLElement;
-  const wrap  = document.getElementById('drum-wrap')  as HTMLElement;
-  const mods  = Array.from(track.querySelectorAll('.mod')) as HTMLElement[];
-
-  let idx = N; // start at copy 2, item 0
-  let autoTimer: ReturnType<typeof setInterval>;
-  let resumeTimer: ReturnType<typeof setTimeout>;
-
-  function posY(i: number) {
-    // center item i vertically in drum-wrap
-    const wrapH = wrap.clientHeight;
-    return -(i * ITEM_H) + wrapH / 2 - ITEM_H / 2;
-  }
-
-  function render(animated: boolean) {
-    track.style.transition = animated
-      ? 'transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94)'
-      : 'none';
-    track.style.transform = `translateY(${posY(idx)}px)`;
-
-    mods.forEach((m, i) => {
-      const dist = Math.abs(i - idx);
-      m.classList.toggle('drum-active', dist === 0);
-      m.classList.toggle('drum-near',   dist === 1);
-    });
-
-    // seamless loop: after transition snap to middle copy
-    if (animated) {
-      setTimeout(() => {
-        if (idx < N / 2)       { idx += N; render(false); }
-        else if (idx > N * 2 + N / 2) { idx -= N; render(false); }
-      }, 400);
-    }
-  }
-
-  function step(delta: number) {
-    idx += delta;
-    render(true);
-  }
-
-  function startAuto() {
-    autoTimer = setInterval(() => step(1), 2200);
-  }
-  function pauseAuto() {
-    clearInterval(autoTimer);
-    clearTimeout(resumeTimer);
-  }
-  function scheduleResume() {
-    resumeTimer = setTimeout(startAuto, 3500);
-  }
-
-  // ── Mouse wheel ──
-  wrap.addEventListener('wheel', (e: WheelEvent) => {
-    e.preventDefault();
-    pauseAuto();
-    step(e.deltaY > 0 ? 1 : -1);
-    scheduleResume();
-  }, { passive: false });
-
-  // ── Touch ──
-  let touchY = 0;
-  let dragging = false;
-  wrap.addEventListener('touchstart', (e: TouchEvent) => {
-    touchY = e.touches[0].clientY;
-    dragging = true;
-    pauseAuto();
-  }, { passive: true });
-
-  wrap.addEventListener('touchmove', (e: TouchEvent) => {
-    if (!dragging) return;
-    const dy = touchY - e.touches[0].clientY;
-    if (Math.abs(dy) > ITEM_H * 0.4) {
-      step(dy > 0 ? 1 : -1);
-      touchY = e.touches[0].clientY;
-    }
-  }, { passive: true });
-
-  wrap.addEventListener('touchend', () => {
-    dragging = false;
-    scheduleResume();
-  });
-
-  // ── Click non-active item → snap to it ──
-  mods.forEach((m, i) => {
-    m.addEventListener('click', (e: MouseEvent) => {
-      const dist = Math.abs(i - idx);
-      if (dist !== 0) {
-        e.preventDefault();
-        pauseAuto();
-        idx = i;
-        render(true);
-        scheduleResume();
-      }
-    });
-  });
-
-  // ── Init ──
-  render(false);
-  startAuto();
-  } // end mobile-only block
-}
-</script>
-
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-</style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Nunito:wght@300;400&display=swap');
 
-<style>
+  /* ── Base: fixed full-viewport stage ── */
   .layout {
     position: fixed;
     inset: 0;
-    display: grid;
-    grid-template-columns: 300px 1fr;
     overflow: hidden;
   }
 
-  /* ── Identity panel ── */
-  .identity {
-    background: var(--rose);
+  /* ── Photo layer ── */
+  .photo-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .photo-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Shift right slightly so ferris wheel is prominent on the right */
+    object-position: 62% center;
+    display: block;
+  }
+
+  /* ── Content grid ── */
+  .content-grid {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 44% 56%;
+  }
+
+  /* ── Left panel: content only, no bg ── */
+  .left-panel {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 52px 40px 44px;
-    position: relative;
-    overflow: hidden;
+    padding: 52px 56px 44px 200px;
   }
 
-  /* Subtle decorative circle behind Si */
-  .identity::before {
-    content: '';
-    position: absolute;
-    bottom: -80px;
-    right: -80px;
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.1);
-    pointer-events: none;
-  }
-  .identity::after {
-    content: '';
-    position: absolute;
-    bottom: -140px;
-    right: -140px;
-    width: 480px;
-    height: 480px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.06);
-    pointer-events: none;
-  }
-
-  .identity-top { position: relative; z-index: 1; }
-
+  /* Si wrap */
   .si-wrap {
     position: relative;
-    margin-bottom: 28px;
+    margin-bottom: 40px;
+    flex-shrink: 0;
     line-height: 1;
   }
 
   .si-ghost {
     position: absolute;
-    top: 55px;
-    left: -20px;
+    top: -10px;
+    left: -24px;
     font-family: 'Great Vibes', cursive;
-    font-size: clamp(130px, 18vw, 210px);
-    font-weight: 300;
-    font-style: italic;
+    font-size: 110px;
     line-height: 0.85;
-    color: rgba(255,255,255,0.15);
-    letter-spacing: -0.03em;
+    font-style: italic;
+    color: rgba(196, 168, 224, 0.10);
     pointer-events: none;
     user-select: none;
-    z-index: 1;
   }
 
-  .si {
+  .si-logo {
     font-family: 'Great Vibes', cursive;
-    font-size: clamp(90px, 12vw, 150px);
-    font-weight: 400;
+    font-size: 80px;
+    line-height: 1;
+    color: #C4A8E0;
     font-style: italic;
-    line-height: 0.85;
-    color: #fff;
-    margin: 0;
-    letter-spacing: -0.03em;
     position: relative;
-    z-index: 2;
-    transform: translate(18px, 16px);
+    z-index: 1;
     text-shadow:
-      2px 3px 0 rgba(120, 50, 75, 0.9),
-      4px 6px 0 rgba(120, 50, 75, 0.75),
-      6px 9px 0 rgba(120, 50, 75, 0.6),
-      8px 12px 0 rgba(120, 50, 75, 0.45),
-      10px 15px 0 rgba(120, 50, 75, 0.3),
-      12px 18px 0 rgba(120, 50, 75, 0.15),
-      14px 21px 16px rgba(0,0,0,0.2);
+      0 0 20px rgba(196, 168, 224, 0.9),
+      0 0 50px rgba(196, 168, 224, 0.6),
+      0 0 100px rgba(196, 168, 224, 0.3);
   }
 
-  .si-rule {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-top: 120px;
-    margin-bottom: 18px;
-  }
-  .si-rule-a {
-    display: block;
-    width: 140px;
-    height: 1px;
-    background: rgba(255,255,255,0.75);
-    margin-left: 0;
-  }
-  .si-rule-b {
-    display: block;
-    width: 140px;
-    height: 1px;
-    background: rgba(255,255,255,0.75);
-    margin-left: 20px;
+  /* Tagline */
+  .tagline-wrap {
+    flex-shrink: 0;
+    margin-bottom: 0;
   }
 
   .tagline {
-    font-family: var(--serif);
-    font-size: clamp(18px, 1.6vw, 24px);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(44px, 5.2vw, 82px);
     font-weight: 300;
-    font-style: italic;
+    font-style: normal;
     color: #fff;
-    line-height: 1.6;
-    margin: 0;
+    line-height: 1.12;
+    margin: 0 0 24px;
   }
 
-  /* Contact */
-  .contact {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    position: relative;
-    z-index: 1;
-  }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--sans);
-    font-size: 11px;
+  .sense {
+    font-style: italic;
+    color: #C4A8E0;
     font-weight: 300;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.72);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .contact-link:hover { color: #fff; }
-
-  /* ── Modules panel — drum wheel ── */
-  .modules-panel {
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 clamp(24px, 4vw, 60px);
-    overflow: hidden;
-    position: relative;
+    display: inline-block;
+    transform: skewX(-8deg);
+    text-shadow:
+      0 0 12px rgba(196, 168, 224, 0.9),
+      0 0 30px rgba(196, 168, 224, 0.6),
+      0 0 60px rgba(196, 168, 224, 0.3);
   }
 
-  .drum-wrap {
-    position: relative;
-    width: 100%;
-    height: 480px;
-    overflow: hidden;
-    cursor: grab;
-    user-select: none;
+  .tagline-rule {
+    width: 46%;
+    height: 1px;
+    background: linear-gradient(to right,
+      rgba(255, 255, 255, 0.90) 0%,
+      rgba(210, 175, 245, 0.65) 22%,
+      rgba(160, 120, 210, 0.28) 55%,
+      rgba(100, 70, 160, 0.00) 100%
+    );
+    margin-bottom: 0;
   }
-  .drum-wrap:active { cursor: grabbing; }
 
-  .drum-track {
+  /* ── Module list ── */
+  .module-list {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    will-change: transform;
+    justify-content: flex-start;
+    padding-top: 28px;
+    position: relative;
   }
 
-  .mod {
+  /* Vertical connecting line — spans exactly 01 to 06 bullets */
+  .module-list::before {
+    content: '';
+    position: absolute;
+    left: 12px;     /* center of bullet column (24px wide) */
+    top: 74px;
+    bottom: 55px;
+    width: 1px;
+    background: rgba(196, 150, 210, 0.22);
+    pointer-events: none;
+  }
+
+  .mod-item {
     display: grid;
-    grid-template-columns: 44px 1px 1fr auto;
+    grid-template-columns: 24px 28px 1fr;
     align-items: center;
-    gap: 0 22px;
-    height: 96px;
-    flex-shrink: 0;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 16px;
+    gap: 0 8px;
+    padding: 18px 0;
     text-decoration: none;
-    color: inherit;
-    opacity: 0.3;
-    transform: scale(0.95);
-    transition: opacity 0.3s, transform 0.3s, background 0.2s;
-  }
-  .mod.drum-active {
-    opacity: 1;
-    transform: scale(1);
-    background: rgba(193,125,157,0.04);
-  }
-  .mod.drum-near {
-    opacity: 0.6;
-    transform: scale(0.97);
+    position: relative;
   }
 
   .mod-num {
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    color: var(--rose);
-    flex-shrink: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.28);
+    text-align: left;
   }
-  .mod.drum-active .mod-num { font-weight: 400; }
 
-  .mod-rule {
-    width: 1px;
-    height: 32px;
-    background: var(--rule);
-    display: block;
-    flex-shrink: 0;
+  /* Diamond bullet: sits on the vertical line, glows */
+  .mod-bullet {
+    font-size: 8px;
+    color: #C4A8E0;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    line-height: 1;
+    transition: color 0.2s, text-shadow 0.2s;
+    text-shadow:
+      0 0 4px #fff,
+      0 0 10px rgba(196, 168, 224, 1),
+      0 0 24px rgba(196, 168, 224, 0.9),
+      0 0 48px rgba(196, 168, 224, 0.6),
+      0 0 80px rgba(196, 168, 224, 0.3);
   }
 
   .mod-body {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    min-width: 0;
+    gap: 3px;
   }
 
   .mod-title {
-    font-family: var(--serif);
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(22px, 2.2vw, 30px);
-    font-weight: 300;
+    font-weight: 400;
     font-style: italic;
-    color: var(--ink);
-    line-height: 1.15;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.2;
     transition: color 0.2s;
   }
-  .mod.drum-active .mod-title { color: var(--rose); }
 
   .mod-desc {
-    font-family: var(--sans);
-    font-size: clamp(12px, 1vw, 14px);
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: 13px;
     font-weight: 300;
-    color: var(--stone);
+    color: rgba(255, 255, 255, 0.72);
     line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
-  .mod-arrow {
-    font-size: 16px;
-    color: var(--rule);
+  .mod-item:hover .mod-title { color: #fff; }
+  .mod-item:hover .mod-bullet {
+    color: #fff;
+    text-shadow:
+      0 0 8px rgba(196, 168, 224, 1),
+      0 0 20px rgba(196, 168, 224, 0.8),
+      0 0 40px rgba(196, 168, 224, 0.5);
+  }
+
+  /* ── Contact ── */
+  .contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
     flex-shrink: 0;
-    transition: transform 0.2s, color 0.2s;
-    opacity: 0;
-  }
-  .mod.drum-active .mod-arrow { opacity: 1; color: var(--rose); }
-
-  /* gradient veils */
-  .drum-veil {
-    position: absolute;
-    left: 0; right: 0;
-    height: 45%;
-    pointer-events: none;
-    z-index: 10;
-  }
-  .drum-veil-top {
-    top: 0;
-    background: linear-gradient(to bottom, var(--bg) 10%, transparent);
-  }
-  .drum-veil-bottom {
-    bottom: 0;
-    background: linear-gradient(to top, var(--bg) 10%, transparent);
   }
 
-  /* ── Desktop: flat list (override drum) ── */
-  @media (min-width: 769px) {
-    .mod:nth-child(n+7) { display: none; }
-    .drum-wrap { height: auto; overflow: visible; cursor: default; }
-    .drum-veil { display: none; }
-    .drum-track { transform: none !important; transition: none !important; }
-    .mod {
-      opacity: 1 !important;
-      transform: none !important;
-      height: auto;
-      padding: 18px 16px;
-    }
-    .mod.drum-active { background: none; }
-    .mod:hover { background: rgba(193,125,157,0.05); }
-    .mod:hover .mod-title { color: var(--rose); }
-    .mod-arrow { opacity: 1 !important; color: var(--rule) !important; }
-    .mod:hover .mod-arrow { color: var(--rose) !important; transform: translateX(4px); }
+  .contact-link {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.30);
+    text-decoration: none;
+    transition: color 0.2s;
   }
+  .contact-link:hover { color: rgba(255, 255, 255, 0.65); }
 
-  /* ── Mobile: fixed viewport, no page scroll ── */
+  .sep { color: rgba(255, 255, 255, 0.18); font-size: 10px; }
+
+  /* Right column: transparent, photo shows through */
+  .right-void { pointer-events: none; }
+
+  /* ── Mobile ── */
   @media (max-width: 768px) {
-    .layout {
-      position: fixed;
-      inset: 0;
+    .layout { overflow-y: auto; position: fixed; }
+
+    .photo-bg img { object-position: 75% top; }
+
+    .content-grid {
       grid-template-columns: 1fr;
-      grid-template-rows: 33vh 67vh;
-      overflow: hidden;
+      grid-template-rows: 42vh 1fr;
+      height: 100%;
     }
 
-    /* ── Rose panel (1/3) ── */
-    .identity {
-      padding: 14px 20px;
-      flex-direction: row;
-      align-items: center;
-      gap: 16px;
-      flex-shrink: 0;
-    }
-    .identity::before, .identity::after { display: none; }
+    .right-void { order: -1; }
 
-    .identity-top {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .left-panel {
+      padding: 20px 24px 28px;
     }
 
-    /* Si — smaller, ghost hidden */
-    .si-ghost { display: none; }
-    .si-wrap  { margin-bottom: 2px; }
-    .si       { font-size: clamp(42px, 11vw, 58px); transform: translate(6px, 4px); }
-    .si-rule  { margin-top: 16px; margin-bottom: 10px; }
-    .si-rule-a, .si-rule-b { width: 64px; }
-    .si-rule-b { margin-left: 10px; }
-    .tagline  { font-size: clamp(14px, 3.8vw, 18px); line-height: 1.5; }
+    .si-logo  { font-size: 54px; margin-bottom: 16px; }
+    .tagline  { font-size: clamp(26px, 7vw, 38px); margin-bottom: 16px; }
 
-    /* Contact: vertical icons on the right */
-    .contact {
-      flex-direction: column;
-      gap: 14px;
-      align-items: center;
-      flex-shrink: 0;
-    }
-    .cl-text { display: none; }
-    .contact-link svg { width: 20px; height: 20px; }
+    .module-list { justify-content: flex-start; }
+    .mod-item    { padding: 10px 0; }
+    .mod-title   { font-size: 16px; }
+    .mod-desc    { display: none; }
 
-    /* ── Drum panel (2/3): show 3 items ── */
-    .modules-panel {
-      padding: 0 14px;
-      overflow: hidden;
-    }
-    .drum-wrap { height: 100%; }
-    .drum-veil { height: 20%; }
-    .mod { height: 80px; gap: 0 14px; padding: 0 10px; }
-    .mod-title { font-size: clamp(18px, 4.8vw, 24px); }
-    .mod-desc  { font-size: 11px; }
+    .contact { margin-top: 16px; }
   }
 </style>
