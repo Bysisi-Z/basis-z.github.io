@@ -110,6 +110,67 @@ const modules = [
       </div>
 
 
+
+      <!-- Floor lamp -->
+      <div class="floor-lamp" id="floorLamp">
+        <svg viewBox="0 0 80 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+          <defs>
+            <linearGradient id="beamGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="rgba(255,220,80,0.08)"/>
+              <stop offset="40%" stop-color="rgba(255,210,70,0.05)"/>
+              <stop offset="100%" stop-color="rgba(255,200,60,0)"/>
+            </linearGradient>
+            <linearGradient id="ambientGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="rgba(255,215,70,0.14)"/>
+              <stop offset="50%" stop-color="rgba(255,210,70,0.06)"/>
+              <stop offset="100%" stop-color="rgba(255,200,60,0)"/>
+            </linearGradient>
+            <filter id="beamBlur" x="-200%" y="-5%" width="500%" height="110%">
+              <feGaussianBlur stdDeviation="30 4"/>
+            </filter>
+            <filter id="ambientBlur" x="-500%" y="-15%" width="1100%" height="130%">
+              <feGaussianBlur stdDeviation="80 18"/>
+            </filter>
+          </defs>
+          <!-- Ambient halo — extremely wide, very soft -->
+          <path class="beam-path" d="M40 40 L-1200 520 L1280 520 Z" fill="url(#ambientGrad)" filter="url(#ambientBlur)"/>
+          <!-- Main beam cone -->
+          <path class="beam-path" d="M40 55 L-400 500 L480 500 Z" fill="url(#beamGrad)" filter="url(#beamBlur)"/>
+          <!-- Lamp glow behind shade -->
+          <ellipse cx="40" cy="44" rx="24" ry="13" fill="url(#lampGlow)" opacity="0.28"/>
+          <!-- Shade body — wide trapezoid, 3x wider at bottom than top -->
+          <path d="M20 48 L33 22 L47 22 L60 48 Z"
+                fill="rgba(212,203,232,0.16)" stroke="rgba(212,203,232,0.44)" stroke-width="1" stroke-linejoin="round"/>
+          <!-- Right-side inner shadow for depth -->
+          <path d="M47 22 L60 48 L54 48 L44 23 Z" fill="rgba(150,130,185,0.10)"/>
+          <!-- Bottom flare lip — clearly wider than shade body -->
+          <path d="M16 49 Q18 53 40 54 Q62 53 64 49 L60 48 Q58 52 40 53 Q22 52 20 48 Z"
+                fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.40)" stroke-width="0.8"/>
+          <!-- Top finial ring -->
+          <ellipse cx="40" cy="22" rx="6" ry="1.8" fill="rgba(10,5,20,0.9)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
+          <!-- Inner warm glow -->
+          <ellipse cx="40" cy="37" rx="8" ry="6" fill="rgba(255,235,160,0.12)"/>
+
+          <!-- Pole — top thin, bottom slightly wider -->
+          <path d="M39.6 51 L38.5 188 L41.5 188 L40.4 51 Z" fill="rgba(212,203,232,0.38)"/>
+          <!-- Base: solid flat cylinder -->
+          <!-- Top face -->
+          <ellipse cx="40" cy="190" rx="20" ry="4" fill="rgba(212,203,232,0.22)" stroke="rgba(212,203,232,0.38)" stroke-width="0.8"/>
+          <!-- Side body -->
+          <rect x="20" y="190" width="40" height="4" fill="rgba(212,203,232,0.12)"/>
+          <!-- Bottom face (rim) -->
+          <ellipse cx="40" cy="194" rx="20" ry="4" fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
+          <!-- Floor reflection -->
+          <ellipse cx="40" cy="199" rx="22" ry="2" fill="rgba(212,203,232,0.06)"/>
+          <defs>
+            <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(235,225,255,1)"/>
+              <stop offset="100%" stop-color="rgba(235,225,255,0)"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+
       <div class="clock-wrap">
         <div class="date-line" id="dateline"></div>
         <div class="weather-wrap" id="weather">
@@ -207,6 +268,11 @@ const modules = [
   } else {
     fetchWeather(47.05, 8.31);
   }
+
+  // Lamp easter egg
+  const lampEl  = document.getElementById('floorLamp');
+  const stripEl = lampEl.closest('.black-strip');
+  lampEl.addEventListener('click', () => stripEl.classList.toggle('lamp-on'));
 
   const isChinese = s => /[一-鿿]/.test(s);
 
@@ -360,6 +426,39 @@ const modules = [
     color: rgba(255, 255, 255, 0.82);
     line-height: 1.5;
     white-space: normal;
+  }
+
+  /* ── Light beam ── */
+  .beam-path {
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+
+  .lamp-on .beam-path {
+    opacity: 1;
+  }
+
+  /* ── Floor lamp ── */
+  .floor-lamp {
+    position: absolute;
+    bottom: 0;
+    right: 12px;
+    width: clamp(110px, 11.5vw, 160px);
+    opacity: 0.9;
+    pointer-events: all;
+    cursor: pointer;
+    z-index: 3;
+  }
+
+  .lamp-on .floor-lamp {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(255, 220, 80, 0.55)) drop-shadow(0 0 32px rgba(255, 200, 60, 0.25));
+  }
+
+  .floor-lamp svg {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .carrier {
