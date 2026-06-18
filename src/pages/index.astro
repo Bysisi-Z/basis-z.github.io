@@ -2,12 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const modules = [
-  { num: '01', title: 'Now',                          desc: "What I'm doing and thinking about lately",          href: '/now' },
-  { num: '02', title: 'Journey',                      desc: 'Professional path & the person behind it',          href: '/career' },
-  { num: '03', title: 'Decoding',                     desc: 'Industry research, data analysis & market insights', href: '/research' },
-  { num: '04', title: 'Nature Never Judges',          desc: 'Landscape photography, hiking guides & alpine walks',href: '/photography' },
-  { num: '05', title: 'Wandering',                    desc: 'Personal growth, reflections & inner landscapes',    href: '/writing' },
-  { num: '06', title: 'A Collection of Rabbit Holes', desc: 'Books, papers & ideas worth revisiting',            href: '/reading' },
+  { num: '01', title: 'Now',                          desc: "What I'm doing and thinking about lately",           href: '/now' },
+  { num: '02', title: 'Journey',                      desc: 'Professional path & the person behind it',           href: '/career' },
+  { num: '03', title: 'Decoding',                     desc: 'Industry research, data analysis & market insights',  href: '/research' },
+  { num: '04', title: 'Nature Never Judges',          desc: 'Landscape photography, hiking guides & alpine walks', href: '/photography' },
+  { num: '05', title: 'Wandering',                    desc: 'Personal growth, reflections & inner landscapes',     href: '/writing' },
+  { num: '06', title: 'A Collection of Rabbit Holes', desc: 'Books, papers & ideas worth revisiting',             href: '/reading' },
 ];
 ---
 
@@ -15,153 +15,128 @@ const modules = [
 
   <div class="layout">
 
-    <!-- Full-bleed photo -->
+    <!-- Full-bleed background (shows through glass blur) -->
     <div class="photo-bg" aria-hidden="true">
-      <img src="/images/homepage-ferris-night.png"
-           alt=""
-           loading="eager">
+      <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
     </div>
 
-    <!-- Content: sits above photo -->
-    <div class="content-grid">
-
-      <aside class="left-panel">
-
-        <!-- Si -->
-        <div class="si-wrap">
-          <div class="si-logo">Si</div>
-        </div>
-
-        <!-- Tagline -->
-        <div class="tagline-wrap">
-          <h1 class="tagline">Making <em class="sense">sense</em> of<br>numbers and<br>landscapes.</h1>
-          <div class="tagline-rule"></div>
-        </div>
-
-        <!-- Module nav -->
-        <nav class="module-list">
-          {modules.map(m => (
-            <a class="mod-item" href={m.href}>
-              <span class="mod-bullet">◆</span>
-              <span class="mod-num">{m.num}</span>
-              <span class="mod-body">
-                <span class="mod-title">{m.title}</span>
-                <span class="mod-desc">{m.desc}</span>
-              </span>
-            </a>
-          ))}
-        </nav>
-
-        <!-- Contact -->
-        <div class="contact">
-          <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="contact-link">LinkedIn</a>
-          <span class="sep">·</span>
-          <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="contact-link">Red Note</a>
-          <span class="sep">·</span>
-          <a href="mailto:sisi.zhang.ch@gmail.com" class="contact-link">Email</a>
-        </div>
-
-      </aside>
-
-      <!-- Right: empty — photo shines through -->
-      <div class="right-void"></div>
-
+    <!-- Left: original photo at full natural proportions (no crop) -->
+    <div class="photo-strip" aria-hidden="true">
+      <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
     </div>
 
+    <!-- Right: frosted glass panel with all content -->
+    <div class="glass-strip">
+
+      <div class="si-logo">Si</div>
+
+      <div class="tagline-wrap">
+        <h1 class="tagline">Making <em class="sense">sense</em> of<br>numbers and<br>landscapes.</h1>
+        <div class="tagline-rule"></div>
+      </div>
+
+      <nav class="module-list">
+        {modules.map(m => (
+          <a class="mod-item" href={m.href}>
+            <span class="mod-bullet">◆</span>
+            <span class="mod-num">{m.num}</span>
+            <span class="mod-body">
+              <span class="mod-title">{m.title}</span>
+              <span class="mod-desc">{m.desc}</span>
+            </span>
+          </a>
+        ))}
+      </nav>
+
+      <div class="contact">
+        <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="contact-link">LinkedIn</a>
+        <span class="sep">·</span>
+        <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="contact-link">Red Note</a>
+        <span class="sep">·</span>
+        <a href="mailto:sisi.zhang.ch@gmail.com" class="contact-link">Email</a>
+      </div>
+
+    </div>
   </div>
 
 </BaseLayout>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Nunito:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@300;400&display=swap');
 
-  /* ── Base: fixed full-viewport stage ── */
   .layout {
     position: fixed;
     inset: 0;
     overflow: hidden;
+    display: flex;
   }
 
-  /* ── Photo layer ── */
+  /* ── Full-bleed background (blurred by glass strip) ── */
   .photo-bg {
     position: absolute;
     inset: 0;
     z-index: 0;
   }
   .photo-bg img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 62% center;
+    object-position: 60% 18%;
     display: block;
   }
 
-  /* ── Content grid ── */
-  .content-grid {
+  /* ── Left photo strip: full portrait, no crop ── */
+  .photo-strip {
     position: relative;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 44% 56%;
+    z-index: 2;
+    flex-shrink: 0;
+    width: calc(100vh * 4284 / 5712); /* exact 3:4 ratio */
+    height: 100vh;
+    overflow: hidden;
+  }
+  .photo-strip img {
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: fill;
   }
 
-  /* ── Left panel: content only, no bg ── */
-  .left-panel {
+  /* ── Frosted glass content panel ── */
+  .glass-strip {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 52px 56px 44px 200px;
+    padding: 56px 64px 48px clamp(48px, 6vw, 100px);
+    background: rgba(15, 10, 30, 0.25);
+    backdrop-filter: blur(32px) brightness(0.55) saturate(1.2);
+    -webkit-backdrop-filter: blur(32px) brightness(0.55) saturate(1.2);
   }
 
-  /* Si wrap */
-  .si-wrap {
-    position: relative;
-    margin-bottom: 40px;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-
-  .si-ghost {
-    position: absolute;
-    top: -10px;
-    left: -24px;
-    font-family: 'Great Vibes', cursive;
-    font-size: 110px;
-    line-height: 0.85;
-    font-style: italic;
-    color: rgba(196, 168, 224, 0.10);
-    pointer-events: none;
-    user-select: none;
-  }
-
+  /* Si logo */
   .si-logo {
     font-family: 'Great Vibes', cursive;
-    font-size: 80px;
+    font-size: 92px;
     line-height: 1;
     color: #C4A8E0;
     font-style: italic;
-    position: relative;
-    z-index: 1;
+    margin-bottom: 44px;
+    flex-shrink: 0;
     text-shadow:
-      0 0 20px rgba(196, 168, 224, 0.9),
-      0 0 50px rgba(196, 168, 224, 0.6),
-      0 0 100px rgba(196, 168, 224, 0.3);
+      0 0 20px rgba(196, 168, 224, 0.8),
+      0 0 60px rgba(196, 168, 224, 0.3);
   }
 
   /* Tagline */
-  .tagline-wrap {
-    flex-shrink: 0;
-    margin-bottom: 0;
-  }
+  .tagline-wrap { flex-shrink: 0; }
 
   .tagline {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(44px, 5.2vw, 82px);
+    font-size: clamp(44px, 4.4vw, 72px);
     font-weight: 300;
-    font-style: normal;
     color: #fff;
-    line-height: 1.12;
-    margin: 0 0 24px;
+    line-height: 1.14;
+    margin: 0 0 26px;
   }
 
   .sense {
@@ -170,22 +145,16 @@ const modules = [
     font-weight: 300;
     display: inline-block;
     transform: skewX(-8deg);
-    text-shadow:
-      0 0 12px rgba(196, 168, 224, 0.9),
-      0 0 30px rgba(196, 168, 224, 0.6),
-      0 0 60px rgba(196, 168, 224, 0.3);
   }
 
   .tagline-rule {
     width: 46%;
     height: 1px;
     background: linear-gradient(to right,
-      rgba(255, 255, 255, 0.90) 0%,
-      rgba(210, 175, 245, 0.65) 22%,
-      rgba(160, 120, 210, 0.28) 55%,
-      rgba(100, 70, 160, 0.00) 100%
+      rgba(255,255,255,0.75),
+      rgba(196,168,224,0.35),
+      transparent
     );
-    margin-bottom: 0;
   }
 
   /* ── Module list ── */
@@ -193,86 +162,70 @@ const modules = [
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 28px;
+    padding-top: 32px;
     position: relative;
   }
 
-  /* Vertical connecting line — spans exactly 01 to 06 bullets */
   .module-list::before {
     content: '';
     position: absolute;
-    left: 12px;     /* center of bullet column (24px wide) */
-    top: 74px;
-    bottom: 55px;
+    left: 12px; top: 86px; bottom: 62px;
     width: 1px;
-    background: rgba(196, 150, 210, 0.22);
+    background: rgba(196, 150, 210, 0.2);
     pointer-events: none;
   }
 
   .mod-item {
     display: grid;
-    grid-template-columns: 24px 28px 1fr;
+    grid-template-columns: 24px 30px 1fr;
     align-items: center;
-    gap: 0 8px;
+    gap: 0 10px;
     padding: 18px 0;
     text-decoration: none;
     position: relative;
+    overflow: hidden;
   }
 
-  .mod-num {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.28);
-    text-align: left;
-  }
-
-  /* Diamond bullet: sits on the vertical line, glows */
   .mod-bullet {
     font-size: 8px;
     color: #C4A8E0;
     text-align: center;
-    position: relative;
-    z-index: 1;
     line-height: 1;
     transition: color 0.2s, text-shadow 0.2s;
     text-shadow:
-      0 0 4px #fff,
-      0 0 10px rgba(196, 168, 224, 1),
-      0 0 24px rgba(196, 168, 224, 0.9),
-      0 0 48px rgba(196, 168, 224, 0.6),
-      0 0 80px rgba(196, 168, 224, 0.3);
+      0 0 6px rgba(196,168,224,0.9),
+      0 0 18px rgba(196,168,224,0.5);
   }
 
-  .mod-body {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .mod-num {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.25);
   }
+
+  .mod-body { display: flex; flex-direction: column; gap: 2px; }
 
   .mod-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(22px, 2.2vw, 30px);
+    font-size: clamp(22px, 2.2vw, 32px);
     font-weight: 400;
     font-style: italic;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255,255,255,0.85);
     line-height: 1.2;
     transition: color 0.2s;
   }
 
   .mod-desc {
     font-family: 'Nunito', Arial, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255,255,255,0.48);
     line-height: 1.4;
   }
 
-  .mod-item:hover {
-    background: rgba(196, 168, 224, 0.06);
-  }
+  /* Hover: text brightens */
   .mod-item:hover .mod-title { color: #fff; }
   .mod-item:hover .mod-bullet {
     color: #fff;
@@ -280,49 +233,28 @@ const modules = [
   }
 
   @keyframes bullet-twinkle {
-    0%   {
+    0%, 100% {
       transform: scale(1.8);
-      text-shadow:
-        0 0 4px #fff,
-        0 0 10px #fff,
-        0 0 20px rgba(196, 168, 224, 1),
-        0 0 50px rgba(196, 168, 224, 1),
-        0 0 90px rgba(196, 168, 224, 0.7),
-        0 0 140px rgba(196, 168, 224, 0.4);
+      text-shadow: 0 0 4px #fff, 0 0 12px #fff,
+                   0 0 24px rgba(196,168,224,1), 0 0 50px rgba(196,168,224,.8);
     }
-    50%  {
-      transform: scale(1.2);
-      text-shadow:
-        0 0 2px rgba(255,255,255,0.4),
-        0 0 8px rgba(196, 168, 224, 0.5),
-        0 0 18px rgba(196, 168, 224, 0.2);
-    }
-    100% {
-      transform: scale(1.8);
-      text-shadow:
-        0 0 4px #fff,
-        0 0 10px #fff,
-        0 0 20px rgba(196, 168, 224, 1),
-        0 0 50px rgba(196, 168, 224, 1),
-        0 0 90px rgba(196, 168, 224, 0.7),
-        0 0 140px rgba(196, 168, 224, 0.4);
+    50% {
+      transform: scale(1.1);
+      text-shadow: 0 0 2px rgba(255,255,255,.3), 0 0 8px rgba(196,168,224,.4);
     }
   }
 
-  /* ── Meteor hover effect ── */
+  /* Hover meteor sweep */
   .mod-item::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 68px;   /* aligns to start of text (bullet 24px + gap 8px + num 28px + gap 8px) */
-    height: 1px;
-    width: 0;
-    opacity: 0;
+    bottom: 0; left: 64px;
+    height: 1px; width: 0; opacity: 0;
     background: linear-gradient(to right,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(235, 215, 255, 0.90) 45%,
-      rgba(196, 168, 224, 0.50) 72%,
-      rgba(100, 70, 160, 0.00) 100%
+      rgba(255,255,255,0.95),
+      rgba(235,215,255,0.85) 45%,
+      rgba(196,168,224,0.40) 75%,
+      transparent
     );
     pointer-events: none;
   }
@@ -333,8 +265,8 @@ const modules = [
 
   @keyframes item-meteor {
     0%   { width: 0;                  opacity: 1; }
-    55%  { width: calc(100% - 68px);  opacity: 1; }
-    80%  { width: calc(100% - 68px);  opacity: 0; }
+    55%  { width: calc(100% - 64px);  opacity: 1; }
+    80%  { width: calc(100% - 64px);  opacity: 0; }
     100% { width: 0;                  opacity: 0; }
   }
 
@@ -342,59 +274,45 @@ const modules = [
   .contact {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 28px;
+    gap: 12px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(196,168,224,0.13);
     flex-shrink: 0;
-    padding-top: 20px;
-    border-top: 1px solid rgba(196, 168, 224, 0.15);
   }
 
   .contact-link {
     font-family: 'Nunito', Arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(196, 168, 224, 0.75);
+    color: rgba(196,168,224,0.62);
     text-decoration: none;
-    transition: color 0.25s, text-shadow 0.25s;
+    transition: color 0.25s;
   }
-  .contact-link:hover {
-    color: #fff;
-    text-shadow: 0 0 12px rgba(196, 168, 224, 0.8), 0 0 30px rgba(196, 168, 224, 0.4);
-  }
+  .contact-link:hover { color: #fff; }
 
-  .sep { color: rgba(196, 168, 224, 0.25); font-size: 10px; }
-
-  /* Right column: transparent, photo shows through */
-  .right-void { pointer-events: none; }
+  .sep { color: rgba(196,168,224,0.2); font-size: 9px; }
 
   /* ── Mobile ── */
   @media (max-width: 768px) {
-    .layout { overflow-y: auto; position: fixed; }
-
-    .photo-bg img { object-position: 75% top; }
-
-    .content-grid {
-      grid-template-columns: 1fr;
-      grid-template-rows: 42vh 1fr;
-      height: 100%;
+    .layout { flex-direction: column; overflow-y: auto; }
+    .photo-strip {
+      width: 100%; height: 50vw;
+      flex-shrink: 0;
     }
-
-    .right-void { order: -1; }
-
-    .left-panel {
-      padding: 20px 24px 28px;
+    .photo-strip img { object-fit: cover; object-position: center 15%; }
+    .glass-strip {
+      flex: 1;
+      padding: 24px 24px 32px;
+      backdrop-filter: blur(24px) brightness(0.6);
+      -webkit-backdrop-filter: blur(24px) brightness(0.6);
     }
-
-    .si-logo  { font-size: 54px; margin-bottom: 16px; }
-    .tagline  { font-size: clamp(26px, 7vw, 38px); margin-bottom: 16px; }
-
-    .module-list { justify-content: flex-start; }
-    .mod-item    { padding: 10px 0; }
-    .mod-title   { font-size: 16px; }
-    .mod-desc    { display: none; }
-
-    .contact { margin-top: 16px; }
+    .si-logo  { font-size: 64px; margin-bottom: 24px; }
+    .tagline  { font-size: clamp(28px, 7vw, 44px); }
+    .mod-item { padding: 12px 0; }
+    .mod-title { font-size: 18px; }
+    .mod-desc { display: none; }
+    .contact  { margin-top: 8px; }
   }
 </style>
