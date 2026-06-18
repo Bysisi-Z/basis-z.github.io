@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-18 (session 49)
+> Last updated: 2026-06-18 (session 50)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -102,40 +102,47 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Redesigned (session 48)
+### Homepage (`/`) ✅ Redesigned (session 50)
 
 **Concept:** Three-column layout simulating a phone lock screen on the right.
 
 **Photos used:**
-- `.photo-bg` (absolute full-bleed): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: 60% 18%` — blurred by glass, provides depth
+- `.photo-bg` (absolute full-bleed): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: 60% 18%`
 - `.photo-strip` (left): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: center 18%`
 
 **Desktop layout (`src/pages/index.astro`):**
 - `display: flex`, three columns:
-  - Left `.photo-strip`: `flex: 1.4 1 0` — ferris wheel photo, `object-fit: cover`
-  - Middle `.glass-strip`: `flex: 1.7 1 0`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `background: rgba(15,10,30,0.25)`
-    - **Si logo**: Great Vibes italic 92px, `#C4A8E0`, soft glow
-    - **Tagline**: Cormorant Garamond 300, `clamp(44px,4.4vw,72px)`, white; "sense" italic `#C4A8E0` `skewX(-8deg)`
-    - **Module list**: 6 items, grid `24px | 30px | 1fr`; ◆ bullet hover twinkle 1.8s; hover meteor sweep 2.8s
-    - **Contact**: Nunito uppercase 12px
-  - Right `.black-strip`: `flex: 0.95 1 0`, `background: #000` — phone lock screen simulation
+  - Left `.photo-strip`: `flex: 1.4 1 0`
+  - Middle `.glass-strip`: `flex: 1.7 1 0`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `container-type: size`
+    - **Si logo**: Great Vibes italic `clamp(48px,10cqw,100px)`, `#C4A8E0`, soft glow
+    - **Tagline**: Cormorant Garamond 300, `clamp(32px,8cqw,72px)`; "sense" italic `#C4A8E0` `skewX(-8deg)`
+    - **Module list**: 6 items, `overflow-y: auto; scrollbar-width: none` (content scrolls silently if too tall)
+    - **Contact**: Nunito uppercase 12px, `rgba(196,168,224,0.62)`
+    - **Copyright**: below contact, same color/font — "© year · All photographs on this site are the exclusive property of the author…"
+  - Right `.black-strip`: `flex: 0.95 1 0`, `background: #000`, `container-type: inline-size`, `overflow-x: clip`
 - No nav bar (`hideNav={true}`)
 
-**Black strip contents (phone lock screen):**
-- **Status bar**: top-left = carrier signal bars + "Swisscom" (Inter 500, `rgba(212,203,232,0.45)`); top-right = WiFi + battery SVG icons
-- **Greeting scroll**: top 22% centered — Cormorant Garamond italic for Latin; Ma Shan Zheng for Chinese (`/[一-鿿]/` detection); 16 languages cycling: EN → ZH → DE → FR → IT → ES → JP → KO → NL → PT → SV → RU → EL → TR → AR → HI; fade 1.4s in/out `cubic-bezier(0.4,0,0.2,1)`, hold 2.8s, gap 1.6s; `clamp(48px,4.5vw,76px)`
-- **Clock area** (`top: 22%`): date pill (Inter 700, purple bg `rgba(180,160,220,0.22)`, border-radius 20px) → weather row (Open-Meteo API + geolocation, fallback Lucerne 47.05,8.31; icon + temp + desc; `clamp(22px,2.2vw,32px)`) → time (`Barlow Condensed` 700, `clamp(80px,10.5vw,160px)`, gradient fill `175deg` light lavender→purple, `-webkit-box-reflect: below 1px`)
-- **Notification card** (`bottom: 33%`): purple chat bubble icon + "Message" app name + "Sisi" sender; body in `-apple-system` SF Pro 400; bg `rgba(30,25,40,0.65)`, border `rgba(212,203,232,0.18)`, blur 20px, border-radius 16px
-- **Floor lamp** (bottom-right corner, `flex: 0 0 auto`, `width: clamp(110px,11.5vw,160px)`):
-  - Shade: wide trapezoid (bottom 40 : top 14 = 3:1 ratio), outward flare lip at bottom — "little hat" silhouette; right-side inner shadow for depth
-  - Pole: tapered path (top ~0.8px → bottom ~3px)
-  - Base: flat solid cylinder — top face + 4px side + bottom rim ellipse
-  - **Easter egg**: click lamp → `.lamp-on` class toggles warm yellow light beam; two-layer SVG cone inside lamp SVG with `overflow:visible` — main beam (`stdDeviation="30 4"`) + wide ambient halo (`stdDeviation="80 18"`), both fade 0.7s; lamp gets `drop-shadow` warm glow when on
-- All colors use `rgba(212,203,232,x)` light purple palette
+**Responsive breakpoints (session 50):**
+- `≤600px` (phones): column layout, black strip hidden
+- `601–900px` (iPad portrait / small tablets): two-column photo+glass, black strip hidden
+- `≥901px` (iPad landscape + desktop): full three-column with black strip
 
-**Fonts added session 48:** Ma Shan Zheng (行书, Chinese greeting) · Barlow Condensed (clock digits)
+**Black strip contents (phone lock screen) — all sizing in `cqw`/`cqh`:**
+- **Status bar**: top-left carrier + "Swisscom"; top-right WiFi + battery SVG
+- **Greeting scroll**: 16 languages, `clamp(20px,12cqw,56px)`, Ma Shan Zheng for Chinese
+- **Clock area** (`top: 22%`, `z-index: 2`): date pill → weather row → time `clamp(56px,32cqw,150px)` Barlow Condensed gradient + reflect
+- **Floor lamp** (bottom-right, `width: clamp(100px,15vh,220px)` — `15vh` caps height at ~37% viewport):
+  - Easter egg: click → `.lamp-on` class → warm beam fades in + **"Make yourself at home!"** letters reveal one by one (70ms stagger, Cormorant Garamond italic 700, black text in beam glow)
+  - Letter text: `bottom: clamp(72px,10vh,150px)`, centered with `padding-right: 18cqw` for slight left bias
+- **Cat easter egg** (bottom-left, `left: clamp(4px,2cqw,18px)`):
+  - Dark: two pairs of static yellow glowing eyes (`background: #FFD700`, box-shadow glow)
+  - Lamp on: cat photos fade in (`opacity: 0→1`, 0.3s delay), eyes fade out
+  - Big cat (嘞嘞): `/images/cat-first.jpg`, `clamp(38px,16cqw,80px)` circle
+  - Small cat (小咪渣): `/images/cat-second.jpg`, `clamp(26px,11cqw,58px)` circle
 
-**Mobile (≤768px):** photo strip top 50vw (cover crop) + glass panel below
+**Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed · Cormorant Garamond (300/400/600/700 + italic) · Nunito
+
+**Mobile (≤600px):** photo strip top 50vw + glass panel, black strip hidden
 
 ### World Explorer (`/explorer`) ✅ Live
 
@@ -391,6 +398,13 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 **IMPORTANT — is:inline script:** explorer.astro uses `<script is:inline>` (NOT compiled by Vite). Never use TypeScript syntax (type casts, type annotations) inside this block — it will cause a JS syntax error that breaks the entire page.
 
 **Future:** Add more countries/hikes as new markers on the same map.
+
+### Footer (`src/components/Footer.astro`) ✅ Updated (session 50)
+
+- Left: "Si" serif italic, `var(--stone)`
+- Right: single-line copyright — "© year · All photographs are the exclusive property of the author. Unauthorized reproduction or commercial use is strictly prohibited."
+- Font: 11px, `var(--stone)`, hidden on mobile (`max-width: 600px`)
+- Homepage glass strip also has its own copyright line (same text, purple color to match contact links)
 
 ### CV (`/cv`) ✅ Live
 
