@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-18 (session 53)
+> Last updated: 2026-06-18 (session 54)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -102,62 +102,58 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Day/Night auto-switch + Search (session 53)
+### Homepage (`/`) ✅ Dual layout redesign (session 54)
 
-**Concept:** Three-column layout simulating a phone lock screen on the right. Auto-switches between night and day mode based on browser local time (6:00–18:00 = day).
+**Concept:** Three-column layout. Two fully independent HTML sections (`#homeNight` / `#homeDay`) — no CSS class overrides. JS detects time and shows the correct one; both start `display:none`.
 
-**Night mode (default, 18:00–6:00):**
-- Left photo: `homepage-ferris-original.jpeg` (Ferris wheel at dusk)
+**Switch logic:** 6:00–18:00 = day (`#homeDay`), 18:00–6:00 = night (`#homeNight`)
+**Preview override:** `?preview=day` or `?preview=night` in URL
+**Code structure:** `n-` prefix = night classes, `d-` prefix = day classes; `<style is:global>` in index.astro
+
+**Column proportions (both modes):**
+- Left photo: `flex: 1 1 0` (≈1/3)
+- Middle glass: `flex: 1.3 1 0`
+- Right strip: `flex: 0.7 1 0`
+
+**Night mode (`#homeNight`, 18:00–6:00):**
+- Left photo: `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: center 25%`
 - Glass: `rgba(15,10,30,0.25)` + `blur(32px) brightness(0.55) saturate(1.2)` — dark purple
-- Right strip: `#000` black
-- Greeting: Good evening / 晚上好 (16 languages)
-- Cat easter egg + floor lamp visible
+- Si logo: `#C4A8E0` with purple glow; "sense": `#C4A8E0`
+- Module bullet: `◆` purple with twinkle animation on hover
+- Module hover: `n-meteor` sweep (bottom 1px line)
+- Right strip: `#000` black — Swisscom/WiFi/battery, greeting scroll, clock, date, weather, cats, floor lamp
 
-**Day mode — Alpine Morning scheme (6:00–18:00, `.layout.day` added by JS):**
-- Left photo: `homepage-morning.jpg` (Swiss alpine lake, `object-position: center 35%`)
-- Glass: `rgba(110,123,129,0.36)` + `blur(32px) brightness(0.56) saturate(0.85)` — lake-blue-grey tint
-- Right strip: `#D4DCE2` (mist blue-grey, light background)
-- Right strip text palette — Alpine Morning: Mist Blue `#A5AEB8`, Lake Blue `#6E7B81`, Pine Green `#30403C`, Deep Forest `#15201B`
-- Clock: gradient Mist Blue → Pine Green (background-clip: text); greeting: `#546860` weight 400
-- Greeting: Good morning / 早上好 (16 languages)
-- Lamp + cats hidden; `aria-hidden` removed from right strip so search input is interactive
+**Day mode (`#homeDay`, 6:00–18:00):**
+- Left photo: `homepage-morning.jpg`, `object-fit: cover; object-position: center 35%`
+- Glass: `rgba(110,123,129,0.36)` + `blur(32px) brightness(0.56) saturate(0.85)` — lake-blue-grey
+- Si logo: `#A8D4B8` (sage green) with green glow; "sense": `#A8D4B8`
+- Module bullet: leaf SVG in `#A8D4B8` with green `drop-shadow` glow; hover: `d-leaf-glow` pulse
+- Module hover: **morning light beam** (`::after`, 1.6s, plays once) + **expanding highlight** (`::before`, `clip-path` left→right, 1.5s, tail fades to transparent); highlight collapses on mouse-leave
+- Right strip: `#D4DCE2` — Swisscom/WiFi/battery, greeting, clock, date, weather, search bar, notification cards
 
-**Day mode right strip — bottom half (session 53):**
-- **Search bar** at `top: 52%` — iOS capsule style, frosted white, Pagefind full-site search
-  - Pagefind indexes 45 pages at build time (`astro-pagefind` integration)
-  - Results: `position: fixed`, JS-positioned below bar, `maxHeight` clamped to available space
-  - Loads lazily on first focus; shows "No results / Search unavailable / Search error" states
-- **Notification cards** at `top: 63%` — two `<a>` cards, green tint `rgba(160,195,170,0.22)`, clickable links:
+**Greeting (3-way, 16 languages each):**
+- 6:00–12:00: Good morning / 早上好
+- 12:00–18:00: Good afternoon / 下午好
+- 18:00–6:00: Good evening / 晚上好
+
+**Night right strip:**
+- Status bar (Swisscom · WiFi · battery), greeting scroll, clock, date, weather+location, floor lamp easter egg (`#nLamp` click toggles `.n-lamp-on`), cat blink easter egg
+- Cats: `public/images/cats-illustration.png`, two grid layers, `brightness(0.65) contrast(3)`, blink 5s/2s
+
+**Day right strip:**
+- Search bar at `top: 52%` — Pagefind full-site search, lazy-loaded, fixed-position results
+- Notification cards at `top: 63%` — green tint `rgba(160,195,170,0.22)`:
   - NSFG Contraceptive Survey → `/research/data` (Jun 16, 2026)
   - Stoos Ridge Line Hike → `/photography/stoos-ridge-line` (Jun 5, 2026)
-  - Card title: Deep Forest `#15201B`; meta/body: Lake Blue `#6E7B81`; envelope icon SVG
-- **Weather** includes city name: real location via Nominatim (`accept-language=en`), fallback "Luzern"
-- To update notification cards: edit `notif-title` / `notif-body` / `notif-time` in the two `<a class="notif-card">` elements
+- To update cards: edit `.d-notif` elements in `#homeDay`
 
-**Responsive breakpoints:**
-- `≤600px` (phones): column layout, black strip hidden
-- `601–900px` (iPad portrait / small tablets): two-column photo+glass, black strip hidden
-- `≥901px` (iPad landscape + desktop): full three-column with black strip
-- `max-height: 750px`: search `top: 47%`, notif `top: 58%`
-- `max-height: 620px`: search `top: 44%`, notif `top: 56%`, 2nd card hidden
+**Responsive:**
+- `≤600px`: column layout, strip hidden
+- `601–900px`: two-column, strip hidden
+- `≥901px`: full three-column
+- `max-height: 750px/620px`: search + notif stack adjusted
 
-**Layout (both modes):**
-- `display: flex`, three columns
-  - Left `.photo-strip`: `flex: 1.4 1 0`
-  - Middle `.glass-strip`: `flex: 1.7 1 0`, `container-type: size`
-  - Right `.black-strip` (`#blackStrip`): `flex: 0.95 1 0`, `container-type: inline-size`, `overflow-x: clip`
-- No nav bar (`hideNav={true}`)
-
-**Night strip contents:**
-- Status bar (Swisscom · WiFi · battery), greeting scroll, clock, date, weather+location, floor lamp easter egg, cat blink easter egg
-
-**Cat easter egg:**
-- `public/images/cats-illustration.png` — two overlapping grid layers (`.cat-a` left 52%, `.cat-b` right 50%)
-- `brightness(0.65) contrast(3)`, blink: big cat `5s`, small cat `2s`
-
-**Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed · Cormorant Garamond · Nunito
-
-**Mobile (≤600px):** photo strip top 50vw + glass panel, black strip hidden
+**Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed · Cormorant Garamond · Nunito (loaded via head slot)
 
 ### World Explorer (`/explorer`) ✅ Live
 
