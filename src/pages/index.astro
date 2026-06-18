@@ -15,7 +15,7 @@ const modules = [
 <BaseLayout title="Home" description="Sisi — Making sense of numbers and landscapes." hideNav={true}>
 
   <Fragment slot="head">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@700&family=Nunito:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@200;700&family=Nunito:wght@300;400&display=swap" rel="stylesheet">
   </Fragment>
 
 
@@ -306,6 +306,109 @@ const modules = [
 
 
   <!-- ══════════════════════════════════════════════════════════
+       MOBILE HOME  (≤600px 专属)
+       锁屏: 摩天轮全屏 + 状态栏 + 大时钟 + 向上滑提示
+       解锁: 原图模糊 + 夜间玻璃面板内容 (全宽自适应)
+       ══════════════════════════════════════════════════════════ -->
+  <div id="homeMobile">
+
+    <!-- ── 锁屏 (100dvh) ── -->
+    <div class="m-lock">
+      <div class="m-lock-bg" aria-hidden="true">
+        <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+      </div>
+
+      <!-- 状态栏 -->
+      <div class="m-bar" aria-hidden="true">
+        <div class="m-bar-l">
+          <svg class="m-sig" viewBox="0 0 20 14" fill="none">
+            <rect x="0"    y="9" width="3" height="5"  rx="0.8" fill="currentColor"/>
+            <rect x="4.5"  y="6" width="3" height="8"  rx="0.8" fill="currentColor"/>
+            <rect x="9"    y="3" width="3" height="11" rx="0.8" fill="currentColor"/>
+            <rect x="13.5" y="0" width="3" height="14" rx="0.8" fill="currentColor"/>
+          </svg>
+          <span class="m-carrier">Swisscom</span>
+          <svg class="m-bell" viewBox="0 0 16 18" fill="none">
+            <path d="M8 1a5.5 5.5 0 0 0-5.5 5.5V11l-1.5 2h14l-1.5-2V6.5A5.5 5.5 0 0 0 8 1z" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M6 13a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.3"/>
+            <line x1="2" y1="2" x2="14" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="m-bar-r">
+          <svg class="m-sig" viewBox="0 0 20 14" fill="none">
+            <rect x="0"    y="9" width="3" height="5"  rx="0.8" fill="currentColor"/>
+            <rect x="4.5"  y="6" width="3" height="8"  rx="0.8" fill="currentColor"/>
+            <rect x="9"    y="3" width="3" height="11" rx="0.8" fill="currentColor"/>
+            <rect x="13.5" y="0" width="3" height="14" rx="0.8" fill="currentColor"/>
+          </svg>
+          <svg class="m-wifi" viewBox="0 0 24 18" fill="none">
+            <path d="M12 14.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="currentColor"/>
+            <path d="M12 10c1.6 0 3 .65 4.05 1.7l1.42-1.42A8.1 8.1 0 0 0 12 8a8.1 8.1 0 0 0-5.47 2.28l1.42 1.42A6.08 6.08 0 0 1 12 10z" fill="currentColor"/>
+            <path d="M12 5.5c2.76 0 5.26 1.12 7.07 2.93l1.42-1.42A12.14 12.14 0 0 0 12 3.5c-3.35 0-6.39 1.36-8.49 3.51l1.42 1.42A10.12 10.12 0 0 1 12 5.5z" fill="currentColor"/>
+          </svg>
+          <svg class="m-batt" viewBox="0 0 28 14" fill="none">
+            <rect x="0.5" y="0.5" width="23" height="13" rx="3.5" stroke="currentColor" stroke-opacity="0.6"/>
+            <rect x="2" y="2" width="19" height="10" rx="2" fill="currentColor"/>
+            <path d="M25 4.5v5a2.5 2.5 0 0 0 0-5z" fill="currentColor" fill-opacity="0.6"/>
+          </svg>
+          <span class="m-batt-pct">100%</span>
+        </div>
+      </div>
+
+      <!-- 时钟 + 日期 -->
+      <div class="m-timebox">
+        <div class="m-date" id="mDate">Wed Jun 18</div>
+        <div class="m-time" id="mTime">00:00</div>
+      </div>
+
+      <!-- 向上滑提示 -->
+      <div class="m-swipe" aria-hidden="true">
+        <svg class="m-swipe-arr" viewBox="0 0 20 12" fill="none">
+          <path d="M1 11 L10 2 L19 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="m-swipe-txt">Swipe up to open</span>
+      </div>
+    </div><!-- /m-lock -->
+
+    <!-- ── 解锁内容 (夜间玻璃面板 全宽版) ── -->
+    <div class="m-open">
+      <div class="m-open-bg" aria-hidden="true">
+        <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+      </div>
+      <div class="m-open-overlay" aria-hidden="true"></div>
+      <div class="n-glass m-glass">
+        <div class="n-logo">Si</div>
+        <div class="n-tagwrap">
+          <h1 class="n-tag">Making <em class="n-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
+          <div class="n-rule"></div>
+        </div>
+        <nav class="n-mods">
+          {modules.map(m => (
+            <a class="n-mod" href={m.href}>
+              <span class="n-bullet">◆</span>
+              <span class="n-num">{m.num}</span>
+              <span class="n-body">
+                <span class="n-title">{m.title}</span>
+                <span class="n-desc">{m.desc}</span>
+              </span>
+            </a>
+          ))}
+        </nav>
+        <div class="n-contact">
+          <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="n-link">LinkedIn</a>
+          <span class="n-sep">·</span>
+          <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="n-link">Red Note</a>
+          <span class="n-sep">·</span>
+          <a href="mailto:sisi.zhang.ch@gmail.com" class="n-link">Email</a>
+        </div>
+        <p class="n-copy">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
+      </div>
+    </div><!-- /m-open -->
+
+  </div><!-- /homeMobile -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
        SHARED JS  (clock · weather · greeting · lamp · search)
        ══════════════════════════════════════════════════════════ -->
   <script is:inline>
@@ -313,7 +416,9 @@ const modules = [
     var _preview = new URLSearchParams(location.search).get('preview');
     var _hour    = _preview === 'night' ? 20 : _preview === 'day' ? 10 : new Date().getHours();
     var _isDay   = _hour >= 6 && _hour < 18;
-    document.getElementById(_isDay ? 'homeDay' : 'homeNight').style.display = 'flex';
+    if (window.innerWidth > 600) {
+      document.getElementById(_isDay ? 'homeDay' : 'homeNight').style.display = 'flex';
+    }
 
     const _pfx = _isDay ? 'd' : 'n';
 
@@ -377,6 +482,31 @@ const modules = [
     }
     updateClock();
     setInterval(updateClock, 1000);
+
+    // ── Mobile clock ──
+    var _mT = document.getElementById('mTime'), _mD = document.getElementById('mDate');
+    if (_mT) {
+      function _mClock() {
+        var n = new Date();
+        _mT.textContent = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+        _mD.textContent = DAYS[n.getDay()] + ' ' + MONTHS[n.getMonth()] + ' ' + n.getDate();
+      }
+      _mClock(); setInterval(_mClock, 1000);
+    }
+
+    // ── Mobile lock screen: swipe up to dismiss (one-way, no return) ──
+    (function() {
+      var lock = document.querySelector('.m-lock');
+      if (!lock) return;
+      var _sy = 0;
+      lock.addEventListener('touchstart', function(e) { _sy = e.touches[0].clientY; }, { passive: true });
+      lock.addEventListener('touchend', function(e) {
+        if (_sy - e.changedTouches[0].clientY > 40) lock.classList.add('dismissed');
+      }, { passive: true });
+      lock.addEventListener('wheel', function(e) { if (e.deltaY > 20) lock.classList.add('dismissed'); }, { passive: true });
+      var hint = lock.querySelector('.m-swipe');
+      if (hint) hint.addEventListener('click', function() { lock.classList.add('dismissed'); });
+    })();
 
     // ── Weather ──
     var WMO = {
@@ -1558,4 +1688,134 @@ const modules = [
     .d-notif:last-child { display: none; }
   }
 
+
+  /* ════════════════════════════════════════════════════════
+     MOBILE HOME (≤600px)
+     ════════════════════════════════════════════════════════ */
+  #homeMobile { display: none; }
+
+  @media (max-width: 600px) {
+    #homeMobile { display: block; }
+    .n-layout, .d-layout { display: none !important; }
+
+    /* ── Lock screen: fixed overlay, slides up on dismiss ── */
+    .m-lock {
+      position: fixed;
+      inset: 0; z-index: 100;
+      height: 100dvh; overflow: hidden;
+      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .m-lock.dismissed {
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+    .m-lock-bg { position: absolute; inset: 0; z-index: 0; }
+    .m-lock-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 65%;
+      display: block;
+    }
+
+    /* Status bar */
+    .m-bar {
+      position: absolute; z-index: 2;
+      top: 16px; left: 20px; right: 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      color: rgba(255,255,255,0.92);
+    }
+    .m-bar-l { display: flex; align-items: center; gap: 5px; }
+    .m-bar-r { display: flex; align-items: center; gap: 6px; }
+    .m-sig  { width: 17px; height: 12px; display: block; flex-shrink: 0; }
+    .m-bell { width: 14px; height: 16px; display: block; flex-shrink: 0; }
+    .m-wifi { width: 17px; height: 14px; display: block; flex-shrink: 0; }
+    .m-batt { width: 24px; height: 11px; display: block; flex-shrink: 0; }
+    .m-carrier {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 13px; font-weight: 600;
+    }
+    .m-batt-pct {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 11px; font-weight: 600;
+    }
+
+    /* Clock + date */
+    .m-timebox {
+      position: absolute; z-index: 2;
+      left: 0; right: 0;
+      top: 60px;
+      text-align: center; padding: 0 16px;
+    }
+    .m-date {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 17px; font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.01em; margin-bottom: 2px;
+    }
+    .m-time {
+      font-family: 'Barlow Condensed', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 36vw; font-weight: 700;
+      letter-spacing: -0.025em; line-height: 1;
+      background: linear-gradient(to bottom, rgba(230,235,252,0.95) 0%, rgba(215,200,238,0.88) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Swipe hint */
+    .m-swipe {
+      position: absolute; z-index: 2;
+      bottom: 38px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.65);
+    }
+    .m-swipe-arr {
+      width: 22px; height: 13px; display: block;
+      animation: mBounceUp 2.2s ease-in-out infinite;
+    }
+    .m-swipe-txt {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 11px; font-weight: 400; letter-spacing: 0.06em;
+    }
+    @keyframes mBounceUp {
+      0%, 100% { transform: translateY(0);   opacity: 0.65; }
+      50%       { transform: translateY(-6px); opacity: 1;    }
+    }
+
+    /* ── Content: sits behind lock screen, always rendered ── */
+    .m-open {
+      position: relative;
+      min-height: 100dvh;
+      overflow: hidden;
+    }
+    .m-open-bg {
+      position: absolute; inset: -30px; z-index: 0;
+    }
+    .m-open-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 65%;
+      filter: blur(22px); display: block;
+    }
+    .m-open-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: rgba(15, 8, 38, 0.48);
+    }
+
+    /* n-glass override: full-width, fixed height, internally scrollable */
+    .m-glass {
+      position: relative !important; z-index: 2 !important;
+      flex: none !important; display: flex !important; flex-direction: column !important;
+      width: 100% !important; height: 100% !important;
+      box-sizing: border-box !important;
+      padding: 48px 28px 52px !important;
+      background: transparent !important;
+      backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+      container-type: inline-size !important;
+    }
+    .m-glass .n-logo   { font-size: clamp(56px, 16vw, 80px) !important; margin-bottom: 20px !important; }
+    .m-glass .n-tag    { font-size: clamp(28px, 8vw, 40px) !important; }
+    .m-glass .n-title  { font-size: clamp(17px, 4.8vw, 24px) !important; }
+    .m-glass .n-desc   { font-size: 12px !important; }
+    .m-glass .n-mod    { padding: 11px 0 !important; }
+    .m-glass .n-mods::before { display: none !important; }
+  }
 </style>
