@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-18 (session 48)
+> Last updated: 2026-06-18 (session 49)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -126,9 +126,14 @@ src/
 - **Greeting scroll**: top 22% centered — Cormorant Garamond italic for Latin; Ma Shan Zheng for Chinese (`/[一-鿿]/` detection); 16 languages cycling: EN → ZH → DE → FR → IT → ES → JP → KO → NL → PT → SV → RU → EL → TR → AR → HI; fade 1.4s in/out `cubic-bezier(0.4,0,0.2,1)`, hold 2.8s, gap 1.6s; `clamp(48px,4.5vw,76px)`
 - **Clock area** (`top: 22%`): date pill (Inter 700, purple bg `rgba(180,160,220,0.22)`, border-radius 20px) → weather row (Open-Meteo API + geolocation, fallback Lucerne 47.05,8.31; icon + temp + desc; `clamp(22px,2.2vw,32px)`) → time (`Barlow Condensed` 700, `clamp(80px,10.5vw,160px)`, gradient fill `175deg` light lavender→purple, `-webkit-box-reflect: below 1px`)
 - **Notification card** (`bottom: 33%`): purple chat bubble icon + "Message" app name + "Sisi" sender; body in `-apple-system` SF Pro 400; bg `rgba(30,25,40,0.65)`, border `rgba(212,203,232,0.18)`, blur 20px, border-radius 16px
+- **Floor lamp** (bottom-right corner, `flex: 0 0 auto`, `width: clamp(110px,11.5vw,160px)`):
+  - Shade: wide trapezoid (bottom 40 : top 14 = 3:1 ratio), outward flare lip at bottom — "little hat" silhouette; right-side inner shadow for depth
+  - Pole: tapered path (top ~0.8px → bottom ~3px)
+  - Base: flat solid cylinder — top face + 4px side + bottom rim ellipse
+  - **Easter egg**: click lamp → `.lamp-on` class toggles warm yellow light beam; two-layer SVG cone inside lamp SVG with `overflow:visible` — main beam (`stdDeviation="30 4"`) + wide ambient halo (`stdDeviation="80 18"`), both fade 0.7s; lamp gets `drop-shadow` warm glow when on
 - All colors use `rgba(212,203,232,x)` light purple palette
 
-**Fonts added this session:** Ma Shan Zheng (行书, Chinese greeting) · Barlow Condensed (clock digits)
+**Fonts added session 48:** Ma Shan Zheng (行书, Chinese greeting) · Barlow Condensed (clock digits)
 
 **Mobile (≤768px):** photo strip top 50vw (cover crop) + glass panel below
 
