@@ -494,12 +494,12 @@ const modules = [
   }
 
   /* ── Floor lamp ── */
-  /* min(73cqw, 15vh) caps lamp height at ~37% of screen height on any aspect ratio */
+  /* 15vh keeps lamp at ~37% screen height regardless of viewport width */
   .floor-lamp {
     position: absolute;
     bottom: 0;
     right: clamp(8px, 1.5cqw, 16px);
-    width: clamp(100px, min(73cqw, 15vh), 220px);
+    width: clamp(100px, 15vh, 220px);
     opacity: 0.9;
     pointer-events: all;
     cursor: pointer;
@@ -734,7 +734,10 @@ const modules = [
     padding-top: clamp(12px, 2.5cqh, 36px);
     position: relative;
     min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
   }
+  .module-list::-webkit-scrollbar { display: none; }
 
   .module-list::before {
     content: '';
@@ -876,8 +879,8 @@ const modules = [
     margin: 0;
   }
 
-  /* ── Tablet: hide black strip ── */
-  @media (min-width: 769px) and (max-width: 1024px) {
+  /* ── Tablet: hide black strip (covers all iPads incl. Pro 12.9" landscape) ── */
+  @media (min-width: 769px) and (max-width: 1366px) {
     .black-strip { display: none; }
     .photo-strip { flex: 1.2 1 0; }
     .glass-strip { flex: 1.8 1 0; }
