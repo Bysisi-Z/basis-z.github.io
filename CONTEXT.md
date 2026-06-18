@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-17 (session 45)
+> Last updated: 2026-06-18 (session 48)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -102,32 +102,33 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Redesigned (session 47)
+### Homepage (`/`) ✅ Redesigned (session 48)
 
-**Concept:** Original portrait ferris wheel photo (lavender sky, daytime) split layout — left strip shows full photo at natural proportions, right side is frosted glass panel with content.
+**Concept:** Three-column layout simulating a phone lock screen on the right.
 
 **Photos used:**
 - `.photo-bg` (absolute full-bleed): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: 60% 18%` — blurred by glass, provides depth
-- `.photo-strip` (left, sharp): `homepage-ferris-original.jpeg`, `object-fit: fill` — no crop, full 3:4 portrait at `width: calc(100vh * 4284/5712)` ≈ 75vh
-- Also available: `homepage-ferris-night2.png` (AI wide landscape, night version, unused)
+- `.photo-strip` (left): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: center 18%`
 
 **Desktop layout (`src/pages/index.astro`):**
-- `display: flex` layout
-- Left `.photo-strip`: `width: calc(100vh * 4284/5712)`, `height: 100vh`, `object-fit: fill` — full portrait photo, no cropping ever
-- Right `.glass-strip`: `flex: 1`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `background: rgba(15,10,30,0.25)`
-  - **Si logo**: Great Vibes italic 92px, `#C4A8E0`, soft glow
-  - **Tagline**: Cormorant Garamond 300, `clamp(44px,4.4vw,72px)`, white; "sense" = italic + `#C4A8E0` + `skewX(-8deg)`, no glow
-  - **Rule**: `width:46%`, gradient white→purple→transparent
-  - **Module list**: 6 items, grid `24px | 30px | 1fr`, vertical line left:12px top:86px bottom:62px
-    - ◆ bullet: `#C4A8E0`, glow; hover: twinkle 1.8s
-    - Number: Inter 600 11px, `rgba(255,255,255,0.25)`
-    - Title: Cormorant Garamond italic 400, `clamp(22px,2.2vw,32px)`
-    - Desc: Nunito 300 14px, `rgba(255,255,255,0.48)`
-    - Hover: meteor sweep 2.8s (bottom edge, left:64px)
-  - **Contact**: Nunito uppercase 12px, `rgba(196,168,224,0.62)`
+- `display: flex`, three columns:
+  - Left `.photo-strip`: `flex: 1.4 1 0` — ferris wheel photo, `object-fit: cover`
+  - Middle `.glass-strip`: `flex: 1.7 1 0`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `background: rgba(15,10,30,0.25)`
+    - **Si logo**: Great Vibes italic 92px, `#C4A8E0`, soft glow
+    - **Tagline**: Cormorant Garamond 300, `clamp(44px,4.4vw,72px)`, white; "sense" italic `#C4A8E0` `skewX(-8deg)`
+    - **Module list**: 6 items, grid `24px | 30px | 1fr`; ◆ bullet hover twinkle 1.8s; hover meteor sweep 2.8s
+    - **Contact**: Nunito uppercase 12px
+  - Right `.black-strip`: `flex: 0.95 1 0`, `background: #000` — phone lock screen simulation
 - No nav bar (`hideNav={true}`)
 
-**Fonts:** Great Vibes · Cormorant Garamond (300/400) · Nunito (300/400)
+**Black strip contents (phone lock screen):**
+- **Status bar**: top-left = carrier signal bars + "Swisscom" (Inter 500, `rgba(212,203,232,0.45)`); top-right = WiFi + battery SVG icons
+- **Greeting scroll**: top 22% centered — Cormorant Garamond italic for Latin; Ma Shan Zheng for Chinese (`/[一-鿿]/` detection); 16 languages cycling: EN → ZH → DE → FR → IT → ES → JP → KO → NL → PT → SV → RU → EL → TR → AR → HI; fade 1.4s in/out `cubic-bezier(0.4,0,0.2,1)`, hold 2.8s, gap 1.6s; `clamp(48px,4.5vw,76px)`
+- **Clock area** (`top: 22%`): date pill (Inter 700, purple bg `rgba(180,160,220,0.22)`, border-radius 20px) → weather row (Open-Meteo API + geolocation, fallback Lucerne 47.05,8.31; icon + temp + desc; `clamp(22px,2.2vw,32px)`) → time (`Barlow Condensed` 700, `clamp(80px,10.5vw,160px)`, gradient fill `175deg` light lavender→purple, `-webkit-box-reflect: below 1px`)
+- **Notification card** (`bottom: 33%`): purple chat bubble icon + "Message" app name + "Sisi" sender; body in `-apple-system` SF Pro 400; bg `rgba(30,25,40,0.65)`, border `rgba(212,203,232,0.18)`, blur 20px, border-radius 16px
+- All colors use `rgba(212,203,232,x)` light purple palette
+
+**Fonts added this session:** Ma Shan Zheng (行书, Chinese greeting) · Barlow Condensed (clock digits)
 
 **Mobile (≤768px):** photo strip top 50vw (cover crop) + glass panel below
 
