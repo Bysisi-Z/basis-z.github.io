@@ -377,7 +377,7 @@ const modules = [
     height: 100vh;
     background: #000;
     container-type: inline-size;
-    overflow: hidden;
+    overflow-x: clip;
   }
 
 
@@ -877,13 +877,6 @@ const modules = [
     padding-top: clamp(6px, 1cqh, 12px);
     flex-shrink: 0;
     margin: 0;
-  }
-
-  /* ── Tablet: hide black strip (covers all iPads incl. Pro 12.9" landscape) ── */
-  @media (min-width: 769px) and (max-width: 1366px) {
-    .black-strip { display: none; }
-    .photo-strip { flex: 1.2 1 0; }
-    .glass-strip { flex: 1.8 1 0; }
   }
 
   /* ── Mobile ── */
