@@ -99,20 +99,36 @@ const modules = [
       </div>
 
 
-      <!-- Day mode: latest update notification card -->
-      <div class="notif-card">
-        <div class="notif-meta">
-          <div class="notif-left">
-            <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
-              <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
-            </svg>
-            <span class="notif-app">Latest Update</span>
+      <!-- Day mode: update notification cards -->
+      <div class="notif-stack">
+        <div class="notif-card">
+          <div class="notif-meta">
+            <div class="notif-left">
+              <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
+                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+              <span class="notif-app">Latest Update</span>
+            </div>
+            <span class="notif-time">Jun 16, 2026</span>
           </div>
-          <span class="notif-time">Jun 10, 2026</span>
+          <div class="notif-title">NSFG Contraceptive Survey</div>
+          <div class="notif-body">2022–23 vs 2017–19 cycle analysis · method trends by age</div>
         </div>
-        <div class="notif-title">Oeschinensee Panorama Trail</div>
-        <div class="notif-body">New hiking guide · Bernese Oberland, 8.5 km loop</div>
+        <div class="notif-card">
+          <div class="notif-meta">
+            <div class="notif-left">
+              <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
+                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+              <span class="notif-app">Latest Update</span>
+            </div>
+            <span class="notif-time">Jun 5, 2026</span>
+          </div>
+          <div class="notif-title">Stoos Ridge Line Hike</div>
+          <div class="notif-body">Hiking guide · Central Switzerland, ridge traverse</div>
+        </div>
       </div>
 
       <!-- Cats -->
@@ -977,19 +993,25 @@ const modules = [
   .layout.day .greeting-text { color: #546860; font-weight: 400; }
 
   /* ── Notification card (day mode only) ── */
-  .notif-card {
+  .notif-stack {
     display: none;
     position: absolute;
-    top: 57%;
+    top: 54%;
     left: clamp(10px, 4cqw, 18px);
     right: clamp(10px, 4cqw, 18px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1.5cqh, 10px);
+    z-index: 3;
+  }
+  .layout.day .notif-stack { display: flex; }
+
+  .notif-card {
     background: rgba(160,195,170,0.22);
     border: 1px solid rgba(110,140,120,0.18);
     border-radius: 14px;
-    padding: clamp(10px, 2.5cqw, 14px) clamp(12px, 3cqw, 16px);
-    z-index: 3;
+    padding: clamp(8px, 2cqw, 12px) clamp(10px, 2.5cqw, 14px);
   }
-  .layout.day .notif-card { display: block; }
 
   .notif-meta {
     display: flex;
@@ -1019,7 +1041,7 @@ const modules = [
   .notif-time {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: clamp(9px, 2.8cqw, 11px);
-    color: #A5AEB8;
+    color: #6E7B81;
   }
   .notif-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
