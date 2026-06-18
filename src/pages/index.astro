@@ -99,6 +99,17 @@ const modules = [
       </div>
 
 
+      <!-- Day mode: latest update notification card -->
+      <div class="notif-card">
+        <div class="notif-meta">
+          <span class="notif-app">si-lens.me</span>
+          <span class="notif-sep">·</span>
+          <span class="notif-time">Jun 8</span>
+        </div>
+        <div class="notif-title">Oeschinensee Panorama Trail</div>
+        <div class="notif-body">New hiking guide · Bernese Oberland, 8.5 km loop</div>
+      </div>
+
       <!-- Cats -->
       <div class="cats-container">
         <div class="cats-wrap">
@@ -959,6 +970,58 @@ const modules = [
   }
   .layout.day .weather-wrap  { color: #6E7B81; }
   .layout.day .greeting-text { color: #546860; font-weight: 400; }
+
+  /* ── Notification card (day mode only) ── */
+  .notif-card {
+    display: none;
+    position: absolute;
+    bottom: clamp(24px, 7cqh, 52px);
+    left: clamp(10px, 4cqw, 18px);
+    right: clamp(10px, 4cqw, 18px);
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: clamp(10px, 2.5cqw, 14px) clamp(12px, 3cqw, 16px);
+    z-index: 3;
+  }
+  .layout.day .notif-card { display: block; }
+
+  .notif-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: clamp(4px, 1cqh, 7px);
+  }
+  .notif-app {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(9px, 2.8cqw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #6E7B81;
+  }
+  .notif-sep, .notif-time {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(9px, 2.8cqw, 11px);
+    color: #A5AEB8;
+  }
+  .notif-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(13px, 4.2cqw, 18px);
+    font-weight: 600;
+    font-style: italic;
+    color: #30403C;
+    line-height: 1.2;
+    margin-bottom: clamp(3px, 0.8cqh, 5px);
+  }
+  .notif-body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(10px, 3cqw, 12px);
+    font-weight: 300;
+    color: #6E7B81;
+    line-height: 1.45;
+  }
 
   /* Hide night-only elements in day mode */
   .layout.day .floor-lamp    { display: none; }
