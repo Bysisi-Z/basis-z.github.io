@@ -283,8 +283,7 @@ const modules = [
   async function getCity(lat, lon) {
     try {
       const res  = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=zh-CN`,
-        { headers: { 'Accept-Language': 'zh-CN,zh' } }
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`
       );
       const data = await res.json();
       return data.address?.city || data.address?.town || data.address?.village || data.address?.county || '';
@@ -298,10 +297,10 @@ const modules = [
         const city = await getCity(lat, lon);
         fetchWeather(lat, lon, city);
       },
-      () => fetchWeather(47.05, 8.31, '卢塞恩')
+      () => fetchWeather(47.05, 8.31, 'Luzern')
     );
   } else {
-    fetchWeather(47.05, 8.31, '卢塞恩');
+    fetchWeather(47.05, 8.31, 'Luzern');
   }
 
   // Lamp easter egg
