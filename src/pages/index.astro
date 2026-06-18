@@ -946,9 +946,13 @@ const modules = [
     background: rgba(165,174,184,0.14);
   }
   .layout.day .clock {
-    background: none;
-    -webkit-text-fill-color: #30403C;
-    color: #30403C;
+    background: linear-gradient(175deg,
+      rgba(165,174,184,0.88) 0%,
+      rgba(110,123,129,0.62) 45%,
+      rgba(48,64,60,0.40) 100%
+    );
+    -webkit-text-fill-color: transparent;
+    color: transparent;
     -webkit-box-reflect: below 1px linear-gradient(transparent 30%, rgba(110,123,129,0.15) 100%);
   }
   .layout.day .weather-wrap  { color: #6E7B81; }
