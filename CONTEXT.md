@@ -102,7 +102,7 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Redesigned (session 50)
+### Homepage (`/`) ✅ Redesigned (session 51)
 
 **Concept:** Three-column layout simulating a phone lock screen on the right.
 
@@ -111,18 +111,19 @@ src/
 - `.photo-strip` (left): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: center 18%`
 
 **Desktop layout (`src/pages/index.astro`):**
-- `display: flex`, three columns:
-  - Left `.photo-strip`: `flex: 1.4 1 0`
-  - Middle `.glass-strip`: `flex: 1.7 1 0`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `container-type: size`
+- `display: flex`, three columns — no explicit height on strips; flex `align-items: stretch` fills the fixed container:
+  - Left `.photo-strip`: `flex: 1.4 1 0`, `overflow: hidden`
+  - Middle `.glass-strip`: `flex: 1.7 1 0`, `align-self: stretch`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `container-type: size`
     - **Si logo**: Great Vibes italic `clamp(48px,10cqw,100px)`, `#C4A8E0`, soft glow
     - **Tagline**: Cormorant Garamond 300, `clamp(32px,8cqw,72px)`; "sense" italic `#C4A8E0` `skewX(-8deg)`
-    - **Module list**: 6 items, `overflow-y: auto; scrollbar-width: none` (content scrolls silently if too tall)
+    - **Module list**: 6 items, `overflow-y: auto; scrollbar-width: none`
     - **Contact**: Nunito uppercase 12px, `rgba(196,168,224,0.62)`
-    - **Copyright**: below contact, same color/font — "© year · All photographs on this site are the exclusive property of the author…"
+    - **Copyright**: below contact, same color/font
   - Right `.black-strip`: `flex: 0.95 1 0`, `background: #000`, `container-type: inline-size`, `overflow-x: clip`
 - No nav bar (`hideNav={true}`)
+- **iPad Safari height fix:** strips use no explicit height (relying on flex stretch) — `100vh` or `100%` caused bottom clipping on iPad Safari because `overflow: hidden` on `.layout` clips content when `100vh` exceeds the visual viewport
 
-**Responsive breakpoints (session 50):**
+**Responsive breakpoints:**
 - `≤600px` (phones): column layout, black strip hidden
 - `601–900px` (iPad portrait / small tablets): two-column photo+glass, black strip hidden
 - `≥901px` (iPad landscape + desktop): full three-column with black strip
@@ -131,14 +132,14 @@ src/
 - **Status bar**: top-left carrier + "Swisscom"; top-right WiFi + battery SVG
 - **Greeting scroll**: 16 languages, `clamp(20px,12cqw,56px)`, Ma Shan Zheng for Chinese
 - **Clock area** (`top: 22%`, `z-index: 2`): date pill → weather row → time `clamp(56px,32cqw,150px)` Barlow Condensed gradient + reflect
-- **Floor lamp** (bottom-right, `width: clamp(100px,15vh,220px)` — `15vh` caps height at ~37% viewport):
-  - Easter egg: click → `.lamp-on` class → warm beam fades in + **"Make yourself at home!"** letters reveal one by one (70ms stagger, Cormorant Garamond italic 700, black text in beam glow)
-  - Letter text: `bottom: clamp(72px,10vh,150px)`, centered with `padding-right: 18cqw` for slight left bias
-- **Cat easter egg** (bottom-left, `left: clamp(4px,2cqw,18px)`):
-  - Dark: two pairs of static yellow glowing eyes (`background: #FFD700`, box-shadow glow)
-  - Lamp on: cat photos fade in (`opacity: 0→1`, 0.3s delay), eyes fade out
-  - Big cat (嘞嘞): `/images/cat-first.jpg`, `clamp(38px,16cqw,80px)` circle
-  - Small cat (小咪渣): `/images/cat-second.jpg`, `clamp(26px,11cqw,58px)` circle
+- **Floor lamp** (bottom-right, `width: clamp(100px,15vh,220px)`): click → `.lamp-on` → warm beam fades in; cats get warm glow
+- **Cat easter egg** (bottom-left, `left: clamp(16px,12cqw,56px)`, `width: clamp(90px,52cqw,250px)`):
+  - Single illustration: `public/images/cats-illustration.png` (two black cats, glowing yellow eyes)
+  - Two overlapping grid layers via `grid-area: 1/1`: `.cat-a` clips left 52% (big cat), `.cat-b` clips right 50% (small cat)
+  - Filter: `brightness(0.65) contrast(3)` — collapses grey background to pure black, eyes stay vivid
+  - Independent blink animations: big cat `5s`, small cat `2s`, staggered with `animation-delay`
+  - Lamp-on: `animation: none; opacity: 1` + warm `drop-shadow`
+  - `bottom: max(0px, env(safe-area-inset-bottom))` for iPad safe area
 
 **Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed · Cormorant Garamond (300/400/600/700 + italic) · Nunito
 
