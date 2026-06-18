@@ -12,7 +12,7 @@ const modules = [
 ];
 ---
 
-<BaseLayout title="Home" description="Sisi — Making sense of numbers and landscapes." hideNav={true}>
+<BaseLayout title="Home" description="Sisi — Making sense of numbers and landscapes." hideNav={true} hideFooter={true}>
 
   <Fragment slot="head">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@200;700&family=Nunito:wght@300;400&display=swap" rel="stylesheet">
@@ -1697,7 +1697,6 @@ const modules = [
   @media (max-width: 600px) {
     #homeMobile { display: block; }
     .n-layout, .d-layout { display: none !important; }
-    .site-footer { display: none !important; }
 
     /* ── Lock screen: fixed overlay, slides up on dismiss ── */
     .m-lock {

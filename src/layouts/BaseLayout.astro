@@ -7,9 +7,10 @@ interface Props {
   title: string;
   description?: string;
   hideNav?: boolean;
+  hideFooter?: boolean;
 }
 
-const { title, description = 'Si', hideNav = false } = Astro.props;
+const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -33,6 +34,6 @@ const { title, description = 'Si', hideNav = false } = Astro.props;
     <main>
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>
