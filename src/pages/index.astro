@@ -401,9 +401,11 @@ const modules = [
     function positionResults() {
       const bar = searchInput.closest('.search-bar');
       const rect = bar.getBoundingClientRect();
-      searchResults.style.top    = (rect.bottom + 6) + 'px';
-      searchResults.style.left   = rect.left + 'px';
-      searchResults.style.width  = rect.width + 'px';
+      const availH = window.innerHeight - rect.bottom - 12;
+      searchResults.style.top       = (rect.bottom + 6) + 'px';
+      searchResults.style.left      = rect.left + 'px';
+      searchResults.style.width     = rect.width + 'px';
+      searchResults.style.maxHeight = Math.min(240, Math.max(80, availH)) + 'px';
     }
 
     async function doSearch(query) {
@@ -1267,5 +1269,17 @@ const modules = [
       transform: scale(1.1);
       text-shadow: 0 0 2px rgba(255,255,255,.4), 0 0 8px rgba(255,255,255,.2);
     }
+  }
+
+  /* ── Short viewport adjustments (≤750px tall) ── */
+  @media (max-height: 750px) {
+    .search-wrap { top: 47%; }
+    .notif-stack { top: 58%; }
+    .notif-title { font-size: clamp(13px, 4.5cqw, 18px); }
+  }
+  @media (max-height: 620px) {
+    .search-wrap { top: 44%; }
+    .notif-stack { top: 56%; }
+    .notif-card:last-child { display: none; } /* hide 2nd card on very short screens */
   }
 </style>
