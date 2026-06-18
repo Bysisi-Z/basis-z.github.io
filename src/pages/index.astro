@@ -327,7 +327,6 @@ const modules = [
     position: relative;
     z-index: 2;
     flex: 1.4 1 0;
-    height: 100%;
     overflow: hidden;
   }
   .photo-strip img {
@@ -342,17 +341,16 @@ const modules = [
     position: relative;
     z-index: 2;
     flex: 0.95 1 0;
-    height: 100%;
     background: #000;
     container-type: inline-size;
-    clip-path: inset(0);
+    overflow-x: clip;
   }
 
 
   /* ── Cats ── */
   .cats-container {
     position: absolute;
-    bottom: 0;
+    bottom: max(0px, env(safe-area-inset-bottom));
     left: clamp(16px, 12cqw, 56px);
     z-index: 4;
     width: clamp(90px, 52cqw, 250px);
@@ -588,7 +586,7 @@ const modules = [
     position: relative;
     z-index: 2;
     flex: 1.7 1 0;
-    height: 100%;
+    align-self: stretch;
     display: flex;
     flex-direction: column;
     padding: clamp(28px, 5cqh, 64px) clamp(20px, 5cqw, 72px) clamp(20px, 4cqh, 52px) clamp(28px, 7cqw, 100px);
