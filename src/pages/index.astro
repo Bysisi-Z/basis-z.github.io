@@ -867,11 +867,11 @@ const modules = [
   .layout.day .img-night { display: none; }
   .layout.day .img-day   { display: block; }
 
-  /* Glass panel — lighter green, photo shows through */
+  /* Glass panel — green tint, night-mode transparency logic */
   .layout.day .glass-strip {
-    background: rgba(18, 52, 24, 0.26);
-    backdrop-filter: blur(28px) brightness(0.70) saturate(1.5);
-    -webkit-backdrop-filter: blur(28px) brightness(0.70) saturate(1.5);
+    background: rgba(18, 42, 24, 0.22);
+    backdrop-filter: blur(32px) brightness(0.55) saturate(2.0);
+    -webkit-backdrop-filter: blur(32px) brightness(0.55) saturate(2.0);
   }
   .layout.day .si-logo {
     color: #fff;
