@@ -14,752 +14,535 @@ const modules = [
 
 <BaseLayout title="Home" description="Sisi — Making sense of numbers and landscapes." hideNav={true}>
 
-  <div class="layout">
+  <Fragment slot="head">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@700&family=Nunito:wght@300;400&display=swap" rel="stylesheet">
+  </Fragment>
 
-    <!-- Full-bleed background (shows through glass blur) -->
-    <div class="photo-bg" aria-hidden="true">
-      <img class="img-night" src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
-      <img class="img-day"   src="/images/homepage-morning.jpg"          alt="" loading="eager">
+
+  <!-- ══════════════════════════════════════════════════════════
+       NIGHT HOME  (夜间 18:00–6:00)
+       左：摩天轮照片，精确竖幅比例，无裁切
+       中：深紫毛玻璃，内容面板
+       右：黑色手机锁屏条，时钟 / 天气 / 猫猫 / 落地灯
+       ══════════════════════════════════════════════════════════ -->
+  <div id="homeNight" class="n-layout" style="display:none">
+
+    <!-- Full-bleed background (ferris wheel, blurs through glass) -->
+    <div class="n-bg" aria-hidden="true">
+      <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
     </div>
 
-    <!-- Left: photo strip -->
-    <div class="photo-strip" aria-hidden="true">
-      <img class="img-night" src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
-      <img class="img-day"   src="/images/homepage-morning.jpg"          alt="" loading="eager">
+    <!-- Left: exact portrait ratio, object-fit: fill — no crop -->
+    <div class="n-photo" aria-hidden="true">
+      <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
     </div>
 
-    <!-- Right: frosted glass panel with all content -->
-    <div class="glass-strip">
+    <!-- Middle: frosted glass content panel -->
+    <div class="n-glass">
+      <div class="n-logo">Si</div>
 
-      <div class="si-logo">Si</div>
-
-      <div class="tagline-wrap">
-        <h1 class="tagline">Making <em class="sense">sense</em> of<br>numbers and<br>landscapes.</h1>
-        <div class="tagline-rule"></div>
+      <div class="n-tagwrap">
+        <h1 class="n-tag">Making <em class="n-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
+        <div class="n-rule"></div>
       </div>
 
-      <nav class="module-list">
+      <nav class="n-mods">
         {modules.map(m => (
-          <a class="mod-item" href={m.href}>
-            <span class="mod-bullet">◆</span>
-            <span class="mod-num">{m.num}</span>
-            <span class="mod-body">
-              <span class="mod-title">{m.title}</span>
-              <span class="mod-desc">{m.desc}</span>
+          <a class="n-mod" href={m.href}>
+            <span class="n-bullet">◆</span>
+            <span class="n-num">{m.num}</span>
+            <span class="n-body">
+              <span class="n-title">{m.title}</span>
+              <span class="n-desc">{m.desc}</span>
             </span>
           </a>
         ))}
       </nav>
 
-      <div class="contact">
-        <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="contact-link">LinkedIn</a>
-        <span class="sep">·</span>
-        <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="contact-link">Red Note</a>
-        <span class="sep">·</span>
-        <a href="mailto:sisi.zhang.ch@gmail.com" class="contact-link">Email</a>
+      <div class="n-contact">
+        <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="n-link">LinkedIn</a>
+        <span class="n-sep">·</span>
+        <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="n-link">Red Note</a>
+        <span class="n-sep">·</span>
+        <a href="mailto:sisi.zhang.ch@gmail.com" class="n-link">Email</a>
       </div>
-      <p class="glass-copyright">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
-
+      <p class="n-copy">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
     </div>
 
-    <!-- Far right: phone strip — aria-hidden removed in day mode by JS (search bar is interactive) -->
-    <div class="black-strip" id="blackStrip" aria-hidden="true">
+    <!-- Right: black phone-strip -->
+    <div class="n-strip" id="nStrip" aria-hidden="true">
 
-      <!-- Carrier: top-left -->
-      <div class="carrier">
-        <svg class="carrier-signal" viewBox="0 0 20 14" fill="none">
-          <rect x="0" y="9" width="3" height="5" rx="0.8" fill="currentColor"/>
-          <rect x="4.5" y="6" width="3" height="8" rx="0.8" fill="currentColor"/>
-          <rect x="9" y="3" width="3" height="11" rx="0.8" fill="currentColor"/>
+      <div class="n-carrier">
+        <svg class="n-carrier-signal" viewBox="0 0 20 14" fill="none">
+          <rect x="0"    y="9" width="3" height="5"  rx="0.8" fill="currentColor"/>
+          <rect x="4.5"  y="6" width="3" height="8"  rx="0.8" fill="currentColor"/>
+          <rect x="9"    y="3" width="3" height="11" rx="0.8" fill="currentColor"/>
           <rect x="13.5" y="0" width="3" height="14" rx="0.8" fill="currentColor" opacity="0.3"/>
         </svg>
-        <span class="carrier-name">Swisscom</span>
+        <span class="n-carrier-name">Swisscom</span>
       </div>
 
-      <!-- Status icons: top-right -->
-      <div class="status-bar">
-        <!-- WiFi full signal -->
-        <svg class="status-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div class="n-statusbar">
+        <svg class="n-status-icon" viewBox="0 0 24 24" fill="none">
           <path d="M12 18.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="currentColor"/>
           <path d="M12 14c1.6 0 3 .65 4.05 1.7l1.42-1.42A8.1 8.1 0 0 0 12 12a8.1 8.1 0 0 0-5.47 2.28l1.42 1.42A6.08 6.08 0 0 1 12 14z" fill="currentColor"/>
           <path d="M12 9.5c2.76 0 5.26 1.12 7.07 2.93l1.42-1.42A12.14 12.14 0 0 0 12 7.5c-3.35 0-6.39 1.36-8.49 3.51l1.42 1.42A10.12 10.12 0 0 1 12 9.5z" fill="currentColor"/>
           <path d="M12 5c3.93 0 7.48 1.59 10.05 4.16l1.42-1.42A16.18 16.18 0 0 0 12 3C7.37 3 3.17 4.93.53 8.02l1.42 1.42A14.15 14.15 0 0 1 12 5z" fill="currentColor"/>
         </svg>
-
-        <!-- Battery full -->
-        <svg class="status-icon battery-icon" viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="n-status-icon n-battery" viewBox="0 0 28 14" fill="none">
           <rect x="0.5" y="0.5" width="23" height="13" rx="3.5" stroke="currentColor" stroke-opacity="0.6"/>
-          <rect x="2" y="2" width="20" height="10" rx="2" fill="currentColor"/>
+          <rect x="2"   y="2"   width="20" height="10" rx="2"   fill="currentColor"/>
           <path d="M25 4.5v5a2.5 2.5 0 0 0 0-5z" fill="currentColor" fill-opacity="0.6"/>
         </svg>
       </div>
 
-      <div class="greeting-wrap">
-        <span class="greeting-text" id="greeting"></span>
+      <div class="n-greet-wrap">
+        <span class="n-greet" id="nGreeting"></span>
       </div>
 
-
-      <!-- Day mode: search bar -->
-      <div class="search-wrap">
-        <div class="search-bar">
-          <svg class="search-icon" viewBox="0 0 18 18" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input id="searchInput" class="search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false"/>
+      <div class="n-clockwrap">
+        <div class="n-dateline" id="nDateline"></div>
+        <div class="n-weather" id="nWeather">
+          <span class="n-w-icon" id="nWeatherIcon"></span>
+          <span class="n-w-temp" id="nWeatherTemp"></span>
+          <span class="n-w-desc" id="nWeatherDesc"></span>
+          <span class="n-w-loc"  id="nWeatherLoc"></span>
         </div>
-        <div class="search-results" id="searchResults"></div>
+        <div class="n-clock" id="nClock">00:00</div>
       </div>
 
-      <!-- Day mode: update notification cards -->
-      <div class="notif-stack">
-        <a class="notif-card" href="/research/data">
-          <div class="notif-meta">
-            <div class="notif-left">
-              <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
-                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
-              </svg>
-              <span class="notif-app">Latest Update</span>
-            </div>
-            <span class="notif-time">Jun 16, 2026</span>
-          </div>
-          <div class="notif-title">NSFG Contraceptive Survey</div>
-          <div class="notif-body">2022–23 vs 2017–19 cycle analysis · method trends by age</div>
-        </a>
-        <a class="notif-card" href="/photography/stoos-ridge-line">
-          <div class="notif-meta">
-            <div class="notif-left">
-              <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
-                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
-              </svg>
-              <span class="notif-app">Latest Update</span>
-            </div>
-            <span class="notif-time">Jun 5, 2026</span>
-          </div>
-          <div class="notif-title">Stoos Ridge Line Hike</div>
-          <div class="notif-body">Hiking guide · Central Switzerland, ridge traverse</div>
-        </a>
-      </div>
-
-      <!-- Cats -->
-      <div class="cats-container">
-        <div class="cats-wrap">
-          <img src="/images/cats-illustration.png" alt="" class="cats-illustration cat-a" />
-          <img src="/images/cats-illustration.png" alt="" class="cats-illustration cat-b" />
+      <!-- Cats easter egg -->
+      <div class="n-cats-container">
+        <div class="n-cats-wrap">
+          <img src="/images/cats-illustration.png" alt="" class="n-cat n-cat-a">
+          <img src="/images/cats-illustration.png" alt="" class="n-cat n-cat-b">
         </div>
       </div>
 
-      <!-- Floor lamp -->
-      <div class="floor-lamp" id="floorLamp">
+      <!-- Floor lamp easter egg -->
+      <div class="n-lamp" id="nLamp">
         <svg viewBox="0 0 80 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
           <defs>
-            <linearGradient id="beamGrad" x1="0.5" y1="0" x2="0.5" y2="1">
-              <stop offset="0%" stop-color="rgba(255,220,80,0.08)"/>
-              <stop offset="40%" stop-color="rgba(255,210,70,0.05)"/>
+            <linearGradient id="nBeamGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+              <stop offset="0%"   stop-color="rgba(255,220,80,0.08)"/>
+              <stop offset="40%"  stop-color="rgba(255,210,70,0.05)"/>
               <stop offset="100%" stop-color="rgba(255,200,60,0)"/>
             </linearGradient>
-            <linearGradient id="ambientGrad" x1="0.5" y1="0" x2="0.5" y2="1">
-              <stop offset="0%" stop-color="rgba(255,215,70,0.14)"/>
-              <stop offset="50%" stop-color="rgba(255,210,70,0.06)"/>
+            <linearGradient id="nAmbientGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+              <stop offset="0%"   stop-color="rgba(255,215,70,0.14)"/>
+              <stop offset="50%"  stop-color="rgba(255,210,70,0.06)"/>
               <stop offset="100%" stop-color="rgba(255,200,60,0)"/>
             </linearGradient>
-            <filter id="beamBlur" x="-200%" y="-5%" width="500%" height="110%">
-              <feGaussianBlur stdDeviation="30 4"/>
-            </filter>
-            <filter id="ambientBlur" x="-500%" y="-15%" width="1100%" height="130%">
-              <feGaussianBlur stdDeviation="80 18"/>
-            </filter>
-          </defs>
-          <!-- Ambient halo — extremely wide, very soft -->
-          <path class="beam-path" d="M40 40 L-1200 520 L1280 520 Z" fill="url(#ambientGrad)" filter="url(#ambientBlur)"/>
-          <!-- Main beam cone -->
-          <path class="beam-path" d="M40 55 L-400 500 L480 500 Z" fill="url(#beamGrad)" filter="url(#beamBlur)"/>
-          <!-- Lamp glow behind shade -->
-          <ellipse cx="40" cy="44" rx="24" ry="13" fill="url(#lampGlow)" opacity="0.28"/>
-          <!-- Shade body — wide trapezoid, 3x wider at bottom than top -->
-          <path d="M20 48 L33 22 L47 22 L60 48 Z"
-                fill="rgba(212,203,232,0.16)" stroke="rgba(212,203,232,0.44)" stroke-width="1" stroke-linejoin="round"/>
-          <!-- Right-side inner shadow for depth -->
-          <path d="M47 22 L60 48 L54 48 L44 23 Z" fill="rgba(150,130,185,0.10)"/>
-          <!-- Bottom flare lip — clearly wider than shade body -->
-          <path d="M16 49 Q18 53 40 54 Q62 53 64 49 L60 48 Q58 52 40 53 Q22 52 20 48 Z"
-                fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.40)" stroke-width="0.8"/>
-          <!-- Top finial ring -->
-          <ellipse cx="40" cy="22" rx="6" ry="1.8" fill="rgba(10,5,20,0.9)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
-          <!-- Inner warm glow -->
-          <ellipse cx="40" cy="37" rx="8" ry="6" fill="rgba(255,235,160,0.12)"/>
-
-          <!-- Pole — top thin, bottom slightly wider -->
-          <path d="M39.6 51 L38.5 188 L41.5 188 L40.4 51 Z" fill="rgba(212,203,232,0.38)"/>
-          <!-- Base: solid flat cylinder -->
-          <!-- Top face -->
-          <ellipse cx="40" cy="190" rx="20" ry="4" fill="rgba(212,203,232,0.22)" stroke="rgba(212,203,232,0.38)" stroke-width="0.8"/>
-          <!-- Side body -->
-          <rect x="20" y="190" width="40" height="4" fill="rgba(212,203,232,0.12)"/>
-          <!-- Bottom face (rim) -->
-          <ellipse cx="40" cy="194" rx="20" ry="4" fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
-          <!-- Floor reflection -->
-          <ellipse cx="40" cy="199" rx="22" ry="2" fill="rgba(212,203,232,0.06)"/>
-          <defs>
-            <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(235,225,255,1)"/>
+            <radialGradient id="nLampGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="rgba(235,225,255,1)"/>
               <stop offset="100%" stop-color="rgba(235,225,255,0)"/>
             </radialGradient>
+            <filter id="nBeamBlur"    x="-200%" y="-5%"  width="500%"  height="110%"><feGaussianBlur stdDeviation="30 4"/></filter>
+            <filter id="nAmbientBlur" x="-500%" y="-15%" width="1100%" height="130%"><feGaussianBlur stdDeviation="80 18"/></filter>
           </defs>
+          <path class="n-beam" d="M40 40 L-1200 520 L1280 520 Z" fill="url(#nAmbientGrad)" filter="url(#nAmbientBlur)"/>
+          <path class="n-beam" d="M40 55 L-400 500 L480 500 Z"    fill="url(#nBeamGrad)"   filter="url(#nBeamBlur)"/>
+          <ellipse cx="40" cy="44" rx="24" ry="13" fill="url(#nLampGlow)" opacity="0.28"/>
+          <path d="M20 48 L33 22 L47 22 L60 48 Z" fill="rgba(212,203,232,0.16)" stroke="rgba(212,203,232,0.44)" stroke-width="1" stroke-linejoin="round"/>
+          <path d="M47 22 L60 48 L54 48 L44 23 Z" fill="rgba(150,130,185,0.10)"/>
+          <path d="M16 49 Q18 53 40 54 Q62 53 64 49 L60 48 Q58 52 40 53 Q22 52 20 48 Z" fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.40)" stroke-width="0.8"/>
+          <ellipse cx="40" cy="22" rx="6" ry="1.8" fill="rgba(10,5,20,0.9)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
+          <ellipse cx="40" cy="37" rx="8" ry="6" fill="rgba(255,235,160,0.12)"/>
+          <path d="M39.6 51 L38.5 188 L41.5 188 L40.4 51 Z" fill="rgba(212,203,232,0.38)"/>
+          <ellipse cx="40" cy="190" rx="20" ry="4" fill="rgba(212,203,232,0.22)" stroke="rgba(212,203,232,0.38)" stroke-width="0.8"/>
+          <rect x="20" y="190" width="40" height="4" fill="rgba(212,203,232,0.12)"/>
+          <ellipse cx="40" cy="194" rx="20" ry="4" fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
+          <ellipse cx="40" cy="199" rx="22" ry="2" fill="rgba(212,203,232,0.06)"/>
         </svg>
       </div>
 
-      <div class="clock-wrap">
-        <div class="date-line" id="dateline"></div>
-        <div class="weather-wrap" id="weather">
-          <span class="weather-icon" id="weather-icon"></span>
-          <span class="weather-temp" id="weather-temp"></span>
-          <span class="weather-desc" id="weather-desc"></span>
-          <span class="weather-loc" id="weather-loc"></span>
-        </div>
-        <div class="clock" id="clock">00:00</div>
-      </div>
+    </div><!-- /n-strip -->
+  </div><!-- /homeNight -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       DAY HOME  (白天 6:00–18:00)
+       左：瑞士高山湖照片，flex 比例，cover 裁切
+       中：湖蓝灰毛玻璃，内容面板
+       右：雾蓝灰条，搜索 / 通知卡 / 时钟
+       ══════════════════════════════════════════════════════════ -->
+  <div id="homeDay" class="d-layout" style="display:none">
+
+    <!-- Full-bleed background (alpine morning, blurs through glass) -->
+    <div class="d-bg" aria-hidden="true">
+      <img src="/images/homepage-morning.jpg" alt="" loading="eager">
     </div>
 
-  </div>
+    <!-- Left: alpine photo, flex ratio, cover -->
+    <div class="d-photo" aria-hidden="true">
+      <img src="/images/homepage-morning.jpg" alt="" loading="eager">
+    </div>
 
-<script is:inline>
-  // Day / night switch (6:00–18:00 = day)
-  const _hour = new Date().getHours();
-  const _isDay = _hour >= 6 && _hour < 18;
-  if (_isDay) {
-    document.querySelector('.layout').classList.add('day');
-    // Search bar is interactive in day mode — remove aria-hidden so events work
-    document.getElementById('blackStrip').removeAttribute('aria-hidden');
-  }
+    <!-- Middle: frosted glass content panel -->
+    <div class="d-glass">
+      <div class="d-logo">Si</div>
 
-  const greetings = _isDay ? [
-    'Good morning',   // English
-    '早上好',          // Chinese
-    'Guten Morgen',   // German
-    'Bonjour',        // French
-    'Buongiorno',     // Italian
-    'Buenos días',    // Spanish
-    'おはようございます', // Japanese
-    '좋은 아침',       // Korean
-    'Goedemorgen',    // Dutch
-    'Bom dia',        // Portuguese
-    'God morgon',     // Swedish
-    'Доброе утро',    // Russian
-    'Καλημέρα',       // Greek
-    'Günaydın',       // Turkish
-    'صباح الخير',     // Arabic
-    'शुभ प्रभात',      // Hindi
-  ] : [
-    'Good evening',   // English
-    '晚上好',          // Chinese
-    'Guten Abend',    // German
-    'Bonsoir',        // French
-    'Buona sera',     // Italian
-    'Buenas noches',  // Spanish
-    'こんばんは',      // Japanese
-    '좋은 저녁',       // Korean
-    'Goedenavond',    // Dutch
-    'Boa noite',      // Portuguese
-    'God kväll',      // Swedish
-    'Добрый вечер',   // Russian
-    'Καλησπέρα',      // Greek
-    'İyi akşamlar',   // Turkish
-    'مساء الخير',     // Arabic
-    'शुभ संध्या',      // Hindi
-  ];
+      <div class="d-tagwrap">
+        <h1 class="d-tag">Making <em class="d-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
+        <div class="d-rule"></div>
+      </div>
 
-  const el = document.getElementById('greeting');
-  let i = 0;
+      <nav class="d-mods">
+        {modules.map(m => (
+          <a class="d-mod" href={m.href}>
+            <svg class="d-bullet-leaf" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 1 C10 1 12 5 10 9 C9 12 7.5 14 6 15 C4.5 14 3 12 2 9 C0 5 2 1 6 1Z" fill="currentColor"/>
+              <line x1="6" y1="4" x2="6" y2="15" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+            </svg>
+            <span class="d-num">{m.num}</span>
+            <span class="d-body">
+              <span class="d-title">{m.title}</span>
+              <span class="d-desc">{m.desc}</span>
+            </span>
+          </a>
+        ))}
+      </nav>
 
-  // Clock + date
-  const clockEl   = document.getElementById('clock');
-  const datelineEl = document.getElementById('dateline');
-  const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      <div class="d-contact">
+        <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="d-link">LinkedIn</a>
+        <span class="d-sep">·</span>
+        <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="d-link">Red Note</a>
+        <span class="d-sep">·</span>
+        <a href="mailto:sisi.zhang.ch@gmail.com" class="d-link">Email</a>
+      </div>
+      <p class="d-copy">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
+    </div>
 
-  function updateClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    clockEl.textContent = h + ':' + m;
-    datelineEl.textContent = DAYS[now.getDay()] + ' ' + MONTHS[now.getMonth()] + ' ' + now.getDate();
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
+    <!-- Right: mist blue-grey phone strip -->
+    <div class="d-strip" id="dStrip">
 
-  // Weather
-  const WMO = {
-    0:  ['☀',  'Clear'],
-    1:  ['🌤', 'Mostly clear'],
-    2:  ['⛅', 'Partly cloudy'],
-    3:  ['☁',  'Overcast'],
-    45: ['🌫', 'Fog'],
-    48: ['🌫', 'Fog'],
-    51: ['🌦', 'Drizzle'],
-    53: ['🌦', 'Drizzle'],
-    55: ['🌦', 'Drizzle'],
-    61: ['🌧', 'Rain'],
-    63: ['🌧', 'Rain'],
-    65: ['🌧', 'Heavy rain'],
-    71: ['🌨', 'Snow'],
-    73: ['🌨', 'Snow'],
-    75: ['❄',  'Heavy snow'],
-    80: ['🌦', 'Showers'],
-    81: ['🌧', 'Showers'],
-    82: ['🌧', 'Heavy showers'],
-    95: ['⛈',  'Thunderstorm'],
-    96: ['⛈',  'Thunderstorm'],
-    99: ['⛈',  'Thunderstorm'],
-  };
+      <div class="d-carrier">
+        <svg class="d-carrier-signal" viewBox="0 0 20 14" fill="none">
+          <rect x="0"    y="9" width="3" height="5"  rx="0.8" fill="currentColor"/>
+          <rect x="4.5"  y="6" width="3" height="8"  rx="0.8" fill="currentColor"/>
+          <rect x="9"    y="3" width="3" height="11" rx="0.8" fill="currentColor"/>
+          <rect x="13.5" y="0" width="3" height="14" rx="0.8" fill="currentColor" opacity="0.3"/>
+        </svg>
+        <span class="d-carrier-name">Swisscom</span>
+      </div>
 
-  async function fetchWeather(lat, lon, city) {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode&temperature_unit=celsius&timezone=auto`;
-    const res  = await fetch(url);
-    const data = await res.json();
-    const temp = Math.round(data.current.temperature_2m);
-    const code = data.current.weathercode;
-    const [icon, desc] = WMO[code] ?? ['🌡', 'Unknown'];
-    document.getElementById('weather-icon').textContent = icon;
-    document.getElementById('weather-temp').textContent = temp + '°C';
-    document.getElementById('weather-desc').textContent = desc;
-    document.getElementById('weather-loc').textContent = city || 'Luzern';
-  }
+      <div class="d-statusbar">
+        <svg class="d-status-icon" viewBox="0 0 24 24" fill="none">
+          <path d="M12 18.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="currentColor"/>
+          <path d="M12 14c1.6 0 3 .65 4.05 1.7l1.42-1.42A8.1 8.1 0 0 0 12 12a8.1 8.1 0 0 0-5.47 2.28l1.42 1.42A6.08 6.08 0 0 1 12 14z" fill="currentColor"/>
+          <path d="M12 9.5c2.76 0 5.26 1.12 7.07 2.93l1.42-1.42A12.14 12.14 0 0 0 12 7.5c-3.35 0-6.39 1.36-8.49 3.51l1.42 1.42A10.12 10.12 0 0 1 12 9.5z" fill="currentColor"/>
+          <path d="M12 5c3.93 0 7.48 1.59 10.05 4.16l1.42-1.42A16.18 16.18 0 0 0 12 3C7.37 3 3.17 4.93.53 8.02l1.42 1.42A14.15 14.15 0 0 1 12 5z" fill="currentColor"/>
+        </svg>
+        <svg class="d-status-icon d-battery" viewBox="0 0 28 14" fill="none">
+          <rect x="0.5" y="0.5" width="23" height="13" rx="3.5" stroke="currentColor" stroke-opacity="0.6"/>
+          <rect x="2"   y="2"   width="20" height="10" rx="2"   fill="currentColor"/>
+          <path d="M25 4.5v5a2.5 2.5 0 0 0 0-5z" fill="currentColor" fill-opacity="0.6"/>
+        </svg>
+      </div>
 
-  async function getCity(lat, lon) {
-    try {
-      const res  = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`
+      <div class="d-greet-wrap">
+        <span class="d-greet" id="dGreeting"></span>
+      </div>
+
+      <div class="d-clockwrap">
+        <div class="d-dateline" id="dDateline"></div>
+        <div class="d-weather" id="dWeather">
+          <span class="d-w-icon" id="dWeatherIcon"></span>
+          <span class="d-w-temp" id="dWeatherTemp"></span>
+          <span class="d-w-desc" id="dWeatherDesc"></span>
+          <span class="d-w-loc"  id="dWeatherLoc"></span>
+        </div>
+        <div class="d-clock" id="dClock">00:00</div>
+      </div>
+
+      <!-- Search bar -->
+      <div class="d-search-wrap">
+        <div class="d-search-bar">
+          <svg class="d-search-icon" viewBox="0 0 18 18" fill="none">
+            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input id="dSearchInput" class="d-search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false">
+        </div>
+        <div class="d-search-results" id="dSearchResults"></div>
+      </div>
+
+      <!-- Notification cards -->
+      <div class="d-notif-stack">
+        <a class="d-notif" href="/research/data">
+          <div class="d-notif-meta">
+            <div class="d-notif-left">
+              <svg class="d-notif-icon" viewBox="0 0 16 14" fill="none">
+                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
+                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+              <span class="d-notif-app">Latest Update</span>
+            </div>
+            <span class="d-notif-time">Jun 16, 2026</span>
+          </div>
+          <div class="d-notif-title">NSFG Contraceptive Survey</div>
+          <div class="d-notif-body">2022–23 vs 2017–19 cycle analysis · method trends by age</div>
+        </a>
+        <a class="d-notif" href="/photography/stoos-ridge-line">
+          <div class="d-notif-meta">
+            <div class="d-notif-left">
+              <svg class="d-notif-icon" viewBox="0 0 16 14" fill="none">
+                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
+                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+              <span class="d-notif-app">Latest Update</span>
+            </div>
+            <span class="d-notif-time">Jun 5, 2026</span>
+          </div>
+          <div class="d-notif-title">Stoos Ridge Line Hike</div>
+          <div class="d-notif-body">Hiking guide · Central Switzerland, ridge traverse</div>
+        </a>
+      </div>
+
+    </div><!-- /d-strip -->
+  </div><!-- /homeDay -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SHARED JS  (clock · weather · greeting · lamp · search)
+       ══════════════════════════════════════════════════════════ -->
+  <script is:inline>
+    // ── Day/night detection (runs after DOM is ready) ──
+    var _preview = new URLSearchParams(location.search).get('preview');
+    var _hour    = _preview === 'night' ? 20 : _preview === 'day' ? 10 : new Date().getHours();
+    var _isDay   = _hour >= 6 && _hour < 18;
+    document.getElementById(_isDay ? 'homeDay' : 'homeNight').style.display = 'flex';
+
+    const _pfx = _isDay ? 'd' : 'n';
+
+    function gel(id) { return document.getElementById(_pfx + id); }
+
+    // ── Greetings (morning 6–12 / afternoon 12–18 / evening 18–6) ──
+    const _morningGreets = [
+      'Good morning', '早上好', 'Guten Morgen', 'Bonjour', 'Buongiorno',
+      'Buenos días', 'おはようございます', '좋은 아침', 'Goedemorgen', 'Bom dia',
+      'God morgon', 'Доброе утро', 'Καλημέρα', 'Günaydın', 'صباح الخير', 'शुभ प्रभात',
+    ];
+    const _afternoonGreets = [
+      'Good afternoon', '下午好', 'Guten Tag', 'Bon après-midi', 'Buon pomeriggio',
+      'Buenas tardes', 'こんにちは', '좋은 오후', 'Goedemiddag', 'Boa tarde',
+      'God eftermiddag', 'Добрый день', 'Καλό απόγευμα', 'İyi günler', 'مساء النور', 'नमस्ते',
+    ];
+    const _nightGreets = [
+      'Good evening', '晚上好', 'Guten Abend', 'Bonsoir', 'Buona sera',
+      'Buenas noches', 'こんばんは', '좋은 저녁', 'Goedenavond', 'Boa noite',
+      'God kväll', 'Добрый вечер', 'Καλησπέρα', 'İyi akşamlar', 'مساء الخير', 'शुभ संध्या',
+    ];
+    const _greets = _hour >= 6 && _hour < 12 ? _morningGreets
+                  : _hour >= 12 && _hour < 18 ? _afternoonGreets
+                  : _nightGreets;
+    const _greetEl = gel('Greeting');
+    let _gi = 0;
+
+    function _isChinese(s) { return /[一-鿿]/.test(s); }
+    function _setGreet(t) {
+      _greetEl.textContent = t;
+      _greetEl.classList.toggle('zh', _isChinese(t));
+    }
+    function _nextGreet() {
+      _greetEl.classList.remove('visible');
+      setTimeout(function () {
+        _setGreet(_greets[_gi % _greets.length]);
+        _gi++;
+        void _greetEl.offsetWidth;
+        _greetEl.classList.add('visible');
+        setTimeout(_nextGreet, 4200);
+      }, 1600);
+    }
+    setTimeout(function () {
+      _setGreet(_greets[_gi % _greets.length]);
+      _gi++;
+      void _greetEl.offsetWidth;
+      _greetEl.classList.add('visible');
+      setTimeout(_nextGreet, 4200);
+    }, 600);
+
+    // ── Clock + date ──
+    const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function updateClock() {
+      var now = new Date();
+      var h = String(now.getHours()).padStart(2,'0');
+      var m = String(now.getMinutes()).padStart(2,'0');
+      gel('Clock').textContent = h + ':' + m;
+      gel('Dateline').textContent = DAYS[now.getDay()] + ' ' + MONTHS[now.getMonth()] + ' ' + now.getDate();
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ── Weather ──
+    var WMO = {
+      0:['☀','Clear'], 1:['🌤','Mostly clear'], 2:['⛅','Partly cloudy'], 3:['☁','Overcast'],
+      45:['🌫','Fog'], 48:['🌫','Fog'],
+      51:['🌦','Drizzle'], 53:['🌦','Drizzle'], 55:['🌦','Drizzle'],
+      61:['🌧','Rain'], 63:['🌧','Rain'], 65:['🌧','Heavy rain'],
+      71:['🌨','Snow'], 73:['🌨','Snow'], 75:['❄','Heavy snow'],
+      80:['🌦','Showers'], 81:['🌧','Showers'], 82:['🌧','Heavy showers'],
+      95:['⛈','Thunderstorm'], 96:['⛈','Thunderstorm'], 99:['⛈','Thunderstorm'],
+    };
+    function fetchWeather(lat, lon, city) {
+      fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weathercode&temperature_unit=celsius&timezone=auto')
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          var temp = Math.round(data.current.temperature_2m);
+          var code = data.current.weathercode;
+          var ic = WMO[code] || ['🌡','Unknown'];
+          gel('WeatherIcon').textContent = ic[0];
+          gel('WeatherTemp').textContent = temp + '°C';
+          gel('WeatherDesc').textContent = ic[1];
+          gel('WeatherLoc').textContent  = city || 'Luzern';
+        }).catch(function(){});
+    }
+    function getCity(lat, lon) {
+      return fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json&accept-language=en')
+        .then(function(r){ return r.json(); })
+        .then(function(d){ return d.address && (d.address.city || d.address.town || d.address.village || d.address.county) || ''; })
+        .catch(function(){ return ''; });
+    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(pos) {
+          var lat = pos.coords.latitude, lon = pos.coords.longitude;
+          getCity(lat, lon).then(function(city){ fetchWeather(lat, lon, city); });
+        },
+        function(){ fetchWeather(47.05, 8.31, 'Luzern'); }
       );
-      const data = await res.json();
-      return data.address?.city || data.address?.town || data.address?.village || data.address?.county || '';
-    } catch { return ''; }
-  }
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      async pos => {
-        const { latitude: lat, longitude: lon } = pos.coords;
-        const city = await getCity(lat, lon);
-        fetchWeather(lat, lon, city);
-      },
-      () => fetchWeather(47.05, 8.31, 'Luzern')
-    );
-  } else {
-    fetchWeather(47.05, 8.31, 'Luzern');
-  }
-
-  // Lamp easter egg
-  const lampEl   = document.getElementById('floorLamp');
-  const stripEl  = lampEl.closest('.black-strip');
-  lampEl.addEventListener('click', () => {
-    stripEl.classList.toggle('lamp-on');
-  });
-
-  const isChinese = s => /[一-鿿]/.test(s);
-
-  function setGreeting(text) {
-    el.textContent = text;
-    el.classList.toggle('zh', isChinese(text));
-  }
-
-  function showNext() {
-    el.classList.remove('visible');
-    setTimeout(() => {
-      setGreeting(greetings[i % greetings.length]);
-      i++;
-      void el.offsetWidth;
-      el.classList.add('visible');
-      setTimeout(showNext, 2800 + 1400);
-    }, 1600);
-  }
-
-  setTimeout(() => {
-    setGreeting(greetings[i % greetings.length]);
-    i++;
-    void el.offsetWidth;
-    el.classList.add('visible');
-    setTimeout(showNext, 2800 + 1400);
-  }, 600);
-
-  // ── Search (day mode only) ──
-  if (document.querySelector('.layout').classList.contains('day')) {
-    let pagefind;
-    const searchInput   = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-
-    async function initPagefind() {
-      if (pagefind) return;
-      try {
-        pagefind = await import('/pagefind/pagefind.js');
-        await pagefind.init();
-      } catch (e) { pagefind = null; }
+    } else {
+      fetchWeather(47.05, 8.31, 'Luzern');
     }
 
-    function positionResults() {
-      const bar = searchInput.closest('.search-bar');
-      const rect = bar.getBoundingClientRect();
-      const availH = window.innerHeight - rect.bottom - 12;
-      searchResults.style.top       = (rect.bottom + 6) + 'px';
-      searchResults.style.left      = rect.left + 'px';
-      searchResults.style.width     = rect.width + 'px';
-      searchResults.style.maxHeight = Math.min(240, Math.max(80, availH)) + 'px';
+    // ── Floor lamp (night only) ──
+    if (!_isDay) {
+      var _lampEl  = document.getElementById('nLamp');
+      var _stripEl = document.getElementById('nStrip');
+      _lampEl.addEventListener('click', function () {
+        _stripEl.classList.toggle('n-lamp-on');
+      });
     }
 
-    async function doSearch(query) {
-      if (!query.trim()) { searchResults.classList.remove('open'); return; }
-      await initPagefind();
-      if (!pagefind) {
-        searchResults.innerHTML = '<div class="search-no-results">Search unavailable.</div>';
-        positionResults();
-        searchResults.classList.add('open');
-        return;
+    // ── Search (day only) ──
+    if (_isDay) {
+      var _pf;
+      var _si = document.getElementById('dSearchInput');
+      var _sr = document.getElementById('dSearchResults');
+
+      async function _initPF() {
+        if (_pf) return;
+        try { _pf = await import('/pagefind/pagefind.js'); await _pf.init(); }
+        catch(e) { _pf = null; }
       }
-      try {
-        const results = await pagefind.search(query);
-        const top = await Promise.all(results.results.slice(0, 6).map(r => r.data()));
-        searchResults.innerHTML = '';
-        if (!top.length) {
-          searchResults.innerHTML = '<div class="search-no-results">No results for "' + query + '".</div>';
-        } else {
-          top.forEach(r => {
-            const a = document.createElement('a');
-            a.className = 'search-result-item';
-            a.href = r.url;
-            const title = r.meta?.title || r.url;
-            const excerpt = r.excerpt ? r.excerpt.replace(/<\/?mark>/g, '') : '';
-            a.innerHTML = `<div class="sri-title">${title}</div>`
-              + (excerpt ? `<div class="sri-excerpt">${excerpt}</div>` : '');
-            searchResults.appendChild(a);
-          });
+      function _posResults() {
+        var bar  = _si.closest('.d-search-bar');
+        var rect = bar.getBoundingClientRect();
+        var avH  = window.innerHeight - rect.bottom - 12;
+        _sr.style.top      = (rect.bottom + 6) + 'px';
+        _sr.style.left     = rect.left + 'px';
+        _sr.style.width    = rect.width + 'px';
+        _sr.style.maxHeight = Math.min(240, Math.max(80, avH)) + 'px';
+      }
+      async function _doSearch(q) {
+        if (!q.trim()) { _sr.classList.remove('open'); return; }
+        await _initPF();
+        if (!_pf) {
+          _sr.innerHTML = '<div class="d-sr-empty">Search unavailable.</div>';
+          _posResults(); _sr.classList.add('open'); return;
         }
-        positionResults();
-        searchResults.classList.add('open');
-      } catch(e) {
-        searchResults.innerHTML = '<div class="search-no-results">Search error. Please retry.</div>';
-        positionResults();
-        searchResults.classList.add('open');
+        try {
+          var res = await _pf.search(q);
+          var top = await Promise.all(res.results.slice(0,6).map(function(r){ return r.data(); }));
+          _sr.innerHTML = '';
+          if (!top.length) {
+            _sr.innerHTML = '<div class="d-sr-empty">No results for "' + q + '".</div>';
+          } else {
+            top.forEach(function(r) {
+              var a = document.createElement('a');
+              a.className = 'd-sr-item';
+              a.href = r.url;
+              var title   = r.meta && r.meta.title || r.url;
+              var excerpt = r.excerpt ? r.excerpt.replace(/<\/?mark>/g,'') : '';
+              a.innerHTML = '<div class="d-sr-title">'+title+'</div>'
+                + (excerpt ? '<div class="d-sr-excerpt">'+excerpt+'</div>' : '');
+              _sr.appendChild(a);
+            });
+          }
+          _posResults(); _sr.classList.add('open');
+        } catch(e) {
+          _sr.innerHTML = '<div class="d-sr-empty">Search error. Please retry.</div>';
+          _posResults(); _sr.classList.add('open');
+        }
       }
+      var _dbt;
+      _si.addEventListener('input', function(e) {
+        clearTimeout(_dbt); _dbt = setTimeout(function(){ _doSearch(e.target.value); }, 220);
+      });
+      _si.addEventListener('focus', function(){ _initPF(); });
+      window.addEventListener('resize', function(){
+        if (_sr.classList.contains('open')) _posResults();
+      });
+      document.addEventListener('click', function(e){
+        if (!e.target.closest('.d-search-wrap') && !e.target.closest('.d-search-results'))
+          _sr.classList.remove('open');
+      });
     }
-
-    let debounce;
-    searchInput.addEventListener('input', e => {
-      clearTimeout(debounce);
-      debounce = setTimeout(() => doSearch(e.target.value), 220);
-    });
-    searchInput.addEventListener('focus', () => initPagefind());
-    window.addEventListener('resize', () => {
-      if (searchResults.classList.contains('open')) positionResults();
-    });
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.search-wrap') && !e.target.closest('.search-results'))
-        searchResults.classList.remove('open');
-    });
-  }
-</script>
-
+  </script>
 
 </BaseLayout>
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Nunito:wght@300;400&display=swap');
+<style is:global>
 
-  .layout {
+  /* Layout display controlled by inline style + JS (see shared script) */
+
+
+  /* ════════════════════════════════════════════════════════
+     NIGHT STYLES
+     ════════════════════════════════════════════════════════ */
+
+  .n-layout {
     position: fixed;
     inset: 0;
     overflow: hidden;
-    display: flex;
   }
 
-  /* ── Full-bleed background (blurred by glass strip) ── */
-  .photo-bg {
+  /* Full-bleed background for glass blur */
+  .n-bg {
     position: absolute;
     inset: 0;
     z-index: 0;
   }
-  .photo-bg img {
+  .n-bg img {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: 60% 18%;
     display: block;
   }
 
-  /* ── Left photo strip: 1/3 ── */
-  .photo-strip {
+  /* Left photo strip — 1/3 width */
+  .n-photo {
     position: relative;
     z-index: 2;
-    flex: 1.4 1 0;
+    flex: 1 1 0;
     overflow: hidden;
   }
-  .photo-strip img {
-    display: block;
-    width: 100%; height: 100%;
+  .n-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    object-position: center 18%;
+    object-position: center 25%;
+    display: block;
   }
 
-  /* ── Right black strip ── */
-  .black-strip {
+  /* Middle glass panel */
+  .n-glass {
     position: relative;
     z-index: 2;
-    flex: 0.95 1 0;
-    background: #000;
-    container-type: inline-size;
-    overflow-x: clip;
-  }
-
-
-  /* ── Cats ── */
-  .cats-container {
-    position: absolute;
-    bottom: max(0px, env(safe-area-inset-bottom));
-    left: clamp(16px, 12cqw, 56px);
-    z-index: 4;
-    width: clamp(90px, 52cqw, 250px);
-  }
-
-  .cats-wrap {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-  }
-
-  .cats-illustration {
-    grid-area: 1 / 1;
-    display: block;
-    width: 100%;
-    height: auto;
-    filter: brightness(0.65) contrast(3);
-    transition: filter 0.9s ease;
-    mask-image: linear-gradient(to top, black 55%, transparent 95%);
-    -webkit-mask-image: linear-gradient(to top, black 55%, transparent 95%);
-  }
-
-  /* Big cat (left half) */
-  .cat-a {
-    clip-path: inset(0 48% 0 0);
-    animation: cat-blink 5s ease-in-out infinite;
-  }
-
-  /* Small cat (right half) — faster blink, offset phase */
-  .cat-b {
-    clip-path: inset(0 0 0 50%);
-    animation: cat-blink 2s ease-in-out infinite;
-    animation-delay: -1.1s;
-  }
-
-  .lamp-on .cats-illustration {
-    filter: brightness(0.75) contrast(2.8) drop-shadow(0 0 18px rgba(255, 215, 60, 0.3));
-    animation: none;
-    opacity: 1;
-  }
-
-  @keyframes cat-blink {
-    0%, 88%, 100% { opacity: 1; }
-    91%, 96%      { opacity: 0; }
-  }
-
-  /* ── Light beam ── */
-  .beam-path {
-    opacity: 0;
-    transition: opacity 0.7s ease;
-  }
-
-  .lamp-on .beam-path {
-    opacity: 1;
-  }
-
-  /* ── Floor lamp ── */
-  /* 15vh keeps lamp at ~37% screen height regardless of viewport width */
-  .floor-lamp {
-    position: absolute;
-    bottom: 0;
-    right: clamp(8px, 1.5cqw, 16px);
-    width: clamp(100px, 15vh, 220px);
-    opacity: 0.9;
-    pointer-events: all;
-    cursor: pointer;
-    z-index: 3;
-  }
-
-  .lamp-on .floor-lamp {
-    opacity: 1;
-    filter: drop-shadow(0 0 12px rgba(255, 220, 80, 0.55)) drop-shadow(0 0 32px rgba(255, 200, 60, 0.25));
-  }
-
-  .floor-lamp svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .carrier {
-    position: absolute;
-    top: 20px;
-    left: 16px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: rgba(212, 203, 232, 0.45);
-  }
-
-  .carrier-signal {
-    width: 17px;
-    height: 12px;
-    display: block;
-  }
-
-  .carrier-name {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-  }
-
-  .status-bar {
-    position: absolute;
-    top: 18px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: rgba(212, 203, 232, 0.45);
-  }
-
-  .status-icon {
-    width: 18px;
-    height: 18px;
-    display: block;
-  }
-
-  .battery-icon {
-    width: 26px;
-    height: 13px;
-  }
-
-  .greeting-wrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 22%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* ── Apple-style clock ── */
-  .clock-wrap {
-    position: absolute;
-    top: 22%;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    padding-top: 8px;
-    z-index: 2;
-  }
-
-  .date-line {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(11px, 3.5cqw, 16px);
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: rgba(235, 228, 255, 0.90);
-    background: rgba(180, 160, 220, 0.22);
-    padding: 5px 16px 6px;
-    border-radius: 20px;
-  }
-
-  .clock {
-    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
-    font-size: clamp(56px, 32cqw, 150px);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 0.95;
-    font-variant-numeric: tabular-nums;
-    background: linear-gradient(
-      175deg,
-      rgba(235, 228, 255, 0.72) 0%,
-      rgba(196, 180, 235, 0.50) 40%,
-      rgba(155, 135, 200, 0.28) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    -webkit-box-reflect: below 1px linear-gradient(transparent 30%, rgba(180, 160, 220, 0.32) 100%);
-  }
-
-  .weather-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 0;
-    margin-bottom: 0;
-    color: rgba(212, 203, 232, 0.52);
-  }
-
-  .weather-icon {
-    font-size: clamp(16px, 7cqw, 28px);
-    line-height: 1;
-  }
-
-  .weather-temp {
-    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
-    font-size: clamp(18px, 9cqw, 34px);
-    font-weight: 700;
-    letter-spacing: 0.01em;
-  }
-
-  .weather-desc {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(11px, 4cqw, 17px);
-    font-weight: 300;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  .weather-loc {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(10px, 3.5cqw, 14px);
-    font-weight: 300;
-    letter-spacing: 0.08em;
-    opacity: 0.65;
-    text-transform: uppercase;
-  }
-  .weather-loc:not(:empty)::before { content: '·'; margin-right: 5px; opacity: 0.5; }
-
-  .greeting-text {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(20px, 12cqw, 56px);
-    font-weight: 300;
-    font-style: italic;
-    color: rgba(212, 203, 232, 0.82);
-    letter-spacing: 0.02em;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .greeting-text.visible {
-    opacity: 1;
-  }
-
-  .greeting-text.zh {
-    font-family: 'Ma Shan Zheng', cursive;
-  }
-
-  /* ── Frosted glass content panel ── */
-  .glass-strip {
-    position: relative;
-    z-index: 2;
-    flex: 1.7 1 0;
+    flex: 1.3 1 0;
     align-self: stretch;
     display: flex;
     flex-direction: column;
@@ -770,8 +553,7 @@ const modules = [
     container-type: size;
   }
 
-  /* Si logo */
-  .si-logo {
+  .n-logo {
     font-family: 'Great Vibes', cursive;
     font-size: clamp(48px, 10cqw, 100px);
     line-height: 1;
@@ -779,15 +561,12 @@ const modules = [
     font-style: italic;
     margin-bottom: clamp(16px, 4cqh, 52px);
     flex-shrink: 0;
-    text-shadow:
-      0 0 20px rgba(196, 168, 224, 0.8),
-      0 0 60px rgba(196, 168, 224, 0.3);
+    text-shadow: 0 0 20px rgba(196,168,224,0.8), 0 0 60px rgba(196,168,224,0.3);
   }
 
-  /* Tagline */
-  .tagline-wrap { flex-shrink: 0; }
+  .n-tagwrap { flex-shrink: 0; }
 
-  .tagline {
+  .n-tag {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(32px, 8cqw, 72px);
     font-weight: 300;
@@ -796,7 +575,7 @@ const modules = [
     margin: 0 0 clamp(12px, 2.5cqh, 30px);
   }
 
-  .sense {
+  .n-sense {
     font-style: italic;
     color: #C4A8E0;
     font-weight: 300;
@@ -804,18 +583,14 @@ const modules = [
     transform: skewX(-8deg);
   }
 
-  .tagline-rule {
+  .n-rule {
     width: 46%;
     height: 1px;
-    background: linear-gradient(to right,
-      rgba(255,255,255,0.75),
-      rgba(196,168,224,0.35),
-      transparent
-    );
+    background: linear-gradient(to right, rgba(255,255,255,0.75), rgba(196,168,224,0.35), transparent);
   }
 
-  /* ── Module list ── */
-  .module-list {
+  /* Module list */
+  .n-mods {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -825,18 +600,17 @@ const modules = [
     overflow-y: auto;
     scrollbar-width: none;
   }
-  .module-list::-webkit-scrollbar { display: none; }
-
-  .module-list::before {
+  .n-mods::-webkit-scrollbar { display: none; }
+  .n-mods::before {
     content: '';
     position: absolute;
     left: 12px; top: 86px; bottom: 62px;
     width: 1px;
-    background: rgba(196, 150, 210, 0.2);
+    background: rgba(196,150,210,0.2);
     pointer-events: none;
   }
 
-  .mod-item {
+  .n-mod {
     display: grid;
     grid-template-columns: 24px 30px 1fr;
     align-items: center;
@@ -847,18 +621,16 @@ const modules = [
     overflow: hidden;
   }
 
-  .mod-bullet {
+  .n-bullet {
     font-size: 8px;
     color: #C4A8E0;
     text-align: center;
     line-height: 1;
     transition: color 0.2s, text-shadow 0.2s;
-    text-shadow:
-      0 0 6px rgba(196,168,224,0.9),
-      0 0 18px rgba(196,168,224,0.5);
+    text-shadow: 0 0 6px rgba(196,168,224,0.9), 0 0 18px rgba(196,168,224,0.5);
   }
 
-  .mod-num {
+  .n-num {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 11px;
     font-weight: 600;
@@ -866,9 +638,9 @@ const modules = [
     color: rgba(255,255,255,0.25);
   }
 
-  .mod-body { display: flex; flex-direction: column; gap: 2px; }
+  .n-body { display: flex; flex-direction: column; gap: 2px; }
 
-  .mod-title {
+  .n-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(16px, 5cqw, 32px);
     font-weight: 400;
@@ -878,7 +650,7 @@ const modules = [
     transition: color 0.2s;
   }
 
-  .mod-desc {
+  .n-desc {
     font-family: 'Nunito', Arial, sans-serif;
     font-size: clamp(11px, 1.4cqw, 15px);
     font-weight: 300;
@@ -886,53 +658,33 @@ const modules = [
     line-height: 1.4;
   }
 
-  /* Hover: text brightens */
-  .mod-item:hover .mod-title { color: #fff; }
-  .mod-item:hover .mod-bullet {
-    color: #fff;
-    animation: bullet-twinkle 1.8s ease-in-out infinite;
+  .n-mod:hover .n-title  { color: #fff; }
+  .n-mod:hover .n-bullet { color: #fff; animation: n-twinkle 1.8s ease-in-out infinite; }
+
+  @keyframes n-twinkle {
+    0%, 100% { transform: scale(1.8); text-shadow: 0 0 4px #fff, 0 0 12px #fff, 0 0 24px rgba(196,168,224,1), 0 0 50px rgba(196,168,224,.8); }
+    50%       { transform: scale(1.1); text-shadow: 0 0 2px rgba(255,255,255,.3), 0 0 8px rgba(196,168,224,.4); }
   }
 
-  @keyframes bullet-twinkle {
-    0%, 100% {
-      transform: scale(1.8);
-      text-shadow: 0 0 4px #fff, 0 0 12px #fff,
-                   0 0 24px rgba(196,168,224,1), 0 0 50px rgba(196,168,224,.8);
-    }
-    50% {
-      transform: scale(1.1);
-      text-shadow: 0 0 2px rgba(255,255,255,.3), 0 0 8px rgba(196,168,224,.4);
-    }
-  }
-
-  /* Hover meteor sweep */
-  .mod-item::after {
+  .n-mod::after {
     content: '';
     position: absolute;
     bottom: 0; left: 64px;
     height: 1px; width: 0; opacity: 0;
-    background: linear-gradient(to right,
-      rgba(255,255,255,0.95),
-      rgba(235,215,255,0.85) 45%,
-      rgba(196,168,224,0.40) 75%,
-      transparent
-    );
+    background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(235,215,255,0.85) 45%, rgba(196,168,224,0.40) 75%, transparent);
     pointer-events: none;
   }
+  .n-mod:hover::after { animation: n-meteor 2.8s ease-out infinite; }
 
-  .mod-item:hover::after {
-    animation: item-meteor 2.8s ease-out infinite;
-  }
-
-  @keyframes item-meteor {
+  @keyframes n-meteor {
     0%   { width: 0;                  opacity: 1; }
     55%  { width: calc(100% - 64px);  opacity: 1; }
     80%  { width: calc(100% - 64px);  opacity: 0; }
     100% { width: 0;                  opacity: 0; }
   }
 
-  /* ── Contact ── */
-  .contact {
+  /* Contact */
+  .n-contact {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -941,7 +693,7 @@ const modules = [
     flex-shrink: 0;
   }
 
-  .contact-link {
+  .n-link {
     font-family: 'Nunito', Arial, sans-serif;
     font-size: 12px;
     font-weight: 400;
@@ -951,150 +703,624 @@ const modules = [
     text-decoration: none;
     transition: color 0.25s;
   }
-  .contact-link:hover { color: #fff; }
+  .n-link:hover { color: #fff; }
 
-  .sep { color: rgba(196,168,224,0.2); font-size: 9px; }
+  .n-sep { color: rgba(196,168,224,0.2); font-size: 9px; }
 
-  .glass-copyright {
+  .n-copy {
     font-family: 'Nunito', Arial, sans-serif;
     font-size: clamp(9px, 1.2cqw, 11px);
     font-weight: 300;
     letter-spacing: 0.05em;
-    color: rgba(196, 168, 224, 0.62);
+    color: rgba(196,168,224,0.62);
     line-height: 1.7;
     padding-top: clamp(6px, 1cqh, 12px);
     flex-shrink: 0;
     margin: 0;
   }
 
-  /* ── Mobile (phones only, ≤600px) ── */
+  /* Right black strip */
+  .n-strip {
+    position: relative;
+    z-index: 2;
+    flex: 0.7 1 0;
+    background: #000;
+    container-type: inline-size;
+    overflow-x: clip;
+  }
+
+  .n-carrier {
+    position: absolute;
+    top: 20px; left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: rgba(212,203,232,0.45);
+  }
+  .n-carrier-signal { width: 17px; height: 12px; display: block; }
+  .n-carrier-name {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .n-statusbar {
+    position: absolute;
+    top: 18px; right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(212,203,232,0.45);
+  }
+  .n-status-icon { width: 18px; height: 18px; display: block; }
+  .n-battery     { width: 26px; height: 13px; }
+
+  .n-greet-wrap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 22%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .n-greet {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(20px, 12cqw, 56px);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(212,203,232,0.82);
+    letter-spacing: 0.02em;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .n-greet.visible { opacity: 1; }
+  .n-greet.zh      { font-family: 'Ma Shan Zheng', cursive; }
+
+  .n-clockwrap {
+    position: absolute;
+    top: 22%; left: 0; right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding-top: 8px;
+    z-index: 2;
+  }
+
+  .n-dateline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(11px, 3.5cqw, 16px);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: rgba(235,228,255,0.90);
+    background: rgba(180,160,220,0.22);
+    padding: 5px 16px 6px;
+    border-radius: 20px;
+  }
+
+  .n-clock {
+    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+    font-size: clamp(56px, 32cqw, 150px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(175deg, rgba(235,228,255,0.72) 0%, rgba(196,180,235,0.50) 40%, rgba(155,135,200,0.28) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    -webkit-box-reflect: below 1px linear-gradient(transparent 30%, rgba(180,160,220,0.32) 100%);
+  }
+
+  .n-weather {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(212,203,232,0.52);
+  }
+  .n-w-icon { font-size: clamp(16px, 7cqw, 28px); line-height: 1; }
+  .n-w-temp {
+    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+    font-size: clamp(18px, 9cqw, 34px);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .n-w-desc {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(11px, 4cqw, 17px);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .n-w-loc {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(10px, 3.5cqw, 14px);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    opacity: 0.65;
+    text-transform: uppercase;
+  }
+  .n-w-loc:not(:empty)::before { content: '·'; margin-right: 5px; opacity: 0.5; }
+
+  /* Cats */
+  .n-cats-container {
+    position: absolute;
+    bottom: max(0px, env(safe-area-inset-bottom));
+    left: clamp(16px, 12cqw, 56px);
+    z-index: 4;
+    width: clamp(90px, 52cqw, 250px);
+  }
+  .n-cats-wrap { display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; }
+  .n-cat {
+    grid-area: 1 / 1;
+    display: block;
+    width: 100%; height: auto;
+    filter: brightness(0.65) contrast(3);
+    transition: filter 0.9s ease;
+    mask-image: linear-gradient(to top, black 55%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to top, black 55%, transparent 95%);
+  }
+  .n-cat-a { clip-path: inset(0 48% 0 0); animation: n-cat-blink 5s ease-in-out infinite; }
+  .n-cat-b { clip-path: inset(0 0 0 50%); animation: n-cat-blink 2s ease-in-out infinite; animation-delay: -1.1s; }
+
+  .n-lamp-on .n-cat { filter: brightness(0.75) contrast(2.8) drop-shadow(0 0 18px rgba(255,215,60,0.3)); animation: none; opacity: 1; }
+
+  @keyframes n-cat-blink {
+    0%, 88%, 100% { opacity: 1; }
+    91%, 96%      { opacity: 0; }
+  }
+
+  /* Floor lamp */
+  .n-lamp {
+    position: absolute;
+    bottom: 0;
+    right: clamp(8px, 1.5cqw, 16px);
+    width: clamp(100px, 15vh, 220px);
+    opacity: 0.9;
+    pointer-events: all;
+    cursor: pointer;
+    z-index: 3;
+  }
+  .n-lamp svg { width: 100%; height: auto; display: block; }
+  .n-lamp-on .n-lamp { opacity: 1; filter: drop-shadow(0 0 12px rgba(255,220,80,0.55)) drop-shadow(0 0 32px rgba(255,200,60,0.25)); }
+
+  .n-beam { opacity: 0; transition: opacity 0.7s ease; }
+  .n-lamp-on .n-beam { opacity: 1; }
+
+  /* Night mobile ≤600px */
   @media (max-width: 600px) {
-    .layout { flex-direction: column; overflow-y: auto; }
-    .black-strip { display: none; }
-    .photo-strip {
-      width: 100%; height: 50vw;
-      flex-shrink: 0;
-    }
-    .photo-strip img { object-fit: cover; object-position: center 15%; }
-    .glass-strip {
-      flex: 1;
-      padding: 24px 24px 32px;
-      backdrop-filter: blur(24px) brightness(0.6);
-      -webkit-backdrop-filter: blur(24px) brightness(0.6);
-    }
-    .si-logo  { font-size: 64px; margin-bottom: 24px; }
-    .tagline  { font-size: clamp(28px, 7vw, 44px); }
-    .mod-item { padding: 12px 0; }
-    .mod-title { font-size: 18px; }
-    .mod-desc { display: none; }
-    .contact  { margin-top: 8px; }
+    .n-layout { flex-direction: column; overflow-y: auto; }
+    .n-strip { display: none; }
+    .n-photo { width: 100%; height: 50vw; flex-shrink: 0; }
+    .n-photo img { object-fit: cover; object-position: center 15%; }
+    .n-glass { flex: 1; padding: 24px 24px 32px; backdrop-filter: blur(24px) brightness(0.6); -webkit-backdrop-filter: blur(24px) brightness(0.6); }
+    .n-logo  { font-size: 64px; margin-bottom: 24px; }
+    .n-tag   { font-size: clamp(28px, 7vw, 44px); }
+    .n-mod   { padding: 12px 0; }
+    .n-title { font-size: 18px; }
+    .n-desc  { display: none; }
+    .n-contact { margin-top: 8px; }
   }
 
-  /* ── Tablet portrait (601–900px): two-column, no black strip ── */
+  /* Night tablet 601–900px: two-col, no strip */
   @media (min-width: 601px) and (max-width: 900px) {
-    .black-strip { display: none; }
-    .photo-strip { flex: 1.2 1 0; }
-    .glass-strip { flex: 1.8 1 0; }
+    .n-strip { display: none; }
+    .n-photo { width: calc(100vh * 4284 / 5712 * 0.85); }
+    .n-glass { flex: 1; }
   }
 
-  /* ════════════════════════════════════════
-     DAY MODE  (.layout.day, 06:00–18:00)
-     ════════════════════════════════════════ */
 
-  /* Photos */
-  .photo-bg img, .photo-strip img {
+  /* ════════════════════════════════════════════════════════
+     DAY STYLES
+     ════════════════════════════════════════════════════════ */
+
+  .d-layout {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  /* Full-bleed background for glass blur */
+  .d-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .d-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 48% 72%;
+    display: block;
+  }
+
+  /* Left photo strip — 1/3 width */
+  .d-photo {
+    position: relative;
+    z-index: 2;
+    flex: 1 1 0;
+    overflow: hidden;
+  }
+  .d-photo img {
     position: absolute;
     inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: center 35%;
+    display: block;
   }
-  .img-night { object-position: 60% 18%; }
-  .photo-strip .img-night { object-position: center 18%; }
-  .img-day                { display: none; }
-  .photo-bg .img-day    { object-position: 48% 72%; }        /* bg: lone spruce tree */
-  .photo-strip .img-day { object-position: center 35%; }     /* strip: show mountains + lake */
 
-  .layout.day .img-night { display: none; }
-  .layout.day .img-day   { display: block; }
-
-  /* Glass panel — warm amber morning tone, contrasts cool lake photo */
-  /* Glass panel — Alpine Morning: lake-blue-grey tint */
-  .layout.day .glass-strip {
-    background: rgba(110,123,129,0.36);
+  /* Middle glass panel */
+  .d-glass {
+    position: relative;
+    z-index: 2;
+    flex: 1.3 1 0;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(28px, 5cqh, 64px) clamp(20px, 5cqw, 72px) clamp(20px, 4cqh, 52px) clamp(28px, 7cqw, 100px);
+    background: rgba(110, 123, 129, 0.36);
     backdrop-filter: blur(32px) brightness(0.56) saturate(0.85);
     -webkit-backdrop-filter: blur(32px) brightness(0.56) saturate(0.85);
+    container-type: size;
   }
-  .layout.day .si-logo {
-    color: #fff;
-    text-shadow: 0 0 20px rgba(255,255,255,0.4), 0 0 50px rgba(255,255,255,0.15);
+
+  .d-logo {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(48px, 10cqw, 100px);
+    line-height: 1;
+    color: #A8D4B8;
+    font-style: italic;
+    margin-bottom: clamp(16px, 4cqh, 52px);
+    flex-shrink: 0;
+    text-shadow: 0 0 20px rgba(168,212,184,0.6), 0 0 50px rgba(168,212,184,0.2);
   }
-  .layout.day .tagline { color: rgba(255,255,255,0.92); }
-  .layout.day .sense   { color: #fff; font-style: italic; }
-  .layout.day .tagline-rule {
+
+  .d-tagwrap { flex-shrink: 0; }
+
+  .d-tag {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(32px, 8cqw, 72px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.14;
+    margin: 0 0 clamp(12px, 2.5cqh, 30px);
+  }
+
+  .d-sense {
+    font-style: italic;
+    color: #A8D4B8;
+    font-weight: 300;
+    display: inline-block;
+    transform: skewX(-8deg);
+  }
+
+  .d-rule {
+    width: 46%;
+    height: 1px;
     background: linear-gradient(to right, rgba(255,255,255,0.5), rgba(255,255,255,0.15), transparent);
   }
-  .layout.day .module-list::before { background: rgba(255,255,255,0.18); }
-  .layout.day .mod-num   { color: rgba(255,255,255,0.3); }
-  .layout.day .mod-title { color: rgba(255,255,255,0.88); }
-  .layout.day .mod-desc  { color: rgba(255,255,255,0.5); }
-  .layout.day .mod-item:hover .mod-title { color: #fff; }
-  .layout.day .mod-bullet {
-    color: rgba(255,255,255,0.8);
-    text-shadow: 0 0 6px rgba(255,255,255,0.7), 0 0 18px rgba(255,255,255,0.3);
+
+  /* Module list */
+  .d-mods {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: clamp(12px, 2.5cqh, 36px);
+    position: relative;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
   }
-  .layout.day .mod-item:hover .mod-bullet {
-    color: #fff;
-    animation: bullet-twinkle-day 1.8s ease-in-out infinite;
+  .d-mods::-webkit-scrollbar { display: none; }
+  .d-mods::before {
+    content: '';
+    position: absolute;
+    left: 12px; top: 86px; bottom: 62px;
+    width: 1px;
+    background: rgba(255,255,255,0.18);
+    pointer-events: none;
   }
-  .layout.day .mod-item::after {
+
+  .d-mod {
+    display: grid;
+    grid-template-columns: 24px 30px 1fr;
+    align-items: center;
+    gap: 0 10px;
+    padding: clamp(8px, 1.5cqh, 20px) 0;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .d-bullet-leaf {
+    width: 10px;
+    height: 13px;
+    color: #A8D4B8;
+    display: block;
+    margin: 0 auto;
+    flex-shrink: 0;
+    transition: color 0.2s, filter 0.2s;
+    filter: drop-shadow(0 0 4px rgba(168,212,184,0.7)) drop-shadow(0 0 10px rgba(168,212,184,0.3));
+  }
+
+  .d-num {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .d-body { display: flex; flex-direction: column; gap: 2px; }
+
+  .d-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(16px, 5cqw, 32px);
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.2;
+    transition: color 0.2s;
+  }
+
+  .d-desc {
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: clamp(11px, 1.4cqw, 15px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.4;
+  }
+
+  .d-mod:hover .d-title      { color: #fff; }
+  .d-mod:hover .d-bullet-leaf {
+    color: #d4f0e0;
+    animation: d-leaf-glow 1.8s ease-in-out infinite;
+  }
+
+  @keyframes d-leaf-glow {
+    0%, 100% {
+      transform: scale(1.25);
+      filter: drop-shadow(0 0 6px rgba(168,212,184,1)) drop-shadow(0 0 16px rgba(168,212,184,0.8)) drop-shadow(0 0 30px rgba(168,212,184,0.4));
+    }
+    50% {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 3px rgba(168,212,184,0.5)) drop-shadow(0 0 8px rgba(168,212,184,0.2));
+    }
+  }
+
+  /* Highlight: left→right gradient, tail almost transparent, collapses on mouse leave */
+  .d-mod::before {
+    content: '';
+    position: absolute;
+    inset: 0;
     background: linear-gradient(to right,
-      rgba(255,255,255,0.8),
-      rgba(255,255,255,0.4) 45%,
-      rgba(255,255,255,0.1) 75%,
+      rgba(168, 212, 184, 0.14) 0%,
+      rgba(168, 212, 184, 0.09) 40%,
+      rgba(168, 212, 184, 0.03) 75%,
+      rgba(168, 212, 184, 0.00) 100%
+    );
+    clip-path: inset(0 100% 0 0);
+    pointer-events: none;
+    transition: clip-path 0.5s ease;
+  }
+  .d-mod:hover::before {
+    animation: d-highlight-expand 1.5s ease-in-out 1 forwards;
+    transition: none;
+  }
+
+  @keyframes d-highlight-expand {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0% 0 0); }
+  }
+
+  /* Morning light beam — sweeps once at 2× speed */
+  .d-mod::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 64px;
+    width: 72px;
+    opacity: 0;
+    background: linear-gradient(to right,
+      transparent,
+      rgba(168, 212, 184, 0.20) 30%,
+      rgba(255, 255, 245, 0.26) 50%,
+      rgba(168, 212, 184, 0.20) 70%,
       transparent
     );
+    transform: translateX(-72px);
+    pointer-events: none;
   }
-  .layout.day .contact { border-top-color: rgba(255,255,255,0.18); }
-  .layout.day .contact-link { color: rgba(255,255,255,0.55); }
-  .layout.day .contact-link:hover { color: #fff; }
-  .layout.day .sep { color: rgba(255,255,255,0.2); }
-  .layout.day .glass-copyright { color: rgba(255,255,255,0.4); }
+  .d-mod:hover::after {
+    animation: d-sunbeam 1.6s ease-in-out 1 forwards;
+  }
 
-  /* Right strip — Alpine Morning: mist blue-grey */
-  .layout.day .black-strip { background: #D4DCE2; }
-  .layout.day .carrier     { color: #6E7B81; }
-  .layout.day .status-bar  { color: #6E7B81; }
-  .layout.day .date-line {
+  @keyframes d-sunbeam {
+    0%   { transform: translateX(-72px); opacity: 0; }
+    12%  { opacity: 1; }
+    82%  { opacity: 1; }
+    100% { transform: translateX(640px); opacity: 0; }
+  }
+
+  /* Contact */
+  .d-contact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: clamp(10px, 2cqh, 24px);
+    border-top: 1px solid rgba(255,255,255,0.18);
+    flex-shrink: 0;
+  }
+
+  .d-link {
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .d-link:hover { color: #fff; }
+
+  .d-sep { color: rgba(255,255,255,0.2); font-size: 9px; }
+
+  .d-copy {
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: clamp(9px, 1.2cqw, 11px);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+    padding-top: clamp(6px, 1cqh, 12px);
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  /* Right mist blue-grey strip */
+  .d-strip {
+    position: relative;
+    z-index: 2;
+    flex: 0.7 1 0;
+    background: #D4DCE2;
+    container-type: inline-size;
+    overflow-x: clip;
+  }
+
+  .d-carrier {
+    position: absolute;
+    top: 20px; left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #6E7B81;
+  }
+  .d-carrier-signal { width: 17px; height: 12px; display: block; }
+  .d-carrier-name {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .d-statusbar {
+    position: absolute;
+    top: 18px; right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6E7B81;
+  }
+  .d-status-icon { width: 18px; height: 18px; display: block; }
+  .d-battery     { width: 26px; height: 13px; }
+
+  .d-greet-wrap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 22%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .d-greet {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(20px, 12cqw, 56px);
+    font-weight: 400;
+    font-style: italic;
+    color: #546860;
+    letter-spacing: 0.02em;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .d-greet.visible { opacity: 1; }
+  .d-greet.zh      { font-family: 'Ma Shan Zheng', cursive; }
+
+  .d-clockwrap {
+    position: absolute;
+    top: 22%; left: 0; right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding-top: 8px;
+    z-index: 2;
+  }
+
+  .d-dateline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(11px, 3.5cqw, 16px);
+    font-weight: 700;
+    letter-spacing: 0.03em;
     color: #6E7B81;
     background: rgba(165,174,184,0.14);
+    padding: 5px 16px 6px;
+    border-radius: 20px;
   }
-  .layout.day .clock {
-    background: linear-gradient(175deg,
-      rgba(165,174,184,0.88) 0%,
-      rgba(110,123,129,0.62) 45%,
-      rgba(48,64,60,0.40) 100%
-    );
+
+  .d-clock {
+    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+    font-size: clamp(56px, 32cqw, 150px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(175deg, rgba(165,174,184,0.88) 0%, rgba(110,123,129,0.62) 45%, rgba(48,64,60,0.40) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
     -webkit-box-reflect: below 1px linear-gradient(transparent 30%, rgba(110,123,129,0.15) 100%);
   }
-  .layout.day .weather-wrap  { color: #6E7B81; }
-  .layout.day .greeting-text { color: #546860; font-weight: 400; }
 
-  /* ── Search (day mode only) ── */
-  .search-wrap {
-    display: none;
+  .d-weather {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #6E7B81;
+  }
+  .d-w-icon { font-size: clamp(16px, 7cqw, 28px); line-height: 1; }
+  .d-w-temp {
+    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+    font-size: clamp(18px, 9cqw, 34px);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .d-w-desc {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(11px, 4cqw, 17px);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .d-w-loc {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(10px, 3.5cqw, 14px);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    opacity: 0.65;
+    text-transform: uppercase;
+  }
+  .d-w-loc:not(:empty)::before { content: '·'; margin-right: 5px; opacity: 0.5; }
+
+  /* Search bar */
+  .d-search-wrap {
     position: absolute;
     top: 52%;
     left: clamp(10px, 4cqw, 18px);
     right: clamp(10px, 4cqw, 18px);
     z-index: 5;
   }
-  .layout.day .search-wrap { display: block; }
 
-  .search-bar {
+  .d-search-bar {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1106,14 +1332,9 @@ const modules = [
     -webkit-backdrop-filter: blur(8px);
   }
 
-  .search-icon {
-    width: 16px;
-    height: 16px;
-    color: #6E7B81;
-    flex-shrink: 0;
-  }
+  .d-search-icon { width: 16px; height: 16px; color: #6E7B81; flex-shrink: 0; }
 
-  .search-input {
+  .d-search-input {
     flex: 1;
     border: none;
     background: transparent;
@@ -1124,10 +1345,10 @@ const modules = [
     color: #15201B;
     min-width: 0;
   }
-  .search-input::placeholder { color: #A5AEB8; }
-  .search-input::-webkit-search-cancel-button { display: none; }
+  .d-search-input::placeholder { color: #A5AEB8; }
+  .d-search-input::-webkit-search-cancel-button { display: none; }
 
-  .search-results {
+  .d-search-results {
     position: fixed;
     background: rgba(255,255,255,0.92);
     border: 1px solid rgba(110,140,120,0.20);
@@ -1135,25 +1356,24 @@ const modules = [
     overflow: hidden;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    max-height: 240px;
     overflow-y: auto;
     display: none;
     z-index: 9999;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
   }
-  .search-results.open { display: block; }
+  .d-search-results.open { display: block; }
 
-  .search-result-item {
+  .d-sr-item {
     display: block;
     padding: 9px 13px;
     text-decoration: none;
     border-bottom: 1px solid rgba(110,140,120,0.10);
     transition: background 0.15s;
   }
-  .search-result-item:last-child { border-bottom: none; }
-  .search-result-item:hover { background: rgba(160,195,170,0.22); }
+  .d-sr-item:last-child { border-bottom: none; }
+  .d-sr-item:hover { background: rgba(160,195,170,0.22); }
 
-  .sri-title {
+  .d-sr-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(13px, 4cqw, 16px);
     font-weight: 600;
@@ -1161,7 +1381,7 @@ const modules = [
     color: #15201B;
     line-height: 1.3;
   }
-  .sri-excerpt {
+  .d-sr-excerpt {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: clamp(10px, 2.8cqw, 11px);
     font-weight: 300;
@@ -1173,7 +1393,7 @@ const modules = [
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .search-no-results {
+  .d-sr-empty {
     padding: 12px 13px;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 12px;
@@ -1181,20 +1401,19 @@ const modules = [
     font-style: italic;
   }
 
-  /* ── Notification card (day mode only) ── */
-  .notif-stack {
-    display: none;
+  /* Notification cards */
+  .d-notif-stack {
     position: absolute;
     top: 63%;
     left: clamp(10px, 4cqw, 18px);
     right: clamp(10px, 4cqw, 18px);
+    display: flex;
     flex-direction: column;
     gap: clamp(6px, 1.5cqh, 10px);
     z-index: 3;
   }
-  .layout.day .notif-stack { display: flex; }
 
-  .notif-card {
+  .d-notif {
     display: block;
     background: rgba(160,195,170,0.22);
     border: 1px solid rgba(110,140,120,0.18);
@@ -1203,29 +1422,17 @@ const modules = [
     text-decoration: none;
     transition: background 0.2s, border-color 0.2s;
   }
-  .notif-card:hover {
-    background: rgba(160,195,170,0.34);
-    border-color: rgba(110,140,120,0.32);
-  }
+  .d-notif:hover { background: rgba(160,195,170,0.34); border-color: rgba(110,140,120,0.32); }
 
-  .notif-meta {
+  .d-notif-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: clamp(4px, 1cqh, 7px);
   }
-  .notif-left {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .notif-icon {
-    width: clamp(11px, 3.2cqw, 14px);
-    height: auto;
-    color: #6E7B81;
-    flex-shrink: 0;
-  }
-  .notif-app {
+  .d-notif-left { display: flex; align-items: center; gap: 5px; }
+  .d-notif-icon { width: clamp(11px, 3.2cqw, 14px); height: auto; color: #6E7B81; flex-shrink: 0; }
+  .d-notif-app {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: clamp(9px, 2.8cqw, 11px);
     font-weight: 600;
@@ -1233,12 +1440,12 @@ const modules = [
     text-transform: uppercase;
     color: #6E7B81;
   }
-  .notif-time {
+  .d-notif-time {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: clamp(9px, 2.8cqw, 11px);
     color: #6E7B81;
   }
-  .notif-title {
+  .d-notif-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(15px, 5cqw, 22px);
     font-weight: 600;
@@ -1247,7 +1454,7 @@ const modules = [
     line-height: 1.2;
     margin-bottom: clamp(3px, 0.8cqh, 6px);
   }
-  .notif-body {
+  .d-notif-body {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: clamp(11px, 3.2cqw, 13px);
     font-weight: 300;
@@ -1255,31 +1462,38 @@ const modules = [
     line-height: 1.45;
   }
 
-  /* Hide night-only elements in day mode */
-  .layout.day .floor-lamp    { display: none; }
-  .layout.day .cats-container { display: none; }
-
-  @keyframes bullet-twinkle-day {
-    0%, 100% {
-      transform: scale(1.8);
-      text-shadow: 0 0 4px #fff, 0 0 12px #fff,
-                   0 0 24px rgba(255,255,255,0.8), 0 0 50px rgba(255,255,255,.4);
-    }
-    50% {
-      transform: scale(1.1);
-      text-shadow: 0 0 2px rgba(255,255,255,.4), 0 0 8px rgba(255,255,255,.2);
-    }
+  /* Day mobile ≤600px */
+  @media (max-width: 600px) {
+    .d-layout { flex-direction: column; overflow-y: auto; }
+    .d-strip { display: none; }
+    .d-photo { flex: none; width: 100%; height: 50vw; }
+    .d-photo img { object-fit: cover; object-position: center 35%; position: absolute; inset: 0; }
+    .d-glass { flex: 1; padding: 24px 24px 32px; backdrop-filter: blur(24px) brightness(0.6); -webkit-backdrop-filter: blur(24px) brightness(0.6); }
+    .d-logo  { font-size: 64px; margin-bottom: 24px; }
+    .d-tag   { font-size: clamp(28px, 7vw, 44px); }
+    .d-mod   { padding: 12px 0; }
+    .d-title { font-size: 18px; }
+    .d-desc  { display: none; }
+    .d-contact { margin-top: 8px; }
   }
 
-  /* ── Short viewport adjustments (≤750px tall) ── */
+  /* Day tablet 601–900px: two-col, no strip */
+  @media (min-width: 601px) and (max-width: 900px) {
+    .d-strip { display: none; }
+    .d-photo { flex: 1.2 1 0; }
+    .d-glass { flex: 1.8 1 0; }
+  }
+
+  /* Short viewport adjustments */
   @media (max-height: 750px) {
-    .search-wrap { top: 47%; }
-    .notif-stack { top: 58%; }
-    .notif-title { font-size: clamp(13px, 4.5cqw, 18px); }
+    .d-search-wrap { top: 47%; }
+    .d-notif-stack { top: 58%; }
+    .d-notif-title { font-size: clamp(13px, 4.5cqw, 18px); }
   }
   @media (max-height: 620px) {
-    .search-wrap { top: 44%; }
-    .notif-stack { top: 56%; }
-    .notif-card:last-child { display: none; } /* hide 2nd card on very short screens */
+    .d-search-wrap { top: 44%; }
+    .d-notif-stack { top: 56%; }
+    .d-notif:last-child { display: none; }
   }
+
 </style>
