@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-18 (session 50)
+> Last updated: 2026-06-18 (session 53)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -102,7 +102,7 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Day/Night auto-switch (session 52)
+### Homepage (`/`) ✅ Day/Night auto-switch + Search (session 53)
 
 **Concept:** Three-column layout simulating a phone lock screen on the right. Auto-switches between night and day mode based on browser local time (6:00–18:00 = day).
 
@@ -113,31 +113,43 @@ src/
 - Greeting: Good evening / 晚上好 (16 languages)
 - Cat easter egg + floor lamp visible
 
-**Day mode (6:00–18:00, `.layout.day` class added by JS):**
-- Left photo: `homepage-morning.jpg` (Swiss alpine lake DSC07887, `object-position: center 35%`)
-- Photo-bg: same image, `object-position: 30% 72%` (targets lone spruce tree area for texture)
-- Glass: `rgba(18,42,24,0.22)` + `blur(32px) brightness(0.55) saturate(2.0)` — dark forest green, same transparency logic as night
-- Right strip: `#0C2010` deep dark forest green
+**Day mode — Alpine Morning scheme (6:00–18:00, `.layout.day` added by JS):**
+- Left photo: `homepage-morning.jpg` (Swiss alpine lake, `object-position: center 35%`)
+- Glass: `rgba(110,123,129,0.36)` + `blur(32px) brightness(0.56) saturate(0.85)` — lake-blue-grey tint
+- Right strip: `#D4DCE2` (mist blue-grey, light background)
+- Right strip text palette — Alpine Morning: Mist Blue `#A5AEB8`, Lake Blue `#6E7B81`, Pine Green `#30403C`, Deep Forest `#15201B`
+- Clock: gradient Mist Blue → Pine Green (background-clip: text); greeting: `#546860` weight 400
 - Greeting: Good morning / 早上好 (16 languages)
-- Lamp + cats hidden in day mode
-- All text stays white (same as night mode)
-- Progression left→right: natural photo → green glass → dark green strip
+- Lamp + cats hidden; `aria-hidden` removed from right strip so search input is interactive
 
-**Layout (both modes):**
-- `display: flex`, three columns, no explicit height (flex stretch fills fixed container)
-  - Left `.photo-strip`: `flex: 1.4 1 0`
-  - Middle `.glass-strip`: `flex: 1.7 1 0`, `align-self: stretch`, `container-type: size`
-  - Right `.black-strip`: `flex: 0.95 1 0`, `container-type: inline-size`, `overflow-x: clip`
-- No nav bar (`hideNav={true}`)
-- **iPad Safari fix:** no explicit height on strips (flex stretch) + `env(safe-area-inset-bottom)` on cats
+**Day mode right strip — bottom half (session 53):**
+- **Search bar** at `top: 52%` — iOS capsule style, frosted white, Pagefind full-site search
+  - Pagefind indexes 45 pages at build time (`astro-pagefind` integration)
+  - Results: `position: fixed`, JS-positioned below bar, `maxHeight` clamped to available space
+  - Loads lazily on first focus; shows "No results / Search unavailable / Search error" states
+- **Notification cards** at `top: 63%` — two `<a>` cards, green tint `rgba(160,195,170,0.22)`, clickable links:
+  - NSFG Contraceptive Survey → `/research/data` (Jun 16, 2026)
+  - Stoos Ridge Line Hike → `/photography/stoos-ridge-line` (Jun 5, 2026)
+  - Card title: Deep Forest `#15201B`; meta/body: Lake Blue `#6E7B81`; envelope icon SVG
+- **Weather** includes city name: real location via Nominatim (`accept-language=en`), fallback "Luzern"
+- To update notification cards: edit `notif-title` / `notif-body` / `notif-time` in the two `<a class="notif-card">` elements
 
 **Responsive breakpoints:**
 - `≤600px` (phones): column layout, black strip hidden
 - `601–900px` (iPad portrait / small tablets): two-column photo+glass, black strip hidden
 - `≥901px` (iPad landscape + desktop): full three-column with black strip
+- `max-height: 750px`: search `top: 47%`, notif `top: 58%`
+- `max-height: 620px`: search `top: 44%`, notif `top: 56%`, 2nd card hidden
 
-**Night strip contents (phone lock screen) — sizing in `cqw`/`cqh`:**
-- Status bar, greeting scroll, clock, weather, floor lamp easter egg, cat blink easter egg
+**Layout (both modes):**
+- `display: flex`, three columns
+  - Left `.photo-strip`: `flex: 1.4 1 0`
+  - Middle `.glass-strip`: `flex: 1.7 1 0`, `container-type: size`
+  - Right `.black-strip` (`#blackStrip`): `flex: 0.95 1 0`, `container-type: inline-size`, `overflow-x: clip`
+- No nav bar (`hideNav={true}`)
+
+**Night strip contents:**
+- Status bar (Swisscom · WiFi · battery), greeting scroll, clock, date, weather+location, floor lamp easter egg, cat blink easter egg
 
 **Cat easter egg:**
 - `public/images/cats-illustration.png` — two overlapping grid layers (`.cat-a` left 52%, `.cat-b` right 50%)
