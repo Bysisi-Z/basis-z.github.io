@@ -94,22 +94,27 @@ const modules = [
         <span class="greeting-text" id="greeting"></span>
       </div>
 
-      <!-- Notification card -->
-      <div class="notif-card">
-        <div class="notif-header">
-          <div class="notif-app-icon">
-            <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#7B5EA7"/><path d="M12 5C7.58 5 4 8.13 4 12c0 1.74.68 3.33 1.82 4.61L5 19l2.67-.9C8.96 18.67 10.44 19 12 19c4.42 0 8-3.13 8-7s-3.58-7-8-7z" fill="white"/><circle cx="9" cy="12" r="1" fill="#7B5EA7"/><circle cx="12" cy="12" r="1" fill="#7B5EA7"/><circle cx="15" cy="12" r="1" fill="#7B5EA7"/></svg>
-          </div>
-          <div class="notif-meta">
-            <span class="notif-app-name">Message</span>
-            <span class="notif-time">now</span>
+
+      <!-- Cats -->
+      <div class="cats-container">
+        <div class="cat-item cat-big">
+          <img src="/images/cat-first.jpg" alt="嘞嘞" class="cat-photo" />
+          <div class="cat-eyes">
+            <span class="eye"></span>
+            <span class="eye"></span>
           </div>
         </div>
-        <div class="notif-title">Sisi</div>
-        <div class="notif-body">Hi, how are you today? I had satay chicken skewers and a mango smoothie at a Thai restaurant near Lucerne station today. Even though the weather in Lucerne was really hot, I felt so happy. How about you? Is everything going well?</div>
+        <div class="cat-item cat-small">
+          <img src="/images/cat-second.jpg" alt="小咪渣" class="cat-photo" />
+          <div class="cat-eyes">
+            <span class="eye"></span>
+            <span class="eye"></span>
+          </div>
+        </div>
       </div>
 
-
+      <!-- Lamp text -->
+      <div class="lamp-text" id="lampText" aria-hidden="true"></div>
 
       <!-- Floor lamp -->
       <div class="floor-lamp" id="floorLamp">
@@ -270,9 +275,30 @@ const modules = [
   }
 
   // Lamp easter egg
-  const lampEl  = document.getElementById('floorLamp');
-  const stripEl = lampEl.closest('.black-strip');
-  lampEl.addEventListener('click', () => stripEl.classList.toggle('lamp-on'));
+  const lampEl   = document.getElementById('floorLamp');
+  const stripEl  = lampEl.closest('.black-strip');
+  const lampText = document.getElementById('lampText');
+
+  // Build letter spans
+  'Make yourself at home!'.split('').forEach((ch, i) => {
+    const s = document.createElement('span');
+    s.textContent = ch === ' ' ? ' ' : ch;
+    s.dataset.delay = i * 70;
+    lampText.appendChild(s);
+  });
+
+  lampEl.addEventListener('click', () => {
+    const on = stripEl.classList.toggle('lamp-on');
+    lampText.querySelectorAll('span').forEach(s => {
+      s.classList.remove('letter-in');
+      void s.offsetWidth;
+    });
+    if (on) {
+      lampText.querySelectorAll('span').forEach(s => {
+        setTimeout(() => s.classList.add('letter-in'), Number(s.dataset.delay));
+      });
+    }
+  });
 
   const isChinese = s => /[一-鿿]/.test(s);
 
@@ -304,7 +330,7 @@ const modules = [
 </BaseLayout>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Nunito:wght@300;400&display=swap');
 
   .layout {
     position: fixed;
@@ -348,85 +374,112 @@ const modules = [
     flex: 0.95 1 0;
     height: 100vh;
     background: #000;
+    container-type: inline-size;
+    overflow: hidden;
   }
 
-  /* ── Notification cards ── */
-  .notif-card {
+
+  /* ── Lamp text ── */
+  .lamp-text {
     position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 33%;
-    background: rgba(30, 25, 40, 0.65);
-    backdrop-filter: blur(20px) saturate(1.2);
-    -webkit-backdrop-filter: blur(20px) saturate(1.2);
-    border: 1px solid rgba(212, 203, 232, 0.18);
-    border-radius: 16px;
-    padding: 12px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    bottom: clamp(72px, 10vh, 150px);
+    left: 0;
+    right: 0;
+    padding-right: 18cqw;
+    text-align: center;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(14px, 5.5cqw, 24px);
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(8, 4, 0, 0.85);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 4;
   }
 
-
-  .notif-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 2px;
+  .lamp-text span {
+    display: inline-block;
+    opacity: 0;
   }
 
-  .notif-app-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
+  .lamp-text span.letter-in {
+    animation: lamp-letter-in 0.55s ease forwards;
+  }
+
+  @keyframes lamp-letter-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Cats ── */
+  .cats-container {
+    position: absolute;
+    bottom: 0;
+    left: clamp(4px, 2cqw, 18px);
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(4px, 1.5cqw, 12px);
+    z-index: 4;
+  }
+
+  .cat-item {
+    position: relative;
+    border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
   }
 
-  .notif-app-icon svg {
+  .cat-big {
+    width: clamp(38px, 16cqw, 80px);
+    height: clamp(38px, 16cqw, 80px);
+  }
+
+  .cat-small {
+    width: clamp(26px, 11cqw, 58px);
+    height: clamp(26px, 11cqw, 58px);
+  }
+
+  .cat-photo {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.9s ease 0.3s;
   }
 
-  .notif-meta {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .lamp-on .cat-photo {
+    opacity: 1;
   }
 
-  .notif-app-name {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    color: rgba(212, 203, 232, 0.50);
-    text-transform: uppercase;
+  .cat-eyes {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.4s ease;
   }
 
-  .notif-time {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    color: rgba(212, 203, 232, 0.35);
+  .lamp-on .cat-eyes {
+    opacity: 0;
   }
 
-  .notif-title {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-    font-size: clamp(13px, 1.1vw, 15px);
-    font-weight: 600;
-    color: #fff;
-    line-height: 1.3;
+  .eye {
+    position: absolute;
+    top: 36%;
+    width: clamp(3px, 0.9cqw, 6px);
+    height: clamp(3px, 0.9cqw, 6px);
+    border-radius: 50%;
+    background: #FFD700;
+    box-shadow:
+      0 0 4px #FFD700,
+      0 0 10px rgba(255, 210, 0, 0.9),
+      0 0 22px rgba(255, 190, 0, 0.4);
+    transform: translate(-50%, -50%);
   }
 
-  .notif-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-    font-size: clamp(13px, 1.2vw, 15px);
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.82);
-    line-height: 1.5;
-    white-space: normal;
-  }
+  .eye:first-child { left: 34%; }
+  .eye:last-child  { left: 66%; }
 
   /* ── Light beam ── */
   .beam-path {
@@ -439,11 +492,12 @@ const modules = [
   }
 
   /* ── Floor lamp ── */
+  /* min(73cqw, 15vh) caps lamp height at ~37% of screen height on any aspect ratio */
   .floor-lamp {
     position: absolute;
     bottom: 0;
-    right: 12px;
-    width: clamp(110px, 11.5vw, 160px);
+    right: clamp(8px, 1.5cqw, 16px);
+    width: clamp(100px, min(73cqw, 15vh), 220px);
     opacity: 0.9;
     pointer-events: all;
     cursor: pointer;
@@ -527,11 +581,12 @@ const modules = [
     align-items: center;
     gap: 14px;
     padding-top: 8px;
+    z-index: 2;
   }
 
   .date-line {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(13px, 1.1vw, 17px);
+    font-size: clamp(11px, 3.5cqw, 16px);
     font-weight: 700;
     letter-spacing: 0.03em;
     color: rgba(235, 228, 255, 0.90);
@@ -542,7 +597,7 @@ const modules = [
 
   .clock {
     font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
-    font-size: clamp(80px, 10.5vw, 160px);
+    font-size: clamp(56px, 32cqw, 150px);
     font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 0.95;
@@ -571,20 +626,20 @@ const modules = [
   }
 
   .weather-icon {
-    font-size: clamp(22px, 2.2vw, 32px);
+    font-size: clamp(16px, 7cqw, 28px);
     line-height: 1;
   }
 
   .weather-temp {
     font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
-    font-size: clamp(24px, 2.6vw, 38px);
+    font-size: clamp(18px, 9cqw, 34px);
     font-weight: 700;
     letter-spacing: 0.01em;
   }
 
   .weather-desc {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(14px, 1.3vw, 20px);
+    font-size: clamp(11px, 4cqw, 17px);
     font-weight: 300;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -592,7 +647,7 @@ const modules = [
 
   .greeting-text {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(48px, 4.5vw, 76px);
+    font-size: clamp(20px, 12cqw, 56px);
     font-weight: 300;
     font-style: italic;
     color: rgba(212, 203, 232, 0.82);
@@ -618,20 +673,21 @@ const modules = [
     height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 56px 64px 48px clamp(48px, 6vw, 100px);
+    padding: clamp(28px, 5cqh, 64px) clamp(20px, 5cqw, 72px) clamp(20px, 4cqh, 52px) clamp(28px, 7cqw, 100px);
     background: rgba(15, 10, 30, 0.25);
     backdrop-filter: blur(32px) brightness(0.55) saturate(1.2);
     -webkit-backdrop-filter: blur(32px) brightness(0.55) saturate(1.2);
+    container-type: size;
   }
 
   /* Si logo */
   .si-logo {
     font-family: 'Great Vibes', cursive;
-    font-size: 92px;
+    font-size: clamp(48px, 10cqw, 100px);
     line-height: 1;
     color: #C4A8E0;
     font-style: italic;
-    margin-bottom: 44px;
+    margin-bottom: clamp(16px, 4cqh, 52px);
     flex-shrink: 0;
     text-shadow:
       0 0 20px rgba(196, 168, 224, 0.8),
@@ -643,11 +699,11 @@ const modules = [
 
   .tagline {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(44px, 4.4vw, 72px);
+    font-size: clamp(32px, 8cqw, 72px);
     font-weight: 300;
     color: #fff;
     line-height: 1.14;
-    margin: 0 0 26px;
+    margin: 0 0 clamp(12px, 2.5cqh, 30px);
   }
 
   .sense {
@@ -673,8 +729,9 @@ const modules = [
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-top: 32px;
+    padding-top: clamp(12px, 2.5cqh, 36px);
     position: relative;
+    min-height: 0;
   }
 
   .module-list::before {
@@ -691,7 +748,7 @@ const modules = [
     grid-template-columns: 24px 30px 1fr;
     align-items: center;
     gap: 0 10px;
-    padding: 18px 0;
+    padding: clamp(8px, 1.5cqh, 20px) 0;
     text-decoration: none;
     position: relative;
     overflow: hidden;
@@ -720,7 +777,7 @@ const modules = [
 
   .mod-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(22px, 2.2vw, 32px);
+    font-size: clamp(16px, 5cqw, 32px);
     font-weight: 400;
     font-style: italic;
     color: rgba(255,255,255,0.85);
@@ -730,7 +787,7 @@ const modules = [
 
   .mod-desc {
     font-family: 'Nunito', Arial, sans-serif;
-    font-size: 14px;
+    font-size: clamp(11px, 1.4cqw, 15px);
     font-weight: 300;
     color: rgba(255,255,255,0.48);
     line-height: 1.4;
@@ -786,7 +843,7 @@ const modules = [
     display: flex;
     align-items: center;
     gap: 12px;
-    padding-top: 22px;
+    padding-top: clamp(10px, 2cqh, 24px);
     border-top: 1px solid rgba(196,168,224,0.13);
     flex-shrink: 0;
   }
