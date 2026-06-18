@@ -57,12 +57,188 @@ const modules = [
       </div>
 
     </div>
+
+    <!-- Far right: pure black strip -->
+    <div class="black-strip" aria-hidden="true">
+
+      <!-- Carrier: top-left -->
+      <div class="carrier">
+        <svg class="carrier-signal" viewBox="0 0 20 14" fill="none">
+          <rect x="0" y="9" width="3" height="5" rx="0.8" fill="currentColor"/>
+          <rect x="4.5" y="6" width="3" height="8" rx="0.8" fill="currentColor"/>
+          <rect x="9" y="3" width="3" height="11" rx="0.8" fill="currentColor"/>
+          <rect x="13.5" y="0" width="3" height="14" rx="0.8" fill="currentColor" opacity="0.3"/>
+        </svg>
+        <span class="carrier-name">Swisscom</span>
+      </div>
+
+      <!-- Status icons: top-right -->
+      <div class="status-bar">
+        <!-- WiFi full signal -->
+        <svg class="status-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 18.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="currentColor"/>
+          <path d="M12 14c1.6 0 3 .65 4.05 1.7l1.42-1.42A8.1 8.1 0 0 0 12 12a8.1 8.1 0 0 0-5.47 2.28l1.42 1.42A6.08 6.08 0 0 1 12 14z" fill="currentColor"/>
+          <path d="M12 9.5c2.76 0 5.26 1.12 7.07 2.93l1.42-1.42A12.14 12.14 0 0 0 12 7.5c-3.35 0-6.39 1.36-8.49 3.51l1.42 1.42A10.12 10.12 0 0 1 12 9.5z" fill="currentColor"/>
+          <path d="M12 5c3.93 0 7.48 1.59 10.05 4.16l1.42-1.42A16.18 16.18 0 0 0 12 3C7.37 3 3.17 4.93.53 8.02l1.42 1.42A14.15 14.15 0 0 1 12 5z" fill="currentColor"/>
+        </svg>
+
+        <!-- Battery full -->
+        <svg class="status-icon battery-icon" viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0.5" y="0.5" width="23" height="13" rx="3.5" stroke="currentColor" stroke-opacity="0.6"/>
+          <rect x="2" y="2" width="20" height="10" rx="2" fill="currentColor"/>
+          <path d="M25 4.5v5a2.5 2.5 0 0 0 0-5z" fill="currentColor" fill-opacity="0.6"/>
+        </svg>
+      </div>
+
+      <div class="greeting-wrap">
+        <span class="greeting-text" id="greeting"></span>
+      </div>
+
+      <!-- Notification card -->
+      <div class="notif-card">
+        <div class="notif-header">
+          <div class="notif-app-icon">
+            <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#7B5EA7"/><path d="M12 5C7.58 5 4 8.13 4 12c0 1.74.68 3.33 1.82 4.61L5 19l2.67-.9C8.96 18.67 10.44 19 12 19c4.42 0 8-3.13 8-7s-3.58-7-8-7z" fill="white"/><circle cx="9" cy="12" r="1" fill="#7B5EA7"/><circle cx="12" cy="12" r="1" fill="#7B5EA7"/><circle cx="15" cy="12" r="1" fill="#7B5EA7"/></svg>
+          </div>
+          <div class="notif-meta">
+            <span class="notif-app-name">Message</span>
+            <span class="notif-time">now</span>
+          </div>
+        </div>
+        <div class="notif-title">Sisi</div>
+        <div class="notif-body">Hi, how are you today? I had satay chicken skewers and a mango smoothie at a Thai restaurant near Lucerne station today. Even though the weather in Lucerne was really hot, I felt so happy. How about you? Is everything going well?</div>
+      </div>
+
+
+      <div class="clock-wrap">
+        <div class="date-line" id="dateline"></div>
+        <div class="weather-wrap" id="weather">
+          <span class="weather-icon" id="weather-icon"></span>
+          <span class="weather-temp" id="weather-temp"></span>
+          <span class="weather-desc" id="weather-desc"></span>
+        </div>
+        <div class="clock" id="clock">00:00</div>
+      </div>
+    </div>
+
   </div>
+
+<script is:inline>
+  const greetings = [
+    'Good evening', // English
+    '晚上好',        // Chinese
+    'Guten Abend',  // German
+    'Bonsoir',      // French
+    'Buona sera',   // Italian
+    'Buenas noches',// Spanish
+    'こんばんは',    // Japanese
+    '좋은 저녁',     // Korean
+    'Goedenavond',  // Dutch
+    'Boa noite',    // Portuguese
+    'God kväll',    // Swedish
+    'Добрый вечер', // Russian
+    'Καλησπέρα',    // Greek
+    'İyi akşamlar', // Turkish
+    'مساء الخير',   // Arabic
+    'शुभ संध्या',    // Hindi
+  ];
+
+  const el = document.getElementById('greeting');
+  let i = 0;
+
+  // Clock + date
+  const clockEl   = document.getElementById('clock');
+  const datelineEl = document.getElementById('dateline');
+  const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    clockEl.textContent = h + ':' + m;
+    datelineEl.textContent = DAYS[now.getDay()] + ' ' + MONTHS[now.getMonth()] + ' ' + now.getDate();
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Weather
+  const WMO = {
+    0:  ['☀',  'Clear'],
+    1:  ['🌤', 'Mostly clear'],
+    2:  ['⛅', 'Partly cloudy'],
+    3:  ['☁',  'Overcast'],
+    45: ['🌫', 'Fog'],
+    48: ['🌫', 'Fog'],
+    51: ['🌦', 'Drizzle'],
+    53: ['🌦', 'Drizzle'],
+    55: ['🌦', 'Drizzle'],
+    61: ['🌧', 'Rain'],
+    63: ['🌧', 'Rain'],
+    65: ['🌧', 'Heavy rain'],
+    71: ['🌨', 'Snow'],
+    73: ['🌨', 'Snow'],
+    75: ['❄',  'Heavy snow'],
+    80: ['🌦', 'Showers'],
+    81: ['🌧', 'Showers'],
+    82: ['🌧', 'Heavy showers'],
+    95: ['⛈',  'Thunderstorm'],
+    96: ['⛈',  'Thunderstorm'],
+    99: ['⛈',  'Thunderstorm'],
+  };
+
+  async function fetchWeather(lat, lon) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode&temperature_unit=celsius&timezone=auto`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    const temp = Math.round(data.current.temperature_2m);
+    const code = data.current.weathercode;
+    const [icon, desc] = WMO[code] ?? ['🌡', 'Unknown'];
+    document.getElementById('weather-icon').textContent = icon;
+    document.getElementById('weather-temp').textContent = temp + '°C';
+    document.getElementById('weather-desc').textContent = desc;
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+      ()  => fetchWeather(47.05, 8.31) // fallback: Lucerne
+    );
+  } else {
+    fetchWeather(47.05, 8.31);
+  }
+
+  const isChinese = s => /[一-鿿]/.test(s);
+
+  function setGreeting(text) {
+    el.textContent = text;
+    el.classList.toggle('zh', isChinese(text));
+  }
+
+  function showNext() {
+    el.classList.remove('visible');
+    setTimeout(() => {
+      setGreeting(greetings[i % greetings.length]);
+      i++;
+      void el.offsetWidth;
+      el.classList.add('visible');
+      setTimeout(showNext, 2800 + 1400);
+    }, 1600);
+  }
+
+  setTimeout(() => {
+    setGreeting(greetings[i % greetings.length]);
+    i++;
+    void el.offsetWidth;
+    el.classList.add('visible');
+    setTimeout(showNext, 2800 + 1400);
+  }, 600);
+</script>
 
 </BaseLayout>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ma+Shan+Zheng&family=Barlow+Condensed:wght@700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@300;400&display=swap');
 
   .layout {
     position: fixed;
@@ -84,26 +260,262 @@ const modules = [
     display: block;
   }
 
-  /* ── Left photo strip: full portrait, no crop ── */
+  /* ── Left photo strip: 1/3 ── */
   .photo-strip {
     position: relative;
     z-index: 2;
-    flex-shrink: 0;
-    width: calc(100vh * 4284 / 5712); /* exact 3:4 ratio */
+    flex: 1.4 1 0;
     height: 100vh;
     overflow: hidden;
   }
   .photo-strip img {
     display: block;
     width: 100%; height: 100%;
-    object-fit: fill;
+    object-fit: cover;
+    object-position: center 18%;
+  }
+
+  /* ── Right black strip ── */
+  .black-strip {
+    position: relative;
+    z-index: 2;
+    flex: 0.95 1 0;
+    height: 100vh;
+    background: #000;
+  }
+
+  /* ── Notification cards ── */
+  .notif-card {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 33%;
+    background: rgba(30, 25, 40, 0.65);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid rgba(212, 203, 232, 0.18);
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+
+  .notif-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+
+  .notif-app-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .notif-app-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .notif-meta {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .notif-app-name {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: rgba(212, 203, 232, 0.50);
+    text-transform: uppercase;
+  }
+
+  .notif-time {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(212, 203, 232, 0.35);
+  }
+
+  .notif-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    font-size: clamp(13px, 1.1vw, 15px);
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .notif-body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    font-size: clamp(13px, 1.2vw, 15px);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.5;
+    white-space: normal;
+  }
+
+  .carrier {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: rgba(212, 203, 232, 0.45);
+  }
+
+  .carrier-signal {
+    width: 17px;
+    height: 12px;
+    display: block;
+  }
+
+  .carrier-name {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .status-bar {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(212, 203, 232, 0.45);
+  }
+
+  .status-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  .battery-icon {
+    width: 26px;
+    height: 13px;
+  }
+
+  .greeting-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Apple-style clock ── */
+  .clock-wrap {
+    position: absolute;
+    top: 22%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding-top: 8px;
+  }
+
+  .date-line {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(13px, 1.1vw, 17px);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: rgba(235, 228, 255, 0.90);
+    background: rgba(180, 160, 220, 0.22);
+    padding: 5px 16px 6px;
+    border-radius: 20px;
+  }
+
+  .clock {
+    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+    font-size: clamp(80px, 10.5vw, 160px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(
+      175deg,
+      rgba(235, 228, 255, 0.72) 0%,
+      rgba(196, 180, 235, 0.50) 40%,
+      rgba(155, 135, 200, 0.28) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    -webkit-box-reflect: below 1px linear-gradient(transparent 30%, rgba(180, 160, 220, 0.32) 100%);
+  }
+
+  .weather-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: rgba(212, 203, 232, 0.52);
+  }
+
+  .weather-icon {
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1;
+  }
+
+  .weather-temp {
+    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+    font-size: clamp(24px, 2.6vw, 38px);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .weather-desc {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(14px, 1.3vw, 20px);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .greeting-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(48px, 4.5vw, 76px);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(212, 203, 232, 0.82);
+    letter-spacing: 0.02em;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .greeting-text.visible {
+    opacity: 1;
+  }
+
+  .greeting-text.zh {
+    font-family: 'Ma Shan Zheng', cursive;
   }
 
   /* ── Frosted glass content panel ── */
   .glass-strip {
     position: relative;
     z-index: 2;
-    flex: 1;
+    flex: 1.7 1 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
