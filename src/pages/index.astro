@@ -62,8 +62,8 @@ const modules = [
 
     </div>
 
-    <!-- Far right: pure black strip -->
-    <div class="black-strip" aria-hidden="true">
+    <!-- Far right: phone strip — aria-hidden removed in day mode by JS (search bar is interactive) -->
+    <div class="black-strip" id="blackStrip" aria-hidden="true">
 
       <!-- Carrier: top-left -->
       <div class="carrier">
@@ -229,7 +229,11 @@ const modules = [
   // Day / night switch (6:00–18:00 = day)
   const _hour = new Date().getHours();
   const _isDay = _hour >= 6 && _hour < 18;
-  if (_isDay) document.querySelector('.layout').classList.add('day');
+  if (_isDay) {
+    document.querySelector('.layout').classList.add('day');
+    // Search bar is interactive in day mode — remove aria-hidden so events work
+    document.getElementById('blackStrip').removeAttribute('aria-hidden');
+  }
 
   const greetings = _isDay ? [
     'Good morning',   // English
@@ -394,26 +398,48 @@ const modules = [
       } catch (e) { pagefind = null; }
     }
 
+    function positionResults() {
+      const bar = searchInput.closest('.search-bar');
+      const rect = bar.getBoundingClientRect();
+      searchResults.style.top    = (rect.bottom + 6) + 'px';
+      searchResults.style.left   = rect.left + 'px';
+      searchResults.style.width  = rect.width + 'px';
+    }
+
     async function doSearch(query) {
       if (!query.trim()) { searchResults.classList.remove('open'); return; }
       await initPagefind();
-      if (!pagefind) return;
-      const results = await pagefind.search(query);
-      const top = await Promise.all(results.results.slice(0, 6).map(r => r.data()));
-      searchResults.innerHTML = '';
-      if (!top.length) {
-        searchResults.innerHTML = '<div class="search-no-results">No results found.</div>';
-      } else {
-        top.forEach(r => {
-          const a = document.createElement('a');
-          a.className = 'search-result-item';
-          a.href = r.url;
-          a.innerHTML = `<div class="sri-title">${r.meta?.title || r.url}</div>`
-            + (r.excerpt ? `<div class="sri-excerpt">${r.excerpt.replace(/<mark>/g,'').replace(/<\/mark>/g,'')}</div>` : '');
-          searchResults.appendChild(a);
-        });
+      if (!pagefind) {
+        searchResults.innerHTML = '<div class="search-no-results">Search unavailable.</div>';
+        positionResults();
+        searchResults.classList.add('open');
+        return;
       }
-      searchResults.classList.add('open');
+      try {
+        const results = await pagefind.search(query);
+        const top = await Promise.all(results.results.slice(0, 6).map(r => r.data()));
+        searchResults.innerHTML = '';
+        if (!top.length) {
+          searchResults.innerHTML = '<div class="search-no-results">No results for "' + query + '".</div>';
+        } else {
+          top.forEach(r => {
+            const a = document.createElement('a');
+            a.className = 'search-result-item';
+            a.href = r.url;
+            const title = r.meta?.title || r.url;
+            const excerpt = r.excerpt ? r.excerpt.replace(/<\/?mark>/g, '') : '';
+            a.innerHTML = `<div class="sri-title">${title}</div>`
+              + (excerpt ? `<div class="sri-excerpt">${excerpt}</div>` : '');
+            searchResults.appendChild(a);
+          });
+        }
+        positionResults();
+        searchResults.classList.add('open');
+      } catch(e) {
+        searchResults.innerHTML = '<div class="search-no-results">Search error. Please retry.</div>';
+        positionResults();
+        searchResults.classList.add('open');
+      }
     }
 
     let debounce;
@@ -422,8 +448,12 @@ const modules = [
       debounce = setTimeout(() => doSearch(e.target.value), 220);
     });
     searchInput.addEventListener('focus', () => initPagefind());
+    window.addEventListener('resize', () => {
+      if (searchResults.classList.contains('open')) positionResults();
+    });
     document.addEventListener('click', e => {
-      if (!e.target.closest('.search-wrap')) searchResults.classList.remove('open');
+      if (!e.target.closest('.search-wrap') && !e.target.closest('.search-results'))
+        searchResults.classList.remove('open');
     });
   }
 </script>
@@ -1096,16 +1126,18 @@ const modules = [
   .search-input::-webkit-search-cancel-button { display: none; }
 
   .search-results {
-    margin-top: 6px;
-    background: rgba(255,255,255,0.82);
-    border: 1px solid rgba(110,140,120,0.18);
+    position: fixed;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(110,140,120,0.20);
     border-radius: 12px;
     overflow: hidden;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    max-height: 220px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    max-height: 240px;
     overflow-y: auto;
     display: none;
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
   }
   .search-results.open { display: block; }
 
