@@ -3,24 +3,16 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="footer-left">
-    <span class="footer-sig">Si</span>
-  </div>
-  <div class="footer-right">
-    <span class="footer-copy">© {year} — All rights reserved</span>
-    <span class="footer-photo-rights">
-      All photographs on this site are the exclusive property of the author.
-      Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.
-      All rights reserved.
-    </span>
-  </div>
+  <span class="footer-sig">Si</span>
+  <span class="footer-copy">© {year} · All photographs are the exclusive property of the author. Unauthorized reproduction or commercial use is strictly prohibited.</span>
 </footer>
 
 <style>
   .site-footer {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
+    gap: 24px;
     padding: 18px clamp(24px, 6vw, 80px);
     border-top: 1px solid var(--rule);
     margin-top: 14px;
@@ -31,30 +23,17 @@ const year = new Date().getFullYear();
     font-style: italic;
     font-weight: 300;
     color: var(--stone);
-  }
-  .footer-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
+    flex-shrink: 0;
   }
   .footer-copy {
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 0.08em;
-    color: var(--stone);
-  }
-  .footer-photo-rights {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 300;
     letter-spacing: 0.04em;
     color: var(--stone);
     text-align: right;
-    max-width: 520px;
     line-height: 1.6;
   }
   @media (max-width: 600px) {
-    .footer-copy,
-    .footer-photo-rights { display: none; }
+    .footer-copy { display: none; }
   }
 </style>

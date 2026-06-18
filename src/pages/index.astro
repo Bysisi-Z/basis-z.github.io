@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const year = new Date().getFullYear();
 const modules = [
   { num: '01', title: 'Now',                          desc: "What I'm doing and thinking about lately",           href: '/now' },
   { num: '02', title: 'Journey',                      desc: 'Professional path & the person behind it',           href: '/career' },
@@ -55,6 +56,7 @@ const modules = [
         <span class="sep">·</span>
         <a href="mailto:sisi.zhang.ch@gmail.com" class="contact-link">Email</a>
       </div>
+      <p class="glass-copyright">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
 
     </div>
 
@@ -861,6 +863,25 @@ const modules = [
   .contact-link:hover { color: #fff; }
 
   .sep { color: rgba(196,168,224,0.2); font-size: 9px; }
+
+  .glass-copyright {
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: clamp(9px, 1.2cqw, 11px);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: rgba(196, 168, 224, 0.62);
+    line-height: 1.7;
+    padding-top: clamp(6px, 1cqh, 12px);
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  /* ── Tablet: hide black strip ── */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .black-strip { display: none; }
+    .photo-strip { flex: 1.2 1 0; }
+    .glass-strip { flex: 1.8 1 0; }
+  }
 
   /* ── Mobile ── */
   @media (max-width: 768px) {
