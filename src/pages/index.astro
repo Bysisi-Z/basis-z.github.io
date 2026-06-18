@@ -102,7 +102,11 @@ const modules = [
       <!-- Day mode: latest update notification card -->
       <div class="notif-card">
         <div class="notif-meta">
-          <span class="notif-app">si-lens.me</span>
+          <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
+            <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+          <span class="notif-app">Latest Update</span>
           <span class="notif-sep">·</span>
           <span class="notif-time">Jun 8</span>
         </div>
@@ -975,12 +979,11 @@ const modules = [
   .notif-card {
     display: none;
     position: absolute;
-    bottom: clamp(24px, 7cqh, 52px);
+    top: 57%;
     left: clamp(10px, 4cqw, 18px);
     right: clamp(10px, 4cqw, 18px);
-    background: rgba(255,255,255,0.72);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(160,195,170,0.22);
+    border: 1px solid rgba(110,140,120,0.18);
     border-radius: 14px;
     padding: clamp(10px, 2.5cqw, 14px) clamp(12px, 3cqw, 16px);
     z-index: 3;
@@ -992,6 +995,12 @@ const modules = [
     align-items: center;
     gap: 5px;
     margin-bottom: clamp(4px, 1cqh, 7px);
+  }
+  .notif-icon {
+    width: clamp(11px, 3.2cqw, 14px);
+    height: auto;
+    color: #6E7B81;
+    flex-shrink: 0;
   }
   .notif-app {
     font-family: 'Inter', system-ui, sans-serif;
