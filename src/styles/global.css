@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --bg:           #F6F3FC;
+  --bg:           #FAFAF8;
   --ink:          #1A1A1A;
-  --rose:         #A97EC2;
-  --purple:       #C2B0D8;
-  --purple-light: #D8CEEC;
-  --accent:       #A97EC2;
+  --rose:         #c17d9d;
+  --rose-light:   #e8c4d4;
+  --accent:       #c17d9d;
   --stone:        #847B7B;
-  --rule:         #EAE4F4;
+  --rule:         #E2DEDB;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans:  'Inter', system-ui, sans-serif;
 }
@@ -28,7 +27,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: rgba(184,169,212,0.35); }
+::selection { background: rgba(193,125,157,0.25); }
 
 /* ── Inner page shared utilities ── */
 .content-wrap {

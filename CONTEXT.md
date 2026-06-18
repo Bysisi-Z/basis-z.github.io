@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-18 (session 54)
+> Last updated: 2026-06-18 (session 55)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -102,7 +102,7 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Dual layout redesign (session 54)
+### Homepage (`/`) ✅ Dual layout redesign (session 54–55)
 
 **Concept:** Three-column layout. Two fully independent HTML sections (`#homeNight` / `#homeDay`) — no CSS class overrides. JS detects time and shows the correct one; both start `display:none`.
 
@@ -139,6 +139,12 @@ src/
 **Night right strip:**
 - Status bar (Swisscom · WiFi · battery), greeting scroll, clock, date, weather+location, floor lamp easter egg (`#nLamp` click toggles `.n-lamp-on`), cat blink easter egg
 - Cats: `public/images/cats-illustration.png`, two grid layers, `brightness(0.65) contrast(3)`, blink 5s/2s
+- **Cat scratch easter egg (session 55):** click left (big) cat → large purple scratch mark; click right (small) cat → small scratch mark. Scratch image: `public/images/cat-scratch.png` (purple glowing claws, `mix-blend-mode: screen`). Animation: `clip-path` top→bottom reveal + opacity fade, 0.38s total. Disabled when lamp is on (`.n-lamp-on .n-scratch { display:none }`). Click detection: `e.clientX` vs container midpoint. Elements: `#nScratchA` (46% wide, `bottom:63%`, left-aligned) / `#nScratchB` (29% wide, `bottom:54%`, right-aligned), both inside `#nCatsContainer`.
+
+**Greeting scroll (session 55 fix):**
+- Transition shortened to `0.75s ease-in-out` (was 1.4s with slow easing — caused ghost overlap)
+- Switch logic changed from `setTimeout(1600ms)` to `transitionend` event — new text only set after fade-out fully completes; eliminates residual ghost
+- Display duration per greeting: 3.6s visible
 
 **Day right strip:**
 - Search bar at `top: 52%` — Pagefind full-site search, lazy-loaded, fixed-position results

@@ -37,7 +37,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <!-- Payer glossary -->
     <div class="payer-glossary">
       <div class="glossary-item">
-        <span class="glossary-dot" style="background:#A97EC2"></span>
+        <span class="glossary-dot" style="background:#c17d9d"></span>
         <div>
           <span class="glossary-name">Self / OOP</span>
           <span class="glossary-desc">Out-of-pocket payments made directly by the patient or their family — copays, deductibles, and costs for uncovered services.</span>
@@ -178,7 +178,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .exp-badge {
   font-family: var(--sans); font-size: 10px; font-weight: 400;
   letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--rose); border: 1px solid rgba(169,126,194,0.4);
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
   border-radius: 3px; padding: 2px 8px;
 }
 .exp-desc {
@@ -191,7 +191,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   letter-spacing: 0.01em; color: var(--rose);
   margin: 20px 0 8px;
   padding: 7px 14px;
-  background: linear-gradient(to right, rgba(169,126,194,0.12), transparent 70%);
+  background: linear-gradient(to right, rgba(193,125,157,0.12), transparent 70%);
   border-radius: 4px;
 }
 .chart-container {
@@ -245,7 +245,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .dim-btn + .dim-btn { border-left: 1px solid var(--rule); }
 .dim-btn.active { background: var(--rose); color: #fff; font-weight: 400; }
-.dim-btn:not(.active):hover { background: rgba(169,126,194,0.06); color: var(--ink); }
+.dim-btn:not(.active):hover { background: rgba(193,125,157,0.06); color: var(--ink); }
 
 .payer-glossary {
   display: grid;
@@ -322,10 +322,10 @@ let activeDim = 'none'; // 'none' | 'age' | 'income'
 const ML = 72, MR = 28, MT = 24, MB = 50;
 const COV_H     = 120;
 const COV_SVG_H = 28 + COV_H + 72;
-const ROSE = '#A97EC2';
+const ROSE = '#c17d9d';
 const STONE = '#847B7B';
 const INK = '#1A1A1A';
-const RULE = '#EAE4F4';
+const RULE = '#E2DEDB';
 
 function svgEl(tag, attrs, text) {
   const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -378,7 +378,7 @@ function drawCoverage() {
       fill: isActive ? '#EAE6E3' : '#F5F3F1', rx: 0 }));
     // >$0 bottom (same rose for all)
     svg.appendChild(svgEl('rect', { x: barX, y: BAR_TOP + zeroH, width: BAR_W, height: nonzeroH,
-      fill: isActive ? ROSE : 'rgba(169,126,194,0.2)', rx: 0 }));
+      fill: isActive ? ROSE : 'rgba(193,125,157,0.2)', rx: 0 }));
     // border — thicker + rose when selected
     svg.appendChild(svgEl('rect', { x: barX, y: BAR_TOP, width: BAR_W, height: COV_H,
       fill: 'none',
@@ -390,7 +390,7 @@ function drawCoverage() {
     if (zeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH/2 + 4,
       fill: isActive ? STONE : '#C0BBB8', 'font-weight': 300 }, p.pct_zero + '%'));
     if (nonzeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH + nonzeroH/2 + 4,
-      fill: isActive ? '#fff' : 'rgba(169,126,194,0.4)' }, p.pct_nonzero + '%'));
+      fill: isActive ? '#fff' : 'rgba(193,125,157,0.4)' }, p.pct_nonzero + '%'));
 
     // payer name
     svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 11,
@@ -530,7 +530,7 @@ function drawDist() {
   const areaD = `M ${xPx(0)},${yPx(0)} ` +
     pts.map(([x, y]) => `L ${x},${y}`).join(' ') +
     ` L ${xPx(100)},${yPx(0)} Z`;
-  svg.appendChild(svgEl('path', { d: areaD, fill: 'rgba(169,126,194,0.12)', stroke: 'none' }));
+  svg.appendChild(svgEl('path', { d: areaD, fill: 'rgba(193,125,157,0.12)', stroke: 'none' }));
 
   // curve line
   const lineD = `M ` + pts.map(([x, y]) => `${x},${y}`).join(' L ');
@@ -585,7 +585,7 @@ function drawDist() {
 // Colors for each payer segment (index 0 = Total, skipped; 1-7 shown)
 const SEG_COLORS = [
   null,          // Total — not shown
-  '#A97EC2',     // Self/OOP — rose
+  '#c17d9d',     // Self/OOP — rose
   '#9b6080',     // Private — darker rose
   '#847B7B',     // Medicare — stone
   '#a59898',     // Medicaid — lighter stone

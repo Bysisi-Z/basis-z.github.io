@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module Color Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAFAF8; color: #1A1A1A; font-family: 'Inter', sans-serif; font-weight: 300; }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 60px 40px 120px; }
+
+  h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic; font-size: 40px; margin-bottom: 8px; }
+  .subtitle { font-size: 13px; color: #847B7B; letter-spacing: 0.08em; margin-bottom: 56px; }
+
+  .set { margin-bottom: 72px; }
+  .set-title { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #847B7B; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #E2DEDB; }
+
+  .modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+
+  .module-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #E2DEDB;
+  }
+
+  .card-header {
+    padding: 20px 20px 16px;
+  }
+  .card-name {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 6px;
+  }
+  .card-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.1;
+  }
+  .card-body {
+    background: #FAFAF8;
+    padding: 16px 20px 20px;
+  }
+
+  .swatch-row { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; }
+  .swatch {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .swatch-light {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .hex { font-size: 11px; color: #847B7B; }
+
+  /* Simulated UI elements */
+  .ui-demo { display: flex; flex-direction: column; gap: 8px; }
+  .ui-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    width: fit-content;
+  }
+  .ui-link {
+    font-size: 13px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ui-link::after { content: '→'; font-size: 11px; }
+  .ui-bar {
+    height: 3px;
+    border-radius: 2px;
+    width: 60%;
+  }
+  .ui-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.2;
+  }
+  .ui-heading em { font-style: normal; }
+
+  /* Set-specific styles generated below */
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Module Color Preview</h1>
+  <p class="subtitle">三套方案对比 — Decoding 固定为粉色，其余模块各有配色</p>
+
+  <!-- SET A -->
+  <div class="set">
+    <div class="set-title">Set A — Warm Botanical 暖植物系 · 全暖色调，亲近有机</div>
+    <div class="modules">
+
+      <div class="module-card">
+        <div class="card-header" style="background:#c17d9d;color:#fff;">
+          <div class="card-name">Research</div>
+          <div class="card-label">Decoding</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#c17d9d;"></div>
+            <div class="swatch-light" style="background:#e8c4d4;"></div>
+            <div class="hex">#c17d9d · #e8c4d4</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#e8c4d4;color:#a05a7e;"># contraception</div>
+            <a class="ui-link" style="color:#c17d9d;">View NSFG explorer</a>
+            <div class="ui-bar" style="background:#c17d9d;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#C4903A;color:#fff;">
+          <div class="card-name">Career</div>
+          <div class="card-label">Journey</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#C4903A;"></div>
+            <div class="swatch-light" style="background:#F0DEB8;"></div>
+            <div class="hex">#C4903A · #F0DEB8</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#F0DEB8;color:#9A6820;"># milestone</div>
+            <a class="ui-link" style="color:#C4903A;">Product Manager · 2022</a>
+            <div class="ui-bar" style="background:#C4903A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#6B9A72;color:#fff;">
+          <div class="card-name">Photography</div>
+          <div class="card-label">Nature Never Judges</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#6B9A72;"></div>
+            <div class="swatch-light" style="background:#C8DDD0;"></div>
+            <div class="hex">#6B9A72 · #C8DDD0</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#C8DDD0;color:#4A7850;"># alpine</div>
+            <a class="ui-link" style="color:#6B9A72;">Stoos Ridge Line</a>
+            <div class="ui-bar" style="background:#6B9A72;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#B8765A;color:#fff;">
+          <div class="card-name">Writing</div>
+          <div class="card-label">Wandering</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#B8765A;"></div>
+            <div class="swatch-light" style="background:#E8CFC0;"></div>
+            <div class="hex">#B8765A · #E8CFC0</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#E8CFC0;color:#8A5038;"># essay</div>
+            <a class="ui-link" style="color:#B8765A;">On leaving home twice</a>
+            <div class="ui-bar" style="background:#B8765A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#4A8A78;color:#fff;">
+          <div class="card-name">Reading</div>
+          <div class="card-label">Rabbit Holes</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#4A8A78;"></div>
+            <div class="swatch-light" style="background:#C0D8D4;"></div>
+            <div class="hex">#4A8A78 · #C0D8D4</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#C0D8D4;color:#2A6858;"># science</div>
+            <a class="ui-link" style="color:#4A8A78;">Currently reading</a>
+            <div class="ui-bar" style="background:#4A8A78;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#C47A5A;color:#fff;">
+          <div class="card-name">Present</div>
+          <div class="card-label">Now</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#C47A5A;"></div>
+            <div class="swatch-light" style="background:#EDD5C5;"></div>
+            <div class="hex">#C47A5A · #EDD5C5</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#EDD5C5;color:#9A5838;"># Jun 2026</div>
+            <a class="ui-link" style="color:#C47A5A;">What I'm up to</a>
+            <div class="ui-bar" style="background:#C47A5A;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SET B -->
+  <div class="set">
+    <div class="set-title">Set B — Jewel Tones 宝石系 · 每个模块强烈有识别度</div>
+    <div class="modules">
+
+      <div class="module-card">
+        <div class="card-header" style="background:#c17d9d;color:#fff;">
+          <div class="card-name">Research</div>
+          <div class="card-label">Decoding</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#c17d9d;"></div>
+            <div class="swatch-light" style="background:#e8c4d4;"></div>
+            <div class="hex">#c17d9d · #e8c4d4</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#e8c4d4;color:#a05a7e;"># contraception</div>
+            <a class="ui-link" style="color:#c17d9d;">View NSFG explorer</a>
+            <div class="ui-bar" style="background:#c17d9d;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#C4A04A;color:#fff;">
+          <div class="card-name">Career</div>
+          <div class="card-label">Journey</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#C4A04A;"></div>
+            <div class="swatch-light" style="background:#EDE0B8;"></div>
+            <div class="hex">#C4A04A · #EDE0B8</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#EDE0B8;color:#9A7820;"># milestone</div>
+            <a class="ui-link" style="color:#C4A04A;">Product Manager · 2022</a>
+            <div class="ui-bar" style="background:#C4A04A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#4A8A6A;color:#fff;">
+          <div class="card-name">Photography</div>
+          <div class="card-label">Nature Never Judges</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#4A8A6A;"></div>
+            <div class="swatch-light" style="background:#C0D8C8;"></div>
+            <div class="hex">#4A8A6A · #C0D8C8</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#C0D8C8;color:#2A6848;"># alpine</div>
+            <a class="ui-link" style="color:#4A8A6A;">Stoos Ridge Line</a>
+            <div class="ui-bar" style="background:#4A8A6A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#5A72B8;color:#fff;">
+          <div class="card-name">Writing</div>
+          <div class="card-label">Wandering</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#5A72B8;"></div>
+            <div class="swatch-light" style="background:#C0C8E8;"></div>
+            <div class="hex">#5A72B8 · #C0C8E8</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#C0C8E8;color:#3A52A0;"># essay</div>
+            <a class="ui-link" style="color:#5A72B8;">On leaving home twice</a>
+            <div class="ui-bar" style="background:#5A72B8;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#3A8A90;color:#fff;">
+          <div class="card-name">Reading</div>
+          <div class="card-label">Rabbit Holes</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#3A8A90;"></div>
+            <div class="swatch-light" style="background:#B8D8DC;"></div>
+            <div class="hex">#3A8A90 · #B8D8DC</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#B8D8DC;color:#1A6870;"># science</div>
+            <a class="ui-link" style="color:#3A8A90;">Currently reading</a>
+            <div class="ui-bar" style="background:#3A8A90;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#8A7AB8;color:#fff;">
+          <div class="card-name">Present</div>
+          <div class="card-label">Now</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#8A7AB8;"></div>
+            <div class="swatch-light" style="background:#D4CEEA;"></div>
+            <div class="hex">#8A7AB8 · #D4CEEA</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#D4CEEA;color:#6058A0;"># Jun 2026</div>
+            <a class="ui-link" style="color:#8A7AB8;">What I'm up to</a>
+            <div class="ui-bar" style="background:#8A7AB8;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SET C -->
+  <div class="set">
+    <div class="set-title">Set C — Muted Editorial 冷暖混搭 · 克制、杂志感</div>
+    <div class="modules">
+
+      <div class="module-card">
+        <div class="card-header" style="background:#c17d9d;color:#fff;">
+          <div class="card-name">Research</div>
+          <div class="card-label">Decoding</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#c17d9d;"></div>
+            <div class="swatch-light" style="background:#e8c4d4;"></div>
+            <div class="hex">#c17d9d · #e8c4d4</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#e8c4d4;color:#a05a7e;"># contraception</div>
+            <a class="ui-link" style="color:#c17d9d;">View NSFG explorer</a>
+            <div class="ui-bar" style="background:#c17d9d;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#B8826A;color:#fff;">
+          <div class="card-name">Career</div>
+          <div class="card-label">Journey</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#B8826A;"></div>
+            <div class="swatch-light" style="background:#E8D0C4;"></div>
+            <div class="hex">#B8826A · #E8D0C4</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#E8D0C4;color:#8A5840;"># milestone</div>
+            <a class="ui-link" style="color:#B8826A;">Product Manager · 2022</a>
+            <div class="ui-bar" style="background:#B8826A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#7A9F6A;color:#fff;">
+          <div class="card-name">Photography</div>
+          <div class="card-label">Nature Never Judges</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#7A9F6A;"></div>
+            <div class="swatch-light" style="background:#D0DEC8;"></div>
+            <div class="hex">#7A9F6A · #D0DEC8</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#D0DEC8;color:#527840;"># alpine</div>
+            <a class="ui-link" style="color:#7A9F6A;">Stoos Ridge Line</a>
+            <div class="ui-bar" style="background:#7A9F6A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#6A82A8;color:#fff;">
+          <div class="card-name">Writing</div>
+          <div class="card-label">Wandering</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#6A82A8;"></div>
+            <div class="swatch-light" style="background:#C4D0E4;"></div>
+            <div class="hex">#6A82A8 · #C4D0E4</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#C4D0E4;color:#486090;"># essay</div>
+            <a class="ui-link" style="color:#6A82A8;">On leaving home twice</a>
+            <div class="ui-bar" style="background:#6A82A8;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#A08A5A;color:#fff;">
+          <div class="card-name">Reading</div>
+          <div class="card-label">Rabbit Holes</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#A08A5A;"></div>
+            <div class="swatch-light" style="background:#E4D8C0;"></div>
+            <div class="hex">#A08A5A · #E4D8C0</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#E4D8C0;color:#786030;"># science</div>
+            <a class="ui-link" style="color:#A08A5A;">Currently reading</a>
+            <div class="ui-bar" style="background:#A08A5A;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="card-header" style="background:#8A78A8;color:#fff;">
+          <div class="card-name">Present</div>
+          <div class="card-label">Now</div>
+        </div>
+        <div class="card-body">
+          <div class="swatch-row">
+            <div class="swatch" style="background:#8A78A8;"></div>
+            <div class="swatch-light" style="background:#D4D0E8;"></div>
+            <div class="hex">#8A78A8 · #D4D0E8</div>
+          </div>
+          <div class="ui-demo">
+            <div class="ui-tag" style="background:#D4D0E8;color:#605890;"># Jun 2026</div>
+            <a class="ui-link" style="color:#8A78A8;">What I'm up to</a>
+            <div class="ui-bar" style="background:#8A78A8;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

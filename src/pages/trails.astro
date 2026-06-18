@@ -25,7 +25,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  .trails-page { background: var(--bg); }
+.trails-page { background: var(--bg); }
 
   .wrap {
     max-width: 960px;
@@ -217,10 +217,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const data = await r.json();
       L.geoJSON(data, {
         style: () => ({
-          color: '#A97EC2',
+          color: '#c17d9d',
           weight: 1.2,
           opacity: 0.55,
-          fillColor: '#A97EC2',
+          fillColor: '#c17d9d',
           fillOpacity: 0.06,
         }),
       }).addTo(map);
