@@ -57,7 +57,7 @@
 ```
 src/
 ├── layouts/
-│   └── BaseLayout.astro       # html shell, loads fonts, Nav + Footer
+│   └── BaseLayout.astro       # html shell, loads fonts, Nav + Footer; props: hideNav, hideFooter
 ├── components/
 │   ├── Nav.astro              # Sticky top nav, 2-row mobile
 │   ├── Footer.astro           # Si sig + © year
@@ -65,9 +65,9 @@ src/
 │   ├── Comments.astro         # Cusdis embed
 │   └── Watermark.astro        # Photo watermark overlay
 ├── pages/
-│   ├── index.astro            # Homepage — 1-screen layout, drum wheel mobile
+│   ├── index.astro            # Homepage — desktop day/night + mobile lock screen (#homeMobile)
 │   ├── explorer.astro         # World Explorer profile page ✅
-│   ├── trails.astro           # Trails lead to the world — Leaflet map ✅ NEW (session 34)
+│   ├── trails.astro           # Trails — Leaflet map, no title (removed s57) ✅
 │   ├── career/index.astro     # Journey — dual timeline
 │   ├── research/index.astro   # Decoding — gateway page
 │   ├── research/data.astro    # NSFG 2022–2023 explorer ✅
@@ -444,6 +444,7 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 - Right: single-line copyright — "© year · All photographs are the exclusive property of the author. Unauthorized reproduction or commercial use is strictly prohibited."
 - Font: 11px, `var(--stone)`, hidden on mobile (`max-width: 600px`)
 - Homepage glass strip also has its own copyright line (same text, purple color to match contact links)
+- **`hideFooter` prop (session 57):** `BaseLayout` accepts `hideFooter={true}` to suppress rendering entirely. Homepage uses this — do NOT use CSS to hide the footer on index page, use the prop.
 
 ### CV (`/cv`) ✅ Live
 
@@ -462,7 +463,7 @@ Professional profile: photo + summary, 5 work entries with vine bullets, educati
 **Session 38 — index page updates:**
 - Title changed from "Writing" → "Wandering"
 - Intro text added (EN only, 900px wide): 4 paragraphs inviting reader to sit and converse
-- Coffee cup SVG easter egg: clicking the cup plays audio (`public/audio/coffee-invite.m4a`); steam wisps animate while playing; stops on click or end. Demo TTS voice in place — swap file with real recording when ready.
+- Coffee cup SVG easter egg: clicking the cup plays audio (`public/audio/coffee-invite.m4a`); steam wisps animate while playing; stops on click or end. **Session 57: replaced with real recording `Bleicherstrasse 49.m4a`.**
 - Coffee cup SVG uses rose palette: `#c17d9d` (cup body), `#d4a0b8` (saucer/handle), `#ecd2e0` (steam wisps)
 
 ### Now (`/now`) ⚠️ Placeholder
