@@ -102,46 +102,48 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Redesigned (session 51)
+### Homepage (`/`) ✅ Day/Night auto-switch (session 52)
 
-**Concept:** Three-column layout simulating a phone lock screen on the right.
+**Concept:** Three-column layout simulating a phone lock screen on the right. Auto-switches between night and day mode based on browser local time (6:00–18:00 = day).
 
-**Photos used:**
-- `.photo-bg` (absolute full-bleed): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: 60% 18%`
-- `.photo-strip` (left): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: center 18%`
+**Night mode (default, 18:00–6:00):**
+- Left photo: `homepage-ferris-original.jpeg` (Ferris wheel at dusk)
+- Glass: `rgba(15,10,30,0.25)` + `blur(32px) brightness(0.55) saturate(1.2)` — dark purple
+- Right strip: `#000` black
+- Greeting: Good evening / 晚上好 (16 languages)
+- Cat easter egg + floor lamp visible
 
-**Desktop layout (`src/pages/index.astro`):**
-- `display: flex`, three columns — no explicit height on strips; flex `align-items: stretch` fills the fixed container:
-  - Left `.photo-strip`: `flex: 1.4 1 0`, `overflow: hidden`
-  - Middle `.glass-strip`: `flex: 1.7 1 0`, `align-self: stretch`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `container-type: size`
-    - **Si logo**: Great Vibes italic `clamp(48px,10cqw,100px)`, `#C4A8E0`, soft glow
-    - **Tagline**: Cormorant Garamond 300, `clamp(32px,8cqw,72px)`; "sense" italic `#C4A8E0` `skewX(-8deg)`
-    - **Module list**: 6 items, `overflow-y: auto; scrollbar-width: none`
-    - **Contact**: Nunito uppercase 12px, `rgba(196,168,224,0.62)`
-    - **Copyright**: below contact, same color/font
-  - Right `.black-strip`: `flex: 0.95 1 0`, `background: #000`, `container-type: inline-size`, `overflow-x: clip`
+**Day mode (6:00–18:00, `.layout.day` class added by JS):**
+- Left photo: `homepage-morning.jpg` (Swiss alpine lake DSC07887, `object-position: center 35%`)
+- Photo-bg: same image, `object-position: 30% 72%` (targets lone spruce tree area for texture)
+- Glass: `rgba(18,42,24,0.22)` + `blur(32px) brightness(0.55) saturate(2.0)` — dark forest green, same transparency logic as night
+- Right strip: `#0C2010` deep dark forest green
+- Greeting: Good morning / 早上好 (16 languages)
+- Lamp + cats hidden in day mode
+- All text stays white (same as night mode)
+- Progression left→right: natural photo → green glass → dark green strip
+
+**Layout (both modes):**
+- `display: flex`, three columns, no explicit height (flex stretch fills fixed container)
+  - Left `.photo-strip`: `flex: 1.4 1 0`
+  - Middle `.glass-strip`: `flex: 1.7 1 0`, `align-self: stretch`, `container-type: size`
+  - Right `.black-strip`: `flex: 0.95 1 0`, `container-type: inline-size`, `overflow-x: clip`
 - No nav bar (`hideNav={true}`)
-- **iPad Safari height fix:** strips use no explicit height (relying on flex stretch) — `100vh` or `100%` caused bottom clipping on iPad Safari because `overflow: hidden` on `.layout` clips content when `100vh` exceeds the visual viewport
+- **iPad Safari fix:** no explicit height on strips (flex stretch) + `env(safe-area-inset-bottom)` on cats
 
 **Responsive breakpoints:**
 - `≤600px` (phones): column layout, black strip hidden
 - `601–900px` (iPad portrait / small tablets): two-column photo+glass, black strip hidden
 - `≥901px` (iPad landscape + desktop): full three-column with black strip
 
-**Black strip contents (phone lock screen) — all sizing in `cqw`/`cqh`:**
-- **Status bar**: top-left carrier + "Swisscom"; top-right WiFi + battery SVG
-- **Greeting scroll**: 16 languages, `clamp(20px,12cqw,56px)`, Ma Shan Zheng for Chinese
-- **Clock area** (`top: 22%`, `z-index: 2`): date pill → weather row → time `clamp(56px,32cqw,150px)` Barlow Condensed gradient + reflect
-- **Floor lamp** (bottom-right, `width: clamp(100px,15vh,220px)`): click → `.lamp-on` → warm beam fades in; cats get warm glow
-- **Cat easter egg** (bottom-left, `left: clamp(16px,12cqw,56px)`, `width: clamp(90px,52cqw,250px)`):
-  - Single illustration: `public/images/cats-illustration.png` (two black cats, glowing yellow eyes)
-  - Two overlapping grid layers via `grid-area: 1/1`: `.cat-a` clips left 52% (big cat), `.cat-b` clips right 50% (small cat)
-  - Filter: `brightness(0.65) contrast(3)` — collapses grey background to pure black, eyes stay vivid
-  - Independent blink animations: big cat `5s`, small cat `2s`, staggered with `animation-delay`
-  - Lamp-on: `animation: none; opacity: 1` + warm `drop-shadow`
-  - `bottom: max(0px, env(safe-area-inset-bottom))` for iPad safe area
+**Night strip contents (phone lock screen) — sizing in `cqw`/`cqh`:**
+- Status bar, greeting scroll, clock, weather, floor lamp easter egg, cat blink easter egg
 
-**Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed · Cormorant Garamond (300/400/600/700 + italic) · Nunito
+**Cat easter egg:**
+- `public/images/cats-illustration.png` — two overlapping grid layers (`.cat-a` left 52%, `.cat-b` right 50%)
+- `brightness(0.65) contrast(3)`, blink: big cat `5s`, small cat `2s`
+
+**Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed · Cormorant Garamond · Nunito
 
 **Mobile (≤600px):** photo strip top 50vw + glass panel, black strip hidden
 
