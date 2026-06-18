@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V2 — Sky</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{overflow:hidden}
+.layout{
+  position:fixed;inset:0;display:grid;
+  grid-template-columns:44% 56%;
+  overflow:hidden;
+}
+/* Left: sky color — matches the photo's lavender sky exactly */
+.left{
+  background:#9D9BC6;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(40px,5.5vw,76px);
+  position:relative;z-index:10;overflow:hidden;
+}
+/* Subtle ghost circle decoration */
+.left::after{
+  content:'';position:absolute;bottom:-80px;right:-80px;
+  width:380px;height:380px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.08);pointer-events:none
+}
+/* Right: photo fills full height — larger, shows Pilatus */
+.photo{position:relative;overflow:hidden}
+.photo img{
+  width:100%;height:100%;object-fit:cover;
+  /* Shift down to include Pilatus mountain at bottom */
+  object-position:center 22%;
+  display:block;
+  /* Subtle left-edge fade — blends into matching sky bg */
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 14%, black 30%);
+  mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 14%, black 30%)
+}
+/* Si */
+.si-wrap{position:relative;margin-bottom:20px;line-height:1}
+.si-ghost{
+  position:absolute;top:48px;left:-16px;
+  font-family:'Great Vibes',cursive;font-size:clamp(120px,15vw,190px);
+  font-weight:300;font-style:italic;line-height:.85;letter-spacing:-.03em;
+  color:rgba(255,255,255,0.10);pointer-events:none;user-select:none
+}
+.si{
+  font-family:'Great Vibes',cursive;font-size:clamp(84px,10vw,132px);
+  font-weight:400;font-style:italic;line-height:.85;letter-spacing:-.03em;
+  color:#fff;position:relative;z-index:2;transform:translate(14px,12px);
+  text-shadow:
+    2px 3px 0 rgba(40,20,80,0.7),
+    4px 6px 0 rgba(40,20,80,0.5),
+    6px 9px 8px rgba(0,0,0,0.18)
+}
+.rule{display:flex;flex-direction:column;gap:2px;margin-top:16px;margin-bottom:14px}
+.rule span{display:block;height:1px;background:rgba(255,255,255,0.55)}
+.rule span:first-child{width:120px}
+.rule span:last-child{width:120px;margin-left:16px}
+.tagline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,1.4vw,21px);font-weight:300;font-style:italic;
+  color:rgba(255,255,255,0.90);line-height:1.6
+}
+.mods{margin-top:36px}
+.mod{
+  display:grid;grid-template-columns:36px 1px 1fr auto;
+  align-items:center;gap:0 18px;padding:13px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.15);
+  text-decoration:none;color:inherit;transition:background .2s
+}
+.mod:hover{background:rgba(255,255,255,0.08)}
+.mod:hover .mt{color:#fff}
+.mod:hover .arr{color:#fff;transform:translateX(3px)}
+.mn{font-family:'Inter',sans-serif;font-size:11px;font-weight:300;letter-spacing:.18em;color:rgba(255,255,255,0.65)}
+.mr{width:1px;height:26px;background:rgba(255,255,255,0.2)}
+.mb{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mt{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,1.8vw,25px);font-weight:300;font-style:italic;
+  color:rgba(255,255,255,0.90);line-height:1.1;transition:color .2s
+}
+.md{
+  font-family:'Inter',sans-serif;font-size:11px;font-weight:300;
+  color:rgba(255,255,255,0.52);white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.arr{font-size:14px;color:rgba(255,255,255,0.25);flex-shrink:0;transition:color .2s,transform .2s}
+.label{position:fixed;bottom:16px;left:16px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.45);z-index:20}
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="left">
+    <div class="si-wrap">
+      <span class="si-ghost">Si</span>
+      <h1 class="si">Si</h1>
+    </div>
+    <div class="rule"><span></span><span></span></div>
+    <p class="tagline">Making sense of<br>numbers and landscapes.</p>
+    <nav class="mods">
+      <a class="mod" href="#"><span class="mn">01</span><span class="mr"></span><span class="mb"><span class="mt">Now</span><span class="md">What I'm doing and thinking about lately</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">02</span><span class="mr"></span><span class="mb"><span class="mt">Journey</span><span class="md">Professional path & the person behind it</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">03</span><span class="mr"></span><span class="mb"><span class="mt">Decoding</span><span class="md">Industry research, data analysis & market insights</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">04</span><span class="mr"></span><span class="mb"><span class="mt">Nature Never Judges</span><span class="md">Landscape photography, hiking guides & alpine walks</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">05</span><span class="mr"></span><span class="mb"><span class="mt">Wandering</span><span class="md">Personal growth, reflections & inner landscapes</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">06</span><span class="mr"></span><span class="mb"><span class="mt">A Collection of Rabbit Holes</span><span class="md">Books, papers & ideas worth revisiting</span></span><span class="arr">→</span></a>
+    </nav>
+  </div>
+  <div class="photo"><img src="images/homepage-ferris.jpeg" alt=""></div>
+</div>
+<p class="label">V2 — Sky · Pilatus 可见 · 天空色无渐变</p>
+</body>
+</html>

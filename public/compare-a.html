@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option A — Charcoal + Photo Glow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@300;400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { background: #000; }
+
+  .layout {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: row;
+    overflow: hidden;
+  }
+
+  /* Option A: Charcoal + photo-sampled colour glows */
+  .left-panel {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column;
+    padding: 52px 64px 44px clamp(40px, 8vw, 120px);
+    background:
+      radial-gradient(ellipse 70% 35% at 100% 18%, rgba(151,155,229, 0.55) 0%, transparent 100%),
+      radial-gradient(ellipse 75% 30% at 100% 52%, rgba(173,180,250, 0.45) 0%, transparent 100%),
+      radial-gradient(ellipse 65% 28% at 100% 82%, rgba(202,211,252, 0.38) 0%, transparent 100%),
+      #1C1B20;
+    position: relative; z-index: 1;
+  }
+
+  .right-photo {
+    flex-shrink: 0;
+    height: 100vh;
+    width: calc(100vh * 4284 / 5712);
+    position: relative; overflow: hidden;
+  }
+  .right-photo img { display: block; width: 100%; height: 100%; object-fit: fill; }
+  /* Clean cut — no fade */
+
+  /* Label */
+  .label {
+    position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.5); color: #fff;
+    font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.1em;
+    padding: 5px 14px; border-radius: 20px; z-index: 999; white-space: nowrap;
+  }
+
+  /* Content styles */
+  .si-logo {
+    font-family: 'Great Vibes', cursive; font-size: 80px; line-height: 1;
+    color: #C4A8E0; font-style: italic;
+    text-shadow: 0 0 20px rgba(196,168,224,0.9), 0 0 50px rgba(196,168,224,0.6), 0 0 100px rgba(196,168,224,0.3);
+    margin-bottom: 40px; flex-shrink: 0;
+  }
+  .tagline-wrap { flex-shrink: 0; }
+  .tagline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(44px, 5.2vw, 82px); font-weight: 300; color: #fff;
+    line-height: 1.12; margin: 0 0 24px;
+  }
+  .sense {
+    font-style: italic; color: #C4A8E0; font-weight: 300;
+    display: inline-block; transform: skewX(-8deg);
+    text-shadow: 0 0 12px rgba(196,168,224,0.9), 0 0 30px rgba(196,168,224,0.6);
+  }
+  .tagline-rule {
+    width: 46%; height: 1px;
+    background: linear-gradient(to right, rgba(255,255,255,0.9) 0%, rgba(210,175,245,0.65) 22%, rgba(160,120,210,0.28) 55%, transparent 100%);
+  }
+  .module-list {
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: flex-start; padding-top: 28px; position: relative;
+  }
+  .module-list::before {
+    content: ''; position: absolute; left: 12px; top: 74px; bottom: 55px;
+    width: 1px; background: rgba(196,150,210,0.22);
+  }
+  .mod-item {
+    display: grid; grid-template-columns: 24px 28px 1fr;
+    align-items: center; gap: 0 8px; padding: 18px 0; text-decoration: none;
+  }
+  .mod-bullet { font-size: 8px; color: #C4A8E0; text-align: center;
+    text-shadow: 0 0 4px #fff, 0 0 10px rgba(196,168,224,1), 0 0 24px rgba(196,168,224,0.9); }
+  .mod-num { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.28); }
+  .mod-body { display: flex; flex-direction: column; gap: 3px; }
+  .mod-title { font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px,2.2vw,30px); font-weight: 400; font-style: italic;
+    color: rgba(255,255,255,0.85); line-height: 1.2; }
+  .mod-desc { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.72); line-height: 1.4; }
+  .contact {
+    display: flex; align-items: center; gap: 10px; margin-top: 28px;
+    padding-top: 20px; border-top: 1px solid rgba(196,168,224,0.15); flex-shrink: 0;
+  }
+  .contact-link { font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 400;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(196,168,224,0.75); text-decoration: none; }
+  .sep { color: rgba(196,168,224,0.25); font-size: 10px; }
+</style>
+</head>
+<body>
+<div class="label">Option A — Charcoal + Photo Glow</div>
+<div class="layout">
+  <aside class="left-panel">
+    <div class="si-logo">Si</div>
+    <div class="tagline-wrap">
+      <h1 class="tagline">Making <em class="sense">sense</em> of<br>numbers and<br>landscapes.</h1>
+      <div class="tagline-rule"></div>
+    </div>
+    <nav class="module-list">
+      <a class="mod-item" href="#"><span class="mod-bullet">◆</span><span class="mod-num">01</span><span class="mod-body"><span class="mod-title">Now</span><span class="mod-desc">What I'm doing and thinking about lately</span></span></a>
+      <a class="mod-item" href="#"><span class="mod-bullet">◆</span><span class="mod-num">02</span><span class="mod-body"><span class="mod-title">Journey</span><span class="mod-desc">Professional path & the person behind it</span></span></a>
+      <a class="mod-item" href="#"><span class="mod-bullet">◆</span><span class="mod-num">03</span><span class="mod-body"><span class="mod-title">Decoding</span><span class="mod-desc">Industry research, data analysis & market insights</span></span></a>
+      <a class="mod-item" href="#"><span class="mod-bullet">◆</span><span class="mod-num">04</span><span class="mod-body"><span class="mod-title">Nature Never Judges</span><span class="mod-desc">Landscape photography, hiking guides & alpine walks</span></span></a>
+      <a class="mod-item" href="#"><span class="mod-bullet">◆</span><span class="mod-num">05</span><span class="mod-body"><span class="mod-title">Wandering</span><span class="mod-desc">Personal growth, reflections & inner landscapes</span></span></a>
+      <a class="mod-item" href="#"><span class="mod-bullet">◆</span><span class="mod-num">06</span><span class="mod-body"><span class="mod-title">A Collection of Rabbit Holes</span><span class="mod-desc">Books, papers & ideas worth revisiting</span></span></a>
+    </nav>
+    <div class="contact">
+      <a href="#" class="contact-link">LinkedIn</a>
+      <span class="sep">·</span>
+      <a href="#" class="contact-link">Red Note</a>
+      <span class="sep">·</span>
+      <a href="#" class="contact-link">Email</a>
+    </div>
+  </aside>
+  <div class="right-photo">
+    <img src="/images/homepage-ferris-original.jpeg" alt="">
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V3 — Horizon</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{overflow:hidden}
+/* Full page: white sky */
+.layout{position:fixed;inset:0;overflow:hidden;background:#FFFFFF}
+/* Photo: full width, bottom, fades upward — Ferris wheel & mountain intact */
+.photo{
+  position:absolute;bottom:0;left:0;right:0;height:62vh;z-index:1;overflow:hidden
+}
+.photo img{
+  width:100%;height:100%;object-fit:cover;
+  object-position:center 15%; /* shows wheel top + mountain */
+  display:block;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 25%, black 52%);
+  mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 25%, black 52%);
+}
+/* Subtle lavender glow at bottom to bridge photo and background */
+.layout::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:68vh;
+  background:linear-gradient(to top, rgba(152,150,200,0.18) 0%, transparent 100%);
+  z-index:0;pointer-events:none
+}
+/* Content: top area, split in two columns */
+.left{
+  position:absolute;left:0;top:0;height:40vh;width:48%;z-index:10;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(40px,5.5vw,80px)
+}
+.right-mods{
+  position:absolute;right:0;top:0;height:40vh;width:48%;z-index:10;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(40px,5.5vw,80px)
+}
+.si-wrap{position:relative;margin-bottom:20px;line-height:1}
+.si-ghost{position:absolute;top:40px;left:-14px;font-family:'Great Vibes',cursive;font-size:clamp(100px,13vw,170px);font-weight:300;font-style:italic;line-height:.85;letter-spacing:-.03em;color:rgba(169,126,194,0.06);pointer-events:none;user-select:none}
+.si{font-family:'Great Vibes',cursive;font-size:clamp(76px,9.5vw,124px);font-weight:400;font-style:italic;line-height:.85;letter-spacing:-.03em;color:#A97EC2;position:relative;z-index:2;transform:translate(12px,10px);text-shadow:0 2px 22px rgba(130,80,185,0.12)}
+.rule{display:flex;flex-direction:column;gap:2px;margin-top:14px;margin-bottom:13px}
+.rule span{display:block;height:1px;background:rgba(169,126,194,0.4)}
+.rule span:first-child{width:110px}
+.rule span:last-child{width:110px;margin-left:14px}
+.tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,1.3vw,20px);font-weight:300;font-style:italic;color:#1A1A1A;line-height:1.55}
+.mod{display:grid;grid-template-columns:34px 1px 1fr auto;align-items:center;gap:0 16px;padding:11px 10px;border-bottom:1px solid #EAE4F4;text-decoration:none;color:inherit;transition:background .2s}
+.mod:hover{background:rgba(169,126,194,0.04)}
+.mod:hover .mt{color:#A97EC2}
+.mod:hover .arr{color:#A97EC2;transform:translateX(3px)}
+.mn{font-family:'Inter',sans-serif;font-size:10px;font-weight:300;letter-spacing:.16em;color:#A97EC2}
+.mr{width:1px;height:24px;background:#EAE4F4}
+.mb{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mt{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,1.7vw,23px);font-weight:300;font-style:italic;color:#1A1A1A;line-height:1.1;transition:color .2s}
+.md{font-family:'Inter',sans-serif;font-size:11px;font-weight:300;color:#847B7B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arr{font-size:13px;color:#EAE4F4;flex-shrink:0;transition:color .2s,transform .2s}
+.label{position:fixed;bottom:16px;left:16px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#fff;opacity:.6;z-index:20;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="left">
+    <div class="si-wrap">
+      <span class="si-ghost">Si</span>
+      <h1 class="si">Si</h1>
+    </div>
+    <div class="rule"><span></span><span></span></div>
+    <p class="tagline">Making sense of<br>numbers and landscapes.</p>
+  </div>
+  <div class="right-mods">
+    <nav>
+      <a class="mod" href="#"><span class="mn">01</span><span class="mr"></span><span class="mb"><span class="mt">Now</span><span class="md">What I'm doing lately</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">02</span><span class="mr"></span><span class="mb"><span class="mt">Journey</span><span class="md">Professional path</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">03</span><span class="mr"></span><span class="mb"><span class="mt">Decoding</span><span class="md">Research & data</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">04</span><span class="mr"></span><span class="mb"><span class="mt">Nature Never Judges</span><span class="md">Photography & hiking</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">05</span><span class="mr"></span><span class="mb"><span class="mt">Wandering</span><span class="md">Reflections</span></span><span class="arr">→</span></a>
+      <a class="mod" href="#"><span class="mn">06</span><span class="mr"></span><span class="mb"><span class="mt">Rabbit Holes</span><span class="md">Books & ideas</span></span><span class="arr">→</span></a>
+    </nav>
+  </div>
+  <div class="photo"><img src="images/homepage-ferris.jpeg" alt=""></div>
+</div>
+<p class="label">V3 — Horizon · 照片满宽底部</p>
+</body>
+</html>
