@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-18 (session 55)
+> Last updated: 2026-06-18 (session 57)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -13,26 +13,25 @@
 
 ## 1. Design System
 
-### Colors — Soft Dusk Purple scheme (session 45, LIVE)
+### Colors — Rose Pink scheme (session 56, LIVE)
 
-全站配色已从玫瑰粉切换为苹果风格暖紫，灵感来源于首页摩天轮照片的薰衣草黄昏天空：
+**Homepage** keeps its own dual palette (night = purple, day = sage green — both defined inline in index.astro, unaffected by global tokens).
+
+**All inner pages** use the original rose pink:
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--bg` | `#F6F3FC` | Page background (very light lavender) |
-| `--ink` | `#1A1A1A` | Primary text (warm neutral, not purple) |
-| `--rose` / `--accent` | `#A97EC2` | Main accent — warm pink-purple (H≈288°, dusk sky) |
-| `--purple` | `#B8A9D4` | Light purple tint (secondary use) |
-| `--purple-light` | `#D4CBE8` | Lighter purple tint |
-| `--stone` | `#847B7B` | Career events, secondary text (warm neutral) |
-| `--rule` | `#EAE4F4` | Borders, dividers (light lavender) |
+| `--bg` | `#FAFAF8` | Page background (warm white) |
+| `--ink` | `#1A1A1A` | Primary text |
+| `--rose` / `--accent` | `#c17d9d` | Main accent — rose pink |
+| `--rose-light` | `#e8c4d4` | Light tint for cards / highlights |
+| `--stone` | `#847B7B` | Secondary text, career right-side |
+| `--rule` | `#E2DEDB` | Borders, dividers (warm gray) |
 
-**Key color decisions (session 45):**
-- `--ink` and `--stone` deliberately kept warm/neutral (NOT purple) — avoids "everything purple" flatness, creates contrast with the accent
-- `--rose` value shifted from H=258° (cold blue-purple) to H=288° (warm pink-purple) to match the dusk warmth in the Ferris wheel photo
-- SVG easter eggs (Alps, vines, stork, confetti) updated to purple tint family: `#D4CBE8` / `#EDE8F5` / `#E4DCF4`
-- Scrollbar thumb: `#847B7B`, track: `#E4E0F0`
-- All 16 standalone `public/*.html` analysis pages updated with new `:root` tokens
+**Color history note:**
+- Sessions 45–55: inner pages used purple `#A97EC2` / bg `#F6F3FC` (Soft Dusk scheme)
+- Session 56: reverted to original rose pink. Multi-module color scheme (each module own color) was tried and abandoned — too many hardcoded details to maintain consistently.
+- career/index.astro: CSS was using old `--pink` variable → replaced with `--rose` throughout
 
 ### Typography
 
@@ -154,12 +153,32 @@ src/
 - To update cards: edit `.d-notif` elements in `#homeDay`
 
 **Responsive:**
-- `≤600px`: column layout, strip hidden
+- `≤600px`: `#homeNight` / `#homeDay` hidden (`display:none !important`); `#homeMobile` shown instead
 - `601–900px`: two-column, strip hidden
 - `≥901px`: full three-column
 - `max-height: 750px/620px`: search + notif stack adjusted
 
-**Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed · Cormorant Garamond · Nunito (loaded via head slot)
+**Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed (200;700) · Cormorant Garamond · Nunito (loaded via head slot)
+
+### Mobile Homepage (`#homeMobile`, ≤600px only) ✅ (session 57)
+
+Independent mobile-first homepage, never shown on desktop. Two sections stacked in DOM.
+
+**Lock screen (`.m-lock`):**
+- `position: fixed; inset: 0; z-index: 100` — covers content below
+- Background: `homepage-ferris-original.jpeg`, `object-position: center 65%`
+- Status bar (top): Swisscom + signal bars + muted bell (left) · signal + WiFi + 100% battery (right)
+- Date: `id="mDate"`, font `-apple-system`, 17px 600
+- Clock: `id="mTime"`, Barlow Condensed 700, `font-size: 36vw`, gradient `rgba(230,235,252,0.95) → rgba(215,200,238,0.88)` top→bottom, `-webkit-background-clip: text`; positioned at `top: 60px`
+- Swipe hint: `↑` chevron + "Swipe up to open", bounce animation
+- **Dismiss:** touch swipe up ≥40px OR scroll wheel → adds `.dismissed` class → `transform: translateY(-100%)` (0.65s ease). One-way: cannot return to lock screen
+- Clock JS: `_mClock()` runs alongside desktop clock, updates `mTime` + `mDate` every second
+
+**Content section (`.m-open`):**
+- Sits below lock screen in DOM; visible once lock dismissed
+- Background: `homepage-ferris-original.jpeg` blurred (`filter: blur(22px)`) + `rgba(15,8,38,0.48)` purple overlay
+- Content: `.n-glass.m-glass` — reuses all night glass CSS (Si logo, tagline, 6 modules, contact, copyright) with mobile overrides via `.m-glass !important` rules
+- Key overrides: `background: transparent`, `backdrop-filter: none`, full-width, `padding: 48px 28px 52px`
 
 ### World Explorer (`/explorer`) ✅ Live
 
@@ -353,7 +372,10 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Regeneration scripts: `gen_meps_data.py` (explorer), `gen_meps_splits.py` (split data), computed in-session for expenditure overview
 - Original AHRQ download: HC-251 (FYC), HC-249 (Conditions), HC-248A (RX) — re-downloadable from meps.ahrq.gov
 
-### Nature Never Judges (`/photography`) ✅ Index + 3 detail pages
+### Nature Never Judges (`/photography`) ✅ Index + 3 detail pages (session 57)
+
+- "View all trails on the map →" button now has inline map SVG icon (left of text); button uses `display: inline-flex; align-items: center`
+- Grid entry order changed for visual rhythm: lucerne(landscape,4) | stoos(portrait,2) / oeschinensee(portrait,2) | first-5000m(landscape,4) / corsica(portrait,2) | dolomites(portrait,2) | patagonia(portrait,2)
 
 - Main title: **"Nature never judges"** (corrected grammar, session 23)
 - 6-card mixed grid (portrait = span 2, landscape = span 4)
