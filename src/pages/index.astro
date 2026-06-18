@@ -18,12 +18,14 @@ const modules = [
 
     <!-- Full-bleed background (shows through glass blur) -->
     <div class="photo-bg" aria-hidden="true">
-      <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+      <img class="img-night" src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+      <img class="img-day"   src="/images/homepage-morning.jpg"          alt="" loading="eager">
     </div>
 
-    <!-- Left: original photo at full natural proportions (no crop) -->
+    <!-- Left: photo strip -->
     <div class="photo-strip" aria-hidden="true">
-      <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+      <img class="img-night" src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+      <img class="img-day"   src="/images/homepage-morning.jpg"          alt="" loading="eager">
     </div>
 
     <!-- Right: frosted glass panel with all content -->
@@ -179,23 +181,45 @@ const modules = [
   </div>
 
 <script is:inline>
-  const greetings = [
-    'Good evening', // English
-    '晚上好',        // Chinese
-    'Guten Abend',  // German
-    'Bonsoir',      // French
-    'Buona sera',   // Italian
-    'Buenas noches',// Spanish
-    'こんばんは',    // Japanese
-    '좋은 저녁',     // Korean
-    'Goedenavond',  // Dutch
-    'Boa noite',    // Portuguese
-    'God kväll',    // Swedish
-    'Добрый вечер', // Russian
-    'Καλησπέρα',    // Greek
-    'İyi akşamlar', // Turkish
-    'مساء الخير',   // Arabic
-    'शुभ संध्या',    // Hindi
+  // Day / night switch (6:00–18:00 = day)
+  const _hour = new Date().getHours();
+  const _isDay = _hour >= 6 && _hour < 18;
+  if (_isDay) document.querySelector('.layout').classList.add('day');
+
+  const greetings = _isDay ? [
+    'Good morning',   // English
+    '早上好',          // Chinese
+    'Guten Morgen',   // German
+    'Bonjour',        // French
+    'Buongiorno',     // Italian
+    'Buenos días',    // Spanish
+    'おはようございます', // Japanese
+    '좋은 아침',       // Korean
+    'Goedemorgen',    // Dutch
+    'Bom dia',        // Portuguese
+    'God morgon',     // Swedish
+    'Доброе утро',    // Russian
+    'Καλημέρα',       // Greek
+    'Günaydın',       // Turkish
+    'صباح الخير',     // Arabic
+    'शुभ प्रभात',      // Hindi
+  ] : [
+    'Good evening',   // English
+    '晚上好',          // Chinese
+    'Guten Abend',    // German
+    'Bonsoir',        // French
+    'Buona sera',     // Italian
+    'Buenas noches',  // Spanish
+    'こんばんは',      // Japanese
+    '좋은 저녁',       // Korean
+    'Goedenavond',    // Dutch
+    'Boa noite',      // Portuguese
+    'God kväll',      // Swedish
+    'Добрый вечер',   // Russian
+    'Καλησπέρα',      // Greek
+    'İyi akşamlar',   // Turkish
+    'مساء الخير',     // Arabic
+    'शुभ संध्या',      // Hindi
   ];
 
   const el = document.getElementById('greeting');
@@ -821,5 +845,102 @@ const modules = [
     .black-strip { display: none; }
     .photo-strip { flex: 1.2 1 0; }
     .glass-strip { flex: 1.8 1 0; }
+  }
+
+  /* ════════════════════════════════════════
+     DAY MODE  (.layout.day, 06:00–18:00)
+     ════════════════════════════════════════ */
+
+  /* Photos */
+  .photo-bg img, .photo-strip img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .img-night { object-position: 60% 18%; }
+  .photo-strip .img-night { object-position: center 18%; }
+  .img-day                { display: none; }
+  .photo-bg .img-day    { object-position: 48% 72%; }        /* bg: lone spruce tree */
+  .photo-strip .img-day { object-position: center 35%; }     /* strip: show mountains + lake */
+
+  .layout.day .img-night { display: none; }
+  .layout.day .img-day   { display: block; }
+
+  /* Glass panel */
+  .layout.day .glass-strip {
+    background: rgba(14, 36, 18, 0.16);
+    backdrop-filter: blur(16px) brightness(0.78) saturate(1.8);
+    -webkit-backdrop-filter: blur(16px) brightness(0.78) saturate(1.8);
+  }
+  .layout.day .si-logo {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255,255,255,0.4), 0 0 50px rgba(255,255,255,0.15);
+  }
+  .layout.day .tagline { color: rgba(255,255,255,0.92); }
+  .layout.day .sense   { color: #fff; font-style: italic; }
+  .layout.day .tagline-rule {
+    background: linear-gradient(to right, rgba(255,255,255,0.5), rgba(255,255,255,0.15), transparent);
+  }
+  .layout.day .module-list::before { background: rgba(255,255,255,0.18); }
+  .layout.day .mod-num   { color: rgba(255,255,255,0.3); }
+  .layout.day .mod-title { color: rgba(255,255,255,0.88); }
+  .layout.day .mod-desc  { color: rgba(255,255,255,0.5); }
+  .layout.day .mod-item:hover .mod-title { color: #fff; }
+  .layout.day .mod-bullet {
+    color: rgba(255,255,255,0.8);
+    text-shadow: 0 0 6px rgba(255,255,255,0.7), 0 0 18px rgba(255,255,255,0.3);
+  }
+  .layout.day .mod-item:hover .mod-bullet {
+    color: #fff;
+    animation: bullet-twinkle-day 1.8s ease-in-out infinite;
+  }
+  .layout.day .mod-item::after {
+    background: linear-gradient(to right,
+      rgba(255,255,255,0.8),
+      rgba(255,255,255,0.4) 45%,
+      rgba(255,255,255,0.1) 75%,
+      transparent
+    );
+  }
+  .layout.day .contact { border-top-color: rgba(255,255,255,0.18); }
+  .layout.day .contact-link { color: rgba(255,255,255,0.55); }
+  .layout.day .contact-link:hover { color: #fff; }
+  .layout.day .sep { color: rgba(255,255,255,0.2); }
+  .layout.day .glass-copyright { color: rgba(255,255,255,0.4); }
+
+  /* Forest green strip */
+  .layout.day .black-strip { background: #1B2E1F; }
+  .layout.day .carrier     { color: rgba(180,220,190,0.45); }
+  .layout.day .status-bar  { color: rgba(180,220,190,0.45); }
+  .layout.day .date-line {
+    color: rgba(210,240,220,0.85);
+    background: rgba(255,255,255,0.08);
+  }
+  .layout.day .clock {
+    background: linear-gradient(175deg,
+      rgba(210,240,215,0.78) 0%,
+      rgba(160,210,175,0.52) 45%,
+      rgba(100,170,130,0.28) 100%
+    );
+    -webkit-box-reflect: below 1px linear-gradient(transparent 30%, rgba(100,180,130,0.18) 100%);
+  }
+  .layout.day .weather-wrap  { color: rgba(180,225,195,0.55); }
+  .layout.day .greeting-text { color: rgba(210,240,220,0.78); }
+
+  /* Hide night-only elements in day mode */
+  .layout.day .floor-lamp    { display: none; }
+  .layout.day .cats-container { display: none; }
+
+  @keyframes bullet-twinkle-day {
+    0%, 100% {
+      transform: scale(1.8);
+      text-shadow: 0 0 4px #fff, 0 0 12px #fff,
+                   0 0 24px rgba(255,255,255,0.8), 0 0 50px rgba(255,255,255,.4);
+    }
+    50% {
+      transform: scale(1.1);
+      text-shadow: 0 0 2px rgba(255,255,255,.4), 0 0 8px rgba(255,255,255,.2);
+    }
   }
 </style>
