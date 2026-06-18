@@ -112,11 +112,13 @@ const modules = [
       </div>
 
       <!-- Cats easter egg -->
-      <div class="n-cats-container">
+      <div class="n-cats-container" id="nCatsContainer">
         <div class="n-cats-wrap">
           <img src="/images/cats-illustration.png" alt="" class="n-cat n-cat-a">
           <img src="/images/cats-illustration.png" alt="" class="n-cat n-cat-b">
         </div>
+        <img src="/images/cat-scratch.png" alt="" class="n-scratch n-scratch-a" id="nScratchA" aria-hidden="true">
+        <img src="/images/cat-scratch.png" alt="" class="n-scratch n-scratch-b" id="nScratchB" aria-hidden="true">
       </div>
 
       <!-- Floor lamp easter egg -->
@@ -346,13 +348,14 @@ const modules = [
     }
     function _nextGreet() {
       _greetEl.classList.remove('visible');
-      setTimeout(function () {
+      _greetEl.addEventListener('transitionend', function _h() {
+        _greetEl.removeEventListener('transitionend', _h);
         _setGreet(_greets[_gi % _greets.length]);
         _gi++;
         void _greetEl.offsetWidth;
         _greetEl.classList.add('visible');
-        setTimeout(_nextGreet, 4200);
-      }, 1600);
+        setTimeout(_nextGreet, 3600);
+      }, { once: true });
     }
     setTimeout(function () {
       _setGreet(_greets[_gi % _greets.length]);
@@ -422,6 +425,29 @@ const modules = [
       var _stripEl = document.getElementById('nStrip');
       _lampEl.addEventListener('click', function () {
         _stripEl.classList.toggle('n-lamp-on');
+      });
+
+      // ── Cat scratch easter egg ──
+      var _catsEl   = document.getElementById('nCatsContainer');
+      var _scratchA = document.getElementById('nScratchA');
+      var _scratchB = document.getElementById('nScratchB');
+      function _triggerScratch(el) {
+        if (_stripEl.classList.contains('n-lamp-on')) return;
+        el.classList.remove('n-scratch-active');
+        void el.offsetWidth;
+        el.classList.add('n-scratch-active');
+        el.addEventListener('animationend', function _h() {
+          el.classList.remove('n-scratch-active');
+          el.removeEventListener('animationend', _h);
+        });
+      }
+      _catsEl.addEventListener('click', function (e) {
+        var rect = _catsEl.getBoundingClientRect();
+        if (e.clientX < rect.left + rect.width / 2) {
+          _triggerScratch(_scratchA);
+        } else {
+          _triggerScratch(_scratchB);
+        }
       });
     }
 
@@ -774,7 +800,7 @@ const modules = [
     letter-spacing: 0.02em;
     text-align: center;
     opacity: 0;
-    transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+    transition: opacity 0.75s ease-in-out;
   }
   .n-greet.visible { opacity: 1; }
   .n-greet.zh      { font-family: 'Ma Shan Zheng', cursive; }
@@ -869,6 +895,42 @@ const modules = [
   .n-cat-b { clip-path: inset(0 0 0 50%); animation: n-cat-blink 2s ease-in-out infinite; animation-delay: -1.1s; }
 
   .n-lamp-on .n-cat { filter: brightness(0.75) contrast(2.8) drop-shadow(0 0 18px rgba(255,215,60,0.3)); animation: none; opacity: 1; }
+
+  /* Cat scratch easter egg */
+  .n-scratch {
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0;
+    will-change: clip-path, opacity;
+    z-index: 10;
+  }
+  /* Big cat (left) — larger scratch, aligned left */
+  .n-scratch-a {
+    width: 46%;
+    left: 0%;
+    bottom: 63%;
+    transform: rotate(-10deg);
+    transform-origin: bottom left;
+  }
+  /* Small cat (right) — smaller scratch, aligned right */
+  .n-scratch-b {
+    width: 29%;
+    right: 0%;
+    bottom: 54%;
+    transform: rotate(-7deg);
+    transform-origin: bottom right;
+  }
+  .n-scratch.n-scratch-active {
+    animation: n-scratch-flash 0.38s ease-out forwards;
+  }
+  @keyframes n-scratch-flash {
+    0%   { clip-path: inset(0 0 100% 0); opacity: 1; }
+    35%  { clip-path: inset(0 0 0 0);    opacity: 1; }
+    60%  { clip-path: inset(0 0 0 0);    opacity: 0.85; }
+    100% { clip-path: inset(0 0 0 0);    opacity: 0; }
+  }
+  .n-lamp-on .n-scratch { display: none; }
 
   @keyframes n-cat-blink {
     0%, 88%, 100% { opacity: 1; }
@@ -1238,7 +1300,7 @@ const modules = [
     letter-spacing: 0.02em;
     text-align: center;
     opacity: 0;
-    transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+    transition: opacity 0.75s ease-in-out;
   }
   .d-greet.visible { opacity: 1; }
   .d-greet.zh      { font-family: 'Ma Shan Zheng', cursive; }
