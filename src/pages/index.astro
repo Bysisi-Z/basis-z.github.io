@@ -99,24 +99,11 @@ const modules = [
 
       <!-- Cats -->
       <div class="cats-container">
-        <div class="cat-item cat-big">
-          <img src="/images/cat-first.jpg" alt="嘞嘞" class="cat-photo" />
-          <div class="cat-eyes">
-            <span class="eye"></span>
-            <span class="eye"></span>
-          </div>
-        </div>
-        <div class="cat-item cat-small">
-          <img src="/images/cat-second.jpg" alt="小咪渣" class="cat-photo" />
-          <div class="cat-eyes">
-            <span class="eye"></span>
-            <span class="eye"></span>
-          </div>
+        <div class="cats-wrap">
+          <img src="/images/cats-illustration.png" alt="" class="cats-illustration cat-a" />
+          <img src="/images/cats-illustration.png" alt="" class="cats-illustration cat-b" />
         </div>
       </div>
-
-      <!-- Lamp text -->
-      <div class="lamp-text" id="lampText" aria-hidden="true"></div>
 
       <!-- Floor lamp -->
       <div class="floor-lamp" id="floorLamp">
@@ -279,27 +266,8 @@ const modules = [
   // Lamp easter egg
   const lampEl   = document.getElementById('floorLamp');
   const stripEl  = lampEl.closest('.black-strip');
-  const lampText = document.getElementById('lampText');
-
-  // Build letter spans
-  'Make yourself at home!'.split('').forEach((ch, i) => {
-    const s = document.createElement('span');
-    s.textContent = ch === ' ' ? ' ' : ch;
-    s.dataset.delay = i * 70;
-    lampText.appendChild(s);
-  });
-
   lampEl.addEventListener('click', () => {
-    const on = stripEl.classList.toggle('lamp-on');
-    lampText.querySelectorAll('span').forEach(s => {
-      s.classList.remove('letter-in');
-      void s.offsetWidth;
-    });
-    if (on) {
-      lampText.querySelectorAll('span').forEach(s => {
-        setTimeout(() => s.classList.add('letter-in'), Number(s.dataset.delay));
-      });
-    }
+    stripEl.classList.toggle('lamp-on');
   });
 
   const isChinese = s => /[一-鿿]/.test(s);
@@ -381,107 +349,55 @@ const modules = [
   }
 
 
-  /* ── Lamp text ── */
-  .lamp-text {
-    position: absolute;
-    bottom: clamp(72px, 10vh, 150px);
-    left: 0;
-    right: 0;
-    padding-right: 18cqw;
-    text-align: center;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(14px, 5.5cqw, 24px);
-    font-style: italic;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: rgba(8, 4, 0, 0.85);
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 4;
-  }
-
-  .lamp-text span {
-    display: inline-block;
-    opacity: 0;
-  }
-
-  .lamp-text span.letter-in {
-    animation: lamp-letter-in 0.55s ease forwards;
-  }
-
-  @keyframes lamp-letter-in {
-    from { opacity: 0; transform: translateY(5px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
   /* ── Cats ── */
   .cats-container {
     position: absolute;
     bottom: 0;
-    left: clamp(4px, 2cqw, 18px);
-    display: flex;
-    align-items: flex-end;
-    gap: clamp(4px, 1.5cqw, 12px);
+    left: clamp(16px, 12cqw, 56px);
     z-index: 4;
+    width: clamp(90px, 52cqw, 250px);
   }
 
-  .cat-item {
-    position: relative;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
+  .cats-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
   }
 
-  .cat-big {
-    width: clamp(38px, 16cqw, 80px);
-    height: clamp(38px, 16cqw, 80px);
-  }
-
-  .cat-small {
-    width: clamp(26px, 11cqw, 58px);
-    height: clamp(26px, 11cqw, 58px);
-  }
-
-  .cat-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
+  .cats-illustration {
+    grid-area: 1 / 1;
     display: block;
-    opacity: 0;
-    transition: opacity 0.9s ease 0.3s;
+    width: 100%;
+    height: auto;
+    filter: brightness(0.65) contrast(3);
+    transition: filter 0.9s ease;
+    mask-image: linear-gradient(to top, black 55%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to top, black 55%, transparent 95%);
   }
 
-  .lamp-on .cat-photo {
+  /* Big cat (left half) */
+  .cat-a {
+    clip-path: inset(0 48% 0 0);
+    animation: cat-blink 5s ease-in-out infinite;
+  }
+
+  /* Small cat (right half) — faster blink, offset phase */
+  .cat-b {
+    clip-path: inset(0 0 0 50%);
+    animation: cat-blink 2s ease-in-out infinite;
+    animation-delay: -1.1s;
+  }
+
+  .lamp-on .cats-illustration {
+    filter: brightness(0.75) contrast(2.8) drop-shadow(0 0 18px rgba(255, 215, 60, 0.3));
+    animation: none;
     opacity: 1;
   }
 
-  .cat-eyes {
-    position: absolute;
-    inset: 0;
-    transition: opacity 0.4s ease;
+  @keyframes cat-blink {
+    0%, 88%, 100% { opacity: 1; }
+    91%, 96%      { opacity: 0; }
   }
-
-  .lamp-on .cat-eyes {
-    opacity: 0;
-  }
-
-  .eye {
-    position: absolute;
-    top: 36%;
-    width: clamp(3px, 0.9cqw, 6px);
-    height: clamp(3px, 0.9cqw, 6px);
-    border-radius: 50%;
-    background: #FFD700;
-    box-shadow:
-      0 0 4px #FFD700,
-      0 0 10px rgba(255, 210, 0, 0.9),
-      0 0 22px rgba(255, 190, 0, 0.4);
-    transform: translate(-50%, -50%);
-  }
-
-  .eye:first-child { left: 34%; }
-  .eye:last-child  { left: 66%; }
 
   /* ── Light beam ── */
   .beam-path {
