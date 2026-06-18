@@ -102,13 +102,14 @@ const modules = [
       <!-- Day mode: latest update notification card -->
       <div class="notif-card">
         <div class="notif-meta">
-          <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
-            <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
-          </svg>
-          <span class="notif-app">Latest Update</span>
-          <span class="notif-sep">·</span>
-          <span class="notif-time">Jun 8</span>
+          <div class="notif-left">
+            <svg class="notif-icon" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
+              <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+            <span class="notif-app">Latest Update</span>
+          </div>
+          <span class="notif-time">Jun 10, 2026</span>
         </div>
         <div class="notif-title">Oeschinensee Panorama Trail</div>
         <div class="notif-body">New hiking guide · Bernese Oberland, 8.5 km loop</div>
@@ -993,8 +994,13 @@ const modules = [
   .notif-meta {
     display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: space-between;
     margin-bottom: clamp(4px, 1cqh, 7px);
+  }
+  .notif-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
   .notif-icon {
     width: clamp(11px, 3.2cqw, 14px);
@@ -1010,7 +1016,7 @@ const modules = [
     text-transform: uppercase;
     color: #6E7B81;
   }
-  .notif-sep, .notif-time {
+  .notif-time {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: clamp(9px, 2.8cqw, 11px);
     color: #A5AEB8;
