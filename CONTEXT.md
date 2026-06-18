@@ -102,35 +102,34 @@ src/
 
 ## 4. Page-by-Page Status
 
-### Homepage (`/`) ✅ Redesigned (session 46)
+### Homepage (`/`) ✅ Redesigned (session 47)
 
-**Concept:** Full-bleed AI-expanded night ferris wheel photo. No overlays or dark panels — content floats directly on photo. Design reference: ChatGPT-generated mockup (`~/Downloads/ChatGPT Image 2026年6月17日 23_22_45.png`).
+**Concept:** Original portrait ferris wheel photo (lavender sky, daytime) split layout — left strip shows full photo at natural proportions, right side is frosted glass panel with content.
 
-**Photo:** `public/images/homepage-ferris-night.png` (AI-expanded + night-enhanced version of `~/Downloads/IMG_1597.jpeg`)
-- `object-fit: cover; object-position: 62% center`
-- Also available: `homepage-ferris-wide.png` (lighter lavender version), `homepage-ferris-original.jpeg` (original portrait, too narrow for landscape desktop)
+**Photos used:**
+- `.photo-bg` (absolute full-bleed): `homepage-ferris-original.jpeg`, `object-fit: cover; object-position: 60% 18%` — blurred by glass, provides depth
+- `.photo-strip` (left, sharp): `homepage-ferris-original.jpeg`, `object-fit: fill` — no crop, full 3:4 portrait at `width: calc(100vh * 4284/5712)` ≈ 75vh
+- Also available: `homepage-ferris-night2.png` (AI wide landscape, night version, unused)
 
 **Desktop layout (`src/pages/index.astro`):**
-- `.photo-bg`: absolute, full viewport, no filters
-- `.content-grid`: `display:grid; grid-template-columns: 44% 56%`
-  - Left 44% `.left-panel`: `padding: 52px 56px 44px 200px`
-    - **Si logo**: Great Vibes italic 80px, `#C4A8E0`, glow text-shadow
-    - **Tagline**: Cormorant Garamond 300, `clamp(44px,5.2vw,82px)`, white; "sense" = italic + `#C4A8E0` + skewX(-8deg) + glow
-    - **Shooting-star rule**: `width:46%`, gradient white→purple→transparent
-    - **Module list**: 6 items, `padding-top:28px`, vertical connecting line left:12px top:74px bottom:55px
-      - Grid: `24px (◆bullet) | 28px (number) | 1fr (content)`
-      - ◆ bullet: `#C4A8E0`, 5-layer glow; hover: scale 1.8↔1.2 + twinkle animation 1.8s
-      - Number: Inter 600, `rgba(255,255,255,0.28)`
-      - Title: Cormorant Garamond italic 400, `clamp(22px,2.2vw,30px)`, white
-      - Desc: Nunito 300, 13px, `rgba(255,255,255,0.72)`
-      - Hover: `rgba(196,168,224,0.06)` background + continuous meteor animation 2.8s (bottom edge, left:68px → full width → fade)
-    - **Contact**: Nunito uppercase 11px, `rgba(196,168,224,0.75)`, border-top `rgba(196,168,224,0.15)`; hover: white + glow
-  - Right 56%: empty, photo shines through
-- No nav bar (`hideNav={true}`); module list IS the navigation
+- `display: flex` layout
+- Left `.photo-strip`: `width: calc(100vh * 4284/5712)`, `height: 100vh`, `object-fit: fill` — full portrait photo, no cropping ever
+- Right `.glass-strip`: `flex: 1`, `backdrop-filter: blur(32px) brightness(0.55) saturate(1.2)`, `background: rgba(15,10,30,0.25)`
+  - **Si logo**: Great Vibes italic 92px, `#C4A8E0`, soft glow
+  - **Tagline**: Cormorant Garamond 300, `clamp(44px,4.4vw,72px)`, white; "sense" = italic + `#C4A8E0` + `skewX(-8deg)`, no glow
+  - **Rule**: `width:46%`, gradient white→purple→transparent
+  - **Module list**: 6 items, grid `24px | 30px | 1fr`, vertical line left:12px top:86px bottom:62px
+    - ◆ bullet: `#C4A8E0`, glow; hover: twinkle 1.8s
+    - Number: Inter 600 11px, `rgba(255,255,255,0.25)`
+    - Title: Cormorant Garamond italic 400, `clamp(22px,2.2vw,32px)`
+    - Desc: Nunito 300 14px, `rgba(255,255,255,0.48)`
+    - Hover: meteor sweep 2.8s (bottom edge, left:64px)
+  - **Contact**: Nunito uppercase 12px, `rgba(196,168,224,0.62)`
+- No nav bar (`hideNav={true}`)
 
-**Fonts loaded (page-level @import):** Great Vibes · Playfair Display (400/500 italic) · Nunito (300/400)
+**Fonts:** Great Vibes · Cormorant Garamond (300/400) · Nunito (300/400)
 
-**Mobile (≤768px):** photo top 42vh + content panel below — design TBD (separate mobile-specific design planned)
+**Mobile (≤768px):** photo strip top 50vw (cover crop) + glass panel below
 
 ### World Explorer (`/explorer`) ✅ Live
 
