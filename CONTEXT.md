@@ -421,7 +421,7 @@ Gateway → two columns: Industry Research + Play with the Data.
 
 Hiking guide overview page, linked from "a foreign country" hover tooltip in `/explorer`.
 
-**Title:** "Trails lead to *the world*" — "the world" in rose italic. No subtitle.
+**Title:** removed (session 57). Only the `← World Explorer` back link remains in the header.
 **Back link:** ← World Explorer → `/explorer`
 
 **Map:** Leaflet.js + OpenStreetMap tiles, centered on Switzerland `[46.80, 8.22]` zoom 8.
