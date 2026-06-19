@@ -45,7 +45,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </div>
 
         <div class="card card-moment">
-          <div class="moment-slides slides-cover">
+          <div class="moment-slides slides-landscape">
             <img src="/images/moments/cocktail.jpg" alt="Favourite cocktail with dried orange garnish" loading="lazy">
           </div>
           <div class="moment-body">
@@ -269,11 +269,21 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     display: block;
   }
 
-  /* Fixed aspect-ratio slideshow — crops both images to same frame */
+  /* Fixed aspect-ratio slideshow — portrait (e.g. Dunhuang pair) */
   .slides-cover {
     aspect-ratio: 3/4;
   }
   .slides-cover img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Landscape photo — display at natural 4:3 ratio */
+  .slides-landscape {
+    aspect-ratio: 4/3;
+  }
+  .slides-landscape img {
     height: 100%;
     object-fit: cover;
     object-position: center;
