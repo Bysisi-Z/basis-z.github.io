@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-19 (session 59)
+> Last updated: 2026-06-19 (session 60)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -160,14 +160,14 @@ src/
 
 **Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed (200;700) · Cormorant Garamond · Nunito (loaded via head slot)
 
-**QR Card (session 59):** Contact strip in both night/day glass panels has **· GET QR CODE & SHARE** button (share arrow SVG + text, styled as ghost pill same as other links). Clicking opens a modal overlay.
+**QR Card (session 59–60):** Contact strip in both night/day glass panels has **· GET QR CODE & SHARE** button (share arrow SVG + text, styled as ghost pill same as other links). Clicking opens a modal overlay.
 - Modal: `backdrop-filter: blur(28px) saturate(1.4)` frosted glass showing page behind; `id="cardModal"`, toggled via `.open` class
 - Canvas: 700×1050 px (2:3 portrait, phone-photo format) rendered in modal at `min(520, vh-200)` px tall
-- Card design: `#FAFAF8` background · "Si" Great Vibes 110px rose `#c17d9d` centered · Cormorant italic tagline · `#E2DEDB` horizontal rules above/below QR · QR 340×340 centered (black on `#FAFAF8`) · `si-lens.me` rose · `© year` stone
+- **Card design (session 60):** Blurred theme photo background (blur 32px) + high-opacity light overlay (0.86) — night = lavender-tinted `rgba(228,220,240,0.86)`, day = green-tinted `rgba(238,243,240,0.86)`. Theme-split accent colors: night = deep rose `#9B3A6A`, day = deep green `#2A7A56`. "Si" Great Vibes 110px in accent color · Cormorant italic tagline 32px `#1A1A1A` · white rounded backing rect behind QR (300×300, radius 16) · QR 300×300 · `si-lens.me` Inter 500 36px in accent color · `© year` stone `#847B7B`
 - QR library: `qrcodejs` from cdnjs (`https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js`) — renders to DOM canvas via `new QRCode(holder, opts)` then `drawImage` after 300ms timeout
-- Drawing order: bg (sync) → text (fonts.ready) → QR (async CDN load + timeout)
+- Drawing order: photo bg loaded async → overlay → QR (CDN load + 300ms) → white QR backing → fonts.ready → text drawn last on top
 - Download button saves `si-lens-card.png` at full 700×1050 resolution
-- Contact links styled as ghost pills: `border: 1px solid rgba(...)`, `border-radius: 20px`, `padding: 4px 11px`, faint bg, hover fills slightly
+- **Contact strip pills (session 60):** `white-space: nowrap` on all pills; `flex-wrap: nowrap`; font-size/padding/gap use `clamp(…, cqw, …)` — scales with glass container width, always single row on all viewports including iPad
 
 ### Mobile Homepage (`#homeMobile`, ≤600px only) ✅ (session 57)
 
