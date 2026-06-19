@@ -994,8 +994,8 @@ const modules = [
 
           // Fixed spin rate — set once, never changes (no per-frame noise)
           var spinV  = (Math.random() - 0.5) * 0.18;
-          var gustWX = (Math.random() - 0.5) * 0.7;
-          var gustWY = -(0.18 + Math.random() * 0.22);
+          var gustWX = (Math.random() - 0.5) * 1.1;
+          var gustWY = -(0.28 + Math.random() * 0.32);
           var wx = gustWX, wy = gustWY;
           var vx = wx,     vy = wy;
           var angle    = Math.random() * 360;
@@ -1012,8 +1012,8 @@ const modules = [
             // Change wind direction every 2–3 s — zero random calls in between
             if (now - lastGust > 2200) {
               lastGust = now;
-              gustWX = (Math.random() - 0.5) * 0.8;
-              gustWY = -(Math.random() * 0.42);
+              gustWX = (Math.random() - 0.5) * 1.2;
+              gustWY = -(Math.random() * 0.62);
             }
 
             // Smooth ease toward gust — no per-frame noise
