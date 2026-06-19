@@ -753,16 +753,16 @@ const modules = [
 
       function _theme() {
         return _isDay ? {
-          accent   : '#c17d9d',
-          accentA  : 'rgba(193,125,157,0.4)',
+          accent   : '#2A7A56',
+          accentA  : 'rgba(42,122,86,0.4)',
           overlay  : 'rgba(238,243,240,0.86)',
           textMain : '#1A1A1A',
           textSub  : '#847B7B',
           divider  : '#E2DEDB',
           photo    : '/images/homepage-morning.jpg'
         } : {
-          accent   : '#c17d9d',
-          accentA  : 'rgba(193,125,157,0.4)',
+          accent   : '#9B3A6A',
+          accentA  : 'rgba(155,58,106,0.4)',
           overlay  : 'rgba(228,220,240,0.86)',
           textMain : '#1A1A1A',
           textSub  : '#847B7B',
@@ -787,7 +787,7 @@ const modules = [
 
         // Si logo
         ctx.font = 'italic 400 110px "Great Vibes", cursive';
-        ctx.fillStyle = '#9B3A6A';
+        ctx.fillStyle = t.accent;
         ctx.fillText('Si', cx, 172);
 
         // Accent line
@@ -812,7 +812,7 @@ const modules = [
 
         // URL — enlarged
         ctx.font = '500 36px "Inter", system-ui, sans-serif';
-        ctx.fillStyle = '#9B3A6A';
+        ctx.fillStyle = t.accent;
         ctx.fillText('si-lens.me', cx, 862);
 
         // Copyright
