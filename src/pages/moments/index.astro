@@ -73,7 +73,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </div>
 
         <div class="card card-moment">
-          <div class="moment-slides slides-landscape">
+          <div class="moment-slides slides-full">
             <img src="/images/moments/grandma-temple.jpg" alt="Grandmother's name on a temple donation record from 2002" loading="lazy">
           </div>
           <div class="moment-body">
@@ -279,6 +279,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
   .moment-slides img {
     grid-area: 1 / 1;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Full image — no crop, natural height */
+  .slides-full {
+    overflow: hidden;
+  }
+  .slides-full img {
+    grid-area: unset;
     width: 100%;
     height: auto;
     display: block;
