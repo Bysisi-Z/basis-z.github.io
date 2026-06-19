@@ -15,50 +15,52 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <div class="scatter-grid">
 
-      <div class="card card-moment">
-        <div class="moment-slides">
-          <img src="/images/moments/ferris-1.jpg" alt="LUCA Ferris wheel at dusk, Lucerne" class="ms-a" loading="eager">
-          <img src="/images/moments/ferris-2.jpg" alt="LUCA Ferris wheel at dusk, Lucerne" class="ms-b" loading="eager">
-        </div>
-        <div class="moment-body">
-          <p class="moment-text">An evening walk led me to LUCA's Ferris wheel by chance. I stepped into the gondola alone — cool wind, the last light of the day slipping quietly behind Mount Pilatus, the moon rising slowly from behind me, and music playing that I hadn't chosen. I was moved to tears by the vibe.</p>
-          <span class="moment-date">2026.4.30</span>
-        </div>
-      </div>
-
-      <div class="card card-moment">
-        <div class="moment-slides moment-crop">
-          <img src="/images/moments/geese.jpg" alt="Mother goose and goslings by Lake Lucerne" loading="lazy">
-        </div>
-        <div class="moment-body">
-          <p class="moment-text">Spring is here. A mother goose was sunbathing by the shore of Lake Lucerne with her whole family, bathed in the golden evening light. It felt exactly like a scene from a cartoon.</p>
-          <span class="moment-date">2026.5.2</span>
+      <div class="scatter-col">
+        <div class="card card-moment">
+          <div class="moment-slides">
+            <img src="/images/moments/ferris-1.jpg" alt="LUCA Ferris wheel at dusk, Lucerne" class="ms-a" loading="eager">
+            <img src="/images/moments/ferris-2.jpg" alt="LUCA Ferris wheel at dusk, Lucerne" class="ms-b" loading="eager">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">An evening walk led me to LUCA's Ferris wheel by chance. I stepped into the gondola alone — cool wind, the last light of the day slipping quietly behind Mount Pilatus, the moon rising slowly from behind me, and music playing that I hadn't chosen. I was moved to tears by the vibe.</p>
+            <span class="moment-date">2026.4.30</span>
+          </div>
         </div>
       </div>
 
-
-
-      <div class="card card-moment">
-        <div class="moment-slides">
-          <img src="/images/moments/dunhuang-milkyway.jpg" alt="Milky Way over Dunhuang desert dunes, with a meteor streak" loading="lazy">
+      <div class="scatter-col">
+        <div class="card card-moment">
+          <div class="moment-slides moment-crop">
+            <img src="/images/moments/geese.jpg" alt="Mother goose and goslings by Lake Lucerne" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">Spring is here. A mother goose was sunbathing by the shore of Lake Lucerne with her whole family, bathed in the golden evening light. It felt exactly like a scene from a cartoon.</p>
+            <span class="moment-date">2026.5.2</span>
+          </div>
         </div>
-        <div class="moment-body">
-          <p class="moment-text">Dunhuang, autumn 2020. No camera — I pressed my phone into the sand and held it still for thirty seconds. But the photo isn't why I remember this night. It's the moment the desert motorbike crested the dune and the Milky Way appeared, all at once, directly above me. I couldn't move.</p>
-          <span class="moment-date">2020.10 · Dunhuang</span>
+      </div>
+
+      <div class="scatter-col">
+        <div class="card card-moment">
+          <div class="moment-slides">
+            <img src="/images/moments/dunhuang-milkyway.jpg" alt="Milky Way over Dunhuang desert dunes, with a meteor streak" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">Dunhuang, autumn 2020. No camera — I pressed my phone into the sand and held it still for thirty seconds. But the photo isn't why I remember this night. It's the moment the desert motorbike crested the dune and the Milky Way appeared, all at once, directly above me. I couldn't move.</p>
+            <span class="moment-date">2020.10 · Dunhuang</span>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
-
-
 </BaseLayout>
 
 <style>
   .moments-wrap {
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 0 auto;
-    padding: 0 clamp(20px, 6vw, 80px);
+    padding: 0 clamp(24px, 5vw, 72px);
   }
 
   .page-header {
@@ -89,40 +91,44 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     line-height: 1.5;
   }
 
-  /* ── Masonry scatter grid ── */
+  /* ── Three-column flex scatter ── */
   .scatter-grid {
-    columns: 3;
-    column-gap: 20px;
-    padding: 56px 24px 96px;
-    overflow: visible;
-    isolation: isolate;
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 64px 0 96px;
   }
 
+  .scatter-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* Stagger column tops for scattered feel */
+  .scatter-col:nth-child(2) { margin-top: 48px; }
+  .scatter-col:nth-child(3) { margin-top: 20px; }
+
+  /* ── Cards ── */
   .card {
-    break-inside: avoid;
     position: relative;
-    z-index: 1;
-    margin-bottom: 20px;
     border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
     cursor: default;
   }
 
-  /* Deterministic "random" rotations */
-  .card:nth-child(3n+1) { transform: rotate(-1.8deg); }
-  .card:nth-child(3n+2) { transform: rotate(0.7deg);  }
-  .card:nth-child(3n)   { transform: rotate(-0.4deg); }
-  .card:nth-child(5n)   { transform: rotate(1.5deg);  }
-  .card:nth-child(7n)   { transform: rotate(-2.1deg); }
-  .card:nth-child(11n)  { transform: rotate(0.3deg);  }
-
-  /* Slight left/right offsets for a few cards */
-  .card:nth-child(4n)   { margin-left: 8px; }
-  .card:nth-child(6n)   { margin-left: -6px; }
+  /* Rotation per column */
+  .scatter-col:nth-child(1) .card:nth-child(odd)  { transform: rotate(-1.8deg); }
+  .scatter-col:nth-child(1) .card:nth-child(even) { transform: rotate(-0.9deg); }
+  .scatter-col:nth-child(2) .card:nth-child(odd)  { transform: rotate(0.7deg);  }
+  .scatter-col:nth-child(2) .card:nth-child(even) { transform: rotate(1.4deg);  }
+  .scatter-col:nth-child(3) .card:nth-child(odd)  { transform: rotate(-0.5deg); }
+  .scatter-col:nth-child(3) .card:nth-child(even) { transform: rotate(-1.5deg); }
 
   .card:hover {
-    transform: rotate(0deg) translateY(-5px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+    transform: rotate(0deg) translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.14);
     z-index: 10;
     position: relative;
   }
@@ -143,16 +149,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     border-radius: 1px;
   }
 
-  .card-tall .photo-frame img {
-    aspect-ratio: 3/4;
-  }
+  .card-tall .photo-frame img { aspect-ratio: 3/4; }
 
   .photo-caption {
     margin-top: 10px;
     font-family: var(--sans);
     font-size: 13px;
     font-weight: 300;
-    font-style: normal;
     color: #555;
     line-height: 1.6;
     padding: 0 2px;
@@ -167,7 +170,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     overflow: hidden;
   }
 
-  /* Pin dot */
   .card-text::before {
     content: '';
     position: absolute;
@@ -182,7 +184,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     z-index: 1;
   }
 
-  /* Large decorative quote mark */
   .card-text::after {
     content: '\201C';
     position: absolute;
@@ -198,7 +199,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .card-text p {
     font-family: var(--serif);
     font-size: clamp(15px, 1.35vw, 17px);
-    font-style: normal;
     font-weight: 400;
     line-height: 1.78;
     color: var(--ink);
@@ -220,29 +220,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     z-index: 1;
   }
 
-  /* Color variants — solid pastel backgrounds */
-  .c-rose {
-    background: #F2E8ED;
-    border-top: 3px solid rgba(193,125,157,0.55);
-  }
-  .c-rose::before  { background: rgba(193,125,157,0.7); }
-  .c-rose::after   { color: rgba(193,125,157,1); }
+  .c-rose { background: #F2E8ED; border-top: 3px solid rgba(193,125,157,0.55); }
+  .c-rose::before { background: rgba(193,125,157,0.7); }
+  .c-rose::after  { color: rgba(193,125,157,1); }
 
-  .c-warm {
-    background: #F3EDE0;
-    border-top: 3px solid rgba(200,170,120,0.55);
-  }
-  .c-warm::before  { background: rgba(200,170,120,0.8); }
-  .c-warm::after   { color: rgba(200,170,120,1); }
+  .c-warm { background: #F3EDE0; border-top: 3px solid rgba(200,170,120,0.55); }
+  .c-warm::before { background: rgba(200,170,120,0.8); }
+  .c-warm::after  { color: rgba(200,170,120,1); }
 
-  .c-sage {
-    background: #E8F0EA;
-    border-top: 3px solid rgba(120,170,140,0.50);
-  }
-  .c-sage::before  { background: rgba(120,170,140,0.72); }
-  .c-sage::after   { color: rgba(120,170,140,1); }
+  .c-sage { background: #E8F0EA; border-top: 3px solid rgba(120,170,140,0.50); }
+  .c-sage::before { background: rgba(120,170,140,0.72); }
+  .c-sage::after  { color: rgba(120,170,140,1); }
 
-  /* ── Moment card — photo slideshow + caption ── */
+  /* ── Moment card — photo + caption ── */
   .card-moment {
     background: #fff;
     padding: 10px 10px 20px;
@@ -300,7 +290,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .moment-text {
     font-family: var(--sans);
     font-size: 13px;
-    font-style: normal;
     font-weight: 300;
     line-height: 1.7;
     color: #333;
@@ -318,23 +307,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     color: var(--stone);
   }
 
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
-    .scatter-grid { columns: 2; }
-  }
-
-  @media (max-width: 560px) {
-    .scatter-grid {
-      columns: 1;
-      padding-top: 36px;
-    }
-    .card { margin-bottom: 16px; }
-    .card:nth-child(n) { transform: rotate(0deg); margin-left: 0; }
-    .card:nth-child(even) { transform: rotate(0.5deg); }
-    .card:nth-child(odd)  { transform: rotate(-0.5deg); }
-  }
-
-  /* ── Hair dryer button ── */
+  /* ── Hair dryer ── */
   #hairDryer {
     position: absolute;
     bottom: -50px;
@@ -349,7 +322,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     border-radius: 50%;
     overflow: hidden;
     transition: transform 0.2s ease;
-    /* recolor from neon pink → theme rose: desaturate + shift warmth */
     filter: saturate(0.75) brightness(0.85) hue-rotate(10deg) drop-shadow(0 2px 8px rgba(193,125,157,0.4));
   }
 
@@ -366,9 +338,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     filter: saturate(0.85) brightness(0.88) hue-rotate(10deg) drop-shadow(0 4px 16px rgba(193,125,157,0.6));
   }
 
-  #hairDryer.blowing {
-    animation: dryer-shake 0.5s ease;
-  }
+  #hairDryer.blowing { animation: dryer-shake 0.5s ease; }
 
   @keyframes dryer-shake {
     0%   { transform: rotate(0deg)   scale(1); }
@@ -379,12 +349,28 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     100% { transform: rotate(0deg)   scale(1); }
   }
 
-  .card { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .scatter-grid { flex-wrap: wrap; gap: 28px; }
+    .scatter-col { flex: 1 1 calc(50% - 14px); }
+    .scatter-col:nth-child(2) { margin-top: 0; }
+    .scatter-col:nth-child(3) { margin-top: 0; flex-basis: 100%; }
+  }
+
+  @media (max-width: 560px) {
+    .scatter-grid { flex-direction: column; gap: 20px; padding-top: 36px; }
+    .scatter-col { flex: none; width: 100%; }
+    .scatter-col:nth-child(2),
+    .scatter-col:nth-child(3) { margin-top: 0; }
+    .scatter-col .card { transform: rotate(0deg); }
+    .scatter-col:nth-child(odd)  .card { transform: rotate(-0.5deg); }
+    .scatter-col:nth-child(even) .card { transform: rotate(0.5deg); }
+  }
 </style>
 
 <script>
   const dryer = document.getElementById('hairDryer') as HTMLElement;
-  const cards  = document.querySelectorAll('.scatter-grid .card');
+  const cards  = document.querySelectorAll('.scatter-col .card');
 
   dryer?.addEventListener('click', () => {
     dryer.classList.remove('blowing');
@@ -409,4 +395,3 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     }, 400);
   });
 </script>
-
