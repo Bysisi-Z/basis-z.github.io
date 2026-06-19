@@ -88,14 +88,14 @@ src/
 
 | Module | Route | Nav Label |
 |---|---|---|
-| 01 | `/now` | Now |
-| 02 | `/career` | Journey |
-| 03 | `/research` | Decoding |
-| 04 | `/photography` | Nature Never Judges |
+| 01 | `/career` | Journey |
+| 02 | `/research` | Decoding |
+| 03 | `/photography` | Nature Never Judges |
+| 04 | `/moments` | Moments |
 | 05 | `/writing` | Wandering |
 | 06 | `/reading` | A Collection of Rabbit Holes |
 
-**Note:** "Mountain Calling" was renamed to "Nature Never Judges" (session 23). "Reading List" was renamed to "A Collection of Rabbit Holes" (session 23).
+**Note:** "Mountain Calling" → "Nature Never Judges" (session 23). "Reading List" → "A Collection of Rabbit Holes" (session 23). "Now" → "Moments", moved to slot 04 after Photography, route `/moments` (session 62).
 
 ---
 
@@ -485,9 +485,9 @@ Professional profile: photo + summary, 5 work entries with vine bullets, educati
 - Coffee cup SVG easter egg: clicking the cup plays audio (`public/audio/coffee-invite.m4a`); steam wisps animate while playing; stops on click or end. **Session 57: replaced with real recording `Bleicherstrasse 49.m4a`.**
 - Coffee cup SVG uses rose palette: `#c17d9d` (cup body), `#d4a0b8` (saucer/handle), `#ecd2e0` (steam wisps)
 
-### Now (`/now`) ⚠️ Placeholder
+### Moments (`/moments`) ⚠️ Placeholder
 
-Content not written.
+Renamed from "Now", route changed from `/now` to `/moments` (session 62). Subtitle: "little moments that touched me, thrilled me, or simply made me smile". Content not written.
 
 ---
 
@@ -525,7 +525,7 @@ Content not written.
 - [x] **Individual reports 2017-2019 view** — ✅ session 40; all 11 pages have cycle picker; payloads in `nsfg1719_report_payloads.json`
 - [x] **NSFG explorer REPORT badge in 1719 mode** — ✅ session 41; fixed `.toUpperCase()` bug; DEEPDIVE_MAP_1719 with correct stats
 - [x] **METHX longitudinal pages 2017-2019** — ✅ session 41; method-trends + method-age both have cycle picker; data inlined from raw .dat
-- [ ] **Now page** — content not written
+- [ ] **Moments page** (`/moments`) — content not written
 - [ ] **A Collection of Rabbit Holes** — content not written
 
 ---
