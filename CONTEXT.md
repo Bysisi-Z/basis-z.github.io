@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-19 (session 62)
+> Last updated: 2026-06-19 (session 63)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -485,26 +485,32 @@ Professional profile: photo + summary, 5 work entries with vine bullets, educati
 - Coffee cup SVG easter egg: clicking the cup plays audio (`public/audio/coffee-invite.m4a`); steam wisps animate while playing; stops on click or end. **Session 57: replaced with real recording `Bleicherstrasse 49.m4a`.**
 - Coffee cup SVG uses rose palette: `#c17d9d` (cup body), `#d4a0b8` (saucer/handle), `#ecd2e0` (steam wisps)
 
-### Moments (`/moments`) 🟡 In progress (session 62)
+### Moments (`/moments`) ✅ Live (session 63)
 
 Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that touched me, thrilled me, or simply made me smile"*.
 
-**Layout:** CSS `columns: 3` masonry, max-width 1400px. Cards randomly rotated via nth-child CSS (±1.8°–2.1°). `overflow: visible` on grid so rotated cards don't clip.
+**Layout:** **3-column flex** (NOT CSS columns — switched s63 due to Safari stacking bug). `max-width: 1500px`, `gap: 40px`. Each column is a `<div class="scatter-col">`. Col 2 starts at `margin-top: 48px`, col 3 at `20px` for stagger. Cards rotate per column via `.scatter-col:nth-child(N) .card:nth-child(odd/even)`.
 
-**Card types:**
-- `.card-moment` — polaroid-style, white bg, shadow. Photo area uses CSS grid stacking (`display: grid; grid-area: 1/1`) so multiple images crossfade. `.moment-crop` variant: `position: absolute; bottom: 0` to anchor portrait image by bottom (shows geese, not sky).
-- `.card-photo` — standard polaroid, `aspect-ratio: 4/3`, `object-fit: cover`. Caption: Inter 13px weight 300.
-- `.card-text` — pastel solid bg (`#F2E8ED` rose / `#F3EDE0` warm / `#E8F0EA` sage), pin dot `::before`, decorative `"` quote `::after`.
+**Card display classes (shorthand rules):**
+- **短图** = `.moment-crop` — 4:3 landscape crop, `position: absolute; bottom: 0` (like geese card). Physically crop image to 4:3 centered on key area.
+- **长图** = `.slides-full` — full height, no crop, `width: 100%; height: auto`. Use for tall portrait images (like grandma temple).
+- **Slideshow** = `.slides-cover` — `aspect-ratio: 3/4`, two images with `ms-a`/`ms-b` crossfade (8s). Use for portrait pairs.
+- `.slides-landscape` — `aspect-ratio: 4/3`, `object-fit: cover; object-position: center`. For landscape single photos.
 
-**Hair dryer easter egg:** `public/images/moments/hairdryer.png`, positioned `absolute; bottom: -50px; right: 0` in `.page-header`. Filter: `saturate(0.75) brightness(0.85) hue-rotate(10deg)` → matches theme rose. Click: dryer shakes, all cards get new random rotations. `.card` has `position: relative` + JS sets `z-index` during animation to prevent overlap hiding.
+**Image processing:** use Python PIL (`from PIL import Image`) for precise cropping — `sips --cropOffset` has a bug with same-file input/output. For HEIC → JPG: `sips -s format jpeg input --out output`. PIL cannot open HEIC directly.
 
-**Real moments (session 62):**
-| Date | Content | Images |
-|------|---------|--------|
-| 2026.4.30 | LUCA Ferris wheel alone at dusk, Pilatus sunset, moon rising, moved to tears by the vibe | `ferris-1.jpg` + `ferris-2.jpg` (crossfade 8s) |
-| 2026.5.2 | Mother goose family sunbathing by Lake Lucerne, felt like a cartoon | `geese.jpg` (cropped `bottom: 0` to keep geese) |
+**Hair dryer easter egg:** click → dryer shakes + all cards get random rotations (JS). Positioned `absolute; bottom: -50px; right: 0` in `.page-header`.
 
-**Images:** `public/images/moments/` (ferris-1.jpg, ferris-2.jpg, geese.jpg, hairdryer.png) — converted from HEIC via `sips`.
+**Moments (session 63):**
+| Col | Content | Images | Display |
+|-----|---------|--------|---------|
+| 1 | LUCA Ferris wheel 2026.4.30 | `ferris-1.jpg` + `ferris-2.jpg` crossfade | `.slides-cover` |
+| 1 | Grass pollen forecast (Switzerland all red) | `pollen.jpg` (cropped 4:3, map center y≈1250) | 短图 `.moment-crop` |
+| 2 | Mother goose family by Lake Lucerne 2026.5.2 | `geese.jpg` | 短图 `.moment-crop` |
+| 3 | Dunhuang Milky Way + dusk silhouette 2020.10 | `dunhuang-dusk.jpg` + `dunhuang-milkyway.jpg` | `.slides-cover` |
+| 3 | Grandma's 2002 temple donation name | `grandma-temple.jpg` (CW 90° rotated) | 长图 `.slides-full` |
+
+**Images:** `public/images/moments/` — ferris-1/2, geese, dunhuang-dusk, dunhuang-milkyway, pollen, grandma-temple, hairdryer.png.
 
 ---
 
@@ -542,7 +548,7 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 - [x] **Individual reports 2017-2019 view** — ✅ session 40; all 11 pages have cycle picker; payloads in `nsfg1719_report_payloads.json`
 - [x] **NSFG explorer REPORT badge in 1719 mode** — ✅ session 41; fixed `.toUpperCase()` bug; DEEPDIVE_MAP_1719 with correct stats
 - [x] **METHX longitudinal pages 2017-2019** — ✅ session 41; method-trends + method-age both have cycle picker; data inlined from raw .dat
-- [ ] **Moments page** (`/moments`) — 2 real moments live; add more as they happen
+- [x] **Moments page** (`/moments`) — 5 cards live ✅ s63; add more as they happen
 - [ ] **A Collection of Rabbit Holes** — content not written
 
 ---
