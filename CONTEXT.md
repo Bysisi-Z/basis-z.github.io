@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-19 (session 60)
+> Last updated: 2026-06-19 (session 61)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -121,6 +121,7 @@ src/
 - Module bullet: `◆` purple with twinkle animation on hover
 - Module hover: `n-meteor` sweep (bottom 1px line)
 - Right strip: `#000` black — Swisscom/WiFi/battery, greeting scroll, clock, date, weather, cats, floor lamp
+- `.n-clockwrap` / `.d-clockwrap`: `top: 17%` (session 61; was 22% original, adjusted for bottom breathing room)
 
 **Day mode (`#homeDay`, 6:00–18:00):**
 - Left photo: `homepage-morning.jpg`, `object-fit: cover; object-position: center 35%`
@@ -239,7 +240,7 @@ Easter eggs: stork (Born), bamboo (Chengdu), Shanghai skyline, Swiss Alps + flag
 
 Gateway → two columns: Industry Research + Play with the Data.
 
-**Play with the Data projects:**
+**Play with the Data projects (session 61: `/research/index.astro` now shows 4 cards):**
 - `/research/data` — NSFG Explorer with **cycle switcher** ✅ session 39–40
   - **2022–2023** cycle: 5,586 respondents, 1,912 variables (default)
   - **2017–2019** cycle: 6,141 respondents, 2,609 variables, ages **15–49** (note: 2019–2021 cycle does not exist — COVID caused NSFG to skip directly to 2022–2023)
@@ -251,6 +252,12 @@ Gateway → two columns: Industry Research + Play with the Data.
 - `/nsfg-method-age.html` — Pill/IUD/implant/ring/Depo by age group × 4 years ✅ session 31–33
 - `/nsfg-reports.html` — NSFG reports index: 11 EA reports + 2 METHX reports ✅ session 33
 - `/meps-reports.html` — MEPS reports index: 1 live + 3 coming soon ✅ session 33
+
+**Research internal navigation (session 61):**
+- `/research/index.astro` now has 4 data project cards: NSFG Explorer · NSFG Individual Reports (`/nsfg-reports.html`) · MEPS Explorer · MEPS Expenditure (`/research/meps-expenditure`)
+- All 11 analysis pages + method-comparison + method-trends + method-age: `← NSFG Reports` back link added
+- `nsfg-reports.html` / `meps-reports.html`: breadcrumb row `← Decoding · Explorer`
+- Navigation chain: `/research` → hub pages → individual reports → back up cleanly
 
 **NSFG explorer cycle switcher (sessions 39–40):**
 - Data pipeline: `~/Downloads/gen_nsfg1719_data.py` — parses Stata `.dct` (column positions) + `.do` (value labels), assigns sections via label prefix (e.g. `EA-` → Section E), outputs `public/data/nsfg1719_*.json`
