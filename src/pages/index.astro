@@ -1932,20 +1932,21 @@ const modules = [
     .m-swipe {
       position: absolute; z-index: 2;
       bottom: 38px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      color: rgba(255,255,255,0.65);
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      color: rgba(255,255,255,0.88);
+      white-space: nowrap;
     }
     .m-swipe-arr {
-      width: 22px; height: 13px; display: block;
+      width: 28px; height: 16px; display: block;
       animation: mBounceUp 2.2s ease-in-out infinite;
     }
     .m-swipe-txt {
       font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      font-size: 11px; font-weight: 400; letter-spacing: 0.06em;
+      font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
     }
     @keyframes mBounceUp {
-      0%, 100% { transform: translateY(0);   opacity: 0.65; }
-      50%       { transform: translateY(-6px); opacity: 1;    }
+      0%, 100% { transform: translateY(0);   opacity: 0.75; }
+      50%       { transform: translateY(-7px); opacity: 1;    }
     }
 
     /* ── Content: sits behind lock screen, always rendered ── */
