@@ -88,13 +88,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .scatter-grid {
     columns: 3;
     column-gap: 20px;
-    padding: 56px 0 96px;
+    padding: 56px 24px 96px;
     overflow: visible;
+    isolation: isolate;
   }
 
   .card {
     break-inside: avoid;
     position: relative;
+    z-index: 1;
     margin-bottom: 20px;
     border-radius: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
