@@ -65,6 +65,8 @@ const modules = [
         <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="n-link">Red Note</a>
         <span class="n-sep">·</span>
         <a href="mailto:sisi.zhang.ch@gmail.com" class="n-link">Email</a>
+        <span class="n-sep">·</span>
+        <button class="n-link card-trigger" id="nCardBtn"><svg class="card-icon" viewBox="0 0 14 14" fill="none"><path d="M9 1h4v4M13 1L7.5 6.5M6 3H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Get QR Code & Share</button>
       </div>
       <p class="n-copy">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
     </div>
@@ -211,6 +213,8 @@ const modules = [
         <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="d-link">Red Note</a>
         <span class="d-sep">·</span>
         <a href="mailto:sisi.zhang.ch@gmail.com" class="d-link">Email</a>
+        <span class="d-sep">·</span>
+        <button class="d-link card-trigger" id="dCardBtn"><svg class="card-icon" viewBox="0 0 14 14" fill="none"><path d="M9 1h4v4M13 1L7.5 6.5M6 3H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Get QR Code & Share</button>
       </div>
       <p class="d-copy">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
     </div>
@@ -426,6 +430,19 @@ const modules = [
     </div><!-- /m-open -->
 
   </div><!-- /homeMobile -->
+
+
+  <!-- ── QR Card Modal ── -->
+  <div id="cardModal">
+    <button id="cardClose" aria-label="Close">
+      <svg viewBox="0 0 18 18" fill="none"><path d="M2 2l14 14M16 2 2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <canvas id="cardCanvas"></canvas>
+    <div id="cardActions">
+      <button id="cardDownload">Download PNG</button>
+      <p id="cardHint">print-ready · 1050 × 600 px</p>
+    </div>
+  </div>
 
 
   <!-- ══════════════════════════════════════════════════════════
@@ -694,6 +711,148 @@ const modules = [
         }
       });
     }
+
+    // ── QR Card Generator ──
+    (function() {
+      var _modal    = document.getElementById('cardModal');
+      var _canvas   = document.getElementById('cardCanvas');
+      var _dlBtn    = document.getElementById('cardDownload');
+      var _closeBtn = document.getElementById('cardClose');
+      if (!_modal) return;
+
+      var _ctx, _W = 700, _H = 1050;
+      var _qrSize = 340, _qrX = 180, _qrY = 368;
+
+      function _openModal()  { _modal.classList.add('open'); _draw(); }
+      function _closeModal() { _modal.classList.remove('open'); }
+
+      _closeBtn.addEventListener('click', _closeModal);
+      _modal.addEventListener('click', function(e){ if (e.target === _modal) _closeModal(); });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape') _closeModal(); });
+
+      var _nb = document.getElementById('nCardBtn');
+      var _db = document.getElementById('dCardBtn');
+      if (_nb) _nb.addEventListener('click', _openModal);
+      if (_db) _db.addEventListener('click', _openModal);
+
+      _dlBtn.addEventListener('click', function() {
+        var a = document.createElement('a');
+        a.download = 'si-lens-card.png';
+        a.href = _canvas.toDataURL('image/png');
+        a.click();
+      });
+
+      function _rr(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+        ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+        ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+        ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
+        ctx.closePath();
+      }
+
+      // Use qrcodejs (cdnjs) — renders to DOM canvas, sync-friendly
+      function _loadQRLib() {
+        return new Promise(function(resolve, reject) {
+          if (window.QRCode) { resolve(); return; }
+          var s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+          s.onload = resolve; s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+
+      // Step 1: background — sync, visible immediately
+      function _drawBg() {
+        _canvas.width = _W; _canvas.height = _H;
+        var dh = Math.min(520, window.innerHeight - 200);
+        _canvas.style.height = dh + 'px';
+        _canvas.style.width  = Math.round(dh * _W / _H) + 'px';
+        _ctx = _canvas.getContext('2d');
+        _ctx.fillStyle = '#FAFAF8';
+        _ctx.fillRect(0, 0, _W, _H);
+      }
+
+      // Step 2: text — after fonts ready
+      function _drawText() {
+        var ctx = _ctx, cx = _W / 2;
+        ctx.textAlign = 'center';
+
+        // Si logo
+        ctx.font = 'italic 400 110px "Great Vibes", cursive';
+        ctx.fillStyle = '#c17d9d';
+        ctx.fillText('Si', cx, 175);
+
+        // Accent line
+        ctx.fillStyle = 'rgba(193,125,157,0.45)';
+        ctx.fillRect(cx - 44, 192, 88, 1.5);
+
+        // Tagline
+        ctx.font = 'italic 300 26px "Cormorant Garamond", Georgia, serif';
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillText('Making sense of numbers', cx, 256);
+        ctx.fillText('and landscapes.', cx, 292);
+
+        // URL
+        ctx.font = '300 24px "Inter", system-ui, sans-serif';
+        ctx.fillStyle = '#c17d9d';
+        ctx.fillText('si-lens.me', cx, 860);
+
+        // Copyright
+        ctx.font = '300 13px "Inter", system-ui, sans-serif';
+        ctx.fillStyle = '#847B7B';
+        ctx.fillText('© ' + new Date().getFullYear(), cx, 1018);
+      }
+
+      // Horizontal rules above and below QR
+      function _drawDividers() {
+        var ctx = _ctx, pad = 60;
+        ctx.fillStyle = '#E2DEDB';
+        ctx.fillRect(pad, 334, _W - pad*2, 1);
+        ctx.fillRect(pad, 756, _W - pad*2, 1);
+      }
+
+      function _drawQR() {
+        _loadQRLib().then(function() {
+          var holder = document.createElement('div');
+          holder.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + _qrSize + 'px;';
+          document.body.appendChild(holder);
+          new QRCode(holder, {
+            text: 'https://si-lens.me',
+            width: _qrSize, height: _qrSize,
+            colorDark: '#1A1A1A', colorLight: '#FAFAF8',
+            correctLevel: QRCode.CorrectLevel.H
+          });
+          setTimeout(function() {
+            var qrEl = holder.querySelector('canvas') || holder.querySelector('img');
+            if (qrEl) {
+              var ctx = _ctx;
+              ctx.save();
+              _rr(ctx, _qrX, _qrY, _qrSize, _qrSize, 8);
+              ctx.clip();
+              ctx.drawImage(qrEl, _qrX, _qrY, _qrSize, _qrSize);
+              ctx.restore();
+              ctx.font = '300 15px "Inter", system-ui, sans-serif';
+              ctx.fillStyle = '#847B7B';
+              ctx.textAlign = 'center';
+              ctx.fillText('scan to visit', _W/2, _qrY + _qrSize + 30);
+            }
+            document.body.removeChild(holder);
+            _drawDividers();
+          }, 300);
+        }).catch(function() {
+          _ctx.strokeStyle = '#E2DEDB'; _ctx.lineWidth = 1;
+          _ctx.strokeRect(_qrX, _qrY, _qrSize, _qrSize);
+          _drawDividers();
+        });
+      }
+
+      function _draw() {
+        _drawBg();
+        document.fonts.ready.then(_drawText);
+        _drawQR();
+      }
+    })();
 
     // ── Search (day only) ──
     if (_isDay) {
@@ -974,6 +1133,21 @@ const modules = [
     transition: color 0.25s;
   }
   .n-link:hover { color: #fff; }
+
+  .n-contact a.n-link,
+  .n-contact button.card-trigger {
+    border: 1px solid rgba(196,168,224,0.2);
+    border-radius: 20px;
+    padding: 4px 11px 5px;
+    background: rgba(196,168,224,0.05);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .n-contact a.n-link:hover,
+  .n-contact button.card-trigger:hover {
+    background: rgba(196,168,224,0.13);
+    border-color: rgba(196,168,224,0.42);
+    color: rgba(255,255,255,0.95);
+  }
 
   .n-sep { color: rgba(196,168,224,0.2); font-size: 9px; }
 
@@ -1474,6 +1648,21 @@ const modules = [
     transition: color 0.25s;
   }
   .d-link:hover { color: #fff; }
+
+  .d-contact a.d-link,
+  .d-contact button.card-trigger {
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 20px;
+    padding: 4px 11px 5px;
+    background: rgba(255,255,255,0.07);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .d-contact a.d-link:hover,
+  .d-contact button.card-trigger:hover {
+    background: rgba(255,255,255,0.16);
+    border-color: rgba(255,255,255,0.42);
+    color: #fff;
+  }
 
   .d-sep { color: rgba(255,255,255,0.2); font-size: 9px; }
 
@@ -1985,5 +2174,67 @@ const modules = [
     .m-glass .n-desc   { font-size: 12px !important; }
     .m-glass .n-mod    { padding: 11px 0 !important; }
     .m-glass .n-mods::before { display: none !important; }
+  }
+
+  /* ── Card trigger button ── */
+  .card-trigger {
+    background: none; border: none; padding: 0;
+    cursor: pointer; line-height: inherit;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .card-icon { width: 13px; height: 13px; display: block; flex-shrink: 0; }
+
+  /* ── QR Card Modal ── */
+  #cardModal {
+    display: none;
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(250, 250, 248, 0.2);
+    backdrop-filter: blur(28px) saturate(1.4);
+    -webkit-backdrop-filter: blur(28px) saturate(1.4);
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 22px;
+    padding: 24px;
+  }
+  #cardModal.open { display: flex; }
+
+  #cardCanvas {
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.06);
+    max-width: 100%;
+    height: auto;
+  }
+
+  #cardClose {
+    position: absolute; top: 22px; right: 26px;
+    background: none; border: none; padding: 6px;
+    cursor: pointer; color: rgba(255,255,255,0.4);
+    transition: color 0.2s; line-height: 0;
+  }
+  #cardClose:hover { color: #fff; }
+  #cardClose svg { width: 18px; height: 18px; display: block; }
+
+  #cardActions {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  #cardDownload {
+    font-family: 'Nunito', 'Inter', system-ui, sans-serif;
+    font-size: 12px; font-weight: 400;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: #1A1A1A;
+    background: rgba(250,250,248,0.7);
+    border: 1px solid rgba(0,0,0,0.14);
+    border-radius: 8px; padding: 10px 28px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  #cardDownload:hover {
+    background: rgba(250,250,248,0.92);
+    border-color: rgba(0,0,0,0.28);
+  }
+  #cardHint {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px; font-weight: 300;
+    color: rgba(26,26,26,0.38); letter-spacing: 0.06em; margin: 0;
   }
 </style>

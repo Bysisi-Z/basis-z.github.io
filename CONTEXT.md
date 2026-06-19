@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-19 (session 58)
+> Last updated: 2026-06-19 (session 59)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -160,6 +160,15 @@ src/
 
 **Fonts:** Great Vibes · Ma Shan Zheng · Barlow Condensed (200;700) · Cormorant Garamond · Nunito (loaded via head slot)
 
+**QR Card (session 59):** Contact strip in both night/day glass panels has **· GET QR CODE & SHARE** button (share arrow SVG + text, styled as ghost pill same as other links). Clicking opens a modal overlay.
+- Modal: `backdrop-filter: blur(28px) saturate(1.4)` frosted glass showing page behind; `id="cardModal"`, toggled via `.open` class
+- Canvas: 700×1050 px (2:3 portrait, phone-photo format) rendered in modal at `min(520, vh-200)` px tall
+- Card design: `#FAFAF8` background · "Si" Great Vibes 110px rose `#c17d9d` centered · Cormorant italic tagline · `#E2DEDB` horizontal rules above/below QR · QR 340×340 centered (black on `#FAFAF8`) · `si-lens.me` rose · `© year` stone
+- QR library: `qrcodejs` from cdnjs (`https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js`) — renders to DOM canvas via `new QRCode(holder, opts)` then `drawImage` after 300ms timeout
+- Drawing order: bg (sync) → text (fonts.ready) → QR (async CDN load + timeout)
+- Download button saves `si-lens-card.png` at full 700×1050 resolution
+- Contact links styled as ghost pills: `border: 1px solid rgba(...)`, `border-radius: 20px`, `padding: 4px 11px`, faint bg, hover fills slightly
+
 ### Mobile Homepage (`#homeMobile`, ≤600px only) ✅ (session 57)
 
 Independent mobile-first homepage, never shown on desktop. Two sections stacked in DOM.
@@ -175,6 +184,7 @@ Independent mobile-first homepage, never shown on desktop. Two sections stacked 
 - Clock JS: `_mClock()` runs alongside desktop clock, updates `mTime` + `mDate` every second
 - **Weather + location (session 58):** below the clock — `.m-weather-row` (icon + temp + description inline) + `.m-wloc` (city, uppercase, ◎ prefix). Populated by the same `fetchWeather` call as desktop; falls back gracefully if geolocation denied.
 - **Message card (session 58):** `.m-msg-card` — light purple frosted glass (`rgba(196,168,224,0.18)` + blur 14px), white chat-bubble SVG icon (20px), sender "Sisi", time "now". Body: `id="mMsgBody"`. Default text: *"Hi! How's the day? It's really wonderful to see you. I hope you enjoy everything here, and let's stay in touch!"* — if geolocation is granted, a dynamic weather sentence is inserted after "How's the day?" based on temp + WMO precipitation code → 6 pools (cold/nice/hot × dry/wet), each sentence references `{city}` naturally. Pool defined as `_WM` in shared JS; `_pickWMsg(temp, code, city)` selects randomly.
+- **Swipe hint (session 58):** enlarged to 28×16 arrow, font 13px/500, opacity 0.88.
 
 **Content section (`.m-open`):**
 - Sits below lock screen in DOM; visible once lock dismissed
