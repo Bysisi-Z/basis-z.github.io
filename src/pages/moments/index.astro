@@ -3,31 +3,59 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Moments" description="Little moments that touched me, thrilled me, or simply made me smile">
-  <div class="content-wrap">
+  <div class="moments-wrap">
 
     <div class="page-header">
       <h1 class="page-title">Moments</h1>
       <p class="page-sub">little moments that touched me, thrilled me, or simply made me smile</p>
+      <button id="hairDryer" aria-label="Shuffle moments">
+        <img src="/images/moments/hairdryer.png" alt="">
+      </button>
     </div>
 
-    <div class="now-body">
-      <p class="placeholder">Coming soon.</p>
-    </div>
+    <div class="scatter-grid">
 
+      <div class="card card-moment">
+        <div class="moment-slides">
+          <img src="/images/moments/ferris-1.jpg" alt="LUCA Ferris wheel at dusk, Lucerne" class="ms-a" loading="eager">
+          <img src="/images/moments/ferris-2.jpg" alt="LUCA Ferris wheel at dusk, Lucerne" class="ms-b" loading="eager">
+        </div>
+        <div class="moment-body">
+          <p class="moment-text">An evening walk led me to LUCA's Ferris wheel by chance. I stepped into the gondola alone — cool wind, the last light of the day slipping quietly behind Mount Pilatus, the moon rising slowly from behind me, and music playing that I hadn't chosen. I was moved to tears by the vibe.</p>
+          <span class="moment-date">2026.4.30</span>
+        </div>
+      </div>
+
+      <div class="card card-moment">
+        <div class="moment-slides moment-crop">
+          <img src="/images/moments/geese.jpg" alt="Mother goose and goslings by Lake Lucerne" loading="lazy">
+        </div>
+        <div class="moment-body">
+          <p class="moment-text">Spring is here. A mother goose was sunbathing by the shore of Lake Lucerne with her whole family, bathed in the golden evening light. It felt exactly like a scene from a cartoon.</p>
+          <span class="moment-date">2026.5.2</span>
+        </div>
+      </div>
+
+
+    </div>
   </div>
+
+
 </BaseLayout>
 
 <style>
-.content-wrap {
-    max-width: 960px;
+  .moments-wrap {
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 clamp(20px, 6vw, 80px);
   }
 
   .page-header {
+    position: relative;
     padding-top: 64px;
     padding-bottom: 44px;
     border-bottom: 1px solid var(--rule);
+    margin-bottom: 0;
   }
 
   .page-title {
@@ -50,16 +78,322 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     line-height: 1.5;
   }
 
-  .now-body {
-    padding-top: 64px;
-    padding-bottom: 80px;
+  /* ── Masonry scatter grid ── */
+  .scatter-grid {
+    columns: 3;
+    column-gap: 20px;
+    padding: 56px 0 96px;
+    overflow: visible;
   }
 
-  .placeholder {
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--stone);
-    letter-spacing: 0.05em;
+  .card {
+    break-inside: avoid;
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
   }
+
+  /* Deterministic "random" rotations */
+  .card:nth-child(3n+1) { transform: rotate(-1.8deg); }
+  .card:nth-child(3n+2) { transform: rotate(0.7deg);  }
+  .card:nth-child(3n)   { transform: rotate(-0.4deg); }
+  .card:nth-child(5n)   { transform: rotate(1.5deg);  }
+  .card:nth-child(7n)   { transform: rotate(-2.1deg); }
+  .card:nth-child(11n)  { transform: rotate(0.3deg);  }
+
+  /* Slight left/right offsets for a few cards */
+  .card:nth-child(4n)   { margin-left: 8px; }
+  .card:nth-child(6n)   { margin-left: -6px; }
+
+  .card:hover {
+    transform: rotate(0deg) translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+    z-index: 10;
+    position: relative;
+  }
+
+  /* ── Photo cards — polaroid style ── */
+  .card-photo {
+    background: #fff;
+    padding: 10px 10px 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.11), 0 1px 3px rgba(0,0,0,0.07);
+    border-radius: 3px;
+  }
+
+  .photo-frame img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 1px;
+  }
+
+  .card-tall .photo-frame img {
+    aspect-ratio: 3/4;
+  }
+
+  .photo-caption {
+    margin-top: 10px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    font-style: normal;
+    color: #555;
+    line-height: 1.6;
+    padding: 0 2px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Text cards ── */
+  .card-text {
+    padding: 28px 26px 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Pin dot */
+  .card-text::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--rule);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    z-index: 1;
+  }
+
+  /* Large decorative quote mark */
+  .card-text::after {
+    content: '\201C';
+    position: absolute;
+    bottom: -18px;
+    right: 12px;
+    font-family: var(--serif);
+    font-size: 100px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0.10;
+  }
+
+  .card-text p {
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.35vw, 17px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.78;
+    color: var(--ink);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-date {
+    display: block;
+    margin-top: 14px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--stone);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Color variants — solid pastel backgrounds */
+  .c-rose {
+    background: #F2E8ED;
+    border-top: 3px solid rgba(193,125,157,0.55);
+  }
+  .c-rose::before  { background: rgba(193,125,157,0.7); }
+  .c-rose::after   { color: rgba(193,125,157,1); }
+
+  .c-warm {
+    background: #F3EDE0;
+    border-top: 3px solid rgba(200,170,120,0.55);
+  }
+  .c-warm::before  { background: rgba(200,170,120,0.8); }
+  .c-warm::after   { color: rgba(200,170,120,1); }
+
+  .c-sage {
+    background: #E8F0EA;
+    border-top: 3px solid rgba(120,170,140,0.50);
+  }
+  .c-sage::before  { background: rgba(120,170,140,0.72); }
+  .c-sage::after   { color: rgba(120,170,140,1); }
+
+  /* ── Moment card — photo slideshow + caption ── */
+  .card-moment {
+    background: #fff;
+    padding: 10px 10px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.11), 0 1px 3px rgba(0,0,0,0.07);
+    border-radius: 3px;
+  }
+
+  .moment-slides {
+    display: grid;
+    overflow: hidden;
+    border-radius: 1px;
+  }
+
+  .moment-slides img {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .moment-crop {
+    display: block;
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  .moment-crop img {
+    position: absolute;
+    grid-area: unset;
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    top: auto;
+  }
+
+  .ms-a { animation: fade-a 8s ease-in-out infinite; }
+  .ms-b { animation: fade-b 8s ease-in-out infinite; }
+
+  @keyframes fade-a {
+    0%, 40%  { opacity: 1; }
+    50%, 90% { opacity: 0; }
+    100%     { opacity: 1; }
+  }
+  @keyframes fade-b {
+    0%, 40%  { opacity: 0; }
+    50%, 90% { opacity: 1; }
+    100%     { opacity: 0; }
+  }
+
+  .moment-body {
+    padding: 0 4px;
+    margin-top: 12px;
+  }
+
+  .moment-text {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #333;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  .moment-date {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--stone);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .scatter-grid { columns: 2; }
+  }
+
+  @media (max-width: 560px) {
+    .scatter-grid {
+      columns: 1;
+      padding-top: 36px;
+    }
+    .card { margin-bottom: 16px; }
+    .card:nth-child(n) { transform: rotate(0deg); margin-left: 0; }
+    .card:nth-child(even) { transform: rotate(0.5deg); }
+    .card:nth-child(odd)  { transform: rotate(-0.5deg); }
+  }
+
+  /* ── Hair dryer button ── */
+  #hairDryer {
+    position: absolute;
+    bottom: -50px;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 200;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    /* recolor from neon pink → theme rose: desaturate + shift warmth */
+    filter: saturate(0.75) brightness(0.85) hue-rotate(10deg) drop-shadow(0 2px 8px rgba(193,125,157,0.4));
+  }
+
+  #hairDryer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+
+  #hairDryer:hover {
+    transform: scale(1.08) rotate(-6deg);
+    filter: saturate(0.85) brightness(0.88) hue-rotate(10deg) drop-shadow(0 4px 16px rgba(193,125,157,0.6));
+  }
+
+  #hairDryer.blowing {
+    animation: dryer-shake 0.5s ease;
+  }
+
+  @keyframes dryer-shake {
+    0%   { transform: rotate(0deg)   scale(1); }
+    20%  { transform: rotate(-10deg) scale(1.1); }
+    40%  { transform: rotate(8deg)   scale(1.12); }
+    60%  { transform: rotate(-6deg)  scale(1.1); }
+    80%  { transform: rotate(4deg)   scale(1.05); }
+    100% { transform: rotate(0deg)   scale(1); }
+  }
+
+  .card { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 </style>
+
+<script>
+  const dryer = document.getElementById('hairDryer') as HTMLElement;
+  const cards  = document.querySelectorAll('.scatter-grid .card');
+
+  dryer?.addEventListener('click', () => {
+    dryer.classList.remove('blowing');
+    void dryer.offsetWidth;
+    dryer.classList.add('blowing');
+    dryer.addEventListener('animationend', () => dryer.classList.remove('blowing'), { once: true });
+
+    cards.forEach((card, i) => {
+      const el = card as HTMLElement;
+      el.style.zIndex = String(50 + i);
+      const r = (Math.random() - 0.5) * 20;
+      el.style.transform = `rotate(${r}deg)`;
+    });
+
+    setTimeout(() => {
+      cards.forEach(card => {
+        const el = card as HTMLElement;
+        el.style.zIndex = '';
+        const r = (Math.random() - 0.5) * 5;
+        el.style.transform = `rotate(${r}deg)`;
+      });
+    }, 400);
+  });
+</script>
+
