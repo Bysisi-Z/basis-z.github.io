@@ -710,6 +710,21 @@ const modules = [
           _triggerScratch(_scratchB);
         }
       });
+
+      // ── Click-anywhere shooting star ──
+      _stripEl.addEventListener('click', function(e) {
+        if (e.target.closest('#nCatsContainer') || e.target.closest('#nLamp')) return;
+        var rect = _stripEl.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var m = document.createElement('div');
+        m.className = 'n-meteor-click';
+        m.style.left = x + 'px';
+        m.style.top  = y + 'px';
+        m.style.setProperty('--ma', (20 + Math.floor(Math.random() * 140)) + 'deg');
+        _stripEl.appendChild(m);
+        m.addEventListener('animationend', function() { m.remove(); });
+      });
     }
 
     // ── QR Card Generator ──
@@ -1407,6 +1422,23 @@ const modules = [
 
   .n-beam { opacity: 0; transition: opacity 0.7s ease; }
   .n-lamp-on .n-beam { opacity: 1; }
+
+  /* Click-anywhere shooting star */
+  .n-meteor-click {
+    position: absolute;
+    width: 180px;
+    height: 1px;
+    pointer-events: none;
+    z-index: 20;
+    transform-origin: left center;
+    background: linear-gradient(to left, rgba(255,255,255,0.95), rgba(235,215,255,0.85) 45%, rgba(196,168,224,0.40) 75%, transparent);
+    animation: n-meteor-click-fly 1.4s ease-out forwards;
+  }
+  @keyframes n-meteor-click-fly {
+    0%   { transform: rotate(var(--ma)) translateX(-30px); opacity: 0; }
+    12%  { opacity: 1; }
+    100% { transform: rotate(var(--ma)) translateX(180px); opacity: 0; }
+  }
 
   /* Night mobile ≤600px */
   @media (max-width: 600px) {
