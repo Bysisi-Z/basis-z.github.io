@@ -84,10 +84,12 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14p
 .cycle-btn-report.active{background:var(--rose);color:#fff;border-color:var(--rose)}
 .cycle-btn-report .cycle-n{font-size:10px;font-weight:300;opacity:.8}
 
+.back-link{display:inline-block;font-size:12px;color:var(--stone);text-decoration:none;border-bottom:1px solid transparent;transition:color .15s,border-color .15s;margin-bottom:20px;letter-spacing:.04em}.back-link:hover{color:var(--rose);border-color:var(--rose)}
 </style>
 </head>
 <body>
 <div class="page">
+<a href="/nsfg-reports.html" class="back-link">← NSFG Reports</a>
 <p class="eyebrow">NSFG 2022-2023 · 5,586 women surveyed · EA-11 — Emergency Contraception</p>
 <div class="cycle-picker-report">
   <button class="cycle-btn-report active" data-cycle="2223" onclick="switchCycle('2223')">2022–2023 <span class="cycle-n">n=5,586</span></button>
