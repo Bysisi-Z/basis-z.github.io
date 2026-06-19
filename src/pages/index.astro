@@ -355,10 +355,30 @@ const modules = [
         </div>
       </div>
 
-      <!-- 时钟 + 日期 -->
+      <!-- 时钟 + 日期 + 天气 -->
       <div class="m-timebox">
         <div class="m-date" id="mDate">Wed Jun 18</div>
         <div class="m-time" id="mTime">00:00</div>
+        <div class="m-weather-row" id="mWeatherRow">
+          <span class="m-wicon" id="mWIcon"></span>
+          <span class="m-wtemp" id="mWTemp"></span>
+          <span class="m-wdesc" id="mWDesc"></span>
+        </div>
+        <div class="m-wloc" id="mWLoc"></div>
+
+        <!-- Message notification card -->
+        <div class="m-msg-card">
+          <div class="m-msg-header">
+            <div class="m-msg-left">
+              <svg class="m-msg-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 2C5.58 2 2 5.13 2 9c0 2.09 1.03 3.97 2.67 5.27L4 17l3.07-1.53C7.67 15.81 8.81 16 10 16c4.42 0 8-3.13 8-7s-3.58-7-8-7z" fill="currentColor"/>
+              </svg>
+              <span class="m-msg-from">Sisi</span>
+            </div>
+            <span class="m-msg-time">now</span>
+          </div>
+          <div class="m-msg-body" id="mMsgBody">Hi! How's the day? It's really wonderful to see you. I hope you enjoy everything here, and let's stay in touch!</div>
+        </div>
       </div>
 
       <!-- 向上滑提示 -->
@@ -508,6 +528,87 @@ const modules = [
       if (hint) hint.addEventListener('click', function() { lock.classList.add('dismissed'); });
     })();
 
+    // ── Dynamic weather messages ──
+    var _PRECIP = new Set([51,53,55,61,63,65,71,73,75,77,80,81,82,85,86,95,96,99]);
+    var _WM = {
+      cold_dry: [
+        '{city} is feeling a little chilly today. Stay warm.',
+        'Looks like a cool one in {city} today. A warm cup of tea might be just the thing.',
+        'Hope you\'re keeping cozy in {city} today.',
+        'A crisp day in {city}. Don\'t forget an extra layer.',
+        'Cooler weather has settled over {city} today. Take good care of yourself.',
+        'Perfect weather in {city} to slow down for a moment.',
+        'A day like this in {city} feels made for hot chocolate.',
+        'Wishing you a warm and comfortable day in {city}.',
+      ],
+      cold_wet: [
+        'Rain and cold have found {city} today. Don\'t forget your umbrella.',
+        'A chilly, rainy day in {city}. Stay warm and dry.',
+        'The weather in {city} is feeling a little moody. An umbrella might come in handy.',
+        'Cold outside, rain overhead in {city}. Hope you\'re staying cozy.',
+        'Perfect weather in {city} for a warm drink and a good umbrella.',
+        'Even rainy days in {city} have their charm. Stay dry out there.',
+        'Hope the weather in {city} is kinder than it looks. Take your umbrella.',
+        'One of those days in {city} to enjoy the sound of the rain from somewhere warm.',
+      ],
+      nice_dry: [
+        '{city} is looking lovely today.',
+        'Looks like a beautiful day in {city}. Enjoy it if you can.',
+        'The weather in {city} couldn\'t be much nicer today.',
+        'Perfect weather in {city} for a little walk.',
+        'Hope you get a chance to enjoy the fresh air in {city} today.',
+        'Days like this in {city} don\'t ask for much—just a little time outside.',
+        'The weather in {city} is just about perfect today.',
+        'Wishing you a peaceful day in {city}, wherever you\'re headed.',
+        'Something about the weather in {city} today quietly makes everything a little better.',
+        'Enjoy every bit of today\'s sunshine in {city}.',
+      ],
+      nice_wet: [
+        'A little rain has arrived in {city}. Don\'t forget your umbrella.',
+        'Rainy in {city} today, but still a lovely day. Stay dry.',
+        'Looks like you\'ll want an umbrella in {city} today.',
+        'Hope the rain in {city} doesn\'t slow you down too much.',
+        'A rainy day in {city} can be beautiful too. Enjoy it.',
+        'Clouds over {city} today, but hopefully sunshine somewhere nearby.',
+        'Worth keeping an umbrella close in {city} today, just in case.',
+        'The weather in {city} has its own plans today. Hope yours go smoothly.',
+        'Something about rainy days in {city} makes for the best conversations.',
+        'Wishing you a cozy day in {city}, rain or shine.',
+      ],
+      hot_dry: [
+        'It\'s getting warm in {city} today. Stay hydrated.',
+        'Hope you\'re staying cool in {city} today.',
+        'Perfect weather in {city} for a cold drink.',
+        'A warm day like this in {city} feels made for an iced coffee.',
+        'Perfect weather in {city} for an iced tea.',
+        'Perfect weather in {city} for something cold and refreshing.',
+        'The sun is making itself well known in {city} today.',
+        'It\'s a hot one in {city} today — take it easy out there.',
+        'A little shade goes a long way in {city} on a day like this.',
+        'Wishing you a cool and refreshing day in {city}.',
+      ],
+      hot_wet: [
+        'Warm weather and rain in {city} today—quite the combination. Don\'t forget your umbrella.',
+        'It\'s warm in {city}, but you\'ll still want an umbrella today.',
+        'Hope you\'re finding ways to stay cool and dry in {city} today.',
+        'The weather in {city} can\'t quite make up its mind today.',
+        'Perfect day in {city} for a cold drink and an umbrella.',
+        'Summer showers have arrived in {city}. Hope you\'re prepared.',
+        'Even warm days in {city} can surprise you. Take an umbrella just in case.',
+        'Hope you\'re finding a cool place to take a break in {city} today.',
+        'Rain or sunshine in {city}, I hope today treats you well.',
+        'Wishing you a refreshing day in {city}, whatever the weather decides.',
+      ],
+    };
+    function _pickWMsg(temp, code, city) {
+      var wet = _PRECIP.has(code);
+      var key = temp < 20 ? (wet ? 'cold_wet' : 'cold_dry')
+              : temp <= 26 ? (wet ? 'nice_wet' : 'nice_dry')
+              : (wet ? 'hot_wet' : 'hot_dry');
+      var pool = _WM[key];
+      return pool[Math.floor(Math.random() * pool.length)].replace(/\{city\}/g, city || 'Luzern');
+    }
+
     // ── Weather ──
     var WMO = {
       0:['☀','Clear'], 1:['🌤','Mostly clear'], 2:['⛅','Partly cloudy'], 3:['☁','Overcast'],
@@ -529,6 +630,19 @@ const modules = [
           gel('WeatherTemp').textContent = temp + '°C';
           gel('WeatherDesc').textContent = ic[1];
           gel('WeatherLoc').textContent  = city || 'Luzern';
+          // Mobile lock screen
+          var _mwi = document.getElementById('mWIcon');
+          if (_mwi) {
+            _mwi.textContent = ic[0];
+            document.getElementById('mWTemp').textContent = temp + '°C';
+            document.getElementById('mWDesc').textContent = ic[1];
+            document.getElementById('mWLoc').textContent  = city || 'Luzern';
+            var _mb = document.getElementById('mMsgBody');
+            if (_mb) {
+              var _wx = _pickWMsg(temp, code, city || 'Luzern');
+              _mb.textContent = 'Hi! How\'s the day? ' + _wx + ' It\'s really wonderful to see you. I hope you enjoy everything here, and let\'s stay in touch!';
+            }
+          }
         }).catch(function(){});
     }
     function getCity(lat, lon) {
@@ -1759,6 +1873,59 @@ const modules = [
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+    }
+    .m-weather-row {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 10px;
+      color: rgba(255,255,255,0.88);
+    }
+    .m-wicon { font-size: 18px; line-height: 1; }
+    .m-wtemp {
+      font-family: 'Barlow Condensed', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 20px; font-weight: 700; letter-spacing: 0.01em;
+    }
+    .m-wdesc {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 14px; font-weight: 400; letter-spacing: 0.02em;
+    }
+    .m-wloc {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 12px; font-weight: 400; letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      margin-top: 4px;
+      min-height: 16px;
+    }
+    .m-wloc:not(:empty)::before { content: '◎  '; font-size: 10px; opacity: 0.7; }
+    .m-msg-card {
+      margin: 18px 16px 0;
+      background: rgba(196, 168, 224, 0.18);
+      border: 1px solid rgba(196, 168, 224, 0.32);
+      border-radius: 16px;
+      padding: 11px 14px 13px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      text-align: left;
+    }
+    .m-msg-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .m-msg-left { display: flex; align-items: center; gap: 6px; }
+    .m-msg-icon { width: 20px; height: 20px; color: rgba(255,255,255,0.88); flex-shrink: 0; }
+    .m-msg-from {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.88);
+    }
+    .m-msg-time {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 12px; color: rgba(255,255,255,0.48);
+    }
+    .m-msg-body {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-size: 14px; font-weight: 400; line-height: 1.5;
+      color: rgba(255,255,255,0.85);
     }
 
     /* Swipe hint */

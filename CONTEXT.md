@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-18 (session 57)
+> Last updated: 2026-06-19 (session 58)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -173,6 +173,8 @@ Independent mobile-first homepage, never shown on desktop. Two sections stacked 
 - Swipe hint: `↑` chevron + "Swipe up to open", bounce animation
 - **Dismiss:** touch swipe up ≥40px OR scroll wheel → adds `.dismissed` class → `transform: translateY(-100%)` (0.65s ease). One-way: cannot return to lock screen
 - Clock JS: `_mClock()` runs alongside desktop clock, updates `mTime` + `mDate` every second
+- **Weather + location (session 58):** below the clock — `.m-weather-row` (icon + temp + description inline) + `.m-wloc` (city, uppercase, ◎ prefix). Populated by the same `fetchWeather` call as desktop; falls back gracefully if geolocation denied.
+- **Message card (session 58):** `.m-msg-card` — light purple frosted glass (`rgba(196,168,224,0.18)` + blur 14px), white chat-bubble SVG icon (20px), sender "Sisi", time "now". Body: `id="mMsgBody"`. Default text: *"Hi! How's the day? It's really wonderful to see you. I hope you enjoy everything here, and let's stay in touch!"* — if geolocation is granted, a dynamic weather sentence is inserted after "How's the day?" based on temp + WMO precipitation code → 6 pools (cold/nice/hot × dry/wet), each sentence references `{city}` naturally. Pool defined as `_WM` in shared JS; `_pickWMsg(temp, code, city)` selects randomly.
 
 **Content section (`.m-open`):**
 - Sits below lock screen in DOM; visible once lock dismissed
