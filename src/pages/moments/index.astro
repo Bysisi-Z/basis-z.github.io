@@ -42,8 +42,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
       <div class="scatter-col">
         <div class="card card-moment">
-          <div class="moment-slides">
-            <img src="/images/moments/dunhuang-milkyway.jpg" alt="Milky Way over Dunhuang desert dunes, with a meteor streak" loading="lazy">
+          <div class="moment-slides slides-cover">
+            <img src="/images/moments/dunhuang-dusk.jpg" alt="Silhouette on Dunhuang sand dune at dusk" class="ms-a" loading="lazy">
+            <img src="/images/moments/dunhuang-milkyway.jpg" alt="Milky Way over Dunhuang desert dunes, with a meteor streak" class="ms-b" loading="lazy">
           </div>
           <div class="moment-body">
             <p class="moment-text">Dunhuang, autumn 2020. No camera — I pressed my phone into the sand and held it still for thirty seconds. But the photo isn't why I remember this night. It's the moment the desert motorbike crested the dune and the Milky Way appeared, all at once, directly above me. I couldn't move.</p>
@@ -251,6 +252,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     width: 100%;
     height: auto;
     display: block;
+  }
+
+  /* Fixed aspect-ratio slideshow — crops both images to same frame */
+  .slides-cover {
+    aspect-ratio: 3/4;
+  }
+  .slides-cover img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .moment-crop {
