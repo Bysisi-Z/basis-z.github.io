@@ -721,7 +721,7 @@ const modules = [
       if (!_modal) return;
 
       var _ctx, _W = 700, _H = 1050;
-      var _qrSize = 340, _qrX = 180, _qrY = 368;
+      var _qrSize = 300, _qrX = 200, _qrY = 395;
 
       function _openModal()  { _modal.classList.add('open'); _draw(); }
       function _closeModal() { _modal.classList.remove('open'); }
@@ -751,7 +751,26 @@ const modules = [
         ctx.closePath();
       }
 
-      // Use qrcodejs (cdnjs) — renders to DOM canvas, sync-friendly
+      function _theme() {
+        return _isDay ? {
+          accent   : '#6BA88A',
+          accentA  : 'rgba(107,168,138,0.45)',
+          overlay  : 'rgba(232,240,236,0.62)',
+          textMain : '#1A1A1A',
+          textSub  : '#7A8F84',
+          divider  : 'rgba(107,168,138,0.28)',
+          photo    : '/images/homepage-morning.jpg'
+        } : {
+          accent   : '#C4A8E0',
+          accentA  : 'rgba(196,168,224,0.45)',
+          overlay  : 'rgba(10,5,28,0.62)',
+          textMain : 'rgba(255,255,255,0.88)',
+          textSub  : 'rgba(196,168,224,0.52)',
+          divider  : 'rgba(196,168,224,0.22)',
+          photo    : '/images/homepage-ferris-original.jpeg'
+        };
+      }
+
       function _loadQRLib() {
         return new Promise(function(resolve, reject) {
           if (window.QRCode) { resolve(); return; }
@@ -762,57 +781,47 @@ const modules = [
         });
       }
 
-      // Step 1: background — sync, visible immediately
-      function _drawBg() {
-        _canvas.width = _W; _canvas.height = _H;
-        var dh = Math.min(520, window.innerHeight - 200);
-        _canvas.style.height = dh + 'px';
-        _canvas.style.width  = Math.round(dh * _W / _H) + 'px';
-        _ctx = _canvas.getContext('2d');
-        _ctx.fillStyle = '#FAFAF8';
-        _ctx.fillRect(0, 0, _W, _H);
-      }
-
-      // Step 2: text — after fonts ready
-      function _drawText() {
+      function _drawContent(t) {
         var ctx = _ctx, cx = _W / 2;
         ctx.textAlign = 'center';
 
         // Si logo
         ctx.font = 'italic 400 110px "Great Vibes", cursive';
-        ctx.fillStyle = '#c17d9d';
-        ctx.fillText('Si', cx, 175);
+        ctx.fillStyle = t.accent;
+        ctx.fillText('Si', cx, 172);
 
         // Accent line
-        ctx.fillStyle = 'rgba(193,125,157,0.45)';
-        ctx.fillRect(cx - 44, 192, 88, 1.5);
+        ctx.fillStyle = t.accentA;
+        ctx.fillRect(cx - 44, 190, 88, 1.5);
 
-        // Tagline
-        ctx.font = 'italic 300 26px "Cormorant Garamond", Georgia, serif';
-        ctx.fillStyle = '#1A1A1A';
-        ctx.fillText('Making sense of numbers', cx, 256);
-        ctx.fillText('and landscapes.', cx, 292);
+        // Tagline — enlarged
+        ctx.font = 'italic 300 32px "Cormorant Garamond", Georgia, serif';
+        ctx.fillStyle = t.textMain;
+        ctx.fillText('Making sense of numbers', cx, 260);
+        ctx.fillText('and landscapes.', cx, 302);
 
-        // URL
-        ctx.font = '300 24px "Inter", system-ui, sans-serif';
-        ctx.fillStyle = '#c17d9d';
-        ctx.fillText('si-lens.me', cx, 860);
+        // Dividers
+        ctx.fillStyle = t.divider;
+        ctx.fillRect(60, 346, _W - 120, 1);
+        ctx.fillRect(60, 756, _W - 120, 1);
+
+        // Scan hint
+        ctx.font = '300 15px "Inter", system-ui, sans-serif';
+        ctx.fillStyle = t.textSub;
+        ctx.fillText('scan to visit', cx, _qrY + _qrSize + 34);
+
+        // URL — enlarged
+        ctx.font = '300 32px "Inter", system-ui, sans-serif';
+        ctx.fillStyle = t.accent;
+        ctx.fillText('si-lens.me', cx, 862);
 
         // Copyright
         ctx.font = '300 13px "Inter", system-ui, sans-serif';
-        ctx.fillStyle = '#847B7B';
-        ctx.fillText('© ' + new Date().getFullYear(), cx, 1018);
+        ctx.fillStyle = t.textSub;
+        ctx.fillText('© ' + new Date().getFullYear(), cx, 1016);
       }
 
-      // Horizontal rules above and below QR
-      function _drawDividers() {
-        var ctx = _ctx, pad = 60;
-        ctx.fillStyle = '#E2DEDB';
-        ctx.fillRect(pad, 334, _W - pad*2, 1);
-        ctx.fillRect(pad, 756, _W - pad*2, 1);
-      }
-
-      function _drawQR() {
+      function _drawQR(t) {
         _loadQRLib().then(function() {
           var holder = document.createElement('div');
           holder.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + _qrSize + 'px;';
@@ -827,30 +836,54 @@ const modules = [
             var qrEl = holder.querySelector('canvas') || holder.querySelector('img');
             if (qrEl) {
               var ctx = _ctx;
+              // White backing card behind QR
+              ctx.fillStyle = '#FAFAF8';
+              _rr(ctx, _qrX - 14, _qrY - 14, _qrSize + 28, _qrSize + 28, 16);
+              ctx.fill();
+              // QR code
               ctx.save();
               _rr(ctx, _qrX, _qrY, _qrSize, _qrSize, 8);
               ctx.clip();
               ctx.drawImage(qrEl, _qrX, _qrY, _qrSize, _qrSize);
               ctx.restore();
-              ctx.font = '300 15px "Inter", system-ui, sans-serif';
-              ctx.fillStyle = '#847B7B';
-              ctx.textAlign = 'center';
-              ctx.fillText('scan to visit', _W/2, _qrY + _qrSize + 30);
             }
             document.body.removeChild(holder);
-            _drawDividers();
+            document.fonts.ready.then(function() { _drawContent(t); });
           }, 300);
         }).catch(function() {
-          _ctx.strokeStyle = '#E2DEDB'; _ctx.lineWidth = 1;
-          _ctx.strokeRect(_qrX, _qrY, _qrSize, _qrSize);
-          _drawDividers();
+          document.fonts.ready.then(function() { _drawContent(t); });
         });
       }
 
       function _draw() {
-        _drawBg();
-        document.fonts.ready.then(_drawText);
-        _drawQR();
+        var t = _theme();
+        _canvas.width = _W; _canvas.height = _H;
+        var dh = Math.min(520, window.innerHeight - 200);
+        _canvas.style.height = dh + 'px';
+        _canvas.style.width  = Math.round(dh * _W / _H) + 'px';
+        _ctx = _canvas.getContext('2d');
+
+        // Blurred photo background
+        var img = new Image();
+        img.onload = function() {
+          var blur = 32;
+          _ctx.filter = 'blur(' + blur + 'px)';
+          var scale = Math.max((_W + blur*2) / img.width, (_H + blur*2) / img.height);
+          var dw = _W + blur*2, dh2 = _H + blur*2;
+          var sw = dw / scale, sh = dh2 / scale;
+          var sx = (img.width - sw) / 2, sy = (img.height - sh) / 2;
+          _ctx.drawImage(img, sx, sy, sw, sh, -blur, -blur, dw, dh2);
+          _ctx.filter = 'none';
+          _ctx.fillStyle = t.overlay;
+          _ctx.fillRect(0, 0, _W, _H);
+          _drawQR(t);
+        };
+        img.onerror = function() {
+          _ctx.fillStyle = _isDay ? '#FAFAF8' : '#0F0A1E';
+          _ctx.fillRect(0, 0, _W, _H);
+          _drawQR(t);
+        };
+        img.src = t.photo;
       }
     })();
 
