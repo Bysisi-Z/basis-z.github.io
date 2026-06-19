@@ -305,6 +305,9 @@ const modules = [
         </a>
       </div>
 
+      <!-- Dandelion decoration -->
+      <img src="/images/dandelion.jpg" alt="" class="d-dandelion" aria-hidden="true">
+
     </div><!-- /d-strip -->
   </div><!-- /homeDay -->
 
@@ -965,6 +968,84 @@ const modules = [
         if (!e.target.closest('.d-search-wrap') && !e.target.closest('.d-search-results'))
           _sr.classList.remove('open');
       });
+
+      // ── Dandelion seed spawner ──
+      (function() {
+        var _dandEl = document.querySelector('.d-dandelion');
+        var _dStrip = document.getElementById('dStrip');
+        if (!_dandEl) return;
+
+        _dandEl.addEventListener('click', function() {
+          var dRect = _dandEl.getBoundingClientRect();
+          var sRect = _dStrip.getBoundingClientRect();
+
+          // Flower head centre: top ~20% of image, horizontally centred
+          var x = dRect.left - sRect.left + dRect.width  * 0.50;
+          var y = dRect.top  - sRect.top  + dRect.height * 0.20;
+
+          var seed = document.createElement('img');
+          seed.src = '/images/dandelion-seed.png';
+          seed.className = 'd-seed';
+          document.body.appendChild(seed);
+
+          // Use viewport coordinates (position: fixed)
+          var x = dRect.left + dRect.width  * 0.50;
+          var y = dRect.top  + dRect.height * 0.20;
+
+          // Fixed spin rate — set once, never changes (no per-frame noise)
+          var spinV  = (Math.random() - 0.5) * 0.18;
+          var gustWX = (Math.random() - 0.5) * 0.7;
+          var gustWY = -(0.18 + Math.random() * 0.22);
+          var wx = gustWX, wy = gustWY;
+          var vx = wx,     vy = wy;
+          var angle    = Math.random() * 360;
+          var born     = Date.now();
+          var lastGust = born;
+          var LIFE     = 60000;
+          var FADE     = 54000;
+
+          function tick() {
+            var now = Date.now();
+            var age = now - born;
+            if (age >= LIFE) { seed.remove(); return; }
+
+            // Change wind direction every 2–3 s — zero random calls in between
+            if (now - lastGust > 2200) {
+              lastGust = now;
+              gustWX = (Math.random() - 0.5) * 0.8;
+              gustWY = -(Math.random() * 0.42);
+            }
+
+            // Smooth ease toward gust — no per-frame noise
+            wx += (gustWX - wx) * 0.007;
+            wy += (gustWY - wy) * 0.007;
+
+            vx += (wx - vx) * 0.022;
+            vy += (wy - vy) * 0.022;
+
+            x += vx; y += vy;
+
+            // Soft edge repulsion — push gust away from wall
+            var W = window.innerWidth, H = window.innerHeight;
+            if (x < 50)      gustWX = Math.abs(gustWX) + 0.1;
+            if (x > W - 50)  gustWX = -(Math.abs(gustWX) + 0.1);
+            if (y < 50)      gustWY = Math.abs(gustWY) * 0.5 + 0.05;
+            if (y > H - 50)  gustWY = -(Math.abs(gustWY) * 0.5 + 0.05);
+
+            // Steady rotation — no jitter
+            angle += spinV;
+
+            var op = age < FADE ? 0.88 : 0.88 * (1 - (age - FADE) / (LIFE - FADE));
+
+            seed.style.transform = 'translate(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px) translate(-50%,-50%) rotate(' + angle.toFixed(2) + 'deg)';
+            seed.style.opacity   = op.toFixed(3);
+
+            requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
+      })();
+
     }
   </script>
 
@@ -1880,7 +1961,7 @@ const modules = [
   /* Search bar */
   .d-search-wrap {
     position: absolute;
-    top: 52%;
+    top: 47%;
     left: clamp(10px, 4cqw, 18px);
     right: clamp(10px, 4cqw, 18px);
     z-index: 5;
@@ -1970,7 +2051,7 @@ const modules = [
   /* Notification cards */
   .d-notif-stack {
     position: absolute;
-    top: 63%;
+    top: 56%;
     left: clamp(10px, 4cqw, 18px);
     right: clamp(10px, 4cqw, 18px);
     display: flex;
@@ -1988,7 +2069,35 @@ const modules = [
     text-decoration: none;
     transition: background 0.2s, border-color 0.2s;
   }
+
   .d-notif:hover { background: rgba(160,195,170,0.34); border-color: rgba(110,140,120,0.32); }
+
+  /* Dandelion decoration */
+  .d-dandelion {
+    position: absolute;
+    bottom: 0;
+    right: clamp(6px, 1cqw, 14px);
+    width: clamp(90px, 14vh, 190px);
+    height: auto;
+    display: block;
+    mix-blend-mode: multiply;
+    opacity: 0.82;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 3;
+  }
+
+  /* Floating dandelion seed */
+  .d-seed {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: clamp(22px, 4vh, 46px);
+    height: auto;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform, opacity;
+  }
 
   .d-notif-meta {
     display: flex;
@@ -2052,13 +2161,13 @@ const modules = [
 
   /* Short viewport adjustments */
   @media (max-height: 750px) {
-    .d-search-wrap { top: 47%; }
-    .d-notif-stack { top: 58%; }
+    .d-search-wrap { top: 43%; }
+    .d-notif-stack { top: 53%; }
     .d-notif-title { font-size: clamp(13px, 4.5cqw, 18px); }
   }
   @media (max-height: 620px) {
-    .d-search-wrap { top: 44%; }
-    .d-notif-stack { top: 56%; }
+    .d-search-wrap { top: 40%; }
+    .d-notif-stack { top: 51%; }
     .d-notif:last-child { display: none; }
   }
 

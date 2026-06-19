@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-19 (session 63)
+> Last updated: 2026-06-19 (session 64)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -140,6 +140,7 @@ src/
 - Status bar (Swisscom · WiFi · battery), greeting scroll, clock, date, weather+location, floor lamp easter egg (`#nLamp` click toggles `.n-lamp-on`), cat blink easter egg
 - Cats: `public/images/cats-illustration.png`, two grid layers, `brightness(0.65) contrast(3)`, blink 5s/2s
 - **Cat scratch easter egg (session 55):** click left (big) cat → large purple scratch mark; click right (small) cat → small scratch mark. Scratch image: `public/images/cat-scratch.png` (purple glowing claws, `mix-blend-mode: screen`). Animation: `clip-path` top→bottom reveal + opacity fade, 0.38s total. Disabled when lamp is on (`.n-lamp-on .n-scratch { display:none }`). Click detection: `e.clientX` vs container midpoint. Elements: `#nScratchA` (46% wide, `bottom:63%`, left-aligned) / `#nScratchB` (29% wide, `bottom:54%`, right-aligned), both inside `#nCatsContainer`.
+- **Shooting star easter egg (session 64):** click anywhere on `#nStrip` (excluding cats/lamp) → spawns `.n-meteor-click` div at click position. Meteor: 180px wide, 1px tall, gradient `to left` (right=white head, left=transparent tail), translates from −30px to +180px along rotation axis, fades in quickly then out over 1.4s. Angle: random 20°–160° (downward only). Both head and tail move together — no fixed origin. Class: `.n-meteor-click`; keyframe: `n-meteor-click-fly`.
 
 **Greeting scroll (session 55 fix):**
 - Transition shortened to `0.75s ease-in-out` (was 1.4s with slow easing — caused ghost overlap)
