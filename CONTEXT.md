@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-19 (session 64)
+> Last updated: 2026-06-20 (session 67)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -139,7 +139,7 @@ src/
 **Night right strip:**
 - Status bar (Swisscom · WiFi · battery), greeting scroll, clock, date, weather+location, floor lamp easter egg (`#nLamp` click toggles `.n-lamp-on`), cat blink easter egg
 - Cats: `public/images/cats-illustration.png`, two grid layers, `brightness(0.65) contrast(3)`, blink 5s/2s
-- **Cat scratch easter egg (session 55):** click left (big) cat → large purple scratch mark; click right (small) cat → small scratch mark. Scratch image: `public/images/cat-scratch.png` (purple glowing claws, `mix-blend-mode: screen`). Animation: `clip-path` top→bottom reveal + opacity fade, 0.38s total. Disabled when lamp is on (`.n-lamp-on .n-scratch { display:none }`). Click detection: `e.clientX` vs container midpoint. Elements: `#nScratchA` (46% wide, `bottom:63%`, left-aligned) / `#nScratchB` (29% wide, `bottom:54%`, right-aligned), both inside `#nCatsContainer`.
+- **Cat scratch easter egg (session 55):** click left (big) cat → large purple scratch mark; click right (small) cat → small scratch mark. Scratch image: `public/images/cat-scratch.png` (purple glowing claws, `mix-blend-mode: screen`). Animation: `clip-path` top→bottom reveal + opacity fade, 0.38s total. Disabled when lamp is on (`.n-lamp-on .n-scratch { display:none }`). Click detection: `e.clientX` vs container midpoint. Elements: `#nScratchA` (22% wide, `bottom:63%`, left-aligned) / `#nScratchB` (16% wide, `bottom:54%`, right-aligned), both inside `#nCatsContainer`. (sizes reduced s67; were 46%/29%)
 - **Shooting star easter egg (session 64):** click anywhere on `#nStrip` (excluding cats/lamp) → spawns `.n-meteor-click` div at click position. Meteor: 180px wide, 1px tall, gradient `to left` (right=white head, left=transparent tail), translates from −30px to +180px along rotation axis, fades in quickly then out over 1.4s. Angle: random 20°–160° (downward only). Both head and tail move together — no fixed origin. Class: `.n-meteor-click`; keyframe: `n-meteor-click-fly`.
 
 **Greeting scroll (session 55 fix):**
@@ -148,11 +148,13 @@ src/
 - Display duration per greeting: 3.6s visible
 
 **Day right strip:**
-- Search bar at `top: 52%` — Pagefind full-site search, lazy-loaded, fixed-position results
-- Notification cards at `top: 63%` — green tint `rgba(160,195,170,0.22)`:
+- Search bar at `top: 47%` — Pagefind full-site search, lazy-loaded, fixed-position results
+- Notification cards at `top: 56%` — green tint `rgba(160,195,170,0.22)`:
   - NSFG Contraceptive Survey → `/research/data` (Jun 16, 2026)
   - Stoos Ridge Line Hike → `/photography/stoos-ridge-line` (Jun 5, 2026)
 - To update cards: edit `.d-notif` elements in `#homeDay`
+- **Dandelion easter egg (session 64–66):** `public/images/dandelion.jpg` placed `position: absolute; bottom: 0; right: clamp(6px,1cqw,14px)` with `mix-blend-mode: multiply; cursor: pointer`. Click → spawns `.d-seed` (`position: fixed` on `document.body`, `z-index: 9999`, `public/images/dandelion-seed.png` transparent PNG). Physics: gust target `gustWX=(rand-0.5)*1.2`, `gustWY=-(rand*0.62)`, updates every 2.2s; velocity eases toward gust at rate 0.022; **zero per-frame random calls** (eliminates jitter); all movement via `transform: translate()` on GPU (no left/top updates). Seeds drift full viewport for 60s (fade from 54s); each seed has independent `born` timer. Seed origin: `dRect.top + height*0.20` (flower head).
+- **Shooting star (night, session 64):** click `#nStrip` (not cats/lamp) → `.n-meteor-click` div at click pos; `width:180px; height:1px`; gradient `to left` (right=white head); `transform: rotate(--ma) translateX` from −30px to +180px; 1.4s ease-out; angle random 20°–160° downward.
 
 **Responsive:**
 - `≤600px`: `#homeNight` / `#homeDay` hidden (`display:none !important`); `#homeMobile` shown instead
