@@ -1,0 +1,498 @@
+{
+  "meta": {
+    "source": "MEPS HC-248A + HC-FY, 2020\u20132023",
+    "universe": "Female 45\u201369, TC1S1_1 = 183 (estrogens) or 185 (progestins)",
+    "top_n": 10
+  },
+  "years": [
+    2020,
+    2021,
+    2022,
+    2023
+  ],
+  "year_totals": {
+    "2020": {
+      "fills": 944,
+      "patients": 210
+    },
+    "2021": {
+      "fills": 932,
+      "patients": 197
+    },
+    "2022": {
+      "fills": 846,
+      "patients": 196
+    },
+    "2023": {
+      "fills": 767,
+      "patients": 187
+    }
+  },
+  "products": [
+    {
+      "label": "Generic E2 \u00b7 Oral",
+      "sub": "",
+      "scope": "Systemic",
+      "is_generic": true,
+      "by_year": {
+        "2020": {
+          "fills": 230,
+          "patients": 77,
+          "rank": 1
+        },
+        "2021": {
+          "fills": 198,
+          "patients": 73,
+          "rank": 1
+        },
+        "2022": {
+          "fills": 160,
+          "patients": 66,
+          "rank": 1
+        },
+        "2023": {
+          "fills": 137,
+          "patients": 49,
+          "rank": 2
+        }
+      },
+      "total_fills": 725
+    },
+    {
+      "label": "Generic Progesterone \u00b7 Oral",
+      "sub": "",
+      "scope": "Systemic",
+      "is_generic": true,
+      "by_year": {
+        "2020": {
+          "fills": 125,
+          "patients": 47,
+          "rank": 2
+        },
+        "2021": {
+          "fills": 125,
+          "patients": 44,
+          "rank": 2
+        },
+        "2022": {
+          "fills": 132,
+          "patients": 53,
+          "rank": 2
+        },
+        "2023": {
+          "fills": 169,
+          "patients": 65,
+          "rank": 1
+        }
+      },
+      "total_fills": 551
+    },
+    {
+      "label": "Generic E2 \u00b7 Patch",
+      "sub": "",
+      "scope": "Systemic",
+      "is_generic": true,
+      "by_year": {
+        "2020": {
+          "fills": 99,
+          "patients": 41,
+          "rank": 3
+        },
+        "2021": {
+          "fills": 100,
+          "patients": 37,
+          "rank": 3
+        },
+        "2022": {
+          "fills": 51,
+          "patients": 22,
+          "rank": 4
+        },
+        "2023": {
+          "fills": 85,
+          "patients": 36,
+          "rank": 3
+        }
+      },
+      "total_fills": 335
+    },
+    {
+      "label": "Generic E2 \u00b7 Cream",
+      "sub": "",
+      "scope": "Local",
+      "is_generic": true,
+      "by_year": {
+        "2020": {
+          "fills": 44,
+          "patients": 26,
+          "rank": 5
+        },
+        "2021": {
+          "fills": 42,
+          "patients": 21,
+          "rank": 4
+        },
+        "2022": {
+          "fills": 77,
+          "patients": 35,
+          "rank": 3
+        },
+        "2023": {
+          "fills": 74,
+          "patients": 46,
+          "rank": 4
+        }
+      },
+      "total_fills": 243
+    },
+    {
+      "label": "Generic E2 \u00b7 Vaginal Tabs",
+      "sub": "",
+      "scope": "Local",
+      "is_generic": true,
+      "by_year": {
+        "2020": {
+          "fills": 40,
+          "patients": 17,
+          "rank": 6
+        },
+        "2021": {
+          "fills": 15,
+          "patients": 6,
+          "rank": 8
+        },
+        "2022": {
+          "fills": 18,
+          "patients": 9,
+          "rank": 7
+        },
+        "2023": {
+          "fills": 18,
+          "patients": 10,
+          "rank": 6
+        }
+      },
+      "total_fills": 91
+    },
+    {
+      "label": "EstroGel",
+      "sub": "E2 \u00b7 Gel",
+      "scope": "Systemic",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2021": {
+          "fills": 31,
+          "patients": 16,
+          "rank": 5
+        },
+        "2022": {
+          "fills": 4,
+          "patients": 1,
+          "rank": null
+        },
+        "2023": {
+          "fills": 24,
+          "patients": 7,
+          "rank": 5
+        }
+      },
+      "total_fills": 59
+    },
+    {
+      "label": "Estring",
+      "sub": "E2 \u00b7 Vaginal Ring",
+      "scope": "Local",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 7,
+          "patients": 6,
+          "rank": 10
+        },
+        "2021": {
+          "fills": 23,
+          "patients": 17,
+          "rank": 6
+        },
+        "2022": {
+          "fills": 11,
+          "patients": 6,
+          "rank": 8
+        },
+        "2023": {
+          "fills": 14,
+          "patients": 5,
+          "rank": 7
+        }
+      },
+      "total_fills": 55
+    },
+    {
+      "label": "Dotti",
+      "sub": "E2 \u00b7 Patch",
+      "scope": "Systemic",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 12,
+          "patients": 6,
+          "rank": 8
+        },
+        "2021": {
+          "fills": 19,
+          "patients": 10,
+          "rank": 7
+        },
+        "2022": {
+          "fills": 18,
+          "patients": 6,
+          "rank": 6
+        },
+        "2023": {
+          "fills": 4,
+          "patients": 3,
+          "rank": null
+        }
+      },
+      "total_fills": 53
+    },
+    {
+      "label": "Premarin",
+      "sub": "CEE \u00b7 Oral",
+      "scope": "Systemic",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 53,
+          "patients": 21,
+          "rank": 4
+        },
+        "2021": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2022": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2023": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        }
+      },
+      "total_fills": 53
+    },
+    {
+      "label": "Yuvafem",
+      "sub": "E2 \u00b7 Vaginal Tabs",
+      "scope": "Local",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 6,
+          "patients": 5,
+          "rank": null
+        },
+        "2021": {
+          "fills": 14,
+          "patients": 5,
+          "rank": 9
+        },
+        "2022": {
+          "fills": 22,
+          "patients": 12,
+          "rank": 5
+        },
+        "2023": {
+          "fills": 8,
+          "patients": 3,
+          "rank": 9
+        }
+      },
+      "total_fills": 50
+    },
+    {
+      "label": "Imvexxy",
+      "sub": "E2 \u00b7 Vaginal Insert",
+      "scope": "Local",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 12,
+          "patients": 5,
+          "rank": 9
+        },
+        "2021": {
+          "fills": 1,
+          "patients": 1,
+          "rank": null
+        },
+        "2022": {
+          "fills": 10,
+          "patients": 4,
+          "rank": 9
+        },
+        "2023": {
+          "fills": 3,
+          "patients": 2,
+          "rank": null
+        }
+      },
+      "total_fills": 26
+    },
+    {
+      "label": "Premarin Vaginal",
+      "sub": "CEE \u00b7 Cream",
+      "scope": "Local",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 17,
+          "patients": 11,
+          "rank": 7
+        },
+        "2021": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2022": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2023": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        }
+      },
+      "total_fills": 17
+    },
+    {
+      "label": "Generic Progesterone \u00b7 Injectable",
+      "sub": "",
+      "scope": "Systemic",
+      "is_generic": true,
+      "by_year": {
+        "2020": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2021": {
+          "fills": 12,
+          "patients": 4,
+          "rank": 10
+        },
+        "2022": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2023": {
+          "fills": 3,
+          "patients": 1,
+          "rank": null
+        }
+      },
+      "total_fills": 15
+    },
+    {
+      "label": "Climara",
+      "sub": "E2 \u00b7 Patch",
+      "scope": "Systemic",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2021": {
+          "fills": 7,
+          "patients": 2,
+          "rank": null
+        },
+        "2022": {
+          "fills": 6,
+          "patients": 2,
+          "rank": 10
+        },
+        "2023": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        }
+      },
+      "total_fills": 13
+    },
+    {
+      "label": "Vagifem",
+      "sub": "E2 \u00b7 Vaginal Tabs",
+      "scope": "Local",
+      "is_generic": false,
+      "by_year": {
+        "2020": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2021": {
+          "fills": 2,
+          "patients": 1,
+          "rank": null
+        },
+        "2022": {
+          "fills": 4,
+          "patients": 2,
+          "rank": null
+        },
+        "2023": {
+          "fills": 6,
+          "patients": 2,
+          "rank": 10
+        }
+      },
+      "total_fills": 12
+    },
+    {
+      "label": "Generic Progesterone \u00b7 Cream",
+      "sub": "",
+      "scope": "Systemic",
+      "is_generic": true,
+      "by_year": {
+        "2020": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2021": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2022": {
+          "fills": 0,
+          "patients": 0,
+          "rank": null
+        },
+        "2023": {
+          "fills": 11,
+          "patients": 4,
+          "rank": 8
+        }
+      },
+      "total_fills": 11
+    }
+  ],
+  "max_fills": 725
+}

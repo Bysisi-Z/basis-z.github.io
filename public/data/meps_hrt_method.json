@@ -1,0 +1,661 @@
+{
+  "meta": {
+    "source": "MEPS HC-248A + HC-FY, 2020\u20132023",
+    "universe": "Female age 45\u201369 in MEPS full-year sample",
+    "metric": "Unique patients / total eligible women \u00d7 100%",
+    "hrt_filter": "TC1S1_1 = 183 (estrogens) or 185 (progestins); excludes TC 102 (contraceptives) and TC 182 (androgens)",
+    "systemic": "ESTRADIOL (non-TOPICAL), CONJUGATED ESTROGENS, ESTROGENS, PROGESTERONE (non-vaginal-insert, non-cream)",
+    "local": "ESTRADIOL TOPICAL (all forms), CONJUGATED ESTROGENS TOPICAL, PROGESTERONE INST (Endometrin)",
+    "overlap_note": "Rows are not mutually exclusive. One patient may contribute to Systemic HRT, Vaginal/Local, and multiple method rows simultaneously."
+  },
+  "years": [
+    {
+      "year": 2020,
+      "n_elig": 4854,
+      "n_hrt": 210,
+      "pct_hrt": 4.33,
+      "rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 210,
+          "pct": 4.33,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 158,
+          "pct": 3.26,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Oral",
+          "label": "Oral  \u00b7  Estradiol / Premarin / Progesterone",
+          "n_patients": 131,
+          "pct": 2.7,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Patch",
+          "label": "Patch  \u00b7  Dotti / Vivelle-Dot / Climara / Lyllana",
+          "n_patients": 34,
+          "pct": 0.7,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Gel / Spray",
+          "label": "Gel / Spray  \u00b7  EstroGel / Evamist",
+          "n_patients": 0,
+          "pct": 0.0,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Compounded Cream",
+          "label": "Compounded Cream  \u00b7  Estradiol / Progesterone",
+          "n_patients": 0,
+          "pct": 0.0,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Injectable",
+          "label": "Injectable  \u00b7  Depo-Estradiol / Estradiol Valerate",
+          "n_patients": 0,
+          "pct": 0.0,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 64,
+          "pct": 1.32,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Vaginal Cream",
+          "label": "Vaginal Cream  \u00b7  Estrace / Premarin vag.",
+          "n_patients": 43,
+          "pct": 0.89,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Tablet",
+          "label": "Vaginal Tablet  \u00b7  Vagifem / Yuvafem",
+          "n_patients": 15,
+          "pct": 0.31,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Ring",
+          "label": "Vaginal Ring  \u00b7  Estring",
+          "n_patients": 5,
+          "pct": 0.1,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Insert",
+          "label": "Vaginal Insert  \u00b7  Imvexxy / Endometrin",
+          "n_patients": 3,
+          "pct": 0.06,
+          "is_total": false,
+          "level": "method"
+        }
+      ],
+      "mol_rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 210,
+          "pct": 4.33,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 158,
+          "pct": 3.26,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Sys: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  E2 or CEE, no progestogen",
+          "n_patients": 109,
+          "pct": 2.25,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Combo",
+          "label": "Combo  \u00b7  Estrogen + Progestogen",
+          "n_patients": 20,
+          "pct": 0.41,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Progestogen Only",
+          "label": "Progestogen Only  \u00b7  no estrogen",
+          "n_patients": 29,
+          "pct": 0.6,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 64,
+          "pct": 1.32,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Loc: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  vaginal estrogen",
+          "n_patients": 64,
+          "pct": 1.32,
+          "is_total": false,
+          "level": "method"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "n_elig": 5109,
+      "n_hrt": 197,
+      "pct_hrt": 3.86,
+      "rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 197,
+          "pct": 3.86,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 150,
+          "pct": 2.94,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Oral",
+          "label": "Oral  \u00b7  Estradiol / Premarin / Progesterone",
+          "n_patients": 112,
+          "pct": 2.19,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Patch",
+          "label": "Patch  \u00b7  Dotti / Vivelle-Dot / Climara / Lyllana",
+          "n_patients": 39,
+          "pct": 0.76,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Gel / Spray",
+          "label": "Gel / Spray  \u00b7  EstroGel / Evamist",
+          "n_patients": 14,
+          "pct": 0.27,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Compounded Cream",
+          "label": "Compounded Cream  \u00b7  Estradiol / Progesterone",
+          "n_patients": 0,
+          "pct": 0.0,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Injectable",
+          "label": "Injectable  \u00b7  Depo-Estradiol / Estradiol Valerate",
+          "n_patients": 1,
+          "pct": 0.02,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 54,
+          "pct": 1.06,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Vaginal Cream",
+          "label": "Vaginal Cream  \u00b7  Estrace / Premarin vag.",
+          "n_patients": 34,
+          "pct": 0.67,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Tablet",
+          "label": "Vaginal Tablet  \u00b7  Vagifem / Yuvafem",
+          "n_patients": 13,
+          "pct": 0.25,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Ring",
+          "label": "Vaginal Ring  \u00b7  Estring",
+          "n_patients": 5,
+          "pct": 0.1,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Insert",
+          "label": "Vaginal Insert  \u00b7  Imvexxy / Endometrin",
+          "n_patients": 3,
+          "pct": 0.06,
+          "is_total": false,
+          "level": "method"
+        }
+      ],
+      "mol_rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 197,
+          "pct": 3.86,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 150,
+          "pct": 2.94,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Sys: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  E2 or CEE, no progestogen",
+          "n_patients": 100,
+          "pct": 1.96,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Combo",
+          "label": "Combo  \u00b7  Estrogen + Progestogen",
+          "n_patients": 28,
+          "pct": 0.55,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Progestogen Only",
+          "label": "Progestogen Only  \u00b7  no estrogen",
+          "n_patients": 22,
+          "pct": 0.43,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 54,
+          "pct": 1.06,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Loc: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  vaginal estrogen",
+          "n_patients": 54,
+          "pct": 1.06,
+          "is_total": false,
+          "level": "method"
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "n_elig": 4095,
+      "n_hrt": 196,
+      "pct_hrt": 4.79,
+      "rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 196,
+          "pct": 4.79,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 128,
+          "pct": 3.13,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Oral",
+          "label": "Oral  \u00b7  Estradiol / Premarin / Progesterone",
+          "n_patients": 106,
+          "pct": 2.59,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Patch",
+          "label": "Patch  \u00b7  Dotti / Vivelle-Dot / Climara / Lyllana",
+          "n_patients": 31,
+          "pct": 0.76,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Gel / Spray",
+          "label": "Gel / Spray  \u00b7  EstroGel / Evamist",
+          "n_patients": 1,
+          "pct": 0.02,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Compounded Cream",
+          "label": "Compounded Cream  \u00b7  Estradiol / Progesterone",
+          "n_patients": 2,
+          "pct": 0.05,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Injectable",
+          "label": "Injectable  \u00b7  Depo-Estradiol / Estradiol Valerate",
+          "n_patients": 0,
+          "pct": 0.0,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 81,
+          "pct": 1.98,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Vaginal Cream",
+          "label": "Vaginal Cream  \u00b7  Estrace / Premarin vag.",
+          "n_patients": 58,
+          "pct": 1.42,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Tablet",
+          "label": "Vaginal Tablet  \u00b7  Vagifem / Yuvafem",
+          "n_patients": 17,
+          "pct": 0.42,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Ring",
+          "label": "Vaginal Ring  \u00b7  Estring",
+          "n_patients": 5,
+          "pct": 0.12,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Insert",
+          "label": "Vaginal Insert  \u00b7  Imvexxy / Endometrin",
+          "n_patients": 1,
+          "pct": 0.02,
+          "is_total": false,
+          "level": "method"
+        }
+      ],
+      "mol_rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 196,
+          "pct": 4.79,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 128,
+          "pct": 3.13,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Sys: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  E2 or CEE, no progestogen",
+          "n_patients": 69,
+          "pct": 1.68,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Combo",
+          "label": "Combo  \u00b7  Estrogen + Progestogen",
+          "n_patients": 26,
+          "pct": 0.63,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Progestogen Only",
+          "label": "Progestogen Only  \u00b7  no estrogen",
+          "n_patients": 33,
+          "pct": 0.81,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 81,
+          "pct": 1.98,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Loc: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  vaginal estrogen",
+          "n_patients": 81,
+          "pct": 1.98,
+          "is_total": false,
+          "level": "method"
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "n_elig": 3350,
+      "n_hrt": 187,
+      "pct_hrt": 5.58,
+      "rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 187,
+          "pct": 5.58,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 136,
+          "pct": 4.06,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Oral",
+          "label": "Oral  \u00b7  Estradiol / Premarin / Progesterone",
+          "n_patients": 111,
+          "pct": 3.31,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Patch",
+          "label": "Patch  \u00b7  Dotti / Vivelle-Dot / Climara / Lyllana",
+          "n_patients": 34,
+          "pct": 1.01,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Gel / Spray",
+          "label": "Gel / Spray  \u00b7  EstroGel / Evamist",
+          "n_patients": 6,
+          "pct": 0.18,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Compounded Cream",
+          "label": "Compounded Cream  \u00b7  Estradiol / Progesterone",
+          "n_patients": 2,
+          "pct": 0.06,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Injectable",
+          "label": "Injectable  \u00b7  Depo-Estradiol / Estradiol Valerate",
+          "n_patients": 3,
+          "pct": 0.09,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 61,
+          "pct": 1.82,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Vaginal Cream",
+          "label": "Vaginal Cream  \u00b7  Estrace / Premarin vag.",
+          "n_patients": 50,
+          "pct": 1.49,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Tablet",
+          "label": "Vaginal Tablet  \u00b7  Vagifem / Yuvafem",
+          "n_patients": 9,
+          "pct": 0.27,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Ring",
+          "label": "Vaginal Ring  \u00b7  Estring",
+          "n_patients": 3,
+          "pct": 0.09,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal Insert",
+          "label": "Vaginal Insert  \u00b7  Imvexxy / Endometrin",
+          "n_patients": 3,
+          "pct": 0.09,
+          "is_total": false,
+          "level": "method"
+        }
+      ],
+      "mol_rows": [
+        {
+          "key": "HRT Total",
+          "label": "HRT Total",
+          "n_patients": 187,
+          "pct": 5.58,
+          "is_total": true,
+          "level": "total"
+        },
+        {
+          "key": "Systemic HRT",
+          "label": "Systemic HRT",
+          "n_patients": 136,
+          "pct": 4.06,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Sys: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  E2 or CEE, no progestogen",
+          "n_patients": 69,
+          "pct": 2.06,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Combo",
+          "label": "Combo  \u00b7  Estrogen + Progestogen",
+          "n_patients": 28,
+          "pct": 0.84,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Sys: Progestogen Only",
+          "label": "Progestogen Only  \u00b7  no estrogen",
+          "n_patients": 39,
+          "pct": 1.16,
+          "is_total": false,
+          "level": "method"
+        },
+        {
+          "key": "Vaginal / Local",
+          "label": "Vaginal / Local",
+          "n_patients": 61,
+          "pct": 1.82,
+          "is_total": false,
+          "level": "subtotal"
+        },
+        {
+          "key": "Loc: Estrogen Only",
+          "label": "Estrogen Only  \u00b7  vaginal estrogen",
+          "n_patients": 60,
+          "pct": 1.79,
+          "is_total": false,
+          "level": "method"
+        }
+      ]
+    }
+  ]
+}

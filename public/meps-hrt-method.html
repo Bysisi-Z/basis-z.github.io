@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRT Method Usage — Female 45–69 · MEPS 2020–2023</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#c17d9d;
+  --rose-bar:rgba(193,125,157,0.48);
+  --rose-sub:rgba(193,125,157,0.72);
+  --ink:#2b2640;
+  --stone:#8c8278;
+  --rule:#dcd7d2;
+  --bg:#fafaf8;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:14px;line-height:1.6}
+.page{max-width:1480px;margin:0 auto;padding:40px 32px 100px}
+
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--stone);text-decoration:none;margin-bottom:28px;letter-spacing:.02em}
+.back-link:hover{color:var(--rose)}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--rose);font-weight:400;margin-bottom:10px}
+.page-title{font-family:var(--serif);font-size:clamp(28px,3.2vw,44px);font-weight:300;font-style:italic;line-height:1.15;margin-bottom:12px}
+.page-title em{color:var(--rose);font-style:normal}
+.page-deck{font-size:13.5px;font-weight:300;color:var(--stone);max-width:780px;line-height:1.75;margin-bottom:44px}
+
+/* ── Matrix grid ─────────────────────────────────────────────────────── */
+.matrix{
+  display:grid;
+  grid-template-columns:230px repeat(4,1fr);
+}
+
+/* ── Header row ─────────────────────────────────────────────────────── */
+.hdr-spacer{border-bottom:2px solid var(--ink)}
+.year-hdr{padding:0 10px 10px;border-bottom:2px solid var(--ink);text-align:center}
+.year-hdr-num{font-family:var(--serif);font-size:26px;font-weight:300;font-style:italic;color:var(--rose);line-height:1}
+.year-hdr-n{font-size:10.5px;color:var(--stone);margin-top:3px;line-height:1.5}
+.year-hdr-n strong{color:var(--ink);font-weight:400}
+.badge-small{display:inline-block;font-size:9.5px;background:rgba(193,125,157,.1);border:1px solid rgba(193,125,157,.25);color:var(--stone);padding:0 5px;border-radius:10px}
+
+/* ── Axis row ───────────────────────────────────────────────────────── */
+.axis-spacer{border-bottom:1px solid var(--rule)}
+.axis-col{padding:4px 10px 0;border-bottom:1px solid var(--rule)}
+.axis-ticks{position:relative;height:14px}
+.tick{position:absolute;transform:translateX(-50%);font-size:9px;color:var(--stone)}
+.tick::after{content:'';position:absolute;top:0;left:50%;width:1px;height:4px;background:var(--rule)}
+
+/* ── Base cell styles ───────────────────────────────────────────────── */
+.label-cell{
+  display:flex;flex-direction:column;align-items:flex-end;justify-content:center;
+  font-size:11.5px;color:var(--stone);
+  text-align:right;padding-right:12px;line-height:1.35;
+}
+.label-method-name{color:var(--ink);font-size:11.5px;line-height:1.3}
+.label-brands{color:var(--stone);font-size:10px;line-height:1.3;margin-top:1px}
+.bar-cell{
+  padding:0 10px;display:flex;align-items:center;gap:7px;
+}
+.bar-track{flex:1;border-radius:2px;overflow:hidden;background:rgba(220,215,210,.4)}
+.bar-fill{height:100%;border-radius:2px;transition:width .5s ease}
+.bar-val{font-size:10.5px;color:var(--stone);white-space:nowrap;min-width:36px}
+.bar-val.zero{color:#c5c0bb}
+
+/* ── Level: total ───────────────────────────────────────────────────── */
+.label-cell.row-total{
+  font-size:12.5px;color:var(--ink);font-weight:400;
+  padding-top:10px;padding-bottom:10px;
+  border-bottom:1px solid var(--rule);
+}
+.bar-cell.row-total{
+  padding-top:10px;padding-bottom:10px;
+  border-bottom:1px solid var(--rule);
+}
+.bar-cell.row-total .bar-track{height:26px}
+.bar-cell.row-total .bar-fill{background:var(--rose)}
+.bar-cell.row-total .bar-val{font-size:12.5px;color:var(--rose);font-weight:600}
+
+/* ── Level: divider (section label, no bar) ─────────────────────────── */
+.label-cell.row-divider{
+  font-size:10px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--stone);font-weight:600;
+  padding-top:16px;padding-bottom:4px;
+  padding-left:8px;padding-right:8px;
+  justify-content:flex-start;
+  border-left:2px solid var(--rose);
+}
+.bar-cell.row-divider{padding-top:16px;padding-bottom:4px}
+.bar-cell.row-divider .bar-track{height:0;background:transparent}
+.bar-cell.row-divider .bar-val{opacity:0}
+
+/* ── Level: subtotal ────────────────────────────────────────────────── */
+.label-cell.row-subtotal{
+  font-size:12px;color:var(--ink);
+  padding-top:5px;padding-bottom:5px;
+}
+.bar-cell.row-subtotal{padding-top:5px;padding-bottom:5px}
+.bar-cell.row-subtotal .bar-track{height:20px}
+.bar-cell.row-subtotal .bar-fill{background:var(--rose-sub)}
+.bar-cell.row-subtotal .bar-val{font-size:11.5px;color:var(--ink)}
+
+/* ── Level: subtotal2 (nested group header within section) ──────────── */
+.label-cell.row-subtotal2{
+  font-size:11px;color:var(--stone);font-style:italic;
+  padding-top:8px;padding-bottom:2px;
+  padding-left:16px;
+  justify-content:flex-end;
+}
+.bar-cell.row-subtotal2{padding-top:8px;padding-bottom:2px}
+.bar-cell.row-subtotal2 .bar-track{height:16px}
+.bar-cell.row-subtotal2 .bar-fill{background:rgba(193,125,157,0.60)}
+.bar-cell.row-subtotal2 .bar-val{font-size:11px;color:var(--stone)}
+
+/* ── Level: method ──────────────────────────────────────────────────── */
+.label-cell.row-method{
+  padding-top:5px;padding-bottom:5px;
+  padding-left:20px;padding-right:10px;
+  align-items:flex-end;
+}
+.bar-cell.row-method{padding-top:5px;padding-bottom:5px}
+.bar-cell.row-method .bar-track{height:13px}
+.bar-cell.row-method .bar-fill{background:var(--rose-bar)}
+.bar-cell.row-method .bar-val{font-size:10px}
+
+/* ── Progestogen-only caveat rows (gray) ─────────────────────────────── */
+.label-cell.row-method.prog-only{color:#a09898}
+.bar-cell.row-method.prog-only .bar-fill{background:rgba(160,152,152,0.45)}
+.bar-cell.row-method.prog-only .bar-val{color:#a09898}
+.asterisk{color:var(--stone);font-size:10px;margin-left:2px}
+
+/* ── Tooltip ─────────────────────────────────────────────────────────── */
+.tooltip{
+  position:fixed;pointer-events:none;z-index:999;
+  background:rgba(43,38,64,.92);color:#fff;
+  font-size:12px;line-height:1.6;padding:9px 14px;border-radius:5px;
+  max-width:260px;display:none;
+}
+.tooltip strong{color:#f0d0e0;font-weight:600}
+.tooltip small{color:#b8b4cc;font-size:11px}
+
+/* ── Section headings ───────────────────────────────────────────────── */
+.section-heading{
+  font-size:11px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--stone);font-weight:600;
+  border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:16px;
+}
+
+/* ── Methodology note ───────────────────────────────────────────────── */
+.meth-note{background:#f5f3ef;border-left:3px solid var(--rule);padding:14px 20px;font-size:12px;color:var(--stone);line-height:1.8;margin-top:36px;border-radius:0 4px 4px 0}
+.meth-note strong{color:var(--ink);font-weight:400}
+
+/* ── Product frequency section ──────────────────────────────────────── */
+.prod-section{max-width:1100px;margin-top:72px}
+.prod-section .section-heading{margin-bottom:6px}
+.prod-section .sub-deck{font-size:12.5px;color:var(--stone);margin-bottom:22px;line-height:1.65}
+
+.prod-insight{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:14px 18px;margin-bottom:22px}
+.prod-insight-head{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--stone);font-weight:600;margin-bottom:9px}
+.prod-insight-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.prod-insight-list{grid-template-columns:1fr}}
+.prod-insight-item{font-size:12px;color:var(--ink);line-height:1.6;padding-left:11px;border-left:2px solid var(--rose)}
+.prod-insight-item span{color:var(--stone);font-size:11px}
+
+.ptbl-legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;font-size:11.5px;color:var(--stone)}
+.ptbl-arrow{display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;padding:2px 6px;border-radius:10px;white-space:nowrap}
+.ptbl-arrow.up{background:rgba(46,125,79,.13);color:#2e7d4f}
+.ptbl-arrow.dn{background:rgba(192,57,43,.11);color:#c0392b}
+.ptbl-arrow.nc{background:rgba(140,130,120,.1);color:var(--stone);font-weight:400}
+
+.ptbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:28px}
+.ptbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.ptbl colgroup col:first-child{width:220px}
+.ptbl colgroup col:not(:first-child){width:calc((100% - 220px)/4)}
+.ptbl thead th{padding:8px 10px;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--stone);border-bottom:2px solid var(--rule);text-align:left;white-space:nowrap}
+.ptbl thead th.yr-hd{text-align:center}
+.ptbl td.prod-cell{padding:11px 10px 11px 0;vertical-align:top;border-bottom:1px solid var(--rule)}
+.prod-name{font-size:13px;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:4px}
+.prod-sub{font-size:11px;color:var(--stone);margin-bottom:5px}
+.ptags{display:flex;gap:4px;flex-wrap:wrap}
+.ptag{font-size:10px;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.ptag-sys{background:rgba(169,126,194,.1);color:#9060b8;border:1px solid rgba(169,126,194,.25)}
+.ptag-loc{background:rgba(74,160,138,.1);color:#3a8f7a;border:1px solid rgba(74,160,138,.25)}
+.ptag-gen{background:rgba(140,130,120,.08);color:var(--stone)}
+.ptag-brd{background:rgba(196,154,124,.1);color:#b07048}
+.ptbl td.yr-cell{padding:9px 8px;border-bottom:1px solid var(--rule);vertical-align:top;text-align:center}
+.ptbl td.yr-cell.in-top{background:rgba(193,125,157,.04)}
+.ptbl td.yr-cell.no-data .pts-big{color:var(--rule)}
+.ptbl td.yr-cell.no-data .pts-label{opacity:0}
+.pcell-inner{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.rank-row{display:flex;align-items:center;justify-content:center;gap:4px;min-height:18px}
+.rank-num{font-size:11px;font-weight:600;color:var(--stone)}
+.rank-num.top3{color:var(--rose)}
+.pts-big{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--ink);line-height:1}
+.pts-label{font-size:10px;color:var(--stone);margin-top:1px}
+.ptbl-bar-track{width:60px;height:3px;background:var(--rule);border-radius:2px;margin-top:5px;overflow:hidden}
+.ptbl-bar-fill{height:100%;background:var(--rose);border-radius:2px;opacity:.55}
+.ptbl-bar-fill.in-top{opacity:.85}
+
+.prod-note{background:#f5f3ef;border-left:3px solid var(--rule);padding:12px 16px;font-size:12px;color:var(--stone);line-height:1.7;border-radius:0 4px 4px 0}
+.prod-note strong{color:var(--ink);font-weight:400}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-link" href="/meps-reports.html">← MEPS Reports</a>
+
+  <div class="eyebrow">MEPS HC-248A + HC-FY · 2020–2023</div>
+  <h1 class="page-title">HRT Method Usage — <em>Female 45–69</em></h1>
+  <p class="page-deck">
+    Percentage of eligible women aged 45–69 filling ≥1 menopause HRT prescription, by delivery method.
+    Each bar = unique patients ÷ total eligible women in MEPS that year.
+    Systemic and Vaginal/Local are reported separately; rows are not mutually exclusive.
+  </p>
+
+  <div class="section-heading">By Delivery Method</div>
+  <div class="matrix" id="matrix"></div>
+
+  <div class="section-heading" style="margin-top:60px">By Therapy Regimen</div>
+  <div class="matrix" id="molMatrix"></div>
+
+  <div class="meth-note">
+    <strong>HRT identification:</strong> TC1S1_1 = 183 (estrogens) or 185 (progestins); excludes contraceptives (TC 102) and androgens (TC 182).
+    <strong>Systemic</strong> = ESTRADIOL (non-TOPICAL), CONJUGATED ESTROGENS, ESTROGENS, PROGESTERONE (oral / sublingual / troche / injectable / compounded).
+    <strong>Vaginal / Local</strong> = ESTRADIOL TOPICAL (any form) + CONJUGATED ESTROGENS TOPICAL (Premarin vaginal cream) + PROGESTERONE vaginal insert (Endometrin) — low systemic absorption, indicated for genitourinary syndrome of menopause (GSM).<br><br>
+    <strong>* Progestogen-only (gray bars, systemic section):</strong> Micronized progesterone has no standalone FDA-approved menopause indication; it is approved only as the progestin component of combined estrogen + progestogen HRT for endometrial protection. Patients appearing in MEPS with systemic progestogen fills but no estrogen fills may be (1) using compounded bioidentical estrogen not captured in MEPS (no standard NDC), or (2) using progesterone for perimenopause-related indications such as abnormal uterine bleeding. These patients are retained in HRT Total with this caveat.<br><br>
+    <strong>Local / Vaginal section — Estrogen Only only:</strong> Local vaginal estrogens (Estrace cream, Vagifem, Estring, Imvexxy) have minimal systemic absorption and do not meaningfully stimulate the endometrium. Progestogen co-administration is therefore not indicated for local-only therapy, and Combo / Progestogen-only categories are not shown for the local section.<br><br>
+    <strong>Sample size:</strong> 2020: 4,854 eligible · 2021: 5,109 · 2022: 4,095 · 2023: 3,350. Compounded bioidentical HRT (no standard NDC) and pellet therapy are not captured — true prevalence is higher than shown.
+  </div>
+
+  <!-- ── Product frequency section ─────────────────────────────────── -->
+  <div class="prod-section">
+    <div class="section-heading" style="margin-top:60px">Most Frequently Used Products</div>
+    <p class="sub-deck">
+      Unique patients per product type per year — a frequency ranking, not a volume measure.
+      Generics grouped by category; named brands kept individual. Arrows show rank change vs. prior year.
+    </p>
+
+    <div class="prod-insight">
+      <div class="prod-insight-head">Key observations · 2020 → 2023</div>
+      <div class="prod-insight-list">
+        <div class="prod-insight-item">Generic E2 Oral + Generic Progesterone most frequent every year<span><br>together ~55–60% of all HRT patients; standard body-identical regimen</span></div>
+        <div class="prod-insight-item">Premarin disappeared after 2020<span><br>21 patients in 2020 → zero in 2021–2023; post-WHI shift away from conjugated equine estrogens</span></div>
+        <div class="prod-insight-item">Generic E2 Vaginal Cream climbing steadily<span><br>26 pts (2020) → 46 pts (2023), now #3–4; growing preference for low-dose local therapy</span></div>
+        <div class="prod-insight-item">Generic Progesterone overtook E2 Oral in 2023<span><br>65 vs 49 patients — partly reflects women pairing P with transdermal E2 rather than oral</span></div>
+      </div>
+    </div>
+
+    <div class="ptbl-legend">
+      <span class="ptbl-arrow up">▲2</span><span>rank improved (positions gained)</span>
+      <span class="ptbl-arrow dn" style="margin-left:10px">▼1</span><span>rank dropped</span>
+      <span class="ptbl-arrow nc" style="margin-left:10px">—</span><span>no change / new entry</span>
+      <span style="margin-left:10px;opacity:.4">–</span><span>not in top 10 that year</span>
+    </div>
+
+    <div class="ptbl-wrap">
+      <table class="ptbl">
+        <colgroup><col><col><col><col><col></colgroup>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th class="yr-hd">2020</th>
+            <th class="yr-hd">2021</th>
+            <th class="yr-hd">2022</th>
+            <th class="yr-hd">2023</th>
+          </tr>
+        </thead>
+        <tbody id="prodTbody"></tbody>
+      </table>
+    </div>
+
+    <div class="prod-note">
+      <strong>Patient counts overlap across rows.</strong>
+      A patient on combination E+P therapy is counted once in the estrogen row and once in the progesterone row.
+      True combo patients (E and P fills in the same year) number 25–33 per year; the remainder are E-only or P-only within MEPS records.
+      P-only patients (21–35/year) likely include women whose estrogen is compounded and absent from MEPS — not directly verifiable from the data.
+      Compounded HRT and pellet therapy lack standard NDC codes and are not captured.
+    </div>
+  </div>
+
+</div>
+<div class="tooltip" id="tip"></div>
+
+<script>
+const MAX_PCT = 7;
+const TICKS   = [0,1,2,3,4,5,6,7];
+const tip     = document.getElementById("tip");
+
+function showTip(e, html){
+  tip.innerHTML = html; tip.style.display = "block";
+}
+function moveTip(e){
+  let x = e.clientX+14, y = e.clientY-10;
+  if(x+270>window.innerWidth) x = e.clientX-280;
+  tip.style.left=x+"px"; tip.style.top=y+"px";
+}
+function hideTip(){ tip.style.display="none"; }
+
+const PROG_ONLY_KEYS = new Set(["Sys: Progestogen Only"]);
+
+function isProgOnly(key){ return PROG_ONLY_KEYS.has(key); }
+
+function makeBarCell(row, yearObj, levelClass){
+  const cell = document.createElement("div");
+  const extra = isProgOnly(row.key) ? " prog-only" : "";
+  cell.className = `bar-cell ${levelClass}${extra}`;
+
+  if(row.level === "divider"){
+    cell.innerHTML = `<div class="bar-track"><div class="bar-fill" style="width:0"></div></div><div class="bar-val"></div>`;
+    return cell;
+  }
+
+  const w    = Math.min(row.pct / MAX_PCT * 100, 100);
+  const zero = row.pct === 0;
+  cell.innerHTML = `
+    <div class="bar-track">
+      <div class="bar-fill" style="width:${w}%"></div>
+    </div>
+    <div class="bar-val${zero?' zero':''}"><strong>${zero ? '—' : row.pct+'%'}</strong></div>`;
+
+  const tipNote = isProgOnly(row.key)
+    ? `<br><small>* No standalone FDA menopause indication — see note ↓</small>` : "";
+  cell.addEventListener("mouseenter", e => showTip(e,
+    `<strong>${row.key}</strong> · ${yearObj.year}<br>` +
+    `${row.n_patients.toLocaleString()} of ${yearObj.n_elig.toLocaleString()} eligible women<br>` +
+    `${zero ? '—' : row.pct+'%'}${tipNote}`));
+  cell.addEventListener("mousemove", moveTip);
+  cell.addEventListener("mouseleave", hideTip);
+  return cell;
+}
+
+function makeLabelCell(text, levelClass, rowKey){
+  const el = document.createElement("div");
+  const extra = isProgOnly(rowKey) ? " prog-only" : "";
+  el.className = `label-cell ${levelClass}${extra}`;
+  const sep = "  ·  ";
+  const star = isProgOnly(rowKey) ? `<span class="asterisk">*</span>` : "";
+  if(levelClass === "row-method" && text.includes(sep)){
+    const [method, brands] = text.split(sep);
+    el.innerHTML = `<span class="label-method-name">${method}${star}</span><span class="label-brands">${brands}</span>`;
+  } else {
+    el.innerHTML = text + star;
+  }
+  return el;
+}
+
+function buildMatrix(containerEl, years, rowsKey) {
+  /* ── Header row ─────────────────────────────────────────────── */
+  containerEl.appendChild(Object.assign(document.createElement("div"),{className:"hdr-spacer"}));
+  years.forEach(y => {
+    const hdr = document.createElement("div");
+    hdr.className = "year-hdr";
+    const badge = y.n_elig < 4000 ? `<span class="badge-small">n=${y.n_elig.toLocaleString()}</span>` : "";
+    hdr.innerHTML = `<div class="year-hdr-num">${y.year}</div>
+      <div class="year-hdr-n"><strong>${y.n_hrt}</strong> / ${y.n_elig.toLocaleString()} women ${badge}</div>`;
+    containerEl.appendChild(hdr);
+  });
+
+  /* ── Axis row ───────────────────────────────────────────────── */
+  containerEl.appendChild(Object.assign(document.createElement("div"),{className:"axis-spacer"}));
+  years.forEach(() => {
+    const ac = document.createElement("div");
+    ac.className = "axis-col";
+    ac.innerHTML = `<div class="axis-ticks">${
+      TICKS.map(t=>`<div class="tick" style="left:${t/MAX_PCT*100}%">${t}%</div>`).join("")
+    }</div>`;
+    containerEl.appendChild(ac);
+  });
+
+  /* ── Build row definitions, inserting divider rows ─────────── */
+  const rowDefs = [];
+  years[0][rowsKey].forEach(r => {
+    if(r.level === "subtotal"){
+      rowDefs.push({
+        key:   "__div__" + r.key,
+        label: r.key === "Systemic HRT" ? "Systemic" : "Vaginal · Local",
+        level: "divider",
+      });
+    }
+    rowDefs.push(r);
+  });
+
+  /* ── Subtotal label map ──────────────────────────────────────── */
+  const subtotalLabels = {
+    "Systemic HRT":      "All systemic",
+    "Vaginal / Local":   "All local",
+    "Systemic Estrogen": "Any estrogen",
+    "Systemic Progestogen": "Any progestogen",
+    "Local Estrogen":    "Any estrogen",
+    "Local Progestogen": "Any progestogen",
+  };
+
+  /* ── Data rows (cells appended directly to grid) ────────────── */
+  rowDefs.forEach(rowDef => {
+    const lc  = rowDef.level;
+    const cls = `row-${lc}`;
+
+    const labelText =
+      lc === "total"     ? "HRT Total" :
+      lc === "divider"   ? rowDef.label :
+      lc === "subtotal"  ? (subtotalLabels[rowDef.key] || rowDef.key) :
+      lc === "subtotal2" ? (subtotalLabels[rowDef.key] || rowDef.key) :
+      rowDef.label;
+
+    containerEl.appendChild(makeLabelCell(labelText, cls, rowDef.key));
+
+    years.forEach(yearObj => {
+      const row = yearObj[rowsKey].find(r => r.key === rowDef.key) || {
+        pct:0, n_patients:0, key:rowDef.key, label:rowDef.label, level:lc,
+      };
+      containerEl.appendChild(makeBarCell(row, yearObj, cls));
+    });
+  });
+}
+
+fetch("/data/meps_hrt_method.json").then(r=>r.json()).then(d=>{
+  buildMatrix(document.getElementById("matrix"),    d.years, "rows");
+  buildMatrix(document.getElementById("molMatrix"), d.years, "mol_rows");
+});
+
+fetch("/data/meps_hrt_product.json").then(r=>r.json()).then(d=>{
+  let maxPts = 1;
+  d.products.forEach(p => d.years.forEach(y => {
+    const v = p.by_year[y];
+    if(v && v.patients > maxPts) maxPts = v.patients;
+  }));
+
+  const tbody = document.getElementById("prodTbody");
+  tbody.innerHTML = d.products.map(p => {
+    const scopeTag = p.scope === "Systemic"
+      ? `<span class="ptag ptag-sys">Systemic</span>`
+      : `<span class="ptag ptag-loc">Local</span>`;
+    const typeTag = p.is_generic
+      ? `<span class="ptag ptag-gen">Generic</span>`
+      : `<span class="ptag ptag-brd">Brand</span>`;
+
+    const prodCell = `<td class="prod-cell">
+      <div class="prod-name">${p.label}</div>
+      ${p.sub ? `<div class="prod-sub">${p.sub}</div>` : ""}
+      <div class="ptags">${scopeTag}${typeTag}</div>
+    </td>`;
+
+    const yrCells = d.years.map((y, yi) => {
+      const cur  = p.by_year[y]  || {patients:0, rank:null};
+      const prev = yi > 0 ? (p.by_year[d.years[yi-1]] || {rank:null}) : null;
+      const pts   = cur.patients;
+      const inTop = cur.rank !== null;
+      const noData = pts === 0;
+      const pct   = Math.round(pts / maxPts * 100);
+
+      let rankHtml = "";
+      if(inTop){
+        const cls = cur.rank <= 3 ? "rank-num top3" : "rank-num";
+        rankHtml = `<span class="${cls}">#${cur.rank}</span>`;
+      }
+
+      let arrowHtml = "";
+      if(yi > 0 && inTop){
+        if(prev && prev.rank === null){
+          arrowHtml = `<span class="ptbl-arrow nc">new</span>`;
+        } else if(prev && prev.rank !== null){
+          const delta = prev.rank - cur.rank;
+          if(delta > 0)      arrowHtml = `<span class="ptbl-arrow up">▲${delta}</span>`;
+          else if(delta < 0) arrowHtml = `<span class="ptbl-arrow dn">▼${Math.abs(delta)}</span>`;
+          else               arrowHtml = `<span class="ptbl-arrow nc">—</span>`;
+        }
+      }
+
+      const cellCls = noData ? "yr-cell no-data" : inTop ? "yr-cell in-top" : "yr-cell";
+      const barFillCls = inTop ? "ptbl-bar-fill in-top" : "ptbl-bar-fill";
+
+      return `<td class="${cellCls}">
+        <div class="pcell-inner">
+          <div class="rank-row">${rankHtml}${arrowHtml}</div>
+          <div class="pts-big">${noData ? "–" : pts}</div>
+          <div class="pts-label">${noData ? "" : "patients"}</div>
+          <div class="ptbl-bar-track"><div class="${barFillCls}" style="width:${noData?0:pct}%"></div></div>
+        </div>
+      </td>`;
+    }).join("");
+
+    return `<tr>${prodCell}${yrCells}</tr>`;
+  }).join("");
+});
+</script>
+</body>
+</html>

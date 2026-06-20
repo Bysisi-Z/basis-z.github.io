@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-20 (session 67)
+> Last updated: 2026-06-20 (session 69)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -255,6 +255,43 @@ Gateway → two columns: Industry Research + Play with the Data.
 - `/nsfg-method-age.html` — Pill/IUD/implant/ring/Depo by age group × 4 years ✅ session 31–33
 - `/nsfg-reports.html` — NSFG reports index: 11 EA reports + 2 METHX reports ✅ session 33
 - `/meps-reports.html` — MEPS reports index: 1 live + 3 coming soon ✅ session 33
+- `/meps-pcsk9-demo.html` — PCSK9 inhibitors payer mix, channel & cost demo ✅ session 68
+- `/meps-hrt-method.html` — HRT method + therapy regimen usage, female 45–69, 2020–2023 ✅ session 69
+
+**MEPS HRT method + regimen analysis (session 69):**
+
+- Route: `/meps-hrt-method.html` (standalone HTML in `public/`)
+- Data: `public/data/meps_hrt_method.json`; gen script: `_data_sources/meps2023/gen_hrt_method.py`
+- Raw sources: `h220a/h224.dta` (2020) · `h229a/h233.dta` (2021) · `h239a/h243.dta` (2022) · `h248a/h251.dta` (2023)
+- **Universe:** Female age 45–69 in MEPS FY; denominator = all eligible women in FY file each year (not just HRT users)
+- **HRT filter:** TC1S1_1 = 183 (estrogens) or 185 (progestins); excludes TC 102 (contraceptives) + TC 182 (androgens)
+- **Metric:** unique patients / total eligible women × 100% (prevalence, not market share)
+
+**Page layout:** 1480px wide, two matrices side by side (4 years each)
+- **By Delivery Method** (top matrix): HRT Total → Systemic subtotal (Oral / Patch / Gel·Spray / Compounded Cream / Injectable) → Vaginal·Local subtotal (Vaginal Cream / Vaginal Tablet / Vaginal Ring / Vaginal Insert)
+- **By Therapy Regimen** (bottom matrix): HRT Total → Systemic subtotal (Estrogen Only / Combo / Progestogen Only*) → Vaginal·Local subtotal (Estrogen Only only — Combo/P-only not shown; local estrogens don't stimulate endometrium, progestogen co-admin not indicated)
+- Progestogen Only bars: gray color + `*` asterisk — no standalone FDA menopause indication; may represent compounded-estrogen users (estrogen not in MEPS) or perimenopause AUB treatment
+
+**Systemic vs Local classification:**
+- **Systemic:** RXDRGNAM NOT containing "TOPICAL" → oral, patch, gel, injectable (all have meaningful systemic absorption)
+- **Local/Vaginal:** RXDRGNAM contains "TOPICAL" (ESTRADIOL TOPICAL + CONJUGATED ESTROGENS TOPICAL, any form) + PROGESTERONE INST (Endometrin)
+- **Femring note:** Not in MEPS data. If it appeared, would classify as Systemic (0.05–0.1 mg/day systemic delivery, unlike Estring 7.5mcg/day local)
+
+**Methodology decisions locked:**
+- Progestogen-only patients **retained** in HRT Total with caveat note
+- Vaginal/Local Combo + P-only categories **excluded** (clinically inappropriate — minimal endometrial stimulation)
+- Compounded Cream = ESTRADIOL CRE (non-TOPICAL, skin-applied) + PROGESTERONE CRE → classified Systemic but shown separately
+
+**Eligible women denominator by year:** 2020: 4,854 · 2021: 5,109 · 2022: 4,095 · 2023: 3,350
+**HRT prevalence:** 4.3% (2020) → 3.9% (2021) → 4.8% (2022) → 5.6% (2023) [note: small samples, large CIs]
+
+**Key findings:**
+- 67 unique products (RXNAME × RXDRGNAM × RXFORM) across 4 years; top 3 are generic estradiol tabs, generic progesterone caps, estradiol patch PTTW
+- Premarin (oral + vaginal) **only in 2020** — disappeared entirely 2021–2023; confirms post-WHI prescriber shift
+- Generic progesterone caps overtook estradiol oral tabs in 2023 (#1 by patient count for first time)
+- Vaginal cream (generic estradiol) surged: 11.4% of HRT patients (2020) → 25.7% (2023)
+- Systemic E-only declining; Systemic Combo stable ~20-28 pts/yr; Systemic P-only rising (29→39) — P-only rise likely reflects MEPS capture gap for compounded estrogen users
+- EstroGel (transdermal gel) entered 2021, stable ~5–11 patients/yr
 
 **Research internal navigation (session 61):**
 - `/research/index.astro` now has 4 data project cards: NSFG Explorer · NSFG Individual Reports (`/nsfg-reports.html`) · MEPS Explorer · MEPS Expenditure (`/research/meps-expenditure`)
@@ -545,7 +582,9 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 - [x] **NSFG method trends page** — `/nsfg-method-trends.html` ✅ done session 29; METHX1–192 all badged
 - [x] **NSFG age analysis page** — `/nsfg-method-age.html` ✅ done session 31–33; 5 methods (pill/IUD/implant/ring/Depo); citations on pill/IUD/implant findings
 - [x] **NSFG reports index** — `/nsfg-reports.html` ✅ session 33; 13 reports in 2 groups (EA + METHX)
-- [x] **MEPS reports index** — `/meps-reports.html` ✅ session 33; 1 live + 3 coming-soon stubs
+- [x] **MEPS reports index** — `/meps-reports.html` ✅ session 33; 2 live + 3 coming-soon stubs
+- [x] **MEPS PCSK9 demo** — `/meps-pcsk9-demo.html` ✅ session 68; proportional attribution payer split; linked from meps-reports.html
+- [x] **MEPS HRT method + regimen** — `/meps-hrt-method.html` ✅ session 69; female 45–69, 2020–2023, two matrices (method + regimen); linked from meps-reports.html
 - [x] **Explorer report buttons** — filled rose "See all individual reports →" button in both NSFG and MEPS explorer headers
 - [x] **NSFG 2017-2019 age split** — ✅ session 40; age counts generated, toggle enabled for both cycles
 - [x] **Individual reports 2017-2019 view** — ✅ session 40; all 11 pages have cycle picker; payloads in `nsfg1719_report_payloads.json`
