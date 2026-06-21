@@ -11,6 +11,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <div class="under-construction">
         <div class="img-wrap">
           <div class="speech-bubble" id="speechBubble">
+            <img class="bubble-qr" id="bubbleQR" src="/images/wechat-qr.jpg" alt="WeChat QR">
             <p class="b-l1" id="bLine1"></p>
             <p class="b-l2" id="bLine2"></p>
           </div>
@@ -47,11 +48,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     clickCount++;
     idx = Math.min(idx + 1, BUBBLES.length - 1);
 
-    const pair = clickCount === 50
+    const isQR = clickCount >= 100;
+    const pair = isQR
+      ? ["you really want it.", "let's talk."]
+      : clickCount === 50
       ? ["Fine, I hear you.", ""]
       : clickCount === 20
       ? ["You're incredibly persistent.", ""]
       : BUBBLES[idx];
+
+    const qrEl = document.getElementById('bubbleQR') as HTMLImageElement;
+    qrEl.style.display = isQR ? 'block' : 'none';
+    bubble.classList.toggle('has-qr', isQR);
 
     if (hideTimer) clearTimeout(hideTimer);
     bubble.classList.remove('visible');
@@ -59,7 +67,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     l1.textContent = pair[0];
     l2.textContent = pair[1];
     bubble.classList.add('visible');
-    hideTimer = setTimeout(() => bubble.classList.remove('visible'), 4500);
+    if (!isQR) {
+      hideTimer = setTimeout(() => bubble.classList.remove('visible'), 4500);
+    }
     img.classList.remove('nudge');
     void img.offsetWidth;
     img.classList.add('nudge');
@@ -198,6 +208,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     border-bottom: 8px solid transparent;
     border-right: 9px solid #FAFAF8;
     z-index: 1;
+  }
+
+  .bubble-qr {
+    display: none;
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 auto 10px;
+  }
+  .speech-bubble.has-qr {
+    text-align: center;
+    min-width: 200px;
   }
 
   .b-l1,
