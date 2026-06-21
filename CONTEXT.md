@@ -563,11 +563,11 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 
 Professional profile: photo + summary, 5 work entries with vine bullets, education, capabilities, action bar.
 
-### A Collection of Rabbit Holes (`/reading`) 🟡 Intro written
+### A Collection of Rabbit Holes (`/reading`) 🟡 Under construction state (session 73)
 
 - No large h1 title (removed session 23)
 - Intro quote as large body text: "Looking back, my reading habits make very little sense. And I am perfectly comfortable with that." (clamp 24–38px)
-- Content: placeholder "Coming soon."
+- Content: under-construction illustration (`public/images/under-construction.png`, 280px wide) + "Oops, you're early." (serif italic) + note about time budget
 
 ### Wandering (`/writing`) ⚠️ Index only
 
