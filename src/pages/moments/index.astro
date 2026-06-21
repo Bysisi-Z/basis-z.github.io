@@ -43,6 +43,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
             <span class="moment-date">2023.9 · Shanghai → Lucerne</span>
           </div>
         </div>
+
+        <div class="card card-moment">
+          <div class="moment-slides">
+            <img src="/images/moments/chinese-garden-1.jpg" alt="Chinese Garden in Zurich, gift from Kunming" class="ms-4a" loading="lazy">
+            <img src="/images/moments/chinese-garden-2.jpg" alt="Chinese Garden in Zurich, gift from Kunming" class="ms-4b" loading="lazy">
+            <img src="/images/moments/chinese-garden-3.jpg" alt="Chinese Garden in Zurich, gift from Kunming" class="ms-4c" loading="lazy">
+            <img src="/images/moments/chinese-garden-4.jpg" alt="Chinese Garden in Zurich, gift from Kunming" class="ms-4d" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">April 2025. Zurich has a Chinese garden — a gift from Kunming to its sister city. Kunming is my hometown. The moment I stepped through the gate, I was back in Yunnan.</p>
+            <span class="moment-date">2025.4 · Zurich</span>
+          </div>
+        </div>
       </div>
 
       <div class="scatter-col">
@@ -398,6 +411,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .ms-3b { animation: fade-3b 12s ease-in-out infinite; }
   .ms-3c { animation: fade-3c 12s ease-in-out infinite; }
 
+  /* 4-image crossfade — 16s cycle, 4s per image */
+  .ms-4a { animation: fade-4a 16s ease-in-out infinite; }
+  .ms-4b { animation: fade-4b 16s ease-in-out infinite; }
+  .ms-4c { animation: fade-4c 16s ease-in-out infinite; }
+  .ms-4d { animation: fade-4d 16s ease-in-out infinite; }
+
   @keyframes fade-3a {
     0%, 33%  { opacity: 1; }
     42%, 92% { opacity: 0; }
@@ -411,6 +430,27 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   @keyframes fade-3c {
     0%, 58%  { opacity: 0; }
     67%, 92% { opacity: 1; }
+    100%     { opacity: 0; }
+  }
+
+  @keyframes fade-4a {
+    0%, 25%  { opacity: 1; }
+    31%, 94% { opacity: 0; }
+    100%     { opacity: 1; }
+  }
+  @keyframes fade-4b {
+    0%, 19%  { opacity: 0; }
+    25%, 50% { opacity: 1; }
+    56%, 100%{ opacity: 0; }
+  }
+  @keyframes fade-4c {
+    0%, 44%  { opacity: 0; }
+    50%, 75% { opacity: 1; }
+    81%, 100%{ opacity: 0; }
+  }
+  @keyframes fade-4d {
+    0%, 69%  { opacity: 0; }
+    75%, 94% { opacity: 1; }
     100%     { opacity: 0; }
   }
 
