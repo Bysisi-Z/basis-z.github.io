@@ -322,7 +322,8 @@ const modules = [
     <!-- ── 锁屏 (100dvh) ── -->
     <div class="m-lock">
       <div class="m-lock-bg" aria-hidden="true">
-        <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+        <img class="m-bg-night" src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
+        <img class="m-bg-day"   src="/images/homepage-morning.jpg"          alt="" loading="eager">
       </div>
 
       <!-- 状态栏 -->
@@ -409,8 +410,8 @@ const modules = [
       </div>
     </div>
 
-    <!-- ── 解锁内容 (夜间玻璃面板 全宽版) ── -->
-    <div class="m-open">
+    <!-- ── 解锁内容 · 夜间版 ── -->
+    <div class="m-open m-open-night">
       <div class="m-open-bg" aria-hidden="true">
         <img src="/images/homepage-ferris-original.jpeg" alt="" loading="eager">
       </div>
@@ -439,10 +440,52 @@ const modules = [
           <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="n-link">Red Note</a>
           <span class="n-sep">·</span>
           <a href="mailto:sisi.zhang.ch@gmail.com" class="n-link">Email</a>
+          <span class="n-sep">·</span>
+          <button class="n-link card-trigger" id="mNightCardBtn"><svg class="card-icon" viewBox="0 0 14 14" fill="none"><path d="M9 1h4v4M13 1L7.5 6.5M6 3H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Get QR Code & Share</button>
         </div>
         <p class="n-copy">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
       </div>
-    </div><!-- /m-open -->
+    </div><!-- /m-open-night -->
+
+    <!-- ── 解锁内容 · 白天版 ── -->
+    <div class="m-open m-open-day" style="display:none">
+      <div class="m-open-bg" aria-hidden="true">
+        <img src="/images/homepage-morning.jpg" alt="" loading="eager" style="object-position: center 30%">
+      </div>
+      <div class="m-open-overlay m-day-overlay" aria-hidden="true"></div>
+      <div class="d-glass m-glass">
+        <div class="d-logo">Si</div>
+        <div class="d-tagwrap">
+          <h1 class="d-tag">Making <em class="d-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
+          <div class="d-rule"></div>
+        </div>
+        <nav class="d-mods">
+          {modules.map(m => (
+            <a class="d-mod" href={m.href}>
+              <svg class="d-bullet-leaf" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 1 C10 1 12 5 10 9 C9 12 7.5 14 6 15 C4.5 14 3 12 2 9 C0 5 2 1 6 1Z" fill="currentColor"/>
+                <line x1="6" y1="4" x2="6" y2="15" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
+              </svg>
+              <span class="d-num">{m.num}</span>
+              <span class="d-body">
+                <span class="d-title">{m.title}</span>
+                <span class="d-desc">{m.desc}</span>
+              </span>
+            </a>
+          ))}
+        </nav>
+        <div class="d-contact">
+          <a href="https://www.linkedin.com/in/sisi-z-9a4a6075/" target="_blank" rel="noopener" class="d-link">LinkedIn</a>
+          <span class="d-sep">·</span>
+          <a href="https://www.xiaohongshu.com/user/profile/111799574" target="_blank" rel="noopener" class="d-link">Red Note</a>
+          <span class="d-sep">·</span>
+          <a href="mailto:sisi.zhang.ch@gmail.com" class="d-link">Email</a>
+          <span class="d-sep">·</span>
+          <button class="d-link card-trigger" id="mDayCardBtn"><svg class="card-icon" viewBox="0 0 14 14" fill="none"><path d="M9 1h4v4M13 1L7.5 6.5M6 3H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Get QR Code & Share</button>
+        </div>
+        <p class="d-copy">© {year} · All photographs on this site are the exclusive property of the author. Unauthorized reproduction, redistribution, or commercial use is strictly prohibited.</p>
+      </div>
+    </div><!-- /m-open-day -->
 
   </div><!-- /homeMobile -->
 
@@ -465,11 +508,22 @@ const modules = [
        ══════════════════════════════════════════════════════════ -->
   <script is:inline>
     // ── Day/night detection (runs after DOM is ready) ──
-    var _preview = new URLSearchParams(location.search).get('preview');
-    var _hour    = _preview === 'night' ? 20 : _preview === 'day' ? 10 : new Date().getHours();
-    var _isDay   = _hour >= 6 && _hour < 18;
+    var _preview  = new URLSearchParams(location.search).get('preview');
+    var _realHour = new Date().getHours();
+    var _hour     = _preview === 'night' ? 20 : _preview === 'day' ? 10 : _realHour;
+    var _isDay    = _hour >= 6 && _hour < 18;
     if (window.innerWidth > 600) {
       document.getElementById(_isDay ? 'homeDay' : 'homeNight').style.display = 'flex';
+    } else {
+      // Mobile: apply day class and show correct m-open section
+      var _mob = document.getElementById('homeMobile');
+      if (_mob) {
+        if (_isDay) _mob.classList.add('day');
+        var _openNight = _mob.querySelector('.m-open-night');
+        var _openDay   = _mob.querySelector('.m-open-day');
+        if (_openNight) _openNight.style.display = _isDay ? 'none' : 'block';
+        if (_openDay)   _openDay.style.display   = _isDay ? 'block' : 'none';
+      }
     }
 
     const _pfx = _isDay ? 'd' : 'n';
@@ -492,8 +546,8 @@ const modules = [
       'Buenas noches', 'こんばんは', '좋은 저녁', 'Goedenavond', 'Boa noite',
       'God kväll', 'Добрый вечер', 'Καλησπέρα', 'İyi akşamlar', 'مساء الخير', 'शुभ संध्या',
     ];
-    const _greets = _hour >= 6 && _hour < 12 ? _morningGreets
-                  : _hour >= 12 && _hour < 18 ? _afternoonGreets
+    const _greets = _realHour >= 6 && _realHour < 12 ? _morningGreets
+                  : _realHour >= 12 && _realHour < 18 ? _afternoonGreets
                   : _nightGreets;
     const _greetEl = gel('Greeting');
     let _gi = 0;
@@ -553,6 +607,14 @@ const modules = [
       var dismissBtn = document.getElementById('mNoticeDismiss');
       if (!lock) return;
 
+      // /#open hash means user tapped Si from an inner page — skip straight to menu
+      if (location.hash === '#open') {
+        lock.classList.add('dismissed');
+        if (notice) notice.classList.add('gone');
+        history.replaceState(null, '', '/');
+        return;
+      }
+
       function dismissLock() {
         lock.classList.add('dismissed');
         if (notice) setTimeout(function() { notice.classList.add('visible'); }, 420);
@@ -602,26 +664,71 @@ const modules = [
       thunderstorm:["Storm clouds are passing through {City}.",
                     "Hope you’re somewhere warm and dry."],
     };
+    var _WM_DAY = {
+      sunny:        ["Looks like a beautiful day in {City}.",
+                     "Sunshine seems to have found {City} today.",
+                     "Hope you're enjoying the lovely weather.",
+                     "Wishing you a bright day ahead."],
+      warm:         ["It's quite warm in {City} today.",
+                     "Hope you're staying cool today.",
+                     "A cold drink might make today even better.",
+                     "Looks like summer is in full swing."],
+      mild:         ["The weather looks lovely today.",
+                     "It seems like a perfect day to be outside.",
+                     "Hope you're enjoying the fresh air.",
+                     "Today looks especially pleasant."],
+      cool:         ["It's a little cool in {City} today.",
+                     "Hope you're keeping warm.",
+                     "A warm cup of coffee sounds nice today.",
+                     "Cool days have their own charm."],
+      rain:         ["Looks like it's raining in {City} today.",
+                     "Hope you're staying dry.",
+                     "Rain always makes the world feel a little quieter.",
+                     "Wishing you a cozy day despite the rain."],
+      thunderstorm: ["Storm clouds are passing through {City}.",
+                     "Hope you're somewhere safe and dry.",
+                     "Take care if you're heading outside."],
+      fog:          ["{City} seems wrapped in mist today.",
+                     "A misty day always feels a little magical.",
+                     "Hope the day unfolds gently."],
+      snow:         ["Looks like snow has arrived in {City}.",
+                     "Stay warm and enjoy the peaceful scenery.",
+                     "Snow has a way of slowing everything down."],
+      wind:         ["It's a breezy day in {City}.",
+                     "Hope the wind brings a little freshness to your day.",
+                     "Hold onto your hat if you're heading out."],
+    };
     var _SNOW  = new Set([71,73,75,77,85,86]);
     var _RAIN  = new Set([51,53,55,61,63,65,80,81,82]);
     var _FOG   = new Set([45,48]);
     var _STORM = new Set([95,96,99]);
-    function _pickNightMsg(temp, code, wind, city) {
-      var cond = _STORM.has(code) ? 'thunderstorm'
-               : _SNOW.has(code)  ? 'snow'
-               : _RAIN.has(code)  ? 'rain'
-               : _FOG.has(code)   ? 'fog'
-               : wind > 30        ? 'wind'
-               : temp < 10        ? 'cold'
-               : temp < 18        ? 'cool'
-               : temp < 26        ? 'clear'
-               :                    'warm';
-      var pool = _WM_NIGHT[cond];
-      if (!city) pool = pool.filter(function(s){ return s.indexOf('{City}') < 0; });
-      if (!pool.length) pool = _WM_NIGHT[cond];
-      var s = pool[Math.floor(Math.random() * pool.length)];
+    var _CLEAR = new Set([0, 1]);
+    function _pickWeatherMsg(temp, code, wind, city, pool, isDay) {
+      var cond;
+      if      (_STORM.has(code)) cond = 'thunderstorm';
+      else if (_SNOW.has(code))  cond = 'snow';
+      else if (_RAIN.has(code))  cond = 'rain';
+      else if (_FOG.has(code))   cond = 'fog';
+      else if (wind > 30)        cond = 'wind';
+      else if (isDay) {
+        if      (temp >= 26)        cond = 'warm';
+        else if (_CLEAR.has(code))  cond = 'sunny';
+        else if (temp >= 20)        cond = 'mild';
+        else                        cond = 'cool';
+      } else {
+        if      (temp < 10) cond = 'cold';
+        else if (temp < 18) cond = 'cool';
+        else if (temp < 26) cond = 'clear';
+        else                cond = 'warm';
+      }
+      var msgs = pool[cond];
+      if (!city) msgs = msgs.filter(function(s){ return s.indexOf('{City}') < 0; });
+      if (!msgs.length) msgs = pool[cond];
+      var s = msgs[Math.floor(Math.random() * msgs.length)];
       return city ? s.replace(/\{City\}/g, city) : s;
     }
+    function _pickNightMsg(temp, code, wind, city) { return _pickWeatherMsg(temp, code, wind, city, _WM_NIGHT, false); }
+    function _pickDayMsg(temp, code, wind, city)   { return _pickWeatherMsg(temp, code, wind, city, _WM_DAY,   true);  }
 
     // ── Weather ──
     var WMO = {
@@ -656,9 +763,17 @@ const modules = [
           // Mobile lock screen message
           var _mb = document.getElementById('mMsgBody');
           if (_mb) {
-            var lines = ['Hi, good evening!'];
-            if (hasLocation) lines.push(_pickNightMsg(temp, code, wind, city || null));
-            lines.push('Thanks for stopping by. Make yourself comfortable!');
+            var _greet = _isDay
+              ? (_realHour < 12 ? 'Good morning!' : 'Good afternoon!')
+              : (_realHour < 12 ? 'Good morning!' : _realHour < 18 ? 'Good afternoon!' : 'Good evening!');
+            var _close = _isDay
+              ? 'Hope you enjoy this little corner of the internet!'
+              : 'Thanks for stopping by. Make yourself comfortable!';
+            var lines = [_greet];
+            lines.push(_isDay
+              ? _pickDayMsg(temp, code, wind, hasLocation ? (city || null) : null)
+              : _pickNightMsg(temp, code, wind, hasLocation ? (city || null) : null));
+            lines.push(_close);
             _mb.textContent = lines.join(' ');
           }
         }).catch(function(){});
@@ -746,10 +861,14 @@ const modules = [
       _modal.addEventListener('click', function(e){ if (e.target === _modal) _closeModal(); });
       document.addEventListener('keydown', function(e){ if (e.key === 'Escape') _closeModal(); });
 
-      var _nb = document.getElementById('nCardBtn');
-      var _db = document.getElementById('dCardBtn');
-      if (_nb) _nb.addEventListener('click', _openModal);
-      if (_db) _db.addEventListener('click', _openModal);
+      var _nb  = document.getElementById('nCardBtn');
+      var _db  = document.getElementById('dCardBtn');
+      var _mnb = document.getElementById('mNightCardBtn');
+      var _mdb = document.getElementById('mDayCardBtn');
+      if (_nb)  _nb.addEventListener('click', _openModal);
+      if (_db)  _db.addEventListener('click', _openModal);
+      if (_mnb) _mnb.addEventListener('click', _openModal);
+      if (_mdb) _mdb.addEventListener('click', _openModal);
 
       _dlBtn.addEventListener('click', function() {
         var a = document.createElement('a');
@@ -2233,12 +2352,35 @@ const modules = [
       cursor: pointer; transition: background 0.15s;
     }
     .m-notice-btn:active { background: rgba(196, 168, 224, 0.14); }
+
+    /* Day notice: sage green palette */
+    #homeMobile.day .m-notice {
+      background: rgba(8, 22, 14, 0.90);
+    }
+    #homeMobile.day .m-notice-card {
+      background: rgba(12, 35, 22, 0.75);
+      border-color: rgba(168, 212, 184, 0.18);
+    }
+    #homeMobile.day .m-notice-glyph  { color: #A8D4B8; }
+    #homeMobile.day .m-notice-title  { color: #eaf5ee; }
+    #homeMobile.day .m-notice-body   { color: rgba(180, 215, 190, 0.72); }
+    #homeMobile.day .m-notice-btn    {
+      border-color: rgba(168, 212, 184, 0.45);
+      color: #A8D4B8;
+    }
+    #homeMobile.day .m-notice-btn:active { background: rgba(168, 212, 184, 0.14); }
     .m-lock-bg { position: absolute; inset: 0; z-index: 0; }
     .m-lock-bg img {
+      position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover; object-position: center 65%;
       display: block;
     }
+    /* Day/night lock screen image swap */
+    .m-bg-night { display: block; }
+    .m-bg-day   { display: none; }
+    #homeMobile.day .m-bg-night { display: none; }
+    #homeMobile.day .m-bg-day   { display: block; object-position: center 30% !important; }
 
     /* Status bar */
     .m-bar {
@@ -2284,6 +2426,19 @@ const modules = [
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    /* Day: status bar, date, weather row — #6E7B81 matching web day strip */
+    #homeMobile.day .m-bar         { color: #6E7B81; }
+    #homeMobile.day .m-date        { color: #6E7B81; }
+    #homeMobile.day .m-weather-row { color: #6E7B81; }
+    #homeMobile.day .m-wloc        { color: rgba(110, 123, 129, 0.65); }
+
+    /* Day clock: same gradient as web .d-clock, boosted opacity for photo bg */
+    #homeMobile.day .m-time {
+      background: linear-gradient(175deg, rgba(165,174,184,0.95) 0%, rgba(110,123,129,0.88) 50%, rgba(48,64,60,0.82) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .m-weather-row {
       display: flex; align-items: center; justify-content: center; gap: 6px;
       margin-top: 10px;
@@ -2316,6 +2471,11 @@ const modules = [
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       text-align: left;
+    }
+    /* Day message card: sage green tint */
+    #homeMobile.day .m-msg-card {
+      background: rgba(168, 212, 184, 0.18);
+      border-color: rgba(168, 212, 184, 0.34);
     }
     .m-msg-header {
       display: flex; align-items: center; justify-content: space-between;
@@ -2395,6 +2555,19 @@ const modules = [
     .m-glass .n-desc   { font-size: 12px !important; }
     .m-glass .n-mod    { padding: 11px 0 !important; }
     .m-glass .n-mods::before { display: none !important; }
+
+    /* Day glass overrides (d-glass reused on mobile) */
+    .m-glass.d-glass .d-logo  { font-size: clamp(56px, 16vw, 80px) !important; margin-bottom: 20px !important; }
+    .m-glass.d-glass .d-tag   { font-size: clamp(28px, 8vw, 40px) !important; }
+    .m-glass.d-glass .d-title { font-size: clamp(17px, 4.8vw, 24px) !important; }
+    .m-glass.d-glass .d-desc  { font-size: 12px !important; }
+    .m-glass.d-glass .d-mod   { padding: 11px 0 !important; }
+    .m-glass.d-glass .d-mods::before { display: none !important; }
+
+    /* Day m-open overlay: dark green instead of dark purple */
+    .m-day-overlay {
+      background: rgba(8, 28, 15, 0.48);
+    }
   }
 
   /* ── Card trigger button ── */
