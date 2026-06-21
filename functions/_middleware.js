@@ -188,7 +188,7 @@ function renderForm(error) {
     </form>
     <div style="width:100%;display:flex;flex-direction:column;gap:0.9rem;">
       <div class="divider">or</div>
-      <a class="email-btn" href="mailto:giselle.z1989@gmail.com">Email me</a>
+      <a class="email-btn" href="mailto:sisi.zhang.ch@gmail.com">Email me</a>
     </div>
   </div>
 </body>
