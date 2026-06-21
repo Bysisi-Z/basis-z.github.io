@@ -46,6 +46,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           </div>
         </div>
 
+        <div class="card card-moment">
+          <div class="moment-slides slides-full">
+            <video autoplay muted loop playsinline disablepictureinpicture>
+              <source src="/images/moments/lucerne-dusk.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">An extraordinary evening. The sky turned a captivating shade of crimson and violet, and Chapel Bridge — all of Lucerne — was bathed in that intoxicating light.</p>
+            <span class="moment-date">2023.2.3 · Lucerne</span>
+          </div>
+        </div>
+
       </div>
 
       <div class="scatter-col">
@@ -283,7 +295,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .slides-full {
     overflow: hidden;
   }
-  .slides-full img {
+  .slides-full img,
+  .slides-full video {
     grid-area: unset;
     width: 100%;
     height: auto;
