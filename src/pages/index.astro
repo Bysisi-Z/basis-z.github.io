@@ -870,11 +870,29 @@ const modules = [
       if (_mnb) _mnb.addEventListener('click', _openModal);
       if (_mdb) _mdb.addEventListener('click', _openModal);
 
+      // On mobile use Web Share API so image can go straight to photo library
+      var _isMobile = window.innerWidth <= 600;
+      if (_isMobile) { _dlBtn.textContent = 'Save to Photos'; }
+
       _dlBtn.addEventListener('click', function() {
-        var a = document.createElement('a');
-        a.download = 'si-lens-card.png';
-        a.href = _canvas.toDataURL('image/png');
-        a.click();
+        function _fallback() {
+          var a = document.createElement('a');
+          a.download = 'si-lens-card.png';
+          a.href = _canvas.toDataURL('image/png');
+          a.click();
+        }
+        if (_isMobile && navigator.canShare) {
+          _canvas.toBlob(function(blob) {
+            var file = new File([blob], 'si-lens-card.png', { type: 'image/png' });
+            if (navigator.canShare({ files: [file] })) {
+              navigator.share({ files: [file] }).catch(function() { _fallback(); });
+            } else {
+              _fallback();
+            }
+          }, 'image/png');
+        } else {
+          _fallback();
+        }
       });
 
       function _rr(ctx, x, y, w, h, r) {
