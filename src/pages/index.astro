@@ -2603,6 +2603,24 @@ const modules = [
     .m-day-overlay {
       background: rgba(8, 28, 15, 0.48);
     }
+
+    /* Night open: lighter text/buttons for readability on dark background */
+    .m-open-night .n-link {
+      color: rgba(230, 215, 248, 0.90);
+    }
+    .m-open-night .n-contact a.n-link,
+    .m-open-night .n-contact button.card-trigger {
+      border-color: rgba(230, 215, 248, 0.45);
+      background: rgba(230, 215, 248, 0.10);
+    }
+    .m-open-night .n-contact a.n-link:hover,
+    .m-open-night .n-contact button.card-trigger:hover {
+      border-color: rgba(230, 215, 248, 0.70);
+      color: #fff;
+    }
+    .m-open-night .n-sep {
+      color: rgba(230, 215, 248, 0.40);
+    }
   }
 
   /* ── Card trigger button ── */
