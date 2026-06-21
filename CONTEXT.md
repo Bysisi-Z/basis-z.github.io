@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-21 (session 71, updated)
+> Last updated: 2026-06-21 (session 72)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -252,15 +252,26 @@ Independent profile page. Journey CTA "Know me as a World Explorer" links here (
 
 Dual timeline. Left = Life & Adventures (rose). Right = Career & Education (stone).
 
-**CTAs at bottom:**
-- "Know me as a World Explorer" → `/explorer`
-- "Know me as a Professional" → `/cv`
+**Password protected (session 72):** Cloudflare Pages Function middleware (`functions/_middleware.js`) intercepts all `/career` requests. Requires a time-limited passcode validated against Cloudflare KV (`JOURNEY_AUTH`). Sessions are linked to passwords — deleting a password instantly revokes all sessions created with it. Emergency lockdown: `node scripts/lockdown.js`.
+
+**Passcode management:**
+- Add passcode: `node scripts/add-password.js <code> <days>` (env vars in `~/.zshrc`: `CLOUDFLARE_API_TOKEN`, `CF_ACCOUNT_ID`, `KV_NAMESPACE_ID=253d0a90d7084d3e8794f636b02f7719`)
+- Emergency kill all access: `node scripts/lockdown.js`
+
+**Password gate page:** Shows explanation text + passcode input + "Email me" button (`sisi.zhang.ch@gmail.com`). Error on wrong passcode redirects to `?error=1` (POST→redirect prevents form resubmit on refresh).
+
+**CTAs (session 72):** Moved from bottom to timeline column headers.
+- Left column (Life & Adventures): "World Explorer" → `/explorer`
+- Right column (Career & Education): "Professional" → `/cv`
+Both buttons same width (160px), left aligns right toward center, right aligns left toward center.
+
+**WeChat section (session 72):** Button in page header, bottom-right, absolutely positioned. Click to expand floating panel with QR code (`public/images/wechat-qr.jpg`) + note "A brief introduction when adding would be appreciated." (rose, bold, 14px). WeChat icon is brand green `#07C160`.
 
 Easter eggs: stork (Born), bamboo (Chengdu), Shanghai skyline, Swiss Alps + flag (Lucerne), confetti (University), vine flowers (company expansions), cat photos (First/Second cat).
 
 ### Decoding (`/research`) ✅ Live
 
-Gateway → two columns: Industry Research + Play with the Data.
+Gateway → **Play with the Data only** (session 72: Industry Research column removed — two OGN pharma articles deleted).
 
 **Play with the Data projects (session 61: `/research/index.astro` now shows 4 cards):**
 - `/research/data` — NSFG Explorer with **cycle switcher** ✅ session 39–40
@@ -606,7 +617,7 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 - [ ] **Explorer modules** — fill music, books, food, outdoor stats content
 - [x] **Nature Never Judges grid** — Oeschinensee ✅ s36; Lucerne city guide ✅ s37; 3 CSS gradient placeholders remain
 - [x] **Lucerne city guide** — `/photography/lucerne` ✅ s37; trails map red star marker ✅; bilingual EN/中文 ✅; deployed ✅
-- [ ] **Research detail pages** — `/research/[slug].astro`, HTML content at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html`
+- [ ] **Research detail pages** — OGN articles removed from site (session 72); HTML drafts at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html` remain locally if needed later
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
 - [ ] **Journey detail pages** — timeline cards link to `#`
 - [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: INSCOV23 (insurance coverage), DLAYCA42 (delayed care), TOTSLF23 (OOP spending); stubs in `/meps-reports.html`
@@ -628,11 +639,30 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 
 ---
 
-## 7. Development Workflow
+## 7. Infrastructure Notes (session 72)
+
+**GitHub Actions:** `.github/workflows/deploy.yml` added — deploys via Astro (not Jekyll). Required because GitHub Pages default was using Jekyll and failing on `.astro` files. Cloudflare Pages deploys independently via its own build pipeline.
+
+**Contact email:** Updated to `sisi.zhang.ch@gmail.com` everywhere (previously `giselle.z1989@gmail.com`).
+
+**CV print layout (`/cv`):** `@page { size: A4; margin: 14mm 16mm; }` — 2-page layout. Page break forced before Sanofi (3rd exp-item). Photo hidden in print; replaced by `.print-name-row` (name + email). Capabilities 3-column grid. `viewport-fit=cover` added to BaseLayout viewport meta.
+
+**Mobile homepage (session 72):**
+- Night/day background image swap fix: `.m-lock-bg img` display rule was overridden by `.m-lock-bg img { display: block }` (higher specificity). Fixed by scoping to `.m-lock-bg .m-bg-night` / `.m-lock-bg .m-bg-day`.
+- Lock screen gap fix: `viewport-fit=cover` added to allow `position:fixed; inset:0` to cover safe areas. `.m-lock-bg { inset: -10px }` to bleed image 10px past container on all sides.
+- Mobile night open: link colors lightened to `rgba(230,215,248,0.90)` for readability on dark background.
+
+---
+
+## 8. Development Workflow
 
 ```bash
 cd ~/Desktop/basis-z.github.io
 npm run dev          # http://localhost:4321
 npm run build        # verify before push
 git add -A && git commit -m "..." && git push origin main
+
+# Journey passcode management (env vars in ~/.zshrc)
+node scripts/add-password.js <code> <days>
+node scripts/lockdown.js   # emergency: wipe all passwords + sessions
 ```
