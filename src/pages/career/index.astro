@@ -299,6 +299,24 @@ const rows = [
     </div>
   </section>
 
+  <!-- WeChat -->
+  <section class="wechat-section wrap">
+    <button class="wechat-trigger" id="wechat-btn" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.328.328 0 0 0 .186-.059l2.114-1.225a.64.64 0 0 1 .45-.087c.808.196 1.68.307 2.574.307.135 0 .27-.006.403-.012A5.56 5.56 0 0 1 8.5 15.5c0-3.59 3.36-6.5 7.5-6.5.243 0 .484.012.722.035C15.906 5.985 12.67 2.188 8.69 2.188zm-2.7 4.138c.599 0 1.084.486 1.084 1.085s-.485 1.085-1.084 1.085S4.907 7.91 4.907 7.31s.485-1.085 1.084-1.085zm5.4 0c.599 0 1.084.486 1.084 1.085s-.485 1.085-1.084 1.085-1.084-.486-1.084-1.085.485-1.085 1.084-1.085zM16 10.5c-3.314 0-6 2.462-6 5.5s2.686 5.5 6 5.5c.67 0 1.314-.1 1.916-.284a.48.48 0 0 1 .34.063l1.559.904a.248.248 0 0 0 .139.044.22.22 0 0 0 .218-.222c0-.054-.022-.106-.036-.159l-.289-1.094a.44.44 0 0 1 .158-.497C21.37 19.148 22.5 17.44 22.5 16c0-3.038-2.686-5.5-6.5-5.5zm-2.205 3.484c.45 0 .814.365.814.814s-.365.814-.814.814-.814-.365-.814-.814.365-.814.814-.814zm4.41 0c.45 0 .814.365.814.814s-.365.814-.814.814-.814-.365-.814-.814.365-.814.814-.814z"/>
+      </svg>
+      <span>Add me on WeChat</span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+
+    <div class="wechat-panel" id="wechat-panel" aria-hidden="true">
+      <img src="/images/wechat-qr.jpg" alt="WeChat QR code" class="wechat-qr" />
+      <p class="wechat-note">A brief introduction when adding would be appreciated.</p>
+    </div>
+  </section>
+
 </BaseLayout>
 
 <canvas id="confetti-canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;"></canvas>
@@ -818,6 +836,65 @@ const rows = [
     .timeline::before { left: 6px; }
     .tl-card::before { left: -22px; }
   }
+
+  /* ── WeChat section ── */
+  .wechat-section {
+    padding: 48px 0 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .wechat-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--stone);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .wechat-trigger:hover { border-color: var(--rose); color: var(--rose); }
+  .wechat-trigger .chevron { transition: transform 0.3s; }
+  .wechat-trigger[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+  .wechat-trigger[aria-expanded="true"] { border-color: var(--rose); color: var(--rose); }
+
+  .wechat-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+    padding-top: 0;
+  }
+  .wechat-panel.open {
+    max-height: 500px;
+    opacity: 1;
+    padding-top: 32px;
+  }
+  .wechat-qr {
+    width: min(220px, 60vw);
+    height: auto;
+    display: block;
+  }
+  .wechat-note {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--stone);
+    letter-spacing: 0.06em;
+    text-align: center;
+    font-style: italic;
+  }
 </style>
 
 <script>
@@ -1085,5 +1162,14 @@ const rows = [
     card.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
     });
+  });
+
+  const wechatBtn = document.getElementById('wechat-btn');
+  const wechatPanel = document.getElementById('wechat-panel');
+  wechatBtn?.addEventListener('click', () => {
+    const isOpen = wechatPanel?.classList.contains('open');
+    wechatPanel?.classList.toggle('open', !isOpen);
+    wechatBtn.setAttribute('aria-expanded', String(!isOpen));
+    wechatPanel?.setAttribute('aria-hidden', String(isOpen));
   });
 </script>
