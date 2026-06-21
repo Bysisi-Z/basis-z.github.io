@@ -763,9 +763,9 @@ const modules = [
           // Mobile lock screen message
           var _mb = document.getElementById('mMsgBody');
           if (_mb) {
-            var _greet = _isDay
-              ? (_realHour < 12 ? 'Good morning!' : 'Good afternoon!')
-              : (_realHour < 12 ? 'Good morning!' : _realHour < 18 ? 'Good afternoon!' : 'Good evening!');
+            var _greet = _realHour >= 6 && _realHour < 12 ? 'Good morning!'
+                       : _realHour >= 12 && _realHour < 18 ? 'Good afternoon!'
+                       : 'Good evening!';
             var _close = _isDay
               ? 'Hope you enjoy this little corner of the internet!'
               : 'Thanks for stopping by. Make yourself comfortable!';
