@@ -132,6 +132,45 @@ function renderForm(error) {
       letter-spacing: 0.04em;
       text-align: center;
     }
+    .note {
+      font-size: 0.78rem;
+      color: #847B7B;
+      line-height: 1.7;
+      text-align: center;
+    }
+    .divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #E2DEDB;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E2DEDB;
+    }
+    .email-btn {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #E2DEDB;
+      background: transparent;
+      color: #847B7B;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .email-btn:hover { border-color: #c17d9d; color: #c17d9d; }
   </style>
 </head>
 <body>
@@ -140,11 +179,16 @@ function renderForm(error) {
       <h1>Journey</h1>
       <p class="sub">Private access</p>
     </div>
-    <form method="POST">
-      <input type="password" name="password" placeholder="Password" autofocus autocomplete="off">
+    <p class="note">This section contains personal information and is accessible only to visitors who have received a passcode from the author.</p>
+    <form method="POST" style="width:100%;display:flex;flex-direction:column;gap:0.9rem;">
+      <input type="password" name="password" placeholder="Enter passcode" autofocus autocomplete="off">
       ${error ? `<p class="error">${error}</p>` : ''}
       <button type="submit">Enter</button>
     </form>
+    <div style="width:100%;display:flex;flex-direction:column;gap:0.9rem;">
+      <div class="divider">or</div>
+      <a class="email-btn" href="mailto:giselle.z1989@gmail.com">Email me</a>
+    </div>
   </div>
 </body>
 </html>`;
