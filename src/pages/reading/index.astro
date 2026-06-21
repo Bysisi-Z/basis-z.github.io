@@ -44,20 +44,25 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   const l1 = document.getElementById('bLine1') as HTMLParagraphElement;
   const l2 = document.getElementById('bLine2') as HTMLParagraphElement;
 
+  const qrEl = document.getElementById('bubbleQR') as HTMLImageElement;
+
   img.addEventListener('click', () => {
     clickCount++;
+    if (clickCount > 100) return;
+
     idx = Math.min(idx + 1, BUBBLES.length - 1);
 
     const isQR = clickCount >= 100;
     const pair = isQR
       ? ["you really want it.", "let's talk."]
-      : clickCount === 50
+      : clickCount >= 70
+      ? ["You're crazy.", ""]
+      : clickCount >= 50
       ? ["Fine, I hear you.", ""]
-      : clickCount === 20
+      : clickCount >= 20
       ? ["You're incredibly persistent.", ""]
       : BUBBLES[idx];
 
-    const qrEl = document.getElementById('bubbleQR') as HTMLImageElement;
     qrEl.style.display = isQR ? 'block' : 'none';
     bubble.classList.toggle('has-qr', isQR);
 
