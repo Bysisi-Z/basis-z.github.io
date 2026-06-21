@@ -57,6 +57,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </div>
 
         <div class="card card-moment">
+          <div class="moment-slides slides-landscape">
+            <img src="/images/moments/glass-deck-1.jpg" alt="Glass observation deck in Yunnan, China" class="ms-3a" loading="lazy">
+            <img src="/images/moments/glass-deck-2.jpg" alt="Glass observation deck in Yunnan, China" class="ms-3b" loading="lazy">
+            <img src="/images/moments/glass-deck-3.jpg" alt="Glass observation deck in Yunnan, China" class="ms-3c" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">December 2025. A glass observation deck in my hometown — nothing between you and the drop but the floor beneath your feet. I was afraid of heights for exactly five minutes. Then I walked to the edge like it was nothing.</p>
+            <span class="moment-date">2025.12 · Hometown</span>
+          </div>
+        </div>
+
+        <div class="card card-moment">
           <div class="moment-slides slides-full">
             <video autoplay muted loop playsinline disablepictureinpicture>
               <source src="/images/moments/lucerne-dusk.mp4" type="video/mp4">
@@ -369,6 +381,27 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   @keyframes fade-b {
     0%, 40%  { opacity: 0; }
     50%, 90% { opacity: 1; }
+    100%     { opacity: 0; }
+  }
+
+  /* 3-image crossfade — 12s cycle, 4s per image */
+  .ms-3a { animation: fade-3a 12s ease-in-out infinite; }
+  .ms-3b { animation: fade-3b 12s ease-in-out infinite; }
+  .ms-3c { animation: fade-3c 12s ease-in-out infinite; }
+
+  @keyframes fade-3a {
+    0%, 33%  { opacity: 1; }
+    42%, 92% { opacity: 0; }
+    100%     { opacity: 1; }
+  }
+  @keyframes fade-3b {
+    0%, 25%  { opacity: 0; }
+    33%, 67% { opacity: 1; }
+    75%, 100%{ opacity: 0; }
+  }
+  @keyframes fade-3c {
+    0%, 58%  { opacity: 0; }
+    67%, 92% { opacity: 1; }
     100%     { opacity: 0; }
   }
 
