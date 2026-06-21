@@ -2316,12 +2316,20 @@ const modules = [
     #homeMobile { display: block; }
     .n-layout, .d-layout { display: none !important; }
 
+    /* Prevent white edge gaps: body bg matches lock screen dark tone */
+    body { background: #050210; }
+
     /* ── Lock screen: fixed overlay, slides up on dismiss ── */
     .m-lock {
       position: fixed;
-      inset: 0;
+      /* Extend past safe areas so no body bg bleeds at screen edges */
+      top: calc(-1 * env(safe-area-inset-top, 0px));
+      left: 0;
+      right: 0;
+      bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
       z-index: 100;
       overflow: hidden;
+      background: #050210;
       transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .m-lock.dismissed {
@@ -2404,7 +2412,7 @@ const modules = [
     /* Status bar */
     .m-bar {
       position: absolute; z-index: 2;
-      top: 16px; left: 20px; right: 20px;
+      top: calc(16px + env(safe-area-inset-top, 0px)); left: 20px; right: 20px;
       display: flex; justify-content: space-between; align-items: center;
       color: rgba(255,255,255,0.92);
     }
@@ -2427,7 +2435,7 @@ const modules = [
     .m-timebox {
       position: absolute; z-index: 2;
       left: 0; right: 0;
-      top: 60px;
+      top: calc(60px + env(safe-area-inset-top, 0px));
       text-align: center; padding: 0 16px;
     }
     .m-date {
@@ -2520,7 +2528,7 @@ const modules = [
     /* Swipe hint */
     .m-swipe {
       position: absolute; z-index: 2;
-      bottom: 38px; left: 50%; transform: translateX(-50%);
+      bottom: calc(38px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 7px;
       color: rgba(255,255,255,0.88);
       white-space: nowrap;
