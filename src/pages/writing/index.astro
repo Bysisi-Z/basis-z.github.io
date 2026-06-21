@@ -153,6 +153,17 @@ const posts = [
     margin-top: 14px; font-size: 11px; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--accent);
   }
+
+  @media (max-width: 600px) {
+    .coffee-wrap { gap: 16px; }
+    .coffee-svg  { width: 44px; }
+    .blog-item {
+      grid-template-columns: 60px 1fr;
+      gap: 20px;
+      padding: 32px 0;
+    }
+    .blog-day { font-size: 28px; }
+  }
 </style>
 
 <script>

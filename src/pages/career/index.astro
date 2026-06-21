@@ -820,13 +820,39 @@ const rows = [
     .tl-left  .tl-chevron { align-self: flex-start; }
     .tl-left  .tl-desc p  { text-align: left; }
     .tl-title { font-size: clamp(17px, 4.8vw, 22px); }
-    .col-labels { display: none; }
     .page-title { font-size: clamp(40px, 12vw, 64px); }
-  }
 
-  @media (max-width: 700px) {
-    .col-label-group { gap: 10px; }
-    .tl-cta { padding: 10px 14px; }
+    /* WeChat: come out of absolute, sit in normal flow below subtitle */
+    .wechat-anchor {
+      position: relative;
+      display: inline-block;
+      bottom: auto; right: auto;
+      margin-top: 20px;
+    }
+    /* Panel opens left-aligned so it doesn't overflow on narrow screens */
+    .wechat-panel {
+      right: auto;
+      left: 0;
+    }
+
+    /* CTA boxes: show as a 2-column row instead of hidden */
+    .col-labels {
+      display: flex;
+      gap: 12px;
+      padding: 24px 0 8px;
+    }
+    .col-labels > div:nth-child(2) { display: none; } /* hide centre spacer */
+    .col-label { display: none; }
+    .col-label-group {
+      flex: 1;
+      align-items: stretch;
+      gap: 0;
+    }
+    .col-label-group--right { align-items: stretch; }
+    .tl-cta {
+      width: 100%;
+      padding: 10px 12px;
+    }
   }
 
   @media (max-width: 390px) {
