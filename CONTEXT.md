@@ -173,9 +173,9 @@ src/
 - Download button saves `si-lens-card.png` at full 700×1050 resolution
 - **Contact strip pills (session 60):** `white-space: nowrap` on all pills; `flex-wrap: nowrap`; font-size/padding/gap use `clamp(…, cqw, …)` — scales with glass container width, always single row on all viewports including iPad
 
-### Mobile Homepage (`#homeMobile`, ≤600px only) ✅ (session 57)
+### Mobile Homepage (`#homeMobile`, ≤600px only) ✅ (session 57–70)
 
-Independent mobile-first homepage, never shown on desktop. Two sections stacked in DOM.
+Independent mobile-first homepage, never shown on desktop. DOM order: `.m-lock` → `.m-notice` → `.m-open`.
 
 **Lock screen (`.m-lock`):**
 - `position: fixed; inset: 0; z-index: 100` — covers content below
@@ -184,17 +184,28 @@ Independent mobile-first homepage, never shown on desktop. Two sections stacked 
 - Date: `id="mDate"`, font `-apple-system`, 17px 600
 - Clock: `id="mTime"`, Barlow Condensed 700, `font-size: 36vw`, gradient `rgba(230,235,252,0.95) → rgba(215,200,238,0.88)` top→bottom, `-webkit-background-clip: text`; positioned at `top: 60px`
 - Swipe hint: `↑` chevron + "Swipe up to open", bounce animation
-- **Dismiss:** touch swipe up ≥40px OR scroll wheel → adds `.dismissed` class → `transform: translateY(-100%)` (0.65s ease). One-way: cannot return to lock screen
+- **Dismiss:** touch swipe up ≥40px OR scroll wheel → adds `.dismissed` class → `transform: translateY(-100%)` (0.65s ease). On dismiss, shows `.m-notice` after 420ms delay. One-way.
 - Clock JS: `_mClock()` runs alongside desktop clock, updates `mTime` + `mDate` every second
-- **Weather + location (session 58):** below the clock — `.m-weather-row` (icon + temp + description inline) + `.m-wloc` (city, uppercase, ◎ prefix). Populated by the same `fetchWeather` call as desktop; falls back gracefully if geolocation denied.
-- **Message card (session 58):** `.m-msg-card` — light purple frosted glass (`rgba(196,168,224,0.18)` + blur 14px), white chat-bubble SVG icon (20px), sender "Sisi", time "now". Body: `id="mMsgBody"`. Default text: *"Hi! How's the day? It's really wonderful to see you. I hope you enjoy everything here, and let's stay in touch!"* — if geolocation is granted, a dynamic weather sentence is inserted after "How's the day?" based on temp + WMO precipitation code → 6 pools (cold/nice/hot × dry/wet), each sentence references `{city}` naturally. Pool defined as `_WM` in shared JS; `_pickWMsg(temp, code, city)` selects randomly.
-- **Swipe hint (session 58):** enlarged to 28×16 arrow, font 13px/500, opacity 0.88.
+- **Weather + location (session 58):** `.m-weather-row` (icon + temp + description) + `.m-wloc` (city). Populated by `fetchWeather`; city shown only if geolocation granted.
+- **Message card (session 58, updated session 70):** `.m-msg-card` — light purple frosted glass, sender "Sisi". Body: `id="mMsgBody"`. All text inline (no line breaks). Structure:
+  - **Always:** "Hi, good evening!"
+  - **If geolocation granted:** one random weather sentence (see `_WM_NIGHT` pools below)
+  - **Always:** "Thanks for stopping by. Make yourself comfortable!"
+  - If geolocation denied: only opening + closing, no weather sentence, no city
+- **`_WM_NIGHT` pools (session 70):** 9 conditions — `clear` / `warm` / `cool` / `cold` / `rain` / `snow` / `fog` / `wind` / `thunderstorm`. Priority: thunderstorm > snow > rain > fog > wind (>30 km/h) > temp-based. No-city fallback: filters pool to sentences without `{City}`.
+- **`fetchWeather` now fetches `windspeed_10m`** for Wind condition detection (session 70).
+
+**Screen-size notice (`.m-notice`, session 70):**
+- `position: fixed; inset: 0; z-index: 95` — appears after lock dismissed, before `.m-open` content
+- Dark frosted overlay (`rgba(10,5,24,0.90)` + `blur(12px)`); centered card with purple border
+- Text: "Built for a larger screen" + body explaining mobile limitations
+- Button: "Continue anyway" (`id="mNoticeDismiss"`) → fades notice out, reveals `.m-glass` content
 
 **Content section (`.m-open`):**
-- Sits below lock screen in DOM; visible once lock dismissed
+- Sits below lock screen in DOM; visible once lock dismissed (behind notice)
 - Background: `homepage-ferris-original.jpeg` blurred (`filter: blur(22px)`) + `rgba(15,8,38,0.48)` purple overlay
-- Content: `.n-glass.m-glass` — reuses all night glass CSS (Si logo, tagline, 6 modules, contact, copyright) with mobile overrides via `.m-glass !important` rules
-- Key overrides: `background: transparent`, `backdrop-filter: none`, full-width, `padding: 48px 28px 52px`
+- Content: `.n-glass.m-glass` — reuses all night glass CSS (Si logo, tagline, 6 modules, contact, copyright)
+- **Currently night-only design.** Daytime mobile redesign pending (session 71+).
 
 ### World Explorer (`/explorer`) ✅ Live
 
