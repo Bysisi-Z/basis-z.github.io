@@ -23,7 +23,7 @@ export async function onRequest(context) {
           return new Response(null, {
             status: 302,
             headers: {
-              'Location': url.href,
+              'Location': url.pathname,
               'Set-Cookie': `jauth=${token}; Path=/career; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
             },
           });
