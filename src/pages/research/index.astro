@@ -1,26 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const industry = [
-  {
-    num: '01',
-    title: "Sun Pharma's Acquisition of OGN",
-    sub: "Financial Comparison & Deal Analysis",
-    tags: ['M&A', 'Pharma'],
-    meta: '12 min · Interactive Charts',
-    href: '/research/sun-pharma-ogn-acquisition',
-    coming: false,
-  },
-  {
-    num: '02',
-    title: "OGN Annual Financial Analysis Report",
-    sub: "Revenue, debt structure, profitability & stock performance",
-    tags: ['Pharma', 'Financial Analysis'],
-    meta: '8 min',
-    href: '/research/ogn-annual-analysis',
-    coming: false,
-  },
-];
+const industry: never[] = [];
 
 const dataProjects = [
   {
@@ -72,37 +53,6 @@ const dataProjects = [
 
     <div class="decoding-grid">
 
-      <!-- Left: Industry Research -->
-      <div class="d-col">
-        <div class="col-label">
-          <svg class="col-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M11 5C11 5 7.5 3.5 4 4V16C7.5 15.5 11 17 11 17" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M11 5C11 5 14.5 3.5 18 4V16C14.5 15.5 11 17 11 17" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <line x1="11" y1="5" x2="11" y2="17" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <span class="col-label-text">Industry Research</span>
-        </div>
-        <div class="col-items">
-          {industry.map(item => (
-            <a class={`d-item${item.coming ? ' d-item--coming' : ''}`} href={item.href}>
-              <div class="item-body">
-                <h3 class="item-title">{item.title}</h3>
-                <p class="item-sub">{item.sub}</p>
-                <div class="item-foot">
-                  <div class="item-tags">
-                    {item.tags.map(t => <span class="i-tag">{t}</span>)}
-                  </div>
-                  <span class="item-meta">{item.meta}</span>
-                </div>
-              </div>
-              <span class="item-arrow">→</span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <!-- Divider -->
-      <div class="col-divider" aria-hidden="true"></div>
 
       <!-- Right: Play with the Data -->
       <div class="d-col">
