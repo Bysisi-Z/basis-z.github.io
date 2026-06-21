@@ -19,7 +19,7 @@ export async function onRequest(context) {
         if (Date.now() < expires) {
           const token = crypto.randomUUID();
           const ttl = Math.floor((expires - Date.now()) / 1000);
-          await KV.put(`session:${token}`, '1', { expirationTtl: ttl });
+          await KV.put(`session:${token}`, password, { expirationTtl: ttl });
           return new Response(null, {
             status: 302,
             headers: {
@@ -39,8 +39,11 @@ export async function onRequest(context) {
 
   const cookie = request.headers.get('Cookie') || '';
   const token = getCookie(cookie, 'jauth');
-  if (token && await KV.get(`session:${token}`)) {
-    return next();
+  if (token) {
+    const sessionPw = await KV.get(`session:${token}`);
+    if (sessionPw && await KV.get(`pw:${sessionPw}`)) {
+      return next();
+    }
   }
 
   const error = url.searchParams.get('error') ? 'Invalid or expired passcode' : null;
