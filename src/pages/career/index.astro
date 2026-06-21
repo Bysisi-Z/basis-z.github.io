@@ -66,8 +66,10 @@ const rows = [
 
   <div class="wrap">
     <header class="page-header">
-      <h1 class="page-title">Journey</h1>
-      <p class="page-sub">A life lived between cities, peaks, and spreadsheets.</p>
+      <div class="header-main">
+        <h1 class="page-title">Journey</h1>
+        <p class="page-sub">A life lived between cities, peaks, and spreadsheets.</p>
+      </div>
       <div class="wechat-anchor">
         <button class="wechat-trigger" id="wechat-btn" aria-expanded="false">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#07C160" aria-hidden="true">
@@ -334,7 +336,12 @@ const rows = [
     padding-top: 64px;
     padding-bottom: 44px;
     border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
   }
+  .header-main { flex: 1; }
   .eyebrow {
     font-size: 10px; font-weight: 300;
     letter-spacing: 0.2em; text-transform: uppercase;
@@ -822,18 +829,11 @@ const rows = [
     .tl-title { font-size: clamp(17px, 4.8vw, 22px); }
     .page-title { font-size: clamp(40px, 12vw, 64px); }
 
-    /* WeChat: come out of absolute, sit in normal flow below subtitle */
-    .wechat-anchor {
-      position: relative;
-      display: inline-block;
-      bottom: auto; right: auto;
-      margin-top: 20px;
-    }
+    /* Header stacks vertically on mobile */
+    .page-header { flex-direction: column; gap: 16px; }
+    .wechat-anchor { padding-top: 0; }
     /* Panel opens left-aligned so it doesn't overflow on narrow screens */
-    .wechat-panel {
-      right: auto;
-      left: 0;
-    }
+    .wechat-panel { right: auto; left: 0; }
 
     /* CTA boxes: show as a 2-column row instead of hidden */
     .col-labels {
@@ -863,11 +863,10 @@ const rows = [
   }
 
   /* ── WeChat ── */
-  .page-header { position: relative; }
   .wechat-anchor {
-    position: absolute;
-    bottom: 44px;
-    right: 0;
+    flex-shrink: 0;
+    padding-top: 8px;
+    position: relative;
   }
   .wechat-trigger {
     display: flex;
