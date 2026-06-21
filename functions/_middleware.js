@@ -31,9 +31,9 @@ export async function onRequest(context) {
       }
     }
 
-    return new Response(renderForm('Invalid or expired passcode'), {
-      status: 401,
-      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    return new Response(null, {
+      status: 302,
+      headers: { 'Location': `${url.pathname}?error=1` },
     });
   }
 
@@ -43,7 +43,8 @@ export async function onRequest(context) {
     return next();
   }
 
-  return new Response(renderForm(null), {
+  const error = url.searchParams.get('error') ? 'Invalid or expired passcode' : null;
+  return new Response(renderForm(error), {
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
   });
 }
