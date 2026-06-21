@@ -2395,10 +2395,10 @@ const modules = [
       display: block;
     }
     /* Day/night lock screen image swap */
-    .m-bg-night { display: block; }
-    .m-bg-day   { display: none; }
-    #homeMobile.day .m-bg-night { display: none; }
-    #homeMobile.day .m-bg-day   { display: block; object-position: center 30% !important; }
+    .m-lock-bg .m-bg-night { display: block; }
+    .m-lock-bg .m-bg-day   { display: none; }
+    #homeMobile.day .m-lock-bg .m-bg-night { display: none; }
+    #homeMobile.day .m-lock-bg .m-bg-day   { display: block; object-position: center 30% !important; }
 
     /* Status bar */
     .m-bar {
