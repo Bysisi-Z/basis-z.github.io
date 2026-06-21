@@ -2556,6 +2556,21 @@ const modules = [
     .m-glass .n-mod    { padding: 11px 0 !important; }
     .m-glass .n-mods::before { display: none !important; }
 
+    /* QR button: own line on mobile */
+    #homeMobile .n-contact,
+    #homeMobile .d-contact {
+      flex-wrap: wrap;
+      row-gap: 8px;
+    }
+    #homeMobile .n-contact .card-trigger,
+    #homeMobile .d-contact .card-trigger {
+      flex: 0 0 100%;
+    }
+    #homeMobile .n-contact .n-sep:has(+ .card-trigger),
+    #homeMobile .d-contact .d-sep:has(+ .card-trigger) {
+      display: none;
+    }
+
     /* Day glass overrides (d-glass reused on mobile) */
     .m-glass.d-glass .d-logo  { font-size: clamp(56px, 16vw, 80px) !important; margin-bottom: 20px !important; }
     .m-glass.d-glass .d-tag   { font-size: clamp(28px, 8vw, 40px) !important; }
