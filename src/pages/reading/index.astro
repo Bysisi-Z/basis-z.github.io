@@ -9,7 +9,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <div class="reading-body">
       <div class="under-construction">
-        <img src="/images/under-construction.png" alt="Under construction illustration" class="construction-img">
+        <div class="img-wrap">
+          <div class="speech-bubble" id="speechBubble">
+            <p class="b-l1" id="bLine1"></p>
+            <p class="b-l2" id="bLine2"></p>
+          </div>
+          <img src="/images/under-construction.png" alt="Under construction illustration" class="construction-img" id="constructionImg">
+        </div>
         <p class="construction-oops">Oops, you're early.</p>
         <p class="construction-note">Due to time budget constraints, this section is still under construction. Check back soon.</p>
       </div>
@@ -17,6 +23,41 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
   </div>
 </BaseLayout>
+
+<script>
+  const BUBBLES = [
+    ['Oops.', 'You caught us in the middle of construction.'],
+    ['One page at a time.', 'Good things take a while.'],
+    ["I'd rather publish something worth reading", "than publish it quickly."],
+    ['Seriously?', 'Still clicking?'],
+    ['啊啊啊啊啊啊！', '已经在加班了！别催了亲！'],
+    ['🙃', ''],
+  ];
+
+  let idx = -1;
+  let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const img = document.getElementById('constructionImg') as HTMLImageElement;
+  const bubble = document.getElementById('speechBubble') as HTMLDivElement;
+  const l1 = document.getElementById('bLine1') as HTMLParagraphElement;
+  const l2 = document.getElementById('bLine2') as HTMLParagraphElement;
+
+  img.addEventListener('click', () => {
+    idx = Math.min(idx + 1, BUBBLES.length - 1);
+    if (hideTimer) clearTimeout(hideTimer);
+    bubble.classList.remove('visible');
+    void bubble.offsetWidth;
+    l1.textContent = BUBBLES[idx][0];
+    l2.textContent = BUBBLES[idx][1];
+    bubble.classList.add('visible');
+    hideTimer = setTimeout(() => bubble.classList.remove('visible'), 4500);
+    img.classList.remove('nudge');
+    void img.offsetWidth;
+    img.classList.add('nudge');
+  });
+
+  img.addEventListener('animationend', () => img.classList.remove('nudge'));
+</script>
 
 <style>
 .content-wrap {
@@ -74,10 +115,97 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     gap: 20px;
     padding-top: 20px;
   }
+
+  .img-wrap {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+  }
+
   .construction-img {
     width: 280px;
     height: auto;
     opacity: 0.9;
+    cursor: pointer;
+    user-select: none;
+    display: block;
+  }
+
+  @keyframes img-nudge {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25%       { transform: rotate(-2.5deg) scale(1.02); }
+    70%       { transform: rotate(2deg) scale(0.99); }
+  }
+  .construction-img.nudge {
+    animation: img-nudge 0.3s ease;
+  }
+
+  .speech-bubble {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 18px);
+    transform: translateY(-50%) translateX(-8px);
+    background: #FAFAF8;
+    border: 1.5px solid var(--rose-light, #e8c4d4);
+    border-radius: 12px;
+    padding: 12px 18px;
+    min-width: 180px;
+    max-width: 240px;
+    text-align: left;
+    filter: drop-shadow(0 3px 10px rgba(193, 125, 157, 0.15));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    z-index: 10;
+    white-space: normal;
+  }
+  .speech-bubble.visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  /* tail: border layer */
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-right: 10px solid var(--rose-light, #e8c4d4);
+  }
+  /* tail: fill layer on top */
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(100% - 1px);
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 9px solid #FAFAF8;
+    z-index: 1;
+  }
+
+  .b-l1,
+  .b-l2 {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .b-l1:not(:last-child) {
+    margin-bottom: 4px;
+  }
+  .b-l2:empty {
+    display: none;
   }
   .construction-oops {
     font-family: var(--serif);
