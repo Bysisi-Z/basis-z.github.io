@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-21 (session 73)
+> Last updated: 2026-06-21 (session 74)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -563,11 +563,32 @@ Hiking guide overview page, linked from "a foreign country" hover tooltip in `/e
 
 Professional profile: photo + summary, 5 work entries with vine bullets, education, capabilities, action bar.
 
-### A Collection of Rabbit Holes (`/reading`) 🟡 Under construction state (session 73)
+### A Collection of Rabbit Holes (`/reading`) 🟡 Under construction state (session 74)
 
 - No large h1 title (removed session 23)
 - Intro quote as large body text: "Looking back, my reading habits make very little sense. And I am perfectly comfortable with that." (clamp 24–38px)
-- Content: under-construction illustration (`public/images/under-construction.png`, 280px wide) + "Oops, you're early." (serif italic) + note about time budget
+- Content: under-construction illustration (`public/images/under-construction.png`, 280px wide on desktop / 220px mobile) + "Oops, you're early." (serif italic) + note about time budget
+
+**Speech bubble easter eggs (session 74):** clicking the construction illustration shows speech bubbles. All text 20px serif italic, uniform (no title/body distinction). Bubble positioned right of image (desktop) / centered over image (mobile). Bordered tail pointing left (desktop) / no tail (mobile).
+
+| Click | Content |
+|---|---|
+| 1 | "Oops. / You caught us in the middle of construction." |
+| 2 | "One page at a time. / Good things take a while." |
+| 3 | "I'd rather publish something worth reading / than publish it quickly." |
+| 4 | "Seriously? / Still clicking?" |
+| 5 | "啊啊啊啊啊啊！/ 已经在加班了！别催了亲！" |
+| 6 | 🙃 (emoji only, no second line) |
+| 7–19 | 🙃 locked |
+| 20–49 | "You're incredibly persistent." locked |
+| 50–69 | "Fine, I hear you." locked |
+| 70–99 | "okay... this is getting a little concerning." locked |
+| 100 | WeChat QR code (`/images/wechat-qr.jpg`, 160px) + "you really want it. / let's talk." — permanent, clicks 101+ do nothing |
+
+- Bubbles 1–6 auto-dismiss after 4.5s; milestones 20/50/70 also auto-dismiss; QR bubble stays permanently
+- Image has `.nudge` wobble animation on each click (keyframe: rotate ±2.5deg, 0.3s)
+- Mobile: bubble floats centered over image (`top:50%; left:50%; transform:translate(-50%,-50%)`); no tail; background `rgba(250,250,248,0.96)`
+- Desktop: bubble right of image (`left: calc(100%+18px); top:50%`); two-layer CSS triangle tail pointing left (border: `var(--rose-light)`, fill: `#FAFAF8`)
 
 ### Wandering (`/writing`) ⚠️ Index only
 
