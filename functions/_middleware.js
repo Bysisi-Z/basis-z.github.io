@@ -31,7 +31,7 @@ export async function onRequest(context) {
       }
     }
 
-    return new Response(renderForm('密码无效或已过期'), {
+    return new Response(renderForm('Invalid or expired passcode'), {
       status: 401,
       headers: { 'Content-Type': 'text/html; charset=utf-8' },
     });
