@@ -384,7 +384,7 @@ const modules = [
             </div>
             <span class="m-msg-time">now</span>
           </div>
-          <div class="m-msg-body" id="mMsgBody">Hi! How's the day? It's really wonderful to see you. I hope you enjoy everything here, and let's stay in touch!</div>
+          <div class="m-msg-body" id="mMsgBody">Hi, good evening! Thanks for stopping by. Make yourself comfortable!</div>
         </div>
       </div>
 
@@ -396,6 +396,18 @@ const modules = [
         <span class="m-swipe-txt">Swipe up to open</span>
       </div>
     </div><!-- /m-lock -->
+
+    <!-- ── Mobile notice: shown once after lock dismissed ── -->
+    <div class="m-notice" id="mNotice">
+      <div class="m-notice-card">
+        <div class="m-notice-glyph">◆</div>
+        <h2 class="m-notice-title">Built for a larger screen</h2>
+        <p class="m-notice-body">
+          This site was designed for laptop or tablet. On mobile, some pages and interactive features may feel limited or incomplete.
+        </p>
+        <button class="m-notice-btn" id="mNoticeDismiss">Continue anyway</button>
+      </div>
+    </div>
 
     <!-- ── 解锁内容 (夜间玻璃面板 全宽版) ── -->
     <div class="m-open">
@@ -536,97 +548,79 @@ const modules = [
 
     // ── Mobile lock screen: swipe up to dismiss (one-way, no return) ──
     (function() {
-      var lock = document.querySelector('.m-lock');
+      var lock    = document.querySelector('.m-lock');
+      var notice  = document.getElementById('mNotice');
+      var dismissBtn = document.getElementById('mNoticeDismiss');
       if (!lock) return;
+
+      function dismissLock() {
+        lock.classList.add('dismissed');
+        if (notice) setTimeout(function() { notice.classList.add('visible'); }, 420);
+      }
+
       var _sy = 0;
       lock.addEventListener('touchstart', function(e) { _sy = e.touches[0].clientY; }, { passive: true });
       lock.addEventListener('touchend', function(e) {
-        if (_sy - e.changedTouches[0].clientY > 40) lock.classList.add('dismissed');
+        if (_sy - e.changedTouches[0].clientY > 40) dismissLock();
       }, { passive: true });
-      lock.addEventListener('wheel', function(e) { if (e.deltaY > 20) lock.classList.add('dismissed'); }, { passive: true });
+      lock.addEventListener('wheel', function(e) { if (e.deltaY > 20) dismissLock(); }, { passive: true });
       var hint = lock.querySelector('.m-swipe');
-      if (hint) hint.addEventListener('click', function() { lock.classList.add('dismissed'); });
+      if (hint) hint.addEventListener('click', dismissLock);
+
+      if (dismissBtn && notice) {
+        dismissBtn.addEventListener('click', function() {
+          notice.classList.remove('visible');
+          notice.classList.add('gone');
+        });
+      }
     })();
 
     // ── Dynamic weather messages ──
-    var _PRECIP = new Set([51,53,55,61,63,65,71,73,75,77,80,81,82,85,86,95,96,99]);
-    var _WM = {
-      cold_dry: [
-        '{city} is feeling a little chilly today. Stay warm.',
-        'Looks like a cool one in {city} today. A warm cup of tea might be just the thing.',
-        'Hope you\'re keeping cozy in {city} today.',
-        'A crisp day in {city}. Don\'t forget an extra layer.',
-        'Cooler weather has settled over {city} today. Take good care of yourself.',
-        'Perfect weather in {city} to slow down for a moment.',
-        'A day like this in {city} feels made for hot chocolate.',
-        'Wishing you a warm and comfortable day in {city}.',
-      ],
-      cold_wet: [
-        'Rain and cold have found {city} today. Don\'t forget your umbrella.',
-        'A chilly, rainy day in {city}. Stay warm and dry.',
-        'The weather in {city} is feeling a little moody. An umbrella might come in handy.',
-        'Cold outside, rain overhead in {city}. Hope you\'re staying cozy.',
-        'Perfect weather in {city} for a warm drink and a good umbrella.',
-        'Even rainy days in {city} have their charm. Stay dry out there.',
-        'Hope the weather in {city} is kinder than it looks. Take your umbrella.',
-        'One of those days in {city} to enjoy the sound of the rain from somewhere warm.',
-      ],
-      nice_dry: [
-        '{city} is looking lovely today.',
-        'Looks like a beautiful day in {city}. Enjoy it if you can.',
-        'The weather in {city} couldn\'t be much nicer today.',
-        'Perfect weather in {city} for a little walk.',
-        'Hope you get a chance to enjoy the fresh air in {city} today.',
-        'Days like this in {city} don\'t ask for much—just a little time outside.',
-        'The weather in {city} is just about perfect today.',
-        'Wishing you a peaceful day in {city}, wherever you\'re headed.',
-        'Something about the weather in {city} today quietly makes everything a little better.',
-        'Enjoy every bit of today\'s sunshine in {city}.',
-      ],
-      nice_wet: [
-        'A little rain has arrived in {city}. Don\'t forget your umbrella.',
-        'Rainy in {city} today, but still a lovely day. Stay dry.',
-        'Looks like you\'ll want an umbrella in {city} today.',
-        'Hope the rain in {city} doesn\'t slow you down too much.',
-        'A rainy day in {city} can be beautiful too. Enjoy it.',
-        'Clouds over {city} today, but hopefully sunshine somewhere nearby.',
-        'Worth keeping an umbrella close in {city} today, just in case.',
-        'The weather in {city} has its own plans today. Hope yours go smoothly.',
-        'Something about rainy days in {city} makes for the best conversations.',
-        'Wishing you a cozy day in {city}, rain or shine.',
-      ],
-      hot_dry: [
-        'It\'s getting warm in {city} today. Stay hydrated.',
-        'Hope you\'re staying cool in {city} today.',
-        'Perfect weather in {city} for a cold drink.',
-        'A warm day like this in {city} feels made for an iced coffee.',
-        'Perfect weather in {city} for an iced tea.',
-        'Perfect weather in {city} for something cold and refreshing.',
-        'The sun is making itself well known in {city} today.',
-        'It\'s a hot one in {city} today — take it easy out there.',
-        'A little shade goes a long way in {city} on a day like this.',
-        'Wishing you a cool and refreshing day in {city}.',
-      ],
-      hot_wet: [
-        'Warm weather and rain in {city} today—quite the combination. Don\'t forget your umbrella.',
-        'It\'s warm in {city}, but you\'ll still want an umbrella today.',
-        'Hope you\'re finding ways to stay cool and dry in {city} today.',
-        'The weather in {city} can\'t quite make up its mind today.',
-        'Perfect day in {city} for a cold drink and an umbrella.',
-        'Summer showers have arrived in {city}. Hope you\'re prepared.',
-        'Even warm days in {city} can surprise you. Take an umbrella just in case.',
-        'Hope you\'re finding a cool place to take a break in {city} today.',
-        'Rain or sunshine in {city}, I hope today treats you well.',
-        'Wishing you a refreshing day in {city}, whatever the weather decides.',
-      ],
+    var _WM_NIGHT = {
+      clear:       ["The sky over {City} looks peaceful tonight.",
+                    "It seems to be a beautiful night in {City}.",
+                    "Hope you’re enjoying a quiet evening in {City}.",
+                    "Wishing you a peaceful evening wherever you are."],
+      warm:        ["It’s a warm evening in {City}.",
+                    "Hope you’re finding a cool breeze tonight.",
+                    "Looks like it’s quite warm where you are."],
+      cool:        ["The evening air looks refreshing.",
+                    "Looks pleasantly cool in {City} tonight.",
+                    "Hope you’re enjoying the fresh evening air."],
+      cold:        ["It feels a little chilly tonight.",
+                    "Hope you’re staying warm.",
+                    "A warm drink might be a good companion this evening."],
+      rain:        ["Looks like it’s raining in {City} tonight.",
+                    "Hope you remembered an umbrella.",
+                    "Rainy nights always have their own quiet rhythm."],
+      snow:        ["Looks like snow has arrived in {City}.",
+                    "Stay warm and enjoy the quiet of the evening."],
+      fog:         ["{City} seems wrapped in mist tonight.",
+                    "A foggy evening always feels a little mysterious."],
+      wind:        ["It’s a windy evening in {City}.",
+                    "Hope you’re somewhere cozy tonight."],
+      thunderstorm:["Storm clouds are passing through {City}.",
+                    "Hope you’re somewhere warm and dry."],
     };
-    function _pickWMsg(temp, code, city) {
-      var wet = _PRECIP.has(code);
-      var key = temp < 20 ? (wet ? 'cold_wet' : 'cold_dry')
-              : temp <= 26 ? (wet ? 'nice_wet' : 'nice_dry')
-              : (wet ? 'hot_wet' : 'hot_dry');
-      var pool = _WM[key];
-      return pool[Math.floor(Math.random() * pool.length)].replace(/\{city\}/g, city || 'Luzern');
+    var _SNOW  = new Set([71,73,75,77,85,86]);
+    var _RAIN  = new Set([51,53,55,61,63,65,80,81,82]);
+    var _FOG   = new Set([45,48]);
+    var _STORM = new Set([95,96,99]);
+    function _pickNightMsg(temp, code, wind, city) {
+      var cond = _STORM.has(code) ? 'thunderstorm'
+               : _SNOW.has(code)  ? 'snow'
+               : _RAIN.has(code)  ? 'rain'
+               : _FOG.has(code)   ? 'fog'
+               : wind > 30        ? 'wind'
+               : temp < 10        ? 'cold'
+               : temp < 18        ? 'cool'
+               : temp < 26        ? 'clear'
+               :                    'warm';
+      var pool = _WM_NIGHT[cond];
+      if (!city) pool = pool.filter(function(s){ return s.indexOf('{City}') < 0; });
+      if (!pool.length) pool = _WM_NIGHT[cond];
+      var s = pool[Math.floor(Math.random() * pool.length)];
+      return city ? s.replace(/\{City\}/g, city) : s;
     }
 
     // ── Weather ──
@@ -639,29 +633,33 @@ const modules = [
       80:['🌦','Showers'], 81:['🌧','Showers'], 82:['🌧','Heavy showers'],
       95:['⛈','Thunderstorm'], 96:['⛈','Thunderstorm'], 99:['⛈','Thunderstorm'],
     };
-    function fetchWeather(lat, lon, city) {
-      fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weathercode&temperature_unit=celsius&timezone=auto')
+    function fetchWeather(lat, lon, city, hasLocation) {
+      fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weathercode,windspeed_10m&temperature_unit=celsius&timezone=auto')
         .then(function(r){ return r.json(); })
         .then(function(data){
           var temp = Math.round(data.current.temperature_2m);
           var code = data.current.weathercode;
-          var ic = WMO[code] || ['🌡','Unknown'];
+          var wind = data.current.windspeed_10m || 0;
+          var ic   = WMO[code] || ['🌡','Unknown'];
           gel('WeatherIcon').textContent = ic[0];
           gel('WeatherTemp').textContent = temp + '°C';
           gel('WeatherDesc').textContent = ic[1];
           gel('WeatherLoc').textContent  = city || 'Luzern';
-          // Mobile lock screen
+          // Mobile lock screen weather display
           var _mwi = document.getElementById('mWIcon');
           if (_mwi) {
             _mwi.textContent = ic[0];
             document.getElementById('mWTemp').textContent = temp + '°C';
             document.getElementById('mWDesc').textContent = ic[1];
-            document.getElementById('mWLoc').textContent  = city || 'Luzern';
-            var _mb = document.getElementById('mMsgBody');
-            if (_mb) {
-              var _wx = _pickWMsg(temp, code, city || 'Luzern');
-              _mb.textContent = 'Hi! How\'s the day? ' + _wx + ' It\'s really wonderful to see you. I hope you enjoy everything here, and let\'s stay in touch!';
-            }
+            document.getElementById('mWLoc').textContent  = hasLocation ? (city || '') : 'Luzern';
+          }
+          // Mobile lock screen message
+          var _mb = document.getElementById('mMsgBody');
+          if (_mb) {
+            var lines = ['Hi, good evening!'];
+            if (hasLocation) lines.push(_pickNightMsg(temp, code, wind, city || null));
+            lines.push('Thanks for stopping by. Make yourself comfortable!');
+            _mb.textContent = lines.join(' ');
           }
         }).catch(function(){});
     }
@@ -675,12 +673,12 @@ const modules = [
       navigator.geolocation.getCurrentPosition(
         function(pos) {
           var lat = pos.coords.latitude, lon = pos.coords.longitude;
-          getCity(lat, lon).then(function(city){ fetchWeather(lat, lon, city); });
+          getCity(lat, lon).then(function(city){ fetchWeather(lat, lon, city, true); });
         },
-        function(){ fetchWeather(47.05, 8.31, 'Luzern'); }
+        function(){ fetchWeather(47.05, 8.31, '', false); }
       );
     } else {
-      fetchWeather(47.05, 8.31, 'Luzern');
+      fetchWeather(47.05, 8.31, '', false);
     }
 
     // ── Floor lamp (night only) ──
@@ -2192,6 +2190,49 @@ const modules = [
       transform: translateY(-100%);
       pointer-events: none;
     }
+    .m-notice {
+      position: fixed; inset: 0; z-index: 95;
+      background: rgba(10, 5, 24, 0.90);
+      backdrop-filter: blur(12px) saturate(1.2);
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.45s ease;
+    }
+    .m-notice.visible { opacity: 1; pointer-events: auto; }
+    .m-notice.gone    { opacity: 0; pointer-events: none; }
+    .m-notice-card {
+      background: rgba(28, 18, 52, 0.75);
+      border: 1px solid rgba(196, 168, 224, 0.18);
+      border-radius: 22px;
+      padding: 38px 28px 32px;
+      max-width: 310px;
+      text-align: center;
+    }
+    .m-notice-glyph {
+      font-size: 18px; color: #C4A8E0;
+      margin-bottom: 18px; opacity: 0.8;
+    }
+    .m-notice-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-weight: 300; font-style: italic;
+      color: #ede8f8; line-height: 1.2; margin-bottom: 14px;
+    }
+    .m-notice-body {
+      font-size: 13px; color: rgba(210, 200, 230, 0.72);
+      line-height: 1.75; margin-bottom: 30px;
+      font-family: 'Inter', sans-serif; font-weight: 300;
+    }
+    .m-notice-btn {
+      font-family: 'Inter', sans-serif; font-size: 11px;
+      font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 10px 26px;
+      background: transparent;
+      border: 1px solid rgba(196, 168, 224, 0.45);
+      border-radius: 20px; color: #C4A8E0;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .m-notice-btn:active { background: rgba(196, 168, 224, 0.14); }
     .m-lock-bg { position: absolute; inset: 0; z-index: 0; }
     .m-lock-bg img {
       width: 100%; height: 100%;
