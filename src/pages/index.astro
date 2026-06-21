@@ -2390,12 +2390,11 @@ const modules = [
     #homeMobile.day .m-notice-btn:active { background: rgba(168, 212, 184, 0.14); }
     .m-lock-bg { position: absolute; inset: 0; z-index: 0; }
     .m-lock-bg img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
+      position: absolute;
+      top: -5%; left: -5%;
+      width: 110%; height: 110%;
       object-fit: cover; object-position: center 65%;
       display: block;
-      transform: scale(1.05);
-      transform-origin: center center;
     }
     /* Day/night lock screen image swap */
     .m-lock-bg .m-bg-night { display: block; }
