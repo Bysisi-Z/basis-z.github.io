@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-21 (session 71)
+> Last updated: 2026-06-21 (session 71, updated)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -557,7 +557,7 @@ Professional profile: photo + summary, 5 work entries with vine bullets, educati
 - Coffee cup SVG easter egg: clicking the cup plays audio (`public/audio/coffee-invite.m4a`); steam wisps animate while playing; stops on click or end. **Session 57: replaced with real recording `Bleicherstrasse 49.m4a`.**
 - Coffee cup SVG uses rose palette: `#c17d9d` (cup body), `#d4a0b8` (saucer/handle), `#ecd2e0` (steam wisps)
 
-### Moments (`/moments`) ✅ Live (session 63)
+### Moments (`/moments`) ✅ Live (session 63–71)
 
 Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that touched me, thrilled me, or simply made me smile"*.
 
@@ -571,7 +571,7 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 
 **Image processing:** use Python PIL (`from PIL import Image`) for precise cropping — `sips --cropOffset` has a bug with same-file input/output. For HEIC → JPG: `sips -s format jpeg input --out output`. PIL cannot open HEIC directly.
 
-**Hair dryer easter egg:** click → dryer shakes + all cards get random rotations (JS). Positioned `absolute; bottom: -50px; right: 0` in `.page-header`.
+**Click-to-focus interaction (session 71):** click any card → `.card-focused` (rotate 0deg, scale 1.06×, translateY −8px, deep shadow, z-index 100); all others get `.card-dimmed` (opacity 0.45). Click same card or outside to reset. Spring easing `cubic-bezier(0.34, 1.56, 0.64, 1)`. No hover transform (removed). Hair dryer easter egg removed (session 71).
 
 **Moments (session 63):**
 | Col | Content | Images | Display |
@@ -580,9 +580,9 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 | 1 | Grass pollen forecast (Switzerland all red) | `pollen.jpg` (cropped 4:3, map center y≈1250) | 短图 `.moment-crop` |
 | 2 | Mother goose family by Lake Lucerne 2026.5.2 | `geese.jpg` | 短图 `.moment-crop` |
 | 3 | Dunhuang Milky Way + dusk silhouette 2020.10 | `dunhuang-dusk.jpg` + `dunhuang-milkyway.jpg` | `.slides-cover` |
-| 3 | Grandma's 2002 temple donation name | `grandma-temple.jpg` (CW 90° rotated) | 长图 `.slides-full` |
+| 3 | Grandma's 2025 temple donation name | `grandma-temple.jpg` (CW 90° rotated) | 长图 `.slides-full` |
 
-**Images:** `public/images/moments/` — ferris-1/2, geese, dunhuang-dusk, dunhuang-milkyway, pollen, grandma-temple, hairdryer.png.
+**Images:** `public/images/moments/` — ferris-1/2, geese, dunhuang-dusk, dunhuang-milkyway, pollen, grandma-temple.
 
 ---
 
