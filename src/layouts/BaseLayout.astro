@@ -28,6 +28,18 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
       rel="stylesheet"
     />
     <slot name="head" />
+    <style>
+      img { -webkit-user-drag: none; }
+    </style>
+    <script>
+      // Block right-click and drag on all images (deters casual downloading)
+      document.addEventListener('contextmenu', e => {
+        if (e.target instanceof HTMLImageElement) e.preventDefault();
+      });
+      document.addEventListener('dragstart', e => {
+        if (e.target instanceof HTMLImageElement) e.preventDefault();
+      });
+    </script>
   </head>
   <body>
     {!hideNav && <Nav />}
