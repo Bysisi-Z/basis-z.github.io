@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-20 (session 69)
+> Last updated: 2026-06-21 (session 71)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -173,39 +173,47 @@ src/
 - Download button saves `si-lens-card.png` at full 700×1050 resolution
 - **Contact strip pills (session 60):** `white-space: nowrap` on all pills; `flex-wrap: nowrap`; font-size/padding/gap use `clamp(…, cqw, …)` — scales with glass container width, always single row on all viewports including iPad
 
-### Mobile Homepage (`#homeMobile`, ≤600px only) ✅ (session 57–70)
+### Mobile Homepage (`#homeMobile`, ≤600px only) ✅ Day + Night (session 57–71)
 
-Independent mobile-first homepage, never shown on desktop. DOM order: `.m-lock` → `.m-notice` → `.m-open`.
+Independent mobile-first homepage, never shown on desktop. JS sets `#homeMobile.day` class based on `_isDay`; this drives all day/night CSS splits. DOM order: `.m-lock` → `.m-notice` → `.m-open-night` / `.m-open-day`.
+
+**Day/Night detection:**
+- `_realHour = new Date().getHours()` — always real clock time (never overridden by `?preview`)
+- `_hour` — used only for desktop layout switching; `?preview=day` forces `_hour=10`
+- `_isDay = _hour >= 6 && _hour < 18` — controls which layout shows
+- Greetings and message text always use `_realHour`, not `_hour`
 
 **Lock screen (`.m-lock`):**
-- `position: fixed; inset: 0; z-index: 100` — covers content below
-- Background: `homepage-ferris-original.jpeg`, `object-position: center 65%`
-- Status bar (top): Swisscom + signal bars + muted bell (left) · signal + WiFi + 100% battery (right)
-- Date: `id="mDate"`, font `-apple-system`, 17px 600
-- Clock: `id="mTime"`, Barlow Condensed 700, `font-size: 36vw`, gradient `rgba(230,235,252,0.95) → rgba(215,200,238,0.88)` top→bottom, `-webkit-background-clip: text`; positioned at `top: 60px`
-- Swipe hint: `↑` chevron + "Swipe up to open", bounce animation
-- **Dismiss:** touch swipe up ≥40px OR scroll wheel → adds `.dismissed` class → `transform: translateY(-100%)` (0.65s ease). On dismiss, shows `.m-notice` after 420ms delay. One-way.
-- Clock JS: `_mClock()` runs alongside desktop clock, updates `mTime` + `mDate` every second
-- **Weather + location (session 58):** `.m-weather-row` (icon + temp + description) + `.m-wloc` (city). Populated by `fetchWeather`; city shown only if geolocation granted.
-- **Message card (session 58, updated session 70):** `.m-msg-card` — light purple frosted glass, sender "Sisi". Body: `id="mMsgBody"`. All text inline (no line breaks). Structure:
-  - **Always:** "Hi, good evening!"
-  - **If geolocation granted:** one random weather sentence (see `_WM_NIGHT` pools below)
-  - **Always:** "Thanks for stopping by. Make yourself comfortable!"
-  - If geolocation denied: only opening + closing, no weather sentence, no city
-- **`_WM_NIGHT` pools (session 70):** 9 conditions — `clear` / `warm` / `cool` / `cold` / `rain` / `snow` / `fog` / `wind` / `thunderstorm`. Priority: thunderstorm > snow > rain > fog > wind (>30 km/h) > temp-based. No-city fallback: filters pool to sentences without `{City}`.
-- **`fetchWeather` now fetches `windspeed_10m`** for Wind condition detection (session 70).
+- `position: fixed; inset: 0; z-index: 100`
+- Background: two `<img>` elements — `.m-bg-night` (`homepage-ferris-original.jpeg`) / `.m-bg-day` (`homepage-morning.jpg`, `object-position: center 30%`); CSS swaps via `#homeMobile.day`
+- Clock: `id="mTime"`, Barlow Condensed 700, `font-size: 36vw`
+  - Night gradient: `rgba(230,235,252,0.95) → rgba(215,200,238,0.88)` (purple)
+  - Day gradient: `rgba(165,174,184,0.95) → rgba(110,123,129,0.88) → rgba(48,64,60,0.82)` 175deg (matches `.d-clock`)
+- Status bar / date / weather row:
+  - Night: `rgba(255,255,255,0.92)` (white)
+  - Day: `#6E7B81` (matches web `.d-carrier` / `.d-statusbar`)
+- **Dismiss:** swipe up ≥40px or scroll wheel → `.dismissed` → slides up. `/#open` hash (Nav Si link) skips directly to menu, bypasses lock + notice.
 
-**Screen-size notice (`.m-notice`, session 70):**
-- `position: fixed; inset: 0; z-index: 95` — appears after lock dismissed, before `.m-open` content
-- Dark frosted overlay (`rgba(10,5,24,0.90)` + `blur(12px)`); centered card with purple border
-- Text: "Built for a larger screen" + body explaining mobile limitations
-- Button: "Continue anyway" (`id="mNoticeDismiss"`) → fades notice out, reveals `.m-glass` content
+**Message card (`.m-msg-card`):**
+- Night: purple tint `rgba(196,168,224,0.18)` · Day: sage tint `rgba(168,212,184,0.18)`
+- Structure: `[Opening] [Weather sentence] [Closing]`
+  - Opening: `Good morning!` (before 12) / `Good afternoon!` (12–18) / `Good evening!` (18+) — from `_realHour`
+  - Weather: always shown (random pick from condition pool); city name included only if geolocation granted
+  - Closing: day = "Hope you enjoy this little corner of the internet!" · night = "Thanks for stopping by. Make yourself comfortable!"
+- **`_WM_NIGHT`** — 9 conditions: `clear` / `warm` / `cool` / `cold` / `rain` / `snow` / `fog` / `wind` / `thunderstorm`
+- **`_WM_DAY`** — 9 conditions: `sunny` / `warm` (≥26°) / `mild` (20–26°) / `cool` (<20°) / `rain` / `thunderstorm` / `fog` / `snow` / `wind`
+  - Day condition priority: thunderstorm > snow > rain > fog > wind(>30) > temp≥26→warm > clear(WMO 0/1)→sunny > temp≥20→mild > cool
+  - Shared `_pickWeatherMsg(temp, code, wind, city, pool, isDay)` function
 
-**Content section (`.m-open`):**
-- Sits below lock screen in DOM; visible once lock dismissed (behind notice)
-- Background: `homepage-ferris-original.jpeg` blurred (`filter: blur(22px)`) + `rgba(15,8,38,0.48)` purple overlay
-- Content: `.n-glass.m-glass` — reuses all night glass CSS (Si logo, tagline, 6 modules, contact, copyright)
-- **Currently night-only design.** Daytime mobile redesign pending (session 71+).
+**Screen-size notice (`.m-notice`):**
+- Night: dark purple overlay + purple card border/button
+- Day: dark green overlay `rgba(8,22,14,0.90)` + sage green `#A8D4B8` card border/button/glyph
+
+**Content sections:**
+- `.m-open-night` — `homepage-ferris-original.jpeg` blurred + `rgba(15,8,38,0.48)` purple overlay + `n-glass m-glass`; has QR Code & Share button (`id="mNightCardBtn"`)
+- `.m-open-day` — `homepage-morning.jpg` blurred + `rgba(8,28,15,0.48)` dark green overlay + `d-glass m-glass`; has QR Code & Share button (`id="mDayCardBtn"`)
+- JS shows correct one via `.m-open-night/.m-open-day` `display` toggle
+- Both QR buttons bound to `_openModal` alongside desktop `nCardBtn`/`dCardBtn`
 
 ### World Explorer (`/explorer`) ✅ Live
 
