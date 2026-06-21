@@ -35,6 +35,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   ];
 
   let idx = -1;
+  let clickCount = 0;
   let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
   const img = document.getElementById('constructionImg') as HTMLImageElement;
@@ -43,12 +44,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   const l2 = document.getElementById('bLine2') as HTMLParagraphElement;
 
   img.addEventListener('click', () => {
+    clickCount++;
     idx = Math.min(idx + 1, BUBBLES.length - 1);
+
+    const pair = clickCount === 50
+      ? ["Fine, I hear you.", ""]
+      : clickCount === 20
+      ? ["You're incredibly persistent.", ""]
+      : BUBBLES[idx];
+
     if (hideTimer) clearTimeout(hideTimer);
     bubble.classList.remove('visible');
     void bubble.offsetWidth;
-    l1.textContent = BUBBLES[idx][0];
-    l2.textContent = BUBBLES[idx][1];
+    l1.textContent = pair[0];
+    l2.textContent = pair[1];
     bubble.classList.add('visible');
     hideTimer = setTimeout(() => bubble.classList.remove('visible'), 4500);
     img.classList.remove('nudge');
@@ -223,5 +232,36 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     text-align: center;
     max-width: 380px;
     line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .page-intro {
+      padding-top: 48px;
+    }
+    .reading-body {
+      padding-top: 40px;
+    }
+    .construction-img {
+      width: 220px;
+    }
+    /* bubble floats centered over the image — no reserved space needed */
+    .speech-bubble {
+      top: 50%;
+      left: 50%;
+      bottom: auto;
+      right: auto;
+      transform: translate(-50%, -50%) scale(0.94);
+      max-width: min(260px, 82vw);
+      text-align: center;
+      background: rgba(250, 250, 248, 0.96);
+    }
+    .speech-bubble.visible {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    /* no tail on mobile */
+    .speech-bubble::before,
+    .speech-bubble::after {
+      display: none;
+    }
   }
 </style>
