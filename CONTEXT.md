@@ -256,7 +256,7 @@ Gateway → two columns: Industry Research + Play with the Data.
 - `/nsfg-reports.html` — NSFG reports index: 11 EA reports + 2 METHX reports ✅ session 33
 - `/meps-reports.html` — MEPS reports index: 1 live + 3 coming soon ✅ session 33
 - `/meps-pcsk9-demo.html` — PCSK9 inhibitors payer mix, channel & cost demo ✅ session 68
-- `/meps-hrt-method.html` — HRT method + therapy regimen usage, female 45–69, 2020–2023 ✅ session 69
+- `/meps-hrt-method.html` — HRT method + therapy regimen + product frequency, female 45–69, 2020–2023 ✅ session 69–70
 
 **MEPS HRT method + regimen analysis (session 69):**
 
@@ -292,6 +292,19 @@ Gateway → two columns: Industry Research + Play with the Data.
 - Vaginal cream (generic estradiol) surged: 11.4% of HRT patients (2020) → 25.7% (2023)
 - Systemic E-only declining; Systemic Combo stable ~20-28 pts/yr; Systemic P-only rising (29→39) — P-only rise likely reflects MEPS capture gap for compounded estrogen users
 - EstroGel (transdermal gel) entered 2021, stable ~5–11 patients/yr
+
+**HRT product frequency table (session 70, appended to same page):**
+
+- **Section:** "Most Frequently Used Products" — appended below the two matrices in `/meps-hrt-method.html`; no separate page
+- **Data:** `public/data/meps_hrt_product.json`; gen script: `_data_sources/meps2023/gen_hrt_product_v2.py`
+- **Display:** side-by-side table, 4 year columns; patients per product type per year; rank with ▲▼ arrows (vs prior year, colored chip); 2020 has no arrow
+- **Classification:** generics grouped by molecule + route + scope (e.g. "Generic E2 · Oral", "Generic E2 · Cream"); named brands kept individual (Dotti, EstroGel, Yuvafem, Estring, Imvexxy, Climara, Lyllana, Premarin, Premarin Vaginal)
+- **Scope tags:** Systemic (purple) / Local (teal); Brand/Generic chip
+- **Local TABS fix:** RXDRGNAM containing "TOPICAL" + RXFORM = TABS → route = "Vaginal Tabs" (not "Oral")
+- **Metric:** patients only (fills removed — fills ≠ apple-to-apple without RXDAYSUP normalization; patient count is cleaner frequency measure)
+- **Top 10 per year:** union across 4 years = 16 unique product categories shown
+- **Patient overlap note:** combo patients (E+P same year) = 25–33/yr; E-only = 119–161/yr; P-only = 21–35/yr. P-only patients likely include compounded-estrogen users (E not captured in MEPS) — but this is **speculative**, not directly verifiable
+- **meps-reports.html card:** title updated to "HRT Method & Product Frequency — Female 45–69"; description updated
 
 **Research internal navigation (session 61):**
 - `/research/index.astro` now has 4 data project cards: NSFG Explorer · NSFG Individual Reports (`/nsfg-reports.html`) · MEPS Explorer · MEPS Expenditure (`/research/meps-expenditure`)
@@ -585,6 +598,7 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 - [x] **MEPS reports index** — `/meps-reports.html` ✅ session 33; 2 live + 3 coming-soon stubs
 - [x] **MEPS PCSK9 demo** — `/meps-pcsk9-demo.html` ✅ session 68; proportional attribution payer split; linked from meps-reports.html
 - [x] **MEPS HRT method + regimen** — `/meps-hrt-method.html` ✅ session 69; female 45–69, 2020–2023, two matrices (method + regimen); linked from meps-reports.html
+- [x] **MEPS HRT product frequency table** — ✅ session 70; appended to `/meps-hrt-method.html`; top-10 product types per year, rank arrows, patients only; gen script `gen_hrt_product_v2.py`
 - [x] **Explorer report buttons** — filled rose "See all individual reports →" button in both NSFG and MEPS explorer headers
 - [x] **NSFG 2017-2019 age split** — ✅ session 40; age counts generated, toggle enabled for both cycles
 - [x] **Individual reports 2017-2019 view** — ✅ session 40; all 11 pages have cycle picker; payloads in `nsfg1719_report_payloads.json`
