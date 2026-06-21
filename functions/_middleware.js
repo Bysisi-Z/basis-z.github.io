@@ -2,7 +2,11 @@ export async function onRequest(context) {
   const { request, next, env } = context;
   const url = new URL(request.url);
 
-  if (!url.pathname.startsWith('/career')) {
+  const isProtected =
+    url.pathname.startsWith('/career') ||
+    url.pathname.startsWith('/explorer') ||
+    url.pathname.startsWith('/cv');
+  if (!isProtected) {
     return next();
   }
 
@@ -24,7 +28,7 @@ export async function onRequest(context) {
             status: 302,
             headers: {
               'Location': url.pathname,
-              'Set-Cookie': `jauth=${token}; Path=/career; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
+              'Set-Cookie': `jauth=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
             },
           });
         }
