@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-21 (session 72)
+> Last updated: 2026-06-21 (session 73)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -215,7 +215,7 @@ Independent mobile-first homepage, never shown on desktop. JS sets `#homeMobile.
 - JS shows correct one via `.m-open-night/.m-open-day` `display` toggle
 - Both QR buttons bound to `_openModal` alongside desktop `nCardBtn`/`dCardBtn`
 
-### World Explorer (`/explorer`) ✅ Live
+### World Explorer (`/explorer`) ✅ Live · Password protected (session 73)
 
 Independent profile page. Journey CTA "Know me as a World Explorer" links here (not `/photography`).
 
@@ -240,6 +240,17 @@ Independent profile page. Journey CTA "Know me as a World Explorer" links here (
 | Food "What I Eat" | 8 | ⚠️ placeholder shimmer |
 | Cats "The Bosses at Home" | 12 | ✅ Both cats done |
 
+**Password protection (session 73):** `/explorer` and `/cv` added to middleware alongside `/career`. Cookie path changed from `Path=/career` to `Path=/` so one login covers all three. Rule: any page with photos of the author or other people requires password.
+
+**Music module "A Life in Sound" (session 73):**
+- Replaced "On Repeat" shimmer with narrative text (3 paragraphs) + instrument illustrations + photos
+- Narrative covers: recorder (self-taught age 6) → clarinet (chose because hardest, teacher's philosophy) → pipa (Shanghai teacher, moon quote)
+- Instrument images: `public/images/instr-recorder/clarinet/hulusheng/pipa.png` (transparent PNG, 100px height, Ma Shan Zheng for Chinese names)
+- Photos: `pipa-luthier.jpg` (with luthier) + `pipa-teacher.jpg` (with teacher) at 460px height, single caption below
+- Teacher moon quote in italic rose `#8a4a6a` bold (font-weight 700)
+
+**Bento modules still pending:** Books (shimmer), Food (shimmer), Outdoor stats (—)
+
 **Cats:**
 - 嘞嘞 (Leilei) ♂ Since 2016 — British Shorthair Silver Shaded, full story written
 - 小咪渣 (Xiao Mi Zha) ♀ Since 2019 — American Shorthair tabby, full story written
@@ -252,7 +263,7 @@ Independent profile page. Journey CTA "Know me as a World Explorer" links here (
 
 Dual timeline. Left = Life & Adventures (rose). Right = Career & Education (stone).
 
-**Password protected (session 72):** Cloudflare Pages Function middleware (`functions/_middleware.js`) intercepts all `/career` requests. Requires a time-limited passcode validated against Cloudflare KV (`JOURNEY_AUTH`). Sessions are linked to passwords — deleting a password instantly revokes all sessions created with it. Emergency lockdown: `node scripts/lockdown.js`.
+**Password protected (session 72–73):** Cloudflare Pages Function middleware (`functions/_middleware.js`) intercepts `/career`, `/explorer`, `/cv`. Cookie `Path=/` (changed s73 from `Path=/career`). Rule: any page with photos of the author or others requires a passcode. Requires a time-limited passcode validated against Cloudflare KV (`JOURNEY_AUTH`). Sessions are linked to passwords — deleting a password instantly revokes all sessions created with it. Emergency lockdown: `node scripts/lockdown.js`.
 
 **Passcode management:**
 - Add passcode: `node scripts/add-password.js <code> <days>` (env vars in `~/.zshrc`: `CLOUDFLARE_API_TOKEN`, `CF_ACCOUNT_ID`, `KV_NAMESPACE_ID=253d0a90d7084d3e8794f636b02f7719`)
@@ -584,16 +595,29 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 
 **Click-to-focus interaction (session 71):** click any card → `.card-focused` (rotate 0deg, scale 1.06×, translateY −8px, deep shadow, z-index 100); all others get `.card-dimmed` (opacity 0.45). Click same card or outside to reset. Spring easing `cubic-bezier(0.34, 1.56, 0.64, 1)`. No hover transform (removed). Hair dryer easter egg removed (session 71).
 
-**Moments (session 63):**
+**Wording rule (session 73):** No em dashes (—) in any moment card text — use periods instead.
+
+**Moments (session 63–73):**
 | Col | Content | Images | Display |
 |-----|---------|--------|---------|
 | 1 | LUCA Ferris wheel 2026.4.30 | `ferris-1.jpg` + `ferris-2.jpg` crossfade | `.slides-cover` |
 | 1 | Grass pollen forecast (Switzerland all red) | `pollen.jpg` (cropped 4:3, map center y≈1250) | 短图 `.moment-crop` |
+| 1 | Pipa luthier visit 2023.9 Shanghai→Lucerne | `pipa.jpg` | 长图 `.slides-full` |
+| 1 | Chinese Garden Zurich 2025.4 | `chinese-garden-1/2/3/4.jpg` 4-image crossfade | `.moment-slides` |
+| 1 | Lucerne library bird's-eye 2024.6 | `lucerne-library.jpg` | 长图 `.slides-full` |
+| 1 | World Rowing Cup Rotsee 2024.5 | `rowing-sign/venue/boats.jpg` 3-image crossfade | `.slides-landscape` |
 | 2 | Mother goose family by Lake Lucerne 2026.5.2 | `geese.jpg` | 短图 `.moment-crop` |
+| 2 | Glass observation deck hometown 2025.12 | `glass-deck-1/2/3.jpg` 3-image crossfade | `.moment-slides` |
+| 2 | Lucerne dusk Chapel Bridge 2023.2.3 | `lucerne-dusk.mp4` video | 长图 `.slides-full` |
+| 2 | On the flight home 2024.10.28 | `plane-home.jpg` | 长图 `.slides-full` |
+| 2 | Palais des Nations Geneva 2023.10 | `palais-des-nations.jpg` | `.slides-landscape` |
 | 3 | Dunhuang Milky Way + dusk silhouette 2020.10 | `dunhuang-dusk.jpg` + `dunhuang-milkyway.jpg` | `.slides-cover` |
-| 3 | Grandma's 2025 temple donation name | `grandma-temple.jpg` (CW 90° rotated) | 长图 `.slides-full` |
+| 3 | Grandma's temple donation name 2025 | `grandma-temple.jpg` (CW 90° rotated) | 长图 `.slides-full` |
+| 3 | Saxer Lücke sunset 2024.8.15 | `saxer-sunset.jpg` | `.slides-landscape` |
+| 3 | Total lunar eclipse 2025.9.8 | `lunar-eclipse.jpg` | 长图 `.slides-full` |
+| 3 | Taylor Swift Eras Tour Zurich 2024.7 | `eras-tour.jpg` | 长图 `.slides-full` |
 
-**Images:** `public/images/moments/` — ferris-1/2, geese, dunhuang-dusk, dunhuang-milkyway, pollen, grandma-temple.
+**Images:** `public/images/moments/`
 
 ---
 
@@ -614,8 +638,9 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 
 ## 6. Pending Work
 
-- [ ] **Explorer modules** — fill music, books, food, outdoor stats content
-- [x] **Nature Never Judges grid** — Oeschinensee ✅ s36; Lucerne city guide ✅ s37; 3 CSS gradient placeholders remain
+- [x] **Explorer music module** — "A Life in Sound" ✅ s73; narrative + 4 instrument PNGs + 2 pipa photos
+- [ ] **Explorer modules** — Books, Food, Outdoor stats still shimmer/empty
+- [x] **Nature Never Judges grid** — Oeschinensee ✅ s36; Lucerne city guide ✅ s37; 4 placeholder cards removed s73 (only 3 real articles remain)
 - [x] **Lucerne city guide** — `/photography/lucerne` ✅ s37; trails map red star marker ✅; bilingual EN/中文 ✅; deployed ✅
 - [ ] **Research detail pages** — OGN articles removed from site (session 72); HTML drafts at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html` remain locally if needed later
 - [ ] **Writing detail pages** — `/writing/[slug].astro`
@@ -634,7 +659,7 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 - [x] **Individual reports 2017-2019 view** — ✅ session 40; all 11 pages have cycle picker; payloads in `nsfg1719_report_payloads.json`
 - [x] **NSFG explorer REPORT badge in 1719 mode** — ✅ session 41; fixed `.toUpperCase()` bug; DEEPDIVE_MAP_1719 with correct stats
 - [x] **METHX longitudinal pages 2017-2019** — ✅ session 41; method-trends + method-age both have cycle picker; data inlined from raw .dat
-- [x] **Moments page** (`/moments`) — 5 cards live ✅ s63; add more as they happen
+- [x] **Moments page** (`/moments`) — 16 cards live ✅ s73; add more as they happen
 - [ ] **A Collection of Rabbit Holes** — content not written
 
 ---
