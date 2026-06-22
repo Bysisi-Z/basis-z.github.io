@@ -195,7 +195,7 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
               heartEl.style.fill = '#B8A9D4';
             });
           });
-          localStorage.setItem('sisi-heart', '1');
+          sessionStorage.setItem('sisi-heart', '1');
         }
         popup.classList.remove('np-visible');
         setTimeout(function () { popup.style.display = 'none'; }, 420);
@@ -222,8 +222,10 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
     hs.textContent = '#sisiHeart{bottom:max(22px,calc(env(safe-area-inset-bottom,0px) + 14px))!important;left:max(18px,calc(env(safe-area-inset-left,0px) + 14px))!important;}';
     document.head.appendChild(hs);
 
-    // Restore heart on any page if previously earned
-    if (localStorage.getItem('sisi-heart') && !document.getElementById('sisiHeart')) {
+    localStorage.removeItem('sisi-heart');
+
+    // Restore heart when navigating between pages within the same session
+    if (sessionStorage.getItem('sisi-heart') && !document.getElementById('sisiHeart')) {
       var h2 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       h2.setAttribute('viewBox', '0 0 24 22');
       h2.setAttribute('id', 'sisiHeart');
