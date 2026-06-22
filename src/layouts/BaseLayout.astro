@@ -140,7 +140,7 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
         sessionStorage.setItem('sisi-arrival', String(Date.now()));
       }
       var elapsed  = Date.now() - parseInt(sessionStorage.getItem('sisi-arrival')!);
-      var remaining = Math.max(0, 60000 - elapsed);
+      var remaining = Math.max(0, 30000 - elapsed);
 
       var popup = document.getElementById('nightPopup') as HTMLElement;
       var btn   = document.getElementById('nightPopupClose') as HTMLButtonElement;
