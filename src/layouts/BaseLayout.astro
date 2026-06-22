@@ -209,6 +209,11 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
       });
     }
 
+    // Inject safe-area aware positioning for the heart
+    var hs = document.createElement('style');
+    hs.textContent = '#sisiHeart{bottom:max(22px,calc(env(safe-area-inset-bottom,0px) + 14px))!important;left:max(18px,calc(env(safe-area-inset-left,0px) + 14px))!important;}';
+    document.head.appendChild(hs);
+
     // Restore heart on any page if previously earned
     if (localStorage.getItem('sisi-heart') && !document.getElementById('sisiHeart')) {
       var h2 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
