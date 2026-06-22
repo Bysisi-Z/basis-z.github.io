@@ -50,5 +50,108 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
       <slot />
     </main>
     {!hideFooter && <Footer />}
+
+    <!-- Late-night popup -->
+    <div id="nightPopup">
+      <div class="np-card">
+        <p class="np-l1">it's late, and you're still awake.</p>
+        <p class="np-l2">what keeps you up?</p>
+        <p class="np-l3">take care.</p>
+        <button class="np-close" id="nightPopupClose">close</button>
+      </div>
+    </div>
   </body>
 </html>
+
+<style>
+  #nightPopup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.38);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  #nightPopup.np-visible {
+    opacity: 1;
+  }
+  .np-card {
+    background: #FAFAF8;
+    border: 1px solid #E2DEDB;
+    border-radius: 16px;
+    padding: 44px 52px;
+    max-width: 400px;
+    width: calc(100% - 48px);
+    text-align: center;
+    box-shadow: 0 8px 48px rgba(0, 0, 0, 0.14);
+  }
+  .np-l1, .np-l2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    color: #1A1A1A;
+    margin: 0 0 10px;
+    line-height: 1.65;
+  }
+  .np-l3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    color: #847B7B;
+    margin: 0 0 32px;
+    line-height: 1.65;
+  }
+  .np-close {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #847B7B;
+    background: none;
+    border: 1px solid #E2DEDB;
+    border-radius: 20px;
+    padding: 8px 28px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .np-close:hover {
+    border-color: #c17d9d;
+    color: #c17d9d;
+  }
+</style>
+
+<script>
+  (function () {
+    var h = new Date().getHours();
+    if (h >= 0 && h < 6 && !sessionStorage.getItem('sisi-night-popup')) {
+      var popup = document.getElementById('nightPopup') as HTMLElement;
+      var btn   = document.getElementById('nightPopupClose') as HTMLButtonElement;
+
+      function closePopup() {
+        popup.classList.remove('np-visible');
+        setTimeout(function () { popup.style.display = 'none'; }, 420);
+      }
+
+      setTimeout(function () {
+        popup.style.display = 'flex';
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            popup.classList.add('np-visible');
+          });
+        });
+        sessionStorage.setItem('sisi-night-popup', '1');
+      }, 60000);
+
+      btn.addEventListener('click', closePopup);
+      popup.addEventListener('click', function (e) {
+        if (e.target === popup) closePopup();
+      });
+    }
+  })();
+</script>
