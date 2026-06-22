@@ -54,10 +54,10 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
     <!-- Late-night popup -->
     <div id="nightPopup">
       <div class="np-card">
-        <p class="np-l1">it's late, and you're still awake.</p>
-        <p class="np-l2">what keeps you up?</p>
-        <p class="np-l3">take care.</p>
-        <button class="np-close" id="nightPopupClose">close</button>
+        <p class="np-l1">It's past midnight.</p>
+        <p class="np-l2">I hope you're doing alright.</p>
+        <p class="np-l3">Take care of yourself.</p>
+        <button class="np-close" id="nightPopupClose">Close</button>
       </div>
     </div>
   </body>
@@ -68,7 +68,7 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.38);
+    background: rgba(6, 4, 16, 0.72);
     z-index: 9999;
     align-items: center;
     justify-content: center;
@@ -79,32 +79,32 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
     opacity: 1;
   }
   .np-card {
-    background: #FAFAF8;
-    border: 1px solid #E2DEDB;
+    background: rgba(22, 17, 40, 0.97);
+    border: 1px solid rgba(180, 160, 215, 0.18);
     border-radius: 16px;
     padding: 44px 52px;
     max-width: 400px;
     width: calc(100% - 48px);
     text-align: center;
-    box-shadow: 0 8px 48px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 12px 60px rgba(0, 0, 0, 0.5);
   }
   .np-l1, .np-l2 {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(18px, 1.8vw, 22px);
     font-weight: 300;
     font-style: italic;
-    color: #1A1A1A;
+    color: rgba(235, 228, 250, 0.92);
     margin: 0 0 10px;
-    line-height: 1.65;
+    line-height: 1.7;
   }
   .np-l3 {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(18px, 1.8vw, 22px);
     font-weight: 300;
     font-style: italic;
-    color: #847B7B;
+    color: rgba(185, 168, 215, 0.7);
     margin: 0 0 32px;
-    line-height: 1.65;
+    line-height: 1.7;
   }
   .np-close {
     font-family: 'Inter', sans-serif;
@@ -112,17 +112,22 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
     font-weight: 300;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #847B7B;
+    color: rgba(185, 168, 215, 0.7);
     background: none;
-    border: 1px solid #E2DEDB;
+    border: 1px solid rgba(180, 160, 215, 0.25);
     border-radius: 20px;
     padding: 8px 28px;
     cursor: pointer;
     transition: border-color 0.2s ease, color 0.2s ease;
   }
   .np-close:hover {
-    border-color: #c17d9d;
-    color: #c17d9d;
+    border-color: rgba(180, 160, 215, 0.6);
+    color: rgba(235, 228, 250, 0.9);
+  }
+  @media (max-width: 640px) {
+    .np-card {
+      padding: 36px 32px;
+    }
   }
 </style>
 
