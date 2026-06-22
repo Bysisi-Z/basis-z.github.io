@@ -135,6 +135,13 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
   (function () {
     var h = new Date().getHours();
     if (h >= 0 && h < 6 && !sessionStorage.getItem('sisi-night-popup')) {
+      // Record arrival time once per session, persist across page navigations
+      if (!sessionStorage.getItem('sisi-arrival')) {
+        sessionStorage.setItem('sisi-arrival', String(Date.now()));
+      }
+      var elapsed  = Date.now() - parseInt(sessionStorage.getItem('sisi-arrival')!);
+      var remaining = Math.max(0, 60000 - elapsed);
+
       var popup = document.getElementById('nightPopup') as HTMLElement;
       var btn   = document.getElementById('nightPopupClose') as HTMLButtonElement;
 
@@ -151,7 +158,7 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
           });
         });
         sessionStorage.setItem('sisi-night-popup', '1');
-      }, 60000);
+      }, remaining);
 
       btn.addEventListener('click', closePopup);
       popup.addEventListener('click', function (e) {
