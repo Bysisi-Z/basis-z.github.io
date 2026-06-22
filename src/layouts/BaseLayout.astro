@@ -57,10 +57,12 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
         <p class="np-l1">It's past midnight.</p>
         <p class="np-l2">I hope you're doing alright.</p>
         <p class="np-l3">Take care of yourself.</p>
-        <button class="np-close" id="nightPopupClose">Close</button>
-        <svg class="np-heart" id="nightHeart" viewBox="0 0 24 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 21.6C6.37 16.06 1 11.3 1 6.19 1 3.78 3.11 2 6 2c1.99 0 3.76 1.04 5 2.5C12.24 3.04 14.01 2 16 2c2.89 0 5 1.78 5 5.19 0 5.11-5.37 9.87-11 15.41z"/>
-        </svg>
+        <button class="np-close" id="nightPopupClose">
+          Close
+          <svg class="np-heart" id="nightHeart" viewBox="0 0 24 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 21.6C6.37 16.06 1 11.3 1 6.19 1 3.78 3.11 2 6 2c1.99 0 3.76 1.04 5 2.5C12.24 3.04 14.01 2 16 2c2.89 0 5 1.78 5 5.19 0 5.11-5.37 9.87-11 15.41z"/>
+          </svg>
+        </button>
       </div>
     </div>
   </body>
@@ -128,11 +130,17 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
     color: rgba(235, 228, 250, 0.9);
   }
   .np-heart {
-    display: block;
-    width: 18px;
-    height: 18px;
-    margin: 20px auto 0;
-    fill: rgba(255, 255, 255, 0.35);
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-left: 7px;
+    vertical-align: middle;
+    fill: rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
+  }
+  .np-close {
+    display: inline-flex;
+    align-items: center;
   }
   @media (max-width: 640px) {
     .np-card {
@@ -179,7 +187,7 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
           heartEl.style.fill          = 'rgba(255,255,255,0.6)';
           heartEl.style.zIndex        = '10000';
           heartEl.style.pointerEvents = 'none';
-          heartEl.style.transition    = 'left 0.7s cubic-bezier(0.34,1.56,0.64,1), top 0.7s cubic-bezier(0.34,1.56,0.64,1), fill 0.9s ease 0.2s';
+          heartEl.style.transition    = 'left 1.5s cubic-bezier(0.25,1,0.5,1), top 1.5s cubic-bezier(0.25,1,0.5,1), fill 1.2s ease 0.4s';
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
               heartEl.style.left = '22px';
