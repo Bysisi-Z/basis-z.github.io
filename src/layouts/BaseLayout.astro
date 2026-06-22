@@ -155,28 +155,39 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
       var popup = document.getElementById('nightPopup') as HTMLElement;
       var btn   = document.getElementById('nightPopupClose') as HTMLButtonElement;
 
+      function placeHeart() {
+        var h = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        h.setAttribute('viewBox', '0 0 24 22');
+        h.setAttribute('id', 'sisiHeart');
+        h.style.cssText = 'position:fixed;left:22px;bottom:22px;width:18px;height:18px;fill:#B8A9D4;z-index:10000;pointer-events:none;opacity:0.85;';
+        var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', 'M12 21.6C6.37 16.06 1 11.3 1 6.19 1 3.78 3.11 2 6 2c1.99 0 3.76 1.04 5 2.5C12.24 3.04 14.01 2 16 2c2.89 0 5 1.78 5 5.19 0 5.11-5.37 9.87-11 15.41z');
+        h.appendChild(p);
+        document.body.appendChild(h);
+      }
+
       function closePopup() {
-        // Fly heart to bottom-left before hiding popup
         var heartEl = document.getElementById('nightHeart') as SVGElement;
         if (heartEl) {
           var r = heartEl.getBoundingClientRect();
           document.body.appendChild(heartEl);
-          heartEl.style.position   = 'fixed';
-          heartEl.style.left       = r.left + 'px';
-          heartEl.style.top        = r.top  + 'px';
-          heartEl.style.width      = '18px';
-          heartEl.style.height     = '18px';
-          heartEl.style.fill       = 'rgba(255,255,255,0.5)';
-          heartEl.style.zIndex     = '10000';
+          heartEl.style.position      = 'fixed';
+          heartEl.style.left          = r.left + 'px';
+          heartEl.style.top           = r.top  + 'px';
+          heartEl.style.width         = '18px';
+          heartEl.style.height        = '18px';
+          heartEl.style.fill          = 'rgba(255,255,255,0.6)';
+          heartEl.style.zIndex        = '10000';
           heartEl.style.pointerEvents = 'none';
-          heartEl.style.transition = 'left 0.7s cubic-bezier(0.34,1.56,0.64,1), top 0.7s cubic-bezier(0.34,1.56,0.64,1), fill 0.9s ease 0.25s';
+          heartEl.style.transition    = 'left 0.7s cubic-bezier(0.34,1.56,0.64,1), top 0.7s cubic-bezier(0.34,1.56,0.64,1), fill 0.9s ease 0.2s';
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
               heartEl.style.left = '22px';
               heartEl.style.top  = (window.innerHeight - 40) + 'px';
-              heartEl.style.fill = '#c17d9d';
+              heartEl.style.fill = '#B8A9D4';
             });
           });
+          localStorage.setItem('sisi-heart', '1');
         }
         popup.classList.remove('np-visible');
         setTimeout(function () { popup.style.display = 'none'; }, 420);
@@ -196,6 +207,18 @@ const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro
       popup.addEventListener('click', function (e) {
         if (e.target === popup) closePopup();
       });
+    }
+
+    // Restore heart on any page if previously earned
+    if (localStorage.getItem('sisi-heart') && !document.getElementById('sisiHeart')) {
+      var h2 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      h2.setAttribute('viewBox', '0 0 24 22');
+      h2.setAttribute('id', 'sisiHeart');
+      h2.style.cssText = 'position:fixed;left:22px;bottom:22px;width:18px;height:18px;fill:#B8A9D4;z-index:10000;pointer-events:none;opacity:0.85;';
+      var p2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p2.setAttribute('d', 'M12 21.6C6.37 16.06 1 11.3 1 6.19 1 3.78 3.11 2 6 2c1.99 0 3.76 1.04 5 2.5C12.24 3.04 14.01 2 16 2c2.89 0 5 1.78 5 5.19 0 5.11-5.37 9.87-11 15.41z');
+      h2.appendChild(p2);
+      document.body.appendChild(h2);
     }
   })();
 </script>
