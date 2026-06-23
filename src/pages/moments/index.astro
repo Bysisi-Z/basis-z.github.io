@@ -98,6 +98,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
             <span class="moment-date">2024.5 · Rotsee, Lucerne</span>
           </div>
         </div>
+
+        <div class="card card-moment">
+          <div class="moment-slides slides-full">
+            <img src="/images/moments/watercolor-venice.jpg" alt="A small watercolor painting of Venice held in hand, 2017" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">2017. First time trying watercolor. Copied from somewhere — I no longer remember where.</p>
+            <span class="moment-date">2017 · Shanghai</span>
+          </div>
+        </div>
       </div>
 
       <div class="scatter-col">
@@ -195,6 +205,27 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           </div>
         </div>
 
+        <div class="card card-moment">
+          <div class="moment-slides slides-cover">
+            <img src="/images/moments/leilei-kitten-1.jpg" alt="Leilei as a kitten, first month home" class="ms-a" loading="lazy">
+            <img src="/images/moments/leilei-kitten-2.jpg" alt="Leilei asleep next to a plush doll, first month home" class="ms-b" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">Leilei's first month at home. Blue eyes, white fur, tiny — with no idea yet how beautiful he was.</p>
+            <span class="moment-date">2016 · Shanghai</span>
+          </div>
+        </div>
+
+        <div class="card card-moment">
+          <div class="moment-slides slides-full">
+            <img src="/images/moments/chengdu-airport-vest.jpg" alt="Airport security guard with vest reading 'Except for love, everyone must queue', Chengdu" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">2016, Chengdu airport. The vest says: <em>except for love, everyone must queue.</em></p>
+            <span class="moment-date">2016 · Chengdu</span>
+          </div>
+        </div>
+
       </div>
 
       <div class="scatter-col">
@@ -249,6 +280,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </div>
 
         <div class="card card-moment">
+          <div class="moment-slides slides-full">
+            <img src="/images/moments/qiang-wedding.jpg" alt="A bride in full Qiang traditional costume, Beichuan, Sichuan" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">May 1, 2017. A friend's Qiang ethnic wedding in Beichuan New Town, Sichuan.</p>
+            <p class="moment-note">The original Beichuan was destroyed in the 2008 earthquake. A new town was built eight miles away.</p>
+            <span class="moment-date">2017.5.1 · Beichuan, Sichuan</span>
+          </div>
+        </div>
+
+        <div class="card card-moment">
           <div class="moment-slides slides-landscape">
             <img src="/images/moments/first-apartment.jpg" alt="First apartment in Switzerland, first week" loading="lazy">
           </div>
@@ -275,6 +317,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="moment-body">
             <p class="moment-text">I had loved the Shanghai Rainbow Chamber Singers for years before I finally heard them live. July 2021, Shanghai Symphony Hall. Those melodies still find their way back to me.</p>
             <span class="moment-date">2021.7 · Shanghai Symphony Hall</span>
+          </div>
+        </div>
+
+        <div class="card card-moment">
+          <div class="moment-slides moment-crop">
+            <img src="/images/moments/tattoo-ghibli.jpg" alt="Studio Ghibli temporary tattoos on both arms, 2017" loading="lazy">
+          </div>
+          <div class="moment-body">
+            <p class="moment-text">September 2017. Tried temporary tattoos for a party. Both arms. Studio Ghibli all the way.</p>
+            <span class="moment-date">2017.9 · Shanghai</span>
           </div>
         </div>
       </div>
@@ -619,6 +671,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     font-weight: 300;
     letter-spacing: 0.12em;
     color: var(--stone);
+  }
+  .moment-note {
+    margin-top: 6px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--stone);
+    opacity: 0.8;
   }
 
   /* ── Responsive ── */
