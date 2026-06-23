@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-21 (session 74)
+> Last updated: 2026-06-23 (session 75)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -590,15 +590,31 @@ Professional profile: photo + summary, 5 work entries with vine bullets, educati
 - Mobile: bubble floats centered over image (`top:50%; left:50%; transform:translate(-50%,-50%)`); no tail; background `rgba(250,250,248,0.96)`
 - Desktop: bubble right of image (`left: calc(100%+18px); top:50%`); two-layer CSS triangle tail pointing left (border: `var(--rose-light)`, fill: `#FAFAF8`)
 
-### Wandering (`/writing`) ⚠️ Index only
+### Wandering (`/writing`) ✅ Index + 1 detail page (session 75)
 
-2 placeholder posts. No detail pages.
+**Index (`/writing/index.astro`):**
+- Bilingual display, **EN primary** (large) / ZH secondary (small, var(--serif) — no handwriting font at small size)
+- Post cards: EN title (large italic serif) + ZH title below (smaller) + EN excerpt + ZH excerpt + readtime
+- Intro: merged 2-para bilingual block + working language note + coffee section (all bilingual)
+- localStorage key for writing: `sisi-writing-lang` (separate from `sisi-article-lang` used by photography)
+- Coffee cup SVG easter egg: plays `public/audio/coffee-invite.m4a`
 
-**Session 38 — index page updates:**
+**First essay — `把领带系上 / Put on the Tie` (`/writing/put-on-the-tie`):**
+- Date: 2026-06-23 · 2 min read
+- Default language: **Chinese** (uses `sisi-writing-lang` key, default `zh`)
+- Chinese body font: **Ma Shan Zheng** (楷书 handwriting), English body: Cormorant Garamond
+- Lang toggle: prominent rose pill (中文 / EN), positioned below title in header
+- Three emphasis formats:
+  - `.essay-quote` — left border gray, indented italic (book quotes 1 & 2)
+  - `.essay-quote--reveal` — centered, no border, rose bold (the key revelation)
+  - `.essay-key` — large rose italic, thin rose rules above/below (main pullquote)
+  - `.essay-callout` — rose bold italic, border-top/bottom (key phrase)
+- **Source card** (`.source-card`): book cover photo `public/images/book-moment-it-clicks.webp` left + quote right; warm white bg, rose top border 3px, box-shadow; Joe McNally / THE MOMENT IT **CLICKS** attribution in red `#CC1818`; quote text forced to Cormorant Garamond white with `!important` (prevents Ma Shan Zheng inheritance)
+- `max-width: 960px` (matches photography articles)
+
+**Session 38 — index page (original):**
 - Title changed from "Writing" → "Wandering"
-- Intro text added (EN only, 900px wide): 4 paragraphs inviting reader to sit and converse
-- Coffee cup SVG easter egg: clicking the cup plays audio (`public/audio/coffee-invite.m4a`); steam wisps animate while playing; stops on click or end. **Session 57: replaced with real recording `Bleicherstrasse 49.m4a`.**
-- Coffee cup SVG uses rose palette: `#c17d9d` (cup body), `#d4a0b8` (saucer/handle), `#ecd2e0` (steam wisps)
+- Coffee cup SVG uses rose palette: `#c17d9d` (cup body), `#d4a0b8` (saucer/handle), `#ecd2e0` (steam wisps). Session 57: replaced audio with real recording `Bleicherstrasse 49.m4a`.
 
 ### Moments (`/moments`) ✅ Live (session 63–71)
 
@@ -664,7 +680,8 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 - [x] **Nature Never Judges grid** — Oeschinensee ✅ s36; Lucerne city guide ✅ s37; 4 placeholder cards removed s73 (only 3 real articles remain)
 - [x] **Lucerne city guide** — `/photography/lucerne` ✅ s37; trails map red star marker ✅; bilingual EN/中文 ✅; deployed ✅
 - [ ] **Research detail pages** — OGN articles removed from site (session 72); HTML drafts at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html` remain locally if needed later
-- [ ] **Writing detail pages** — `/writing/[slug].astro`
+- [x] **Writing first essay** — `把领带系上 / Put on the Tie` ✅ session 75; direct page `/writing/put-on-the-tie.astro`; bilingual, ZH default, Ma Shan Zheng
+- [ ] **Writing detail pages** — more essays; no `[slug].astro` template yet (essays are individual files for now)
 - [ ] **Journey detail pages** — timeline cards link to `#`
 - [ ] **MEPS deep-dive analysis pages** — expenditure overview ✅ done; next: INSCOV23 (insurance coverage), DLAYCA42 (delayed care), TOTSLF23 (OOP spending); stubs in `/meps-reports.html`
 - [x] **MEPS explorer label fixes (s38)** — Yes/No auto-applied to all {1,2}-only vars; -2 (prev round) and -10 (top coded) added to MISSING_VALS; employment categoricals fully labelled; both main + split JSON regenerated
