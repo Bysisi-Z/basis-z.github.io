@@ -1,19 +1,36 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const posts = [
+const series = [
   {
-    href: '/organon-stock-analysis.html',
-    title: "Organon: Was the Failure Avoidable?",
-    date: '2026-06-26', readTime: '15 min read',
-    tags: ['Pharma', 'Stock Analysis'],
-    special: 'Interactive Dashboard',
-    excerpt: "OGN fell from $32 to $9 over five years. This analysis dissects 15 key decision points — interest rate headwinds, BD missteps, and operational drift — and asks: was the outcome avoidable?",
+    num: '01',
+    title: 'Invert, Always Invert',
+    tagline: '"What would have to be true for this to fail?"',
+    desc: "Charlie Munger's most underrated mental model applied to industry analysis. Instead of asking how companies succeed, this series asks how they fail — and whether the outcome was avoidable.",
+    posts: [
+      {
+        href: '/organon-stock-analysis.html',
+        title: 'Organon: Was the Failure Avoidable?',
+        date: '2026-06-26',
+        readTime: '15 min read',
+        tags: ['Pharma', 'Stock Analysis'],
+        special: 'Interactive Dashboard',
+        excerpt: "OGN fell from $32 to $9 over five years. This analysis dissects 15 key decision points — interest rate headwinds, BD missteps, and operational drift — and asks: was the outcome avoidable?",
+      },
+    ],
+  },
+  {
+    num: '02',
+    title: 'Coming Soon',
+    tagline: '',
+    desc: '',
+    coming: true,
+    posts: [],
   },
 ];
 ---
 
-<BaseLayout title="Industry Research — Decoding" description="In-depth pharma research articles and financial analysis">
+<BaseLayout title="Industry Research — Decoding" description="In-depth industry analysis and corporate post-mortems">
   <div class="content-wrap">
 
     <div class="page-header">
@@ -21,22 +38,37 @@ const posts = [
       <h1 class="page-title">Industry<br/><em>Research</em></h1>
     </div>
 
-    <div class="article-list">
-      {posts.map(post => (
-        <a class="article-item fade-up" href={post.href ?? `/research/${post.slug}`}>
-          <div>
-            <div class="article-tags">
-              {post.tags.map(t => <span class="tag">{t}</span>)}
-              {post.special && <span class="tag neutral">{post.special}</span>}
+    <div class="series-list">
+      {series.map((s, si) => (
+        <div class={`series-block fade-up${s.coming ? ' series-block--coming' : ''}`}>
+          <div class="series-header">
+            <span class="series-num">Series {s.num}</span>
+            <h2 class="series-title">{s.title}</h2>
+            {s.tagline && <p class="series-tagline">{s.tagline}</p>}
+            {s.desc && <p class="series-desc">{s.desc}</p>}
+          </div>
+
+          {s.posts.length > 0 && (
+            <div class="post-list">
+              {s.posts.map(post => (
+                <a class="post-item" href={post.href}>
+                  <div class="post-body">
+                    <div class="post-tags">
+                      {post.tags.map(t => <span class="tag">{t}</span>)}
+                      {post.special && <span class="tag neutral">{post.special}</span>}
+                    </div>
+                    <div class="post-title">{post.title}</div>
+                    <p class="post-excerpt">{post.excerpt}</p>
+                  </div>
+                  <div class="post-meta">
+                    <span class="meta-date">{post.date}</span>
+                    <span class="meta-read">{post.readTime}</span>
+                  </div>
+                </a>
+              ))}
             </div>
-            <div class="article-title">{post.title}</div>
-            <p class="article-excerpt">{post.excerpt}</p>
-          </div>
-          <div class="article-meta">
-            <span class="meta-date">{post.date}</span>
-            <span class="meta-read">{post.readTime}</span>
-          </div>
-        </a>
+          )}
+        </div>
       ))}
     </div>
 
@@ -61,20 +93,74 @@ const posts = [
   }
   .back-crumb:hover { color: var(--ink); }
 
-  .article-list { padding-top: 56px; }
+  /* ── Series list ── */
+  .series-list {
+    padding-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
 
-  .article-item {
+  .series-block {
+    padding: 52px 0;
+    border-top: 1px solid rgba(26,26,26,0.08);
+  }
+  .series-block:last-child { border-bottom: 1px solid rgba(26,26,26,0.08); }
+
+  .series-block--coming {
+    opacity: 0.36;
+    pointer-events: none;
+  }
+
+  /* ── Series header ── */
+  .series-header { margin-bottom: 36px; }
+
+  .series-num {
+    display: inline-block;
+    font-family: var(--sans); font-size: 10px; font-weight: 300;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .series-title {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 300; font-style: italic;
+    color: var(--ink); line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .series-tagline {
+    font-family: var(--serif);
+    font-size: clamp(14px, 1.4vw, 17px);
+    font-weight: 300; font-style: italic;
+    color: var(--stone);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .series-desc {
+    font-family: var(--sans); font-size: 13px; font-weight: 300;
+    color: var(--muted); line-height: 1.82;
+    max-width: 560px;
+  }
+
+  /* ── Post list within a series ── */
+  .post-list { display: flex; flex-direction: column; }
+
+  .post-item {
     display: grid; grid-template-columns: 1fr auto;
     align-items: start; gap: 40px;
-    padding: 44px 0;
-    border-bottom: 1px solid rgba(26,26,26,0.08);
+    padding: 36px 0 36px 24px;
+    border-left: 1.5px solid var(--accent-l);
     text-decoration: none; color: inherit;
-    transition: opacity 0.22s;
+    transition: opacity 0.22s, border-color 0.22s;
   }
-  .article-item:first-child { border-top: 1px solid rgba(26,26,26,0.08); }
-  .article-item:hover { opacity: 0.55; }
+  .post-item:not(:first-child) { margin-top: 2px; }
+  .post-item:hover { opacity: 0.55; border-left-color: var(--accent); }
 
-  .article-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .post-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .tag {
     font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--accent); border: 1px solid var(--accent-l);
@@ -82,31 +168,32 @@ const posts = [
   }
   .tag.neutral { color: var(--muted); border-color: var(--light); }
 
-  .article-title {
+  .post-title {
     font-family: var(--serif);
-    font-size: clamp(20px, 2.2vw, 30px);
-    font-weight: 300; line-height: 1.28; margin-bottom: 12px;
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 300; line-height: 1.28; margin-bottom: 10px;
   }
-  .article-excerpt {
+  .post-excerpt {
     font-size: 13px; font-weight: 300;
     color: var(--muted); line-height: 1.82; max-width: 500px;
   }
 
-  .article-meta { text-align: right; flex-shrink: 0; }
+  .post-meta { text-align: right; flex-shrink: 0; }
   .meta-date { font-size: 11px; color: var(--muted); display: block; }
   .meta-read { font-size: 11px; color: var(--light); margin-top: 4px; display: block; }
 
   @media (max-width: 560px) {
-    .article-item { grid-template-columns: 1fr; gap: 20px; }
-    .article-meta { text-align: left; }
+    .post-item { grid-template-columns: 1fr; gap: 16px; }
+    .post-meta { text-align: left; }
+    .series-block { padding: 40px 0; }
   }
 </style>
 
 <script>
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
-      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 120); io.unobserve(e.target); }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0.06 });
   document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 </script>
