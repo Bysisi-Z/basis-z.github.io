@@ -3,141 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organon (OGN) — What-If Post-Mortem 2021–2026</title>
+<title>Organon: Was the Failure Avoidable? — Si</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: #FAFAF8; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #0f1117;
-    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #FAFAF8;
+    color: #1A1A1A;
     min-height: 100vh;
-    padding: 32px 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(48px, 6vw, 80px) clamp(24px, 4vw, 60px) 100px;
   }
   .back-crumb {
     display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 10px; font-weight: 300;
     letter-spacing: 0.14em; text-transform: uppercase;
-    color: #64748b; text-decoration: none;
-    margin-bottom: 28px;
+    color: #847B7B; text-decoration: none;
+    margin-bottom: 36px;
     transition: color 0.2s;
   }
-  .back-crumb:hover { color: #cbd5e1; }
+  .back-crumb:hover { color: #1A1A1A; }
   h1 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #f8fafc;
-    margin-bottom: 4px;
-    letter-spacing: -0.3px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    font-style: italic;
+    color: #1A1A1A;
+    line-height: 1.1;
+    margin-bottom: 8px;
   }
   .subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 13px;
-    color: #64748b;
-    margin-bottom: 28px;
+    font-weight: 300;
+    color: #847B7B;
+    margin-bottom: 40px;
+    line-height: 1.7;
   }
   .chart-wrap {
-    background: #181c27;
-    border: 1px solid #232a3a;
+    background: #ffffff;
+    border: 1px solid #E2DEDB;
     border-radius: 12px;
-    padding: 24px 24px 16px;
-    margin-bottom: 28px;
+    margin-bottom: 40px;
     position: relative;
   }
-  .price-stats {
-    display: flex;
-    gap: 32px;
-    margin-bottom: 20px;
-  }
-  .stat { }
-  .stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
-  .stat-value { font-size: 22px; font-weight: 700; color: #f8fafc; margin-top: 2px; }
-  .stat-value.red { color: #f87171; }
-  .stat-value.green { color: #34d399; }
+  .stat-label { font-size: 11px; color: #847B7B; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 18px; font-weight: 600; color: #1A1A1A; margin-top: 2px; }
+  .stat-value.red { color: #dc2626; }
+  .stat-value.green { color: #16a34a; }
   canvas { display: block; width: 100% !important; }
-  .chart-legend {
-    display: flex; gap: 20px; margin-bottom: 12px;
-  }
+  .chart-legend { display: flex; gap: 20px; margin-bottom: 12px; }
   .cl-item {
     display: flex; align-items: center; gap: 7px;
-    font-size: 12px; color: #94a3b8;
+    font-size: 12px; color: #475569;
   }
-  .cl-line {
-    display: inline-block; width: 24px; height: 2.5px;
-    border-radius: 2px;
-  }
+  .cl-line { display: inline-block; width: 24px; height: 2.5px; border-radius: 2px; }
 
-  /* Events legend */
+  .events-section { margin-top: 52px; }
   .events-section h2 {
-    font-size: 14px;
-    font-weight: 600;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-bottom: 16px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(22px, 2.5vw, 32px);
+    font-weight: 300; font-style: italic;
+    color: #1A1A1A;
+    margin-bottom: 20px;
   }
   .events-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-    gap: 8px;
+    gap: 10px;
   }
   .event-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    background: #181c27;
-    border: 1px solid #232a3a;
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #ffffff;
+    border: 1px solid #E2DEDB;
     border-radius: 8px;
-    padding: 10px 14px;
+    padding: 12px 16px;
+    transition: border-color 0.18s;
   }
+  .event-item:hover { border-color: #c17d9d; }
   .event-num {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0; margin-top: 1px;
   }
   .event-content { flex: 1; }
-  .event-date { font-size: 11px; color: #64748b; margin-bottom: 2px; }
-  .event-title { font-size: 13px; color: #e2e8f0; font-weight: 500; line-height: 1.4; }
-  .event-desc { font-size: 12px; color: #94a3b8; margin-top: 3px; line-height: 1.4; }
+  .event-date { font-size: 11px; color: #847B7B; margin-bottom: 2px; }
+  .event-title { font-size: 13px; color: #1A1A1A; font-weight: 500; line-height: 1.4; }
+  .event-desc { font-size: 12px; color: #847B7B; margin-top: 3px; line-height: 1.5; }
   .event-price { font-size: 12px; font-weight: 600; margin-top: 4px; }
 
-  /* Category colors */
-  .cat-spinoff     { background: #6366f1; color: #fff; }
-  .cat-macro       { background: #a855f7; color: #fff; }
-  .cat-ops         { background: #f87171; color: #fff; }
-  .cat-bd          { background: #f59e0b; color: #000; }
-  .cat-positive    { background: #34d399; color: #000; }
-  .cat-exit        { background: #38bdf8; color: #000; }
-  .cat-compliance  { background: #ec4899; color: #fff; }
+  .cat-spinoff    { background: #6366f1; color: #fff; }
+  .cat-macro      { background: #a855f7; color: #fff; }
+  .cat-ops        { background: #f87171; color: #fff; }
+  .cat-bd         { background: #f59e0b; color: #000; }
+  .cat-positive   { background: #34d399; color: #000; }
+  .cat-exit       { background: #38bdf8; color: #000; }
+  .cat-compliance { background: #ec4899; color: #fff; }
 
-  .legend-bar {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: #94a3b8;
-  }
-  .legend-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .legend-bar { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
+<div class="page-wrap">
 
 <a class="back-crumb" href="/research/industry">← Industry Analysis</a>
 <h1>Organon &amp; Co. (OGN) — Was It Avoidable?</h1>
@@ -146,10 +127,10 @@
 <div class="chart-wrap" style="padding:0;display:flex;align-items:stretch;margin-bottom:28px;">
 
   <!-- Shared left sidebar -->
-  <div style="width:148px;flex-shrink:0;border-right:1px solid #232a3a;display:flex;flex-direction:column;">
+  <div style="width:148px;flex-shrink:0;border-right:1px solid #E2DEDB;display:flex;flex-direction:column;">
 
     <!-- Stats (chart section) -->
-    <div style="display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 18px 20px 24px;border-bottom:1px solid #232a3a;">
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 18px 20px 24px;border-bottom:1px solid #E2DEDB;">
       <div class="stat">
         <div class="stat-label">Spinoff Price</div>
         <div class="stat-value" style="font-size:18px;">$30.26</div>
@@ -176,7 +157,7 @@
     <div id="finLabelArea" style="display:flex;flex-direction:column;flex:1;"></div>
 
     <!-- Footnote -->
-    <div style="padding:10px 18px 16px 24px;font-size:9px;color:#374151;line-height:1.55;flex-shrink:0;">
+    <div style="padding:10px 18px 16px 24px;font-size:9px;color:#9ca3af;line-height:1.55;flex-shrink:0;">
       * EBITDA GAAP basis<br>Source: Organon IR /<br>StockAnalysis
     </div>
 
@@ -186,10 +167,10 @@
   <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
 
     <!-- Chart (top) -->
-    <div style="padding:20px 24px 16px 20px;border-bottom:1px solid #232a3a;flex-shrink:0;">
+    <div style="padding:20px 24px 16px 20px;border-bottom:1px solid #E2DEDB;flex-shrink:0;">
       <div class="chart-legend">
-        <div class="cl-item"><span class="cl-line" style="background:#818cf8"></span>OGN Monthly Close (left, $)</div>
-        <div class="cl-item"><span class="cl-line" style="background:#fb923c"></span>US 10Y Treasury Yield (right, %)</div>
+        <div class="cl-item"><span class="cl-line" style="background:#c17d9d"></span>OGN Monthly Close (left, $)</div>
+        <div class="cl-item"><span class="cl-line" style="background:#f97316;border-top:1px dashed #f97316;height:0;background:transparent;border-bottom:none;"></span>US 10Y Treasury Yield (right, %)</div>
       </div>
       <canvas id="ognChart" height="320"></canvas>
     </div>
@@ -261,44 +242,44 @@ const finRows = [
   // ── Income Statement ──────────────────────────────────────────────────────
   { label:'Revenue',
     vals:[1595,1600,1603,1567,1585,1537,1485,1538,1608,1519,1598,1622,1607,1582,1592,1513,1594,1602,1507,1460],
-    fmt:'M', showPct:false, getColor:()=>'#e2e8f0' },
+    fmt:'M', showPct:false, getColor:()=>'#1A1A1A' },
   { label:'COGS',
     vals:[ 583, 609, 599, 561, 588, 551, 594, 580, 640, 612, 683, 665, 668, 659, 696, 672, 720, 745, 766, 677],
-    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+    fmt:'M', showPct:true, getColor:()=>'#847B7B' },
   { label:'Gross Profit',
     vals:[1012, 991,1004,1006, 997, 986, 891, 958, 968, 907, 915, 957, 939, 923, 896, 841, 874, 857, 741, 783],
     fmt:'gp', showPct:true,
     gmVals:[63.5,61.9,62.6,64.2,62.9,64.2,60.0,62.3,60.2,59.7,57.3,59.0,58.4,58.3,56.3,55.6,54.8,53.5,49.2,53.6],
-    getColor:()=>'#94a3b8' },
+    getColor:()=>'#475569' },
   { label:'SG&A',
     vals:[ 416, 388, 482, 371, 423, 440, 470, 435, 451, 538, 469, 431, 437, 422, 470, 420, 453, 415, 433, 424],
-    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+    fmt:'M', showPct:true, getColor:()=>'#847B7B' },
   { label:'R&D',
     vals:[  76, 111, 189,  96, 203, 137, 142, 137, 128, 137, 134, 127, 131, 162, 130, 102,  95,  84,  91,  93],
-    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+    fmt:'M', showPct:true, getColor:()=>'#847B7B' },
   { label:'EBITDA*',
     vals:[ 562, 543, 395, 592, 421, 455, 314, 439, 447, 293, 314, 441, 437, 408, 365, 317, 413, 450, 306, 321],
-    fmt:'M', showPct:true, getColor:()=>'#94a3b8' },
+    fmt:'M', showPct:true, getColor:()=>'#475569' },
   { label:'Interest Exp.',
     vals:[ -62, -98, -98, -97, -98,-108,-119,-132,-132,-134,-129,-131,-131,-126,-132,-124,-131,-128,-121,-111],
-    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+    fmt:'M', showPct:true, getColor:()=>'#847B7B' },
   { label:'Net Income',
     vals:[ 427, 323, 202, 348, 234, 227, 108, 177, 242,  58, 546, 201, 195, 359, 109,  87, 145, 160,-205, 146],
-    fmt:'M', showPct:true, getColor:(v)=>v<0?'#f87171':'#94a3b8' },
+    fmt:'M', showPct:true, getColor:(v)=>v<0?'#dc2626':'#475569' },
   // ── Balance Sheet (end of period) ─────────────────────────────────────────
   { label:'', fmt:'sep', vals:Array(20).fill(null), showPct:false, getColor:()=>'' },
   { label:'Cash',
     vals:[ 730,1008, 737, 694, 545, 499, 706, 459, 326, 414, 693, 575, 704, 763, 675, 547, 599, 672, 574,1116],
-    fmt:'M', showPct:false, getColor:()=>'#94a3b8' },
+    fmt:'M', showPct:false, getColor:()=>'#475569' },
   { label:'Current Assets',
     vals:[3911,4329,3760,3719,3774,3592,3931,3780,3958,4050,4508,4196,4509,4756,4348,4371,4618,4700,4352,4932],
-    fmt:'M', showPct:false, getColor:()=>'#94a3b8' },
+    fmt:'M', showPct:false, getColor:()=>'#475569' },
   { label:'Current Liab.',
     vals:[2975,3129,2597,2306,2396,2328,2512,2346,2387,2491,2918,2545,2755,2790,2718,2615,2796,2679,2390,2500],
-    fmt:'M', showPct:false, getColor:()=>'#64748b' },
+    fmt:'M', showPct:false, getColor:()=>'#847B7B' },
   { label:'Working Capital',
     vals:[ 936,1200,1163,1413,1378,1264,1419,1434,1571,1559,1590,1651,1754,1966,1630,1756,1822,2021,1962,2432],
-    fmt:'M', showPct:false, getColor:(v)=>v<0?'#f87171':'#94a3b8' },
+    fmt:'M', showPct:false, getColor:(v)=>v<0?'#dc2626':'#475569' },
 ];
 const finYearSep = new Set([3,7,11,15,19]);
 const finQHeaders = ['Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1'];
@@ -528,20 +509,20 @@ new Chart(ctx, {
     datasets: [{
       label: 'OGN Monthly Close ($)',
       data: prices,
-      borderColor: '#818cf8',
+      borderColor: '#c17d9d',
       backgroundColor: (context) => {
         const chart = context.chart;
         const {ctx: c, chartArea} = chart;
         if (!chartArea) return 'transparent';
         const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-        gradient.addColorStop(0, 'rgba(129,140,248,0.25)');
-        gradient.addColorStop(1, 'rgba(129,140,248,0.01)');
+        gradient.addColorStop(0, 'rgba(193,125,157,0.18)');
+        gradient.addColorStop(1, 'rgba(193,125,157,0.01)');
         return gradient;
       },
       borderWidth: 2,
       pointRadius: 0,
       pointHoverRadius: 5,
-      pointHoverBackgroundColor: '#818cf8',
+      pointHoverBackgroundColor: '#c17d9d',
       fill: true,
       tension: 0.3,
       yAxisID: 'y',
@@ -574,10 +555,10 @@ new Chart(ctx, {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: '#1e2538',
-        titleColor: '#94a3b8',
-        bodyColor: '#f8fafc',
-        borderColor: '#334155',
+        backgroundColor: '#ffffff',
+        titleColor: '#847B7B',
+        bodyColor: '#1A1A1A',
+        borderColor: '#E2DEDB',
         borderWidth: 1,
         padding: 10,
         callbacks: {
@@ -591,10 +572,10 @@ new Chart(ctx, {
     },
     scales: {
       x: {
-        grid: { color: '#1e2538', drawTicks: false },
-        border: { color: '#232a3a' },
+        grid: { color: 'rgba(26,26,26,0.06)', drawTicks: false },
+        border: { color: '#E2DEDB' },
         ticks: {
-          color: '#475569',
+          color: '#847B7B',
           font: { size: 10 },
           maxRotation: 0,
           callback: function(val, idx) {
@@ -607,10 +588,10 @@ new Chart(ctx, {
         min: 0,
         max: 42,
         position: 'left',
-        grid: { color: '#1e2538' },
+        grid: { color: 'rgba(26,26,26,0.06)' },
         border: { dash: [2, 2], color: 'transparent' },
         ticks: {
-          color: '#818cf8',
+          color: '#c17d9d',
           font: { size: 10 },
           callback: v => `$${v}`
         }
@@ -622,7 +603,7 @@ new Chart(ctx, {
         grid: { drawOnChartArea: false },
         border: { color: 'transparent' },
         ticks: {
-          color: '#fb923c',
+          color: '#f97316',
           font: { size: 10 },
           callback: v => `${v}%`
         }
@@ -660,7 +641,7 @@ function highlightQtr(qi) {
   if (qi === _activeQtr) return;
   _activeQtr = qi;
   document.querySelectorAll('#finTableWrap [data-qi]').forEach(el => {
-    el.style.background = parseInt(el.dataset.qi) === qi ? 'rgba(129,140,248,0.13)' : '';
+    el.style.background = parseInt(el.dataset.qi) === qi ? 'rgba(193,125,157,0.09)' : '';
   });
 }
 
@@ -669,18 +650,18 @@ function buildFinLabels() {
   const area = document.getElementById('finLabelArea');
   if (!area) return;
   const isLast = (ri) => ri === finRows.length - 1;
-  let h = `<div id="finLabelHeader" style="border-bottom:2px solid #232a3a;display:flex;align-items:flex-end;padding:0 18px 7px 24px;flex-shrink:0;">
+  let h = `<div id="finLabelHeader" style="border-bottom:2px solid #E2DEDB;display:flex;align-items:flex-end;padding:0 18px 7px 24px;flex-shrink:0;">
     <div>
-      <div style="font-size:11px;font-weight:600;color:#64748b;line-height:1.35;">Quarterly<br>Metrics</div>
-      <div style="font-size:9px;color:#374151;margin-top:3px;">USD millions</div>
+      <div style="font-size:11px;font-weight:500;color:#475569;line-height:1.35;">Quarterly<br>Metrics</div>
+      <div style="font-size:9px;color:#9ca3af;margin-top:3px;">USD millions</div>
     </div>
   </div>`;
   finRows.forEach((row, ri) => {
     if (row.fmt === 'sep') {
-      h += `<div class="fin-label-row" style="background:#0f1117;border-top:2px solid #232a3a;border-bottom:1px solid #232a3a;display:flex;align-items:center;padding:0 18px 0 24px;font-size:10px;font-weight:600;color:#374151;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0;">Balance Sheet</div>`;
+      h += `<div class="fin-label-row" style="background:#F4F2EF;border-top:2px solid #E2DEDB;border-bottom:1px solid #E2DEDB;display:flex;align-items:center;padding:0 18px 0 24px;font-size:10px;font-weight:600;color:#847B7B;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0;">Balance Sheet</div>`;
     } else {
-      const bb = isLast(ri) ? 'none' : '1px solid #1a2030';
-      h += `<div class="fin-label-row" style="border-bottom:${bb};display:flex;align-items:center;padding:0 18px 0 24px;font-size:13px;color:#64748b;font-weight:500;flex-shrink:0;">${row.label}</div>`;
+      const bb = isLast(ri) ? 'none' : '1px solid #E2DEDB';
+      h += `<div class="fin-label-row" style="border-bottom:${bb};display:flex;align-items:center;padding:0 18px 0 24px;font-size:13px;color:#475569;font-weight:400;flex-shrink:0;">${row.label}</div>`;
     }
   });
   area.innerHTML = h;
@@ -702,21 +683,21 @@ function syncFinLabelHeights() {
 (function buildFinTable() {
   const wrap = document.getElementById('finTableWrap');
   const tdB = 'padding:9px 13px;text-align:right;font-size:13px;';
-  const thB = 'padding:5px 13px;text-align:right;font-size:12px;font-weight:600;color:#475569;white-space:nowrap;';
-  const sep = 'border-left:1.5px solid #1e2538;';
+  const thB = 'padding:5px 13px;text-align:right;font-size:12px;font-weight:500;color:#475569;white-space:nowrap;';
+  const sep = 'border-left:1.5px solid #E2DEDB;';
 
-  let h = `<div style="overflow-x:auto;"><table style="border-collapse:collapse;white-space:nowrap;width:100%;">`;
+  let h = `<div style="overflow-x:auto;"><table style="border-collapse:collapse;white-space:nowrap;width:100%;background:#ffffff;">`;
   // Year row
-  h += `<thead><tr style="border-bottom:1px solid #232a3a;">`;
+  h += `<thead><tr style="border-bottom:1px solid #E2DEDB;background:#FAFAF8;">`;
   let first = true;
   finYearHeaders.forEach(y => {
-    const bl = first ? '' : 'border-left:1.5px solid #232a3a;';
+    const bl = first ? '' : 'border-left:1.5px solid #E2DEDB;';
     first = false;
-    h += `<th colspan="${y.s}" style="${thB}${bl}text-align:center;color:#475569;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:3px;">${y.l}</th>`;
+    h += `<th colspan="${y.s}" style="${thB}${bl}text-align:center;color:#847B7B;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:3px;">${y.l}</th>`;
   });
   h += `</tr>`;
   // Quarter row
-  h += `<tr style="border-bottom:2px solid #232a3a;">`;
+  h += `<tr style="border-bottom:2px solid #E2DEDB;background:#FAFAF8;">`;
   finQHeaders.forEach((q, i) => {
     const bl = finYearSep.has(i) ? sep : '';
     h += `<th data-qi="${i}" style="${thB}${bl}">${q}</th>`;
@@ -726,23 +707,23 @@ function syncFinLabelHeights() {
 
   finRows.forEach((row, ri) => {
     if (row.fmt === 'sep') {
-      h += `<tr style="border-top:2px solid #232a3a;">`;
+      h += `<tr style="border-top:2px solid #E2DEDB;">`;
       finQHeaders.forEach((_, i) => {
-        h += `<td data-qi="${i}" style="padding:4px 13px;${finYearSep.has(i)?sep:''}background:#0f1117;"></td>`;
+        h += `<td data-qi="${i}" style="padding:4px 13px;${finYearSep.has(i)?sep:''}background:#F4F2EF;"></td>`;
       });
       h += `</tr>`;
       return;
     }
     const lastRow = ri === finRows.length - 1;
-    h += `<tr style="${lastRow ? '' : 'border-bottom:1px solid #1a2030;'}">`;
+    h += `<tr style="${lastRow ? '' : 'border-bottom:1px solid #E2DEDB;'}">`;
     row.vals.forEach((v, i) => {
       const bl = finYearSep.has(i) ? sep : '';
       let disp, clr, fw = '';
       if (row.fmt === 'gp') {
         const gm = row.gmVals[i];
         const gmRnd = Math.round(gm);
-        clr = '#94a3b8';
-        const gmClr = gm >= 62 ? '#34d399' : gm >= 57 ? '#cbd5e1' : '#f87171';
+        clr = '#475569';
+        const gmClr = gm >= 62 ? '#16a34a' : gm >= 57 ? '#6b7280' : '#dc2626';
         const gmFw = (gm >= 62 || gm < 57) ? 'font-weight:600;' : '';
         disp = `${v.toLocaleString()}&nbsp;<span style="font-size:11px;color:${gmClr};${gmFw}">(${gmRnd}%)</span>`;
       } else {
@@ -784,5 +765,6 @@ events.forEach(e => {
   grid.appendChild(div);
 });
 </script>
+</div><!-- /page-wrap -->
 </body>
 </html>
