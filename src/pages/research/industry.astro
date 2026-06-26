@@ -3,20 +3,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const posts = [
   {
-    slug: 'sun-pharma-ogn-acquisition',
-    title: "Sun Pharma's Acquisition of OGN: Financial Comparison & Deal Analysis",
-    date: '2026-05-28', readTime: '12 min read',
-    tags: ['M&A', 'Pharma'],
-    special: 'Interactive Charts',
-    excerpt: "Drawing on the latest 10-K filings, this report examines both companies' financial positions, strategic rationale, debt risk, and the integration challenges of a USD 13B cross-border deal.",
-  },
-  {
-    slug: 'ogn-annual-analysis',
-    title: 'OGN (Organon & Co.) Annual Financial Analysis Report',
-    date: '2026-05-28', readTime: '8 min read',
-    tags: ['Pharma', 'Financial Analysis'],
-    special: '',
-    excerpt: "A deep dive into OGN's latest 10-K data: revenue trends, debt structure, profitability, and stock performance — with a comprehensive investment assessment.",
+    href: '/organon-stock-analysis.html',
+    title: "Organon: Was the Failure Avoidable?",
+    date: '2026-06-26', readTime: '15 min read',
+    tags: ['Pharma', 'Stock Analysis'],
+    special: 'Interactive Dashboard',
+    excerpt: "OGN fell from $32 to $9 over five years. This analysis dissects 15 key decision points — interest rate headwinds, BD missteps, and operational drift — and asks: was the outcome avoidable?",
   },
 ];
 ---
@@ -31,7 +23,7 @@ const posts = [
 
     <div class="article-list">
       {posts.map(post => (
-        <a class="article-item fade-up" href={`/research/${post.slug}`}>
+        <a class="article-item fade-up" href={post.href ?? `/research/${post.slug}`}>
           <div>
             <div class="article-tags">
               {post.tags.map(t => <span class="tag">{t}</span>)}

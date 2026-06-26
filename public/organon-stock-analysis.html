@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organon (OGN) — What-If Post-Mortem 2021–2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 28px;
+  }
+  .chart-wrap {
+    background: #181c27;
+    border: 1px solid #232a3a;
+    border-radius: 12px;
+    padding: 24px 24px 16px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .price-stats {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 20px;
+  }
+  .stat { }
+  .stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 22px; font-weight: 700; color: #f8fafc; margin-top: 2px; }
+  .stat-value.red { color: #f87171; }
+  .stat-value.green { color: #34d399; }
+  canvas { display: block; width: 100% !important; }
+  .chart-legend {
+    display: flex; gap: 20px; margin-bottom: 12px;
+  }
+  .cl-item {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12px; color: #94a3b8;
+  }
+  .cl-line {
+    display: inline-block; width: 24px; height: 2.5px;
+    border-radius: 2px;
+  }
+
+  /* Events legend */
+  .events-section h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 16px;
+  }
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 8px;
+  }
+  .event-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #181c27;
+    border: 1px solid #232a3a;
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .event-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .event-content { flex: 1; }
+  .event-date { font-size: 11px; color: #64748b; margin-bottom: 2px; }
+  .event-title { font-size: 13px; color: #e2e8f0; font-weight: 500; line-height: 1.4; }
+  .event-desc { font-size: 12px; color: #94a3b8; margin-top: 3px; line-height: 1.4; }
+  .event-price { font-size: 12px; font-weight: 600; margin-top: 4px; }
+
+  /* Category colors */
+  .cat-spinoff     { background: #6366f1; color: #fff; }
+  .cat-macro       { background: #a855f7; color: #fff; }
+  .cat-ops         { background: #f87171; color: #fff; }
+  .cat-bd          { background: #f59e0b; color: #000; }
+  .cat-positive    { background: #34d399; color: #000; }
+  .cat-exit        { background: #38bdf8; color: #000; }
+  .cat-compliance  { background: #ec4899; color: #fff; }
+
+  .legend-bar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>Organon &amp; Co. (OGN) — Was It Avoidable?</h1>
+<p class="subtitle">A what-if post-mortem of 15 decision points from Merck spinoff to Sun Pharma acquisition &nbsp;·&nbsp; June 2021–2026</p>
+
+<div class="chart-wrap" style="padding:0;display:flex;align-items:stretch;margin-bottom:28px;">
+
+  <!-- Shared left sidebar -->
+  <div style="width:148px;flex-shrink:0;border-right:1px solid #232a3a;display:flex;flex-direction:column;">
+
+    <!-- Stats (chart section) -->
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 18px 20px 24px;border-bottom:1px solid #232a3a;">
+      <div class="stat">
+        <div class="stat-label">Spinoff Price</div>
+        <div class="stat-value" style="font-size:18px;">$30.26</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">All-Time High</div>
+        <div class="stat-value" style="font-size:18px;">$37.96</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">All-Time Low</div>
+        <div class="stat-value red" style="font-size:18px;">$5.69</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Sun Pharma Offer</div>
+        <div class="stat-value green" style="font-size:18px;">$14.00</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Total Return</div>
+        <div class="stat-value red" style="font-size:18px;">−55%</div>
+      </div>
+    </div>
+
+    <!-- Table metric labels (heights synced via JS) -->
+    <div id="finLabelArea" style="display:flex;flex-direction:column;flex:1;"></div>
+
+    <!-- Footnote -->
+    <div style="padding:10px 18px 16px 24px;font-size:9px;color:#374151;line-height:1.55;flex-shrink:0;">
+      * EBITDA GAAP basis<br>Source: Organon IR /<br>StockAnalysis
+    </div>
+
+  </div>
+
+  <!-- Shared right column -->
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+
+    <!-- Chart (top) -->
+    <div style="padding:20px 24px 16px 20px;border-bottom:1px solid #232a3a;flex-shrink:0;">
+      <div class="chart-legend">
+        <div class="cl-item"><span class="cl-line" style="background:#818cf8"></span>OGN Monthly Close (left, $)</div>
+        <div class="cl-item"><span class="cl-line" style="background:#fb923c"></span>US 10Y Treasury Yield (right, %)</div>
+      </div>
+      <canvas id="ognChart" height="320"></canvas>
+    </div>
+
+    <!-- Table (bottom, no label column — labels are in sidebar) -->
+    <div id="finTableWrap" style="flex:1;min-width:0;"></div>
+
+  </div>
+
+</div>
+
+<div class="events-section">
+  <div class="legend-bar">
+    <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>Milestone</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Macro / Rates</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Operations / Earnings</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>BD Decision</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Product Approval</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>Compliance / Governance</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div>M&amp;A / Exit</div>
+  </div>
+  <h2>Key Events</h2>
+  <div class="events-grid" id="eventsGrid"></div>
+</div>
+
+<script>
+const labels = [
+  "2021-06","2021-07","2021-08","2021-09","2021-10","2021-11","2021-12",
+  "2022-01","2022-02","2022-03","2022-04","2022-05","2022-06","2022-07",
+  "2022-08","2022-09","2022-10","2022-11","2022-12",
+  "2023-01","2023-02","2023-03","2023-04","2023-05","2023-06","2023-07",
+  "2023-08","2023-09","2023-10","2023-11","2023-12",
+  "2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07",
+  "2024-08","2024-09","2024-10","2024-11","2024-12",
+  "2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07",
+  "2025-08","2025-09","2025-10","2025-11","2025-12",
+  "2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"
+];
+
+const yields = [
+  1.44,1.24,1.30,1.53,1.56,1.44,1.51,
+  1.78,1.84,2.33,2.89,2.84,2.97,2.64,
+  3.13,3.80,4.08,3.70,3.88,
+  3.53,3.92,3.49,3.45,3.64,3.82,3.96,
+  4.09,4.57,4.88,4.35,3.87,
+  3.97,4.25,4.21,4.69,4.57,4.34,3.79,
+  3.91,3.98,4.36,4.18,4.60,
+  4.57,4.23,3.98,4.32,4.42,4.29,4.22,
+  4.23,4.12,4.10,4.02,4.19,
+  4.24,3.96,4.31,4.38,4.45,4.39
+];
+
+const prices = [
+  30.26,29.01,33.89,32.79,36.75,29.23,30.45,
+  31.91,37.33,34.93,32.33,37.96,33.75,31.72,
+  28.53,23.40,26.18,26.02,27.93,
+  30.13,24.49,23.52,24.63,19.39,20.81,21.98,
+  21.96,17.36,14.79,11.32,14.42,
+  16.65,17.41,18.80,18.61,21.33,20.70,21.86,
+  22.35,19.13,18.78,15.87,14.92,
+  15.56,14.91,14.89,12.93,9.22,9.68,9.70,
+  9.42,10.68,6.75,7.71,7.17,
+  8.54,7.29,5.99,13.25,13.34,13.47
+];
+
+// Quarterly financials: Q2'21 through Q1'26 (20 quarters)
+// showPct:true → show (XX%) of revenue inline; showPct:false → absolute only
+const finRows = [
+  // ── Income Statement ──────────────────────────────────────────────────────
+  { label:'Revenue',
+    vals:[1595,1600,1603,1567,1585,1537,1485,1538,1608,1519,1598,1622,1607,1582,1592,1513,1594,1602,1507,1460],
+    fmt:'M', showPct:false, getColor:()=>'#e2e8f0' },
+  { label:'COGS',
+    vals:[ 583, 609, 599, 561, 588, 551, 594, 580, 640, 612, 683, 665, 668, 659, 696, 672, 720, 745, 766, 677],
+    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+  { label:'Gross Profit',
+    vals:[1012, 991,1004,1006, 997, 986, 891, 958, 968, 907, 915, 957, 939, 923, 896, 841, 874, 857, 741, 783],
+    fmt:'gp', showPct:true,
+    gmVals:[63.5,61.9,62.6,64.2,62.9,64.2,60.0,62.3,60.2,59.7,57.3,59.0,58.4,58.3,56.3,55.6,54.8,53.5,49.2,53.6],
+    getColor:()=>'#94a3b8' },
+  { label:'SG&A',
+    vals:[ 416, 388, 482, 371, 423, 440, 470, 435, 451, 538, 469, 431, 437, 422, 470, 420, 453, 415, 433, 424],
+    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+  { label:'R&D',
+    vals:[  76, 111, 189,  96, 203, 137, 142, 137, 128, 137, 134, 127, 131, 162, 130, 102,  95,  84,  91,  93],
+    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+  { label:'EBITDA*',
+    vals:[ 562, 543, 395, 592, 421, 455, 314, 439, 447, 293, 314, 441, 437, 408, 365, 317, 413, 450, 306, 321],
+    fmt:'M', showPct:true, getColor:()=>'#94a3b8' },
+  { label:'Interest Exp.',
+    vals:[ -62, -98, -98, -97, -98,-108,-119,-132,-132,-134,-129,-131,-131,-126,-132,-124,-131,-128,-121,-111],
+    fmt:'M', showPct:true, getColor:()=>'#64748b' },
+  { label:'Net Income',
+    vals:[ 427, 323, 202, 348, 234, 227, 108, 177, 242,  58, 546, 201, 195, 359, 109,  87, 145, 160,-205, 146],
+    fmt:'M', showPct:true, getColor:(v)=>v<0?'#f87171':'#94a3b8' },
+  // ── Balance Sheet (end of period) ─────────────────────────────────────────
+  { label:'', fmt:'sep', vals:Array(20).fill(null), showPct:false, getColor:()=>'' },
+  { label:'Cash',
+    vals:[ 730,1008, 737, 694, 545, 499, 706, 459, 326, 414, 693, 575, 704, 763, 675, 547, 599, 672, 574,1116],
+    fmt:'M', showPct:false, getColor:()=>'#94a3b8' },
+  { label:'Current Assets',
+    vals:[3911,4329,3760,3719,3774,3592,3931,3780,3958,4050,4508,4196,4509,4756,4348,4371,4618,4700,4352,4932],
+    fmt:'M', showPct:false, getColor:()=>'#94a3b8' },
+  { label:'Current Liab.',
+    vals:[2975,3129,2597,2306,2396,2328,2512,2346,2387,2491,2918,2545,2755,2790,2718,2615,2796,2679,2390,2500],
+    fmt:'M', showPct:false, getColor:()=>'#64748b' },
+  { label:'Working Capital',
+    vals:[ 936,1200,1163,1413,1378,1264,1419,1434,1571,1559,1590,1651,1754,1966,1630,1756,1822,2021,1962,2432],
+    fmt:'M', showPct:false, getColor:(v)=>v<0?'#f87171':'#94a3b8' },
+];
+const finYearSep = new Set([3,7,11,15,19]);
+const finQHeaders = ['Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4','Q1'];
+const finYearHeaders = [{l:'2021',s:3},{l:'2022',s:4},{l:'2023',s:4},{l:'2024',s:4},{l:'2025',s:4},{l:'2026',s:1}];
+
+const events = [
+  {
+    id: 1, label: "2021-06", idx: 0,
+    cat: "spinoff", color: "#6366f1",
+    date: "June 2, 2021",
+    title: "Organon Spun Off from Merck",
+    desc: "Merck shareholders received 0.1 shares of OGN per MRK share. First-month close $30.26, volume 162M shares. Company assumed ~$9.0B in debt.",
+    price: "$30.26"
+  },
+  {
+    id: 2, label: "2022-06", idx: 12,
+    cat: "bd", color: "#f59e0b",
+    date: "June 2022",
+    title: "Biosimilar Licensing Agreement with Henlius",
+    desc: "Licensed commercialization rights to pertuzumab (HLX11) and denosumab (HLX14) outside China.",
+    price: "$33.75"
+  },
+  {
+    id: 3, label: "2022-09", idx: 15,
+    cat: "macro", color: "#a855f7",
+    date: "September 2022",
+    title: "Fed Funds Rate Raised to 3.25%",
+    desc: "Fed funds rate rose from 0.25% to 3.25% between March and September 2022. OGN declined from $37.33 (Feb high) to $23.40, a cumulative drop of 37%.",
+    price: "$23.40"
+  },
+  {
+    id: 4, label: "2023-02", idx: 20,
+    cat: "ops", color: "#f87171",
+    date: "February 16, 2023",
+    title: "Q4 2022 Earnings Release; Stock –15% on the Day",
+    desc: "Established Brands revenue –14% YoY (–4% ex-FX). Ezetrol included in China VBP Round 7. Full-year EBITDA margin 33.8% vs. 37.7% in 2021.",
+    price: "$24.49"
+  },
+  {
+    id: 5, label: "2023-11", idx: 29,
+    cat: "ops", color: "#f87171",
+    date: "November 2, 2023",
+    title: "Q3 2023 Earnings Release; Stock –49% Over Two Months",
+    desc: "Q3 2023 revenue $1,519M, –1% YoY. Full-year revenue guidance lowered to $6.15–6.25B. Volume: 137M shares in Oct, 104M in Nov. Stock fell from $22 (early Oct) to $11.32 (end of Nov).",
+    price: "$11.32"
+  },
+  {
+    id: 14, label: "2023-12", idx: 30,
+    cat: "bd", color: "#f59e0b",
+    date: "December 18, 2023",
+    title: "Commercialization Agreement with Eli Lilly for Migraine Medicines in Europe",
+    desc: "Exclusive distribution and promotion rights for Emgality (galcanezumab) and RAYVOW (lasmiditan) in Europe; Lilly retains marketing authorization and manufacturing. Upfront $50M with sales-based milestones. Expected to close Q1 2024.",
+    price: "$14.42"
+  },
+  {
+    id: 6, label: "2024-09", idx: 39,
+    cat: "bd", color: "#f59e0b",
+    date: "September 18, 2024",
+    title: "Acquisition of Dermavant Sciences Announced",
+    desc: "Upfront payment $175M; potential total consideration up to $1.2B including commercial milestones and royalties. Target product: VTAMA (tapinarof) cream.",
+    price: "$19.13"
+  },
+  {
+    id: 7, label: "2024-10", idx: 40,
+    cat: "bd", color: "#f59e0b",
+    date: "October 28, 2024",
+    title: "Dermavant Acquisition Closes",
+    desc: "$175M cash at close. FDA approved VTAMA for atopic dermatitis in December 2024, triggering a $75M milestone; total cash outlay reached $250M.",
+    price: "$18.78"
+  },
+  {
+    id: 8, label: "2025-05", idx: 47,
+    cat: "ops", color: "#f87171",
+    date: "May 1, 2025",
+    title: "Q1 2025 Earnings Release; Stock –29% for the Month",
+    desc: "Full-year VTAMA revenue guidance $125–150M. Stock fell from $12.93 (April close) to $9.22 (May close).",
+    price: "$9.22"
+  },
+  {
+    id: 9, label: "2025-09", idx: 51,
+    cat: "positive", color: "#34d399",
+    date: "September 2025",
+    title: "HLX14 (Denosumab Biosimilar) Receives FDA Approval",
+    desc: "Approved as Bildyos (ref. Prolia) and Bilprevda (ref. Xgeva) for all reference indications. Prior 2025 approvals: Sandoz (June), Fresenius Kabi, Celltrion, Samsung Bioepis.",
+    price: "$10.68"
+  },
+  {
+    id: 10, label: "2025-10", idx: 52,
+    cat: "compliance", color: "#ec4899",
+    date: "October 27, 2025",
+    title: "CEO Kevin Ali Resigns; Internal Investigation Disclosed",
+    desc: "Investigation found U.S. distributors were directed to over-purchase Nexplanon at quarter-end from 2022–2025, with inventory cap waivers granted. Ali resigned and forfeited severance. Q3 2025 earnings also released that day; stock fell 23% on 147M shares.",
+    price: "$6.75"
+  },
+  {
+    id: 11, label: "2025-11", idx: 53,
+    cat: "positive", color: "#34d399",
+    date: "November 2025",
+    title: "POHERDY FDA Approval + Jada System Divestiture",
+    desc: "HLX11 (pertuzumab) approved as POHERDY — first pertuzumab biosimilar in the U.S. Also announced sale of the Jada system to Laborie Medical for $440M (+$25M milestone); original 2021 acquisition price was $215M.",
+    price: "$7.71"
+  },
+  {
+    id: 15, label: "2026-02", idx: 56,
+    cat: "ops", color: "#f87171",
+    date: "February 12, 2026",
+    title: "Q4 2025 & Full-Year 2025 Earnings Release",
+    desc: "Full-year 2025 revenue $6.2B, –3% YoY. Adjusted EBITDA margin 30.7%. Q4 recorded $301M goodwill impairment. FY2026 guidance: ~$6.2B revenue, ~$1.9B Adjusted EBITDA.",
+    price: "$7.29"
+  },
+  {
+    id: 12, label: "2026-03", idx: 57,
+    cat: "ops", color: "#f87171",
+    date: "March 30, 2026",
+    title: "Stock Hits All-Time Low of $5.69",
+    desc: "Month-end close $5.99. Intraday low $5.69 on March 30 — lowest since the 2021 spinoff.",
+    price: "$5.99 (month-end)"
+  },
+  {
+    id: 13, label: "2026-04", idx: 58,
+    cat: "exit", color: "#38bdf8",
+    date: "April 26, 2026",
+    title: "Sun Pharma Announces All-Cash Acquisition at $14/Share",
+    desc: "Total consideration ~$11.75B. Monthly volume 375M shares — highest single month on record. Transaction subject to U.S. HSR, EU, and India antitrust review; expected to close early 2027.",
+    price: "$13.25 → $14.00"
+  }
+];
+
+// Build annotation objects
+const annotations = {};
+events.forEach(e => {
+  annotations[`line${e.id}`] = {
+    type: 'line',
+    xMin: e.label,
+    xMax: e.label,
+    borderColor: e.color,
+    borderWidth: 1.5,
+    borderDash: [4, 3],
+    label: {
+      content: `${e.id}`,
+      display: true,
+      position: 'start',
+      yAdjust: -8,
+      backgroundColor: e.color,
+      color: ['positive','exit','bd'].includes(e.cat) ? '#000' : '#fff',
+      font: { size: 9, weight: 'bold' },
+      padding: { x: 4, y: 2 },
+      borderRadius: 3
+    }
+  };
+});
+
+// Fed decision annotations on yield curve
+const fedEvents = [
+  { label: "2021-08", y: 1.30, text: "At Spinoff\n10Y≈1.44%", pos: "bottom" },
+  { label: "2022-03", y: 2.33, text: "First Hike\n+25bp",    pos: "bottom" },
+  { label: "2022-06", y: 2.97, text: "+75bp",                pos: "bottom" },
+  { label: "2022-09", y: 3.80, text: "+75bp",                pos: "bottom" },
+  { label: "2022-12", y: 3.88, text: "+50bp\nPace Slows",    pos: "bottom" },
+  { label: "2023-07", y: 3.96, text: "Last Hike\n5.50%",     pos: "top"    },
+  { label: "2023-10", y: 4.88, text: "10Y Peak\n4.88%",      pos: "top"    },
+  { label: "2024-09", y: 3.98, text: "First Cut\n−50bp",     pos: "top"    },
+  { label: "2025-01", y: 4.57, text: "Pause\n(Tariff Risk)", pos: "top"    },
+];
+
+fedEvents.forEach((f, i) => {
+  const above = f.pos === 'top';
+  annotations[`fed${i}`] = {
+    type: 'point',
+    xValue: f.label,
+    yValue: f.y,
+    yScaleID: 'y1',
+    backgroundColor: '#fb923c',
+    borderColor: '#0f1117',
+    borderWidth: 1.5,
+    radius: 4,
+  };
+  annotations[`fedlabel${i}`] = {
+    type: 'label',
+    xValue: f.label,
+    yValue: f.y,
+    yScaleID: 'y1',
+    yAdjust: above ? -32 : 32,
+    content: f.text.split('\n'),
+    color: '#fb923c',
+    font: { size: 9, weight: '500' },
+    textAlign: 'center',
+    backgroundColor: 'rgba(15,17,23,0.82)',
+    borderColor: 'rgba(251,146,60,0.35)',
+    borderWidth: 1,
+    borderRadius: 3,
+    padding: { x: 5, y: 3 },
+    callout: {
+      display: true,
+      position: above ? 'bottom' : 'top',
+      borderColor: 'rgba(251,146,60,0.5)',
+      borderWidth: 1,
+    },
+  };
+});
+
+// Phase backgrounds
+const phases = [
+  { x1: "2021-06", x2: "2022-05", color: "rgba(99,102,241,0.04)", label: "初期稳定" },
+  { x1: "2022-06", x2: "2023-01", color: "rgba(168,85,247,0.07)", label: "利率冲击" },
+  { x1: "2023-02", x2: "2023-12", color: "rgba(248,113,113,0.07)", label: "持续下行" },
+  { x1: "2024-01", x2: "2024-08", color: "rgba(52,211,153,0.06)", label: "阶段反弹" },
+  { x1: "2024-09", x2: "2026-03", color: "rgba(248,113,113,0.08)", label: "Dermavant+加速下行" },
+  { x1: "2026-04", x2: "2026-06", color: "rgba(56,189,248,0.1)", label: "收购溢价" },
+];
+
+phases.forEach((p, i) => {
+  annotations[`box${i}`] = {
+    type: 'box',
+    xMin: p.x1,
+    xMax: p.x2,
+    backgroundColor: p.color,
+    borderWidth: 0,
+  };
+});
+
+const ctx = document.getElementById('ognChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [{
+      label: 'OGN Monthly Close ($)',
+      data: prices,
+      borderColor: '#818cf8',
+      backgroundColor: (context) => {
+        const chart = context.chart;
+        const {ctx: c, chartArea} = chart;
+        if (!chartArea) return 'transparent';
+        const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+        gradient.addColorStop(0, 'rgba(129,140,248,0.25)');
+        gradient.addColorStop(1, 'rgba(129,140,248,0.01)');
+        return gradient;
+      },
+      borderWidth: 2,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: '#818cf8',
+      fill: true,
+      tension: 0.3,
+      yAxisID: 'y',
+    },{
+      label: 'US 10Y Treasury Yield (%)',
+      data: yields,
+      borderColor: '#fb923c',
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointHoverBackgroundColor: '#fb923c',
+      fill: false,
+      tension: 0.3,
+      borderDash: [6, 4],
+      yAxisID: 'y1',
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    interaction: { mode: 'index', intersect: false },
+    onHover: (event, activeElements) => {
+      if (activeElements.length > 0) {
+        highlightQtr(monthToQtr[activeElements[0].index]);
+      } else {
+        highlightQtr(-1);
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1e2538',
+        titleColor: '#94a3b8',
+        bodyColor: '#f8fafc',
+        borderColor: '#334155',
+        borderWidth: 1,
+        padding: 10,
+        callbacks: {
+          label: (ctx) => {
+            if (ctx.datasetIndex === 0) return ` OGN  $${ctx.parsed.y.toFixed(2)}`;
+            return ` 10Y  ${ctx.parsed.y.toFixed(2)}%`;
+          }
+        }
+      },
+      annotation: { annotations }
+    },
+    scales: {
+      x: {
+        grid: { color: '#1e2538', drawTicks: false },
+        border: { color: '#232a3a' },
+        ticks: {
+          color: '#475569',
+          font: { size: 10 },
+          maxRotation: 0,
+          callback: function(val, idx) {
+            const label = this.getLabelForValue(val);
+            return label.endsWith('-01') || label.endsWith('-06') ? label : '';
+          }
+        }
+      },
+      y: {
+        min: 0,
+        max: 42,
+        position: 'left',
+        grid: { color: '#1e2538' },
+        border: { dash: [2, 2], color: 'transparent' },
+        ticks: {
+          color: '#818cf8',
+          font: { size: 10 },
+          callback: v => `$${v}`
+        }
+      },
+      y1: {
+        min: 0,
+        max: 7,
+        position: 'right',
+        grid: { drawOnChartArea: false },
+        border: { color: 'transparent' },
+        ticks: {
+          color: '#fb923c',
+          font: { size: 10 },
+          callback: v => `${v}%`
+        }
+      }
+    }
+  }
+});
+
+// Month index (0-60) → quarterly table column index (0-19)
+const monthToQtr = [
+  0,                              // 2021-06
+  1,1,1,                          // 2021-07–09
+  2,2,2,                          // 2021-10–12
+  3,3,3,                          // 2022-01–03
+  4,4,4,                          // 2022-04–06
+  5,5,5,                          // 2022-07–09
+  6,6,6,                          // 2022-10–12
+  7,7,7,                          // 2023-01–03
+  8,8,8,                          // 2023-04–06
+  9,9,9,                          // 2023-07–09
+  10,10,10,                       // 2023-10–12
+  11,11,11,                       // 2024-01–03
+  12,12,12,                       // 2024-04–06
+  13,13,13,                       // 2024-07–09
+  14,14,14,                       // 2024-10–12
+  15,15,15,                       // 2025-01–03
+  16,16,16,                       // 2025-04–06
+  17,17,17,                       // 2025-07–09
+  18,18,18,                       // 2025-10–12
+  19,19,19,19,19,19               // 2026-01–06
+];
+
+let _activeQtr = -1;
+function highlightQtr(qi) {
+  if (qi === _activeQtr) return;
+  _activeQtr = qi;
+  document.querySelectorAll('#finTableWrap [data-qi]').forEach(el => {
+    el.style.background = parseInt(el.dataset.qi) === qi ? 'rgba(129,140,248,0.13)' : '';
+  });
+}
+
+// Populate sidebar metric labels
+function buildFinLabels() {
+  const area = document.getElementById('finLabelArea');
+  if (!area) return;
+  const isLast = (ri) => ri === finRows.length - 1;
+  let h = `<div id="finLabelHeader" style="border-bottom:2px solid #232a3a;display:flex;align-items:flex-end;padding:0 18px 7px 24px;flex-shrink:0;">
+    <div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;line-height:1.35;">Quarterly<br>Metrics</div>
+      <div style="font-size:9px;color:#374151;margin-top:3px;">USD millions</div>
+    </div>
+  </div>`;
+  finRows.forEach((row, ri) => {
+    if (row.fmt === 'sep') {
+      h += `<div class="fin-label-row" style="background:#0f1117;border-top:2px solid #232a3a;border-bottom:1px solid #232a3a;display:flex;align-items:center;padding:0 18px 0 24px;font-size:10px;font-weight:600;color:#374151;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0;">Balance Sheet</div>`;
+    } else {
+      const bb = isLast(ri) ? 'none' : '1px solid #1a2030';
+      h += `<div class="fin-label-row" style="border-bottom:${bb};display:flex;align-items:center;padding:0 18px 0 24px;font-size:13px;color:#64748b;font-weight:500;flex-shrink:0;">${row.label}</div>`;
+    }
+  });
+  area.innerHTML = h;
+}
+
+// Sync sidebar label heights to match actual table row heights
+function syncFinLabelHeights() {
+  const thead = document.querySelector('#finTableWrap thead');
+  const tbodyRows = document.querySelectorAll('#finTableWrap tbody tr');
+  const hdr = document.getElementById('finLabelHeader');
+  const labelRows = document.querySelectorAll('#finLabelArea .fin-label-row');
+  if (thead && hdr) hdr.style.height = thead.offsetHeight + 'px';
+  tbodyRows.forEach((tr, i) => {
+    if (labelRows[i]) labelRows[i].style.height = tr.offsetHeight + 'px';
+  });
+}
+
+// Render quarterly financial table (label column removed — in sidebar)
+(function buildFinTable() {
+  const wrap = document.getElementById('finTableWrap');
+  const tdB = 'padding:9px 13px;text-align:right;font-size:13px;';
+  const thB = 'padding:5px 13px;text-align:right;font-size:12px;font-weight:600;color:#475569;white-space:nowrap;';
+  const sep = 'border-left:1.5px solid #1e2538;';
+
+  let h = `<div style="overflow-x:auto;"><table style="border-collapse:collapse;white-space:nowrap;width:100%;">`;
+  // Year row
+  h += `<thead><tr style="border-bottom:1px solid #232a3a;">`;
+  let first = true;
+  finYearHeaders.forEach(y => {
+    const bl = first ? '' : 'border-left:1.5px solid #232a3a;';
+    first = false;
+    h += `<th colspan="${y.s}" style="${thB}${bl}text-align:center;color:#475569;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:3px;">${y.l}</th>`;
+  });
+  h += `</tr>`;
+  // Quarter row
+  h += `<tr style="border-bottom:2px solid #232a3a;">`;
+  finQHeaders.forEach((q, i) => {
+    const bl = finYearSep.has(i) ? sep : '';
+    h += `<th data-qi="${i}" style="${thB}${bl}">${q}</th>`;
+  });
+  h += `</tr></thead><tbody>`;
+  const revVals = finRows[0].vals;
+
+  finRows.forEach((row, ri) => {
+    if (row.fmt === 'sep') {
+      h += `<tr style="border-top:2px solid #232a3a;">`;
+      finQHeaders.forEach((_, i) => {
+        h += `<td data-qi="${i}" style="padding:4px 13px;${finYearSep.has(i)?sep:''}background:#0f1117;"></td>`;
+      });
+      h += `</tr>`;
+      return;
+    }
+    const lastRow = ri === finRows.length - 1;
+    h += `<tr style="${lastRow ? '' : 'border-bottom:1px solid #1a2030;'}">`;
+    row.vals.forEach((v, i) => {
+      const bl = finYearSep.has(i) ? sep : '';
+      let disp, clr, fw = '';
+      if (row.fmt === 'gp') {
+        const gm = row.gmVals[i];
+        const gmRnd = Math.round(gm);
+        clr = '#94a3b8';
+        const gmClr = gm >= 62 ? '#34d399' : gm >= 57 ? '#cbd5e1' : '#f87171';
+        const gmFw = (gm >= 62 || gm < 57) ? 'font-weight:600;' : '';
+        disp = `${v.toLocaleString()}&nbsp;<span style="font-size:11px;color:${gmClr};${gmFw}">(${gmRnd}%)</span>`;
+      } else {
+        clr = row.getColor(v);
+        fw = v < 0 ? 'font-weight:600;' : '';
+        const absDisp = v < 0 ? `(${Math.abs(v).toLocaleString()})` : v.toLocaleString();
+        if (row.showPct) {
+          const pct = Math.round(Math.abs(v) / revVals[i] * 100);
+          disp = `${absDisp}&nbsp;<span style="font-size:11px;color:${clr};opacity:0.65;">(${pct}%)</span>`;
+        } else {
+          disp = absDisp;
+        }
+      }
+      h += `<td data-qi="${i}" style="${tdB}${bl}color:${clr};${fw}">${disp}</td>`;
+    });
+    h += `</tr>`;
+  });
+  h += `</tbody></table></div>`;
+  wrap.innerHTML = h;
+
+  buildFinLabels();
+  requestAnimationFrame(() => requestAnimationFrame(syncFinLabelHeights));
+})();
+
+// Render events
+const grid = document.getElementById('eventsGrid');
+events.forEach(e => {
+  const div = document.createElement('div');
+  div.className = 'event-item';
+  div.innerHTML = `
+    <div class="event-num" style="background:${e.color};color:${['bd','positive','exit'].includes(e.cat) ? '#000':'#fff'}">${e.id}</div>
+    <div class="event-content">
+      <div class="event-date">${e.date}</div>
+      <div class="event-title">${e.title}</div>
+      <div class="event-desc">${e.desc}</div>
+      <div class="event-price" style="color:${e.color}">${e.price}</div>
+    </div>
+  `;
+  grid.appendChild(div);
+});
+</script>
+</body>
+</html>

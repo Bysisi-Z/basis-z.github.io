@@ -1,7 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const industry: never[] = [];
+const industryItems = [
+  {
+    num: '01',
+    title: 'Organon: Was the Failure Avoidable?',
+    sub: '15 decision points · what-if interactive analysis',
+    tags: ['Pharma', 'Stock Analysis'],
+    href: '/organon-stock-analysis.html',
+    live: true,
+  },
+];
 
 const dataProjects = [
   {
@@ -53,6 +62,36 @@ const dataProjects = [
 
     <div class="decoding-grid">
 
+      <!-- Left: Industry Analysis -->
+      <div class="d-col">
+        <div class="col-label col-label--industry">
+          <svg class="col-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <path d="M3 17 L8 10 L12 13 L17 6 L19 8" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="19" cy="5.5" r="1.8" fill="white"/>
+          </svg>
+          <span class="col-label-text">Industry Analysis</span>
+        </div>
+        <div class="col-items">
+          {industryItems.map(item => (
+            <a class="d-item" href={item.href}>
+              <div class="item-body">
+                <h3 class="item-title">{item.title}</h3>
+                <p class="item-sub">{item.sub}</p>
+                <div class="item-foot">
+                  <div class="item-tags">
+                    {item.tags.map(t => <span class="i-tag">{t}</span>)}
+                  </div>
+                  {item.live && <span class="live-badge">Live</span>}
+                </div>
+              </div>
+              <span class="item-arrow">→</span>
+            </a>
+          ))}
+          <a class="see-all-link" href="/research/industry">See all industry research →</a>
+        </div>
+      </div>
+
+      <div class="col-divider"></div>
 
       <!-- Right: Play with the Data -->
       <div class="d-col">
@@ -207,6 +246,18 @@ const dataProjects = [
     transition: transform 0.22s, color 0.22s;
   }
   .d-item:hover .item-arrow { transform: translateX(5px); color: var(--rose); }
+
+  .col-label--industry { background: #475569; }
+
+  .see-all-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: var(--sans); font-size: 11px; font-weight: 300;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--stone); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .see-all-link:hover { color: var(--ink); }
 
   /* ── Mobile ── */
   @media (max-width: 640px) {
