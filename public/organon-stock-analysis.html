@@ -76,31 +76,12 @@
     color: #1A1A1A;
     margin-bottom: 20px;
   }
-  .events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-    gap: 10px;
-  }
-  .event-item {
-    display: flex; align-items: flex-start; gap: 12px;
-    background: #ffffff;
-    border: 1px solid #E2DEDB;
-    border-radius: 8px;
-    padding: 12px 16px;
-    transition: border-color 0.18s;
-  }
-  .event-item:hover { border-color: #c17d9d; }
   .event-num {
-    width: 22px; height: 22px; border-radius: 50%;
+    width: 28px; height: 28px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700;
-    flex-shrink: 0; margin-top: 1px;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
   }
-  .event-content { flex: 1; }
-  .event-date { font-size: 11px; color: #847B7B; margin-bottom: 2px; }
-  .event-title { font-size: 13px; color: #1A1A1A; font-weight: 500; line-height: 1.4; }
-  .event-desc { font-size: 12px; color: #847B7B; margin-top: 3px; line-height: 1.5; }
-  .event-price { font-size: 12px; font-weight: 600; margin-top: 4px; }
 
   .cat-spinoff    { background: #6366f1; color: #fff; }
   .cat-macro      { background: #a855f7; color: #fff; }
@@ -110,9 +91,187 @@
   .cat-exit       { background: #38bdf8; color: #000; }
   .cat-compliance { background: #ec4899; color: #fff; }
 
-  .legend-bar { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; }
+  /* ── Event category legend (vertical, beside chart) ── */
+  .legend-vert {
+    width: 148px; flex-shrink: 0;
+    border-left: 1px solid #E2DEDB;
+    padding: 16px 14px;
+    display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  }
+  .legend-vert-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9px; font-weight: 400; letter-spacing: 0.15em;
+    text-transform: uppercase; color: #847B7B;
+    margin-bottom: 4px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #475569; line-height: 1.3; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── Event detail panel ── */
+  .event-detail-panel {
+    display: block;
+    margin: 16px 0 0;
+  }
+  .ed-inner {
+    border: 1px solid #E2DEDB;
+    border-radius: 10px;
+    padding: 20px 24px 22px;
+    background: #fff;
+    animation: edFadeIn 0.18s ease;
+  }
+  @keyframes edFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .ed-header {
+    display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px;
+  }
+  .ed-meta { flex: 1; min-width: 0; }
+  .ed-date { font-family: 'Inter', system-ui, sans-serif; font-size: 11px; color: #847B7B; margin-bottom: 5px; }
+  .ed-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(15px, 1.4vw, 17px); font-weight: 500;
+    color: #1A1A1A; line-height: 1.35;
+  }
+  .ed-price {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px; font-weight: 600;
+    white-space: nowrap; padding-top: 18px; flex-shrink: 0;
+  }
+  .ed-close {
+    background: none; border: none; cursor: pointer;
+    color: #847B7B; font-size: 16px; line-height: 1;
+    padding: 0; margin-top: 2px; flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  .ed-close:hover { color: #1A1A1A; }
+  .ed-desc {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px; font-weight: 300;
+    color: #475569; line-height: 1.75;
+    border-top: 1px solid #E2DEDB; padding-top: 14px;
+  }
+  .ed-hint {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px; color: #b0a9a9;
+    text-align: center; padding: 14px 0 4px;
+    letter-spacing: 0.03em;
+  }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── Analysis section ── */
+  .analysis-section { margin-top: 80px; padding-top: 60px; border-top: 2px solid #E2DEDB; }
+
+  .topic { margin-bottom: 80px; }
+
+  .topic-header { margin-bottom: 48px; }
+  .topic-eyebrow {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: #c17d9d; margin-bottom: 14px;
+  }
+  .topic-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(36px, 4.2vw, 62px);
+    font-weight: 300; font-style: italic;
+    color: #1A1A1A; line-height: 1.1;
+    letter-spacing: -0.01em;
+    padding-bottom: 22px;
+    border-bottom: 2px solid #E2DEDB;
+  }
+
+  .subtopic { margin-bottom: 60px; }
+  .subtopic-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-weight: 500; color: #1A1A1A;
+    margin-top: 48px; margin-bottom: 28px;
+    padding: 12px 20px;
+    background: rgba(193, 125, 157, 0.08);
+    border-left: 4px solid #c17d9d;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .body-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(15px, 1.3vw, 16.5px); font-weight: 300;
+    color: #1A1A1A; line-height: 1.85;
+    margin-bottom: 18px;
+  }
+  .body-text strong { font-weight: 500; }
+  .body-text em { font-style: italic; color: #475569; }
+
+  .key-callout {
+    background: #fff; border: 1px solid #E2DEDB;
+    border-left: 3px solid #c17d9d;
+    padding: 18px 24px; margin: 28px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .key-callout p {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(16px, 1.5vw, 20px);
+    font-style: italic; font-weight: 300;
+    color: #1A1A1A; line-height: 1.65;
+  }
+
+  .analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 28px;
+    font-family: 'Inter', system-ui, sans-serif; font-size: 13px;
+  }
+  .analysis-table th {
+    text-align: left; font-size: 10px; font-weight: 400;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: #847B7B; padding: 6px 20px 6px 0;
+    border-bottom: 1px solid #E2DEDB;
+  }
+  .analysis-table td {
+    padding: 10px 20px 10px 0;
+    border-bottom: 1px solid rgba(226,222,219,0.5);
+    font-weight: 300; line-height: 1.55; vertical-align: top;
+  }
+  .analysis-table td:first-child { color: #475569; width: 36%; }
+  .analysis-table td:last-child { color: #1A1A1A; }
+
+  .broke-list {
+    list-style: none; padding: 0; margin: 20px 0 28px;
+  }
+  .broke-list li {
+    display: flex; gap: 16px;
+    padding: 14px 0; border-bottom: 1px solid rgba(226,222,219,0.5);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px; font-weight: 300; line-height: 1.7; color: #1A1A1A;
+  }
+  .broke-list li:first-child { border-top: 1px solid rgba(226,222,219,0.5); }
+  .peer-box {
+    background: #F7F5F2;
+    border: 1px solid #E2DEDB;
+    border-radius: 10px;
+    padding: 28px 32px 32px;
+    margin: 36px 0;
+  }
+  .peer-box-eyebrow {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #847B7B; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .peer-box-eyebrow::after {
+    content: ''; flex: 1; height: 1px; background: #E2DEDB;
+  }
+  .peer-box .body-text { font-size: clamp(14px, 1.2vw, 15.5px); }
+  .peer-box .key-callout { background: #fff; }
+
+  .broke-tag {
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #fff; background: #c17d9d;
+    padding: 2px 8px; border-radius: 2px;
+    flex-shrink: 0; align-self: flex-start; margin-top: 3px;
+  }
 </style>
 </head>
 <body>
@@ -122,13 +281,11 @@
 <h1>Organon &amp; Co. (OGN) — Was It Avoidable?</h1>
 <p class="subtitle">A what-if post-mortem of 15 decision points from Merck spinoff to Sun Pharma acquisition &nbsp;·&nbsp; June 2021–2026</p>
 
-<div class="chart-wrap" style="padding:0;display:flex;align-items:stretch;margin-bottom:28px;">
+<div class="chart-wrap" style="padding:0;margin-bottom:4px;">
 
-  <!-- Shared left sidebar -->
-  <div style="width:148px;flex-shrink:0;border-right:1px solid #E2DEDB;display:flex;flex-direction:column;">
-
-    <!-- Stats (chart section) -->
-    <div style="display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 18px 20px 24px;border-bottom:1px solid #E2DEDB;">
+  <!-- Stats + Chart (side by side, top section only) -->
+  <div style="display:flex;align-items:stretch;border-bottom:1px solid #E2DEDB;">
+    <div style="width:148px;flex-shrink:0;border-right:1px solid #E2DEDB;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 18px 20px 24px;">
       <div class="stat">
         <div class="stat-label">Spinoff Price</div>
         <div class="stat-value" style="font-size:18px;">$30.26</div>
@@ -150,48 +307,37 @@
         <div class="stat-value red" style="font-size:18px;">−55%</div>
       </div>
     </div>
-
-    <!-- Table metric labels (heights synced via JS) -->
-    <div id="finLabelArea" style="display:flex;flex-direction:column;flex:1;"></div>
-
-    <!-- Footnote -->
-    <div style="padding:10px 18px 16px 24px;font-size:9px;color:#9ca3af;line-height:1.55;flex-shrink:0;">
-      * EBITDA GAAP basis<br>Source: Organon IR /<br>StockAnalysis
-    </div>
-
-  </div>
-
-  <!-- Shared right column -->
-  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
-
-    <!-- Chart (top) -->
-    <div style="padding:20px 24px 16px 20px;border-bottom:1px solid #E2DEDB;flex-shrink:0;">
+    <div style="flex:1;min-width:0;padding:20px 24px 16px 20px;">
       <div class="chart-legend">
         <div class="cl-item"><span class="cl-line" style="background:#c17d9d"></span>OGN Monthly Close (left, $)</div>
         <div class="cl-item"><span class="cl-line" style="background:#f97316;border-top:1px dashed #f97316;height:0;background:transparent;border-bottom:none;"></span>US 10Y Treasury Yield (right, %)</div>
       </div>
       <canvas id="ognChart" height="320"></canvas>
     </div>
+    <div class="legend-vert">
+      <div class="legend-vert-title">Event type</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>Milestone</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Macro / Rates</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Operations</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>BD Decision</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Product Approval</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>Compliance</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div>M&amp;A / Exit</div>
+    </div>
+  </div>
 
-    <!-- Table (bottom, no label column — labels are in sidebar) -->
-    <div id="finTableWrap" style="flex:1;min-width:0;"></div>
+  <!-- Table (full width, sticky first column for labels) -->
+  <div id="finTableWrap"></div>
 
+  <!-- Footnote -->
+  <div style="padding:6px 16px 14px;font-size:9px;color:#9ca3af;line-height:1.55;">
+    * EBITDA GAAP basis &nbsp;·&nbsp; Source: Organon IR / StockAnalysis
   </div>
 
 </div>
 
-<div class="events-section">
-  <div class="legend-bar">
-    <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>Milestone</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Macro / Rates</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Operations / Earnings</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>BD Decision</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Product Approval</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>Compliance / Governance</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div>M&amp;A / Exit</div>
-  </div>
-  <h2>Key Events</h2>
-  <div class="events-grid" id="eventsGrid"></div>
+<div id="eventDetail" class="event-detail-panel">
+  <div class="ed-hint">Click a numbered marker on the chart to see event details</div>
 </div>
 
 <script>
@@ -293,6 +439,14 @@ const events = [
     price: "$30.26"
   },
   {
+    id: 20, label: "2021-11", idx: 5,
+    cat: "bd", color: "#f59e0b",
+    date: "November 11, 2021",
+    title: "Acquires Forendo Pharma for Up to $954M",
+    desc: "$75M upfront + up to $270M development milestones + $600M commercial milestones. Target: investigational HSD17B1 inhibitor for endometriosis — first-in-class oral compound in early clinical stage. Largest BD deal in Organon's first year as a standalone company; signals ambition to build a proprietary women's health pipeline beyond legacy assets.",
+    price: "$29.23"
+  },
+  {
     id: 2, label: "2022-06", idx: 12,
     cat: "bd", color: "#f59e0b",
     date: "June 2022",
@@ -317,6 +471,14 @@ const events = [
     price: "$24.49"
   },
   {
+    id: 21, label: "2023-07", idx: 25,
+    cat: "positive", color: "#34d399",
+    date: "July 1, 2023",
+    title: "HADLIMA US Commercial Launch — Biggest US Launch as Standalone",
+    desc: "Organon and Samsung Bioepis launched HADLIMA (adalimumab-bwwd), a citrate-free high-concentration Humira biosimilar, at 85% discount to reference price. First major biosimilar revenue event for Organon in the US; entered a crowded market with 6+ competing biosimilars launching simultaneously in July 2023. Key test of commercial execution.",
+    price: "$21.98"
+  },
+  {
     id: 5, label: "2023-11", idx: 29,
     cat: "ops", color: "#f87171",
     date: "November 2, 2023",
@@ -331,6 +493,14 @@ const events = [
     title: "Commercialization Agreement with Eli Lilly for Migraine Medicines in Europe",
     desc: "Exclusive distribution and promotion rights for Emgality (galcanezumab) and RAYVOW (lasmiditan) in Europe; Lilly retains marketing authorization and manufacturing. Upfront $50M with sales-based milestones. Expected to close Q1 2024.",
     price: "$14.42"
+  },
+  {
+    id: 22, label: "2024-09", idx: 39,
+    cat: "ops", color: "#f87171",
+    date: "September 2024",
+    title: "Atozet Loses Exclusivity in Europe and Japan",
+    desc: "Atozet (ezetimibe/atorvastatin), Organon's second-largest product, faced generic competition in Europe and Japan simultaneously. Full-year 2024 Atozet sales –9% YoY. LOE impact ~$55M for 2024, with further pressure expected into 2025. Mirrors the chronic IP erosion narrative of the Established Brands franchise.",
+    price: "$19.13"
   },
   {
     id: 6, label: "2024-09", idx: 39,
@@ -349,12 +519,44 @@ const events = [
     price: "$18.78"
   },
   {
+    id: 23, label: "2025-03", idx: 45,
+    cat: "bd", color: "#f59e0b",
+    date: "March 31, 2025",
+    title: "Acquires TOFIDENCE (Tocilizumab Biosimilar) from Biogen",
+    desc: "Acquired US regulatory and commercial rights for TOFIDENCE (tocilizumab-bavi), biosimilar to Actemra, from Biogen. Already launched in the US (May 2024); FDA later expanded indications to include CAR-T-induced cytokine release syndrome and pediatric COVID-19 (June 2026). Adds a commercialized IV biosimilar to the portfolio amid financial pressure — signal of continued pipeline-building even under debt constraints.",
+    price: "$14.89"
+  },
+  {
+    id: 16, label: "2025-02", idx: 44,
+    cat: "ops", color: "#f87171",
+    date: "February 2025 (Q4 2024 Earnings)",
+    title: "5% Global Headcount Reduction Announced",
+    desc: "Restructuring initiative targeting ~500 of 10,000+ employees across commercial and support functions. NJ-based layoffs effective April–May 2025. Part of a broader cost-reduction and debt-deleveraging program initiated in 2023 and accelerating into 2025.",
+    price: "$14.91"
+  },
+  {
     id: 8, label: "2025-05", idx: 47,
     cat: "ops", color: "#f87171",
     date: "May 1, 2025",
     title: "Q1 2025 Earnings + 92% Dividend Cut; Stock –29% for the Month",
     desc: "Quarterly dividend slashed from $0.28 to $0.02/share (92% cut), freeing ~$108M/yr for debt reduction — a public acknowledgment that cash flow could no longer support prior commitments. Full-year VTAMA revenue guidance $125–150M. Stock fell from $12.93 (April close) to $9.22 (May close); intraday low $9.45.",
     price: "$9.22"
+  },
+  {
+    id: 25, label: "2025-04", idx: 46,
+    cat: "macro", color: "#a855f7",
+    date: "April 10, 2025",
+    title: "Moody's & S&P Revise Outlook to Negative — Ba2 / BB Affirmed",
+    desc: "Moody's affirmed Ba2 CFR but revised outlook stable → negative, citing Atozet LOE compressing near-term earnings and leverage expected to remain above 4× for 12–18 months. S&P simultaneously revised BB outlook to negative. Notably, Organon had never been investment grade as a standalone entity: it was assigned Ba2/BB (high yield) on its first trading day in June 2021. The dual negative outlooks were the rating agencies' formal signal that an actual downgrade to Ba3/B+ was possible if deleveraging did not accelerate — a signal that proved prescient given the 92% dividend cut that followed three weeks later.",
+    price: "$12.93"
+  },
+  {
+    id: 24, label: "2025-07", idx: 49,
+    cat: "ops", color: "#f87171",
+    date: "July 2, 2025",
+    title: "OG-6219 Phase 2 ELENA Trial Fails; Program Discontinued",
+    desc: "The HSD17B1 inhibitor from Forendo Pharma ($75M upfront, Nov 2021) failed to reduce endometriosis-related pelvic pain vs. placebo in a 354-patient, 16-week trial. Management had called it Organon's \"biggest potential opportunity\" — a non-hormonal, first-in-class mechanism with local tissue selectivity. Discontinuation eliminates the only meaningful proprietary pipeline asset and effectively writes off the Forendo acquisition. Up to $870M in future milestones will never be paid.",
+    price: "$9.70"
   },
   {
     id: 9, label: "2025-09", idx: 51,
@@ -381,11 +583,27 @@ const events = [
     price: "$7.71"
   },
   {
+    id: 17, label: "2026-01", idx: 55,
+    cat: "positive", color: "#34d399",
+    date: "January 16, 2026",
+    title: "Nexplanon FDA Label Extended to 5 Years",
+    desc: "FDA approved sNDA extending Nexplanon (etonogestrel implant 68mg) from 3 to 5 years of use; new REMS program required to ensure certified-only insertion/removal. Reduces patient replacement burden and strengthens product's competitive differentiation vs. shorter-duration alternatives.",
+    price: "$8.54"
+  },
+  {
     id: 15, label: "2026-02", idx: 56,
     cat: "ops", color: "#f87171",
     date: "February 12, 2026",
     title: "Q4 2025 & Full-Year 2025 Earnings Release",
     desc: "Full-year 2025 revenue $6.2B, –3% YoY. Adjusted EBITDA margin 30.7%. Q4 recorded $301M goodwill impairment. FY2026 guidance: ~$6.2B revenue, ~$1.9B Adjusted EBITDA.",
+    price: "$7.29"
+  },
+  {
+    id: 18, label: "2026-02", idx: 56,
+    cat: "bd", color: "#f59e0b",
+    date: "February 18, 2026",
+    title: "Licenses MIUDELLA Copper IUD from Sebela Pharmaceuticals",
+    desc: "Exclusive global rights to MIUDELLA — first hormone-free copper IUD approved in the US in over 40 years (FDA Feb 2025), 99% effective for up to 3 years. $27.5M upfront + up to $505M in sales milestones + tiered double-digit royalties. US commercial launch planned late 2026. Deal closed June 22, 2026.",
     price: "$7.29"
   },
   {
@@ -395,6 +613,14 @@ const events = [
     title: "Stock Hits All-Time Low of $5.69",
     desc: "Month-end close $5.99. Intraday low $5.69 on March 30 — lowest since the 2021 spinoff.",
     price: "$5.99 (month-end)"
+  },
+  {
+    id: 19, label: "2026-04", idx: 58,
+    cat: "exit", color: "#38bdf8",
+    date: "~April 10, 2026 (first media report)",
+    title: "Sun Pharma Takeover Rumors Surface; Stock +22.8% and +25.8% on Two Days",
+    desc: "First media reports (~April 10) of Sun Pharma preparing a ~$13B takeover bid; EQT and Grünenthal also named as potential bidders. Reports intensified around April 24–25, triggering single-session surges of +22.8% (to $10.56) then +25.8% (to $10.82) on consecutive days. Stock had closed at $5.99 at end of March — the two-week speculation alone delivered a 80%+ move before any official confirmation.",
+    price: "$5.99 → $10.82 (pre-announcement)"
   },
   {
     id: 13, label: "2026-04", idx: 58,
@@ -423,10 +649,13 @@ events.forEach(e => {
       yAdjust: -8,
       backgroundColor: e.color,
       color: ['positive','exit','bd'].includes(e.cat) ? '#000' : '#fff',
-      font: { size: 9, weight: 'bold' },
-      padding: { x: 4, y: 2 },
-      borderRadius: 3
-    }
+      font: { size: 11, weight: 'bold' },
+      padding: { x: 6, y: 3 },
+      borderRadius: 4
+    },
+    click: (function(ev) {
+      return function() { showEventDetail(ev); };
+    })(e)
   };
 });
 
@@ -643,50 +872,24 @@ function highlightQtr(qi) {
   });
 }
 
-// Populate sidebar metric labels
-function buildFinLabels() {
-  const area = document.getElementById('finLabelArea');
-  if (!area) return;
-  const isLast = (ri) => ri === finRows.length - 1;
-  let h = `<div id="finLabelHeader" style="border-bottom:2px solid #E2DEDB;display:flex;align-items:flex-end;padding:0 18px 7px 24px;flex-shrink:0;">
-    <div>
-      <div style="font-size:11px;font-weight:500;color:#475569;line-height:1.35;">Quarterly<br>Metrics</div>
-      <div style="font-size:9px;color:#9ca3af;margin-top:3px;">USD millions</div>
-    </div>
-  </div>`;
-  finRows.forEach((row, ri) => {
-    if (row.fmt === 'sep') {
-      h += `<div class="fin-label-row" style="background:#F4F2EF;border-top:2px solid #E2DEDB;border-bottom:1px solid #E2DEDB;display:flex;align-items:center;padding:0 18px 0 24px;font-size:10px;font-weight:600;color:#847B7B;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0;">Balance Sheet</div>`;
-    } else {
-      const bb = isLast(ri) ? 'none' : '1px solid #E2DEDB';
-      h += `<div class="fin-label-row" style="border-bottom:${bb};display:flex;align-items:center;padding:0 18px 0 24px;font-size:13px;color:#475569;font-weight:400;flex-shrink:0;">${row.label}</div>`;
-    }
-  });
-  area.innerHTML = h;
-}
 
-// Sync sidebar label heights to match actual table row heights
-function syncFinLabelHeights() {
-  const thead = document.querySelector('#finTableWrap thead');
-  const tbodyRows = document.querySelectorAll('#finTableWrap tbody tr');
-  const hdr = document.getElementById('finLabelHeader');
-  const labelRows = document.querySelectorAll('#finLabelArea .fin-label-row');
-  if (thead && hdr) hdr.style.height = thead.offsetHeight + 'px';
-  tbodyRows.forEach((tr, i) => {
-    if (labelRows[i]) labelRows[i].style.height = tr.offsetHeight + 'px';
-  });
-}
-
-// Render quarterly financial table (label column removed — in sidebar)
+// Render quarterly financial table (sticky first column for labels)
 (function buildFinTable() {
   const wrap = document.getElementById('finTableWrap');
   const tdB = 'padding:9px 13px;text-align:right;font-size:13px;';
   const thB = 'padding:5px 13px;text-align:right;font-size:12px;font-weight:500;color:#475569;white-space:nowrap;';
   const sep = 'border-left:1.5px solid #E2DEDB;';
+  const stickyLbl = 'position:sticky;left:0;z-index:2;border-right:1px solid #E2DEDB;';
+  const lblW = 'width:130px;min-width:130px;';
 
   let h = `<div style="overflow-x:auto;"><table style="border-collapse:collapse;white-space:nowrap;width:100%;background:#ffffff;">`;
-  // Year row
+
+  // Year row + Quarter row header — label cell spans both rows
   h += `<thead><tr style="border-bottom:1px solid #E2DEDB;background:#FAFAF8;">`;
+  h += `<th rowspan="2" style="${thB}${stickyLbl}${lblW}background:#FAFAF8;text-align:left;vertical-align:bottom;padding:8px 12px 7px;">
+    <div style="font-size:11px;font-weight:500;color:#475569;line-height:1.35;">Quarterly<br>Metrics</div>
+    <div style="font-size:9px;color:#9ca3af;margin-top:3px;">USD millions</div>
+  </th>`;
   let first = true;
   finYearHeaders.forEach(y => {
     const bl = first ? '' : 'border-left:1.5px solid #E2DEDB;';
@@ -694,18 +897,18 @@ function syncFinLabelHeights() {
     h += `<th colspan="${y.s}" style="${thB}${bl}text-align:center;color:#847B7B;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:3px;">${y.l}</th>`;
   });
   h += `</tr>`;
-  // Quarter row
   h += `<tr style="border-bottom:2px solid #E2DEDB;background:#FAFAF8;">`;
   finQHeaders.forEach((q, i) => {
     const bl = finYearSep.has(i) ? sep : '';
     h += `<th data-qi="${i}" style="${thB}${bl}">${q}</th>`;
   });
   h += `</tr></thead><tbody>`;
-  const revVals = finRows[0].vals;
 
+  const revVals = finRows[0].vals;
   finRows.forEach((row, ri) => {
     if (row.fmt === 'sep') {
       h += `<tr style="border-top:2px solid #E2DEDB;">`;
+      h += `<td style="${stickyLbl}${lblW}background:#F4F2EF;padding:4px 12px;font-size:10px;font-weight:600;color:#847B7B;letter-spacing:0.5px;text-transform:uppercase;">Balance Sheet</td>`;
       finQHeaders.forEach((_, i) => {
         h += `<td data-qi="${i}" style="padding:4px 13px;${finYearSep.has(i)?sep:''}background:#F4F2EF;"></td>`;
       });
@@ -713,7 +916,9 @@ function syncFinLabelHeights() {
       return;
     }
     const lastRow = ri === finRows.length - 1;
-    h += `<tr style="${lastRow ? '' : 'border-bottom:1px solid #E2DEDB;'}">`;
+    const rowBorder = lastRow ? '' : 'border-bottom:1px solid #E2DEDB;';
+    h += `<tr style="${rowBorder}">`;
+    h += `<td style="${stickyLbl}${lblW}background:#fff;padding:9px 12px;font-size:13px;color:#475569;font-weight:400;">${row.label}</td>`;
     row.vals.forEach((v, i) => {
       const bl = finYearSep.has(i) ? sep : '';
       let disp, clr, fw = '';
@@ -741,28 +946,209 @@ function syncFinLabelHeights() {
   });
   h += `</tbody></table></div>`;
   wrap.innerHTML = h;
-
-  buildFinLabels();
-  requestAnimationFrame(() => requestAnimationFrame(syncFinLabelHeights));
 })();
 
-// Render events
-const grid = document.getElementById('eventsGrid');
-events.forEach(e => {
-  const div = document.createElement('div');
-  div.className = 'event-item';
-  div.innerHTML = `
-    <div class="event-num" style="background:${e.color};color:${['bd','positive','exit'].includes(e.cat) ? '#000':'#fff'}">${e.id}</div>
-    <div class="event-content">
-      <div class="event-date">${e.date}</div>
-      <div class="event-title">${e.title}</div>
-      <div class="event-desc">${e.desc}</div>
-      <div class="event-price" style="color:${e.color}">${e.price}</div>
+// Event detail panel
+function showEventDetail(e) {
+  const panel = document.getElementById('eventDetail');
+  const light = ['bd','positive','exit'].includes(e.cat);
+  panel.innerHTML = `
+    <div class="ed-inner">
+      <div class="ed-header">
+        <div class="event-num" style="background:${e.color};color:${light?'#000':'#fff'};width:32px;height:32px;font-size:14px;flex-shrink:0;">${e.id}</div>
+        <div class="ed-meta">
+          <div class="ed-date">${e.date}</div>
+          <div class="ed-title">${e.title}</div>
+        </div>
+        <div class="ed-price" style="color:${e.color}">${e.price}</div>
+        <button class="ed-close" onclick="document.getElementById('eventDetail').innerHTML='<div class=\\'ed-hint\\'>Click a numbered marker on the chart to see event details</div>'">✕</button>
+      </div>
+      <div class="ed-desc">${e.desc}</div>
     </div>
   `;
-  grid.appendChild(div);
-});
+}
 </script>
+  <div class="analysis-section">
+
+    <!-- ── Topic 01 ── -->
+    <div class="topic">
+      <div class="topic-header">
+        <div class="topic-eyebrow">Topic 01</div>
+        <h2 class="topic-title">Turn the Clock Back to Spin-Off</h2>
+      </div>
+
+      <!-- Subtopic: Why $9 Billion? -->
+      <div class="subtopic">
+        <h3 class="subtopic-title">Why $9 Billion?</h3>
+
+        <p class="body-text">On June 2, 2021, Organon became a publicly traded company. It also became, on that same day, one of the most leveraged names in the pharmaceutical sector — carrying approximately $9.5 billion in debt before it had traded a single share. Of that total, <strong>$9.0 billion had already been wired to Merck</strong> as a special cash distribution. Organon entered the public markets not as a company that had borrowed to grow, but as one that had borrowed so its former parent could cash out.</p>
+
+        <p class="body-text">This is the architecture of a <strong>leveraged spinoff</strong>: the subsidiary raises debt, pays the proceeds to the parent as a pre-separation dividend, and inherits the liability. It is entirely legal, tax-efficient for the parent under IRS Section 355, and — as Organon's trajectory would demonstrate — deeply consequential for everyone who stayed behind.</p>
+
+        <div class="key-callout">
+          <p>The $9 billion was not negotiated by Organon's management. It was the maximum amount Merck's bankers could place in the debt markets given Organon's projected cash flows — set before the new management team had any real authority to push back.</p>
+        </div>
+
+        <p class="body-text"><strong>How the number was derived.</strong> The ceiling was determined by the intersection of three constraints: what the business could plausibly support in EBITDA, what leverage ratio the rating agencies would allow before forcing a below-investment-grade classification, and what interest rates made financially tolerable.</p>
+
+        <table class="analysis-table">
+          <thead>
+            <tr><th>Constraint</th><th>The logic</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EBITDA capacity</td>
+              <td>
+                ~$2.2–2.4B annualized at spinoff, based on the Established Brands and biosimilar portfolio. Actual GAAP EBITDA never reached that level in any full year:
+                <div style="display:flex;gap:24px;margin-top:10px;flex-wrap:wrap;">
+                  <div>
+                    <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#847B7B;margin-bottom:3px;">2022 actual</div>
+                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">$1.78B</div>
+                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−22% vs assumption</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#847B7B;margin-bottom:3px;">2023 actual</div>
+                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">$1.49B</div>
+                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−35% vs assumption</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#847B7B;margin-bottom:3px;">2024 actual</div>
+                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">$1.65B</div>
+                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−28% vs assumption</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Target leverage</td>
+              <td>~4.0–4.1× Net Debt / EBITDA — the highest ratio that preserved near-investment-grade access to capital markets</td>
+            </tr>
+            <tr>
+              <td>Rate environment</td>
+              <td>10Y Treasury at 1.44% in June 2021; all-in coupons of 2.875%–5.125% made $9.5B in annual interest roughly $400–450M — manageable against $1.3B projected FCF</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="body-text">At 4× leverage on $2.2B of EBITDA, the arithmetic produced roughly $8.8–9.0B in serviceable debt. Any higher and the rating agencies would have required a high-yield designation, making the bonds harder and more expensive to sell. Any lower and Merck would have left value on the table. The bankers found the ceiling and recommended it.</p>
+
+        <p class="body-text"><strong>What Merck did with the money.</strong> Three months after the spinoff closed, Merck announced its <strong>$11.5 billion acquisition of Acceleron Pharma</strong>. The Organon distribution was not earmarked for Acceleron in any public filing, but the timing is unambiguous: the leveraged spinoff was, functionally, a mechanism for Merck to monetize assets it no longer wanted in order to fund assets it did.</p>
+
+        <p class="body-text"><strong>The three assumptions the model required.</strong> The $9 billion was defensible in June 2021 — but only under a specific set of conditions, all of which proved wrong, and none of which failed in isolation.</p>
+
+        <ul class="broke-list">
+          <li>
+            <span class="broke-tag">Broke</span>
+            <div><strong>Stable cash flows.</strong> Established Brands revenue was modeled as a gradual, predictable decline. Instead it was hit simultaneously by China VBP rounds, European loss-of-exclusivity on Atozet, and currency headwinds — compressing EBITDA margins from ~38% at spinoff to ~31% by 2025.</div>
+          </li>
+          <li>
+            <span class="broke-tag">Broke</span>
+            <div><strong>Low interest rates.</strong> With the 10-year at 1.44% and all-in coupons at 4–5%, debt service was manageable. By late 2023 the Fed funds rate was at 5.25–5.50%. Organon's floating-rate term loans repriced upward, and the refinancing risk on its 2028 notes became a live question rather than a distant one.</div>
+          </li>
+          <li>
+            <span class="broke-tag">Broke</span>
+            <div><strong>Growth paying down the debt.</strong> Biosimilars and women's health acquisitions were supposed to add cash flow that would de-lever the balance sheet over three to five years. Instead, each acquisition — Forendo ($75M upfront), Dermavant ($250M at close) — consumed the cash that should have been reducing the original $9B. Net leverage barely moved.</div>
+          </li>
+          <li>
+            <span class="broke-tag">Broke</span>
+            <div><strong>Dividends as a secondary priority.</strong> At spinoff, Organon initiated a quarterly dividend of $0.28 per share — roughly $560M per year against ~502M diluted shares outstanding. The implicit assumption was that cash generation would be sufficient to service debt <em>and</em> reward shareholders. It was not. Over the 3.5 years from Q3 2021 to the 92% cut in May 2025, Organon paid out an estimated $1.8–2.0B in dividends while Net Debt / EBITDA barely declined from its opening 4× level. Every dollar paid to shareholders was a dollar not reducing the debt load that was slowly compressing the company's options.</div>
+          </li>
+        </ul>
+
+        <p class="body-text">None of these failures was unforeseeable in the abstract. What made the structure fragile was that it required <em>all three</em> to hold simultaneously. A company with 4× leverage, a declining revenue base, and no proprietary pipeline has no margin for error. Organon was given none.</p>
+
+        <p class="body-text">The leveraged spinoff structure itself is not the problem — it has been used successfully many times. Two contemporaries make the contrast concrete. In July 2022, GSK demerged its Consumer Healthcare business as <strong>Haleon</strong>, loading it with £10.3B in net debt (~$13B) at ~3.6× opening leverage. In May 2023, Johnson &amp; Johnson spun out its consumer division as <strong>Kenvue</strong>, raising $7.75B in bonds to pay J&amp;J — but at only ~2.2× opening leverage against $3.7B of Adjusted EBITDA. All three spinoffs handed billions to their parents. Only one destroyed most of the equity value left behind.</p>
+
+        <div class="peer-box">
+          <div class="peer-box-eyebrow">Peer Comparison — Leveraged Spinoffs</div>
+
+          <table style="width:100%;border-collapse:collapse;font-family:'Inter',system-ui,sans-serif;font-size:13px;margin:0 0 24px;">
+            <thead>
+              <tr>
+                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#847B7B;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:22%;">Metric</th>
+                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#c17d9d;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Organon <span style="font-weight:300;text-transform:none;letter-spacing:0;color:#847B7B;">(Jun 2021)</span></th>
+                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#2a7a4b;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Haleon <span style="font-weight:300;text-transform:none;letter-spacing:0;color:#847B7B;">(Jul 2022)</span></th>
+                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#2a7a4b;padding:6px 0 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Kenvue <span style="font-weight:300;text-transform:none;letter-spacing:0;color:#847B7B;">(May 2023)</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Cash to parent</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">$9.0B → Merck</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">£7B+ → GSK<br>£3B+ → Pfizer</td>
+                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">$7.75B bonds + $4B IPO → J&amp;J</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Revenue base</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$6.2B</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~£10.7B (~$13B)</td>
+                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$15.4B</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Adj. EBITDA at separation</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$2.2–2.4B <em style="color:#847B7B;font-size:11px;">(projection, never reached)</em></td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~£2.7B (~$3.4B)</td>
+                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">$3.7B</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Cash to parent / EBITDA</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;color:#c17d9d;">~3.9× <em style="color:#847B7B;font-size:11px;font-weight:300;">($9.0B / ~$2.3B)</em></td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;">~3.8× <em style="color:#847B7B;font-size:11px;font-weight:300;">(£10.3B / ~£2.7B)</em></td>
+                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;color:#2a7a4b;">~2.1× <em style="color:#847B7B;font-size:11px;font-weight:300;">($7.75B debt / $3.7B; excl. IPO proceeds)</em></td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Net debt at separation</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$9.5B</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~£9.9B (~$12.3B)</td>
+                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$8.3B <em style="color:#847B7B;font-size:11px;">(gross debt; net ~$7.3B)</em></td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px 10px 0;border-bottom:2px solid #E2DEDB;color:#475569;font-weight:300;vertical-align:top;">Credit rating at separation</td>
+                <td style="padding:10px 12px 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;color:#c17d9d;"><strong>Ba2 / BB</strong> <em style="color:#847B7B;font-size:11px;font-weight:300;">High Yield — sub-IG from day one</em></td>
+                <td style="padding:10px 12px 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;color:#2a7a4b;"><strong>Baa3 / BBB−</strong> <em style="color:#847B7B;font-size:11px;font-weight:300;">Investment Grade (lowest tier)</em></td>
+                <td style="padding:10px 0 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;color:#2a7a4b;"><strong>Baa2 / BBB+</strong> <em style="color:#847B7B;font-size:11px;font-weight:300;">Investment Grade (solid mid-tier)</em></td>
+              </tr>
+              <tr>
+                <td colspan="4" style="padding:8px 0 4px;font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#847B7B;">Net Debt / Adj. EBITDA</td>
+              </tr>
+              <tr style="background:rgba(226,222,219,0.2);">
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:400;vertical-align:top;font-size:12px;">Spinoff year</td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#c17d9d;">~4.0×</td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">3.6×</td>
+                <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.2×</td>
+              </tr>
+              <tr style="background:rgba(226,222,219,0.2);">
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:400;vertical-align:top;font-size:12px;">+1 year</td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#c17d9d;">~4.2× <em style="color:#847B7B;font-size:11px;font-weight:300;">(EBITDA missed plan)</em></td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#2a7a4b;">3.0× <em style="color:#847B7B;font-size:11px;font-weight:300;">(−0.6× in yr 1)</em></td>
+                <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.3× <em style="color:#847B7B;font-size:11px;font-weight:300;">(est.)</em></td>
+              </tr>
+              <tr style="background:rgba(226,222,219,0.2);">
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:400;vertical-align:top;font-size:12px;">+2 years</td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#c17d9d;">4.1× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2023)</em></td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#2a7a4b;">2.8× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2024)</em></td>
+                <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.7× <em style="color:#847B7B;font-size:11px;font-weight:300;">(Q3 2025)</em></td>
+              </tr>
+              <tr style="background:rgba(226,222,219,0.2);">
+                <td style="padding:9px 12px 9px 0;border-bottom:2px solid #E2DEDB;color:#475569;font-weight:400;vertical-align:top;font-size:12px;">+3 years</td>
+                <td style="padding:9px 12px 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;color:#c17d9d;">~4.0× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2024; div. cut May 2025)</em></td>
+                <td style="padding:9px 12px 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;color:#2a7a4b;">2.6× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2025)</em></td>
+                <td style="padding:9px 0 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;color:#847B7B;">n/a <em style="font-size:11px;font-weight:300;">(+3yr = mid-2026)</em></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="body-text" style="margin-bottom:10px;">The leverage rows tell the story on their own. Haleon entered at 3.6× and shed a full turn of Net Debt / Adj. EBITDA in three years. Kenvue entered at 2.2× and remained comfortably below 3×. Organon entered at 4.0×, barely moved for four years, and required a 92% dividend cut in 2025 just to stabilize.</p>
+
+          <p class="body-text" style="margin-bottom:18px;">The difference was not discipline — all three stated a commitment to deleveraging at separation. The difference was asset quality. Haleon's brands (Sensodyne, Panadol, Advil, Voltaren) carry no patent cliff, no biosimilar threat, no VBP exposure; organic revenue grew +11.6% in its first standalone half-year. Kenvue's brands (Tylenol, Neutrogena, Listerine) are similarly non-cyclical and defensible. Organon's largest segment — Established Brands, legacy Merck generics — faced simultaneous pressure from Chinese procurement reforms, European LOEs, and persistent FX headwinds from the moment it separated. The spinoff mechanism was the same across all three. The assets underneath were not.</p>
+
+        </div><!-- /peer-box -->
+
+      </div><!-- /subtopic -->
+    </div><!-- /topic -->
+
+  </div><!-- /analysis-section -->
+
 </div><!-- /page-wrap -->
 </body>
 </html>
