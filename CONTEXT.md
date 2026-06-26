@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-23 (session 75)
+> Last updated: 2026-06-26 (session 76)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -69,7 +69,8 @@ src/
 │   ├── explorer.astro         # World Explorer profile page ✅
 │   ├── trails.astro           # Trails — Leaflet map, no title (removed s57) ✅
 │   ├── career/index.astro     # Journey — dual timeline
-│   ├── research/index.astro   # Decoding — gateway page
+│   ├── research/index.astro   # Decoding — two-column gateway (Industry Analysis + Play with the Data)
+│   ├── research/industry.astro# Industry Analysis — series index (s76)
 │   ├── research/data.astro    # NSFG 2022–2023 explorer ✅
 │   ├── research/meps.astro    # MEPS 2023 explorer ✅ NEW (session 24)
 │   ├── photography/index.astro# Nature Never Judges — mixed grid
@@ -282,7 +283,23 @@ Easter eggs: stork (Born), bamboo (Chengdu), Shanghai skyline, Swiss Alps + flag
 
 ### Decoding (`/research`) ✅ Live
 
-Gateway → **Play with the Data only** (session 72: Industry Research column removed — two OGN pharma articles deleted).
+Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + **Play with the Data** (right).
+
+**Industry Analysis column** links to `/research/industry`. Currently shows one live entry: "Organon: Was the Failure Avoidable?" → `/organon-stock-analysis.html`.
+
+**`/research/industry` — series-based index (session 76):**
+- **Series 01 — Invert, Always Invert:** Munger inversion framework applied to corporate post-mortems. Tagline: *"What would have to be true for this to fail?"* Articles listed under a left rose-border indent.
+  - [Live] `Organon: Was the Failure Avoidable?` → `/organon-stock-analysis.html`
+- **Series 02 — Coming Soon** (grayed-out placeholder, `pointer-events:none`)
+- Design: series number label (rose, 10px uppercase) + large italic serif title + tagline + description + article list
+
+**`/organon-stock-analysis.html` — OGN stock post-mortem (session 75–76):**
+- Standalone static HTML in `public/` (not an Astro page — full-width data dashboard)
+- Light theme matching main site: `#FAFAF8` bg, Cormorant Garamond italic h1, Inter body, rose `#c17d9d` OGN price line
+- Chart: OGN monthly close (left axis, rose) + US 10Y Treasury yield (right axis, orange dashed), Chart.js 4.4.0 + annotation plugin
+- Quarterly financial table: Q2'21–Q1'26, 20 quarters; Income Statement + Balance Sheet; sidebar labels synced via `requestAnimationFrame`; hover chart month → highlights corresponding quarterly column (rose tint `rgba(193,125,157,0.09)`)
+- Events grid: 15 annotated events, 7 categories (Milestone/Macro/Ops/BD/Product/Compliance/M&A), hover rose border
+- Back nav: `← Industry Analysis` crumb at top (10px uppercase Inter, stone → ink hover)
 
 **Play with the Data projects (session 61: `/research/index.astro` now shows 4 cards):**
 - `/research/data` — NSFG Explorer with **cycle switcher** ✅ session 39–40
@@ -679,7 +696,8 @@ Renamed from "Now", route `/now` → `/moments`. Subtitle: *"little moments that
 - [ ] **Explorer modules** — Books, Food, Outdoor stats still shimmer/empty
 - [x] **Nature Never Judges grid** — Oeschinensee ✅ s36; Lucerne city guide ✅ s37; 4 placeholder cards removed s73 (only 3 real articles remain)
 - [x] **Lucerne city guide** — `/photography/lucerne` ✅ s37; trails map red star marker ✅; bilingual EN/中文 ✅; deployed ✅
-- [ ] **Research detail pages** — OGN articles removed from site (session 72); HTML drafts at `~/OGN_financial_analysis.html` and `~/SunPharma_OGN_acquisition.html` remain locally if needed later
+- [x] **Industry Analysis section** — `/research/industry` live (s76); Series 01 "Invert, Always Invert" with OGN post-mortem; `/organon-stock-analysis.html` live as static HTML
+- [ ] **Industry Analysis — more articles** — Series 01 has one article; Series 02 name + content TBD; OGN Sun Pharma acquisition draft at `~/SunPharma_OGN_acquisition.html` locally
 - [x] **Writing first essay** — `把领带系上 / Put on the Tie` ✅ session 75; direct page `/writing/put-on-the-tie.astro`; bilingual, ZH default, Ma Shan Zheng
 - [ ] **Writing detail pages** — more essays; no `[slug].astro` template yet (essays are individual files for now)
 - [ ] **Journey detail pages** — timeline cards link to `#`
