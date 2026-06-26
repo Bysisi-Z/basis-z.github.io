@@ -16,38 +16,32 @@ const dataProjects = [
   {
     num: '01',
     title: "US NSFG Survey",
-    sub: "Female Respondent — 2022–2023 · Variable explorer",
+    sub: "Female Respondent — 2022–2023 & 2017–2019 · Variable explorer · 11 method deep-dives",
     tags: ['Survey', 'Reproductive Health'],
-    href: '/research/data',
+    href: 'https://2simbo.com/nsfg-explorer.html',
     live: true,
     coming: false,
+    external: true,
   },
   {
     num: '02',
-    title: "NSFG Individual Reports",
-    sub: "11 method deep-dives · trends & age analysis",
-    tags: ['Survey', 'Reproductive Health'],
-    href: '/nsfg-reports.html',
-    live: true,
-    coming: false,
-  },
-  {
-    num: '03',
     title: "US MEPS Survey",
     sub: "Full-Year Consolidated File — 2023 · Variable explorer",
     tags: ['Survey', 'Healthcare & Costs'],
     href: '/research/meps',
     live: true,
     coming: false,
+    external: false,
   },
   {
-    num: '04',
+    num: '03',
     title: "MEPS Expenditure Analysis",
     sub: "Healthcare spending by payer — 2023",
     tags: ['Survey', 'Healthcare & Costs'],
     href: '/research/meps-expenditure',
     live: true,
     coming: false,
+    external: false,
   },
 ];
 ---
@@ -105,7 +99,7 @@ const dataProjects = [
         </div>
         <div class="col-items">
           {dataProjects.map(item => (
-            <a class={`d-item${item.coming ? ' d-item--coming' : ''}`} href={item.href}>
+            <a class={`d-item${item.coming ? ' d-item--coming' : ''}`} href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>
               <div class="item-body">
                 <h3 class="item-title">{item.title}</h3>
                 <p class="item-sub">{item.sub}</p>
@@ -114,6 +108,7 @@ const dataProjects = [
                     {item.tags.map(t => <span class="i-tag">{t}</span>)}
                   </div>
                   {item.live   && <span class="live-badge">Live</span>}
+                  {item.external && <span class="ext-badge">↗ 2simbo.com</span>}
                   {item.coming && <span class="soon-badge">Coming soon</span>}
                 </div>
               </div>
@@ -236,6 +231,13 @@ const dataProjects = [
   .soon-badge {
     font-family: var(--sans); font-size: 9px; font-weight: 300;
     letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--stone); border: 1px solid var(--rule);
+    padding: 2px 8px; border-radius: 2px;
+  }
+
+  .ext-badge {
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 0.1em;
     color: var(--stone); border: 1px solid var(--rule);
     padding: 2px 8px; border-radius: 2px;
   }
