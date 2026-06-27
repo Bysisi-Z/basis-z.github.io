@@ -4,6 +4,7 @@
 
 ## Files Owned
 - `CODEX_WRITING.md`
+- `public/_redirects` (only Wandering legacy redirect rules)
 - `src/pages/writing/index.astro`
 - `src/pages/writing/put-on-the-tie.astro`
 
@@ -21,7 +22,7 @@
 - No public design rules have been changed in this handoff pass.
 
 ## Shared Resources Touched
-- None.
+- `public/_redirects`: added Cloudflare Pages redirects from legacy `/writing/demo` and `/writing/demo/` to the formal `/writing` route because the previously deployed demo page remained accessible after the route file was deleted.
 - Per user rule, do not modify `BaseLayout.astro`, `Nav.astro`, `Footer.astro`, `global.css`, or other shared resources without confirming first.
 
 ## Content Schema
@@ -54,6 +55,7 @@
 - Low: Add previous/next essay navigation once there is more than one essay.
 
 ## Gotchas
+- Cloudflare Pages may keep previously deployed static files accessible even after the source route is removed. Use `public/_redirects` to retire old public experiment URLs.
 - `src/pages/writing/put-on-the-tie.astro` loads `Ma Shan Zheng` through the page head slot. The new `/writing` index does not load it because Chinese appears only as a small title marker.
 - `put-on-the-tie` sets `html[data-lang]` before page render using an inline script to avoid language flash. Any refactor must preserve this behavior.
 - The global stylesheet already contains `.lang-zh` / `.lang-en` rules, but `put-on-the-tie` uses local `.zh` / `.en` classes instead. Do not mix these without testing visibility behavior.
