@@ -13,8 +13,9 @@ export async function onRequest(context) {
   const KV = env.JOURNEY_AUTH;
 
   if (request.method === 'POST') {
-    const formData = await request.formData();
-    const password = (formData.get('password') || '').trim().toLowerCase();
+    const bodyText = await request.text();
+    const params = new URLSearchParams(bodyText);
+    const password = (params.get('password') || '').trim().toLowerCase();
 
     if (password) {
       const raw = await KV.get(`pw:${password}`);
@@ -39,7 +40,7 @@ export async function onRequest(context) {
       }
     }
 
-    return new Response('diag: empty password', { status: 403 });
+    return new Response(`diag: empty password | raw body: "${bodyText}" | ct: ${request.headers.get('content-type')}`, { status: 403 });
   }
 
   const cookie = request.headers.get('Cookie') || '';
