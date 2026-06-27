@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-27 (session 80)
+> Last updated: 2026-06-27 (session 81)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -293,7 +293,7 @@ Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + *
 - **Series 02 — Coming Soon** (grayed-out placeholder, `pointer-events:none`)
 - Design: series number label (rose, 10px uppercase) + large italic serif title + tagline + description + article list
 
-**`/organon-stock-analysis.html` — OGN stock post-mortem (session 75–78):**
+**`/organon-stock-analysis.html` — OGN stock post-mortem (session 75–81):**
 - Standalone static HTML in `public/` (not an Astro page — full-width data dashboard)
 - Light theme matching main site: `#FAFAF8` bg, Cormorant Garamond italic h1, Inter body, rose `#c17d9d` OGN price line
 - Chart: OGN monthly close (left axis, rose) + US 10Y Treasury yield (right axis, orange dashed), Chart.js 4.4.0 + annotation plugin
@@ -304,7 +304,7 @@ Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + *
 
 **Financial table color legend (session 79):** Color key row at bottom of chart card — ● Headline / ● Supporting / ● Cost·expense / ● Negative·below threshold / ● Gross margin ≥62%; source note right-aligned.
 
-**Section question style (session 79):** `.section-question` — Cormorant Garamond italic, `clamp(20px,2.2vw,28px)`, rose `#c17d9d`. First use: "Can Organon cut the dividend from the first day?" before the 1.3 Dividend section paragraph.
+**Section question style (session 79):** `.section-question` — Cormorant Garamond italic, `clamp(20px,2.2vw,28px)`, rose `#c17d9d`. First use: "Can Organon cut the dividend from the first day?"
 
 **Financial table rows (session 78):**
 - Income Statement: Revenue, COGS, Gross Profit (with GM%), SG&A, R&D, EBITDA*, Interest Exp., Net Income
@@ -316,21 +316,34 @@ Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + *
 - Three-company comparison: Organon / Haleon / Kenvue
 - Color system: column headers all neutral gray; Organon column left border `3px solid #c17d9d`; NO green/pink in data cells; credit rating row uses labeled badges; leverage delta in gray italic
 
-**Article sections (session 77–78):**
-- Section title: "Why $9.5 Billion?"
-- 1.1: Credit rating impact (Ba2/BB from day one, HY spread consequence)
-- 1.2: How the $9.5B Was Structured
+**Article structure (session 81 — reorganized):**
+
+**Topic 01: Turn the Clock Back to Spin-Off**
+- **1.1 Did Organon Have to Be Born This Way? (NEW s81)**
+  - Four structural alternatives for Merck: trade sale / PE buyout / debt-free spinoff / executed (leveraged IPO spinoff)
+  - Comparison table: each path + why it failed on Merck's terms
+  - Section question: "What about borrowing the cash but not going public?"
+  - Two blockers for private + debt structure: (1) Section 355 tax-free requires pro-rata shareholder distribution — can't do without public shares; (2) public equity backstop enables the debt at those rates/scale
+  - Key callout: structure that maximized Merck's extraction required Organon to be a public company
+- **1.2 Why $9.5 Billion?** (was 1.1)
+  - Credit rating impact (Ba2/BB from day one, HY spread consequence)
+  - EBITDA capacity / target leverage / rate environment table
+- **1.3 How the $9.5B Was Structured** (was 1.2)
   - "Where Did the $9.5B Go?" uses-of-proceeds box: $9.5B raised − $9.0B to Merck − $118M fees = $382M net; $730M ending cash explained by $539M Q2 operating CF − $59M capex − $165M Alydia acq.
   - Debt tranche table (6 tranches); floating rate impact table (4 periods, spinoff → Dec 2024)
-  - **"The Hedge That Wasn't" (NEW s78):** Fed June 2021 dot plot callout (0.10% / 0.10% / 0.60% / 2.50% long run); explanation why no interest rate cap was purchased; SOFR actual peak 5.33% = 473bps above 2023 Fed projection
-- 1.3: Dividend — To Pay or Not to Pay (NEW s78)
+  - "The Hedge That Wasn't": Fed June 2021 dot plot callout; SOFR actual peak 5.33% = 473bps above 2023 Fed projection
+
+**Topic 02: The Dividend — To Pay or Not to Pay (NEW s81 — was subtopic 1.3)**
+- Subtopic title: "Why the Dividend Was Structural, Not Optional"
   - Why dividend was pre-planned (Investor Day May 2021), not reactive
   - Inherited Merck shareholder base forced it (income mandates); no growth story → must be a dividend stock
   - Dividend as costly signal: once committed, cut is seen as failure → structural trap
   - "Fixed Cash Commitments vs. FCF" box: interest $470M + dividend $284M + capex $240M = $994M vs $1,100M FCF → only $106M residual
-  - Total dividends paid Q2'21–Q1'25: ~$1.1B; opportunity cost = ~0.6× leverage reduction foregone
+  - **Cumulative dividend reference box (NEW s81):** Q2'21–Q1'26 total paid = $1,156M (16 × $71M + 4 × $5M); leverage equivalent at FY2025 EBITDA (~$1.9B) = ~0.6×. Neutral math only — no value judgment framing
   - May 2025 cut: $0.28 → $0.02 (93%); frees $264M/year; token $0.02 preserves dividend-payer status
-  - Conclusion callout: mid-2023 voluntary cut would have freed ~$570M over 2 years; instead arrived in 2025 as capitulation
+  - "When, then, was the window?" — Window 01 (Q3–Q4 2022, rate-shock narrative) + Window 02 (Feb 2023, Q4 earnings); two-column card grid
+  - Buffer conclusion: $264M/yr against $9.5B principal = 5.5% of debt; buffer, not solution
+  - Key callout: no cut at any point could have solved the structural problem; $9.5B was the disease, dividend a symptom
 - Sources 1–19 with live links; source 18 = Organon 10-K FY2021 (uses-of-proceeds); source 19 = Fed June 2021 dot plot
 
 **EBITDA capacity note:** projection $2.2–2.4B is Adj. EBITDA from May 2021 Investor Day. GAAP EBITDA in quarterly table is different/lower. Actuals: 2022 ~$2.1B / 2023 $1.9B / 2024 ~$2.0B

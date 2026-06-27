@@ -1059,9 +1059,57 @@ function showEventDetail(e) {
         <h2 class="topic-title">Turn the Clock Back to Spin-Off</h2>
       </div>
 
-      <!-- Subtopic: Why $9.5 Billion? -->
+      <!-- Subtopic 1.1: Why This Structure? -->
       <div class="subtopic">
-        <h3 class="subtopic-title">Why $9.5 Billion?</h3>
+        <h3 class="subtopic-title">1.1 &nbsp; Did Organon Have to Be Born This Way?</h3>
+
+        <p class="body-text">Before asking why the debt was $9.5 billion, there is a prior question: why was Organon a public company at all? Merck had options. The business — mature branded drugs, biosimilars, women's health — could have been separated in at least four structurally distinct ways. That only one was seriously pursued is not an accident.</p>
+
+        <table class="analysis-table" style="margin:28px 0;">
+          <thead>
+            <tr><th>Path</th><th>Structure</th><th>Why it failed on Merck's terms</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Trade sale</strong></td>
+              <td>Sell to a large pharmaceutical or specialty company</td>
+              <td>No credible buyer existed. In 2021, every major pharma was actively shedding Established Brands exposure — Pfizer had just packaged its own generics business into Viatris to exit that category. A strategic acquirer would apply a significant integration discount; the likely clearing price was $6–8B, well below Merck's internal valuation.</td>
+            </tr>
+            <tr>
+              <td><strong>PE buyout</strong></td>
+              <td>Leveraged acquisition by a private equity sponsor</td>
+              <td>Commercially viable, but triggers corporate capital gains tax on Merck's proceeds. Merck's cost basis in the Organon assets traces back to the 2009 Schering-Plough acquisition — the implied gain is large. At a 21% federal corporate rate, a $10–12B gross sale becomes an ~$8–9B net. The spinoff route recovers that tax leakage entirely.</td>
+            </tr>
+            <tr>
+              <td><strong>Debt-free spinoff</strong></td>
+              <td>Distribute Organon shares to Merck shareholders, no pre-loaded debt</td>
+              <td>Merck separates the business but extracts no cash. The $9.0B that was wired to Merck before Organon's first trading day would not exist. Organon would enter the public markets clean — and Merck would have given away an asset worth roughly $12–15B in enterprise value without any liquidity benefit to itself.</td>
+            </tr>
+            <tr>
+              <td><strong>Leveraged spinoff + IPO</strong><br><span style="font-size:11px;color:#c17d9d;font-weight:500;">← executed</span></td>
+              <td>Organon borrows at maximum capacity, upstreams cash to Merck, distributes shares to Merck shareholders via tax-free Section 355 transaction</td>
+              <td>Maximum cash extraction (full debt capacity, zero tax) combined with a liquid market for Merck's distributed shareholders. Organon inherits the debt; Merck retains none of it on its balance sheet.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="section-question">What about borrowing the cash but not going public?</p>
+
+        <p class="body-text">This is the path closest to how private equity operates: load the entity with debt, extract the cash, operate as a private company. It sidesteps the costs of a public listing — underwriting fees, SEC reporting, Sarbanes-Oxley compliance, quarterly earnings pressure, and the continuous investor relations overhead that runs $30–50M per year for a company of Organon's size. On paper, the economics are similar to the executed structure.</p>
+
+        <p class="body-text">Two mechanics make it unworkable. First, Section 355 of the US tax code grants tax-free treatment to a spinoff specifically because the parent is distributing shares to its existing shareholders — it is a pro-rata distribution, not a sale. A leveraged private entity sold to a third party is a taxable transaction regardless of the debt structure. The tax exemption and the public distribution are inseparable. Second, Merck's shareholder base — tens of millions of retail holders, index funds, and pension funds — cannot hold illiquid stakes in a private operating company. The distribution mechanism requires liquid, tradeable shares. Without the IPO, there is no distribution; without the distribution, there is no Section 355.</p>
+
+        <p class="body-text">There is also a financing dimension. Organon's $9.5B was placed in public bond markets — investment-grade-adjacent high-yield paper, priced at 2.875%–5.125% in the zero-rate environment of mid-2021. A private company attempting to borrow the same quantum without public equity backstop would face higher spreads, tighter covenants, and a meaningfully smaller addressable lender pool. The public equity listing was partly how the debt was made possible at those terms.</p>
+
+        <div class="key-callout">
+          <p>The structure that maximized Merck's extraction — Section 355 tax-free, full debt capacity, liquid shares for distributed shareholders — required Organon to be a public company. The costs of that requirement: quarterly earnings pressure, analyst coverage, an inherited shareholder base with income mandates, and the signaling dynamics that made every subsequent capital allocation decision harder to execute.</p>
+        </div>
+
+      </div><!-- /subtopic -->
+
+      <!-- Subtopic 1.2: Why $9.5 Billion? -->
+      <div class="subtopic">
+        <h3 class="subtopic-title">1.2 &nbsp; Why $9.5 Billion?</h3>
 
         <p class="body-text">On June 2, 2021, Organon became a publicly traded company. It also became, on that same day, one of the most leveraged names in the pharmaceutical sector — carrying approximately $9.5 billion in debt before it had traded a single share. Of that total, <strong>$9.0 billion had already been wired to Merck</strong> as a special cash distribution.<span class="fn"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1821825&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">1</a></span> Organon entered the public markets not as a company that had borrowed to grow, but as one that had borrowed so its former parent could cash out.</p>
 
@@ -1243,7 +1291,7 @@ function showEventDetail(e) {
 
       <!-- Subtopic: How the $9.5B Was Structured -->
       <div class="subtopic">
-        <h3 class="subtopic-title">How the $9.5 Billion Was Structured</h3>
+        <h3 class="subtopic-title">1.3 &nbsp; How the $9.5 Billion Was Structured</h3>
 
         <p class="body-text">The $9.5 billion did not arrive as a single instrument. Merck's bankers structured it across multiple tranches — a mix of fixed-rate senior notes in two currencies and a large floating-rate term loan — each serving a different purpose in the capital stack.</p>
 
@@ -1409,9 +1457,17 @@ function showEventDetail(e) {
 
       </div><!-- /subtopic -->
 
-      <!-- Subtopic 1.3: Dividend -->
+    </div><!-- /topic -->
+
+    <!-- Topic 02: Dividend -->
+    <div class="topic">
+      <div class="topic-header">
+        <div class="topic-eyebrow">Topic 02</div>
+        <h2 class="topic-title">The Dividend — To Pay or Not to Pay</h2>
+      </div>
+
       <div class="subtopic">
-        <h3 class="subtopic-title">1.3 &nbsp; Dividend — To Pay or Not to Pay, That Is the Question</h3>
+        <h3 class="subtopic-title">Why the Dividend Was Structural, Not Optional</h3>
 
         <p class="body-text">The dividend was not a reactive decision. It was designed in before the stock ever traded. At Organon's May 2021 Investor Day<span class="fn"><a href="https://www.organon.com/investors/events-and-presentations/" target="_blank" rel="noopener">2</a></span> — a month before the spinoff closed — management presented a capital return framework built around a recurring dividend as a core pillar. The $0.28 per share quarterly rate, declared on July 16, 2021,<span class="fn"><a href="https://www.organon.com/news/organon-declares-inaugural-quarterly-cash-dividend/" target="_blank" rel="noopener">10</a></span> was the delivery of a pre-made promise. The yield at the $30 launch price was approximately 3.7%. This was deliberate positioning, not rescue.</p>
 
@@ -1459,7 +1515,22 @@ function showEventDetail(e) {
 
         <p class="body-text">The tension became visible as the stock declined. A $0.28 quarterly dividend on a $30 stock is a 3.7% yield — routine for a pharma company. The same $0.28 dividend on a $10 stock is an 11.2% yield — a distress signal. Markets were pricing the dividend as unsustainable well before management acknowledged it. Each quarter Organon maintained the payout, it was simultaneously depleting the cash reserves that could have accelerated deleveraging, and deferring the credibility reset that a voluntary cut would have enabled.</p>
 
-        <p class="body-text">Between Q2 2021 and Q1 2025 — sixteen quarters at $0.28/share — Organon paid out approximately <strong>$1.1 billion in total dividends</strong>. Debt retired over that same period was modest. The opportunity cost was concrete: $1.1B applied entirely to debt reduction would have taken net leverage from ~4.5× to roughly ~3.9×, meaningfully ahead of the 2025 year-end target management only committed to after cutting the dividend.</p>
+        <p class="body-text">Between Q2 2021 and Q1 2025 — sixteen quarters at $0.28/share — Organon paid out approximately <strong>$1.1 billion in total dividends</strong>. Debt retired over that same period was modest.</p>
+
+        <!-- Cumulative dividend reference — neutral math only -->
+        <div style="background:#F5F3F0;border-left:3px solid #E2DEDB;border-radius:0 6px 6px 0;padding:16px 20px;margin:20px 0;display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start;">
+          <div>
+            <div style="font-family:'Inter',system-ui,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#847B7B;margin-bottom:5px;">Cumulative dividends paid<br>Q2'21 – Q1'26</div>
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:500;color:#1A1A1A;line-height:1;">$1,156M</div>
+            <div style="font-family:'Inter',system-ui,sans-serif;font-size:11px;color:#847B7B;margin-top:3px;">16 × $71M &nbsp;+&nbsp; 4 × $5M</div>
+          </div>
+          <div style="width:1px;background:#E2DEDB;align-self:stretch;flex-shrink:0;"></div>
+          <div>
+            <div style="font-family:'Inter',system-ui,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#847B7B;margin-bottom:5px;">Leverage equivalent<br>at FY2025 EBITDA (~$1.9B)</div>
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:500;color:#1A1A1A;line-height:1;">~0.6×</div>
+            <div style="font-family:'Inter',system-ui,sans-serif;font-size:11px;color:#847B7B;margin-top:3px;">$1,156M ÷ $1,900M</div>
+          </div>
+        </div>
 
         <p class="body-text">On May 1, 2025, alongside Q1 2025 results, CEO Kevin Ali announced a 93% cut — from $0.28 to $0.02 per share per quarter. The stated rationale: "reset our capital allocation priorities to accelerate progress towards deleveraging, enabling a path to achieve a net leverage ratio of below 4.0× by year-end."<span class="fn"><a href="https://www.organon.com/news/organon-reports-first-quarter-2025-financial-results/" target="_blank" rel="noopener">11</a></span> The freed-up cash — approximately <strong>$264M per year</strong> — would go to debt reduction. The token $0.02 preserved the technical status of a dividend-paying company while removing almost all of the cash burden.</p>
 
