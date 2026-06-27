@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-27 (session 81)
+> Last updated: 2026-06-27 (session 82)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -312,9 +312,15 @@ Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + *
 - Balance Sheet: Cash, Current Assets, Current Liab., Working Capital
 - FCF color: red for negative quarters (Q4'21: −$12M, Q2'23: −$44M); Dividends Paid: red for post-cut $5M quarters
 
-**Peer comparison table (session 77):**
+**Peer comparison table (session 77, updated s82):**
 - Three-company comparison: Organon / Haleon / Kenvue
 - Color system: column headers all neutral gray; Organon column left border `3px solid #c17d9d`; NO green/pink in data cells; credit rating row uses labeled badges; leverage delta in gray italic
+- **New row (s82): Parent stake retained at separation** — Organon 0% (Merck fully exited, red bold), Haleon ~38% (GSK ~6% + Pfizer ~32%), Kenvue ~91% (J&J IPO'd only 9.5%, distributed remainder via exchange offer 6mo later)
+- **New conclusion paragraph (s82):** parent stake row as second analytical dimension — Merck's max debt extraction + zero equity retention = no parent backstop, no room to miss plan
+- **Further Reading sidebar (s82):** placed after peer-box, before credit rating paragraph. Three cases in grid layout (160px label col + description col), muted gray-brown border/bg to distinguish from main flow. All text English.
+  - Chemours (DuPont, 2015): $3.9B wired day one, 0% retained, inherited PFAS liabilities → debt restructuring 2024
+  - Mallinckrodt (Covidien, 2013): pharma spinoff, 0% retained, patent-cliff pressures → bankruptcy 2020
+  - Viatris (Pfizer Upjohn + Mylan, 2020): Reverse Morris Trust, ~$18B debt, Pfizer cleared stake → stock sub-$15
 
 **Article structure (session 81 — reorganized):**
 
@@ -334,7 +340,7 @@ Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + *
   - "The Hedge That Wasn't": Fed June 2021 dot plot callout; SOFR actual peak 5.33% = 473bps above 2023 Fed projection
 
 **Topic 02: The Dividend — To Pay or Not to Pay (NEW s81 — was subtopic 1.3)**
-- Subtopic title: "Why the Dividend Was Structural, Not Optional"
+- No subtopic heading (removed s82) — content flows directly under topic title
   - Why dividend was pre-planned (Investor Day May 2021), not reactive
   - Inherited Merck shareholder base forced it (income mandates); no growth story → must be a dividend stock
   - Dividend as costly signal: once committed, cut is seen as failure → structural trap
