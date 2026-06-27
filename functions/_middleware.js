@@ -37,7 +37,7 @@ export async function onRequest(context) {
               status: 200,
               headers: {
                 'Content-Type': 'text/html; charset=utf-8',
-                'Set-Cookie': `jauth=${password}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
+                'Set-Cookie': `jauthv2=${password}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
               },
             }
           );
@@ -53,7 +53,7 @@ export async function onRequest(context) {
   }
 
   const cookie = request.headers.get('Cookie') || '';
-  const pw = getCookie(cookie, 'jauth');
+  const pw = getCookie(cookie, 'jauthv2');
 
   if (url.searchParams.get('dbg') === '1') {
     const kvRes = pw ? await KV.get(`pw:${pw}`) : null;
