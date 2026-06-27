@@ -14,7 +14,7 @@ export async function onRequest(context) {
 
   if (request.method === 'POST') {
     const formData = await request.formData();
-    const password = (formData.get('password') || '').trim();
+    const password = (formData.get('password') || '').trim().toLowerCase();
 
     if (password) {
       const raw = await KV.get(`pw:${password}`);
