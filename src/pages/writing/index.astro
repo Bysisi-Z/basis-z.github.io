@@ -1,226 +1,265 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const posts = [
+const essays = [
   {
     slug: 'put-on-the-tie',
-    titleZh: '把领带系上',
     titleEn: 'Put on the Tie',
-    date: '2026-06-23', month: 'Jun', day: '23', year: '2026',
-    excerptZh: '我以为我知道那句话的下半句，但我猜错了。那个意外的答案，至今仍在影响着我。',
-    excerptEn: 'I thought I knew how that sentence would end. I was wrong. That unexpected answer has stayed with me ever since.',
-    readTime: '2 min',
+    titleZh: '把领带系上',
+    date: 'Jun 23, 2026',
+    readTime: '2 min read',
+    deck: 'A sentence I misread in a photography book, and the quiet discipline it left behind.',
   },
 ];
 ---
 
-<BaseLayout title="Wandering" description="Observations, reflections, and personal essays">
-  <link slot="head" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
-
-  <div class="content-wrap">
-
-    <div class="page-header">
-      <h1 class="page-title"><em>Wandering</em></h1>
-
-      <div class="page-intro">
-        <div class="bi-para">
-          <p class="bi-en">In an age where AI can generate words in seconds, there is still something meaningful about expressing my own thoughts by typing out every word myself. These are slices of my thinking in motion — not always right. I find it interesting to document this process: to look back one day and see how certain ideas have been reinforced, or changed, or overturned entirely.</p>
-          <p class="bi-zh">在AI能以秒为单位生产文字的时代，一个字一个字地打出自己的想法，对我来说依然有它特殊的意义。这里是我流动的思维的一些切片，不一定都对，我觉得把这个过程记录下来，回看一些观念是如何被强化的，或者被改变或者推翻的，是很有趣的事情。</p>
-        </div>
-        <div class="bi-para">
-          <p class="bi-en">Although English is my working language, Chinese is the language in which I think. Every essay here is first written in Chinese and then translated into English. You'll find a language switch at the top of each page.</p>
-          <p class="bi-zh">英语是我的工作语言，但中文是我思考的语言。这里的每一篇文章都先用中文写成，再译成英文。每篇文章顶部设有语言切换。</p>
-        </div>
-        <div class="coffee-wrap">
-          <audio id="coffee-audio" src="/audio/coffee-invite.m4a" preload="none"></audio>
-          <button class="coffee-btn" id="coffee-btn" aria-label="Play a message" title="Click me">
-            <svg class="coffee-svg" viewBox="0 0 82 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M24 30 Q20 20 24 9 Q28 20 24 30Z" fill="#EDE8F5"/>
-              <path d="M38 27 Q34 15 38 3 Q42 15 38 27Z" fill="#f0d8e4"/>
-              <path d="M52 30 Q48 20 52 9 Q56 20 52 30Z" fill="#EDE8F5"/>
-              <ellipse cx="40" cy="74" rx="29" ry="6" fill="#f0d8e4"/>
-              <path d="M12 32 L17 70 L63 70 L68 32Z" fill="#c17d9d"/>
-              <path d="M68 42 Q80 42 80 52 Q80 63 68 63 L68 59 Q75 59 75 52 Q75 45 68 45Z" fill="#f0d8e4"/>
-              <ellipse cx="40" cy="33" rx="28" ry="6" fill="#c17d9d"/>
-              <ellipse cx="33" cy="32" rx="9" ry="2" fill="#c17d9d" opacity="0.45"/>
-            </svg>
-          </button>
-          <div>
-            <p class="bi-en">Please allow me to offer you a cup of tea — or coffee, if you prefer.</p>
-            <p class="bi-zh coffee-zh">让我们来杯茶，或者咖啡。</p>
-            <p class="bi-en">Let's sit down and have a conversation.</p>
-            <p class="bi-zh">坐下来，慢慢聊。</p>
-          </div>
-        </div>
+<BaseLayout title="Wandering" description="Short essays on thought, memory, and small shifts in perspective.">
+  <div class="writing-index">
+    <section class="opening">
+      <div class="opening-left">
+        <span class="section-num">05</span>
+        <span class="section-name">Wandering</span>
       </div>
-    </div>
 
-    <div class="blog-list">
-      {posts.map(post => (
-        <a class="blog-item fade-up" href={`/writing/${post.slug}`}>
-          <div class="blog-date">
-            <div class="blog-month">{post.month}</div>
-            <div class="blog-day">{post.day}</div>
-            <div class="blog-year">{post.year}</div>
+      <div class="opening-main">
+        <p class="kicker">Short essays</p>
+        <h1>Thoughts that changed shape<br />while I was carrying them.</h1>
+      </div>
+
+      <p class="opening-copy">
+        Personal essays on attention, judgment, memory, and the small internal shifts that are easy to miss
+        until they quietly change how you move through the world.
+      </p>
+    </section>
+
+    <section class="essay-list" aria-label="Short essays">
+      <div class="list-header">
+        <span>Collected pieces</span>
+        <span>{essays.length.toString().padStart(2, '0')}</span>
+      </div>
+
+      {essays.map((essay, i) => (
+        <a class="essay-row" href={`/writing/${essay.slug}`}>
+          <div class="essay-index">{(i + 1).toString().padStart(2, '0')}</div>
+          <div class="essay-title-block">
+            <h2>{essay.titleEn}</h2>
+            <div class="essay-zh">{essay.titleZh}</div>
           </div>
-          <div class="blog-body">
-            <div class="blog-title-en">{post.titleEn}</div>
-            <div class="blog-title-zh">{post.titleZh}</div>
-            <p class="blog-excerpt-en">{post.excerptEn}</p>
-            <p class="blog-excerpt-zh">{post.excerptZh}</p>
-            <div class="blog-footer">
-              <span class="blog-cta">阅读全文 · Read →</span>
-              <span class="blog-readtime">{post.readTime}</span>
-            </div>
+          <p class="essay-deck">{essay.deck}</p>
+          <div class="essay-meta">
+            <span>{essay.date}</span>
+            <span>{essay.readTime}</span>
           </div>
         </a>
       ))}
-    </div>
-
+    </section>
   </div>
 </BaseLayout>
 
 <style>
-  .page-header { padding-top: 64px; padding-bottom: 52px; border-bottom: 1px solid var(--rule); }
-  .page-title {
-    font-family: var(--serif);
-    font-size: clamp(44px, 8vw, 88px);
-    font-weight: 300; font-style: italic;
-    line-height: 1.05; letter-spacing: -0.02em;
-    color: var(--ink); margin-bottom: 32px;
+  .writing-index {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 82px clamp(22px, 5vw, 76px) 120px;
   }
 
-  /* Bilingual intro */
-  .page-intro { max-width: 860px; }
-  .bi-para { margin-bottom: 1.4em; }
+  .opening {
+    min-height: 58vh;
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr);
+    grid-template-areas:
+      "side main"
+      "side copy";
+    column-gap: clamp(36px, 7vw, 92px);
+    align-content: center;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.12);
+    position: relative;
+  }
 
-  .bi-en {
+  .opening::after {
+    content: '';
+    position: absolute;
+    left: 118px;
+    top: 14%;
+    bottom: 14%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(193,125,157,0.6), transparent);
+  }
+
+  .opening-left {
+    grid-area: side;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .section-num {
     font-family: var(--serif);
-    font-size: clamp(15px, 1.5vw, 17px);
+    font-size: 64px;
     font-weight: 300;
-    line-height: 1.8;
-    color: var(--ink);
-    margin-bottom: 0.3em;
-  }
-  .bi-zh {
-    font-family: var(--serif);
-    font-size: clamp(13px, 1.3vw, 15px);
-    font-weight: 400;
-    line-height: 1.75;
-    color: var(--stone);
-    margin-bottom: 0;
-  }
-
-  /* Coffee section */
-  .coffee-wrap {
-    display: flex; align-items: flex-start; gap: 24px;
-    margin-top: 1.2em;
-  }
-  .coffee-btn {
-    background: none; border: none; padding: 0; cursor: pointer;
-    flex-shrink: 0; margin-top: 2px;
-    transition: transform 0.2s;
-  }
-  .coffee-btn:hover { transform: translateY(-3px); }
-  .coffee-btn.playing .coffee-svg { filter: drop-shadow(0 0 8px rgba(193,125,157,0.5)); }
-  .coffee-svg { width: 52px; height: auto; display: block; transition: filter 0.3s; }
-  .coffee-zh { margin-bottom: 0.2em !important; }
-  .invite {
-    font-family: var(--serif);
-    font-size: clamp(13px, 1.3vw, 15px);
     font-style: italic;
+    line-height: 1;
+    color: rgba(193,125,157,0.42);
+  }
+
+  .section-name,
+  .kicker,
+  .list-header,
+  .essay-index,
+  .essay-meta {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .section-name,
+  .list-header,
+  .essay-index,
+  .essay-meta {
     color: var(--stone);
-    margin-top: 0.2em;
   }
 
-  @keyframes steam-rise {
-    0%   { opacity: 0.4; transform: translateY(0); }
-    50%  { opacity: 1;   transform: translateY(-4px); }
-    100% { opacity: 0.4; transform: translateY(0); }
+  .opening-main {
+    grid-area: main;
+    max-width: 920px;
   }
-  .coffee-btn.playing svg path:nth-child(1),
-  .coffee-btn.playing svg path:nth-child(2),
-  .coffee-btn.playing svg path:nth-child(3) { animation: steam-rise 1.4s ease-in-out infinite; }
-  .coffee-btn.playing svg path:nth-child(2) { animation-delay: 0.25s; }
-  .coffee-btn.playing svg path:nth-child(3) { animation-delay: 0.5s; }
 
-  /* Post list */
-  .blog-list { padding-top: 64px; }
-  .blog-item {
-    display: grid; grid-template-columns: 100px 1fr;
-    gap: 40px; padding: 44px 0;
-    border-bottom: 1px solid rgba(26,26,26,0.08);
-    text-decoration: none; color: inherit;
-    transition: opacity 0.22s;
+  .kicker {
+    color: var(--rose);
+    margin-bottom: 28px;
   }
-  .blog-item:first-child { border-top: 1px solid rgba(26,26,26,0.08); }
-  .blog-item:hover { opacity: 0.55; }
 
-  .blog-date { text-align: right; padding-top: 4px; }
-  .blog-month { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
-  .blog-day   { font-family: var(--serif); font-size: 40px; font-weight: 300; color: var(--stone); line-height: 1; }
-  .blog-year  { font-size: 10px; color: var(--stone); }
-
-  .blog-body { display: flex; flex-direction: column; }
-  .blog-title-en {
+  h1 {
     font-family: var(--serif);
-    font-size: clamp(22px, 2.4vw, 32px);
-    font-weight: 300; font-style: italic;
-    line-height: 1.2; color: var(--ink);
-    margin-bottom: 4px;
+    font-size: clamp(54px, 7.4vw, 104px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin: 0;
   }
-  .blog-title-zh {
+
+  .opening-copy {
+    grid-area: copy;
+    max-width: 580px;
+    margin: 38px 0 0 auto;
     font-family: var(--serif);
-    font-size: clamp(14px, 1.4vw, 17px);
+    font-size: clamp(17px, 1.55vw, 20px);
+    font-weight: 300;
+    line-height: 1.78;
+    color: var(--stone);
+  }
+
+  .essay-list {
+    padding-top: 58px;
+  }
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.12);
+  }
+
+  .essay-row {
+    display: grid;
+    grid-template-columns: 70px minmax(260px, 0.88fr) minmax(260px, 1fr) 128px;
+    gap: clamp(22px, 4vw, 52px);
+    align-items: baseline;
+    padding: 38px 0 42px;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+
+  .essay-row:hover {
+    opacity: 0.68;
+    transform: translateX(5px);
+  }
+
+  .essay-index {
+    color: rgba(193,125,157,0.72);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.4vw, 48px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+
+  .essay-zh {
+    font-family: var(--serif);
+    font-size: 13px;
     font-weight: 400;
-    color: var(--stone); margin-bottom: 16px;
-  }
-  .blog-excerpt-en {
-    font-family: var(--serif);
-    font-size: clamp(14px, 1.4vw, 16px); font-weight: 300;
-    color: var(--ink); line-height: 1.8;
-    max-width: 500px; margin-bottom: 4px;
-  }
-  .blog-excerpt-zh {
-    font-family: var(--serif);
-    font-size: 13px; font-weight: 400;
-    color: var(--stone); line-height: 1.75;
-    max-width: 500px; margin-bottom: 0;
-  }
-  .blog-footer {
-    display: flex; align-items: center; gap: 20px;
-    margin-top: 16px;
-  }
-  .blog-cta {
-    font-size: 11px; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--accent);
-  }
-  .blog-readtime {
-    font-size: 11px; letter-spacing: 0.06em;
-    color: var(--stone); text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--rose);
   }
 
-  @media (max-width: 600px) {
-    .coffee-wrap { gap: 16px; }
-    .coffee-svg  { width: 44px; }
-    .blog-item { grid-template-columns: 60px 1fr; gap: 20px; padding: 32px 0; }
-    .blog-day { font-size: 28px; }
+  .essay-deck {
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.35vw, 17px);
+    font-weight: 300;
+    line-height: 1.72;
+    color: var(--stone);
+    margin: 0;
+  }
+
+  .essay-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  @media (max-width: 860px) {
+    .opening {
+      min-height: auto;
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "side"
+        "main"
+        "copy";
+      padding-bottom: 58px;
+    }
+
+    .opening::after {
+      display: none;
+    }
+
+    .opening-left {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 36px;
+    }
+
+    .opening-copy {
+      margin-left: 0;
+    }
+
+    .essay-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .essay-meta {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
   }
 </style>
-
-<script>
-  const btn = document.getElementById('coffee-btn') as HTMLButtonElement;
-  const audio = document.getElementById('coffee-audio') as HTMLAudioElement;
-  btn.addEventListener('click', () => {
-    if (audio.paused) { audio.play(); btn.classList.add('playing'); }
-    else { audio.pause(); audio.currentTime = 0; btn.classList.remove('playing'); }
-  });
-  audio.addEventListener('ended', () => btn.classList.remove('playing'));
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 90); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
-</script>
