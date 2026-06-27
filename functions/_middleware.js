@@ -54,6 +54,15 @@ export async function onRequest(context) {
 
   const cookie = request.headers.get('Cookie') || '';
   const pw = getCookie(cookie, 'jauth');
+
+  if (url.searchParams.get('dbg') === '1') {
+    const kvRes = pw ? await KV.get(`pw:${pw}`) : null;
+    return new Response(
+      `cookie: ${JSON.stringify(cookie)}\npw: ${JSON.stringify(pw)}\nkv: ${kvRes ? 'FOUND' : 'NULL'}`,
+      { status: 200, headers: { 'Content-Type': 'text/plain' } }
+    );
+  }
+
   if (pw) {
     const raw = await KV.get(`pw:${pw}`);
     if (raw) {
