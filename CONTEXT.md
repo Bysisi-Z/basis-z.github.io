@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-27 (session 79)
+> Last updated: 2026-06-27 (session 80)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -297,15 +297,14 @@ Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + *
 - Standalone static HTML in `public/` (not an Astro page — full-width data dashboard)
 - Light theme matching main site: `#FAFAF8` bg, Cormorant Garamond italic h1, Inter body, rose `#c17d9d` OGN price line
 - Chart: OGN monthly close (left axis, rose) + US 10Y Treasury yield (right axis, orange dashed), Chart.js 4.4.0 + annotation plugin
-- 25 annotated events, 7 categories (Milestone/Macro/Ops/BD/Product/Compliance/M&A); hover near numbered badge → `showEventDetail(e)` → `.event-detail-panel` floating card; legend placed beside chart
+- 22 annotated events (removed: id:16 headcount cut, id:17 Nexplanon 5yr label, id:15 Q4 2025 earnings); 7 categories (Milestone/Macro/Ops/BD/Product/Compliance/M&A); hover near numbered badge → `showEventDetail(e)` → `.event-detail-panel` floating card; event-type legend removed entirely (chart fills full width)
+- **Responsive layout (session 79–80):** `max-width: 1640px; margin: 0 auto` on `.page-wrap`; `≤960px` stats panel → horizontal strip above chart; `≤640px` mobile adjustments. Classes: `.chart-top-row`, `.stats-panel`, `.chart-area`
 - Quarterly financial table: Q2'21–Q1'26, 20 quarters; Income Statement + Cash Flow + Balance Sheet sections; sidebar labels synced via `requestAnimationFrame`; hover chart month → highlights corresponding quarterly column
 - Back nav: `← Industry Analysis` crumb at top (10px uppercase Inter, stone → ink hover)
 
-**Responsive layout (session 79):** `organon-stock-analysis.html` now fully responsive — `max-width: 1640px; margin: 0 auto` on `.page-wrap`; `≤1200px` hides right event-type legend; `≤960px` stats panel moves from left sidebar to horizontal strip above chart (full chart width); `≤640px` mobile padding + font adjustments. Key HTML classes added: `.chart-top-row`, `.stats-panel`, `.chart-area`.
+**Financial table color legend (session 79):** Color key row at bottom of chart card — ● Headline / ● Supporting / ● Cost·expense / ● Negative·below threshold / ● Gross margin ≥62%; source note right-aligned.
 
-**Color legend (session 79):** Financial table now has a color key row at bottom — ● Headline / ● Supporting / ● Cost·expense / ● Negative·below threshold / ● Gross margin ≥62%; source note right-aligned.
-
-**Section question style (session 79):** `.section-question` — Cormorant Garamond italic, `clamp(20px,2.2vw,28px)`, rose `#c17d9d`. First use: "Can Organon cut the dividend from the first day?" before the 1.3 Dividend section explanation paragraph.
+**Section question style (session 79):** `.section-question` — Cormorant Garamond italic, `clamp(20px,2.2vw,28px)`, rose `#c17d9d`. First use: "Can Organon cut the dividend from the first day?" before the 1.3 Dividend section paragraph.
 
 **Financial table rows (session 78):**
 - Income Statement: Revenue, COGS, Gross Profit (with GM%), SG&A, R&D, EBITDA*, Interest Exp., Net Income
