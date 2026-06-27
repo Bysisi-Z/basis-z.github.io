@@ -31,14 +31,15 @@ export async function onRequest(context) {
               'Set-Cookie': `jauth=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
             },
           });
+        } else {
+          return new Response(`diag: raw found, expires=${expires}, now=${Date.now()}, diff=${expires - Date.now()}`, { status: 403 });
         }
+      } else {
+        return new Response(`diag: KV null for key length=${password.length}, kvBound=${KV != null}`, { status: 403 });
       }
     }
 
-    return new Response(null, {
-      status: 302,
-      headers: { 'Location': `${url.pathname}?error=1` },
-    });
+    return new Response('diag: empty password', { status: 403 });
   }
 
   const cookie = request.headers.get('Cookie') || '';
