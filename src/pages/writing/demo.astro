@@ -1,0 +1,265 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const essays = [
+  {
+    slug: 'put-on-the-tie',
+    titleEn: 'Put on the Tie',
+    titleZh: '把领带系上',
+    date: 'Jun 23, 2026',
+    readTime: '2 min read',
+    deck: 'A sentence I misread in a photography book, and the quiet discipline it left behind.',
+  },
+];
+---
+
+<BaseLayout title="Wandering Demo" description="Short essays on thought, memory, and small shifts in perspective.">
+  <div class="writing-index">
+    <section class="opening">
+      <div class="opening-left">
+        <span class="section-num">05</span>
+        <span class="section-name">Wandering</span>
+      </div>
+
+      <div class="opening-main">
+        <p class="kicker">Short essays</p>
+        <h1>Thoughts that changed shape<br />while I was carrying them.</h1>
+      </div>
+
+      <p class="opening-copy">
+        Personal essays on attention, judgment, memory, and the small internal shifts that are easy to miss
+        until they quietly change how you move through the world.
+      </p>
+    </section>
+
+    <section class="essay-list" aria-label="Short essays">
+      <div class="list-header">
+        <span>Collected pieces</span>
+        <span>{essays.length.toString().padStart(2, '0')}</span>
+      </div>
+
+      {essays.map((essay, i) => (
+        <a class="essay-row" href={`/writing/${essay.slug}`}>
+          <div class="essay-index">{(i + 1).toString().padStart(2, '0')}</div>
+          <div class="essay-title-block">
+            <h2>{essay.titleEn}</h2>
+            <div class="essay-zh">{essay.titleZh}</div>
+          </div>
+          <p class="essay-deck">{essay.deck}</p>
+          <div class="essay-meta">
+            <span>{essay.date}</span>
+            <span>{essay.readTime}</span>
+          </div>
+        </a>
+      ))}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .writing-index {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 82px clamp(22px, 5vw, 76px) 120px;
+  }
+
+  .opening {
+    min-height: 58vh;
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr);
+    grid-template-areas:
+      "side main"
+      "side copy";
+    column-gap: clamp(36px, 7vw, 92px);
+    align-content: center;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.12);
+    position: relative;
+  }
+
+  .opening::after {
+    content: '';
+    position: absolute;
+    left: 118px;
+    top: 14%;
+    bottom: 14%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(193,125,157,0.6), transparent);
+  }
+
+  .opening-left {
+    grid-area: side;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .section-num {
+    font-family: var(--serif);
+    font-size: 64px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1;
+    color: rgba(193,125,157,0.42);
+  }
+
+  .section-name,
+  .kicker,
+  .list-header,
+  .essay-index,
+  .essay-meta {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .section-name,
+  .list-header,
+  .essay-index,
+  .essay-meta {
+    color: var(--stone);
+  }
+
+  .opening-main {
+    grid-area: main;
+    max-width: 920px;
+  }
+
+  .kicker {
+    color: var(--rose);
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(54px, 7.4vw, 104px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .opening-copy {
+    grid-area: copy;
+    max-width: 580px;
+    margin: 38px 0 0 auto;
+    font-family: var(--serif);
+    font-size: clamp(17px, 1.55vw, 20px);
+    font-weight: 300;
+    line-height: 1.78;
+    color: var(--stone);
+  }
+
+  .essay-list {
+    padding-top: 58px;
+  }
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.12);
+  }
+
+  .essay-row {
+    display: grid;
+    grid-template-columns: 70px minmax(260px, 0.88fr) minmax(260px, 1fr) 128px;
+    gap: clamp(22px, 4vw, 52px);
+    align-items: baseline;
+    padding: 38px 0 42px;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+
+  .essay-row:hover {
+    opacity: 0.68;
+    transform: translateX(5px);
+  }
+
+  .essay-index {
+    color: rgba(193,125,157,0.72);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.4vw, 48px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+
+  .essay-zh {
+    font-family: var(--serif);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--rose);
+  }
+
+  .essay-deck {
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.35vw, 17px);
+    font-weight: 300;
+    line-height: 1.72;
+    color: var(--stone);
+    margin: 0;
+  }
+
+  .essay-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  @media (max-width: 860px) {
+    .opening {
+      min-height: auto;
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "side"
+        "main"
+        "copy";
+      padding-bottom: 58px;
+    }
+
+    .opening::after {
+      display: none;
+    }
+
+    .opening-left {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 36px;
+    }
+
+    .opening-copy {
+      margin-left: 0;
+    }
+
+    .essay-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .essay-meta {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+</style>
