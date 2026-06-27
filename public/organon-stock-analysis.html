@@ -107,21 +107,26 @@
   .legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #475569; line-height: 1.3; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-  /* ── Event detail panel ── */
+  /* ── Event detail panel — tooltip over chart ── */
   .event-detail-panel {
-    display: block;
-    margin: 16px 0 0;
+    position: absolute;
+    top: 52px;
+    width: 300px;
+    z-index: 20;
+    pointer-events: none;
   }
   .ed-inner {
     border: 1px solid #E2DEDB;
     border-radius: 10px;
-    padding: 20px 24px 22px;
-    background: #fff;
-    animation: edFadeIn 0.18s ease;
+    padding: 14px 18px 16px;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.11), 0 1px 4px rgba(0,0,0,0.05);
+    animation: edFadeIn 0.12s ease;
   }
   @keyframes edFadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
   .ed-header {
     display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px;
@@ -138,31 +143,31 @@
     font-size: 16px; font-weight: 600;
     white-space: nowrap; padding-top: 18px; flex-shrink: 0;
   }
-  .ed-close {
-    background: none; border: none; cursor: pointer;
-    color: #847B7B; font-size: 16px; line-height: 1;
-    padding: 0; margin-top: 2px; flex-shrink: 0;
-    transition: color 0.15s;
-  }
-  .ed-close:hover { color: #1A1A1A; }
   .ed-desc {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 14px; font-weight: 300;
     color: #475569; line-height: 1.75;
     border-top: 1px solid #E2DEDB; padding-top: 14px;
   }
-  .ed-hint {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 12px; color: #b0a9a9;
-    text-align: center; padding: 14px 0 4px;
-    letter-spacing: 0.03em;
-  }
+  .ed-hint { display: none; }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
   /* ── Analysis section ── */
   .analysis-section { margin-top: 80px; padding-top: 60px; border-top: 2px solid #E2DEDB; }
 
   .topic { margin-bottom: 80px; }
+
+  /* ── Inline citations ── */
+  .fn a { font-size: 9px; vertical-align: super; line-height: 0; color: #c17d9d; text-decoration: none; font-weight: 600; font-family: 'Inter', system-ui, sans-serif; margin-left: 1px; }
+  .fn a:hover { text-decoration: underline; }
+  /* ── Sources section ── */
+  .sources-wrap { margin-top: 72px; padding-top: 40px; border-top: 2px solid #E2DEDB; }
+  .sources-title { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #847B7B; margin-bottom: 20px; font-family: 'Inter', system-ui, sans-serif; }
+  .sources-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .sources-list li { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 300; color: #475569; line-height: 1.65; padding-left: 28px; position: relative; }
+  .sources-list li::before { content: attr(data-n); position: absolute; left: 0; color: #c17d9d; font-weight: 600; font-size: 11px; }
+  .sources-list a { color: #475569; text-decoration: underline; text-underline-offset: 2px; }
+  .sources-list a:hover { color: #1A1A1A; }
 
   .topic-header { margin-bottom: 48px; }
   .topic-eyebrow {
@@ -265,12 +270,66 @@
   .peer-box .body-text { font-size: clamp(14px, 1.2vw, 15.5px); }
   .peer-box .key-callout { background: #fff; }
 
+  .section-question {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(20px, 2.2vw, 28px);
+    font-style: italic;
+    font-weight: 300;
+    color: #c17d9d;
+    margin: 36px 0 18px;
+    line-height: 1.3;
+    padding-left: 2px;
+  }
   .broke-tag {
     font-size: 10px; font-weight: 400;
     letter-spacing: 0.1em; text-transform: uppercase;
     color: #fff; background: #c17d9d;
     padding: 2px 8px; border-radius: 2px;
     flex-shrink: 0; align-self: flex-start; margin-top: 3px;
+  }
+
+  /* ── Responsive ── */
+  .page-wrap { max-width: 1640px; margin: 0 auto; }
+
+  /* ≤1200px: hide event-type legend to give chart more room */
+  @media (max-width: 1200px) {
+    .legend-vert { display: none !important; }
+  }
+
+  /* ≤960px: stats panel moves from left sidebar to horizontal strip above chart */
+  @media (max-width: 960px) {
+    .chart-top-row { flex-direction: column !important; }
+    .stats-panel {
+      width: 100% !important;
+      min-width: 0 !important;
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      border-right: none !important;
+      border-bottom: 1px solid #E2DEDB;
+      padding: 12px 8px !important;
+      gap: 0 !important;
+      justify-content: space-around !important;
+    }
+    .stats-panel .stat { padding: 8px 16px; text-align: center; }
+    .chart-area { padding: 16px 18px 14px !important; }
+    .topic-title { font-size: clamp(28px, 5vw, 48px); }
+    .subtopic-title { font-size: clamp(18px, 3.5vw, 26px); }
+  }
+
+  /* ≤640px: mobile */
+  @media (max-width: 640px) {
+    .page-wrap { padding: 28px 16px 80px !important; }
+    h1 { font-size: clamp(24px, 6.5vw, 34px); }
+    .chart-area { padding: 12px 12px 10px !important; }
+    .stats-panel { padding: 8px 4px !important; }
+    .stats-panel .stat { padding: 6px 10px; }
+    .stat-value { font-size: 15px !important; }
+    .subtopic-title { padding: 10px 14px; }
+    .peer-box { padding: 16px 14px 20px; }
+    .body-text { font-size: 15px; }
+    .topic-title { font-size: clamp(24px, 6vw, 36px); }
+    .analysis-table { font-size: 12px; }
+    .analysis-table th, .analysis-table td { padding: 8px 12px 8px 0; }
   }
 </style>
 </head>
@@ -284,8 +343,8 @@
 <div class="chart-wrap" style="padding:0;margin-bottom:4px;">
 
   <!-- Stats + Chart (side by side, top section only) -->
-  <div style="display:flex;align-items:stretch;border-bottom:1px solid #E2DEDB;">
-    <div style="width:148px;flex-shrink:0;border-right:1px solid #E2DEDB;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 18px 20px 24px;">
+  <div class="chart-top-row" style="display:flex;align-items:stretch;border-bottom:1px solid #E2DEDB;">
+    <div class="stats-panel" style="width:148px;flex-shrink:0;border-right:1px solid #E2DEDB;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 18px 20px 24px;">
       <div class="stat">
         <div class="stat-label">Spinoff Price</div>
         <div class="stat-value" style="font-size:18px;">$30.26</div>
@@ -307,12 +366,13 @@
         <div class="stat-value red" style="font-size:18px;">−55%</div>
       </div>
     </div>
-    <div style="flex:1;min-width:0;padding:20px 24px 16px 20px;">
+    <div class="chart-area" style="flex:1;min-width:0;padding:20px 24px 16px 20px;position:relative;">
       <div class="chart-legend">
         <div class="cl-item"><span class="cl-line" style="background:#c17d9d"></span>OGN Monthly Close (left, $)</div>
         <div class="cl-item"><span class="cl-line" style="background:#f97316;border-top:1px dashed #f97316;height:0;background:transparent;border-bottom:none;"></span>US 10Y Treasury Yield (right, %)</div>
       </div>
       <canvas id="ognChart" height="320"></canvas>
+      <div id="eventDetail" class="event-detail-panel"></div>
     </div>
     <div class="legend-vert">
       <div class="legend-vert-title">Event type</div>
@@ -329,15 +389,31 @@
   <!-- Table (full width, sticky first column for labels) -->
   <div id="finTableWrap"></div>
 
-  <!-- Footnote -->
-  <div style="padding:6px 16px 14px;font-size:9px;color:#9ca3af;line-height:1.55;">
-    * EBITDA GAAP basis &nbsp;·&nbsp; Source: Organon IR / StockAnalysis
+  <!-- Color legend + Footnote -->
+  <div style="padding:10px 16px 14px;border-top:1px solid #F0EDED;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <span style="font-family:'Inter',system-ui,sans-serif;font-size:9px;font-weight:500;color:#9ca3af;letter-spacing:0.1em;text-transform:uppercase;margin-right:2px;">Color key</span>
+      <span style="display:inline-flex;align-items:center;gap:4px;font-family:'Inter',system-ui,sans-serif;font-size:9px;color:#9ca3af;">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1A1A1A;"></span>Headline metric
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:4px;font-family:'Inter',system-ui,sans-serif;font-size:9px;color:#9ca3af;">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#475569;"></span>Supporting metric
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:4px;font-family:'Inter',system-ui,sans-serif;font-size:9px;color:#9ca3af;">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#847B7B;"></span>Cost / expense
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:4px;font-family:'Inter',system-ui,sans-serif;font-size:9px;color:#9ca3af;">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#dc2626;"></span>Negative / below threshold
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:4px;font-family:'Inter',system-ui,sans-serif;font-size:9px;color:#9ca3af;">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#16a34a;"></span>Gross margin ≥ 62%
+      </span>
+    </div>
+    <div style="margin-left:auto;font-family:'Inter',system-ui,sans-serif;font-size:9px;color:#9ca3af;white-space:nowrap;">
+      * EBITDA GAAP basis &nbsp;·&nbsp; Source: Organon IR / StockAnalysis
+    </div>
   </div>
 
-</div>
-
-<div id="eventDetail" class="event-detail-panel">
-  <div class="ed-hint">Click a numbered marker on the chart to see event details</div>
 </div>
 
 <script>
@@ -410,6 +486,14 @@ const finRows = [
   { label:'Net Income',
     vals:[ 427, 323, 202, 348, 234, 227, 108, 177, 242,  58, 546, 201, 195, 359, 109,  87, 145, 160,-205, 146],
     fmt:'M', showPct:true, getColor:(v)=>v<0?'#dc2626':'#475569' },
+  // ── Cash Flow ─────────────────────────────────────────────────────────────
+  { label:'', fmt:'sep2', vals:Array(20).fill(null), showPct:false, getColor:()=>'' },
+  { label:'Free Cash Flow',
+    vals:[ 480, 332, -12,  90, 106, 262, 204,  68, -44, 206, 318,  30, 300,  99, 335,  43, 181, 218,  96, 188],
+    fmt:'M', showPct:false, getColor:(v)=>v<0?'#dc2626':'#475569' },
+  { label:'Dividends Paid',
+    vals:[ 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71,  5,  5,  5,  5],
+    fmt:'M', showPct:false, getColor:(v)=>v<10?'#dc2626':'#475569' },
   // ── Balance Sheet (end of period) ─────────────────────────────────────────
   { label:'', fmt:'sep', vals:Array(20).fill(null), showPct:false, getColor:()=>'' },
   { label:'Cash',
@@ -652,10 +736,7 @@ events.forEach(e => {
       font: { size: 11, weight: 'bold' },
       padding: { x: 6, y: 3 },
       borderRadius: 4
-    },
-    click: (function(ev) {
-      return function() { showEventDetail(ev); };
-    })(e)
+    }
   };
 });
 
@@ -691,11 +772,11 @@ fedEvents.forEach((f, i) => {
     yScaleID: 'y1',
     yAdjust: above ? -32 : 32,
     content: f.text.split('\n'),
-    color: '#fb923c',
-    font: { size: 9, weight: '500' },
+    color: '#b45309',
+    font: { size: 9, weight: '600' },
     textAlign: 'center',
-    backgroundColor: 'rgba(15,17,23,0.82)',
-    borderColor: 'rgba(251,146,60,0.35)',
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    borderColor: 'rgba(251,146,60,0.55)',
     borderWidth: 1,
     borderRadius: 3,
     padding: { x: 5, y: 3 },
@@ -727,6 +808,8 @@ phases.forEach((p, i) => {
     borderWidth: 0,
   };
 });
+
+let _shownEventId = null;
 
 const ctx = document.getElementById('ognChart').getContext('2d');
 new Chart(ctx, {
@@ -772,11 +855,57 @@ new Chart(ctx, {
     responsive: true,
     maintainAspectRatio: true,
     interaction: { mode: 'index', intersect: false },
-    onHover: (event, activeElements) => {
+    onHover: (event, activeElements, chart) => {
       if (activeElements.length > 0) {
         highlightQtr(monthToQtr[activeElements[0].index]);
       } else {
         highlightQtr(-1);
+      }
+
+      const panel = document.getElementById('eventDetail');
+      if (!panel) return;
+
+      if (event.type === 'mouseout') {
+        _shownEventId = null;
+        panel.innerHTML = '';
+        return;
+      }
+
+      const xScale = chart.scales.x;
+      const rawIdx = xScale.getValueForPixel(event.x);
+      if (rawIdx == null) { return; }
+      const clickIdx = Math.round(rawIdx);
+      if (clickIdx < 0 || clickIdx >= labels.length) return;
+
+      const hovMs = new Date(labels[clickIdx] + '-01').getTime();
+      let best = null, bestDiff = Infinity;
+      events.forEach(ev => {
+        const d = Math.abs(new Date(ev.label + '-01').getTime() - hovMs);
+        if (d < bestDiff) { bestDiff = d; best = ev; }
+      });
+
+      const THRESHOLD = 45 * 24 * 3600 * 1000; // ±45 days
+      if (best && bestDiff <= THRESHOLD) {
+        if (best.id !== _shownEventId) {
+          _shownEventId = best.id;
+          // Position: left half → show to the right; right half → show to the left
+          const evIdx = labels.indexOf(best.label);
+          const evPx = xScale.getPixelForValue(evIdx);
+          const parentW = panel.parentElement.offsetWidth;
+          const leftPad = 20;
+          const evAbsX = leftPad + evPx;
+          if (evAbsX < parentW * 0.55) {
+            panel.style.left = Math.max(4, evAbsX + 10) + 'px';
+            panel.style.right = '';
+          } else {
+            panel.style.right = Math.max(4, parentW - evAbsX + 10) + 'px';
+            panel.style.left = '';
+          }
+          showEventDetail(best);
+        }
+      } else if (_shownEventId !== null) {
+        _shownEventId = null;
+        panel.innerHTML = '';
       }
     },
     plugins: {
@@ -906,9 +1035,10 @@ function highlightQtr(qi) {
 
   const revVals = finRows[0].vals;
   finRows.forEach((row, ri) => {
-    if (row.fmt === 'sep') {
+    if (row.fmt === 'sep' || row.fmt === 'sep2') {
+      const secLabel = row.fmt === 'sep2' ? 'Cash Flow' : 'Balance Sheet';
       h += `<tr style="border-top:2px solid #E2DEDB;">`;
-      h += `<td style="${stickyLbl}${lblW}background:#F4F2EF;padding:4px 12px;font-size:10px;font-weight:600;color:#847B7B;letter-spacing:0.5px;text-transform:uppercase;">Balance Sheet</td>`;
+      h += `<td style="${stickyLbl}${lblW}background:#F4F2EF;padding:4px 12px;font-size:10px;font-weight:600;color:#847B7B;letter-spacing:0.5px;text-transform:uppercase;">${secLabel}</td>`;
       finQHeaders.forEach((_, i) => {
         h += `<td data-qi="${i}" style="padding:4px 13px;${finYearSep.has(i)?sep:''}background:#F4F2EF;"></td>`;
       });
@@ -929,6 +1059,10 @@ function highlightQtr(qi) {
         const gmClr = gm >= 62 ? '#16a34a' : gm >= 57 ? '#6b7280' : '#dc2626';
         const gmFw = (gm >= 62 || gm < 57) ? 'font-weight:600;' : '';
         disp = `${v.toLocaleString()}&nbsp;<span style="font-size:11px;color:${gmClr};${gmFw}">(${gmRnd}%)</span>`;
+      } else if (row.fmt === '$ps') {
+        clr = row.getColor(v);
+        fw = v < 0.1 ? 'font-weight:600;' : '';
+        disp = `$${v.toFixed(2)}`;
       } else {
         clr = row.getColor(v);
         fw = v < 0 ? 'font-weight:600;' : '';
@@ -948,20 +1082,19 @@ function highlightQtr(qi) {
   wrap.innerHTML = h;
 })();
 
-// Event detail panel
+// Event detail panel (hover-triggered, no close button needed)
 function showEventDetail(e) {
   const panel = document.getElementById('eventDetail');
   const light = ['bd','positive','exit'].includes(e.cat);
   panel.innerHTML = `
     <div class="ed-inner">
       <div class="ed-header">
-        <div class="event-num" style="background:${e.color};color:${light?'#000':'#fff'};width:32px;height:32px;font-size:14px;flex-shrink:0;">${e.id}</div>
+        <div class="event-num" style="background:${e.color};color:${light?'#000':'#fff'};width:28px;height:28px;font-size:12px;font-weight:700;flex-shrink:0;">${e.id}</div>
         <div class="ed-meta">
           <div class="ed-date">${e.date}</div>
           <div class="ed-title">${e.title}</div>
         </div>
-        <div class="ed-price" style="color:${e.color}">${e.price}</div>
-        <button class="ed-close" onclick="document.getElementById('eventDetail').innerHTML='<div class=\\'ed-hint\\'>Click a numbered marker on the chart to see event details</div>'">✕</button>
+        <div class="ed-price" style="color:${e.color};padding-top:16px;">${e.price}</div>
       </div>
       <div class="ed-desc">${e.desc}</div>
     </div>
@@ -977,11 +1110,11 @@ function showEventDetail(e) {
         <h2 class="topic-title">Turn the Clock Back to Spin-Off</h2>
       </div>
 
-      <!-- Subtopic: Why $9 Billion? -->
+      <!-- Subtopic: Why $9.5 Billion? -->
       <div class="subtopic">
-        <h3 class="subtopic-title">Why $9 Billion?</h3>
+        <h3 class="subtopic-title">Why $9.5 Billion?</h3>
 
-        <p class="body-text">On June 2, 2021, Organon became a publicly traded company. It also became, on that same day, one of the most leveraged names in the pharmaceutical sector — carrying approximately $9.5 billion in debt before it had traded a single share. Of that total, <strong>$9.0 billion had already been wired to Merck</strong> as a special cash distribution. Organon entered the public markets not as a company that had borrowed to grow, but as one that had borrowed so its former parent could cash out.</p>
+        <p class="body-text">On June 2, 2021, Organon became a publicly traded company. It also became, on that same day, one of the most leveraged names in the pharmaceutical sector — carrying approximately $9.5 billion in debt before it had traded a single share. Of that total, <strong>$9.0 billion had already been wired to Merck</strong> as a special cash distribution.<span class="fn"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1821825&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">1</a></span> Organon entered the public markets not as a company that had borrowed to grow, but as one that had borrowed so its former parent could cash out.</p>
 
         <p class="body-text">This is the architecture of a <strong>leveraged spinoff</strong>: the subsidiary raises debt, pays the proceeds to the parent as a pre-separation dividend, and inherits the liability. It is entirely legal, tax-efficient for the parent under IRS Section 355, and — as Organon's trajectory would demonstrate — deeply consequential for everyone who stayed behind.</p>
 
@@ -999,22 +1132,22 @@ function showEventDetail(e) {
             <tr>
               <td>EBITDA capacity</td>
               <td>
-                ~$2.2–2.4B annualized at spinoff, based on the Established Brands and biosimilar portfolio. Actual GAAP EBITDA never reached that level in any full year:
+                ~$2.2–2.4B Adjusted EBITDA — derived from May 2021 Investor Day guidance (revenue $6.1–6.4B × margin 36–38%).<span class="fn"><a href="https://www.organon.com/investors/events-and-presentations/" target="_blank" rel="noopener">2</a></span> Actual Adjusted EBITDA came in below guidance every year:
                 <div style="display:flex;gap:24px;margin-top:10px;flex-wrap:wrap;">
                   <div>
                     <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#847B7B;margin-bottom:3px;">2022 actual</div>
-                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">$1.78B</div>
-                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−22% vs assumption</div>
+                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">~$2.1B</div>
+                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−9% vs guidance<span class="fn"><a href="https://www.organon.com/news/organon-reports-fourth-quarter-and-full-year-2022-financial-results/" target="_blank" rel="noopener">3</a></span></div>
                   </div>
                   <div>
                     <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#847B7B;margin-bottom:3px;">2023 actual</div>
-                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">$1.49B</div>
-                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−35% vs assumption</div>
+                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">$1.9B</div>
+                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−17% vs guidance<span class="fn"><a href="https://www.organon.com/news/organon-reports-fourth-quarter-and-full-year-2023-financial-results/" target="_blank" rel="noopener">4</a></span></div>
                   </div>
                   <div>
                     <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#847B7B;margin-bottom:3px;">2024 actual</div>
-                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">$1.65B</div>
-                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−28% vs assumption</div>
+                    <div style="font-size:17px;font-weight:500;color:#c17d9d;">~$2.0B</div>
+                    <div style="font-size:11px;color:#847B7B;margin-top:1px;">−13% vs guidance<span class="fn"><a href="https://www.organon.com/news/organon-reports-fourth-quarter-and-full-year-2024-financial-results/" target="_blank" rel="noopener">5</a></span></div>
                   </div>
                 </div>
               </td>
@@ -1025,14 +1158,14 @@ function showEventDetail(e) {
             </tr>
             <tr>
               <td>Rate environment</td>
-              <td>10Y Treasury at 1.44% in June 2021; all-in coupons of 2.875%–5.125% made $9.5B in annual interest roughly $400–450M — manageable against $1.3B projected FCF</td>
+              <td>10Y Treasury at 1.44% in June 2021<span class="fn"><a href="https://fred.stlouisfed.org/series/DGS10" target="_blank" rel="noopener">6</a></span>; all-in coupons of 2.875%–5.125% made $9.5B in annual interest roughly $400–450M — manageable against $1.3B projected FCF<span class="fn"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1821825&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">1</a></span></td>
             </tr>
           </tbody>
         </table>
 
-        <p class="body-text">At 4× leverage on $2.2B of EBITDA, the arithmetic produced roughly $8.8–9.0B in serviceable debt. Any higher and the rating agencies would have required a high-yield designation, making the bonds harder and more expensive to sell. Any lower and Merck would have left value on the table. The bankers found the ceiling and recommended it.</p>
+        <p class="body-text">At 4× leverage on ~$2.3B of Adjusted EBITDA, the arithmetic produced roughly $8.8–9.0B in serviceable debt. Any higher and the rating agencies would have required a high-yield designation, making the bonds harder and more expensive to sell. Any lower and Merck would have left value on the table. The bankers found the ceiling and recommended it.</p>
 
-        <p class="body-text"><strong>What Merck did with the money.</strong> Three months after the spinoff closed, Merck announced its <strong>$11.5 billion acquisition of Acceleron Pharma</strong>. The Organon distribution was not earmarked for Acceleron in any public filing, but the timing is unambiguous: the leveraged spinoff was, functionally, a mechanism for Merck to monetize assets it no longer wanted in order to fund assets it did.</p>
+        <p class="body-text"><strong>What Merck did with the money.</strong> Three months after the spinoff closed, Merck announced its <strong>$11.5 billion acquisition of Acceleron Pharma</strong>.<span class="fn"><a href="https://www.merck.com/news/merck-to-acquire-acceleron-pharma-inc/" target="_blank" rel="noopener">9</a></span> The Organon distribution was not earmarked for Acceleron in any public filing, but the timing is unambiguous: the leveraged spinoff was, functionally, a mechanism for Merck to monetize assets it no longer wanted in order to fund assets it did.</p>
 
         <p class="body-text"><strong>The three assumptions the model required.</strong> The $9 billion was defensible in June 2021 — but only under a specific set of conditions, all of which proved wrong, and none of which failed in isolation.</p>
 
@@ -1047,17 +1180,17 @@ function showEventDetail(e) {
           </li>
           <li>
             <span class="broke-tag">Broke</span>
-            <div><strong>Growth paying down the debt.</strong> Biosimilars and women's health acquisitions were supposed to add cash flow that would de-lever the balance sheet over three to five years. Instead, each acquisition — Forendo ($75M upfront), Dermavant ($250M at close) — consumed the cash that should have been reducing the original $9B. Net leverage barely moved.</div>
+            <div><strong>Growth paying down the debt.</strong> Biosimilars and women's health acquisitions were supposed to add cash flow that would de-lever the balance sheet over three to five years. Instead, each acquisition — Forendo ($75M upfront)<span class="fn"><a href="https://www.organon.com/news/organon-to-acquire-forendo-pharma/" target="_blank" rel="noopener">12</a></span>, Dermavant ($175M at close)<span class="fn"><a href="https://www.organon.com/news/organon-to-acquire-dermavant-including-its-innovative-dermatologic-therapy-vtama-tapinarof-cream-1/" target="_blank" rel="noopener">13</a></span> — consumed the cash that should have been reducing the original $9B. Net leverage barely moved.</div>
           </li>
           <li>
             <span class="broke-tag">Broke</span>
-            <div><strong>Dividends as a secondary priority.</strong> At spinoff, Organon initiated a quarterly dividend of $0.28 per share — roughly $560M per year against ~502M diluted shares outstanding. The implicit assumption was that cash generation would be sufficient to service debt <em>and</em> reward shareholders. It was not. Over the 3.5 years from Q3 2021 to the 92% cut in May 2025, Organon paid out an estimated $1.8–2.0B in dividends while Net Debt / EBITDA barely declined from its opening 4× level. Every dollar paid to shareholders was a dollar not reducing the debt load that was slowly compressing the company's options.</div>
+            <div><strong>Dividends as a secondary priority.</strong> At spinoff, Organon initiated a quarterly dividend of $0.28 per share — roughly $560M per year against ~502M diluted shares outstanding.<span class="fn"><a href="https://www.organon.com/news/organon-declares-inaugural-quarterly-cash-dividend/" target="_blank" rel="noopener">10</a></span> The implicit assumption was that cash generation would be sufficient to service debt <em>and</em> reward shareholders. It was not. Over the 3.5 years from Q3 2021 to the 92% cut in May 2025,<span class="fn"><a href="https://www.organon.com/news/organon-reports-first-quarter-2025-financial-results/" target="_blank" rel="noopener">11</a></span> Organon paid out an estimated $1.8–2.0B in dividends while Net Debt / EBITDA barely declined from its opening 4× level. Every dollar paid to shareholders was a dollar not reducing the debt load that was slowly compressing the company's options.</div>
           </li>
         </ul>
 
         <p class="body-text">None of these failures was unforeseeable in the abstract. What made the structure fragile was that it required <em>all three</em> to hold simultaneously. A company with 4× leverage, a declining revenue base, and no proprietary pipeline has no margin for error. Organon was given none.</p>
 
-        <p class="body-text">The leveraged spinoff structure itself is not the problem — it has been used successfully many times. Two contemporaries make the contrast concrete. In July 2022, GSK demerged its Consumer Healthcare business as <strong>Haleon</strong>, loading it with £10.3B in net debt (~$13B) at ~3.6× opening leverage. In May 2023, Johnson &amp; Johnson spun out its consumer division as <strong>Kenvue</strong>, raising $7.75B in bonds to pay J&amp;J — but at only ~2.2× opening leverage against $3.7B of Adjusted EBITDA. All three spinoffs handed billions to their parents. Only one destroyed most of the equity value left behind.</p>
+        <p class="body-text">The leveraged spinoff structure itself is not the problem — it has been used successfully many times. Two contemporaries make the contrast concrete. In July 2022, GSK demerged its Consumer Healthcare business as <strong>Haleon</strong>, loading it with £10.3B in net debt (~$13B) at ~3.6× opening leverage.<span class="fn"><a href="https://www.haleon.com/investors/results-reports-and-presentations/annual-reports" target="_blank" rel="noopener">14</a></span> In May 2023, Johnson &amp; Johnson spun out its consumer division as <strong>Kenvue</strong>, raising $7.75B in bonds to pay J&amp;J — but at only ~2.2× opening leverage against $3.7B of Adjusted EBITDA.<span class="fn"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1944048&type=S-1&dateb=&owner=include&count=10" target="_blank" rel="noopener">15</a></span> All three spinoffs handed billions to their parents. Only one destroyed most of the equity value left behind.</p>
 
         <div class="peer-box">
           <div class="peer-box-eyebrow">Peer Comparison — Leveraged Spinoffs</div>
@@ -1065,75 +1198,84 @@ function showEventDetail(e) {
           <table style="width:100%;border-collapse:collapse;font-family:'Inter',system-ui,sans-serif;font-size:13px;margin:0 0 24px;">
             <thead>
               <tr>
-                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#847B7B;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:22%;">Metric</th>
-                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#c17d9d;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Organon <span style="font-weight:300;text-transform:none;letter-spacing:0;color:#847B7B;">(Jun 2021)</span></th>
-                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#2a7a4b;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Haleon <span style="font-weight:300;text-transform:none;letter-spacing:0;color:#847B7B;">(Jul 2022)</span></th>
-                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#2a7a4b;padding:6px 0 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Kenvue <span style="font-weight:300;text-transform:none;letter-spacing:0;color:#847B7B;">(May 2023)</span></th>
+                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#847B7B;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:22%;"></th>
+                <th style="text-align:left;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#475569;padding:6px 12px 6px 8px;border-bottom:2px solid #E2DEDB;width:26%;border-left:3px solid #c17d9d;">Organon <span style="font-weight:300;text-transform:none;letter-spacing:0;">(Jun 2021)</span></th>
+                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#475569;padding:6px 12px 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Haleon <span style="font-weight:300;text-transform:none;letter-spacing:0;">(Jul 2022)</span></th>
+                <th style="text-align:left;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#475569;padding:6px 0 6px 0;border-bottom:2px solid #E2DEDB;width:26%;">Kenvue <span style="font-weight:300;text-transform:none;letter-spacing:0;">(May 2023)</span></th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Cash to parent</td>
-                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">$9.0B → Merck</td>
+                <td style="padding:10px 12px 10px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">$9.0B → Merck</td>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">£7B+ → GSK<br>£3B+ → Pfizer</td>
                 <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">$7.75B bonds + $4B IPO → J&amp;J</td>
               </tr>
               <tr>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Revenue base</td>
-                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$6.2B</td>
+                <td style="padding:10px 12px 10px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">~$6.2B</td>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~£10.7B (~$13B)</td>
                 <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$15.4B</td>
               </tr>
               <tr>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Adj. EBITDA at separation</td>
-                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$2.2–2.4B <em style="color:#847B7B;font-size:11px;">(projection, never reached)</em></td>
+                <td style="padding:10px 12px 10px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">~$2.2–2.4B <em style="color:#847B7B;font-size:11px;">(May 2021 Investor Day; never reached)</em></td>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~£2.7B (~$3.4B)</td>
                 <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">$3.7B</td>
               </tr>
               <tr>
-                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Cash to parent / EBITDA</td>
-                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;color:#c17d9d;">~3.9× <em style="color:#847B7B;font-size:11px;font-weight:300;">($9.0B / ~$2.3B)</em></td>
-                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;">~3.8× <em style="color:#847B7B;font-size:11px;font-weight:300;">(£10.3B / ~£2.7B)</em></td>
-                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;color:#2a7a4b;">~2.1× <em style="color:#847B7B;font-size:11px;font-weight:300;">($7.75B debt / $3.7B; excl. IPO proceeds)</em></td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Total to parent / EBITDA <em style="display:block;font-size:10px;color:#b0a9a9;font-style:normal;margin-top:2px;">= years of EBITDA extracted</em></td>
+                <td style="padding:10px 12px 10px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">~3.9× <em style="color:#847B7B;font-size:11px;font-weight:300;">($9.0B / ~$2.3B; all debt)</em></td>
+                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;">~3.8× <em style="color:#847B7B;font-size:11px;font-weight:300;">(£10.3B / ~£2.7B; all debt)</em></td>
+                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:500;vertical-align:top;">~3.6× <em style="color:#847B7B;font-size:11px;font-weight:300;">($13.2B / $3.7B; $7.75B debt + $4B IPO)</em></td>
               </tr>
               <tr>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:300;vertical-align:top;">Net debt at separation</td>
-                <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$9.5B</td>
+                <td style="padding:10px 12px 10px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">~$9.5B</td>
                 <td style="padding:10px 12px 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~£9.9B (~$12.3B)</td>
-                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$8.3B <em style="color:#847B7B;font-size:11px;">(gross debt; net ~$7.3B)</em></td>
+                <td style="padding:10px 0 10px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:300;vertical-align:top;">~$8.3B <em style="color:#847B7B;font-size:11px;">(gross; net ~$7.3B)</em></td>
               </tr>
               <tr>
                 <td style="padding:10px 12px 10px 0;border-bottom:2px solid #E2DEDB;color:#475569;font-weight:300;vertical-align:top;">Credit rating at separation</td>
-                <td style="padding:10px 12px 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;color:#c17d9d;"><strong>Ba2 / BB</strong> <em style="color:#847B7B;font-size:11px;font-weight:300;">High Yield — sub-IG from day one</em></td>
-                <td style="padding:10px 12px 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;color:#2a7a4b;"><strong>Baa3 / BBB−</strong> <em style="color:#847B7B;font-size:11px;font-weight:300;">Investment Grade (lowest tier)</em></td>
-                <td style="padding:10px 0 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;color:#2a7a4b;"><strong>Baa2 / BBB+</strong> <em style="color:#847B7B;font-size:11px;font-weight:300;">Investment Grade (solid mid-tier)</em></td>
+                <td style="padding:10px 12px 10px 8px;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">
+                  <strong>Ba2 / BB</strong>
+                  <span style="display:inline-block;margin-left:6px;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:2px;">High Yield</span>
+                </td>
+                <td style="padding:10px 12px 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;">
+                  <strong>Baa3 / BBB−</strong>
+                  <span style="display:inline-block;margin-left:6px;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:2px;">Inv. Grade</span>
+                </td>
+                <td style="padding:10px 0 10px 0;border-bottom:2px solid #E2DEDB;font-weight:300;vertical-align:top;">
+                  <strong>Baa2 / BBB+</strong>
+                  <span style="display:inline-block;margin-left:6px;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:2px;">Inv. Grade</span>
+                </td>
               </tr>
               <tr>
-                <td colspan="4" style="padding:8px 0 4px;font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#847B7B;">Net Debt / Adj. EBITDA</td>
+                <td colspan="4" style="padding:8px 0 4px;font-size:10px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#847B7B;">Net Debt / Adj. EBITDA</td>
               </tr>
-              <tr style="background:rgba(226,222,219,0.2);">
+              <tr style="background:rgba(226,222,219,0.15);">
                 <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:400;vertical-align:top;font-size:12px;">Spinoff year</td>
-                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#c17d9d;">~4.0×</td>
+                <td style="padding:9px 12px 9px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">~4.0×</td>
                 <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">3.6×</td>
                 <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.2×</td>
               </tr>
-              <tr style="background:rgba(226,222,219,0.2);">
+              <tr style="background:rgba(226,222,219,0.15);">
                 <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:400;vertical-align:top;font-size:12px;">+1 year</td>
-                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#c17d9d;">~4.2× <em style="color:#847B7B;font-size:11px;font-weight:300;">(EBITDA missed plan)</em></td>
-                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#2a7a4b;">3.0× <em style="color:#847B7B;font-size:11px;font-weight:300;">(−0.6× in yr 1)</em></td>
-                <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.3× <em style="color:#847B7B;font-size:11px;font-weight:300;">(est.)</em></td>
+                <td style="padding:9px 12px 9px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">~4.2× <em style="color:#847B7B;font-size:11px;font-weight:300;">(+0.2; EBITDA missed plan)</em></td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">3.0× <em style="color:#847B7B;font-size:11px;font-weight:300;">(−0.6 in yr 1)</em></td>
+                <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.3× <em style="color:#847B7B;font-size:11px;font-weight:300;">(−est.)</em></td>
               </tr>
-              <tr style="background:rgba(226,222,219,0.2);">
+              <tr style="background:rgba(226,222,219,0.15);">
                 <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);color:#475569;font-weight:400;vertical-align:top;font-size:12px;">+2 years</td>
-                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#c17d9d;">4.1× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2023)</em></td>
-                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;color:#2a7a4b;">2.8× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2024)</em></td>
-                <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.7× <em style="color:#847B7B;font-size:11px;font-weight:300;">(Q3 2025)</em></td>
+                <td style="padding:9px 12px 9px 8px;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">4.1× <em style="color:#847B7B;font-size:11px;font-weight:300;">(+0.1; YE2023)</em></td>
+                <td style="padding:9px 12px 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">2.8× <em style="color:#847B7B;font-size:11px;font-weight:300;">(−0.8; YE2024)</em></td>
+                <td style="padding:9px 0 9px 0;border-bottom:1px solid rgba(226,222,219,0.5);font-weight:600;vertical-align:top;">~2.7× <em style="color:#847B7B;font-size:11px;font-weight:300;">(−est.; Q3 2025)</em></td>
               </tr>
-              <tr style="background:rgba(226,222,219,0.2);">
+              <tr style="background:rgba(226,222,219,0.15);">
                 <td style="padding:9px 12px 9px 0;border-bottom:2px solid #E2DEDB;color:#475569;font-weight:400;vertical-align:top;font-size:12px;">+3 years</td>
-                <td style="padding:9px 12px 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;color:#c17d9d;">~4.0× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2024; div. cut May 2025)</em></td>
-                <td style="padding:9px 12px 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;color:#2a7a4b;">2.6× <em style="color:#847B7B;font-size:11px;font-weight:300;">(YE2025)</em></td>
-                <td style="padding:9px 0 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;color:#847B7B;">n/a <em style="font-size:11px;font-weight:300;">(+3yr = mid-2026)</em></td>
+                <td style="padding:9px 12px 9px 8px;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;border-left:3px solid rgba(193,125,157,0.2);">~4.0× <em style="color:#847B7B;font-size:11px;font-weight:300;">(flat; div. cut May 2025)</em></td>
+                <td style="padding:9px 12px 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;">2.6× <em style="color:#847B7B;font-size:11px;font-weight:300;">(−1.0 total; YE2025)<span class="fn"><a href="https://www.haleon.com/investors/results-reports-and-presentations/annual-reports" target="_blank" rel="noopener">14</a></span></em></td>
+                <td style="padding:9px 0 9px 0;border-bottom:2px solid #E2DEDB;font-weight:600;vertical-align:top;color:#847B7B;">n/a <em style="font-size:11px;font-weight:300;">(+3yr = mid-2026)<span class="fn"><a href="https://investor.kenvue.com/news-releases/" target="_blank" rel="noopener">16</a></span></em></td>
               </tr>
             </tbody>
           </table>
@@ -1144,8 +1286,265 @@ function showEventDetail(e) {
 
         </div><!-- /peer-box -->
 
+        <p class="body-text">Organon entered public markets at the theoretical maximum of what its projected cash flows could support — not because it had overexpanded, but because Merck's bankers found the ceiling the rating agencies would allow and recommended filling it entirely.</p>
+
+        <p class="body-text">The cost of that ceiling was permanent. Organon was assigned <strong>Ba2 / BB — high yield — on its first trading day</strong>,<span class="fn"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1821825&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">1</a></span> while Haleon (Baa3)<span class="fn"><a href="https://www.haleon.com/investors/results-reports-and-presentations/annual-reports" target="_blank" rel="noopener">14</a></span> and Kenvue (Baa2)<span class="fn"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1944048&type=S-1&dateb=&owner=include&count=10" target="_blank" rel="noopener">15</a></span> both preserved investment-grade status despite comparable extraction ratios. The difference is not merely symbolic: a high-yield designation means structurally wider spreads, a narrower investor base (many institutional mandates are IG-only), and a standing disadvantage in every future refinancing negotiation. Haleon and Kenvue borrowed comparable sums relative to their EBITDA — but they borrowed more cheaply, and their cost of debt was set to decline further as leverage fell. Organon had no equivalent path, because its leverage never meaningfully declined.</p>
+
+      </div><!-- /subtopic -->
+
+      <!-- Subtopic: How the $9.5B Was Structured -->
+      <div class="subtopic">
+        <h3 class="subtopic-title">How the $9.5 Billion Was Structured</h3>
+
+        <p class="body-text">The $9.5 billion did not arrive as a single instrument. Merck's bankers structured it across multiple tranches — a mix of fixed-rate senior notes in two currencies and a large floating-rate term loan — each serving a different purpose in the capital stack.</p>
+
+        <!-- Uses of Proceeds -->
+        <div style="background:#FAFAF8;border:1px solid #E2DEDB;border-radius:8px;padding:22px 26px;margin:28px 0;">
+          <div style="font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#847B7B;margin-bottom:16px;">Where Did the $9.5 Billion Go?</div>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #E2DEDB;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:300;color:#475569;">Total debt raised at separation</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:#1A1A1A;">$9,500M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #E2DEDB;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:300;color:#475569;">Separation dividend paid to Merck</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;color:#dc2626;">($9,000M)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:2px solid #E2DEDB;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:300;color:#475569;">Debt issuance fees<span class="fn"><a href="https://www.sec.gov/Archives/edgar/data/0001821825/000182182522000002/Financial_Report.xlsx" target="_blank" rel="noopener">18</a></span></span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;color:#dc2626;">($118M)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:11px 0 4px;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;color:#1A1A1A;">Net cash from financing transaction</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;color:#1A1A1A;">$382M</span>
+            </div>
+          </div>
+          <p style="font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:300;color:#847B7B;line-height:1.7;margin:14px 0 0;border-top:1px dashed #E2DEDB;padding-top:12px;">Cash on the balance sheet at June 30, 2021 was $730M — $348M more than the net financing proceeds. The difference is explained by $539M in Q2 operating cash flows from the spun-off businesses (which were generating revenue throughout the quarter, not just from June 2), offset by $59M in capex and $165M for the Alydia Health acquisition which closed simultaneously with the spinoff.</p>
+        </div>
+
+        <table class="analysis-table">
+          <thead>
+            <tr>
+              <th>Tranche</th>
+              <th>Amount</th>
+              <th>Rate</th>
+              <th>Maturity</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dollar Term Loan B</td>
+              <td>$3.0B</td>
+              <td>SOFR + 300bps (floating)</td>
+              <td>2028</td>
+              <td>Secured, floating</td>
+            </tr>
+            <tr>
+              <td>Euro Term Loan B</td>
+              <td>€750M (~$870M)</td>
+              <td>EURIBOR + 300bps (floating)</td>
+              <td>2028</td>
+              <td>Secured, floating</td>
+            </tr>
+            <tr>
+              <td>USD Senior Notes</td>
+              <td>$1.25B</td>
+              <td>4.125%</td>
+              <td>2028</td>
+              <td>Fixed</td>
+            </tr>
+            <tr>
+              <td>USD Senior Notes</td>
+              <td>$2.0B</td>
+              <td>5.125%</td>
+              <td>2031</td>
+              <td>Fixed</td>
+            </tr>
+            <tr>
+              <td>EUR Senior Notes</td>
+              <td>€1.25B (~$1.5B)</td>
+              <td>2.875%</td>
+              <td>2028</td>
+              <td>Fixed, EUR-denominated</td>
+            </tr>
+            <tr>
+              <td>Revolving Credit Facility</td>
+              <td>$1.0B</td>
+              <td>SOFR + 250bps</td>
+              <td>2026</td>
+              <td>Undrawn at close</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="font-size:11px;color:#847B7B;font-weight:300;margin:-8px 0 20px;font-family:'Inter',system-ui,sans-serif;">Source: Organon 2021 Annual Report (10-K)<span class="fn"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1821825&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">1</a></span> · Credit Agreement Amendment (May 2024)<span class="fn"><a href="https://www.sec.gov/Archives/edgar/data/1821825/000110465924063008/tm2414822d1_8k.htm" target="_blank" rel="noopener">17</a></span></p>
+
+        <p class="body-text"><strong>Three structural features defined Organon's debt profile from day one.</strong> First, nearly <strong>40% of drawn debt — ~$3.87 billion — was floating-rate</strong>: the Dollar Term Loan B ($3.0B) and the Euro Term Loan B (€750M) both repriced continuously against SOFR and EURIBOR respectively, meaning their cost moved in lock-step with monetary policy. Second, a substantial portion was EUR-denominated (the Euro TLB and the €1.25B fixed notes), introducing currency risk on top of rate risk. Third, <strong>the 2028 maturity wall concentrated roughly $7.6B of obligations into a single refinancing window</strong> — the two term loans, the $1.25B USD notes, and the €1.25B EUR notes all mature in the same year.</p>
+
+        <p class="body-text">This structure was not unusual for a leveraged buyout or high-yield spinoff — term loan plus senior notes is standard architecture. What was unusual was the context: Organon had a declining legacy revenue base, no proprietary R&D pipeline to generate future growth, and a Ba2/BB credit profile that would make the 2028 refinancing entirely dependent on whether leverage had meaningfully improved by then. It had not.</p>
+
+        <p class="body-text">The $9.5 billion was sized in June 2021, when the 10-year Treasury yield sat at <strong>1.44%</strong><span class="fn"><a href="https://fred.stlouisfed.org/series/DGS10" target="_blank" rel="noopener">6</a></span> and the Federal Reserve had held the fed funds rate at 0–0.25% for over a year. In that environment, Organon's all-in coupons of 2.875%–5.125% and the Term Loan B at LIBOR + 300bps translated to roughly <strong>$400–450 million in annual interest expense</strong> — painful but serviceable against projected free cash flow of ~$1.3 billion. The structure was designed for that world and only that world.</p>
+
+        <p class="body-text"><strong>The consensus that made not hedging rational.</strong> In June 2021, the Federal Reserve's own projections reinforced the low-rate assumption embedded in Organon's structure. The FOMC's June 2021 dot plot — the Fed's internal median rate forecasts — showed fed funds at <strong>0.10% through all of 2022</strong>, rising to only 0.60% in 2023.<span class="fn"><a href="https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20210616.htm" target="_blank" rel="noopener">19</a></span> Chair Powell was calling the inflation spike "transitory." Futures markets were pricing near-zero probability of a hike before late 2022. No major Wall Street bank was forecasting SOFR above 1% within twelve months.</p>
+
+        <!-- Fed dot plot callout -->
+        <div style="background:#FAFAF8;border:1px solid #E2DEDB;border-radius:8px;padding:20px 26px;margin:24px 0;">
+          <div style="font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#847B7B;margin-bottom:14px;">Fed Dot Plot — June 2021 Median Projection</div>
+          <div style="display:flex;gap:0;flex-wrap:wrap;">
+            <div style="flex:1;min-width:90px;padding:12px 16px;border-right:1px solid #E2DEDB;text-align:center;">
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:22px;font-weight:600;color:#1A1A1A;line-height:1;">0.10%</div>
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:300;color:#847B7B;margin-top:5px;">2021</div>
+            </div>
+            <div style="flex:1;min-width:90px;padding:12px 16px;border-right:1px solid #E2DEDB;text-align:center;">
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:22px;font-weight:600;color:#1A1A1A;line-height:1;">0.10%</div>
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:300;color:#847B7B;margin-top:5px;">2022</div>
+            </div>
+            <div style="flex:1;min-width:90px;padding:12px 16px;border-right:1px solid #E2DEDB;text-align:center;">
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:22px;font-weight:600;color:#475569;line-height:1;">0.60%</div>
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:300;color:#847B7B;margin-top:5px;">2023</div>
+            </div>
+            <div style="flex:1;min-width:90px;padding:12px 16px;text-align:center;">
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:22px;font-weight:600;color:#847B7B;line-height:1;">2.50%</div>
+              <div style="font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:300;color:#847B7B;margin-top:5px;">Long run</div>
+            </div>
+          </div>
+          <p style="font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:300;color:#847B7B;margin:12px 0 0;line-height:1.6;">SOFR actual peak: <strong style="color:#dc2626;">5.33%</strong> — July 2023. The Fed's own forecast missed by 473 basis points on a two-year horizon.</p>
+        </div>
+
+        <p class="body-text">Against that backdrop, Organon did not purchase any interest rate protection on its $3.87 billion floating-rate exposure. The logical alternative — an <strong>interest rate cap contract</strong>, which locks in a ceiling on SOFR and shifts any excess to a counterparty — would have required a substantial upfront premium on a notional of that size, in a market where implied volatility was pricing almost no probability of a meaningful rate rise. For a newly-independent company still building its own treasury function and carrying high leverage from day one, the cost-benefit calculus did not favor hedging. The consensus, including the Federal Reserve itself, supported that call.</p>
+
+        <p class="body-text">The world changed. Between March 2022 and July 2023, the Federal Reserve raised the fed funds rate by 525 basis points — the fastest tightening cycle in four decades. SOFR, which replaced LIBOR as the floating benchmark, rose from near zero to 5.30%.<span class="fn"><a href="https://fred.stlouisfed.org/series/SOFR" target="_blank" rel="noopener">7</a></span> The direct consequence for Organon: its <strong>~$3.87 billion in floating-rate term loans repriced in step with each hike</strong>. At the peak, the all-in rate on the Dollar TLB had moved from roughly 3% to above 8%, with the Euro TLB not far behind.</p>
+
+        <table class="analysis-table">
+          <thead>
+            <tr><th>Period</th><th>SOFR / EURIBOR</th><th>Dollar TLB all-in</th><th>Euro TLB all-in</th><th>Est. combined floating interest</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Jun 2021 (spinoff)</td>
+              <td>SOFR ~0.05%<span class="fn"><a href="https://fred.stlouisfed.org/series/SOFR" target="_blank" rel="noopener">7</a></span> / EURIBOR −0.50% (floored at 0%)<span class="fn"><a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html" target="_blank" rel="noopener">8</a></span></td>
+              <td>~3.05%</td>
+              <td>~3.00% (floor)</td>
+              <td>~$118M/yr</td>
+            </tr>
+            <tr>
+              <td>Dec 2022</td>
+              <td>SOFR ~4.30% / EURIBOR ~2.50%</td>
+              <td>~7.30%</td>
+              <td>~5.50%</td>
+              <td>~$267M/yr</td>
+            </tr>
+            <tr>
+              <td>Jul 2023 (peak)</td>
+              <td>SOFR ~5.30% / EURIBOR ~3.85%</td>
+              <td>~8.30%</td>
+              <td>~6.85%</td>
+              <td>~$309M/yr</td>
+            </tr>
+            <tr>
+              <td>Dec 2024 (post-cuts)</td>
+              <td>SOFR ~4.30% / EURIBOR ~3.00%</td>
+              <td>~7.30%</td>
+              <td>~6.00%</td>
+              <td>~$271M/yr</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="body-text">From spinoff baseline to peak tightening, the floating-rate interest burden rose by roughly <strong>$190M per year</strong> — not because Organon took on more debt, but simply because rates moved. Against Adjusted EBITDA of ~$1.9–2.1B and a dividend commitment of ~$284M/yr, an additional $190M in interest expense was not a rounding error. It was the difference between a company slowly de-levering and one standing still.</p>
+
+        <p class="body-text">The fixed-rate tranches were insulated from immediate repricing — but only temporarily. The Dollar TLB, the $1.25B USD notes, and the €1.25B EUR notes all mature in 2028. When Organon needs to refinance them, the relevant question will not be what rates were in 2021, but what a Ba-rated borrower with 4× leverage can access in 2028. A refinancing at 8–10% on the ~$7.6B 2028 maturity wall would add another $200–300M in annual interest relative to current fixed coupons — compressing an already thin FCF margin further still.</p>
+
+        <p class="body-text">The rate shock did not create the structural problem — the 4× leverage and Ba2/BB rating did. But rising rates transformed a latent vulnerability into a live cash flow drain, and compressed the window in which Organon could have fixed it.</p>
+
+      </div><!-- /subtopic -->
+
+      <!-- Subtopic 1.3: Dividend -->
+      <div class="subtopic">
+        <h3 class="subtopic-title">1.3 &nbsp; Dividend — To Pay or Not to Pay, That Is the Question</h3>
+
+        <p class="body-text">The dividend was not a reactive decision. It was designed in before the stock ever traded. At Organon's May 2021 Investor Day<span class="fn"><a href="https://www.organon.com/investors/events-and-presentations/" target="_blank" rel="noopener">2</a></span> — a month before the spinoff closed — management presented a capital return framework built around a recurring dividend as a core pillar. The $0.28 per share quarterly rate, declared on July 16, 2021,<span class="fn"><a href="https://www.organon.com/news/organon-declares-inaugural-quarterly-cash-dividend/" target="_blank" rel="noopener">10</a></span> was the delivery of a pre-made promise. The yield at the $30 launch price was approximately 3.7%. This was deliberate positioning, not rescue.</p>
+
+        <p class="section-question">Can Organon cut the dividend from the first day?</p>
+
+        <p class="body-text">To understand why, you have to understand who held OGN on day one. Organon's shareholders were not people who chose to buy a leveraged pharma spinoff — they were Merck shareholders who received OGN stock automatically as part of the separation. Merck is a high-dividend blue chip. Its investor base is heavily populated by income-mandated institutions: pension funds, dividend-focused ETFs, yield-oriented mutual funds. Many of these holders operate under mandates that require dividend-paying stocks. Without a dividend, they would have been forced to sell OGN immediately upon receipt — creating structural sell pressure before the company had any chance to establish itself.</p>
+
+        <p class="body-text">There was also a deeper problem: Organon had no growth story to sell. Its product portfolio was mature branded drugs under generic pressure, biosimilars in a competitive market, and a women's health franchise with modest organic growth. No pipeline. No blockbuster in late-stage development. No narrative that would attract growth investors or technology-oriented funds. The only investor category that would find OGN intrinsically attractive was the income investor — and income investors need a dividend. Without one, Organon would have occupied an uncomfortable no-man's-land: too leveraged for traditional dividend investors, not enough growth for everyone else. The dividend was the price of having an investor base at all.</p>
+
+        <p class="body-text">What made the dividend a structural trap was its signaling properties. Initiating a dividend is a costly public commitment — management is saying, in effect, "we are confident enough in our future cash flows to promise you recurring payments." That confidence, once broadcast, is very hard to revoke. Cutting a dividend signals that the original commitment was wrong — either management misjudged the business or circumstances deteriorated beyond control. Either interpretation damages credibility. The result: once Organon set $0.28, maintaining it became the default, and reducing it became an event to be avoided as long as possible, regardless of what the underlying cash flow math actually said.</p>
+
+        <p class="body-text">What the dividend declaration also did, quietly, was make the cash flow equation almost airtight from day one. Annual interest expense of ~$470M plus the $284M dividend left fewer than $600M per year — in a good year — for debt repayment, growth investments, and any working capital swings. There was no margin for simultaneous deterioration on multiple fronts. And deterioration came on all three: EBITDA missed plan, rates rose, and several BD deals required upfront cash.</p>
+
+        <!-- Annual cash commitment stack -->
+        <div style="background:#FAFAF8;border:1px solid #E2DEDB;border-radius:8px;padding:22px 26px;margin:28px 0;">
+          <div style="font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#847B7B;margin-bottom:16px;">Fixed Cash Commitments vs. FCF — The Squeeze</div>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #E2DEDB;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:300;color:#475569;">Interest expense (2021 baseline)</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;color:#dc2626;">~$470M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #E2DEDB;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:300;color:#475569;">Dividend ($0.28/share × ~253M shares × 4)</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;color:#dc2626;">~$284M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:2px solid #E2DEDB;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:300;color:#475569;">Capex (guided 3–4% of revenue)</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;color:#dc2626;">~$240M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:11px 0 0;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;color:#1A1A1A;">Total fixed annual cash out</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;color:#1A1A1A;">~$994M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0 0;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:300;color:#475569;">FCF (2021 target)</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:400;color:#475569;">~$1,100M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0 0;">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;color:#475569;">Available for debt reduction</span>
+              <span style="font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;color:#475569;">~$106M</span>
+            </div>
+          </div>
+          <p style="font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:300;color:#847B7B;line-height:1.7;margin:14px 0 0;border-top:1px dashed #E2DEDB;padding-top:12px;">By mid-2023, rate increases had added ~$190M to the annual interest line. The same math produces negative residual. In practice, quarterly FCF swings meant individual quarters went negative (Q4 2021: −$12M; Q2 2023: −$44M) while the dividend was paid regardless.</p>
+        </div>
+
+        <p class="body-text">The tension became visible as the stock declined. A $0.28 quarterly dividend on a $30 stock is a 3.7% yield — routine for a pharma company. The same $0.28 dividend on a $10 stock is an 11.2% yield — a distress signal. Markets were pricing the dividend as unsustainable well before management acknowledged it. Each quarter Organon maintained the payout, it was simultaneously depleting the cash reserves that could have accelerated deleveraging, and deferring the credibility reset that a voluntary cut would have enabled.</p>
+
+        <p class="body-text">Between Q2 2021 and Q1 2025 — sixteen quarters at $0.28/share — Organon paid out approximately <strong>$1.1 billion in total dividends</strong>. Debt retired over that same period was modest. The opportunity cost was concrete: $1.1B applied entirely to debt reduction would have taken net leverage from ~4.5× to roughly ~3.9×, meaningfully ahead of the 2025 year-end target management only committed to after cutting the dividend.</p>
+
+        <p class="body-text">On May 1, 2025, alongside Q1 2025 results, CEO Kevin Ali announced a 93% cut — from $0.28 to $0.02 per share per quarter. The stated rationale: "reset our capital allocation priorities to accelerate progress towards deleveraging, enabling a path to achieve a net leverage ratio of below 4.0× by year-end."<span class="fn"><a href="https://www.organon.com/news/organon-reports-first-quarter-2025-financial-results/" target="_blank" rel="noopener">11</a></span> The freed-up cash — approximately <strong>$264M per year</strong> — would go to debt reduction. The token $0.02 preserved the technical status of a dividend-paying company while removing almost all of the cash burden.</p>
+
+        <div class="key-callout">
+          <p>The dividend question was never whether to pay $0.28 forever. It was always when to stop — and whether "when" would be early enough to matter. Paying it through 2023 and 2024, as leverage stalled and rates compressed FCF, made the eventual cut feel like capitulation rather than strategy. A voluntary reduction in mid-2023, when the stock was already at $11 and the rate environment clearly structural, would have freed ~$570M for debt reduction over two years and reframed the narrative. Instead, the cut arrived in 2025 — after the stock had fallen to single digits and the leverage ratio had spent three years above 4×.</p>
+        </div>
+
       </div><!-- /subtopic -->
     </div><!-- /topic -->
+
+    <div class="sources-wrap">
+      <div class="sources-title">Sources</div>
+      <ol class="sources-list">
+        <li data-n="1"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1821825&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">Organon &amp; Co. — Annual Reports (Form 10-K)</a>, SEC EDGAR — debt structure, credit facilities, leverage ratios, credit ratings at spinoff</li>
+        <li data-n="2"><a href="https://www.organon.com/investors/events-and-presentations/" target="_blank" rel="noopener">Organon May 2021 Investor Day</a> — revenue guidance $6.1–6.4B; Adjusted EBITDA margin 36–38% (implies $2.2–2.4B)</li>
+        <li data-n="3"><a href="https://www.organon.com/news/organon-reports-fourth-quarter-and-full-year-2022-financial-results/" target="_blank" rel="noopener">Organon Q4 &amp; FY2022 Earnings Release</a> — Adjusted EBITDA ~$2.1B</li>
+        <li data-n="4"><a href="https://www.organon.com/news/organon-reports-fourth-quarter-and-full-year-2023-financial-results/" target="_blank" rel="noopener">Organon Q4 &amp; FY2023 Earnings Release</a> — Adjusted EBITDA $1.9B</li>
+        <li data-n="5"><a href="https://www.organon.com/news/organon-reports-fourth-quarter-and-full-year-2024-financial-results/" target="_blank" rel="noopener">Organon Q4 &amp; FY2024 Earnings Release</a> — Adjusted EBITDA ~$2.0B</li>
+        <li data-n="6"><a href="https://fred.stlouisfed.org/series/DGS10" target="_blank" rel="noopener">FRED — 10-Year Treasury Constant Maturity Rate</a>, Federal Reserve Bank of St. Louis</li>
+        <li data-n="7"><a href="https://fred.stlouisfed.org/series/SOFR" target="_blank" rel="noopener">FRED — Secured Overnight Financing Rate (SOFR)</a>, Federal Reserve Bank of St. Louis</li>
+        <li data-n="8"><a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html" target="_blank" rel="noopener">ECB Key Interest Rates</a>, European Central Bank — EURIBOR / deposit facility rate history</li>
+        <li data-n="9"><a href="https://www.merck.com/news/merck-to-acquire-acceleron-pharma-inc/" target="_blank" rel="noopener">Merck to Acquire Acceleron Pharma Inc.</a>, Merck &amp; Co. press release, September 30, 2021 — $11.5B total equity value</li>
+        <li data-n="10"><a href="https://www.organon.com/news/organon-declares-inaugural-quarterly-cash-dividend/" target="_blank" rel="noopener">Organon Declares Inaugural Quarterly Cash Dividend</a>, Organon press release — $0.28 per share quarterly</li>
+        <li data-n="11"><a href="https://www.organon.com/news/organon-reports-first-quarter-2025-financial-results/" target="_blank" rel="noopener">Organon Q1 2025 Earnings Release</a> — 92% dividend reduction announced May 2025</li>
+        <li data-n="12"><a href="https://www.organon.com/news/organon-to-acquire-forendo-pharma/" target="_blank" rel="noopener">Organon to Acquire Forendo Pharma</a>, Organon press release — $75M upfront, up to $954M total consideration</li>
+        <li data-n="13"><a href="https://www.organon.com/news/organon-to-acquire-dermavant-including-its-innovative-dermatologic-therapy-vtama-tapinarof-cream-1/" target="_blank" rel="noopener">Organon to Acquire Dermavant Sciences (VTAMA)</a>, Organon press release, September 2024 — $175M upfront, up to ~$1.2B total</li>
+        <li data-n="14"><a href="https://www.haleon.com/investors/results-reports-and-presentations/annual-reports" target="_blank" rel="noopener">Haleon Annual Reports 2022–2025</a> — net debt at separation, leverage trajectory, credit rating (Baa3/BBB−)</li>
+        <li data-n="15"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1944048&type=S-1&dateb=&owner=include&count=10" target="_blank" rel="noopener">Kenvue Inc. — Form S-1 Registration Statement</a>, SEC EDGAR — $7.75B debt, $3.7B Adj. EBITDA, credit rating (Baa2/BBB+) at IPO</li>
+        <li data-n="16"><a href="https://investor.kenvue.com/news-releases/" target="_blank" rel="noopener">Kenvue Investor Relations — Earnings Releases</a> — leverage trajectory post-IPO (2023–2025)</li>
+        <li data-n="17"><a href="https://www.sec.gov/Archives/edgar/data/1821825/000110465924063008/tm2414822d1_8k.htm" target="_blank" rel="noopener">Organon Credit Agreement Amendment No. 2 (May 2024)</a>, SEC Form 8-K — confirms original TLB amounts ($3.0B USD / €750M EUR) and original terms; documents extended maturities and revised spreads</li>
+        <li data-n="18"><a href="https://www.sec.gov/Archives/edgar/data/0001821825/000182182522000002/Financial_Report.xlsx" target="_blank" rel="noopener">Organon Form 10-K FY2021</a>, SEC EDGAR — cash flow statement: $9.5B debt issued, $9.0B separation dividend to Merck, $118M debt issuance fees paid; source for uses-of-proceeds reconciliation</li>
+        <li data-n="19"><a href="https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20210616.htm" target="_blank" rel="noopener">FOMC Summary of Economic Projections, June 16, 2021</a>, Federal Reserve — median fed funds rate projections: 0.10% (2021), 0.10% (2022), 0.60% (2023), 2.50% long run</li>
+      </ol>
+    </div>
 
   </div><!-- /analysis-section -->
 

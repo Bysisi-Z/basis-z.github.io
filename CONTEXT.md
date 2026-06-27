@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-26 (session 76)
+> Last updated: 2026-06-27 (session 79)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [basis-z-github-io.pages.dev](https://basis-z-github-io.pages.dev) · Custom domain: si-lens.me
@@ -293,13 +293,50 @@ Gateway — **two-column layout** (session 76): **Industry Analysis** (left) + *
 - **Series 02 — Coming Soon** (grayed-out placeholder, `pointer-events:none`)
 - Design: series number label (rose, 10px uppercase) + large italic serif title + tagline + description + article list
 
-**`/organon-stock-analysis.html` — OGN stock post-mortem (session 75–76):**
+**`/organon-stock-analysis.html` — OGN stock post-mortem (session 75–78):**
 - Standalone static HTML in `public/` (not an Astro page — full-width data dashboard)
 - Light theme matching main site: `#FAFAF8` bg, Cormorant Garamond italic h1, Inter body, rose `#c17d9d` OGN price line
 - Chart: OGN monthly close (left axis, rose) + US 10Y Treasury yield (right axis, orange dashed), Chart.js 4.4.0 + annotation plugin
-- Quarterly financial table: Q2'21–Q1'26, 20 quarters; Income Statement + Balance Sheet; sidebar labels synced via `requestAnimationFrame`; hover chart month → highlights corresponding quarterly column (rose tint `rgba(193,125,157,0.09)`)
-- Events grid: 15 annotated events, 7 categories (Milestone/Macro/Ops/BD/Product/Compliance/M&A), hover rose border
+- 25 annotated events, 7 categories (Milestone/Macro/Ops/BD/Product/Compliance/M&A); hover near numbered badge → `showEventDetail(e)` → `.event-detail-panel` floating card; legend placed beside chart
+- Quarterly financial table: Q2'21–Q1'26, 20 quarters; Income Statement + Cash Flow + Balance Sheet sections; sidebar labels synced via `requestAnimationFrame`; hover chart month → highlights corresponding quarterly column
 - Back nav: `← Industry Analysis` crumb at top (10px uppercase Inter, stone → ink hover)
+
+**Responsive layout (session 79):** `organon-stock-analysis.html` now fully responsive — `max-width: 1640px; margin: 0 auto` on `.page-wrap`; `≤1200px` hides right event-type legend; `≤960px` stats panel moves from left sidebar to horizontal strip above chart (full chart width); `≤640px` mobile padding + font adjustments. Key HTML classes added: `.chart-top-row`, `.stats-panel`, `.chart-area`.
+
+**Color legend (session 79):** Financial table now has a color key row at bottom — ● Headline / ● Supporting / ● Cost·expense / ● Negative·below threshold / ● Gross margin ≥62%; source note right-aligned.
+
+**Section question style (session 79):** `.section-question` — Cormorant Garamond italic, `clamp(20px,2.2vw,28px)`, rose `#c17d9d`. First use: "Can Organon cut the dividend from the first day?" before the 1.3 Dividend section explanation paragraph.
+
+**Financial table rows (session 78):**
+- Income Statement: Revenue, COGS, Gross Profit (with GM%), SG&A, R&D, EBITDA*, Interest Exp., Net Income
+- Cash Flow section (NEW s78): `sep2` separator → Free Cash Flow (quarterly, from stockanalysis.com) + Dividends Paid ($71M/qtr through Q1'25, $5M/qtr from Q2'25)
+- Balance Sheet: Cash, Current Assets, Current Liab., Working Capital
+- FCF color: red for negative quarters (Q4'21: −$12M, Q2'23: −$44M); Dividends Paid: red for post-cut $5M quarters
+
+**Peer comparison table (session 77):**
+- Three-company comparison: Organon / Haleon / Kenvue
+- Color system: column headers all neutral gray; Organon column left border `3px solid #c17d9d`; NO green/pink in data cells; credit rating row uses labeled badges; leverage delta in gray italic
+
+**Article sections (session 77–78):**
+- Section title: "Why $9.5 Billion?"
+- 1.1: Credit rating impact (Ba2/BB from day one, HY spread consequence)
+- 1.2: How the $9.5B Was Structured
+  - "Where Did the $9.5B Go?" uses-of-proceeds box: $9.5B raised − $9.0B to Merck − $118M fees = $382M net; $730M ending cash explained by $539M Q2 operating CF − $59M capex − $165M Alydia acq.
+  - Debt tranche table (6 tranches); floating rate impact table (4 periods, spinoff → Dec 2024)
+  - **"The Hedge That Wasn't" (NEW s78):** Fed June 2021 dot plot callout (0.10% / 0.10% / 0.60% / 2.50% long run); explanation why no interest rate cap was purchased; SOFR actual peak 5.33% = 473bps above 2023 Fed projection
+- 1.3: Dividend — To Pay or Not to Pay (NEW s78)
+  - Why dividend was pre-planned (Investor Day May 2021), not reactive
+  - Inherited Merck shareholder base forced it (income mandates); no growth story → must be a dividend stock
+  - Dividend as costly signal: once committed, cut is seen as failure → structural trap
+  - "Fixed Cash Commitments vs. FCF" box: interest $470M + dividend $284M + capex $240M = $994M vs $1,100M FCF → only $106M residual
+  - Total dividends paid Q2'21–Q1'25: ~$1.1B; opportunity cost = ~0.6× leverage reduction foregone
+  - May 2025 cut: $0.28 → $0.02 (93%); frees $264M/year; token $0.02 preserves dividend-payer status
+  - Conclusion callout: mid-2023 voluntary cut would have freed ~$570M over 2 years; instead arrived in 2025 as capitulation
+- Sources 1–19 with live links; source 18 = Organon 10-K FY2021 (uses-of-proceeds); source 19 = Fed June 2021 dot plot
+
+**EBITDA capacity note:** projection $2.2–2.4B is Adj. EBITDA from May 2021 Investor Day. GAAP EBITDA in quarterly table is different/lower. Actuals: 2022 ~$2.1B / 2023 $1.9B / 2024 ~$2.0B
+
+**Event id:25 (added session 76):** April 10 2025 — Moody's & S&P both revised outlooks to Negative (Ba2/BB affirmed). Organon was never investment grade: assigned Ba2/BB from day one in June 2021.
 
 **Play with the Data projects (session 61: `/research/index.astro` now shows 4 cards):**
 - `/research/data` — NSFG Explorer with **cycle switcher** ✅ session 39–40
