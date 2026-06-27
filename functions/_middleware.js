@@ -13,9 +13,16 @@ export async function onRequest(context) {
   const KV = env.JOURNEY_AUTH;
 
   if (request.method === 'POST') {
-    const bodyText = await request.text();
-    const params = new URLSearchParams(bodyText);
-    const password = (params.get('password') || '').trim().toLowerCase();
+    const ct = request.headers.get('content-type') || '';
+    let password = '';
+    if (ct.includes('multipart/form-data')) {
+      const fd = await request.formData();
+      password = (fd.get('password') || '').trim().toLowerCase();
+    } else {
+      const bodyText = await request.text();
+      const params = new URLSearchParams(bodyText);
+      password = (params.get('password') || '').trim().toLowerCase();
+    }
 
     if (password) {
       const raw = await KV.get(`pw:${password}`);
@@ -40,7 +47,7 @@ export async function onRequest(context) {
       }
     }
 
-    return new Response(`diag: empty password | raw body: "${bodyText}" | ct: ${request.headers.get('content-type')}`, { status: 403 });
+    return new Response(`diag: empty password | ct: ${ct}`, { status: 403 });
   }
 
   const cookie = request.headers.get('Cookie') || '';
