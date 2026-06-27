@@ -29,43 +29,36 @@ export async function onRequest(context) {
       if (raw) {
         const { expires } = JSON.parse(raw);
         if (Date.now() < expires) {
-          const token = crypto.randomUUID();
           const ttl = Math.floor((expires - Date.now()) / 1000);
-          await KV.put(`session:${token}`, password, { expirationTtl: ttl });
           const dest = url.pathname;
-          const diagHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="font-family:sans-serif;padding:2rem;text-align:center">
-<p style="font-size:1.2rem">Auth check...</p>
-<p id="r" style="font-size:1rem;margin-top:1rem"></p>
-<p style="margin-top:1rem"><a href="${dest}">点这里手动跳转</a></p>
-<script>
-const has = document.cookie.split(';').some(c => c.trim().startsWith('jauth='));
-document.getElementById('r').textContent = has ? 'cookie: SET ✓ — redirecting...' : 'cookie: NOT SET ✗  raw=' + document.cookie;
-if (has) setTimeout(() => location.replace(${JSON.stringify(dest)}), 1500);
-</script></body></html>`;
-          return new Response(diagHtml, {
-            status: 200,
-            headers: {
-              'Content-Type': 'text/html; charset=utf-8',
-              'Set-Cookie': `jauth=${token}; Path=/; Secure; SameSite=Lax; Max-Age=${ttl}`,
-            },
-          });
+          return new Response(
+            `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=${dest}"></head><body><script>location.replace(${JSON.stringify(dest)})</script></body></html>`,
+            {
+              status: 200,
+              headers: {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Set-Cookie': `jauth=${password}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
+              },
+            }
+          );
         } else {
-          return new Response(`diag: raw found, expires=${expires}, now=${Date.now()}, diff=${expires - Date.now()}`, { status: 403 });
+          return new Response('passcode expired', { status: 403 });
         }
       } else {
-        return new Response(`diag: KV null for key length=${password.length}, kvBound=${KV != null}`, { status: 403 });
+        return new Response('invalid passcode', { status: 403 });
       }
     }
 
-    return new Response(`diag: empty password | ct: ${ct}`, { status: 403 });
+    return new Response('missing passcode', { status: 403 });
   }
 
   const cookie = request.headers.get('Cookie') || '';
-  const token = getCookie(cookie, 'jauth');
-  if (token) {
-    const sessionPw = await KV.get(`session:${token}`);
-    if (sessionPw && await KV.get(`pw:${sessionPw}`)) {
-      return next();
+  const pw = getCookie(cookie, 'jauth');
+  if (pw) {
+    const raw = await KV.get(`pw:${pw}`);
+    if (raw) {
+      const { expires } = JSON.parse(raw);
+      if (Date.now() < expires) return next();
     }
   }
 
