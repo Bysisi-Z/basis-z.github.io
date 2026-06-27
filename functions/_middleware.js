@@ -33,16 +33,22 @@ export async function onRequest(context) {
           const ttl = Math.floor((expires - Date.now()) / 1000);
           await KV.put(`session:${token}`, password, { expirationTtl: ttl });
           const dest = url.pathname;
-          return new Response(
-            `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=${dest}"></head><body><script>location.replace(${JSON.stringify(dest)})</script></body></html>`,
-            {
-              status: 200,
-              headers: {
-                'Content-Type': 'text/html; charset=utf-8',
-                'Set-Cookie': `jauth=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
-              },
-            }
-          );
+          const diagHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="font-family:sans-serif;padding:2rem;text-align:center">
+<p style="font-size:1.2rem">Auth check...</p>
+<p id="r" style="font-size:1rem;margin-top:1rem"></p>
+<p style="margin-top:1rem"><a href="${dest}">点这里手动跳转</a></p>
+<script>
+const has = document.cookie.split(';').some(c => c.trim().startsWith('jauth='));
+document.getElementById('r').textContent = has ? 'cookie: SET ✓ — redirecting...' : 'cookie: NOT SET ✗  raw=' + document.cookie;
+if (has) setTimeout(() => location.replace(${JSON.stringify(dest)}), 1500);
+</script></body></html>`;
+          return new Response(diagHtml, {
+            status: 200,
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+              'Set-Cookie': `jauth=${token}; Path=/; Secure; SameSite=Lax; Max-Age=${ttl}`,
+            },
+          });
         } else {
           return new Response(`diag: raw found, expires=${expires}, now=${Date.now()}, diff=${expires - Date.now()}`, { status: 403 });
         }
