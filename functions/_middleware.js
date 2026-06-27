@@ -32,13 +32,17 @@ export async function onRequest(context) {
           const token = crypto.randomUUID();
           const ttl = Math.floor((expires - Date.now()) / 1000);
           await KV.put(`session:${token}`, password, { expirationTtl: ttl });
-          return new Response(null, {
-            status: 302,
-            headers: {
-              'Location': url.pathname,
-              'Set-Cookie': `jauth=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
-            },
-          });
+          const dest = url.pathname;
+          return new Response(
+            `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=${dest}"></head><body><script>location.replace(${JSON.stringify(dest)})</script></body></html>`,
+            {
+              status: 200,
+              headers: {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Set-Cookie': `jauth=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ttl}`,
+              },
+            }
+          );
         } else {
           return new Response(`diag: raw found, expires=${expires}, now=${Date.now()}, diff=${expires - Date.now()}`, { status: 403 });
         }
