@@ -30,20 +30,15 @@ export async function onRequest(context) {
         password = (params.get('password') || '').trim().toLowerCase();
       }
       if (password === 'organon') {
-        const dest = url.pathname;
-        return new Response(
-          `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=${dest}"></head><body><script>location.replace(${JSON.stringify(dest)})</script></body></html>`,
-          {
-            status: 200,
-            headers: {
-              'Content-Type': 'text/html; charset=utf-8',
-              'Set-Cookie': `oauthv1=ok; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`,
-            },
-          }
-        );
+        return new Response(null, {
+          status: 302,
+          headers: {
+            'Location': url.pathname,
+            'Set-Cookie': `oauthv1=ok; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`,
+          },
+        });
       }
-      const error = 'Invalid passcode';
-      return new Response(renderOrganonForm(error), {
+      return new Response(renderOrganonForm('Invalid passcode'), {
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
       });
     }
