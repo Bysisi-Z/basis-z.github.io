@@ -13,6 +13,50 @@ export async function onRequest(context) {
 
   const isOrganon = url.pathname.startsWith('/organon-stock-analysis');
 
+  // Organon page: fixed password, separate cookie, no KV
+  if (isOrganon) {
+    const cookie = request.headers.get('Cookie') || '';
+    const oa = getCookie(cookie, 'oauthv1');
+
+    if (request.method === 'POST') {
+      const ct = request.headers.get('content-type') || '';
+      let password = '';
+      if (ct.includes('multipart/form-data')) {
+        const fd = await request.formData();
+        password = (fd.get('password') || '').trim().toLowerCase();
+      } else {
+        const bodyText = await request.text();
+        const params = new URLSearchParams(bodyText);
+        password = (params.get('password') || '').trim().toLowerCase();
+      }
+      if (password === 'organon') {
+        const dest = url.pathname;
+        return new Response(
+          `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=${dest}"></head><body><script>location.replace(${JSON.stringify(dest)})</script></body></html>`,
+          {
+            status: 200,
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+              'Set-Cookie': `oauthv1=ok; Path=/organon-stock-analysis; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`,
+            },
+          }
+        );
+      }
+      const error = 'Invalid passcode';
+      return new Response(renderOrganonForm(error), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      });
+    }
+
+    if (oa === 'ok') return next();
+
+    const error = url.searchParams.get('error') ? 'Invalid passcode' : null;
+    return new Response(renderOrganonForm(error), {
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+
+  // Journey / Explorer / CV: KV-based passwords
   const KV = env.JOURNEY_AUTH;
 
   if (request.method === 'POST') {
@@ -75,7 +119,7 @@ export async function onRequest(context) {
   }
 
   const error = url.searchParams.get('error') ? 'Invalid or expired passcode' : null;
-  return new Response(isOrganon ? renderOrganonForm(error) : renderForm(error), {
+  return new Response(renderForm(error), {
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
   });
 }
