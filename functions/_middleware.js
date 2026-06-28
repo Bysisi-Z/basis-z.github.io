@@ -37,7 +37,7 @@ export async function onRequest(context) {
             status: 200,
             headers: {
               'Content-Type': 'text/html; charset=utf-8',
-              'Set-Cookie': `oauthv1=ok; Path=/organon-stock-analysis; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`,
+              'Set-Cookie': `oauthv1=ok; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000`,
             },
           }
         );
