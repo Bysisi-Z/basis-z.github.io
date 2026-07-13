@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-06-27 (session 83)
+> Last updated: 2026-07-13 (session 84)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [si-lens.me](https://si-lens.me) · Preview: basis-z-github-io.pages.dev
@@ -76,6 +76,8 @@ src/
 │   ├── research/industry.astro    # Industry Analysis series index ✅
 │   ├── research/data.astro        # NSFG explorer ✅
 │   ├── research/meps.astro        # MEPS explorer ✅
+│   ├── research/meps-expenditure.astro # MEPS expenditure by payer ✅
+│   ├── research/meps-drugs.astro  # Drug Payer & Channel Explorer ✅ (s84)
 │   ├── photography/index.astro    # Nature Never Judges — mixed grid ✅
 │   ├── photography/[slug].astro   # Hiking guide article template ✅
 │   ├── writing/index.astro        # Wandering — post list (Codex) ✅
@@ -117,7 +119,7 @@ Hero split + bento grid. Music module "A Life in Sound" live (narrative + 4 inst
 Dual timeline: left = Life & Adventures (rose), right = Career & Education (stone). CTAs in column headers → `/explorer` and `/cv`. WeChat QR button in header. Timeline cards link to `#` (detail pages not built). Easter eggs: stork, bamboo, skyline, Alps, confetti, vines, cat photos.
 
 ### Decoding (`/research`) ✅
-Two-column gateway: Industry Analysis (left) → `/research/industry`; Play with the Data (right) → explorers. Full NSFG + MEPS + OGN details → `CONTEXT_RESEARCH.md`.
+Two-column gateway: Industry Analysis (left) → `/research/industry`; Play with the Data (right) → explorers, now 4 cards incl. **Drug Payer & Channel Explorer** (`/research/meps-drugs`, s84) — search/multi-select across 532 HC-248A drugs, payer + pharmacy channel + dosage-form split, therapeutic class filter (bilingual). Full NSFG + MEPS + OGN details → `CONTEXT_RESEARCH.md`.
 
 ### Nature Never Judges (`/photography`) ✅
 6-card mixed grid (`grid-auto-flow: dense`). 3 live articles: Stoos Ridge Hike · Oeschinensee Panorama Trail · Lucerne city guide. "VIEW ALL TRAILS ON THE MAP →" → `/trails`.
