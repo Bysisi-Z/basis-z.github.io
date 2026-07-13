@@ -1,0 +1,779 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="MEPS 2023 — Drug Payer & Channel Explorer" description="Search any drug in the MEPS 2023 prescribed medicines file and see its payer mix and pharmacy channel split">
+
+  <div class="dx-wrap">
+
+    <div class="dx-header">
+      <a class="back-crumb" href="/research/meps">← US MEPS Survey</a>
+      <div class="dx-title-row">
+        <h1 class="dx-title">Drug Payer & Channel <em>Explorer</em></h1>
+        <span class="dx-badge">2023</span>
+      </div>
+      <p class="dx-desc">
+        Search and select one or more drugs from the <strong>532</strong> unique medicines in the MEPS 2023
+        prescribed medicines file after excluding missing drug names (<strong>187,060</strong> fills,
+        <strong>11,836</strong> patients). Selected drugs are combined into one view — who paid, and where the
+        prescription was filled.
+      </p>
+      <p class="dx-note-inline">
+        <strong>Coverage gap — infused/office-administered drugs are not in this file.</strong> HC-248A only
+        captures self-reported pharmacy "fills" — medicine picked up and taken home. IV-infused oncology
+        biologics given in an infusion suite (e.g. Herceptin/trastuzumab, Keytruda/pembrolizumab, Perjeta/
+        pertuzumab, Avastin/bevacizumab, Opdivo/nivolumab — all 0 records here) are billed as part of the
+        clinical visit and fall under MEPS's Office-Based or Outpatient event files instead. The same applies to
+        other in-office-administered products, such as Nexplanon and IUDs.
+      </p>
+    </div>
+
+    <!-- Therapeutic class filter (optional) -->
+    <div class="class-filter-row">
+      <div class="class-filter-field">
+        <label for="tc1-select">Therapeutic class</label>
+        <select id="tc1-select"><option value="">All classes</option></select>
+      </div>
+      <div class="class-filter-field">
+        <label for="tc1sub-select">Sub-class</label>
+        <select id="tc1sub-select"><option value="">All sub-classes</option></select>
+      </div>
+      <button id="class-clear-btn" class="chip-clear" style="display:none">Clear class filter</button>
+    </div>
+
+    <!-- Drug picker -->
+    <div class="picker">
+      <div class="picker-search-wrap">
+        <svg class="picker-search-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M11.2 11.2L14.5 14.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        <input id="drug-search" type="search" placeholder="Search by generic name… (e.g. atorvastatin, metformin)" autocomplete="off" spellcheck="false">
+      </div>
+      <p class="picker-hint">
+        Names are <strong>generic / molecule names</strong> (Multum RXDRGNAM field), not brand names — e.g. search
+        <em>atorvastatin</em> for Lipitor, <em>escitalopram</em> for Lexapro, <em>levothyroxine</em> for Synthroid.
+        A generic name can cover multiple brand-name and store-brand products.
+      </p>
+      <div id="drug-list" class="picker-list"></div>
+    </div>
+
+    <div id="chip-row" class="chip-row"></div>
+
+    <!-- KPI row -->
+    <div id="kpi-row" class="kpi-row"></div>
+
+    <!-- Shared metric toggle — applies to all three charts below -->
+    <div class="sec-label">View by</div>
+    <div class="toggle-row">
+      <button class="tog active" data-mode="dollars">Dollar amount</button>
+      <button class="tog" data-mode="fills">Fills</button>
+      <button class="tog" data-mode="days">Days supplied</button>
+    </div>
+    <div class="glossary-grid metric-def-grid">
+      <div class="glossary-item"><span class="glossary-term">Dollar amount</span><span class="glossary-desc">Total dollars in that bucket. For payer, this is already exclusive by construction — every dollar belongs to exactly one payer.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Fills</span><span class="glossary-desc">Count of prescription fills. For channel and dosage form, a fill has exactly one value, so this is a plain count. For payer, a fill can be split across multiple payers (see "attributed" below).</span></div>
+      <div class="glossary-item"><span class="glossary-term">Days supplied</span><span class="glossary-desc">Total days of medication supplied in that bucket, summed from RXDAYSUP across fills (excluding missing/non-numeric values).</span></div>
+    </div>
+    <div class="note">
+      <strong>"Attributed" fills/days (payer chart only).</strong> A single fill can be paid by more than one payer,
+      so payer fills/days use proportional attribution — split by each payer's dollar share. A fill where Medicare
+      pays 80% and the patient pays 20% counts as 0.8 fills for Medicare and 0.2 for the patient, so the three
+      metrics each sum to exactly 100% with no double-counting. Channel and dosage form don't need this — each
+      fill has exactly one channel and one form, so their fills/days are plain, whole-number sums.
+    </div>
+
+    <!-- Payer split -->
+    <div class="sec-label">Payer split — proportional attribution</div>
+    <div id="payer-chart" class="chart-wrap"></div>
+
+    <div class="glossary-grid">
+      <div class="glossary-item"><span class="glossary-term">Medicare</span><span class="glossary-desc">Federal health insurance for adults 65 and older. Also covers younger people with long-term disabilities (after 24 months on SSDI), end-stage renal disease (ESRD), or ALS.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Medicaid</span><span class="glossary-desc">Joint federal–state program covering low-income individuals and families. Eligibility and benefits vary by state.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Private</span><span class="glossary-desc">Primarily employer-sponsored group plans, plus individually purchased marketplace plans.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Patient OOP</span><span class="glossary-desc">Out-of-pocket payments made directly by the patient or family — copays, deductibles, and costs for uncovered services.</span></div>
+      <div class="glossary-item"><span class="glossary-term">VA/CHAMPVA</span><span class="glossary-desc">Department of Veterans Affairs coverage for eligible veterans. CHAMPVA extends to spouses and dependents of veterans with service-related disabilities.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Tricare</span><span class="glossary-desc">Health coverage for active-duty military, National Guard and Reserve members, retirees, and their families.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Other federal</span><span class="glossary-desc">Other federal government programs, e.g. Indian Health Service or federal correctional facilities.</span></div>
+      <div class="glossary-item"><span class="glossary-term">State/local</span><span class="glossary-desc">State and local government health programs outside of Medicaid.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Workers comp</span><span class="glossary-desc">Workers' compensation insurance covering treatment for work-related injury or illness.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Other</span><span class="glossary-desc">Miscellaneous payer sources not captured by the categories above.</span></div>
+      <div class="glossary-item"><span class="glossary-term">PAP</span><span class="glossary-desc">Fills with $0 total expenditure — patient assistance program or fully waived cost, not attributed to any payer.</span></div>
+    </div>
+
+    <!-- Channel split -->
+    <div class="sec-label">Pharmacy channel — PHARTP1</div>
+    <div id="channel-chart" class="chart-wrap"></div>
+
+    <div class="glossary-grid">
+      <div class="glossary-item"><span class="glossary-term">Drug store</span><span class="glossary-desc">Retail pharmacy chain or independent drugstore — the default channel for most routine oral medications.</span></div>
+      <div class="glossary-item"><span class="glossary-term">In another store</span><span class="glossary-desc">Non-drug-store retail location with a pharmacy counter, e.g. a grocery store or big-box retailer.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Mail-order</span><span class="glossary-desc">Prescription shipped directly to the patient, typically used for long-term maintenance medications.</span></div>
+      <div class="glossary-item"><span class="glossary-term">In HMO/clinic/hospital</span><span class="glossary-desc">Dispensed on-site at a clinic, hospital, or HMO facility — common for injectables, infusions, and provider-administered drugs.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Online</span><span class="glossary-desc">Prescription ordered and fulfilled through an online pharmacy.</span></div>
+    </div>
+
+    <div class="note">
+      <strong>PHARTP1</strong> = type of pharmacy provider, first-listed source per fill (MEPS codebook, HC-248A).
+    </div>
+
+    <!-- Dosage form -->
+    <div class="sec-label">Dosage form — RXFORM</div>
+    <div id="form-chart" class="chart-wrap"></div>
+
+    <div class="note">
+      <strong>Not from the official codebook.</strong> Unlike PHARTP1, RXFORM is a free-text field — AHRQ doesn't
+      publish a decode table for it. Labels shown here (e.g. "Tablet" for <code>TABS</code>) are a best-effort
+      mapping of standard pharmacy dosage-form abbreviations, covering the ~40 codes that make up ~99% of fills.
+      Unmapped or rare codes are shown as their raw code. The raw code is always shown alongside the label so you
+      can verify it yourself.
+    </div>
+
+    <div class="note dedup-note">
+      <strong>Multi-drug patient count.</strong> When more than one drug is selected, the unique-patient count is
+      deduplicated (a patient on two selected drugs is counted once) — it is <em>not</em> the sum of each drug's
+      patient count.
+    </div>
+
+    <p class="source-note">
+      Source: AHRQ, <em>2023 Medical Expenditure Panel Survey</em>, Prescribed Medicines File (HC-248A). All
+      statistics are unweighted. The full file has 192,275 fills and 11,858 patients; 5,215 fills with an
+      unimputed/missing drug name are excluded from this drug list. Days-supplied is excluded from day-based metrics
+      for fills with missing (-8/-7) or non-numeric (999 = "taken as needed") RXDAYSUP.
+    </p>
+
+  </div>
+
+</BaseLayout>
+
+<style is:global>
+.dx-wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 60px) 100px;
+}
+.dx-header { padding: 36px 0 20px; }
+.dx-title-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+.dx-title {
+  font-family: var(--serif); font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 300; line-height: 1.1; color: var(--ink); margin: 0;
+}
+.dx-title em { font-style: italic; color: var(--rose); }
+.dx-badge {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  border-radius: 3px; padding: 2px 8px;
+}
+.dx-desc {
+  font-family: var(--sans); font-size: clamp(13px, 1.2vw, 14.5px); font-weight: 300;
+  color: var(--stone); line-height: 1.75; max-width: 760px; margin: 0;
+}
+.dx-desc strong { font-weight: 400; color: var(--ink); }
+.dx-note-inline {
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--stone); line-height: 1.7; max-width: 760px;
+  margin: 12px 0 0; padding: 10px 14px;
+  background: rgba(193,125,157,0.06); border-left: 3px solid var(--rose); border-radius: 3px;
+}
+.dx-note-inline strong { font-weight: 500; color: var(--ink); }
+.dx-note-inline em { font-style: italic; color: var(--ink); }
+
+/* ── Class filter ──────────────────────────────────────────────────────── */
+.class-filter-row {
+  display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap;
+  margin-top: 20px;
+}
+.class-filter-field { display: flex; flex-direction: column; gap: 5px; min-width: 220px; flex: 1; max-width: 360px; }
+.class-filter-field label {
+  font-family: var(--sans); font-size: 10px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone);
+}
+.class-filter-field select {
+  width: 100%;
+  font-family: var(--sans); font-size: 12px; font-weight: 300;
+  color: var(--ink); background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 4px;
+  padding: 9px 30px 9px 12px;
+  cursor: pointer; outline: none;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23847B7B' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color 0.18s;
+}
+.class-filter-field select:focus { border-color: rgba(193,125,157,0.5); }
+#class-clear-btn { margin-bottom: 9px; }
+
+/* ── Picker ────────────────────────────────────────────────────────────── */
+.picker {
+  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden;
+  background: var(--bg); margin-top: 8px;
+}
+.picker-search-wrap { position: relative; padding: 12px 14px; border-bottom: 1px solid var(--rule); }
+.picker-search-icon {
+  position: absolute; left: 26px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; color: var(--stone); pointer-events: none;
+}
+#drug-search {
+  width: 100%; padding: 9px 12px 9px 32px;
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  color: var(--ink); background: rgba(0,0,0,0.02);
+  border: 1px solid var(--rule); border-radius: 4px; outline: none;
+  transition: border-color 0.18s;
+}
+#drug-search:focus { border-color: rgba(193,125,157,0.5); }
+#drug-search::placeholder { color: var(--stone); }
+.picker-hint {
+  font-family: var(--sans); font-size: 11px; font-weight: 300; color: var(--stone); line-height: 1.6;
+  padding: 8px 16px; margin: 0; border-bottom: 1px solid var(--rule); background: rgba(0,0,0,0.012);
+}
+.picker-hint strong { font-weight: 500; color: var(--ink); }
+.picker-hint em { font-style: italic; color: var(--ink); }
+.picker-list { max-height: 240px; overflow-y: auto; }
+.drug-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 16px 9px 13px; cursor: pointer;
+  border-bottom: 1px solid rgba(226,222,219,0.5);
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.drug-row:hover { background: rgba(193,125,157,0.06); }
+.drug-row.checked {
+  background: rgba(193,125,157,0.16);
+  border-left-color: var(--rose);
+}
+.drug-row input { accent-color: var(--rose); flex-shrink: 0; cursor: pointer; }
+.drug-row-name {
+  font-family: var(--sans); font-size: 13px; font-weight: 400; color: var(--ink);
+  flex: 1; text-transform: capitalize;
+}
+.drug-row.checked .drug-row-name { color: var(--rose); font-weight: 600; }
+.drug-row-fills {
+  font-family: var(--sans); font-size: 11px; font-weight: 300; color: var(--stone);
+  flex-shrink: 0;
+}
+.drug-row.checked .drug-row-fills { color: #9b6080; }
+.picker-empty {
+  padding: 24px 16px; text-align: center;
+  font-family: var(--sans); font-size: 12px; color: var(--stone);
+}
+
+/* ── Chips ─────────────────────────────────────────────────────────────── */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; min-height: 1px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  color: var(--rose); background: #fff;
+  border: 1px solid var(--rose);
+  border-radius: 5px; padding: 5px 8px 5px 12px;
+  text-transform: capitalize;
+}
+.chip::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--rose); flex-shrink: 0;
+}
+.chip button {
+  all: unset; cursor: pointer; width: 15px; height: 15px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 3px; color: var(--rose);
+  font-size: 12px; line-height: 1; transition: background 0.15s;
+}
+.chip button:hover { background: rgba(193,125,157,0.15); }
+.chip-clear {
+  font-family: var(--sans); font-size: 11px; color: var(--stone);
+  text-decoration: underline; cursor: pointer; align-self: center;
+  background: none; border: none; padding: 4px 2px;
+}
+
+/* ── KPI row ───────────────────────────────────────────────────────────── */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+  margin: 26px 0 8px; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden;
+}
+@media (max-width: 720px) { .kpi-row { grid-template-columns: 1fr 1fr; } }
+.kpi-card { background: var(--bg); padding: 16px 18px 14px; }
+.kpi-lbl {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--stone); display: block; margin-bottom: 6px;
+}
+.kpi-val {
+  font-family: var(--serif); font-size: clamp(20px, 1.8vw, 27px);
+  font-weight: 300; color: var(--ink); line-height: 1;
+}
+.kpi-val.is-rose { color: var(--rose); }
+.kpi-sub {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 300;
+  color: var(--stone); margin-top: 4px; display: block;
+}
+
+/* ── Sections ──────────────────────────────────────────────────────────── */
+.sec-label {
+  font-family: var(--sans); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.01em; color: var(--rose);
+  margin: 32px 0 8px;
+  padding: 7px 14px;
+  background: linear-gradient(to right, rgba(193,125,157,0.12), transparent 70%);
+  border-radius: 4px;
+}
+.toggle-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.tog {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  padding: 5px 14px; border: 1px solid var(--rule); border-radius: 20px;
+  background: transparent; color: var(--stone); cursor: pointer; transition: all .15s;
+}
+.tog.active { background: var(--rose); border-color: var(--rose); color: #fff; font-weight: 400; }
+.tog:not(.active):hover { background: rgba(193,125,157,0.06); color: var(--ink); }
+
+.chart-wrap {
+  display: flex; flex-direction: column; gap: 8px;
+  border: 1px solid var(--rule); border-radius: 8px;
+  padding: 18px 20px; background: var(--bg);
+}
+.bar-row { display: grid; grid-template-columns: 168px 1fr 150px; align-items: center; gap: 12px; }
+@media (max-width: 600px) { .bar-row { grid-template-columns: 96px 1fr 96px; } }
+.bar-label {
+  font-family: var(--sans); font-size: 12px; font-weight: 400; color: var(--ink);
+  text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bar-track { height: 20px; background: rgba(0,0,0,0.04); border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--rose); opacity: .85; border-radius: 3px; transition: width .35s ease; }
+.bar-val { font-family: var(--sans); font-size: 11.5px; color: var(--stone); white-space: nowrap; }
+.bar-val strong { color: var(--ink); font-weight: 600; }
+.chart-empty {
+  font-family: var(--sans); font-size: 12.5px; color: var(--stone);
+  text-align: center; padding: 24px 0;
+}
+
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px 24px;
+  padding: 18px 4px 6px;
+  margin-top: 4px;
+}
+.glossary-item { display: flex; flex-direction: column; gap: 3px; }
+.glossary-term {
+  font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink);
+}
+.glossary-desc {
+  font-family: var(--sans); font-size: 12px; font-weight: 300; color: var(--stone); line-height: 1.6;
+}
+
+.note {
+  font-family: var(--sans); font-size: 11.5px; color: var(--stone); line-height: 1.7;
+  background: rgba(0,0,0,0.025); border-radius: 4px; padding: 12px 15px; margin-top: 12px;
+}
+.note strong { color: var(--ink); font-weight: 500; }
+.note em { font-style: italic; }
+.note code {
+  font-family: 'SF Mono', ui-monospace, monospace; font-size: 10.5px;
+  background: rgba(0,0,0,0.05); border-radius: 3px; padding: 1px 5px; color: var(--ink);
+}
+.dedup-note { border-left: 3px solid var(--rose); background: rgba(193,125,157,0.05); }
+
+.source-note {
+  font-family: var(--sans); font-size: 11px; font-weight: 300;
+  line-height: 1.7; color: var(--stone); margin-top: 32px;
+  padding-top: 20px; border-top: 1px solid var(--rule);
+}
+.source-note em { font-style: italic; }
+</style>
+
+<script>
+(async () => {
+
+const DATA = await fetch('/data/meps_drug_payer_channel.json').then(r => r.json());
+const drugs = DATA.drugs; // already sorted by fills desc
+const payerLabels = DATA.meta.payer_labels;
+const channelLabels = DATA.meta.channel_labels;
+const formLabels = DATA.meta.form_labels; // { RAW_CODE: "Human label" }, not exhaustive
+function formDisplay(code) {
+  const label = formLabels[code];
+  return label ? `${label} (${code})` : code;
+}
+const byName = new Map(drugs.map(d => [d.name, d]));
+
+let selected = new Set([drugs[0].name]); // default: top drug by fills
+let metricMode = 'dollars'; // 'dollars' | 'fills' | 'days' — shared across payer/channel/form charts
+let classTC1 = '';    // '' = all classes
+let classTC1Sub = ''; // '' = all sub-classes
+
+const searchEl   = document.getElementById('drug-search');
+const listEl     = document.getElementById('drug-list');
+const chipRowEl  = document.getElementById('chip-row');
+const kpiRowEl   = document.getElementById('kpi-row');
+const payerElm   = document.getElementById('payer-chart');
+const channelElm = document.getElementById('channel-chart');
+const formElm    = document.getElementById('form-chart');
+const tc1SelectEl    = document.getElementById('tc1-select');
+const tc1SubSelectEl = document.getElementById('tc1sub-select');
+const classClearBtn  = document.getElementById('class-clear-btn');
+
+// ── Therapeutic class filter ─────────────────────────────────────────────────
+const ZH_LABELS = {
+  // TC1 — broad class
+  'Topical Agents': '外用药', 'Central Nervous System Agents': '中枢神经系统药物',
+  'Cardiovascular Agents': '心血管药物', 'Respiratory Agents': '呼吸系统药物',
+  'Metabolic Agents': '代谢类药物', 'Anti-Infectives': '抗感染药',
+  'Gastrointestinal Agents': '消化系统药物', 'Nutritional Products': '营养补充品',
+  'Hormones/Hormone Modifiers': '激素/激素调节剂', 'Psychotherapeutic Agents': '精神药物',
+  'Antineoplastics': '抗肿瘤药', 'Genitourinary Tract Agents': '泌尿生殖系统药物',
+  'Alternative Medicines': '替代医学', 'Coagulation Modifiers': '凝血调节药',
+  'Miscellaneous Agents': '其他药物', 'Immunologic Agents': '免疫类药物',
+  // TC1S1 — sub-class
+  '5-Alpha-Reductase Inhibitors': '5α-还原酶抑制剂', '5-Aminosalicylates': '5-氨基水杨酸类',
+  'Adrenal Cortical Steroids': '肾上腺皮质激素', 'Agents For Pulmonary Hypertension': '肺动脉高压用药',
+  'Alpha-Adrenoreceptor Antagonists': 'α受体拮抗剂', 'Amebicides': '抗阿米巴药',
+  'Analgesics': '镇痛药', 'Angiotensin Converting Enzyme Inhibitors': '血管紧张素转换酶抑制剂(ACEI)',
+  'Angiotensin Ii Inhibitors': '血管紧张素II受体拮抗剂(ARB)',
+  'Angiotensin Receptor Blockers And Neprilysin Inhibitors': '血管紧张素受体脑啡肽酶抑制剂(ARNI)',
+  'Antacids': '抗酸药', 'Antiadrenergic Agents, Centrally Acting': '中枢性抗肾上腺素药',
+  'Antiadrenergic Agents, Peripherally Acting': '外周性抗肾上腺素药', 'Antianginal Agents': '抗心绞痛药',
+  'Antiarrhythmic Agents': '抗心律失常药', 'Anticoagulants': '抗凝药', 'Anticonvulsants': '抗惊厥药',
+  'Antidepressants': '抗抑郁药', 'Antidiabetic Agents': '抗糖尿病药', 'Antidiarrheals': '止泻药',
+  'Antidotes': '解毒药', 'Antiemetic/Antivertigo Agents': '止吐/抗眩晕药', 'Antifungals': '抗真菌药',
+  'Antigout Agents': '抗痛风药', 'Antihistamines': '抗组胺药', 'Antihyperlipidemic Agents': '调脂药',
+  'Antihypertensive Combinations': '复方降压药', 'Antimalarial Agents': '抗疟药',
+  'Antimanic Agents': '抗躁狂药', 'Antimetabolites': '抗代谢药', 'Antineoplastic Hormones': '抗肿瘤激素类药',
+  'Antiparkinson Agents': '抗帕金森病药', 'Antiplatelet Agents': '抗血小板药', 'Antipsychotics': '抗精神病药',
+  'Antirheumatics': '抗风湿药', 'Antiseptic And Germicides': '消毒防腐药', 'Antithyroid Agents': '抗甲状腺药',
+  'Antitussives': '镇咳药', 'Antiviral Agents': '抗病毒药', 'Anxiolytics, Sedatives, And Hypnotics': '抗焦虑/镇静催眠药',
+  'Beta-Adrenergic Blocking Agents': 'β受体阻滞剂', 'Bone Resorption Inhibitors': '骨吸收抑制剂',
+  'Bronchodilators': '支气管扩张剂', 'CD20 Monoclonal Antibodies': 'CD20单克隆抗体',
+  'CNS Stimulants': '中枢神经兴奋剂', 'Calcium Channel Blocking Agents': '钙通道阻滞剂',
+  'Cephalosporins': '头孢菌素类', 'Cholinergic Agonists': '胆碱能激动剂', 'Cholinesterase Inhibitors': '胆碱酯酶抑制剂',
+  'Decongestants': '减充血剂', 'Dermatological Agents': '皮肤科用药', 'Digestive Enzymes': '消化酶',
+  'Diuretics': '利尿剂', 'Expectorants': '祛痰药', 'Functional Bowel Disorder Agents': '功能性肠病用药',
+  'Glucose Elevating Agents': '升血糖药', 'H2 Antagonists': 'H2受体拮抗剂', 'Herbal Products': '草药制品',
+  'Iron Products': '铁剂', 'Laxatives': '泻药', 'Leukotriene Modifiers': '白三烯调节剂',
+  'Lincomycin Derivatives': '林可霉素类', 'Macrolide Derivatives': '大环内酯类',
+  'Minerals And Electrolytes': '矿物质与电解质', 'Miscellaneous Antibiotics': '其他抗生素',
+  'Miscellaneous Antineoplastics': '其他抗肿瘤药', 'Miscellaneous Cardiovascular Agents': '其他心血管药物',
+  'Miscellaneous Central Nervous System Agents': '其他中枢神经系统药物',
+  'Miscellaneous GI Agents': '其他消化系统药物', 'Miscellaneous Genitourinary Tract Agents': '其他泌尿生殖系统药物',
+  'Mouth And Throat Products': '口腔咽喉用药', 'Multikinase Inhibitors': '多激酶抑制剂',
+  'Muscle Relaxants': '肌肉松弛剂', 'Nasal Preparations': '鼻用制剂',
+  'Noradrenergic Uptake Inhibitors For ADHD': 'ADHD去甲肾上腺素再摄取抑制剂',
+  'Nutraceutical Products': '功能性营养品', 'Ophthalmic Preparations': '眼科用药', 'Otic Preparations': '耳用制剂',
+  'Penicillins': '青霉素类', 'Phosphate Binders': '磷结合剂', 'Probiotics': '益生菌',
+  'Proton Pump Inhibitors': '质子泵抑制剂', 'Quinolones': '喹诺酮类',
+  'Respiratory Inhalant Products': '呼吸道吸入制剂', 'Sex Hormones': '性激素',
+  'Smoking Cessation Agents': '戒烟辅助药', 'Sulfonamides': '磺胺类', 'Thyroid Hormones': '甲状腺激素',
+  'Unclassified': '未分类', 'Upper Respiratory Combinations': '上呼吸道复方制剂',
+  'Urinary Anti-Infectives': '泌尿道抗感染药', 'Urinary Antispasmodics': '泌尿道解痉药',
+  'Vaginal Preparations': '阴道用药', 'Vasodilators': '血管扩张剂', 'Vasopressors': '升压药',
+  'Vitamin And Mineral Combinations': '复合维生素矿物质', 'Vitamins': '维生素',
+  'mTOR Inhibitors': 'mTOR抑制剂',
+};
+function withZh(label) {
+  const zh = ZH_LABELS[label];
+  return zh ? `${label} · ${zh}` : label;
+}
+
+const classTree = DATA.meta.class_tree; // [{ tc1, n_drugs, subs: [{tc1sub, n_drugs}] }]
+const allSubsFlat = (() => {
+  const map = new Map();
+  classTree.forEach(node => node.subs.forEach(s => {
+    map.set(s.tc1sub, (map.get(s.tc1sub) || 0) + s.n_drugs);
+  }));
+  return [...map.entries()].sort((a, b) => b[1] - a[1]);
+})();
+
+tc1SelectEl.innerHTML = '<option value="">All classes</option>' +
+  classTree.map(node => `<option value="${node.tc1}">${withZh(node.tc1)} (${node.n_drugs})</option>`).join('');
+
+function populateSubSelect() {
+  const node = classTree.find(n => n.tc1 === classTC1);
+  const subs = node ? node.subs.map(s => [s.tc1sub, s.n_drugs]) : allSubsFlat;
+  tc1SubSelectEl.innerHTML = '<option value="">All sub-classes</option>' +
+    subs.map(([sub, n]) => `<option value="${sub}">${withZh(sub)} (${n})</option>`).join('');
+}
+populateSubSelect();
+
+function updateClassClearBtn() {
+  classClearBtn.style.display = (classTC1 || classTC1Sub) ? '' : 'none';
+}
+
+tc1SelectEl.addEventListener('change', () => {
+  classTC1 = tc1SelectEl.value;
+  classTC1Sub = '';
+  populateSubSelect();
+  tc1SubSelectEl.value = '';
+  updateClassClearBtn();
+  renderList();
+});
+tc1SubSelectEl.addEventListener('change', () => {
+  classTC1Sub = tc1SubSelectEl.value;
+  updateClassClearBtn();
+  renderList();
+});
+classClearBtn.addEventListener('click', () => {
+  classTC1 = ''; classTC1Sub = '';
+  tc1SelectEl.value = ''; populateSubSelect(); tc1SubSelectEl.value = '';
+  updateClassClearBtn();
+  renderList();
+});
+
+function titleCase(s) {
+  return s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+function fmtMoney(n) {
+  if (n >= 1000) return '$' + (n/1000).toFixed(n % 1000 === 0 ? 0 : 1) + 'k';
+  return '$' + Math.round(n).toLocaleString();
+}
+function fmtMoneyFull(n) { return '$' + Math.round(n).toLocaleString(); }
+
+// ── Drug list rendering ──────────────────────────────────────────────────────
+function renderList() {
+  const q = searchEl.value.toLowerCase().trim();
+  let filtered = drugs;
+  if (classTC1)    filtered = filtered.filter(d => d.tc1 === classTC1);
+  if (classTC1Sub) filtered = filtered.filter(d => d.tc1sub === classTC1Sub);
+  if (q)           filtered = filtered.filter(d => d.name.toLowerCase().includes(q));
+  const shown = filtered.slice(0, 150);
+
+  if (shown.length === 0) {
+    const reason = (classTC1 || classTC1Sub) ? 'this class and search' : 'your search';
+    listEl.innerHTML = `<div class="picker-empty">No drugs match ${reason}.</div>`;
+    return;
+  }
+
+  listEl.innerHTML = shown.map(d => {
+    const checked = selected.has(d.name);
+    return `<label class="drug-row ${checked ? 'checked' : ''}" data-name="${d.name}">
+      <input type="checkbox" ${checked ? 'checked' : ''}>
+      <span class="drug-row-name">${titleCase(d.name)}</span>
+      <span class="drug-row-fills">${d.fills.toLocaleString()} fills · ${d.n_patients.toLocaleString()} pts</span>
+    </label>`;
+  }).join('') + (filtered.length > shown.length
+    ? `<div class="picker-empty">+ ${filtered.length - shown.length} more — refine your search</div>` : '');
+
+  listEl.querySelectorAll('.drug-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = row.dataset.name;
+      if (selected.has(name)) selected.delete(name); else selected.add(name);
+      renderList();
+      renderChips();
+      renderAll();
+    });
+  });
+}
+
+function renderChips() {
+  if (selected.size === 0) {
+    chipRowEl.innerHTML = '<span class="picker-empty" style="padding:4px 0">Select one or more drugs above to see their payer and channel split.</span>';
+    return;
+  }
+  const chips = [...selected].map(name => `
+    <span class="chip" data-name="${name}">${titleCase(name)}<button aria-label="Remove">✕</button></span>
+  `).join('');
+  const clear = selected.size > 1 ? '<button class="chip-clear" id="chip-clear-btn">Clear all</button>' : '';
+  chipRowEl.innerHTML = chips + clear;
+
+  chipRowEl.querySelectorAll('.chip button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.closest('.chip').dataset.name;
+      selected.delete(name);
+      renderList(); renderChips(); renderAll();
+    });
+  });
+  const clearBtn = document.getElementById('chip-clear-btn');
+  if (clearBtn) clearBtn.addEventListener('click', () => {
+    selected.clear();
+    renderList(); renderChips(); renderAll();
+  });
+}
+
+searchEl.addEventListener('input', renderList);
+
+// ── Aggregate selected drugs ─────────────────────────────────────────────────
+function aggregate() {
+  const sel = [...selected].map(n => byName.get(n)).filter(Boolean);
+  const agg = {
+    n_drugs: sel.length,
+    fills: 0,
+    total_dollars: 0,
+    total_days: 0,
+    patientSet: new Set(),
+    payer: {},
+    channel: {},
+    form: {},
+  };
+  payerLabels.forEach(l => agg.payer[l] = { dollars: 0, attr_fills: 0, attr_days: 0 });
+  channelLabels.forEach(l => agg.channel[l] = { fills: 0, dollars: 0, days: 0 });
+
+  sel.forEach(d => {
+    agg.fills += d.fills;
+    agg.total_dollars += d.total_dollars;
+    agg.total_days += d.total_days;
+    d.patients.forEach(p => agg.patientSet.add(p));
+    payerLabels.forEach(l => {
+      const v = d.payer[l];
+      if (v) {
+        agg.payer[l].dollars += v.dollars;
+        agg.payer[l].attr_fills += v.attr_fills;
+        agg.payer[l].attr_days += v.attr_days;
+      }
+    });
+    channelLabels.forEach(l => {
+      const v = d.channel[l];
+      if (v) {
+        agg.channel[l].fills += v.fills;
+        agg.channel[l].dollars += v.dollars;
+        agg.channel[l].days += v.days || 0;
+      }
+    });
+    Object.entries(d.form || {}).forEach(([code, v]) => {
+      if (!agg.form[code]) agg.form[code] = { fills: 0, dollars: 0, days: 0 };
+      agg.form[code].fills += v.fills;
+      agg.form[code].dollars += v.dollars;
+      agg.form[code].days += v.days || 0;
+    });
+  });
+  return agg;
+}
+
+// ── KPI row ───────────────────────────────────────────────────────────────────
+function renderKPIs(agg) {
+  if (agg.n_drugs === 0) { kpiRowEl.innerHTML = ''; return; }
+  const nPatients = agg.patientSet.size;
+  const avgPerFill = agg.fills ? agg.total_dollars / agg.fills : 0;
+  kpiRowEl.innerHTML = `
+    <div class="kpi-card">
+      <span class="kpi-lbl">Drugs selected</span>
+      <span class="kpi-val">${agg.n_drugs}</span>
+      <span class="kpi-sub">of 532 in file</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-lbl">Fills</span>
+      <span class="kpi-val">${agg.fills.toLocaleString()}</span>
+      <span class="kpi-sub">prescription fills, 2023</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-lbl">Unique patients</span>
+      <span class="kpi-val">${nPatients.toLocaleString()}</span>
+      <span class="kpi-sub">${agg.n_drugs > 1 ? 'deduplicated across drugs' : ''}</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-lbl">Total expenditure</span>
+      <span class="kpi-val is-rose">${fmtMoney(agg.total_dollars)}</span>
+      <span class="kpi-sub">${fmtMoneyFull(agg.total_dollars)}</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-lbl">Avg cost / fill</span>
+      <span class="kpi-val">${fmtMoneyFull(avgPerFill)}</span>
+      <span class="kpi-sub">all payers combined</span>
+    </div>
+  `;
+}
+
+// ── Shared display helper ────────────────────────────────────────────────────
+// Payer uses proportional-attribution fields (attr_fills/attr_days); channel and
+// form use plain fields (fills/days) since each fill has exactly one of each.
+function metricDisp(val, mode, isAttributed) {
+  if (mode === 'dollars') return fmtMoneyFull(val);
+  if (mode === 'fills')   return (isAttributed ? val.toFixed(1) : Math.round(val).toLocaleString()) + ' fills';
+  return Math.round(val).toLocaleString() + ' days';
+}
+
+// ── Payer chart ───────────────────────────────────────────────────────────────
+function renderPayer(agg) {
+  if (agg.n_drugs === 0) { payerElm.innerHTML = '<div class="chart-empty">No drug selected.</div>'; return; }
+
+  const key = metricMode === 'dollars' ? 'dollars' : metricMode === 'fills' ? 'attr_fills' : 'attr_days';
+  const rows = payerLabels
+    .map(l => ({ label: l, val: agg.payer[l][key] }))
+    .filter(r => r.val > 0.005)
+    .sort((a, b) => b.val - a.val);
+
+  if (rows.length === 0) { payerElm.innerHTML = '<div class="chart-empty">No payer data for this selection.</div>'; return; }
+
+  const denom = rows.reduce((s, r) => s + r.val, 0);
+  const max = Math.max(...rows.map(r => r.val));
+
+  payerElm.innerHTML = rows.map(r => {
+    const pct = (r.val / denom * 100).toFixed(1);
+    return `<div class="bar-row">
+      <div class="bar-label">${r.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(r.val/max*100).toFixed(1)}%"></div></div>
+      <div class="bar-val"><strong>${metricDisp(r.val, metricMode, true)}</strong> · ${pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+document.querySelectorAll('.toggle-row .tog').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.toggle-row .tog').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    metricMode = btn.dataset.mode;
+    renderAll();
+  });
+});
+
+// ── Channel chart ─────────────────────────────────────────────────────────────
+function renderChannel(agg) {
+  if (agg.n_drugs === 0) { channelElm.innerHTML = '<div class="chart-empty">No drug selected.</div>'; return; }
+
+  const key = metricMode; // 'dollars' | 'fills' | 'days' — all plain fields on channel buckets
+  const rows = channelLabels
+    .map(l => ({ label: l, val: agg.channel[l][key], fills: agg.channel[l].fills, dollars: agg.channel[l].dollars }))
+    .filter(r => r.fills > 0)
+    .sort((a, b) => b.val - a.val);
+
+  if (rows.length === 0) { channelElm.innerHTML = '<div class="chart-empty">No channel data for this selection.</div>'; return; }
+
+  const denom = rows.reduce((s, r) => s + r.val, 0);
+  const max = Math.max(...rows.map(r => r.val));
+
+  channelElm.innerHTML = rows.map(r => {
+    const pct = (r.val / denom * 100).toFixed(1);
+    return `<div class="bar-row">
+      <div class="bar-label">${r.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(r.val/max*100).toFixed(1)}%"></div></div>
+      <div class="bar-val"><strong>${metricDisp(r.val, metricMode, false)}</strong> · ${pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Dosage form chart ──────────────────────────────────────────────────────────
+function renderForm(agg) {
+  if (agg.n_drugs === 0) { formElm.innerHTML = '<div class="chart-empty">No drug selected.</div>'; return; }
+
+  const key = metricMode;
+  const rows = Object.entries(agg.form)
+    .map(([code, v]) => ({ code, val: v[key], fills: v.fills }))
+    .filter(r => r.fills > 0)
+    .sort((a, b) => b.val - a.val)
+    .slice(0, 12);
+
+  if (rows.length === 0) { formElm.innerHTML = '<div class="chart-empty">No form data for this selection.</div>'; return; }
+
+  const denom = Object.values(agg.form).reduce((s, v) => s + v[key], 0);
+  const max = Math.max(...rows.map(r => r.val));
+
+  formElm.innerHTML = rows.map(r => {
+    const pct = (r.val / denom * 100).toFixed(1);
+    return `<div class="bar-row">
+      <div class="bar-label">${formDisplay(r.code)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(r.val/max*100).toFixed(1)}%"></div></div>
+      <div class="bar-val"><strong>${metricDisp(r.val, metricMode, false)}</strong> · ${pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAll() {
+  const agg = aggregate();
+  renderKPIs(agg);
+  renderPayer(agg);
+  renderChannel(agg);
+  renderForm(agg);
+}
+
+renderList();
+renderChips();
+renderAll();
+
+})();
+</script>

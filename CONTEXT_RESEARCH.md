@@ -1,7 +1,7 @@
 # Context — Research / Decoding (`/research`)
 
 > Part of si-lens.me project context. Read alongside `CONTEXT.md`.
-> Last updated: 2026-06-27 (session 83)
+> Last updated: 2026-07-13
 
 ## Gateway (`/research/index.astro`)
 
@@ -12,6 +12,7 @@ Two-column layout (s76): **Industry Analysis** (left) → `/research/industry` �
 - NSFG Individual Reports → `/nsfg-reports.html`
 - MEPS Explorer → `/research/meps`
 - MEPS Expenditure → `/research/meps-expenditure`
+- Drug Payer & Channel Explorer → `/research/meps-drugs`
 
 ---
 
@@ -241,6 +242,35 @@ Raw sources: `_data_sources/meps2023/` (gitignored). Generation: `gen_meps_data.
 ## MEPS PCSK9 Demo (`/meps-pcsk9-demo.html`)
 
 Proportional attribution payer split. Linked from `meps-reports.html`. Details in original build notes.
+
+**Known issue:** its "Pharmacy channel" legend labels don't match the official PHARTP1 codebook — e.g. what it
+calls "Clinic / provider office" (80 fills, $43,768) is actually code 4 "Drug store" per the codebook; the whole
+4-item legend is shifted. Not yet fixed (found while building the Drug Explorer below, which uses correct labels).
+
+---
+
+## MEPS Drug Payer & Channel Explorer (`/research/meps-drugs`)
+
+Astro page (full site nav), added session 2026-07-13. Search/multi-select across all 532 drugs in HC-248A;
+selections combine into one aggregated view (patient count deduplicated via ID-set union, not summed).
+
+**Data:** `public/data/meps_drug_payer_channel.json` (1.08MB) — one record per drug: 187,060 fills and 11,836
+patients after excluding missing/unimputed drug names; unique patient DUPERSID list; proportional payer attribution
+(dollars/attr_fills/attr_days, same method as PCSK9 demo); PHARTP1 channel breakdown (fills+dollars). Gen script:
+`_data_sources/meps2023/gen_drug_payer_channel.py`.
+
+**Official PHARTP1 labels used** (from `h248acb.pdf` codebook): Mail-order · In another store · In HMO/clinic/
+hospital · Drug store · Online. 5,215 fills with unimputed RXDRGNAM (-15/-9/-8/-7/-1) excluded from the drug list.
+Days excluded from day-metrics when RXDAYSUP is missing (-8/-7) or 999 ("taken as needed").
+
+**UI:** therapeutic class + subclass filters; search box + checkbox list (sorted by fills desc) → chips row → KPI
+row (drugs/fills/unique patients/total $/avg $ per fill) → payer bar chart (toggle dollars/fills/days) → channel
+bar chart → dosage-form chart. Default selection: top drug by fills (Atorvastatin).
+
+**RXFORM dosage-form chart:** uses best-effort labels in `meta.form_labels`; raw RXFORM code is always displayed
+next to the mapped label because AHRQ does not publish an official decode table for this free-text field.
+
+Linked from `/research` "Play with the Data" (card 04) and `meps-reports.html` (Prescribed Medicines group).
 
 ---
 
