@@ -80,20 +80,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
     <div class="glossary-grid metric-def-grid">
       <div class="glossary-item"><span class="glossary-term">Dollar amount</span><span class="glossary-desc">Total dollars in that bucket. For payer, this is already exclusive by construction — every dollar belongs to exactly one payer.</span></div>
-      <div class="glossary-item"><span class="glossary-term">Fills</span><span class="glossary-desc">Count of prescription fills. For channel and dosage form, a fill has exactly one value, so this is a plain count. For payer, a fill can be split across multiple payers (see "attributed" below).</span></div>
+      <div class="glossary-item"><span class="glossary-term">Fills</span><span class="glossary-desc">Count of prescription fills. For channel and dosage form, a fill has exactly one value, so this is a plain count. For payer, a fill can be split across multiple payers (see the red note under "Payer split" below).</span></div>
       <div class="glossary-item"><span class="glossary-term">Days supplied</span><span class="glossary-desc">Total days of medication supplied in that bucket, summed from RXDAYSUP across fills (excluding missing/non-numeric values).</span></div>
-    </div>
-    <div class="note">
-      <strong>"Attributed" fills/days (payer chart only).</strong> A single fill can be paid by more than one payer,
-      so payer fills/days use proportional attribution — split by each payer's dollar share. A fill where Medicare
-      pays 80% and the patient pays 20% counts as 0.8 fills for Medicare and 0.2 for the patient, so the three
-      metrics each sum to exactly 100% with no double-counting. Channel and dosage form don't need this — each
-      fill has exactly one channel and one form, so their fills/days are plain, whole-number sums.
     </div>
 
     <!-- Payer split -->
     <div class="sec-label">Payer split — proportional attribution</div>
     <div id="payer-chart" class="chart-wrap"></div>
+
+    <div class="attribution-flag">
+      <strong>⚠ Payer fills/days are attributed, not exact.</strong> A single fill can be paid by more than one
+      payer, so — unlike channel and dosage form, where every fill has exactly one value — payer fills/days use
+      proportional attribution: split by each payer's dollar share. A fill where Medicare pays 80% and the patient
+      pays 20% counts as 0.8 fills for Medicare and 0.2 for the patient, so the three metrics each sum to exactly
+      100% with no double-counting. The "Fills" / "Days supplied" toggle above is shared across all three charts,
+      but only here does it mean <em>attributed</em> fills/days.
+    </div>
 
     <div class="glossary-grid">
       <div class="glossary-item"><span class="glossary-term">Medicare</span><span class="glossary-desc">Federal health insurance for adults 65 and older. Also covers younger people with long-term disabilities (after 24 months on SSDI), end-stage renal disease (ESRD), or ALS.</span></div>
@@ -403,6 +405,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   background: rgba(0,0,0,0.05); border-radius: 3px; padding: 1px 6px; color: var(--ink);
 }
 .dedup-note { border-left: 3px solid var(--rose); background: rgba(193,125,157,0.05); }
+
+.attribution-flag {
+  font-family: var(--sans); font-size: 14.5px; color: var(--ink); line-height: 1.7;
+  background: rgba(220,38,38,0.06); border: 1.5px solid rgba(220,38,38,0.4);
+  border-radius: 4px; padding: 14px 17px; margin-top: 12px;
+}
+.attribution-flag strong { color: #dc2626; font-weight: 600; }
+.attribution-flag em { font-style: italic; color: #dc2626; }
 
 .source-note {
   font-family: var(--sans); font-size: 13px; font-weight: 300;
