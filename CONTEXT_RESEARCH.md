@@ -5,14 +5,16 @@
 
 ## Gateway (`/research/index.astro`)
 
-Two-column layout (s76): **Industry Analysis** (left) → `/research/industry` · **Play with the Data** (right) → 4 data project cards.
+Two-column layout (s76): **Industry Analysis** (left) → `/research/industry` · **Play with the Data** (right) → 2 data project cards.
 
 **Play with the Data cards:**
-- NSFG Explorer → `/research/data`
-- NSFG Individual Reports → `/nsfg-reports.html`
+- NSFG Explorer → `/research/data` (external: `2simbo.com/nsfg-explorer.html`)
 - MEPS Explorer → `/research/meps`
-- MEPS Expenditure → `/research/meps-expenditure`
-- Drug Payer & Channel Explorer → `/research/meps-drugs`
+
+**s84 change:** Deep-dive report pages (MEPS Expenditure, Drug Payer & Channel Explorer, individual NSFG/MEPS
+reports) are intentionally NOT cards on this gateway — they live one level down, under each explorer's "See all
+individual reports →" button (`/nsfg-reports.html`, `/meps-reports.html`). Decoding's top level only surfaces the
+two raw-data explorers.
 
 ---
 
@@ -270,7 +272,8 @@ bar chart → dosage-form chart. Default selection: top drug by fills (Atorvasta
 **RXFORM dosage-form chart:** uses best-effort labels in `meta.form_labels`; raw RXFORM code is always displayed
 next to the mapped label because AHRQ does not publish an official decode table for this free-text field.
 
-Linked from `/research` "Play with the Data" (card 04) and `meps-reports.html` (Prescribed Medicines group).
+Linked from `meps-reports.html` (Prescribed Medicines group) and `/research/meps`'s "See all individual reports →"
+button — NOT a card on the `/research` gateway (see s84 change above).
 
 ---
 
