@@ -198,6 +198,15 @@ user got confused by `REFPRS31`'s raw PID-number bar chart (see the raw/recode/c
    explorer's 18,640 (inscope, pre-weight-cut) vs. AHRQ's 18,463 (positive `PERWT23F`) — all explorer stats are
    unweighted respondent counts, not projected national totals.
 
+**Bilingual (added same session):** Full EN/ZH toggle, reusing the site's existing article-lang pattern
+(`html[data-lang="zh"]`, shared `localStorage` key `sisi-article-lang` — toggling here also affects hiking-guide
+articles and vice versa, by design). Gotcha: the global `.lang-en`/`.lang-zh` CSS rule force-sets `display:block`,
+which breaks any element that needs `grid`/`inline-block` when tagged directly with the lang class — hit this on
+`.glossary-grid` (needs `display:grid`) and `.cta-btn` (needs `display:inline-block`), fixed with page-scoped
+higher-specificity overrides (`html[data-lang="zh"] .glossary-grid.lang-zh { display:grid !important }`, same
+pattern for `.cta-btn`). Worth checking for the same issue if any future page puts lang classes directly on a
+flex/grid container instead of on an inner text span/wrapper.
+
 CTA button → `/research/meps`. Compact version of the Panel/Round explainer (`.cohort-note`) also added to the top
 of `meps.astro` itself, linking back to the full page.
 

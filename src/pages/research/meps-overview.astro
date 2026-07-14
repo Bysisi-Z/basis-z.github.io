@@ -8,20 +8,36 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <div class="ov-header">
       <a class="back-crumb" href="/research">← Decoding</a>
+
+      <div class="lang-bar" id="lang-switcher">
+        <button class="ls-btn ls-active" data-lang="en">EN</button>
+        <span class="ls-sep">/</span>
+        <button class="ls-btn" data-lang="zh">中文</button>
+      </div>
+
       <div class="ov-title-row">
-        <h1 class="ov-title">US MEPS Survey — <em>Survey Overview</em></h1>
+        <h1 class="ov-title">
+          <span class="lang-en">US MEPS Survey — <em>Survey Overview</em></span>
+          <span class="lang-zh">美国 MEPS 调查 — <em>概览</em></span>
+        </h1>
         <span class="ov-badge">HC-251 · 2023</span>
       </div>
-      <p class="ov-desc">
+      <p class="ov-desc lang-en">
         Before exploring 1,366 variables, a few minutes on where this data comes from and how it's collected —
         especially the <strong>Panel / Round</strong> design, since notation like "R3/1" or "REFPRS31" shows up
         throughout the explorer and doesn't mean anything without this context.
       </p>
+      <p class="ov-desc lang-zh">
+        在探索这 <strong>1,366</strong> 个变量之前，先花几分钟了解一下这份数据的来源和采集方式——尤其是
+        <strong>Panel（批次）/ Round（轮次）</strong>的设计，因为像 "R3/1" 或 "REFPRS31" 这样的记号会贯穿整个探索工具，
+        不了解背景的话根本看不懂。
+      </p>
     </div>
 
     <!-- 1. What is MEPS -->
-    <div class="sec-label">01 · What is MEPS</div>
-    <div class="prose">
+    <div class="sec-label lang-en">01 · What is MEPS</div>
+    <div class="sec-label lang-zh">01 · 什么是 MEPS</div>
+    <div class="prose lang-en">
       <p>
         The <strong>Medical Expenditure Panel Survey (MEPS)</strong> is run by the Agency for Healthcare Research
         and Quality (AHRQ) and has collected data every year since 1996. It produces the U.S. government's core
@@ -42,10 +58,29 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         demographics, income, health status, employment, insurance, and health care utilization/expenditure.
       </p>
     </div>
+    <div class="prose lang-zh">
+      <p>
+        <strong>医疗支出面板调查（Medical Expenditure Panel Survey，MEPS）</strong>由美国医疗保健研究与质量局
+        （AHRQ）负责运营，自1996年起每年持续采集数据。它是美国政府关于医疗使用、医疗支出、支付来源，以及非机构化
+        平民人口医疗保险覆盖情况的核心官方估计数据来源。
+      </p>
+      <p>
+        MEPS 由两个相互关联的部分组成。<strong>家庭部分（Household Component，HC）</strong>直接访谈一个具有全国
+        代表性的家庭样本——本探索工具里的所有数据都来自这里。<strong>医疗服务提供方部分（Medical Provider
+        Component，MPC）</strong>则单独联系 HC 受访者提到的药房、医生和医院，核实或补充家庭自己说不清楚的支付和
+        用药细节——它本身并不用来产出独立的全国估计，只是用来改善 HC 数据的质量。
+      </p>
+      <p>
+        本探索工具覆盖的是<strong>2023年度完整合并文件（Full-Year Consolidated File，HC-251）</strong>——每条记录
+        对应一个人，共 <strong>18,640</strong> 名符合调查范围的受访者，<strong>1,374</strong> 个变量，涵盖人口特征、
+        收入、健康状况、就业、保险以及医疗使用/支出等方面。
+      </p>
+    </div>
 
     <!-- 2. Panel & Round design -->
-    <div class="sec-label">02 · The Panel & Round design</div>
-    <div class="prose">
+    <div class="sec-label lang-en">02 · The Panel & Round design</div>
+    <div class="sec-label lang-zh">02 · Panel 与 Round 设计</div>
+    <div class="prose lang-en">
       <p>
         Each year AHRQ recruits a new <strong>Panel</strong> — a fresh cohort of roughly 15,000 households, drawn
         as a subsample of households that answered the prior year's National Health Interview Survey (NHIS). Every
@@ -59,12 +94,28 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <em>first half</em> of the next.
       </p>
     </div>
+    <div class="prose lang-zh">
+      <p>
+        AHRQ 每年都会招募一个新的 <strong>Panel（批次）</strong>——从上一年参加过全国健康访谈调查（NHIS）的家庭中
+        抽取约1.5万户，组成新的样本群体。批次内的每户家庭之后会被访谈<strong>5次（称为 "Round/轮次"）</strong>，
+        每次间隔约5个月，整个过程跨度约2.5个日历年，所以每个批次的数据采集都会横跨两个日历年。
+      </p>
+      <p>
+        由于新批次每年都会启动，而上一个批次的5轮访谈还没走完，所以<strong>任何时候都同时有两个批次在进行</strong>，
+        彼此错开大约一年。任何单一日历年的数据——比如2023年——都是由一个批次的<em>后半段</em>和下一个批次的
+        <em>前半段</em>拼接而成的。
+      </p>
+    </div>
 
     <div class="timeline-card">
-      <div class="timeline-caption">2023 data = Panel 27's later rounds + Panel 28's earlier rounds — the same 3 time slots, from two different panels</div>
+      <div class="timeline-caption lang-en">2023 data = Panel 27's later rounds + Panel 28's earlier rounds — the same 3 time slots, from two different panels</div>
+      <div class="timeline-caption lang-zh">2023年数据 = Panel 27 的后几轮 + Panel 28 的前几轮 —— 来自两个不同批次的同一组时间段</div>
       <div class="timeline">
         <div class="tl-row">
-          <div class="tl-label">Panel 27 <span>(started 2022)</span></div>
+          <div class="tl-label">
+            <span class="lang-en">Panel 27 <span class="tl-sub">(started 2022)</span></span>
+            <span class="lang-zh">Panel 27 <span class="tl-sub">（2022年启动）</span></span>
+          </div>
           <div class="tl-track tl-track-5">
             <div class="tl-bar tl-gray">R1</div>
             <div class="tl-bar tl-gray">R2</div>
@@ -74,7 +125,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           </div>
         </div>
         <div class="tl-row">
-          <div class="tl-label">Panel 28 <span>(started 2023)</span></div>
+          <div class="tl-label">
+            <span class="lang-en">Panel 28 <span class="tl-sub">(started 2023)</span></span>
+            <span class="lang-zh">Panel 28 <span class="tl-sub">（2023年启动）</span></span>
+          </div>
           <div class="tl-track tl-track-5">
             <div class="tl-bar tl-empty"></div>
             <div class="tl-bar tl-empty"></div>
@@ -94,11 +148,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           </div>
         </div>
       </div>
-      <div class="timeline-legend"><span class="tl-dot tl-2023-dot"></span> Rounds contributing to the 2023 Consolidated file (HC-251) used in this explorer</div>
-      <div class="timeline-note">Simplified — slots are sequential ~5-month interview waves, not drawn to exact calendar scale.</div>
+      <div class="timeline-legend">
+        <span class="tl-dot tl-2023-dot"></span>
+        <span class="lang-en">Rounds contributing to the 2023 Consolidated file (HC-251) used in this explorer</span>
+        <span class="lang-zh">对本探索工具所用2023年合并文件（HC-251）有贡献的轮次</span>
+      </div>
+      <div class="timeline-note lang-en">Simplified — slots are sequential ~5-month interview waves, not drawn to exact calendar scale.</div>
+      <div class="timeline-note lang-zh">示意简化图——各格代表约5个月一次的访谈波次，未按精确日历比例绘制。</div>
     </div>
 
-    <div class="prose">
+    <div class="prose lang-en">
       <p>
         That's the whole trick behind the "R3/1", "R4/2", "R5/3" notation and variable suffixes like
         <code>REFPRS31</code>: the first digit is Panel 27's round number, the second is Panel 28's round number
@@ -112,10 +171,24 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf →</a>
       </p>
     </div>
+    <div class="prose lang-zh">
+      <p>
+        "R3/1"、"R4/2"、"R5/3" 这种记号，以及像 <code>REFPRS31</code> 这样的变量后缀，秘密就在这里：第一位数字是
+        Panel 27 的轮次号，第二位是<em>同一时间窗口</em>里 Panel 28 的轮次号——Panel 27 的第3轮和 Panel 28 的第1轮
+        是同时进行的，所以合称 "R3/1"（变量后缀 <code>31</code>）。同理 R4/2 → <code>42</code>，R5/3 →
+        <code>53</code>。如果变量结尾是单纯的 <code>23</code>（没有轮次配对），代表"截至2023年12月31日的状态"，
+        具体取哪一轮的数据取决于这个人当时所处的轮次。
+      </p>
+      <p class="citation">资料来源：AHRQ《2023年 MEPS HC-251 年度合并文件》官方文档 §B/C 1.0–2.4，及
+        "MEPS Panel Design: Data Reference Periods" 图表（第 C-2 页）。
+        <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf →</a>
+      </p>
+    </div>
 
     <!-- 3. Data collection -->
-    <div class="sec-label">03 · How the data is collected</div>
-    <div class="prose">
+    <div class="sec-label lang-en">03 · How the data is collected</div>
+    <div class="sec-label lang-zh">03 · 数据是怎么采集的</div>
+    <div class="prose lang-en">
       <p>
         Each household has <strong>one respondent</strong> — usually the person most knowledgeable about the
         family's health and health care — who answers for everyone in the household across all 5 rounds, via
@@ -123,7 +196,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         repeatedly in the "Survey Administration" variables:
       </p>
     </div>
-    <div class="glossary-grid">
+    <div class="prose lang-zh">
+      <p>
+        每户家庭都有一位<strong>受访者（respondent）</strong>——通常是家里对健康和医疗情况最了解的人——在全部5轮
+        访谈中代表全家作答，访谈方式是计算机辅助面对面访谈（CAPI）。AHRQ 在 "Survey Administration" 这组变量里
+        反复区分了几种受访者角色：
+      </p>
+    </div>
+    <div class="glossary-grid lang-en">
       <div class="glossary-item"><span class="glossary-term">Reference person</span><span class="glossary-desc">The household member 16+ who owns or rents the home — the anchor identity for the household, not necessarily who answered the interview.</span></div>
       <div class="glossary-item"><span class="glossary-term">Respondent</span><span class="glossary-desc">Whoever actually answered the interview questions for the household that round. Usually one consistent person, but can change.</span></div>
       <div class="glossary-item"><span class="glossary-term">Proxy</span><span class="glossary-desc">A non-household-member who answered on the household's behalf (e.g. a caregiver), when no household member could.</span></div>
@@ -131,23 +211,44 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <div class="glossary-item"><span class="glossary-term">In scope</span><span class="glossary-desc">A person counts toward national estimates only while they're part of the U.S. civilian noninstitutionalized population — someone who enters an institution, joins the military, or dies mid-year is only "in scope" for part of the year.</span></div>
       <div class="glossary-item"><span class="glossary-term">Variable name suffix "23"</span><span class="glossary-desc">Status "as of December 31, 2023" — built from whichever round's data applies, not a 6th round of its own.</span></div>
     </div>
+    <div class="glossary-grid lang-zh">
+      <div class="glossary-item"><span class="glossary-term">Reference person（户主/参照人）</span><span class="glossary-desc">家庭中16岁及以上、拥有或租住这套住房的成员——是这户家庭的身份"锚点"，不一定是实际回答访谈的人。</span></div>
+      <div class="glossary-item"><span class="glossary-term">Respondent（受访者）</span><span class="glossary-desc">该轮访谈中实际回答问题的人。通常各轮保持同一个人，但也可能变化。</span></div>
+      <div class="glossary-item"><span class="glossary-term">Proxy（代答人）</span><span class="glossary-desc">当家庭内没有人能够作答时，代为回答的非家庭成员（比如护理人员）。</span></div>
+      <div class="glossary-item"><span class="glossary-term">RU（申报单位）</span><span class="glossary-desc">MEPS 用来做访谈操作的分组单位，指因血缘/婚姻/收养关系而同住的一群人——是被访谈的单位，分析时的"家庭（family）"概念不一定和它完全一致。</span></div>
+      <div class="glossary-item"><span class="glossary-term">In scope（调查范围内）</span><span class="glossary-desc">只有当一个人属于"美国非机构化平民人口"时，才会被计入全国估计——如果某人在年中住进机构、参军或去世，他就只在部分时间段内"在调查范围内"。</span></div>
+      <div class="glossary-item"><span class="glossary-term">变量后缀 "23"</span><span class="glossary-desc">"截至2023年12月31日"的状态——由适用的那一轮数据构建而成，并不是单独的"第6轮"。</span></div>
+    </div>
 
     <!-- 4. Sample size & weighting -->
-    <div class="sec-label">04 · Sample size & weighting</div>
-    <div class="prose">
+    <div class="sec-label lang-en">04 · Sample size & weighting</div>
+    <div class="sec-label lang-zh">04 · 样本量与加权</div>
+    <div class="prose lang-en">
       <p>
         Because MEPS panels overlap and each cohort shrinks a little every round (nonresponse, dropout, people
         moving out of scope), the number of people represented in a given calendar year's file declines across
         panels. AHRQ's own reference table for this file:
       </p>
     </div>
-    <div class="sample-table">
+    <div class="prose lang-zh">
+      <p>
+        由于 MEPS 的批次是交叠进行的，且每一轮都会有一定程度的样本流失（拒访、退出、脱离调查范围等），所以随着批次
+        推进，某个日历年文件所代表的人数会逐渐减少。以下是 AHRQ 官方给出的参考数据：
+      </p>
+    </div>
+    <div class="sample-table lang-en">
       <div class="sample-row sample-head"><span>Year</span><span>Sample (N)</span></div>
       <div class="sample-row"><span>2021</span><span>27,332</span></div>
       <div class="sample-row"><span>2022</span><span>21,747</span></div>
       <div class="sample-row"><span>2023</span><span>18,463</span></div>
     </div>
-    <div class="prose">
+    <div class="sample-table lang-zh">
+      <div class="sample-row sample-head"><span>年份</span><span>样本量（N）</span></div>
+      <div class="sample-row"><span>2021</span><span>27,332</span></div>
+      <div class="sample-row"><span>2022</span><span>21,747</span></div>
+      <div class="sample-row"><span>2023</span><span>18,463</span></div>
+    </div>
+    <div class="prose lang-en">
       <p>
         This explorer's <strong>18,640</strong> figure is the inscope-respondent count before the final
         person-weight cut; <strong>18,463</strong> of those have a positive final weight
@@ -158,8 +259,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       </p>
       <p class="citation">Source: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §C 2.0.</p>
     </div>
+    <div class="prose lang-zh">
+      <p>
+        本探索工具里的 <strong>18,640</strong> 这个数字，是在做最终人物权重筛选之前的"调查范围内受访者"计数；其中
+        <strong>18,463</strong> 人拥有正的最终权重（<code>PERWT23F</code>），这是 AHRQ 官方建议用来做全美人口层面
+        估计的样本集合。本探索工具里的所有统计都是<strong>未加权</strong>的——是原始受访者计数，不是推算出的全国
+        总量。加权的存在正是为了修正批次设计里不均匀的抽样和无应答问题，所以这里出现的任何百分比，都应该理解为
+        "受访者中的占比"，而不是"美国全体人口中的占比"。
+      </p>
+      <p class="citation">资料来源：<a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §C 2.0。</p>
+    </div>
 
-    <a href="/research/meps" class="cta-btn">Enter the Explorer →</a>
+    <a href="/research/meps" class="cta-btn lang-en">Enter the Explorer →</a>
+    <a href="/research/meps" class="cta-btn lang-zh">进入探索工具 →</a>
 
   </div>
 
@@ -170,7 +282,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   max-width: 900px; margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 60px) 100px;
 }
-.ov-header { padding: 36px 0 24px; }
+.ov-header { padding: 36px 0 24px; position: relative; }
+.lang-bar {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 6px; margin-bottom: 10px;
+}
+.ls-btn {
+  font-family: var(--sans); font-size: 13px; font-weight: 400;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  background: none; border: none; cursor: pointer;
+  color: var(--stone); padding: 0;
+  transition: color 0.18s;
+}
+.ls-btn:hover { color: var(--ink); }
+.ls-btn.ls-active { color: var(--rose); font-weight: 600; }
+.ls-sep { font-size: 11px; color: var(--rule); }
+
 .ov-title-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
 .ov-title {
   font-family: var(--serif); font-size: clamp(26px, 2.8vw, 36px);
@@ -229,7 +356,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--ink);
   width: 130px; flex-shrink: 0; line-height: 1.3;
 }
-.tl-label span { display: block; font-size: 11px; font-weight: 300; color: var(--stone); }
+.tl-sub { display: block; font-size: 11px; font-weight: 300; color: var(--stone); }
 .tl-track-5 { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
 .tl-bar {
   height: 34px; border-radius: 4px;
@@ -290,4 +417,31 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   text-decoration: none; transition: opacity 0.15s;
 }
 .cta-btn:hover { opacity: 0.85; }
+
+/* The global .lang-zh/.lang-en rule forces display:block — override back to this
+   page's intended display mode for the two elements that need grid/inline-block. */
+html[data-lang="zh"] .glossary-grid.lang-zh { display: grid !important; }
+html[data-lang="zh"] .cta-btn.lang-zh { display: inline-block !important; }
 </style>
+
+<script>
+{
+  const switcher = document.getElementById('lang-switcher');
+  if (switcher) {
+    const btns = switcher.querySelectorAll('.ls-btn');
+    const saved = localStorage.getItem('sisi-article-lang') || 'en';
+    if (saved !== 'en') {
+      document.documentElement.dataset.lang = saved;
+      btns.forEach(b => b.classList.toggle('ls-active', (b as HTMLElement).dataset.lang === saved));
+    }
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = (btn as HTMLElement).dataset.lang!;
+        document.documentElement.dataset.lang = lang;
+        localStorage.setItem('sisi-article-lang', lang);
+        btns.forEach(b => b.classList.toggle('ls-active', b === btn));
+      });
+    });
+  }
+}
+</script>
