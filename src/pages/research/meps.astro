@@ -23,7 +23,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <div class="explorer-wrap">
 
     <div class="meps-header">
-      <a class="back-crumb" href="/research">← Decoding</a>
+      <a class="back-crumb" href="/research/meps-overview">← MEPS Survey Overview</a>
       <div class="meps-title-row">
         <h1 class="meps-title">US MEPS Survey — <em>2023</em></h1>
         <span class="meps-badge">HC-251</span>
@@ -31,6 +31,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <p class="meps-desc">
         The Medical Expenditure Panel Survey (MEPS), conducted by AHRQ since 1996, collects nationally representative data on healthcare use, costs, and insurance coverage in the US. This explorer covers the 2023 Full-Year Consolidated file — <strong>18,640</strong> inscope respondents, <strong>1,368</strong> variables across 25 topic sections.
       </p>
+      <div class="cohort-note">
+        <strong>New to the Panel/Round notation?</strong> Variable suffixes like <code>31</code>/<code>42</code>/<code>53</code>
+        (e.g. <code>REFPRS31</code>) mean "Round 3 of Panel 27 = Round 1 of Panel 28" — MEPS runs two overlapping
+        annual cohorts at once, so any calendar year's data is stitched from two concurrent panels' rounds. Plain
+        <code>23</code> means "status as of 12/31/2023."
+        <a href="/research/meps-overview">Full explanation, with timeline →</a>
+      </div>
       <a href="/meps-reports.html" class="meps-reports-btn">See all individual reports →</a>
     </div>
 
@@ -158,6 +165,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   color: var(--stone); line-height: 1.75; max-width: 760px; margin: 0;
 }
 .meps-desc strong { font-weight: 400; color: var(--ink); }
+.cohort-note {
+  font-family: var(--sans); font-size: 14px; font-weight: 300;
+  color: var(--stone); line-height: 1.7; max-width: 760px;
+  margin-top: 14px; padding: 12px 16px;
+  background: rgba(193,125,157,0.06); border-left: 3px solid var(--rose); border-radius: 3px;
+}
+.cohort-note strong { font-weight: 500; color: var(--ink); }
+.cohort-note code {
+  font-family: 'SF Mono', ui-monospace, monospace; font-size: 12.5px;
+  background: rgba(0,0,0,0.05); border-radius: 3px; padding: 1px 6px; color: var(--rose);
+}
+.cohort-note a { color: var(--rose); text-decoration: underline; margin-left: 2px; white-space: nowrap; }
+.cohort-note a:hover { color: var(--ink); }
 .meps-reports-btn {
   display: inline-block;
   margin-top: 16px;

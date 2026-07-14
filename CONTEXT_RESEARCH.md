@@ -9,7 +9,8 @@ Two-column layout (s76): **Industry Analysis** (left) → `/research/industry` �
 
 **Play with the Data cards:**
 - NSFG Explorer → `/research/data` (external: `2simbo.com/nsfg-explorer.html`)
-- MEPS Explorer → `/research/meps`
+- MEPS Explorer → `/research/meps-overview` (s84: gateway now links to the new overview page, not straight to
+  `/research/meps` — see "MEPS Survey Overview" below)
 
 **s84 change:** Deep-dive report pages (MEPS Expenditure, Drug Payer & Channel Explorer, individual NSFG/MEPS
 reports) are intentionally NOT cards on this gateway — they live one level down, under each explorer's "See all
@@ -174,6 +175,31 @@ Focus: pill (3), IUD (19), implant (9), ring (26) by age group across METHX cale
 **Generation scripts:** `~/Downloads/gen_method_age_with_active.py` (both cycles, includes `pa` and `n_active`).
 
 ---
+
+## MEPS Survey Overview (`/research/meps-overview`)
+
+New page (s84, 2026-07-14), inserted between the Decoding gateway and the explorer: `/research` → **Overview** →
+`/research/meps` (explorer's back-crumb now points here, not straight to Decoding). Built because the Panel/Round
+notation (`R3/1`, `REFPRS31`, etc.) that permeates the explorer is meaningless without context — surfaced when the
+user got confused by `REFPRS31`'s raw PID-number bar chart (see the raw/recode/computed work above).
+
+4 sections, all cited to `h251doc.pdf`:
+1. **What is MEPS** — AHRQ, since 1996; Household Component (HC, source for this explorer) vs. Medical Provider
+   Component (MPC, verification-only, no independent estimates).
+2. **The Panel & Round design** — a Panel = ~15,000 households sampled from the prior year's NHIS, each
+   interviewed 5 Rounds ~5 months apart over ~2.5 years. Two panels always run concurrently offset by a year, so
+   any calendar year's file = one panel's later rounds + the next panel's earlier rounds. Custom 5-slot timeline
+   diagram (`.timeline-card`) shows Panel 27 R3/R4/R5 aligned vertically with Panel 28 R1/R2/R3, with "R3/1" /
+   "R4/2" / "R5/3" pairing labels directly underneath — deliberately simplified (not to calendar scale) after an
+   earlier proportional-width version rendered as an unreadable overlapping mess.
+3. **How the data is collected** — CAPI, one respondent per household; glossary grid for Reference person /
+   Respondent / Proxy / RU / In scope / suffix "23".
+4. **Sample size & weighting** — AHRQ's own N funnel (2021: 27,332 → 2022: 21,747 → 2023: 18,463); clarifies this
+   explorer's 18,640 (inscope, pre-weight-cut) vs. AHRQ's 18,463 (positive `PERWT23F`) — all explorer stats are
+   unweighted respondent counts, not projected national totals.
+
+CTA button → `/research/meps`. Compact version of the Panel/Round explainer (`.cohort-note`) also added to the top
+of `meps.astro` itself, linking back to the full page.
 
 ## MEPS Explorer (`/research/meps`)
 

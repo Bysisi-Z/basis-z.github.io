@@ -1,0 +1,293 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="US MEPS Survey — Survey Overview" description="What MEPS is, how it's collected, and what the Panel/Round notation (R3/1, R4/2, R5/3) means before diving into the data">
+
+  <div class="ov-wrap">
+
+    <div class="ov-header">
+      <a class="back-crumb" href="/research">← Decoding</a>
+      <div class="ov-title-row">
+        <h1 class="ov-title">US MEPS Survey — <em>Survey Overview</em></h1>
+        <span class="ov-badge">HC-251 · 2023</span>
+      </div>
+      <p class="ov-desc">
+        Before exploring 1,366 variables, a few minutes on where this data comes from and how it's collected —
+        especially the <strong>Panel / Round</strong> design, since notation like "R3/1" or "REFPRS31" shows up
+        throughout the explorer and doesn't mean anything without this context.
+      </p>
+    </div>
+
+    <!-- 1. What is MEPS -->
+    <div class="sec-label">01 · What is MEPS</div>
+    <div class="prose">
+      <p>
+        The <strong>Medical Expenditure Panel Survey (MEPS)</strong> is run by the Agency for Healthcare Research
+        and Quality (AHRQ) and has collected data every year since 1996. It produces the U.S. government's core
+        estimates of health care use, spending, sources of payment, and insurance coverage for the civilian
+        noninstitutionalized population.
+      </p>
+      <p>
+        MEPS has two linked parts. The <strong>Household Component (HC)</strong> interviews a nationally
+        representative sample of households directly — this is the source for everything in this explorer. The
+        <strong>Medical Provider Component (MPC)</strong> separately contacts the pharmacies, doctors, and
+        hospitals that HC respondents named, and verifies or fills in payment and drug details the household
+        couldn't accurately report themselves — it isn't designed to produce its own national estimates, just to
+        improve the HC data.
+      </p>
+      <p>
+        This explorer covers the <strong>2023 Full-Year Consolidated File (HC-251)</strong> — one person per
+        record, <strong>18,640</strong> inscope respondents, <strong>1,374</strong> variables spanning
+        demographics, income, health status, employment, insurance, and health care utilization/expenditure.
+      </p>
+    </div>
+
+    <!-- 2. Panel & Round design -->
+    <div class="sec-label">02 · The Panel & Round design</div>
+    <div class="prose">
+      <p>
+        Each year AHRQ recruits a new <strong>Panel</strong> — a fresh cohort of roughly 15,000 households, drawn
+        as a subsample of households that answered the prior year's National Health Interview Survey (NHIS). Every
+        household in a panel is then interviewed <strong>5 times ("Rounds")</strong> about 5 months apart, covering
+        roughly 2.5 calendar years total, so each panel's data collection straddles two calendar years.
+      </p>
+      <p>
+        Because a new panel starts every year while the previous one is still mid-way through its 5 rounds,
+        <strong>two panels are always running at once</strong>, offset by about a year. Any single calendar year's
+        data — like 2023 — is stitched together from the <em>second half</em> of one panel and the
+        <em>first half</em> of the next.
+      </p>
+    </div>
+
+    <div class="timeline-card">
+      <div class="timeline-caption">2023 data = Panel 27's later rounds + Panel 28's earlier rounds — the same 3 time slots, from two different panels</div>
+      <div class="timeline">
+        <div class="tl-row">
+          <div class="tl-label">Panel 27 <span>(started 2022)</span></div>
+          <div class="tl-track tl-track-5">
+            <div class="tl-bar tl-gray">R1</div>
+            <div class="tl-bar tl-gray">R2</div>
+            <div class="tl-bar tl-2023">R3</div>
+            <div class="tl-bar tl-2023">R4</div>
+            <div class="tl-bar tl-2023">R5</div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-label">Panel 28 <span>(started 2023)</span></div>
+          <div class="tl-track tl-track-5">
+            <div class="tl-bar tl-empty"></div>
+            <div class="tl-bar tl-empty"></div>
+            <div class="tl-bar tl-2023">R1</div>
+            <div class="tl-bar tl-2023">R2</div>
+            <div class="tl-bar tl-2023">R3</div>
+          </div>
+        </div>
+        <div class="tl-row tl-pair-row">
+          <div class="tl-label"></div>
+          <div class="tl-track tl-track-5">
+            <div class="tl-bar tl-pair-lbl"></div>
+            <div class="tl-bar tl-pair-lbl"></div>
+            <div class="tl-bar tl-pair-lbl">"R3/1"</div>
+            <div class="tl-bar tl-pair-lbl">"R4/2"</div>
+            <div class="tl-bar tl-pair-lbl">"R5/3"</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-legend"><span class="tl-dot tl-2023-dot"></span> Rounds contributing to the 2023 Consolidated file (HC-251) used in this explorer</div>
+      <div class="timeline-note">Simplified — slots are sequential ~5-month interview waves, not drawn to exact calendar scale.</div>
+    </div>
+
+    <div class="prose">
+      <p>
+        That's the whole trick behind the "R3/1", "R4/2", "R5/3" notation and variable suffixes like
+        <code>REFPRS31</code>: the first digit is Panel 27's round number, the second is Panel 28's round number
+        for that <em>same time window</em> — Round 3 of Panel 27 and Round 1 of Panel 28 happened concurrently, so
+        they're referred to together as "R3/1" (variable suffix <code>31</code>). Likewise R4/2 → <code>42</code>,
+        R5/3 → <code>53</code>. A variable ending in plain <code>23</code> (no round pairing) means "status as of
+        December 31, 2023," combining whichever round's data applies for that person.
+      </p>
+      <p class="citation">Source: AHRQ, <em>2023 MEPS HC-251 Full-Year Consolidated File</em> documentation, §B/C
+        1.0–2.4 and the "MEPS Panel Design: Data Reference Periods" chart (p. C-2).
+        <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf →</a>
+      </p>
+    </div>
+
+    <!-- 3. Data collection -->
+    <div class="sec-label">03 · How the data is collected</div>
+    <div class="prose">
+      <p>
+        Each household has <strong>one respondent</strong> — usually the person most knowledgeable about the
+        family's health and health care — who answers for everyone in the household across all 5 rounds, via
+        computer-assisted personal interviewing (CAPI). AHRQ distinguishes a few respondent roles that show up
+        repeatedly in the "Survey Administration" variables:
+      </p>
+    </div>
+    <div class="glossary-grid">
+      <div class="glossary-item"><span class="glossary-term">Reference person</span><span class="glossary-desc">The household member 16+ who owns or rents the home — the anchor identity for the household, not necessarily who answered the interview.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Respondent</span><span class="glossary-desc">Whoever actually answered the interview questions for the household that round. Usually one consistent person, but can change.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Proxy</span><span class="glossary-desc">A non-household-member who answered on the household's behalf (e.g. a caregiver), when no household member could.</span></div>
+      <div class="glossary-item"><span class="glossary-term">RU (Reporting Unit)</span><span class="glossary-desc">MEPS's operational grouping of people related by blood/marriage/adoption living together — the unit that gets interviewed, not always the same as "family" for analysis.</span></div>
+      <div class="glossary-item"><span class="glossary-term">In scope</span><span class="glossary-desc">A person counts toward national estimates only while they're part of the U.S. civilian noninstitutionalized population — someone who enters an institution, joins the military, or dies mid-year is only "in scope" for part of the year.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Variable name suffix "23"</span><span class="glossary-desc">Status "as of December 31, 2023" — built from whichever round's data applies, not a 6th round of its own.</span></div>
+    </div>
+
+    <!-- 4. Sample size & weighting -->
+    <div class="sec-label">04 · Sample size & weighting</div>
+    <div class="prose">
+      <p>
+        Because MEPS panels overlap and each cohort shrinks a little every round (nonresponse, dropout, people
+        moving out of scope), the number of people represented in a given calendar year's file declines across
+        panels. AHRQ's own reference table for this file:
+      </p>
+    </div>
+    <div class="sample-table">
+      <div class="sample-row sample-head"><span>Year</span><span>Sample (N)</span></div>
+      <div class="sample-row"><span>2021</span><span>27,332</span></div>
+      <div class="sample-row"><span>2022</span><span>21,747</span></div>
+      <div class="sample-row"><span>2023</span><span>18,463</span></div>
+    </div>
+    <div class="prose">
+      <p>
+        This explorer's <strong>18,640</strong> figure is the inscope-respondent count before the final
+        person-weight cut; <strong>18,463</strong> of those have a positive final weight
+        (<code>PERWT23F</code>) and are the set AHRQ says to use for U.S.-population-level estimates. All
+        statistics in this explorer are <strong>unweighted</strong> — raw respondent counts, not projected
+        national totals. Weighting exists specifically to correct for the panel design's uneven sampling and
+        non-response, so treat any percentage here as "share of respondents," not "share of the U.S. population."
+      </p>
+      <p class="citation">Source: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §C 2.0.</p>
+    </div>
+
+    <a href="/research/meps" class="cta-btn">Enter the Explorer →</a>
+
+  </div>
+
+</BaseLayout>
+
+<style is:global>
+.ov-wrap {
+  max-width: 900px; margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 60px) 100px;
+}
+.ov-header { padding: 36px 0 24px; }
+.ov-title-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
+.ov-title {
+  font-family: var(--serif); font-size: clamp(26px, 2.8vw, 36px);
+  font-weight: 300; line-height: 1.15; color: var(--ink); margin: 0;
+}
+.ov-title em { font-style: italic; color: var(--rose); }
+.ov-badge {
+  font-family: var(--sans); font-size: 11px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
+  border-radius: 3px; padding: 2px 8px;
+}
+.ov-desc {
+  font-family: var(--sans); font-size: clamp(16px, 1.6vw, 18px); font-weight: 300;
+  color: var(--stone); line-height: 1.75; margin: 0;
+}
+.ov-desc strong { font-weight: 400; color: var(--ink); }
+
+.sec-label {
+  font-family: var(--sans); font-size: 18px; font-weight: 700;
+  letter-spacing: 0.01em; color: var(--rose);
+  margin: 44px 0 14px;
+  padding: 8px 14px;
+  background: linear-gradient(to right, rgba(193,125,157,0.12), transparent 70%);
+  border-radius: 4px;
+}
+
+.prose p {
+  font-family: var(--sans); font-size: 16px; font-weight: 300;
+  color: var(--ink); line-height: 1.8; margin: 0 0 16px;
+}
+.prose strong { font-weight: 600; color: var(--ink); }
+.prose em { font-style: italic; }
+.prose code {
+  font-family: 'SF Mono', ui-monospace, monospace; font-size: 14px;
+  background: rgba(0,0,0,0.05); border-radius: 3px; padding: 1px 6px; color: var(--rose);
+}
+.prose .citation {
+  font-size: 13px; color: var(--stone); font-style: italic; margin-top: -4px;
+}
+.prose .citation a { color: var(--rose); text-decoration: underline; }
+.prose .citation a:hover { color: var(--ink); }
+
+/* ── Timeline diagram ──────────────────────────────────────────────────── */
+.timeline-card {
+  border: 1px solid var(--rule); border-radius: 8px; padding: 24px 26px 20px;
+  background: var(--bg); margin: 20px 0 24px;
+}
+.timeline-caption {
+  font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--ink);
+  margin-bottom: 18px;
+}
+.timeline { display: flex; flex-direction: column; gap: 8px; }
+.tl-row { display: flex; align-items: center; gap: 14px; }
+.tl-label {
+  font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--ink);
+  width: 130px; flex-shrink: 0; line-height: 1.3;
+}
+.tl-label span { display: block; font-size: 11px; font-weight: 300; color: var(--stone); }
+.tl-track-5 { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+.tl-bar {
+  height: 34px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--sans); font-size: 13px; font-weight: 600; color: #fff;
+}
+.tl-gray  { background: rgba(132,123,123,0.55); }
+.tl-2023  { background: var(--rose); }
+.tl-empty { background: transparent; }
+.tl-pair-row { margin-top: -2px; }
+.tl-pair-lbl {
+  height: auto; background: transparent; color: var(--rose);
+  font-size: 11px; font-weight: 500; font-style: italic;
+}
+.timeline-legend {
+  display: flex; align-items: center; gap: 8px; margin-top: 14px;
+  font-family: var(--sans); font-size: 12px; color: var(--stone);
+}
+.tl-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.tl-2023-dot { background: var(--rose); }
+.timeline-note {
+  font-family: var(--sans); font-size: 11px; font-style: italic; color: #a8a19d; margin-top: 8px;
+}
+
+/* ── Glossary ─────────────────────────────────────────────────────────── */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px 24px;
+  margin: 8px 0 8px;
+}
+.glossary-item { display: flex; flex-direction: column; gap: 4px; }
+.glossary-term { font-family: var(--sans); font-size: 15px; font-weight: 500; color: var(--ink); }
+.glossary-desc { font-family: var(--sans); font-size: 14px; font-weight: 300; color: var(--stone); line-height: 1.6; }
+
+/* ── Sample table ─────────────────────────────────────────────────────── */
+.sample-table {
+  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin: 8px 0 20px;
+}
+.sample-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  padding: 10px 18px; border-bottom: 1px solid var(--rule);
+  font-family: var(--sans); font-size: 14px; color: var(--ink);
+}
+.sample-row:last-child { border-bottom: none; }
+.sample-row span:last-child { text-align: right; font-weight: 500; }
+.sample-head {
+  background: rgba(0,0,0,0.02); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--stone); font-weight: 500;
+}
+.sample-head span:last-child { font-weight: 500; }
+
+/* ── CTA ──────────────────────────────────────────────────────────────── */
+.cta-btn {
+  display: inline-block; margin-top: 24px;
+  font-family: var(--sans); font-size: 15px; font-weight: 500; color: #fff;
+  background: var(--rose); padding: 14px 28px; border-radius: 6px;
+  text-decoration: none; transition: opacity 0.15s;
+}
+.cta-btn:hover { opacity: 0.85; }
+</style>
