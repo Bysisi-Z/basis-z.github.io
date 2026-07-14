@@ -194,9 +194,17 @@ user got confused by `REFPRS31`'s raw PID-number bar chart (see the raw/recode/c
    earlier proportional-width version rendered as an unreadable overlapping mess.
 3. **How the data is collected** — CAPI, one respondent per household; glossary grid for Reference person /
    Respondent / Proxy / RU / In scope / suffix "23".
-4. **Sample size & weighting** — AHRQ's own N funnel (2021: 27,332 → 2022: 21,747 → 2023: 18,463); clarifies this
-   explorer's 18,640 (inscope, pre-weight-cut) vs. AHRQ's 18,463 (positive `PERWT23F`) — all explorer stats are
-   unweighted respondent counts, not projected national totals.
+4. **Sample size & weighting** — full household→RU→person funnel from AHRQ's Table 19 (§3.2): Panel 27 sampled
+   9,700 households / Panel 28 sampled 9,800 (§3.1.1, corrected an earlier draft that used the generic historical
+   "~15,000 households" line from §B 1.0 — that figure describes the whole 1996–2023 program in general and
+   doesn't match either panel behind this specific file; removed rather than left unreconciled). Funnel table
+   shows each round's completions down to 9,405 total completing households (4,262 P27 + 5,143 P28, response rate
+   26.1% = 24.1%×0.40 + 27.4%×0.60), then the RU→person step (9,405 households → 18,463 person-weighted
+   respondents, ~1.96 people/household) that explains why the final person count lands close to the household
+   counts rather than far above them. Separately cites AHRQ's own pandemic-response-rate-decline explanation
+   (§3.1.2) for the 2021→2023 N decline (27,332→21,747→18,463) instead of a generic "cohorts shrink a little"
+   hand-wave. Clarifies this explorer's 18,640 (inscope, pre-weight-cut) vs. AHRQ's 18,463 (positive `PERWT23F`).
+   All explorer stats are unweighted respondent counts, not projected national totals.
 
 **Bilingual (added same session):** Full EN/ZH toggle, reusing the site's existing article-lang pattern
 (`html[data-lang="zh"]`, shared `localStorage` key `sisi-article-lang` — toggling here also affects hiking-guide

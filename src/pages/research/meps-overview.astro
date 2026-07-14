@@ -110,29 +110,36 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <div class="sec-label lang-zh">02 · Panel 与 Round 设计</div>
     <div class="prose lang-en">
       <p>
-        Each year AHRQ recruits a new <strong>Panel</strong> — a fresh cohort of roughly 15,000 households, drawn
-        as a subsample of households that answered the prior year's National Health Interview Survey (NHIS). Every
-        household in a panel is then interviewed <strong>5 times ("Rounds")</strong> about 5 months apart, covering
-        roughly 2.5 calendar years total, so each panel's data collection straddles two calendar years.
+        Each year AHRQ recruits a new <strong>Panel</strong> — a fresh cohort of households, drawn as a subsample
+        of households that answered the prior year's National Health Interview Survey (NHIS). For the two panels
+        behind this file, Panel 27 sampled <strong>9,700</strong> households (from the 2021 NHIS) and Panel 28
+        sampled <strong>9,800</strong> households (from the 2022 NHIS). Every household in a panel is then
+        interviewed <strong>5 times ("Rounds")</strong> about 5 months apart, covering roughly 2.5 calendar years
+        total, so each panel's data collection straddles two calendar years.
       </p>
       <p>
         Because a new panel starts every year while the previous one is still mid-way through its 5 rounds,
         <strong>two panels are always running at once</strong>, offset by about a year. Any single calendar year's
         data — like 2023 — is stitched together from the <em>second half</em> of one panel and the
-        <em>first half</em> of the next.
+        <em>first half</em> of the next. §04 below walks through exactly how those ~19,500 sampled households turn
+        into this file's 18,463 final person-records.
       </p>
+      <p class="citation">Source: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §3.1.1, "Panel 27/28 Household Sample Size."</p>
     </div>
     <div class="prose lang-zh">
       <p>
         AHRQ 每年都会招募一个新的 <strong>Panel（批次）</strong>——从上一年参加过全国健康访谈调查（NHIS）的家庭中
-        抽取约1.5万户，组成新的样本群体。批次内的每户家庭之后会被访谈<strong>5次（称为 "Round/轮次"）</strong>，
-        每次间隔约5个月，整个过程跨度约2.5个日历年，所以每个批次的数据采集都会横跨两个日历年。
+        抽取子样本组成。本文件背后的两个批次里，Panel 27 从2021年 NHIS 中抽了 <strong>9,700</strong> 户，Panel 28
+        从2022年 NHIS 中抽了 <strong>9,800</strong> 户。批次内的每户家庭之后会被访谈<strong>5次（称为
+        "Round/轮次"）</strong>，每次间隔约5个月，整个过程跨度约2.5个日历年，所以每个批次的数据采集都会横跨两个
+        日历年。
       </p>
       <p>
         由于新批次每年都会启动，而上一个批次的5轮访谈还没走完，所以<strong>任何时候都同时有两个批次在进行</strong>，
         彼此错开大约一年。任何单一日历年的数据——比如2023年——都是由一个批次的<em>后半段</em>和下一个批次的
-        <em>前半段</em>拼接而成的。
+        <em>前半段</em>拼接而成的。这约19,500户抽样家庭具体是怎么变成本文件最终18,463条人物记录的，见下面第04节。
       </p>
+      <p class="citation">资料来源：<a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §3.1.1，"Panel 27/28 Household Sample Size"。</p>
     </div>
 
     <div class="timeline-card">
@@ -253,17 +260,89 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <div class="sec-label lang-zh">04 · 样本量与加权</div>
     <div class="prose lang-en">
       <p>
-        Because MEPS panels overlap and each cohort shrinks a little every round (nonresponse, dropout, people
-        moving out of scope), the number of people represented in a given calendar year's file declines across
-        panels. AHRQ's own reference table for this file:
+        Combining two panels means combining two separate response funnels — households sampled, then whittled
+        down round by round as some don't respond. AHRQ's Table 19 gives the exact 2023 numbers:
       </p>
     </div>
     <div class="prose lang-zh">
       <p>
-        由于 MEPS 的批次是交叠进行的，且每一轮都会有一定程度的样本流失（拒访、退出、脱离调查范围等），所以随着批次
-        推进，某个日历年文件所代表的人数会逐渐减少。以下是 AHRQ 官方给出的参考数据：
+        合并两个批次，意味着要合并两条各自独立的应答漏斗——先抽样出户数，再逐轮因为无应答而递减。AHRQ 官方
+        Table 19 给出了2023年的精确数字：
       </p>
     </div>
+
+    <div class="funnel-table lang-en">
+      <div class="funnel-row funnel-head"><span>Stage</span><span>Panel 27</span><span>Panel 28</span></div>
+      <div class="funnel-row"><span>Sampled from NHIS</span><span>9,700</span><span>9,800</span></div>
+      <div class="funnel-row"><span>Fielded for MEPS</span><span>9,694</span><span>9,774</span></div>
+      <div class="funnel-row"><span>Round 1 completed</span><span>6,158</span><span>6,527</span></div>
+      <div class="funnel-row"><span>Round 2 completed</span><span>5,368</span><span>5,766</span></div>
+      <div class="funnel-row"><span>Round 3 completed</span><span>4,818</span><span>5,143 <em>(final round needed)</em></span></div>
+      <div class="funnel-row"><span>Round 4 completed</span><span>4,509</span><span>—</span></div>
+      <div class="funnel-row funnel-final"><span>Round 5 completed <em>(final round needed)</em></span><span>4,262</span><span>—</span></div>
+    </div>
+    <div class="funnel-table lang-zh">
+      <div class="funnel-row funnel-head"><span>阶段</span><span>Panel 27</span><span>Panel 28</span></div>
+      <div class="funnel-row"><span>NHIS 抽样户数</span><span>9,700</span><span>9,800</span></div>
+      <div class="funnel-row"><span>实际投入 MEPS 户数</span><span>9,694</span><span>9,774</span></div>
+      <div class="funnel-row"><span>第1轮完成</span><span>6,158</span><span>6,527</span></div>
+      <div class="funnel-row"><span>第2轮完成</span><span>5,368</span><span>5,766</span></div>
+      <div class="funnel-row"><span>第3轮完成</span><span>4,818</span><span>5,143 <em>（所需最后一轮）</em></span></div>
+      <div class="funnel-row"><span>第4轮完成</span><span>4,509</span><span>—</span></div>
+      <div class="funnel-row funnel-final"><span>第5轮完成 <em>（所需最后一轮）</em></span><span>4,262</span><span>—</span></div>
+    </div>
+
+    <div class="prose lang-en">
+      <p>
+        <strong>4,262 + 5,143 = 9,405</strong> households (technically "Reporting Units," which can be more
+        granular than a physical household) completed every round required of them — an overall unweighted
+        <strong>response rate of 26.1%</strong> (Panel 27: 24.1%, Panel 28: 27.4%, combined by weighting them 0.40
+        / 0.60). From RU to person: those 9,405 completing households contained <strong>18,463</strong> people who
+        ended up with a positive final weight (<code>PERWT23F</code>) — averaging just under 2 people per
+        household, which is why the final person count lands close to the household counts above rather than far
+        above them.
+      </p>
+      <p class="citation">Source: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §3.2, Table 19.</p>
+    </div>
+    <div class="prose lang-zh">
+      <p>
+        <strong>4,262 + 5,143 = 9,405</strong> 户（严格来说是"申报单位 RU"，可能比物理意义上的一户更细）完成了各自
+        所需的全部轮次——整体未加权<strong>应答率为26.1%</strong>（Panel 27为24.1%，Panel 28为27.4%，按0.40/0.60
+        加权合并）。从 RU 到人：这9,405户完成访谈的家庭里，共有 <strong>18,463</strong> 人最终拥有正的权重
+        （<code>PERWT23F</code>）——平均每户略少于2人，这就是为什么最终的人数会落在和户数相近的量级，而不是远
+        高于户数。
+      </p>
+      <p class="citation">资料来源：<a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §3.2，Table 19。</p>
+    </div>
+
+    <div class="prose lang-en">
+      <p>
+        The year-over-year decline below isn't just "a different panel happened to be smaller" — AHRQ documents a
+        specific cause. In its own words: <em>"MEPS has been substantially affected by the pandemic... One effect
+        of the pandemic is the significantly lower response rates... analysts... should continue to exercise
+        caution when interpreting estimates and assessing analyses, especially for data collected from 2020
+        through 2022. This includes the comparison of such estimates to those of other years and corresponding
+        trend analyses."</em> AHRQ's sample design modifications made to compensate ended in 2022, but response
+        rates themselves haven't recovered to pre-pandemic levels — this is a broader trend across nearly all U.S.
+        government surveys in this period, not unique to MEPS.
+      </p>
+      <p class="citation">Source: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §3.1.2, "Discussion of Pandemic Effects on Quality of MEPS Data."</p>
+    </div>
+    <div class="prose lang-zh">
+      <p>
+        下面这个逐年下降的趋势，不只是"刚好换了个更小的批次"这么简单——AHRQ 自己记录了具体原因。原文是：
+        <em>"MEPS has been substantially affected by the pandemic... One effect of the pandemic is the
+        significantly lower response rates... analysts... should continue to exercise caution when interpreting
+        estimates and assessing analyses, especially for data collected from 2020 through 2022. This includes the
+        comparison of such estimates to those of other years and corresponding trend analyses."</em>
+        （"MEPS 受到疫情的显著影响……疫情带来的影响之一就是应答率明显走低……分析人员在解读估计值时应格外谨慎，
+        尤其是2020至2022年采集的数据……这也包括与其他年份做比较、做趋势分析的情况。"）AHRQ 为应对疫情做的抽样
+        设计调整在2022年就结束了，但应答率本身并没有恢复到疫情前的水平——这是同期几乎所有美国政府调查都遇到的
+        更普遍的趋势，并非 MEPS 独有。
+      </p>
+      <p class="citation">资料来源：<a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf</a> §3.1.2，"Discussion of Pandemic Effects on Quality of MEPS Data"。</p>
+    </div>
+
     <div class="sample-table lang-en">
       <div class="sample-row sample-head"><span>Year</span><span>Sample (N)</span></div>
       <div class="sample-row"><span>2021</span><span>27,332</span></div>
@@ -271,11 +350,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <div class="sample-row"><span>2023</span><span>18,463</span></div>
     </div>
     <div class="sample-table lang-zh">
-      <div class="sample-row sample-head"><span>年份</span><span>样本量（N）</span></div>
+      <div class="sample-row sample-head"><span>年份</span><span>样本量（N，人）</span></div>
       <div class="sample-row"><span>2021</span><span>27,332</span></div>
       <div class="sample-row"><span>2022</span><span>21,747</span></div>
       <div class="sample-row"><span>2023</span><span>18,463</span></div>
     </div>
+
     <div class="prose lang-en">
       <p>
         This explorer's <strong>18,640</strong> figure is the inscope-respondent count before the final
@@ -436,6 +516,27 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   text-transform: uppercase; color: var(--stone); font-weight: 500;
 }
 .sample-head span:last-child { font-weight: 500; }
+
+/* ── Funnel table ─────────────────────────────────────────────────────── */
+.funnel-table {
+  border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin: 8px 0 20px;
+}
+.funnel-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  padding: 9px 18px; border-bottom: 1px solid var(--rule);
+  font-family: var(--sans); font-size: 13.5px; color: var(--ink); gap: 8px;
+}
+.funnel-row:last-child { border-bottom: none; }
+.funnel-row span:not(:first-child) { text-align: right; font-weight: 500; }
+.funnel-row em { font-style: italic; font-weight: 300; color: var(--stone); font-size: 11.5px; }
+.funnel-head {
+  background: rgba(0,0,0,0.02); font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--stone); font-weight: 500;
+}
+.funnel-head span:not(:first-child) { font-weight: 500; }
+.funnel-final { background: rgba(193,125,157,0.07); }
+.funnel-final span:first-child { color: var(--rose); font-weight: 500; }
+.funnel-final span:not(:first-child) { color: var(--rose); font-weight: 700; }
 
 /* ── CTA ──────────────────────────────────────────────────────────────── */
 .cta-btn {
