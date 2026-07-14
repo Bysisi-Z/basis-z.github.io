@@ -49,6 +49,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
             </svg>
             <input id="var-search" type="search" placeholder="Search variables…" autocomplete="off" spellcheck="false">
           </div>
+          <div class="type-filter-row" id="type-filter-row">
+            <button class="type-chip active" data-type="all">All</button>
+            <button class="type-chip" data-type="raw">Raw</button>
+            <button class="type-chip" data-type="recode">Recode</button>
+            <button class="type-chip" data-type="computed">Computed</button>
+          </div>
           <div class="var-count-row">
             <span id="var-count" class="var-count"></span>
             <span id="loading-badge" class="loading-badge" hidden>Loading…</span>
@@ -216,6 +222,24 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 #var-search:focus { border-color: rgba(193,125,157,0.5); }
 #var-search::placeholder { color: var(--stone); }
+
+/* ── Type filter chips ────────────────────────────────────────────────────── */
+.type-filter-row {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.type-chip {
+  font-family: var(--sans); font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 2px;
+  border: 1px solid var(--rule);
+  background: transparent; color: var(--stone);
+  cursor: pointer; transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.type-chip:hover { border-color: var(--stone); color: var(--ink); }
+.type-chip.active { background: var(--rose); color: #fff; border-color: var(--rose); }
+
 .var-count-row {
   display: flex; align-items: center; gap: 8px;
   padding: 8px 16px 4px; flex-shrink: 0;
@@ -257,6 +281,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   color: #4a7fc1; border: 1px solid rgba(74,127,193,0.35);
   border-radius: 3px; padding: 1px 6px;
 }
+.var-item-type {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone);
+}
+.var-item-type.recode   { color: var(--rose); }
+.var-item-type.computed { color: #5a82a8; }
 .deepdive-hint {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   margin: 0 32px 0; padding: 14px 18px;
@@ -309,6 +339,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 .detail-varname {
   font-family: var(--sans); font-size: 11px; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose);
+}
+.type-badge {
+  font-family: var(--sans); font-size: 9px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 2px; border: 1px solid;
+}
+.type-badge.raw      { color: var(--stone); border-color: rgba(132,123,123,.4); }
+.type-badge.computed { color: #7a9abf;      border-color: rgba(122,154,191,.4); }
+.type-badge.recode   { color: var(--rose);  border-color: rgba(193,125,157,.35); }
+.type-badge.other    { color: var(--stone); border-color: var(--rule); }
+.source-cite {
+  font-family: var(--sans); font-size: 10px; font-weight: 300; color: #a8a19d;
+  margin-top: 3px;
 }
 .detail-stats-row {
   display: flex; gap: 24px; flex-wrap: wrap;
@@ -481,6 +524,7 @@ let currentGroup = null;
 let currentVar   = null;
 let filteredVars = [];
 let activeDim    = 'none'; // 'none' | 'age' | 'income'
+let activeTypeFilter = 'all'; // 'all' | 'raw' | 'recode' | 'computed'
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const selectEl      = document.getElementById('section-select');
@@ -490,6 +534,28 @@ const loadingEl     = document.getElementById('loading-badge');
 const searchEl      = document.getElementById('var-search');
 const detailEmpty   = document.getElementById('detail-empty');
 const detailContent = document.getElementById('detail-content');
+
+function matchesTypeFilter(v) {
+  if (activeTypeFilter === 'all') return true;
+  if (activeTypeFilter === 'raw') return v.variable_type === 'raw';
+  if (activeTypeFilter === 'recode') return v.variable_type === 'recode';
+  if (activeTypeFilter === 'computed') return (v.variable_type || '').startsWith('computed');
+}
+function typeClass(t) {
+  if (!t) return 'other';
+  if (t === 'raw') return 'raw';
+  if (t === 'recode') return 'recode';
+  if (t.startsWith('computed')) return 'computed';
+  return 'other';
+}
+document.querySelectorAll('#type-filter-row .type-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#type-filter-row .type-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTypeFilter = btn.dataset.type;
+    renderVarList(groupCache[currentGroup] || []);
+  });
+});
 
 async function fetchJSON(url) {
   const r = await fetch(url);
@@ -566,7 +632,7 @@ function renderVarList(vars) {
   if (query && META) {
     const results = [];
     META.variables.forEach(v => {
-      if (v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query)) {
+      if ((v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query)) && matchesTypeFilter(v)) {
         results.push(v);
       }
     });
@@ -583,8 +649,10 @@ function renderVarList(vars) {
     return;
   }
 
-  filteredVars = !query ? (vars || []) :
-    (vars || []).filter(v => v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query));
+  filteredVars = (vars || []).filter(v =>
+    (!query || v.name.toLowerCase().includes(query) || v.label.toLowerCase().includes(query)) &&
+    matchesTypeFilter(v)
+  );
   varCountEl.textContent = `${filteredVars.length} variable${filteredVars.length !== 1 ? 's' : ''}`;
 
   const frag = document.createDocumentFragment();
@@ -606,6 +674,7 @@ function makeVarItem(v, showGroup) {
     `<span class="var-item-label">${escHtml(v.label)}</span>` +
     `<span class="var-item-bottom">` +
       `<span class="var-item-name">${v.name}</span>` +
+      `<span class="var-item-type ${typeClass(v.variable_type)}">${v.variable_type || '—'}</span>` +
       (REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : '') +
     `</span>` +
     (showGroup ? `<span class="var-item-section">${escHtml(groupLabel(v.group))}</span>` : '');
@@ -690,8 +759,10 @@ function renderDetail(v) {
        <p class="detail-label-text">${escHtml(v.label)}</p>
        <div class="detail-name-row">
          <span class="detail-varname">${escHtml(v.name)}</span>
+         <span class="type-badge ${typeClass(v.variable_type)}">${escHtml(v.variable_type || '—')}</span>
          ${REPORT_VARS.has(v.name) ? `<span class="var-item-report">report</span>` : ''}
        </div>
+       ${v.source ? `<p class="source-cite">Source (AHRQ): ${escHtml(v.source)}</p>` : ''}
        <div class="detail-stats-row">
          <div class="detail-stat">
            <span class="detail-stat-val">${n_total.toLocaleString()}</span>

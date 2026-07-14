@@ -190,6 +190,35 @@ Focus: pill (3), IUD (19), implant (9), ring (26) by age group across METHX cale
 
 **Label fixes (s38):** Yes/No auto-applied to all {1,2}-only vars. -2 (prev round) and -10 (top coded) added to MISSING_VALS.
 
+**Raw/Recode/Computed filter (s84, 2026-07-14):** Mirrors the NSFG explorer's type-chip filter. Triggered by user
+confusion over `REFPRS31` (Survey Administration) showing raw PID numbers as a bar chart with no explanation.
+
+- Official source: AHRQ's own "Variable-Source Crosswalk" (Section D of `h251doc.pdf`) — classifies every variable
+  by how it was produced (specific question number, "CAPI Derived", "RE Section", "Constructed", "Assigned in
+  Sampling"). Extracted via `pdfplumber` table extraction (1095 rows after expanding 26 "mm"-wildcard monthly
+  insurance rows into their 12 concrete month variants) into
+  `_data_sources/meps2023/meps_source_crosswalk.json` (gitignored, regenerate from `h251doc.pdf` if needed).
+- ~287 payer/expenditure variables (`***23`/`***23X` family, e.g. `RXSLF23`) aren't individually listed in Section
+  D — AHRQ documents them via a naming-convention key (Appendix 3) instead and states elsewhere that all
+  expenditure variables are uniformly imputed/edited, so those are pattern-matched (regex on payer-suffix + 23/23X)
+  rather than crosswalk-matched. 100% coverage of the 1366 vars in the 25 live section files (927 computed / 406
+  raw / 33 recode) — verified zero unclassified.
+- Classification mapping (`classify_variable()` in `gen_meps_data.py`): "Constructed" or contains "Imputed" →
+  computed; "RE Section" (standalone/algorithmic) → computed; "CAPI Derived" → recode; "Assigned in Sampling" →
+  raw; specific question code(s) → raw, UNLESS the source text itself cites another (derived) variable — detected
+  via lowercase "mm"/"yy" placeholder letters, which never appear in real instrument item codes — in which case →
+  computed.
+- Each variable record gets `variable_type` (raw/recode/computed) + `source` (verbatim AHRQ text). UI: type-chip
+  filter (All/Raw/Recode/Computed, default **All** — unlike NSFG's default-Raw, since MEPS is majority-computed
+  and defaulting to Raw would hide most content) + per-item badge in the list + badge and source citation in the
+  detail panel.
+- Confirmed fix: `REFPRS31` now shows **raw**, source `RE480-RE500` — it's a directly-collected reenumeration item
+  (which household member is the reference person), not a meaningless ID; the confusing part was just that its
+  value space (101/102/103…) is a per-household relative position, not a nationally meaningful code.
+- 4 stale orphan files found during this work — `meps_utilization.json`, `meps_insurance.json`,
+  `meps_health_status.json`, `meps_expenditures.json` (June 7, coarser pre-25-section format) — not referenced
+  anywhere in `src/` or `public/*.html`; candidates for the existing `public/` cleanup pending item.
+
 ### Data files
 
 | File | Description |
