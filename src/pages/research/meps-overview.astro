@@ -53,6 +53,21 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         improve the HC data.
       </p>
       <p>
+        <strong>Sampled by household, recorded by person.</strong> The household is only the entry point: MEPS
+        samples <em>dwelling units</em> to reach people, but the single household respondent then answers
+        questions about <em>every household member individually</em> — this person's age, this person's insurance,
+        this person's doctor visits. Since the facts collected are inherently person-specific, AHRQ builds the
+        Consolidated PUF with one row per person, not one per household — a 4-person household contributes 4
+        person-records, all from the same interview. Household/family ID variables (<code>DUID</code>,
+        <code>FAMID23</code>, <code>RUSIZE23</code>, etc.) are still on the file, so you can roll person-records
+        back up to the family level if you need to.
+      </p>
+      <p class="citation">Source: AHRQ, <em>2023 MEPS HC-251 Full-Year Consolidated File</em> documentation, §B 1.0
+        ("All data for a sampled household are reported by a single household respondent... Data can be analyzed at
+        the person, the family, or the event level," p. B-1).
+        <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf →</a>
+      </p>
+      <p>
         This explorer covers the <strong>2023 Full-Year Consolidated File (HC-251)</strong> — one person per
         record, <strong>18,640</strong> inscope respondents, <strong>1,374</strong> variables spanning
         demographics, income, health status, employment, insurance, and health care utilization/expenditure.
@@ -69,6 +84,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         代表性的家庭样本——本探索工具里的所有数据都来自这里。<strong>医疗服务提供方部分（Medical Provider
         Component，MPC）</strong>则单独联系 HC 受访者提到的药房、医生和医院，核实或补充家庭自己说不清楚的支付和
         用药细节——它本身并不用来产出独立的全国估计，只是用来改善 HC 数据的质量。
+      </p>
+      <p>
+        <strong>按家庭抽样，按人记录。</strong>家庭只是"入口"：MEPS 抽样的单位是<em>住宅（dwelling unit）</em>，
+        目的是借此触达具体的人——但那位家庭受访者接下来要<em>逐个回答家里每一个成员</em>的具体情况：这个人的
+        年龄、这个人的保险、这个人的就医记录。因为采集到的事实天然就是"某个具体人"的事实，所以 AHRQ 最终建的
+        合并文件是一人一条记录，不是一户一条记录——一户4口之家会在文件里产生4条人物记录，全部来自同一次访谈。
+        文件里仍然保留了家庭/户的标识变量（<code>DUID</code>、<code>FAMID23</code>、<code>RUSIZE23</code> 等），
+        所以有需要的话依然可以把人物记录重新汇总回家庭层面。
+      </p>
+      <p class="citation">资料来源：AHRQ《2023年 MEPS HC-251 年度合并文件》官方文档 §B 1.0
+        （"All data for a sampled household are reported by a single household respondent... Data can be analyzed
+        at the person, the family, or the event level."，第 B-1 页）。
+        <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h251/h251doc.pdf" target="_blank" rel="noopener">h251doc.pdf →</a>
       </p>
       <p>
         本探索工具覆盖的是<strong>2023年度完整合并文件（Full-Year Consolidated File，HC-251）</strong>——每条记录
