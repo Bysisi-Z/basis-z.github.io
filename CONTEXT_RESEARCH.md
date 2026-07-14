@@ -269,8 +269,25 @@ Days excluded from day-metrics when RXDAYSUP is missing (-8/-7) or 999 ("taken a
 row (drugs/fills/unique patients/total $/avg $ per fill) → payer bar chart (toggle dollars/fills/days) → channel
 bar chart → dosage-form chart. Default selection: top drug by fills (Atorvastatin).
 
-**RXFORM dosage-form chart:** uses best-effort labels in `meta.form_labels`; raw RXFORM code is always displayed
-next to the mapped label because AHRQ does not publish an official decode table for this free-text field.
+**RXFORM dosage-form chart:** labels in `meta.form_labels` are the *official* AHRQ decode table (Appendix 1 of
+`h248adoc.pdf`, 558 codes), extracted via `pdfplumber` table extraction and saved locally as
+`_data_sources/meps2023/rxform_official.json` (gitignored, regenerate by re-running the extraction if needed).
+Codes AHRQ itself marks "no definition for the dosage form" (e.g. SOPN, SOAJ, PSKT, TBPK, C12A) render as `None` →
+raw code shown alone, not a guess.
+
+**Official sourcing (s84 follow-up, 2026-07-14):** all methodology/coverage notes on this page now cite verified
+AHRQ language pulled directly from `h248adoc.pdf` (2023 HC-248A documentation) and Methodology Report #37
+("Outpatient Prescription Drugs: Data Collection and Editing"), not paraphrase:
+- Coverage: "The HC does not collect information on drugs administered in healthcare settings" (MR-37) — explains
+  the 0-record oncology-infusion finding with an official quote instead of just empirical inference.
+- RXDRGNAM confirmed generic/molecule name straight from AHRQ's own description (Multum Lexicon).
+- New caveat: AHRQ masks orphan/small-population (<400,000 est. national users) drugs for confidentiality,
+  recoding them down to therapeutic-class placeholders — explains anomalous "drug names" like "Hormones/Hormone
+  Modifiers" found in the 532-drug list.
+- New caveat: PHARTP1 has no guaranteed 1:1 link to a specific fill when a household reports multiple pharmacy
+  types across the year (AHRQ's own wording).
+- Bottom source note now links directly to the doc/codebook/methodology-report PDFs and states the post-2017
+  change (all Rx payment data comes from the Pharmacy Component, not household report).
 
 Linked from `meps-reports.html` (Prescribed Medicines group) and `/research/meps`'s "See all individual reports →"
 button — NOT a card on the `/research` gateway (see s84 change above).

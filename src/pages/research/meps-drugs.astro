@@ -19,12 +19,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         prescription was filled.
       </p>
       <p class="dx-note-inline">
-        <strong>Coverage gap — infused/office-administered drugs are not in this file.</strong> HC-248A only
-        captures self-reported pharmacy "fills" — medicine picked up and taken home. IV-infused oncology
-        biologics given in an infusion suite (e.g. Herceptin/trastuzumab, Keytruda/pembrolizumab, Perjeta/
-        pertuzumab, Avastin/bevacizumab, Opdivo/nivolumab — all 0 records here) are billed as part of the
-        clinical visit and fall under MEPS's Office-Based or Outpatient event files instead. The same applies to
-        other in-office-administered products, such as Nexplanon and IUDs.
+        <strong>Coverage, in AHRQ's own words:</strong> "Each record represents one household-reported fill or
+        refill of a prescribed medicine that was obtained during calendar year 2023 <em>at any retail pharmacy,
+        including mail-order or on-line</em>." And on what's out of scope: "The HC does not collect information on
+        drugs administered in healthcare settings" — respondents report drugs prescribed during a doctor's-office,
+        clinic, ER, or inpatient visit only if the drug was <em>subsequently filled</em>, not drugs given during
+        the visit itself. That's why IV-infused oncology biologics (Herceptin/trastuzumab, Keytruda/pembrolizumab,
+        Perjeta/pertuzumab, Avastin/bevacizumab, Opdivo/nivolumab — all 0 records here) and other in-office-administered
+        products (Nexplanon, IUDs) don't appear: they're billed as part of the clinical visit, captured in MEPS's
+        Office-Based or Outpatient event files instead.
+        <span class="src-cite">Sources: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h248a/h248adoc.pdf" target="_blank" rel="noopener">AHRQ MEPS HC-248A 2023 documentation</a> §2.0; <a href="https://meps.ahrq.gov/data_files/publications/mr37/mr37.pdf" target="_blank" rel="noopener">Methodology Report #37</a>, "Household Component" §.</span>
       </p>
     </div>
 
@@ -51,9 +55,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <input id="drug-search" type="search" placeholder="Search by generic name… (e.g. atorvastatin, metformin)" autocomplete="off" spellcheck="false">
       </div>
       <p class="picker-hint">
-        Names are <strong>generic / molecule names</strong> (Multum RXDRGNAM field), not brand names — e.g. search
-        <em>atorvastatin</em> for Lipitor, <em>escitalopram</em> for Lexapro, <em>levothyroxine</em> for Synthroid.
-        A generic name can cover multiple brand-name and store-brand products.
+        Names are <strong>generic / molecule names</strong>, not brand names — e.g. search <em>atorvastatin</em> for
+        Lipitor, <em>escitalopram</em> for Lexapro, <em>levothyroxine</em> for Synthroid. Per AHRQ: "This drug name
+        [RXDRGNAM] is the generic name of the drug most commonly used by prescribing physicians. It is supplied by
+        the Multum Lexicon database." A generic name can cover multiple brand-name and store-brand products.
+        A handful of entries in this list (e.g. "Hormones/Hormone Modifiers") are not real drug names at all —
+        AHRQ masks orphan drugs and drugs estimated to be used by fewer than 400,000 people nationally, for
+        confidentiality, and recodes them down to their therapeutic class instead.
       </p>
       <div id="drug-list" class="picker-list"></div>
     </div>
@@ -114,7 +122,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
 
     <div class="note">
-      <strong>PHARTP1</strong> = type of pharmacy provider, first-listed source per fill (MEPS codebook, HC-248A).
+      <strong>PHARTP1</strong> = type of pharmacy provider, first-listed source per fill. AHRQ's own caveat: when a
+      household reports using more than one type of pharmacy over the year, "there is no link in the survey or in
+      the data file enabling analysts to know the type of pharmacy from which a specific prescription was obtained
+      if multiple pharmacies are listed" — so channel attribution is somewhat noisier for patients who use more
+      than one pharmacy type.
+      <span class="src-cite">Source: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h248a/h248adoc.pdf" target="_blank" rel="noopener">AHRQ MEPS HC-248A 2023 documentation</a>, "Type of Pharmacy" §.</span>
     </div>
 
     <!-- Dosage form -->
@@ -122,11 +135,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <div id="form-chart" class="chart-wrap"></div>
 
     <div class="note">
-      <strong>Not from the official codebook.</strong> Unlike PHARTP1, RXFORM is a free-text field — AHRQ doesn't
-      publish a decode table for it. Labels shown here (e.g. "Tablet" for <code>TABS</code>) are a best-effort
-      mapping of standard pharmacy dosage-form abbreviations, covering the ~40 codes that make up ~99% of fills.
-      Unmapped or rare codes are shown as their raw code. The raw code is always shown alongside the label so you
-      can verify it yourself.
+      <strong>Official AHRQ decode table.</strong> Labels shown here (e.g. "Tablets" for <code>TABS</code>) come
+      verbatim from Appendix 1, "Definitions for RXFORM, Dosage Form," of AHRQ's own HC-248A documentation (558
+      codes). Some codes have no label because AHRQ's own table marks them "no definition for the dosage form" —
+      for example <code>SOPN</code>, <code>SOAJ</code>, and <code>PSKT</code> are undefined even in the official
+      source, not a gap in our mapping. The raw code is always shown alongside the label so you can verify it
+      against the source yourself.
+      <span class="src-cite">Source: <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h248a/h248adoc.pdf" target="_blank" rel="noopener">AHRQ MEPS HC-248A 2023 documentation</a>, Appendix 1.</span>
     </div>
 
     <div class="note dedup-note">
@@ -136,10 +151,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
 
     <p class="source-note">
-      Source: AHRQ, <em>2023 Medical Expenditure Panel Survey</em>, Prescribed Medicines File (HC-248A). All
-      statistics are unweighted. The full file has 192,275 fills and 11,858 patients; 5,215 fills with an
-      unimputed/missing drug name are excluded from this drug list. Days-supplied is excluded from day-based metrics
-      for fills with missing (-8/-7) or non-numeric (999 = "taken as needed") RXDAYSUP.
+      <strong>Source.</strong> AHRQ, <em>2023 Medical Expenditure Panel Survey</em>, Prescribed Medicines File
+      (HC-248A) — <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h248a/h248adoc.pdf" target="_blank" rel="noopener">official documentation</a>,
+      <a href="https://meps.ahrq.gov/data_stats/download_data/pufs/h248a/h248acb.pdf" target="_blank" rel="noopener">codebook</a>, and
+      <a href="https://meps.ahrq.gov/data_files/publications/mr37/mr37.pdf" target="_blank" rel="noopener">Methodology Report #37</a> on data collection.
+      192,275 total records (matches AHRQ's published count exactly); 190,730 have a positive person-level weight
+      (PERWT23F). All statistics on this page are <strong>unweighted</strong> counts of the 187,060 fills with an
+      imputed drug name (5,215 fills with unimputed/missing RXDRGNAM excluded from the drug list). Days-supplied is
+      excluded from day-based metrics for fills with missing (-8/-7) or non-numeric (999 = "taken as needed")
+      RXDAYSUP — per AHRQ, no consistency edits were applied between quantity and days supplied, and no edits were
+      made for very high values. Since the 2017 data, MEPS stopped asking households to report drug payments
+      directly — all expenditure and payer-source figures on this page come from the Pharmacy Component (pharmacy
+      records), not household recall.
     </p>
 
   </div>
@@ -177,6 +200,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 }
 .dx-note-inline strong { font-weight: 500; color: var(--ink); }
 .dx-note-inline em { font-style: italic; color: var(--ink); }
+.dx-note-inline { max-width: none; }
+
+.note a, .dx-note-inline a, .source-note a {
+  color: var(--rose); text-decoration: underline; text-underline-offset: 2px;
+}
+.note a:hover, .dx-note-inline a:hover, .source-note a:hover { color: var(--ink); }
+.src-cite {
+  display: block; margin-top: 8px; font-size: 10.5px; color: #a8a19d;
+}
 
 /* ── Class filter ──────────────────────────────────────────────────────── */
 .class-filter-row {
@@ -378,6 +410,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   padding-top: 20px; border-top: 1px solid var(--rule);
 }
 .source-note em { font-style: italic; }
+.source-note strong { color: var(--ink); font-weight: 500; }
 </style>
 
 <script>
