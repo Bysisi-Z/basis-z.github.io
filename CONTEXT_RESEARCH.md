@@ -233,6 +233,15 @@ of `meps.astro` itself, linking back to the full page.
 
 **Label fixes (s38):** Yes/No auto-applied to all {1,2}-only vars. -2 (prev round) and -10 (top coded) added to MISSING_VALS.
 
+**"Total respondents" vs "In universe" hint (s84, 2026-07-15):** User asked why round-specific variables (REFPRS31,
+REFPRS53, etc.) all show the same "Total respondents" (18,640) regardless of round. Root cause: `n_total` in
+`gen_meps_data.py` is `len(df)` after the `INSCOP23==1` filter — a single fixed file-wide constant applied to every
+variable's stat block, not a per-round completion count. The number that actually varies by round is `n_universe`
+(excludes people the question was `-1 Inapplicable` for that round — e.g. REFPRS31 n_universe=18,391 vs REFPRS53
+n_universe=18,640, because people who joined the RU partway through the year weren't yet present for the earlier
+round). Added an always-visible `.detail-stat-hint` line under both stats in the detail panel clarifying this,
+rather than a hover-only tooltip (easy to miss).
+
 **Raw/Recode/Computed filter (s84, 2026-07-14):** Mirrors the NSFG explorer's type-chip filter. Triggered by user
 confusion over `REFPRS31` (Survey Administration) showing raw PID numbers as a bar chart with no explanation.
 

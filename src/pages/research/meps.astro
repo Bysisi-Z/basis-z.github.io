@@ -386,6 +386,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   font-family: var(--sans); font-size: 10px; font-weight: 300;
   letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone);
 }
+.detail-stat-hint {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 300; font-style: italic;
+  color: #a8a19d; max-width: 190px; line-height: 1.4; margin-top: 1px;
+}
 
 /* ── Distribution bars ────────────────────────────────────────────────────── */
 .dist-wrap { padding: 20px 32px 40px; }
@@ -787,10 +791,12 @@ function renderDetail(v) {
          <div class="detail-stat">
            <span class="detail-stat-val">${n_total.toLocaleString()}</span>
            <span class="detail-stat-lbl">Total respondents</span>
+           <span class="detail-stat-hint">Fixed file total — same for every variable, not this round's completions</span>
          </div>
          <div class="detail-stat">
            <span class="detail-stat-val">${v.n_universe.toLocaleString()}</span>
            <span class="detail-stat-lbl">In universe</span>
+           <span class="detail-stat-hint">Varies by variable/round — excludes people this question didn't apply to</span>
          </div>
          <div class="detail-stat">
            <span class="detail-stat-val">${normal.length}</span>
