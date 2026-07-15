@@ -1,7 +1,7 @@
 # Context — Research / Decoding (`/research`)
 
 > Part of si-lens.me project context. Read alongside `CONTEXT.md`.
-> Last updated: 2026-07-13
+> Last updated: 2026-07-15
 
 ## Gateway (`/research/index.astro`)
 

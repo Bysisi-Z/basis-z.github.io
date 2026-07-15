@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-07-13 (session 84)
+> Last updated: 2026-07-15 (session 84)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [si-lens.me](https://si-lens.me) · Preview: basis-z-github-io.pages.dev
@@ -75,6 +75,7 @@ src/
 │   ├── research/index.astro       # Decoding — two-column gateway ✅
 │   ├── research/industry.astro    # Industry Analysis series index ✅
 │   ├── research/data.astro        # NSFG explorer ✅
+│   ├── research/meps-overview.astro # MEPS Survey Overview — Panel/Round explainer ✅ (s84)
 │   ├── research/meps.astro        # MEPS explorer ✅
 │   ├── research/meps-expenditure.astro # MEPS expenditure by payer ✅
 │   ├── research/meps-drugs.astro  # Drug Payer & Channel Explorer ✅ (s84)
@@ -119,7 +120,14 @@ Hero split + bento grid. Music module "A Life in Sound" live (narrative + 4 inst
 Dual timeline: left = Life & Adventures (rose), right = Career & Education (stone). CTAs in column headers → `/explorer` and `/cv`. WeChat QR button in header. Timeline cards link to `#` (detail pages not built). Easter eggs: stork, bamboo, skyline, Alps, confetti, vines, cat photos.
 
 ### Decoding (`/research`) ✅
-Two-column gateway: Industry Analysis (left) → `/research/industry`; Play with the Data (right) → 2 raw-data explorer cards only (NSFG, MEPS). Deep-dive report pages — incl. new **Drug Payer & Channel Explorer** (`/research/meps-drugs`, s84: search/multi-select across 532 HC-248A drugs, payer + pharmacy channel + dosage-form split, bilingual therapeutic class filter) — live one level down via each explorer's "See all individual reports →" button, not as gateway cards. Full NSFG + MEPS + OGN details → `CONTEXT_RESEARCH.md`.
+Two-column gateway: Industry Analysis (left) → `/research/industry`; Play with the Data (right) → 2 raw-data explorer cards only (NSFG, MEPS — the MEPS card now points to `/research/meps-overview`, not straight to the explorer). Deep-dive report pages — incl. new **Drug Payer & Channel Explorer** (`/research/meps-drugs`, s84: search/multi-select across 532 HC-248A drugs, payer + pharmacy channel + dosage-form split, bilingual therapeutic class filter) — live one level down via each explorer's "See all individual reports →" button, not as gateway cards.
+
+**New this session (s84): `/research/meps-overview`** — bilingual (EN/ZH) Panel/Round design explainer, inserted
+between Decoding and the MEPS explorer (explorer's back-crumb now points here). Covers what MEPS is, the two-panel
+overlapping design (with a timeline diagram), data collection method, and AHRQ's exact household→RU→person sample
+funnel (Table 19) — all cited to AHRQ's own `h251doc.pdf`. Also added a raw/recode/computed classification +
+filter to the MEPS explorer itself, sourced from AHRQ's official Variable-Source Crosswalk. Full details →
+`CONTEXT_RESEARCH.md`.
 
 ### Nature Never Judges (`/photography`) ✅
 6-card mixed grid (`grid-auto-flow: dense`). 3 live articles: Stoos Ridge Hike · Oeschinensee Panorama Trail · Lucerne city guide. "VIEW ALL TRAILS ON THE MAP →" → `/trails`.
@@ -175,7 +183,7 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 
 ### Low priority
 - [ ] **A Collection of Rabbit Holes** — content not written
-- [ ] **Cleanup** — delete experiment files in `public/` (color-preview, font-preview, compare-*, opt-*, preview-v*); see `HANDOFF_CLAUDE.md` §Content Architecture
+- [ ] **Cleanup** — delete experiment files in `public/` (color-preview, font-preview, compare-*, opt-*, preview-v*); see `HANDOFF_CLAUDE.md` §Content Architecture. Also 4 stale orphan JSON files found s84: `public/data/meps_utilization.json`, `meps_insurance.json`, `meps_health_status.json`, `meps_expenditures.json` (June 7, pre-25-section format) — not referenced anywhere in `src/` or `public/*.html`.
 
 ---
 
