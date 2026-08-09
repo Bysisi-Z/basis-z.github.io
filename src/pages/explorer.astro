@@ -97,42 +97,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
 
-      <!-- OUTDOOR (narrow left) -->
-      <div class="bento-card bento-outdoor">
-        <p class="mod-label">In the Mountains</p>
-        <div class="outdoor-stats">
-          <div class="stat-block">
-            <span class="stat-num">—</span>
-            <span class="stat-label">Countries hiked</span>
-          </div>
-          <div class="stat-block">
-            <span class="stat-num">—</span>
-            <span class="stat-label">Highest peak</span>
-          </div>
-          <div class="stat-block">
-            <span class="stat-num">—</span>
-            <span class="stat-label">Trails completed</span>
-          </div>
-        </div>
-        <a href="/photography" class="outdoor-link">
-          See all trails →
-        </a>
-      </div>
-
-      <!-- FOOD (wide right) -->
-      <div class="bento-card bento-food">
-        <p class="mod-label">What I Eat</p>
-        <div class="food-grid">
-          <!-- fill: { emoji, label } -->
-          <div class="food-item placeholder-food"></div>
-          <div class="food-item placeholder-food"></div>
-          <div class="food-item placeholder-food"></div>
-          <div class="food-item placeholder-food"></div>
-          <div class="food-item placeholder-food"></div>
-          <div class="food-item placeholder-food"></div>
-        </div>
-      </div>
-
       <!-- CATS (full width) -->
       <div class="bento-card bento-cats">
         <p class="mod-label">The Bosses at Home</p>
@@ -380,8 +344,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   /* Column spans */
   .bento-music   { grid-column: span 7; }
   .bento-books   { grid-column: span 5; }
-  .bento-outdoor { grid-column: span 4; }
-  .bento-food    { grid-column: span 8; }
   .bento-cats    { grid-column: span 12; }
 
   /* ── Sound (Music) ── */
@@ -479,48 +441,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-bottom: 1px solid var(--rule);
   }
   .book-item:last-child { border-bottom: none; }
-
-  /* ── Outdoor ── */
-  .outdoor-stats { display: flex; flex-direction: column; gap: 20px; margin-bottom: 24px; }
-  .stat-block { display: flex; flex-direction: column; gap: 3px; }
-  .stat-num {
-    font-family: var(--serif);
-    font-size: clamp(32px, 4vw, 48px);
-    font-weight: 300; font-style: italic;
-    color: var(--rose); line-height: 1;
-  }
-  .stat-label {
-    font-family: var(--sans);
-    font-size: 10px; font-weight: 300;
-    letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--stone);
-  }
-  .outdoor-link {
-    font-family: var(--sans);
-    font-size: 11px; font-weight: 300;
-    letter-spacing: 0.1em;
-    color: var(--rose);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(193,125,157,0.3);
-    padding-bottom: 2px;
-    transition: border-color 0.2s;
-  }
-  .outdoor-link:hover { border-color: var(--rose); }
-
-  /* ── Food ── */
-  .food-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .food-item {
-    aspect-ratio: 1;
-    border-radius: 10px;
-    background: #ede9e4;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 6px;
-  }
 
   /* ── Cats ── */
   .cats-wrap {
@@ -621,11 +541,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .placeholder-row {
     height: 44px;
     border-radius: 6px;
-    background: linear-gradient(90deg, #ede9e4 0%, #e8e3de 50%, #ede9e4 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.8s infinite;
-  }
-  .placeholder-food {
     background: linear-gradient(90deg, #ede9e4 0%, #e8e3de 50%, #ede9e4 100%);
     background-size: 200% 100%;
     animation: shimmer 1.8s infinite;
@@ -734,25 +649,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .bento { grid-template-columns: 1fr 1fr; gap: 10px; }
     .bento-music   { grid-column: span 2; }
     .bento-books   { grid-column: span 2; }
-    .bento-outdoor { grid-column: span 1; }
-    .bento-food    { grid-column: span 1; }
     .bento-cats    { grid-column: span 2; }
 
     .cats-wrap { flex-direction: column; gap: 20px; }
     .cats-divider { width: 100%; height: 1px; margin: 4px 0; }
 
     .city-trail-line { min-width: 16px; }
-    .food-grid { grid-template-columns: repeat(2, 1fr); }
-    .outdoor-stats { flex-direction: row; gap: 12px; }
-    .stat-num { font-size: 28px; }
   }
 
   @media (max-width: 420px) {
     .bento { grid-template-columns: 1fr; }
-    .bento-music, .bento-books, .bento-outdoor, .bento-food, .bento-cats {
+    .bento-music, .bento-books, .bento-cats {
       grid-column: span 1;
     }
-    .outdoor-stats { flex-direction: column; }
   }
 </style>
 
