@@ -218,6 +218,14 @@ flex/grid container instead of on an inner text span/wrapper.
 CTA button → `/research/meps`. Compact version of the Panel/Round explainer (`.cohort-note`) also added to the top
 of `meps.astro` itself, linking back to the full page.
 
+**Copy pass (s85, 2026-08-09):** User flagged the `.ov-desc` intro (above §01) as too conversational — original had
+filler like "先花几分钟了解一下" ("spend a few minutes...") and "根本看不懂" ("you literally can't understand it"),
+out of step with the rest of the page's flatter, citation-heavy register. Tightened to a plain statement of what
+the page covers. Full read-through of all 4 sections (EN+ZH) turned up one more spot in the same casual register —
+§02's transition line "That's the whole trick behind..." / "秘密就在这里" ("the secret is...") before the
+R3/1-notation explanation — reworded to "This is what... encode" / "编码规则如下". §01, §03, §04, the glossary
+grid, and both tables were already consistent; left as-is.
+
 ## MEPS Explorer (`/research/meps`)
 
 18,640 respondents, 1,368 variables, 25 topic sections. Source: AHRQ HC-251 Full-Year Consolidated 2023.

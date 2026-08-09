@@ -23,14 +23,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <span class="ov-badge">HC-251 · 2023</span>
       </div>
       <p class="ov-desc lang-en">
-        Before exploring 1,366 variables, a few minutes on where this data comes from and how it's collected —
-        especially the <strong>Panel / Round</strong> design, since notation like "R3/1" or "REFPRS31" shows up
-        throughout the explorer and doesn't mean anything without this context.
+        Where MEPS data comes from and how it's collected, with a focus on the <strong>Panel / Round</strong>
+        design — the source of notation such as "R3/1" and "REFPRS31" that recurs throughout the explorer.
       </p>
       <p class="ov-desc lang-zh">
-        在探索这 <strong>1,366</strong> 个变量之前，先花几分钟了解一下这份数据的来源和采集方式——尤其是
-        <strong>Panel（批次）/ Round（轮次）</strong>的设计，因为像 "R3/1" 或 "REFPRS31" 这样的记号会贯穿整个探索工具，
-        不了解背景的话根本看不懂。
+        MEPS 数据的来源与采集方式，重点是<strong>Panel（批次）/ Round（轮次）</strong>设计——探索工具中反复出现的
+        "R3/1"、"REFPRS31" 等记号均源于此。
       </p>
     </div>
 
@@ -194,8 +192,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <div class="prose lang-en">
       <p>
-        That's the whole trick behind the "R3/1", "R4/2", "R5/3" notation and variable suffixes like
-        <code>REFPRS31</code>: the first digit is Panel 27's round number, the second is Panel 28's round number
+        This is what the "R3/1", "R4/2", "R5/3" notation and variable suffixes like
+        <code>REFPRS31</code> encode: the first digit is Panel 27's round number, the second is Panel 28's round number
         for that <em>same time window</em> — Round 3 of Panel 27 and Round 1 of Panel 28 happened concurrently, so
         they're referred to together as "R3/1" (variable suffix <code>31</code>). Likewise R4/2 → <code>42</code>,
         R5/3 → <code>53</code>. A variable ending in plain <code>23</code> (no round pairing) means "status as of
@@ -208,7 +206,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
     <div class="prose lang-zh">
       <p>
-        "R3/1"、"R4/2"、"R5/3" 这种记号，以及像 <code>REFPRS31</code> 这样的变量后缀，秘密就在这里：第一位数字是
+        "R3/1"、"R4/2"、"R5/3" 这种记号，以及像 <code>REFPRS31</code> 这样的变量后缀，编码规则如下：第一位数字是
         Panel 27 的轮次号，第二位是<em>同一时间窗口</em>里 Panel 28 的轮次号——Panel 27 的第3轮和 Panel 28 的第1轮
         是同时进行的，所以合称 "R3/1"（变量后缀 <code>31</code>）。同理 R4/2 → <code>42</code>，R5/3 →
         <code>53</code>。如果变量结尾是单纯的 <code>23</code>（没有轮次配对），代表"截至2023年12月31日的状态"，
