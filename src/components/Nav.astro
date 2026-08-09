@@ -117,8 +117,10 @@ const current = modules.find(m => path.startsWith(m.href));
     color: #fff;
   }
 
-  /* ── Mobile ≤ 640px: links drop to second row ── */
-  @media (max-width: 640px) {
+  /* ── ≤ 1024px (tablets + mobile): links drop to second row ──
+     Desktop nav-links row needs ~980px to fit all 6 labels without
+     wrapping; below that it overflows the page horizontally. */
+  @media (max-width: 1024px) {
     .top-nav {
       height: auto;
       padding: 0 20px;

@@ -62,7 +62,7 @@
 src/
 ├── layouts/BaseLayout.astro       # html shell, Nav + Footer; props: hideNav, hideFooter
 ├── components/
-│   ├── Nav.astro                  # Sticky top nav, 2-row mobile ≤640px
+│   ├── Nav.astro                  # Sticky top nav, 2-row mobile ≤1024px (s85, was ≤640px)
 │   ├── Footer.astro               # Si sig + © year; hideFooter prop added s57
 │   ├── ArticleHero.astro          # Portrait (split 42/58) / Landscape (full-width) hero
 │   ├── Comments.astro             # Cusdis embed
@@ -114,7 +114,7 @@ Protected routes also: `/explorer` (🔒), `/cv` (🔒).
 Three-column desktop (photo | glass | strip), day/night by clock, `?preview=day/night` override. Full details → `CONTEXT_HOMEPAGE.md`.
 
 ### World Explorer (`/explorer`) ✅ — 🔒 passcode
-Hero split + bento grid. Music module "A Life in Sound" live (narrative + 4 instrument PNGs + pipa photos, s73). Cats module live. Books module "Currently Reading" live (s85: real book list, replaces shimmer placeholder — non-fiction focus, mainly business biography and history/humanities; classical Chinese fiction like 《红楼梦》 is the one fiction exception). Food and Outdoor Stats bento modules removed (s85, were still shimmer with no content planned).
+Hero split + bento grid. Music module "A Life in Sound" live (narrative + 4 instrument PNGs + pipa photos, s73). Cats module live. Books module "On the Shelf" live (s85: real book list, replaces shimmer placeholder — non-fiction focus, mainly business biography and history/humanities; classical Chinese fiction like 《红楼梦》 is the one fiction exception). Book title language rule: **title language follows the book's original publication language, not the edition read** — e.g. 《万历十五年》is Ray Huang's English original (Yale 1981, Chinese self-translation came a year later) so it's listed as *1587, A Year of No Significance*; 《穷查理宝典》is *Poor Charlie's Almanack* (Charlie Munger); 激荡三十年/秦崩·楚亡/解密华西 stay in Chinese (Chinese-authored originals). Food and Outdoor Stats bento modules removed (s85, were still shimmer with no content planned).
 
 ### Journey (`/career`) ✅ — 🔒 passcode
 Dual timeline: left = Life & Adventures (rose), right = Career & Education (stone). CTAs in column headers → `/explorer` and `/cv`. WeChat QR button in header. Timeline cards link to `#` (detail pages not built). Easter eggs: stork, bamboo, skyline, Alps, confetti, vines, cat photos.
@@ -159,7 +159,8 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 - Landscape photos → full-width hero with text overlay
 - Timeline: left = Life (`var(--rose)`), right = Career (`var(--stone)`)
 - Homepage: 1-screen no-scroll desktop, `hideNav={true}`, full-bleed photo bg
-- Nav: 2-row on mobile ≤640px (logo row + scrollable links strip)
+- Nav: 2-row on mobile/tablet ≤1024px (logo row + scrollable links strip). Raised from ≤640px in s85 — the desktop single-row nav needs ~980px to fit all 6 labels without wrapping, so 640–980px (notably iPad portrait 768px and landscape 1024px) was overflowing the whole page horizontally
+- CSS Grid bento layouts: give `.bento-card`-style grid items `min-width: 0` — grid items don't shrink below their content's intrinsic width by default, so fixed-size children (e.g. a photo with `height:460px; width:auto`) silently blow out the card and cause page-wide horizontal scroll on narrow viewports. Found via s85 mobile audit on `/explorer`
 - `var(--rule)` NEVER used as text color — minimum = `var(--stone)`
 - `strong.hl` (rose inline highlight) in `global.css` for hiking articles
 - Bilingual toggle: `html[data-lang="zh"]` attribute, `localStorage` key `sisi-article-lang`

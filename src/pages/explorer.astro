@@ -88,7 +88,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <!-- BOOKS (narrow right) -->
       <div class="bento-card bento-books">
-        <p class="mod-label">Currently Reading</p>
+        <p class="mod-label">On the Shelf</p>
         <div class="book-list">
           <div class="book-item">
             <p class="book-title">Too Big to Fail</p>
@@ -99,16 +99,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <p class="book-author">吴晓波</p>
           </div>
           <div class="book-item">
-            <p class="book-title">穷查理宝典</p>
-            <p class="book-author">查理·芒格</p>
+            <p class="book-title">Poor Charlie's Almanack</p>
+            <p class="book-author">Charlie Munger</p>
           </div>
           <div class="book-item">
             <p class="book-title">秦崩 · 楚亡</p>
             <p class="book-author">李开元</p>
           </div>
           <div class="book-item">
-            <p class="book-title">万历十五年</p>
-            <p class="book-author">黄仁宇</p>
+            <p class="book-title">1587, A Year of No Significance</p>
+            <p class="book-author">Ray Huang</p>
           </div>
           <div class="book-item">
             <p class="book-title">解密华西</p>
@@ -359,6 +359,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-radius: 14px;
     padding: 28px;
     border: 1px solid var(--rule);
+    min-width: 0;
   }
 
   /* Column spans */
@@ -665,6 +666,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       object-fit: unset;
       object-position: unset;
     }
+
+    .pipa-photos { flex-wrap: wrap; }
+    .pipa-photo {
+      height: auto;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .instrument-list { flex-wrap: wrap; gap: 16px 12px; }
+    .instrument-item {
+      flex: 1 1 calc(50% - 6px);
+      min-width: 0;
+      border-right: none;
+      margin-right: 0;
+      padding-right: 0;
+    }
+    .instr-img { height: 90px; }
   }
 
   /* ── Mobile: bento ── */
