@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-07-15 (session 84)
+> Last updated: 2026-08-09 (session 85)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [si-lens.me](https://si-lens.me) · Preview: basis-z-github-io.pages.dev
@@ -114,7 +114,7 @@ Protected routes also: `/explorer` (🔒), `/cv` (🔒).
 Three-column desktop (photo | glass | strip), day/night by clock, `?preview=day/night` override. Full details → `CONTEXT_HOMEPAGE.md`.
 
 ### World Explorer (`/explorer`) ✅ — 🔒 passcode
-Hero split + bento grid. Music module "A Life in Sound" live (narrative + 4 instrument PNGs + pipa photos, s73). Cats module live. Books / Food / Outdoor Stats still shimmer.
+Hero split + bento grid. Music module "A Life in Sound" live (narrative + 4 instrument PNGs + pipa photos, s73). Cats module live. Books module "Currently Reading" live (s85: real book list, replaces shimmer placeholder — non-fiction focus, mainly business biography and history/humanities; classical Chinese fiction like 《红楼梦》 is the one fiction exception). Food and Outdoor Stats bento modules removed (s85, were still shimmer with no content planned).
 
 ### Journey (`/career`) ✅ — 🔒 passcode
 Dual timeline: left = Life & Adventures (rose), right = Career & Education (stone). CTAs in column headers → `/explorer` and `/cv`. WeChat QR button in header. Timeline cards link to `#` (detail pages not built). Easter eggs: stork, bamboo, skyline, Alps, confetti, vines, cat photos.
@@ -172,7 +172,6 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 ## 6. Pending Work
 
 ### High priority
-- [ ] **Explorer** — Books, Food, Outdoor Stats modules (shimmer → real content)
 - [ ] **Industry Analysis** — Series 02 content TBD; OGN Sun Pharma draft at `~/SunPharma_OGN_acquisition.html`
 - [ ] **MEPS deep-dive pages** — INSCOV23 (insurance), DLAYCA42 (delayed care), TOTSLF23 (OOP) — stubs in `meps-reports.html`
 

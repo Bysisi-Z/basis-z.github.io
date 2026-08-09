@@ -90,10 +90,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="bento-card bento-books">
         <p class="mod-label">Currently Reading</p>
         <div class="book-list">
-          <!-- fill: { title, author } -->
-          <div class="book-item placeholder-row"></div>
-          <div class="book-item placeholder-row"></div>
-          <div class="book-item placeholder-row"></div>
+          <div class="book-item">
+            <p class="book-title">Too Big to Fail</p>
+            <p class="book-author">Andrew Ross Sorkin</p>
+          </div>
+          <div class="book-item">
+            <p class="book-title">激荡三十年</p>
+            <p class="book-author">吴晓波</p>
+          </div>
+          <div class="book-item">
+            <p class="book-title">穷查理宝典</p>
+            <p class="book-author">查理·芒格</p>
+          </div>
+          <div class="book-item">
+            <p class="book-title">秦崩 · 楚亡</p>
+            <p class="book-author">李开元</p>
+          </div>
+          <div class="book-item">
+            <p class="book-title">万历十五年</p>
+            <p class="book-author">黄仁宇</p>
+          </div>
+          <div class="book-item">
+            <p class="book-title">解密华西</p>
+            <p class="book-author">桂克全</p>
+          </div>
         </div>
       </div>
 
@@ -435,12 +455,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   /* ── Books ── */
-  .book-list { display: flex; flex-direction: column; gap: 14px; }
+  .book-list { display: flex; flex-direction: column; gap: 4px; }
   .book-item {
     padding: 12px 0;
     border-bottom: 1px solid var(--rule);
   }
   .book-item:last-child { border-bottom: none; }
+  .book-title {
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.2vw, 17px);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0 0 4px;
+  }
+  .book-author {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--stone);
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
 
   /* ── Cats ── */
   .cats-wrap {
@@ -535,19 +571,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--rose);
     margin-right: 8px;
     font-style: normal;
-  }
-
-  /* ── Placeholder styles (remove when real content added) ── */
-  .placeholder-row {
-    height: 44px;
-    border-radius: 6px;
-    background: linear-gradient(90deg, #ede9e4 0%, #e8e3de 50%, #ede9e4 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.8s infinite;
-  }
-  @keyframes shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
   }
 
   /* ── Hike CTA ── */
