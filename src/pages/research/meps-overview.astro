@@ -22,14 +22,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </h1>
         <span class="ov-badge">HC-251 · 2023</span>
       </div>
-      <p class="ov-desc lang-en">
-        Where MEPS data comes from and how it's collected, with a focus on the <strong>Panel / Round</strong>
-        design — the source of notation such as "R3/1" and "REFPRS31" that recurs throughout the explorer.
-      </p>
-      <p class="ov-desc lang-zh">
-        MEPS 数据的来源与采集方式，重点是<strong>Panel（批次）/ Round（轮次）</strong>设计——探索工具中反复出现的
-        "R3/1"、"REFPRS31" 等记号均源于此。
-      </p>
     </div>
 
     <!-- 1. What is MEPS -->
@@ -416,12 +408,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   color: var(--rose); border: 1px solid rgba(193,125,157,0.4);
   border-radius: 3px; padding: 2px 8px;
 }
-.ov-desc {
-  font-family: var(--sans); font-size: clamp(16px, 1.6vw, 18px); font-weight: 300;
-  color: var(--stone); line-height: 1.75; margin: 0;
-}
-.ov-desc strong { font-weight: 400; color: var(--ink); }
-
 .sec-label {
   font-family: var(--sans); font-size: 18px; font-weight: 700;
   letter-spacing: 0.01em; color: var(--rose);
