@@ -1186,6 +1186,112 @@ peers). **This needs verification against a primary Brazilian Ministry of Health
 a firm claim in the article** — it is currently a reasonable inference from two separately-sourced facts, not
 a confirmed single statement.
 
+### 11.25 Henlius profitability attribution + pertuzumab/denosumab timelines (round 10, 2026-08-14)
+
+**What actually drove Henlius's 2023 first-ever full-year profit** (RMB 546M net profit, RMB 5.395B revenue,
++67.8% YoY) — direct answer to "which product(s) turned Henlius profitable":
+- **HANQUYOU (汉曲优®, trastuzumab/曲妥珠单抗 biosimilar)** — the largest single contributor: RMB 2.737B total
+  2023 sales (domestic RMB 2.644B +56.1% YoY; overseas RMB 92.6M +162.3% YoY, i.e. Henlius's own supply/
+  royalty share from the Accord/Intas licensing arrangement, not direct sales).
+- **HANSIZHUANG (汉斯状®, serplulimab/斯鲁利单抗)** — Henlius's first genuinely innovative drug (anti-PD-1,
+  launched 2022-03, world's first anti-PD-1 mAb approved for first-line SCLC): RMB 1.1198B 2023 sales,
+  **+230.2% YoY** — smaller absolute number than trastuzumab but by far the faster-growing line.
+- Company's own attribution also credits "降本增效" (cost reduction / management efficiency), not sales
+  growth alone.
+- **Correction to keep in mind for the article**: the 2023 profitability turnaround was **not** purely "the
+  biosimilar business funding an emerging innovative pipeline" (that framing fits the 2025 R&D-funding
+  mechanism in §11.21 instead) — for the *profitability* threshold specifically, a mature biosimilar
+  (trastuzumab, the volume/scale anchor) and a young innovative drug (serplulimab, the growth-rate story)
+  crossed the line together in the same year. Biosimilar and innovation have been in a continuous relay
+  relationship at Henlius, not a one-time "transition."
+
+**Pertuzumab (帕妥珠单抗/pertuzumab biosimilar, HLX11, brand POHERDY®) — did NOT contribute to the 2023
+turnaround, still ramping**: NMPA NDA accepted 2024-12 → EMA MAA accepted 2025-03 → Health Canada NDS accepted
+2025-05 → **US FDA approval 2025-11** → EMA CHMP positive opinion 2026-02 → EU approval followed. Reference
+product is Roche's Perjeta (global pertuzumab sales ~$3.304B in 2024, per IQVIA MIDAS). 2025 revenue for the
+whole HER2-positive-breast-cancer product family (trastuzumab + pertuzumab combined) was RMB 3.2675B, of
+which trastuzumab alone was RMB 2.9645B (+5.5% YoY) — implying pertuzumab's own 2025 contribution was only
+roughly RMB 300M, consistent with a product still in its launch year.
+
+**Denosumab (地舒单抗/denosumab biosimilar, HLX14, brands BILDYOS®/BILPREVDA®) — also did not contribute to
+2023, launched even later**: **US FDA approval 2025-09-02**, **EU EC approval 2025-09-19** (UK followed in the
+same window) — called the first internationally-approved "Chinese" denosumab. Reference products are Amgen's
+Prolia®/Xgeva®. Notably, the **China NMPA filing was only accepted 2025-12** — i.e., international approval
+came *before* the domestic filing was even accepted, reversing the usual China-first sequencing seen in most
+other Henlius products. No standalone revenue figure found yet (too newly launched).
+
+**Organon correction — it's not one deal, it's two full franchises**: Henlius's 2022 licensing+supply deal
+with Organon covers **both** pertuzumab (POHERDY, ex-China) **and** denosumab (BILDYOS/BILPREVDA, ex-China) —
+not just the pertuzumab deal flagged earlier in §11.15/§11.20. Trastuzumab is the one major Henlius biosimilar
+that instead went to Accord/Intas. **Organon is Henlius's most important single overseas biosimilar partner
+by product-line count** (two full franchises vs. Accord/Intas's one) even though trastuzumab-via-Accord
+remains the single largest revenue line today. Worth foregrounding this relationship more prominently in the
+eventual article — it's a strong, natural bridge back to the site's existing `organon-stock-analysis.html`
+piece, reinforced further by §11.26 below (Organon's own core business model is built around exactly this
+kind of legacy-biosimilar-plus-established-brands portfolio, explaining *why* it keeps showing up as a
+downstream partner, not just documenting *that* it does).
+
+### 11.26 Global biosimilar competitive landscape — US/EU players and market structure (round 11, 2026-08-14)
+
+Zooming out from Chinese players to the global competitive backdrop they're entering.
+
+**Market size**: global biosimilar market ~$38.7B (2025) → ~$46.4B (2026) → projected ~$185.2B by 2035
+(~16.6% CAGR).
+
+**Concentration**: **Sandoz, Pfizer, and Amgen together control ~50% of the global market**; the top 5
+(adding **Celltrion** and **Biocon**) control ~55%. Sandoz alone leads with 18%+ share.
+
+**Business-model archetypes — this typology is worth building directly into the article, since it explains
+*why* certain companies keep appearing as Chinese biosimilar makers' overseas partners**:
+1. **Pure-play biosimilars+generics company**: **Sandoz** — spun off from Novartis 2023-10, explicitly
+   markets itself as the only "pure-play" biosimilars/generics company; generics = 70% of 2025 global sales,
+   funding a higher-value biosimilar layer on top; recently created a standalone biosimilars business unit
+   for faster decision-making.
+2. **Legacy-brand-plus-biosimilar spinoff**: **Organon** — spun off from Merck 2021-06, *inherited Merck's
+   biosimilars portfolio* alongside women's-health brands and other established/off-patent products. **This
+   directly explains the recurring Organon pattern found in §11.15/§11.20/§11.25** — Organon isn't randomly
+   choosing to license Chinese biosimilars, biosimilars-plus-legacy-brands is its core business model by
+   design since spinoff. Natural, well-grounded bridge to the site's existing Organon post-mortem article.
+3. **Diversified off-patent giants using biosimilars as one growth lever**: Teva, Viatris — large generics
+   cash bases funding expansion into biosimilars/innovative brands, but not pure-play biosimilar companies.
+4. **Big innovator pharma running a biosimilars division**: Amgen, Pfizer, Biogen — biosimilars are one
+   segment inside a much larger innovative-pharma company, not a standalone or spun-off entity.
+5. **Korean vertically-integrated specialists**: Celltrion (self-build) and Samsung Bioepis (partner-reliant)
+   — already covered in depth in §11.2.
+6. **Smaller specialist biosimilar-focused biotechs**: Alvotech (Iceland — 5 approved biosimilars covering
+   Humira/adalimumab, Stelara/ustekinumab, Simponi/golimumab, Eylea/aflibercept, and Prolia·Xgeva/denosumab
+   reference products, 9 more candidates in development), Coherus BioSciences, Fresenius Kabi (Germany,
+   "Vision 2026" strategy expanding its Biopharma segment), Boehringer Ingelheim (Germany, known specifically
+   for adalimumab/阿达木单抗 biosimilar manufacturing quality).
+
+**US vs. EU are structurally different competitive environments — should not be treated as one "the West"
+bucket in the article, this materially changes how §11.4's constraint #2 (commercialization complexity)
+should be written**:
+- **Approval pace gap**: as of 2024, EU had approved 100+ biosimilars vs. only 12 commercially launched in
+  the US. In 2025 alone, **EMA authorized 44 biosimilars vs. FDA's 26**.
+- **Regulatory framework**: FDA requires a biosimilar to prove **"interchangeability"** before automatic
+  pharmacy-level substitution is allowed — an extra evidentiary hurdle. **EMA has no formal "interchangeable"
+  designation at all** and defers switching/substitution decisions to individual member states — a
+  structurally lower bar to real-world market conversion.
+- **Payer/procurement structure — the deeper driver**: the EU is largely single-payer or highly consolidated
+  payer systems that can force rapid biosimilar adoption via national "winner-takes-all" tenders and
+  mandatory-switching policies. The **US has a fragmented private-payer/PBM system where "rebate walls" create
+  a perverse incentive to favor high-list-price originator products over cheaper biosimilars** (PBMs profit
+  more from rebates tied to higher list prices).
+- **Net effect**: despite the US having the larger underlying biologics market, **Europe has achieved
+  significantly greater biosimilar market penetration** than the US.
+- **Implication for the article**: earlier discussion (§11.4) treated "US/EU market entry difficulty" as one
+  combined constraint. This should be split — **the US market is structurally hard for *any* biosimilar
+  entrant** (including Western ones) because of the PBM/rebate-wall dynamic, not because of anything specific
+  to Chinese companies; **the EU's tender-driven, price-sensitive system is comparatively more open to a
+  credible low-cost new entrant** who can clear the regulatory/manufacturing bar. This may partly explain why
+  Henlius's and Bio-Thera's EU approval timelines and momentum look at least as strong as their US progress
+  (e.g., HLX14/denosumab getting EU approval essentially simultaneously with US, and 44 total EMA approvals
+  in 2025 alone creating far more available "slots" than the FDA's 26) — this could be a market-structure
+  effect available to any capable entrant, not specific evidence of Chinese-company success in the harder US
+  market. Worth testing this reading against the actual China-biosimilar approval-timeline data already
+  gathered (§11.1, §11.15, §11.20, §11.25) before asserting it as a firm conclusion.
+
 ---
 
 ## 12. Key source URLs (for citation when drafting)
