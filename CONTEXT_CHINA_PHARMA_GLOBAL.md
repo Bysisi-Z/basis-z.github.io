@@ -41,6 +41,17 @@ heavy per-company financial digging, or start deep-diving 2–3 companies they a
    CRO/CDMO services, and genetic/patient data be treated as three separate objects, since security actions
    land mostly on the latter two — formalized as a confirmed scope decision in new §9.
 
+**Update 2026-08-14, round 3**: user proposed biosimilars as a control group (new §11) — since biosimilar
+science/clinical risk is low and well-defined, if Chinese makers still can't self-commercialize in the US/EU
+even here, that isolates a commercialization-infrastructure gap from a product-innovation gap. First-pass
+research **mostly confirms** the "always license-out" hypothesis the user asked to test rather than assume:
+even Henlius (China's most globally-approved biosimilar maker) licensed US/EU rights to Accord/Intas (India)
+in 2021; Bio-Thera licensed to Biogen and Sandoz. But research also **corrected the user's own Korea
+framing** — Samsung Bioepis is actually partner-reliant like the Chinese cases, only Celltrion is a true
+self-build; and confirmed the Biocon/Viatris deal terms ($3B, closed Nov 2022) as a clean answer to "can
+commercialization capability be bought via M&A" (yes, precedent exists, price is known). Full benchmark
+table (§11.6) not yet built — only 2 of ~6 target companies researched so far.
+
 ---
 
 ## 2. Two framing options surfaced (not yet chosen)
@@ -393,7 +404,151 @@ mention to explain the 1260H additions, not independent treatment.
 
 ---
 
-## 10. Key source URLs (for citation when drafting)
+## 11. Biosimilar as a control group (user framing, 2026-08-14, round 3)
+
+User's proposal: biosimilars make an unusually clean "low-innovation-variable" control group, because the
+science/clinical risk is low and the product definition is well-established — so if Chinese companies still
+can't independently commercialize in the US/EU even for biosimilars, that isolates a **commercialization-
+infrastructure** gap from a **product-innovation** gap. Framed explicitly as a hypothesis to test (whether
+Chinese biosimilar makers "always" license out), not an assumed conclusion — and the first research pass
+below mostly confirms it, with one important nuance.
+
+### 11.1 First-pass test of the hypothesis — mostly confirmed, one nuance flagged
+
+- **复宏汉霖/Henlius** — the flagship case (China's most globally-approved biosimilar maker: trastuzumab
+  biosimilar HANQUYOU/HERCESSI™(US)/Zercepac®(EU) approved in 40+ countries incl. China/US/EU). **Even here,
+  US and EU commercialization rights were exclusively licensed out in 2021** — to Accord BioPharma / Accord
+  Healthcare, both part of **Intas Pharmaceuticals (India)**, not a Western big-pharma partner. Henlius
+  developed and manufactures the product; Accord/Intas holds the US/Canada and EU commercialization rights
+  and runs the actual launch/sales. This is a clean license-out, structurally identical to the innovative-
+  drug pattern.
+  - **Nuance not yet resolved**: separate coverage claims Henlius "has established a specialized commercial
+    team" overseas and cites 162.3% YoY overseas revenue growth — this is very likely referring to
+    self-commercialization in **emerging markets** (Southeast Asia, Latin America, Middle East — HANQUYOU is
+    approved in Argentina, Brazil, Thailand, Singapore etc.), NOT the US/EU, where Accord/Intas holds the
+    rights. **Needs a market-by-market breakdown before the article claims either "Henlius self-
+    commercializes" or "Henlius only license-outs" — likely the true story is bifurcated by market
+    maturity**, which would itself support the user's thesis (self-build is viable in less-contested/lower-
+    access-complexity markets, license-out is the default for the hardest markets).
+- **百奥泰/Bio-Thera Solutions** — tocilizumab biosimilar (Shirely, approved China/US/EU/Switzerland/UK)
+  licensed to **Biogen** for commercialization (2020 deal). Bevacizumab biosimilar (Pubeixi, approved China/
+  US/EU/Brazil) licensed to **Sandoz** for US/Europe/Canada/most international markets (2021 deal). Clean
+  license-out in both cases, to specialist biosimilar commercializers rather than innovator big pharma —
+  same pattern as Henlius.
+- **Working finding**: the license-out pattern holds even for China's two most globally-approved biosimilar
+  makers, specifically in the US/EU. But the *type* of overseas partner is notably different from the
+  innovative-drug pattern — biosimilar partners are commercialization/channel specialists (Accord/Intas,
+  Sandoz, Biogen's biosimilars unit) rather than full innovator pharma (BMS/Pfizer/AZ) — worth building into
+  the article as evidence for the "channel/payer/tender infrastructure, not brand or R&D" explanation (the
+  user's category 2 in §11.3 below).
+- **Still unresearched**: 齐鲁制药 (ranibizumab biosimilar, EU approval "early this year" per one source,
+  needs date/partner verification), 海正药业 (claimed to have the most approved biosimilar products
+  domestically — overseas commercialization structure not yet checked), 信达生物/正大天晴/君实生物's
+  biosimilar-specific programs (as distinct from their innovative-drug deals already covered in §3.1.A).
+
+### 11.2 Korea/India comparator — important correction to the user's own framing
+
+The user's proposal treated Korea as one model. First-pass research shows Korea needs to be split at the
+**company** level, not treated as a single national pattern:
+- **Celltrion**: genuinely self-built — runs its own sales networks, pricing, tender responses, and brand-
+  building directly in major markets; internalizes R&D + manufacturing + sales; reportedly in talks to
+  acquire an Eli Lilly biologics manufacturing facility in the US. This is the closest real-world example of
+  the "self-build" end of the spectrum the article wants to test China against.
+- **Samsung Bioepis**: **leans on partners for most products** — commercial relationships with Biogen,
+  Organon, Harrow, Teva across its portfolio. This is structurally much closer to the Henlius/Bio-Thera
+  license-out pattern than to Celltrion's self-build pattern, despite both being "Korean." **The article
+  should not cite "Korea" as a self-commercialization success story without naming which of the two very
+  different companies it means** — this was a gap in the user's own initial framing, now corrected.
+- Combined, Samsung Bioepis + Celltrion hold the most approved antibody biosimilars in the US/EU (11 each,
+  per one source) — the two together account for a large share of the historically US/EU-dominant (~80% of
+  world biosimilar market) footprint, but via two different commercial models.
+
+**India — Biocon Biologics case, deal terms now confirmed**: this directly answers the user's own question
+("must global commercialization capability be grown organically, or bought via M&A?") — Biocon did not build
+its US/EU commercial infrastructure from scratch. On 2022-02-27 it agreed to acquire Viatris's entire global
+biosimilars business (trastuzumab, pegfilgrastim, bevacizumab, insulin glargine, insulin aspart, pertuzumab)
+for up to $3.335B; the deal closed 2022-11-29 at $3B total consideration ($2B cash — $1.2B of it funded via
+the largest sustainability-linked loan to an APAC pharma/biomanufacturing company at the time — plus ~$1B/
+~12.9% equity stake to Viatris, with a further $335M contingent in 2024). This gave Biocon Viatris's existing
+products, commercial teams, and market access relationships in one transaction, rather than years of organic
+build-out. **Strong candidate to cite directly** when the article addresses "can commercialization capability
+be bought rather than grown" — the answer for at least one major case is yes, at a specific, disclosed price.
+
+### 11.3 Role decomposition template (user's framing) — to apply per case
+
+For each biosimilar case, separate: molecule/cell-line development · clinical development · drug-substance
+manufacturing · drug-product/fill-finish · FDA/EMA filing entity · marketing authorization holder · brand
+owner · payer/tender negotiation · sales & distribution — and note which party holds each role. Not yet
+systematically filled in for the cases above; flagged as the next concrete piece of work if this thread
+gets prioritized (would require reading each licensing deal's actual terms, not just headline press
+releases).
+
+### 11.4 Six structural constraints proposed by the user (kept as the working list, not yet independently
+verified against data — treat as hypotheses to check case-by-case, not established fact)
+
+1. Late market entry — first-movers already hold payer contracts and hospital purchasing pathways; later
+   entrants compete on discount alone in markets that may already have 5–6 competing biosimilars
+2. Commercialization complexity — US biosimilar access runs through PBMs, GPOs, wholesalers/specialty
+   pharmacy, Medicare Part B/D reimbursement mechanics, and rebate structures that can't be replicated by a
+   small overseas office
+3. Patent-litigation cost/uncertainty — reference-product patent thickets (process, formulation, device,
+   indication patents), launch-timing negotiations, at-risk-launch capital exposure; India's biosimilar/
+   generic makers have decades of Paragraph-IV-style litigation experience Chinese companies mostly lack
+4. Regulatory/manufacturing track record — CMC comparability, cell-line/process consistency, facility
+   inspection history, change-control, global pharmacovigilance; a China-approved dossier doesn't
+   automatically satisfy FDA/EMA — re-development cost can approach starting a new program
+5. Capital-return logic — self-commercializing means carrying global clinical/analytical development,
+   filing costs, plant upgrades/inspections, litigation, pre-launch inventory, channel fees, rebates, a
+   sales force, and ongoing price erosion in a structurally low-differentiation product; license-out trades
+   long-term upside for a more certain near-term cash profile — **may be a rational choice for cash-
+   constrained companies, not necessarily a capability failure** (ties directly to the financing-squeeze
+   thread in §5)
+6. Geopolitics/supply-chain risk — single-China-source concerns, inspection/data access, government
+   procurement restrictions, dual-/local-sourcing requirements — may not block approval but can shape
+   partner selection and inventory/procurement decisions (ties to §9's category-2/3 separation — this
+   constraint applies more to manufacturing/supply than to the licensing transaction itself)
+
+### 11.5 Framing warning (user's own caution, worth preserving verbatim in spirit)
+
+Don't presuppose self-build > license-out. Biosimilars are a scale/channel/cost-driven business; even
+holding a good product, self-building a US sales infrastructure may not generate sufficient return. The
+article should distinguish **forced licensing** (no registration/litigation/access/sales capability) from
+**deliberate division of labor** (retain manufacturing/supply profit, hand local commercialization to a
+channel-advantaged partner) — judged by: does the Chinese company keep global manufacturing rights, does it
+become the exclusive long-term supplier, is the supply pricing cost-plus or profit-share, does it get a
+sales royalty, does it carry further R&D cost, does it retain self-commercialization rights in any region,
+and does the partnership let it accumulate its own registration/commercial capability over time.
+
+### 11.6 Proposed benchmark set (user's list, for whenever this thread gets built out)
+
+China: 复宏汉霖/Henlius, 百奥泰/Bio-Thera (+ others with FDA/EMA filings or overseas licenses, TBD) · Korea:
+Celltrion, Samsung Bioepis · India: Biocon Biologics, Dr. Reddy's · Western reference: Sandoz, Amgen. Per-
+company metrics proposed: year of first overseas biosimilar approval, FDA/EMA approval count, self-
+commercialized vs. partnered ratio, overseas revenue, drug-substance manufacturing location, whether it has
+its own local sales team, whether commercial infrastructure was grown organically or acquired (Biocon/
+Viatris precedent), how many competitors already in-market at time of entry, and the manufacturing/
+licensing/direct-sales split of overseas revenue. **Not yet built — first-pass research above only covers
+2 of the ~6+ target companies.**
+
+### 11.7 How this connects to the me-too / cutting-edge spectrum (user's structural argument, worth keeping
+as a candidate closing framework for the whole article, not just the biosimilar section)
+
+Biosimilar (known molecule, low scientific risk) → still can't self-commercialize globally → suggests the
+commercialization barrier is independent of scientific innovation level. Me-too/fast-follower (moderate
+product risk, mechanism already validated) → currently mostly license-out (§3.1.A-C). Best-in-class/first-
+in-class (highest innovation and clinical risk) → if these are *also* mostly sold off ex-China (which the
+current deal data in §3.1.A-B suggests, pending the decomposition work in §4), that would indicate the
+shared constraint sits in global registration/IP/market-access/commercialization infrastructure, not in
+product quality — a stronger, more falsifiable version of the article's core question than either the
+"mode evolution" or "narrative clash" framings alone. Alternative reading if the data instead shows Chinese
+companies retaining more control on higher-differentiation assets: that would suggest a rational economic
+sorting (low-margin/channel-driven products get licensed out, high-differentiation products are worth
+self-building for) rather than a uniform capability ceiling — **both readings are analytically valid; the
+point is to let the case data decide, not assume either answer going in.**
+
+---
+
+## 12. Key source URLs (for citation when drafting)
 
 - STAT News (dependency op-ed): https://www.statnews.com/2026/05/12/biotech-pharmaceutical-industry-china-leaders-destroying-industry/
 - CEPA ("biotech offensive"): https://cepa.org/article/the-west-must-confront-chinas-biotech-offensive/
@@ -432,3 +587,14 @@ specific figure needs re-verification rather than trusting numbers transcribed i
 - Endpoints News, judge blocks enforcement of WuXi AppTec's 1260H designation (Aug 7 2026 injunction): https://endpoints.news/judge-blocks-enforcement-of-wuxi-apptecs-designation-as-chinese-military-company/
 - South China Morning Post, US judge blocks Pentagon's "Chinese military" label for WuXi AppTec: https://www.scmp.com/news/us/article/3363369/us-judge-blocks-pentagons-chinese-military-label-wuxi-apptec
 - Bloomberg, WuXi AppTec gets temporary reprieve of Chinese military label: https://www.bloomberg.com/news/articles/2026-08-08/wuxi-apptec-gets-temporary-reprieve-of-chinese-military-label
+
+**Added 2026-08-14 (biosimilar benchmark round):**
+- Henlius press release, HERCESSI granted to Accord BioPharma (US/Canada exclusive rights, 2021 deal): https://www.henlius.com/en/NewsDetails-2779-26.html
+- Henlius/Accord Healthcare, Zercepac EMA approval (EU rights): https://www.henlius.com/en/NewsDetails-2670-26.html
+- PR Newswire, Accord BioPharma FDA approval of HERCESSI 420mg: https://www.prnewswire.com/news-releases/accord-biopharma-inc-announces-us-food--drug-administration-approval-of-420mg-strength-of-hercessi-trastuzumab-strf-a-biosimilar-to-herceptin-trastuzumab-for-the-treatment-of-several-forms-of-her2-overexpressing-cance-302251163.html
+- Biogen press release, Biogen×Bio-Thera tocilizumab biosimilar commercialization/license agreement: https://investors.biogen.com/news-releases/news-release-details/biogen-and-bio-thera-solutions-announce-commercialization-and
+- BusinessWire, Bio-Thera×Sandoz BAT1706 (bevacizumab) commercialization/license agreement: https://www.businesswire.com/news/home/20210908005540/en/Bio-Thera-Solutions-Announces-Commercialization-and-License-Agreement-for-BAT1706-a-Proposed-Biosimilar-Referencing-Avastin%C2%AE-Bevacizumab
+- Biocon, Viatris global biosimilars acquisition — deal announcement: https://www.biocon.com/biocon-biologics-to-acquire-viatris-global-biosimilars-assets-in-transformational-deal/
+- Biocon, Viatris deal completion (Nov 29 2022) + terms: https://www.biocon.com/biocon-biologics-completes-acquisition-of-viatris-global-biosimilars-business/
+- KED Global, Samsung/Celltrion biosimilar commercialization model comparison (partner-reliant vs. self-built): https://www.kedglobal.com/bio-pharma/newsView/ked202503100007
+- 经济观察网, 中国生物类似药井渐"出海"欧美市场潮起 (Henlius/Bio-Thera/Qilu overseas approval roundup): http://www.eeo.com.cn/2024/0509/659940.shtml
