@@ -7,6 +7,10 @@
 > Format decision (confirmed): OGN-style — standalone bilingual HTML in `public/`, interactive
 > dashboard elements, Chinese drafted first then English synced (see `feedback-ogn-bilingual-workflow`
 > memory — same rule should apply here once drafting starts).
+> **Writing convention (2026-08-14, round 9): whenever a molecule/drug is named in discussion or in this
+> file, give both the Chinese and English/INN name together** — e.g. 曲妥珠单抗 (trastuzumab), 贝伐珠单抗
+> (bevacizumab). Applies from this point forward in conversation and should carry into the actual bilingual
+> article draft too.
 
 ## ⚠️ Scope pivot (2026-08-14, round 4) — READ THIS FIRST
 
@@ -1075,6 +1079,113 @@ Answers "did Fosun found Henlius itself, or acquire it, and what's the backstory
   team similarly credentialed, or more domestically grown?) before asserting this as a general explanatory
   factor — currently only confirmed for Henlius specifically.
 
+### 11.24 Second anchor case: Bio-Thera Solutions (百奥泰) — a structural contrast, not a second success story
+(round 9, 2026-08-14)
+
+Picked as the "second chair" in China biosimilar globalization (most FDA approvals + real partner deals with
+Biogen and Sandoz after Henlius), following the same research framework used for Henlius. Turned out to be a
+much more useful **contrasting** case than a parallel success story — genuinely different on nearly every
+axis, which gives the biosimilar/§11.16-capital-discount thesis real variance to test against instead of a
+second confirming data point.
+
+**Origin**: founded 2003-07-28 in Guangzhou by Dr. 李胜峰 (Shengfeng Li) — six years before Henlius. Li was
+co-founder/Chief Scientific Officer of Abmaxis, a Bay Area antibody-technology company (founded Sept 2000,
+acquired by **Merck** in 2006) — same "Western big-pharma alum returns to found a China biotech" pattern as
+Henlius's founders, but **solo scientist-led founding, not a joint venture with an existing domestic pharma
+conglomerate**. This is the key structural difference from Henlius from day one.
+
+**Ownership/capital structure**: controlling shareholder is **七喜集团 (Qixi Group)**; actual control runs
+through several investment vehicles (启奥兴, 粤创三号, 兴昱投资, 晟昱投资, 中科卓创) — reads as a PE/
+investment-platform holding structure, **not an industrial pharma conglomerate with cross-subsidization
+capacity like Fosun**. Directly relevant to testing §11.16's "chaebol/conglomerate patient capital vs.
+standalone biotech capital access" hypothesis — Bio-Thera lacks the Fosun-equivalent parent entirely.
+
+**Listing venue**: IPO'd 2020-02-21 on Shanghai's STAR Market (科创板), using its 5th listing standard
+(designed for pre-profit biopharma). IPO price RMB 32.76/share. **Important correction to an initial framing
+error this session**: this is NOT a clean "Henlius chose HK, Bio-Thera chose STAR Market" binary. Both
+companies pursued dual "A+H" listings:
+- Henlius: HK IPO first (2019-09) → filed for a STAR Market A-share listing too (accepted 2020-04) → **withdrew
+  that A-share plan 2023-07-03**, ending up HK-only.
+- Bio-Thera: STAR Market IPO first (2020-02) → board approved an H-share/HK listing plan just 117 days later
+  (2020-06-16), targeting 15-25% of post-issue share capital on HKEX → **completion status not confirmed in
+  research done so far** — don't assert either that it completed or that it was abandoned without checking a
+  current source.
+- Henlius CEO 刘世高's stated rationale for the HK leg specifically: legitimacy/compliance certification via
+  an international platform, easier access to international capital and talent, and — explicitly — that it
+  would make future cross-border BD dealmaking more efficient ("对公司日后进行商务拓展会起到事半功倍的作
+  用"). No equivalent explicit rationale found yet for Bio-Thera's HK ambitions specifically.
+
+**Stock price — moves opposite to Henlius**: as of 2026-07-31 close, RMB 17.11/share, market cap RMB 7.085B
+— down ~48% from the RMB 32.76 IPO price (near-halved), and down ~27% YTD in 2026 alone (the same period
+Henlius was near its post-rally highs). 52-week/recent trend has been a continued slide, not a rally.
+
+**Financial health — still loss-making, unlike Henlius (profitable since 2023)**: 2025 Q3 cumulative: R&D
+expense RMB 557M = **81.4% of total revenue**, net margin -32.75%, net loss RMB 224M. 2026 guidance: H1 2026
+expected loss RMB 230-290M. Cumulative losses now exceed RMB 2B. H1 2025 revenue RMB 441.9M (+9.84% YoY),
+explicitly attributed in the company's own reporting to **domestic** adalimumab (阿达木单抗/adalimumab) and
+tocilizumab (托珠单抗/tocilizumab) sales growth — i.e., unlike Henlius (funded substantially by *overseas BD
+cash inflows*, §11.21), Bio-Thera's current revenue engine is **domestic biosimilar sales**, not overseas
+licensing cash.
+
+**A concrete negative regulatory event**: on **2026-06-14**, Bio-Thera disclosed that an **EU GMP on-site
+compliance inspection failed** specifically on the drug-product/formulation manufacturing side. This is a
+real, dated instance of exactly the "regulatory/manufacturing track record" constraint listed abstractly in
+§11.4 — strong, concrete evidence to cite rather than a general claim about CMC risk. Likely a contributor to
+the 2026 YTD stock decline.
+
+**Self-positioning and pipeline mix**: Bio-Thera's own stated strategy is a **"双轨竞速" (dual-track racing)**
+approach — but structured **by therapeutic area, not company-wide** like Henlius's mixed-within-oncology
+approach: **autoimmune/inflammation is mainly biosimilar-led, oncology is mainly innovative-drug-led.**
+Chairman 李胜峰 has stated the company must keep investing heavily in new technology/methods to stay
+competitive in preclinical and clinical R&D scope and quality.
+- Approved products (4): **adalimumab (阿达木单抗) biosimilar** (格乐立/BAT1406), **tocilizumab (托珠单抗)
+  biosimilar** (施瑞立/BAT1806), **bevacizumab (贝伐珠单抗) biosimilar**
+  (普贝希/BAT1706), and **贝塔宁 (a novel small-molecule antiplatelet drug, not a biologic)** — China's first
+  independently-developed dual-mechanism antiplatelet drug, the company's only approved genuinely innovative
+  asset so far.
+- Phase 3 / filing-stage (6): 巴替非班 (small molecule, NDA-stage) + three more biosimilars — **ustekinumab
+  (乌司奴单抗) biosimilar** (BAT2206), **secukinumab (司库奇尤单抗) biosimilar** (BAT2306), **golimumab
+  (戈利木单抗) biosimilar** (BAT2506) — plus two innovative assets, an anti-CD20 mAb (BAT4406F) and a
+  next-gen anti-VEGF mAb for wet AMD (BAT5906).
+- Early-stage: two more biosimilars in Phase 1 — **dupilumab (度普利尤单抗) biosimilar** (BAT2406),
+  **mepolizumab (美泊利珠单抗) biosimilar** (BAT2606) — plus a substantial oncology innovative pipeline: Trop-2
+  ADC (BAT8008), FRα ADC (BAT8006, the most advanced of these), HER2 ADC (BAT8010), a HER2 mAb (BAT1006), and
+  a PD-1 mAb (BAT1308).
+- Rough count: **~8 biosimilars vs. ~8 innovative assets** across the full pipeline — a genuinely balanced
+  count, unlike the revenue split, which is still almost entirely biosimilar-driven.
+
+**Licensing deal territory structure — notably more fragmented than Henlius's pattern**:
+- **Tocilizumab (托珠单抗, BAT1806) → Biogen**, 2021-04, one global deal excluding Greater China (mainland +
+  HK + Macau + Taiwan) — a single broad-territory partner, similar in shape to Henlius's deals. **Update:
+  2025-04-01, Organon acquired Biogen's specific US rights** to BAT1806 (US brand TOFIDENCE®); Bio-Thera
+  retained manufacturing/supply responsibility. **This is the second time Organon appears as a downstream
+  rights-holder in this research thread** (first via Henlius's pertuzumab/POHERDY deal, §11.15) — worth
+  treating as a genuine cross-cutting pattern, not a coincidence, and a natural link back to the site's
+  existing Organon post-mortem article.
+- **Bevacizumab (贝伐珠单抗, BAT1706) → four separate territorial partners**, not one: Sandoz (US, Europe,
+  Canada + most other uncovered international markets; up to $155M: $27.5M upfront + up to $127.5M milestones
+  + double-digit royalty), 百济神州/BeiGene (Greater China), Biomm S.A. (Brazil, exclusive commercialization,
+  2020-12 deal, later expanded 2021+ to include BAT2206/ustekinumab too), and Mega Lifesciences (Indonesia,
+  exclusive distribution/sales). This fragmented, multi-partner-per-molecule structure is a meaningfully
+  different BD pattern from Henlius's "one partner covers broad multi-region territory" approach — worth
+  flagging as a distinct strategic style, not just a smaller-scale version of the same thing.
+
+**Brazil PDP question (user's specific ask, round 9)**: does the Biomm deal give Bio-Thera "PDP" status
+(Parceria para o Desenvolvimento Produtivo — Brazil's government productive-development-partnership program,
+which requires partnering with a *public* lab, commits to technology transfer/local manufacturing, and in
+exchange guarantees 5-10 years of government procurement)? **Working answer: likely no — treat as inferred,
+not confirmed.** The Bio-Thera/Biomm deal (BusinessWire, 2020-12) is described as a standard commercial
+licensing/distribution/marketing agreement, not a PDP structure. Separately, research found an **actual PDP
+specifically for bevacizumab manufacturing localization in Brazil, but with an entirely different consortium
+— Bahiafarma (public lab) + Bionovis S.A. + Samsung Bioepis** (~R$1.104B Ministry of Health investment in
+year one). If accurate, this means **Samsung Bioepis secured the deeper, government-backed local-
+manufacturing/guaranteed-procurement tier of Brazilian market access for the same molecule, while Bio-Thera
+only secured ordinary commercial distribution** — a concrete, single-market data point potentially supporting
+§11.13's hypothesis #6 (Korean firms having stronger government/policy-partnership access than Chinese
+peers). **This needs verification against a primary Brazilian Ministry of Health source before being used as
+a firm claim in the article** — it is currently a reasonable inference from two separately-sourced facts, not
+a confirmed single statement.
+
 ---
 
 ## 12. Key source URLs (for citation when drafting)
@@ -1165,3 +1276,15 @@ specific figure needs re-verification rather than trusting numbers transcribed i
 - 知乎/药时代, 复宏汉霖的故事——医药界的中国合伙人 (founding story, Scott Liu/Jason Jiang, Amgen background, 2009 JV): https://zhuanlan.zhihu.com/p/385627098
 - Forbes China, "Grown Up" Drug Maker Shanghai Henlius Targets Global Fight To Beat Cancer (English-language founding/company profile): https://www.forbes.com/sites/forbeschina/2025/06/24/grown-up-drug-maker-shanghai-henlius-targets-global-fight-to-beat-cancer/
 - Fierce Pharma, Henlius CEO scouts for US PD-1 partner amid Fosun unit's pivot to innovative drugs from biosimilars (English coverage of the biosimilar→innovation narrative): https://www.fiercepharma.com/pharma/fosuns-henlius-ceo-scouts-us-pd-1-partner-amid-pivot-innovative-drugs-biosimilars
+
+**Added 2026-08-14 (Bio-Thera second-anchor-case round):**
+- 搜狐/中国生物制药 coverage, 百奥泰董事长李胜峰 on R&D/globalization focus: https://www.sohu.com/a/901210926_122014422
+- 七喜集团, 李胜峰专访 — "生物创新药、改良药与类似药的多点布局" (founding background, Abmaxis/Merck): https://www.hedy.com.cn/cn/qiyetoutiao/meitibaodao/208.html
+- 上海证券报, BAT1806 (tocilizumab) business-development update incl. Organon's 2025 acquisition of Biogen's US rights: https://paper.cnstock.com/html/2025-04/02/content_2043726.htm
+- BusinessWire, Bio-Thera Solutions Partners with Biomm to Market BAT1706 (bevacizumab) in Brazil: https://www.businesswire.com/news/home/20201217005376/en/Bio-Thera-Solutions-Partners-with-Biomm-to-Market-BAT1706-in-Brazil
+- BioSpace, Bio-Thera expands Biomm partnership in Brazil with BAT2206 (ustekinumab) addition: https://www.biospace.com/bio-thera-solutions-expands-partnership-with-biomm-in-brazil-with-addition-of-bat2206-a-stelara-biosimilar
+- 北京日报/bjnews, 1.55亿美元 Bio-Thera bevacizumab licensed to Sandoz (deal terms): https://m.bjnews.com.cn/detail/1631174772122604.html
+- Biológicos Brasil, "O que são PDPs?" — Brazilian Productive Development Partnership mechanism explainer: https://biologicosbrasil.com.br/o-que-sao-pdps/
+- CONASS, Bahiafarma/Bionovis/Samsung Bioepis PDP context (South Korea mission, biosimilar manufacturing localization): https://www.conass.org.br/duas-pdps-para-producao-de-medicamentos-na-bahiafarma-sao-assinadas-em-missao-na-coreia-do-sul/
+- 界面新闻, 科创板上市117天后，百奥泰再赴港交所上市 (H-share listing plan announcement, 2020-06): https://www.jiemian.com/article/4539582.html
+- 21世纪经济报道, 百奥泰盘中一度跌超7%，累计亏损超20亿元 (2026 stock decline, cumulative losses, EU GMP inspection failure): https://www.21jingji.com/article/20260616/herald/8a209b1bd741ee161d0bb4aa56c8c232.html
