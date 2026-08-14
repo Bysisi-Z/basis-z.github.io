@@ -728,6 +728,190 @@ starting from the innovative-drug side alone.
 
 ---
 
+### 11.15 China biosimilar player map (round 5, 2026-08-14)
+
+Direct answer to "who are the main domestic players, and which participate globally." China's biosimilar
+market is intensely crowded domestically — bevacizumab alone has **12 approved biosimilar makers** in China,
+~RMB 9.9B/year in sample-hospital sales in 2023 — which matters for §11.9 role-sorting (a market this
+saturated may itself explain why some companies never treated biosimilar as a global-ambition product).
+
+| Company | Domestic position | Global engagement | Likely §11.9 role |
+|---|---|---|---|
+| 复宏汉霖/Henlius | Top tier — 4 biosimilars = ~75% of product revenue | Most active: trastuzumab→Accord/Intas; **pertuzumab (POHERDY) →Organon** (2022 license+supply deal, US approval Nov 2025, EU approval 2026 — first pertuzumab biosimilar globally) | Role 1, core business |
+| 百奥泰/Bio-Thera | Top tier | Tocilizumab→Biogen, bevacizumab→Sandoz | Role 1 or 4, needs finer sorting |
+| 信达生物/Innovent | First tier (with Hengrui/BeiGene) | Bevacizumab licensed to **ETANA** for Indonesia (2021 deal, 5 indications approved 2022-06) — **notably, even an emerging-market deal is license-out, not self-build**, complicating a pure "US/EU is just too hard" reading | Needs more data, but not Role 1 |
+| 齐鲁制药/Qilu | Top tier, 8 approved biosimilars, leads domestic bevacizumab share | Ranibizumab EU approval ~early 2026; overseas commercial partner not yet identified | TBD |
+| 三生国健 | Former top tier (adalimumab/Yisaipu) | **Essentially no global attempt** — after Humira's 2019 83% VBP price cut plus a flood of domestic adalimumab biosimilars, explicitly pivoted to "innovation is the only way to manage risk," licensed out non-autoimmune early-stage assets to an affiliate for cash, refocused on autoimmune innovative drugs | **Textbook Role 6** (transition asset) — clean, well-documented case |
+| 迈威生物/MabWorks | Mid-tier | Overseas licensing explicitly targets **South America, Southeast Asia, Belt & Road countries** — deliberately not competing in US/EU | Role 4, but the market-selection itself is a distinct pattern worth its own category note |
+| 神州细胞/Sinocelltech | Mid-tier (安佳润 adalimumab, approved 2023) | No overseas activity found | Role 5 candidate, unconfirmed |
+| 华兰生物/华兰基因 | Mid-tier | No overseas activity found | Role 5 candidate, unconfirmed |
+
+**Cross-reference worth building into the article**: Henlius's pertuzumab commercialization partner is
+**Organon** — the same company the site's existing `organon-stock-analysis.html` post-mortem covers in
+depth. Not a coincidence: Organon's spinoff portfolio from Merck included a large legacy biosimilars business
+(Renflexis/infliximab, Ontruzant/trastuzumab, Hadlima/adalimumab), so partnering with Chinese biosimilar
+makers is a direct extension of Organon's own core business, not an opportunistic one-off. This gives a
+natural internal link between the two articles once both are published.
+
+**Working pattern observed across the player map**:
+1. US/EU deals are almost uniformly license-out, and notably to biosimilar/generics specialists (Accord/
+   Intas, Sandoz, Biogen's biosimilars unit, Organon) rather than full innovator pharma — different partner
+   profile than the innovative-drug deals in §3.1.A, worth using as evidence for the "channel/payer/tender
+   infrastructure, not brand or R&D" explanation
+2. License-out also shows up in easier, emerging markets (Innovent×ETANA/Indonesia) — undercuts a pure "only
+   US/EU is hard enough to force licensing" reading; looks more like a general commercialization-strategy
+   preference than a market-specific capability wall
+3. Domestic crowding (12-way bevacizumab competition) may be diverting management attention entirely away
+   from "should we build an overseas commercial team" for some companies — a candidate explanation not yet
+   in the §11.13 hypothesis list, worth adding as an 8th: **domestic-saturation-as-distraction hypothesis**
+
+### 11.16 Capital-market discount hypothesis (user's framing, round 5, 2026-08-14) — refines hypothesis #6
+
+User's hypothesis: unlike big pharma (ample internal cash) or VC-backed biotech (investor capital
+injections), leading Chinese biosimilar makers face a capital gap for self-building overseas commercial
+teams that is both too large and not attractive enough to capital markets to fill. First-pass research
+**strongly supports this, with an important refinement**: the mechanism looks less like "literally cannot
+raise cash" and more like **capital markets specifically refuse to reward investment in biosimilar
+commercialization with a growth multiple**, making it a rational non-investment rather than a forced one.
+
+- **Domestic mechanism**: around 2021, China's centralized procurement (集采/VBP) becoming routine directly
+  **halved valuations** of biosimilar-focused companies; capital that had chased the sector largely left.
+  This is sector-specific (a biosimilar-heavy revenue mix gets discounted), not a general Chinese-biotech
+  financing winter — the two need to be kept analytically separate.
+- **General valuation theory backs the mechanism**: multiples are driven by pipeline optionality and
+  blockbuster potential; a biosimilar-heavy revenue base is priced like a "mature, low-margin business"
+  without a growth story, and reference-product patent cliffs are known to erode biosimilar/generic revenue
+  80–90% within 2–3 years once several competitors enter — investors apply a structural discount rate to
+  this profile versus a protected, differentiated pipeline.
+- **Henlius's own numbers complicate a pure "no cash" reading**: turned profitable in 2023; H1 2024 revenue
+  +9.82% YoY, attributable profit +60.97% YoY — not a company in cash crisis. But R&D spend is falling
+  (RMB 2.183B in 2022 → RMB 1.434B in 2023 → RMB 826M in H1 2024, i.e., a declining trend), consistent with
+  harvest-mode rather than aggressive global-expansion investment. **Refined framing for the article**: not
+  "too poor to self-build" but "generates real cash, and still doesn't get rewarded for spending it on
+  overseas commercialization" — a sharper, more falsifiable claim than a blanket poverty story.
+- **Korea contrast reframes hypothesis #6 (§11.13) more precisely**: this isn't really about Korean
+  *government* policy support vs. Chinese policy support — it's about **chaebol-style patient capital**.
+  Celltrion's chairman publicly committed **$33.6B over a decade** (announced 2019) to its pharma business;
+  Samsung pledged **$22B** (2018) across bio/AI/auto-electronics. These are conglomerate-scale, decade-long
+  commitments backed by cross-subsidization capacity that a standalone HK-listed Chinese biotech — even a
+  leading one like Henlius, whose own parent Fosun Pharma is nowhere near Samsung's total scale — cannot
+  match. **Revise hypothesis #6 in §11.13 to: "chaebol/conglomerate patient-capital access vs. standalone
+  public-biotech capital access," not simply "national policy support."**
+
+### 11.17 Case study: the Henlius privatization standoff (2024–2025) — strong candidate for a dedicated
+article vignette
+
+A concrete, dated, named test of §11.16's hypothesis, where both sides put real money behind opposing
+valuation judgments. **Important framing correction from round 6 discussion (below): don't present this as
+"the market didn't value biosimilar commercialization" — present it as a price/valuation dispute between a
+conflicted controlling shareholder and dispersed minority holders. See the "framing correction" subsection
+near the end of this entry before drafting.**
+
+**Full price history (round 6, 2026-08-14)**:
+- **IPO**: 2019-09, HK$49.6/share (first-day open HK$47.45), raised ~HK$3.425B, market cap ~HK$26.7B
+- **2024-05-23** (trading halt ahead of the privatization announcement): HK$18.84/share, market cap ~HK$10.2B
+  — **down ~62% from IPO price, ~HK$15B of market cap gone**
+- **Privatization offer**: HK$24.60/H-share (36.67% premium to an HK$18.00 "undisturbed price" reference —
+  close to but not identical to the HK$18.84 halt price; sources don't perfectly reconcile which reference
+  date was used, don't over-precisely quote both figures as if interchangeable)
+- **2025-01-22**, deal voted down: stock fell further on the news (down ~28% YTD at that point), not up —
+  see the framing-correction note below on why this matters
+- **Stated reasons for the multi-year decline** (from Chinese financial press, not just the scheme document):
+  (1) broad HK market malaise — macro, not company-specific; (2) **the business-model point stated explicitly
+  in coverage: Henlius's products are "mostly biosimilars, low competitive moat," naming 海正生物 and 正大天晴
+  as later entrants crowding the same products** — this is a direct, named link between the domestic-
+  saturation pattern in §11.15 and the valuation-discount pattern in §11.16, worth quoting almost verbatim in
+  the draft; (3) "advantages of listed-company status not realized," matching Fosun's own scheme-document
+  language.
+
+**Fosun's stated rationale (from Henlius's own scheme documents)** — reads as a direct, named instance of
+§11.16's thesis:
+- Cites 集采/regulatory reform, geopolitical tension, and macro headwinds as industry context
+- States Henlius expects to **increase commercialization investment (R&D + marketing) in coming years**
+- States the stock has traded below expectations with low volume since listing — **"the advantages of being
+  a listed company have not been realized"**, i.e., public-market financing benefits aren't materializing
+- Fosun already holds 59.56% (rising to 63.43% after the failed deal via further open-market purchases) —
+  control was never at stake; this was about capital-structure/financing logic, not a control grab
+- **Reading for the article**: Fosun's own words amount to "the public market won't fund what we think this
+  business needs to spend next, so let's do it privately instead" — almost a direct confirmation of the
+  capital-discount hypothesis, in the controlling shareholder's own stated logic.
+
+**Minority shareholder rejection**: needed 75%+ approval AND <10% rejection among a *separate* class vote of
+only independent/disinterested H-share holders (mechanism explained in §11.18) — actual result was 19.25%
+rejecting, well over the 10% cap, killing the deal. An industry analyst's stated reason: shareholders simply
+believed **"it was being sold too cheap"** — i.e., minority holders were betting Henlius's true/future value
+(likely including future commercialization upside) exceeded even the 36.67%-premium buyout price.
+
+**Why this is a strong vignette candidate**: it's the same asset, same information set, with the party
+closest to operations (Fosun) reading it as "the market won't pay for our growth plan" and the dispersed
+minority holders reading it as "you're trying to buy us out below what this is actually worth" — two
+sophisticated, financially-motivated parties reaching opposite conclusions with real cash on the table. This
+is a much stronger evidentiary device than any single analyst's opinion, and directly dramatizes the article's
+central capital-market question without needing to resolve who was "right."
+
+**Framing correction (round 6, 2026-08-14) — apply this before drafting**: the user pushed back on an
+apparent contradiction — if staying listed really does impose a real cost (compliance/disclosure overhead)
+that minority shareholders are also worse off for, why would rational minority shareholders vote to keep
+bearing it? Resolution: **the vote was never "should this company be listed," it was "is HK$24.60 the right
+price."** Those are compatible positions to hold simultaneously — a shareholder can agree listing overhead
+is a real (probably small, relative to company revenue) cost AND still believe the offered price undervalues
+the shares by more than that overhead is worth, in which case rejecting the offer and continuing to bear the
+listing cost is the rational choice. Three reasons this isn't self-contradictory:
+1. **Conflict of interest**: Fosun is simultaneously the controlling shareholder and the buyer in this
+   transaction — its own stated rationale ("the market won't fund our plans, listing isn't earning its keep")
+   has an obvious self-serving reading (talking the company down helps justify a lower buyout price), so
+   minority holders have good reason to discount it rather than treat it as neutral fact. This is the
+   canonical conflict in controlling-shareholder freeze-out/going-private deals globally, not something
+   specific to this case — and it's exactly why the H-share independent-class-vote mechanism in §11.18
+   exists: to stop a controlling shareholder's economic majority from imposing its own (self-interested)
+   valuation narrative on minority holders.
+2. **Rejecting a low offer preserves optionality**: staying listed keeps the shares tradeable at whatever
+   price the market sets going forward; accepting a fixed buyout price permanently extinguishes any upside.
+   A shareholder who believes there's a real (even if uncertain) chance of higher future value can rationally
+   prefer to keep that option alive rather than crystallize a possibly-too-low fixed payout now — independent
+   of whether listing costs are real.
+3. **Relative magnitude**: for a company Henlius's size (multi-billion-RMB revenue), compliance/disclosure
+   overhead is very likely small next to the multi-billion-HKD valuation gap minority holders were implicitly
+   asserting — so even granting Fosun's cost argument fully, it may simply be a much smaller number than the
+   perceived-undervaluation argument, meaning rejecting the deal isn't "shareholders harming themselves," it's
+   "shareholders trading a small, certain cost for a chance at a much larger payoff."
+
+**Complication worth keeping in the draft, not smoothing over**: the market's *actual* reaction cuts against
+a simple "minority shareholders were obviously right" reading — Henlius stock fell further (not up) after the
+rejection was announced on 2025-01-22, part of a ~28% YTD decline at that point. If the broader market shared
+the blocking shareholders' conviction that HK$24.60 undervalued the company, the standalone share price
+should have reasserted near or above that level once the "sell cheap" risk was removed; instead it kept
+falling. This doesn't prove the minority holders were wrong (value can take years to show up, and the holders
+who blocked the deal may differ from the average trader setting the post-rejection price), but the article
+should present this as a live, unresolved dispute — a real disagreement about price under genuine uncertainty
+— not as a morality tale about which side "understood the business better."
+
+### 11.18 Why privatization couldn't just be done via open-market buybacks (background/footnote material,
+not core to the article's argument — keep to one sentence in the actual draft)
+
+User asked why Fosun didn't simply buy back shares on the open market instead of running a formal
+privatization process, given it already held a clear majority. Three separate reasons, verified:
+1. **HK Takeovers Code "creeper rule"**: a shareholder holding 30–50% can only add up to 2% via ordinary
+   market purchases per rolling 12 months before triggering a mandatory general offer to all shareholders —
+   large stake accretion via simple buying is capped by design, not just slow in practice.
+2. **Open-market buying can never force out an unwilling holder** — it only captures shares from sellers
+   willing to transact at the prevailing price. If minority holders believe (as they did here) the stock is
+   undervalued, they simply don't sell, and the acquirer can buy indefinitely without ever reaching 100%.
+3. **The real structural blocker is specific to H-share companies**: Henlius is incorporated in mainland
+   China (an H-share company, HK-*listed* but not HK-*incorporated*), and **mainland Chinese company law does
+   not grant an offeror compulsory-acquisition rights** the way a HK-incorporated company's privatization
+   could use — this is why the deal was structured as an "absorption merger" (吸收合并) requiring a specific
+   exemption, and why it required **two separate votes**: an ordinary EGM (passed easily, 2/3+, given Fosun's
+   majority) AND a *separate class meeting of only independent H-share holders* (needing 75%+ approval, <10%
+   rejection) — a minority-protection mechanism specifically designed so a controlling shareholder's economic
+   majority cannot itself force out dissenting minority holders. This second vote is exactly where the deal
+   failed (19.25% rejected). **Bottom line for the article**: it was never about Fosun lacking enough shares
+   for control — it already had that — it was that HK/mainland cross-border listing rules deliberately carve
+   out a minority veto that a controlling stake cannot override, and open-market buybacks structurally cannot
+   reach the legal mechanism (a passed scheme/compulsory-acquisition right) needed to force a clean delisting.
+
+---
+
 ## 12. Key source URLs (for citation when drafting)
 
 - STAT News (dependency op-ed): https://www.statnews.com/2026/05/12/biotech-pharmaceutical-industry-china-leaders-destroying-industry/
@@ -778,3 +962,22 @@ specific figure needs re-verification rather than trusting numbers transcribed i
 - Biocon, Viatris deal completion (Nov 29 2022) + terms: https://www.biocon.com/biocon-biologics-completes-acquisition-of-viatris-global-biosimilars-business/
 - KED Global, Samsung/Celltrion biosimilar commercialization model comparison (partner-reliant vs. self-built): https://www.kedglobal.com/bio-pharma/newsView/ked202503100007
 - 经济观察网, 中国生物类似药井渐"出海"欧美市场潮起 (Henlius/Bio-Thera/Qilu overseas approval roundup): http://www.eeo.com.cn/2024/0509/659940.shtml
+
+**Added 2026-08-14 (player map + capital-discount + Henlius privatization round):**
+- Henlius/Organon, EC approval of POHERDY (pertuzumab biosimilar, EU): https://www.organon.com/news/european-commission-ec-approves-henlius-and-organons-poherdy-pertuzumab-the-first-approved-biosimilar-to-perjeta-pertuzumab-in-europe/
+- Henlius/Organon, US FDA approval of POHERDY: https://www.organon.com/news/henlius-and-organon-announce-us-fda-approval-of-poherdy-pertuzumab-dpzb-the-first-perjeta-pertuzumab-biosimilar-in-the-us/
+- Bioon, Innovent bevacizumab/adalimumab new-indication approvals (background on Innovent's biosimilar line): https://news.bioon.com/article/71aae095200e.html
+- Phirda, 三生国健's post-2019-VBP pivot away from biosimilar toward autoimmune innovative drugs: https://www.phirda.com/artilce_36905.html?module=trackingCodeGenerator
+- Phirda, 三生国健 licensing non-autoimmune early assets to an affiliate for cash: https://m.bjnews.com.cn/detail/1740047421168304.html
+- Pedaily/投资界, "生物类似药的命运沉浮" — 2021 VBP-driven valuation collapse for biosimilar-focused companies: https://news.pedaily.cn/202305/513552.shtml
+- Fierce Pharma, Celltrion/Samsung "duel" — both pledging billions to biologics (capital-commitment scale): https://www.fiercepharma.com/manufacturing/celltrion-and-samsung-duel-shaping-up-as-both-pledge-billions-dollars-to-biologics
+- 上海证券报, 复星医药拟54亿港元私有化复宏汉霖 (privatization deal terms + stated rationale): https://paper.cnstock.com/html/2024-06/26/content_1934882.htm
+- 证券时报, 独立H股股东不买账？复宏汉霖私有化方案未通过 (rejection vote details, 19.25%): https://finance.stockstar.com/IG2025012200043915.shtml
+- 财联社, 独立股东"不答应"！复宏汉霖私有化计划告吹 (vote mechanics, 75%/10% thresholds): https://www.cls.cn/detail/1927191
+- 新浪财经, 复星医药私有化复宏汉霖不予实施 (H-share listing status retained after failed vote): https://www.stcn.com/article/detail/1505969.html
+- 财联社, 私有化复宏汉霖未果后复星医药出手增持 (Fosun's stake rising to 63.43% post-failure via open-market purchases): https://www.cls.cn/detail/2010383
+- HKCGI (香港公司治理公会), 浅议香港上市公司之私有化 (2024) — mechanics of privatization vs. buyback, compulsory acquisition rights, H-share exemption requirement: https://www.hkcgi.org.hk/files/publication/2573/Guideline%20for%20Privatization%20of%20Hong%20Kong%20Listed%20Companies%202024_(CHI)_Digital_final.pdf
+- 金杜律师事务所, 以退为进：H股上市公司私有化之路 (H-share-specific privatization mechanics): https://www.kingandwood.com/cn/zh/insights/latest-thinking/the-road-to-privatization-of-h-share-listed-companies.html
+- 华盛通, 复宏汉霖港股IPO首发49.6港元/股 (2019 IPO price): https://www.hstong.com/news/detail/19091907440551554
+- 经济观察网, 创新药企复宏汉霖消亡史 (full price-history narrative, IPO to 2024 halt): http://www.eeo.com.cn/2024/0629/669537.shtml
+- Investing.com (cn), 私有化宣告失败！复宏汉霖股价大跌 (stock fell, not rose, after rejection): https://cn.investing.com/news/stock-market-news/article-2645987
