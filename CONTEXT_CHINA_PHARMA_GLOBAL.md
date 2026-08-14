@@ -89,6 +89,17 @@ user's own favored candidate, the "invisible participation" hypothesis, that Chi
 biosimilar "share" may just mean it's present upstream (R&D/manufacturing/supply) without holding the
 visible brand/commercial layer, not that it's genuinely absent from the value chain.
 
+**Update 2026-08-14, rounds 5-8**: extensive case-study depth added to §11 — a full China biosimilar player
+map (§11.15), a capital-market-discount hypothesis refined and backed by China's 2021 VBP-driven valuation
+collapse plus Celltrion/Samsung's disclosed capital scale (§11.16), a complete Henlius-privatization case
+study with price history and a framing correction after user pushback (§11.17-11.18), the Henlius stock
+rally's timeline and drivers including a correction to the earlier "harvest mode" R&D reading (§11.19), the
+HLX43 within-company contrast case showing self-funded global trials for a differentiated asset vs. licensed-
+out biosimilars (§11.20), Henlius's actual pipeline positioning and R&D funding mechanism — biosimilar
+licensing cash functions as a direct funding pump for the innovative pipeline (§11.21), and Henlius's
+three-tier position inside the Fosun group by revenue and stated strategic role (§11.22). See those sections
+directly rather than this summary — this index note will not be kept fully in sync round-by-round.
+
 ---
 
 ## 2. Two framing options surfaced (not yet chosen)
@@ -912,6 +923,160 @@ privatization process, given it already held a clear majority. Three separate re
 
 ---
 
+### 11.19 Henlius stock price rally (round 7, 2026-08-14) — timeline, drivers, and a correction to §11.16
+
+**Full price timeline**: HK$18-25 range through the Jan-2025 privatization rejection → steady 2025 climb →
+late July 2025 single-day pop >7% approaching then-ATH ~HK$67 → **August 2025: new all-time high HK$85.95,
+YTD gain >250%, Citi raised target price to HK$95 and upgraded to Buy** → pulled back since to **HK$67.30 as
+of 2026-08-14 close** (down ~22% from the Aug-2025 peak, but still ~2.7x the rejected HK$24.60 privatization
+offer, and even the 52-week low of HK$50.25 is more than double that offer price).
+
+**Drivers — both sector-wide and company-specific, need to be kept separate**:
+- Sector-wide: Hang Seng Biotech/Healthcare indices opened 2026 up 11.06%/10.26%; a further +6.66% single-day
+  Hang Seng Biotech pop on 2026-06-29 on China's medical-insurance drug directory news; ASCO 2026 conference
+  catalysts — this is the same broad China-pharma-reappraisal wave documented throughout §1–§10, not
+  Henlius-specific.
+- Company-specific: 2025 revenue RMB 6.667B (+16.5%), **2025 R&D spend RMB 2.492B, +35.4% YoY** — this
+  **reverses and corrects** the "declining R&D, harvest-mode" reading in §11.16 (which was based on 2022→H1
+  2024 data only; the trend turned around in 2025 and should not be cited as a continuing decline); H1 2025
+  overseas profit up >200% YoY; 10 products approved across 60 countries (4 FDA, 4 EU).
+- **Single catalyst Citi named specifically for the target-price upgrade: HLX43 data.** Important: **HLX43 is
+  not a biosimilar** — it's a first-in-class-track PD-L1-targeting ADC (fully human IgG1 anti-PD-L1 antibody +
+  novel linker-topoisomerase-inhibitor payload), with no approved global competitor on the same target as of
+  this writing. **Reading for the article**: this arguably *strengthens* rather than weakens the capital-
+  discount hypothesis in §11.16 — the market re-rating tracks most closely to Henlius demonstrating it can
+  produce genuinely differentiated innovation, not to biosimilar-commercialization success being newly
+  rewarded. The stock took off once Henlius offered investors a story capital markets already know how to
+  price (novel-mechanism oncology asset), not because the market changed its mind about biosimilars.
+
+### 11.20 HLX43 as a clean within-company contrast case (round 7, 2026-08-14)
+
+**Rights/partnership status**: as of this writing, **no overseas licensing deal has closed** for HLX43 —
+Henlius is self-funding and independently running global development. (2025 press reports describe deal
+*talks* with both Johnson & Johnson and Roche, potentially involving several-hundred-million-dollar upfronts
+plus milestones, called a possible "biggest oncology licensing deal of 2025" — **this is reported negotiation
+status only, no confirmed signed/closed transaction found; do not present as completed in the draft**.)
+
+**Clinical stage**: international multicenter Phase II/III program (HLX43-NSCLC302, advanced squamous NSCLC)
+running simultaneously in China, US, Japan, and Australia — the Phase 3 portion is expected to be HLX43's
+first pivotal registrational trial. 700+ patients enrolled across the program (NSCLC ~60%/~400 cases).
+Multiple parallel Phase II studies in HNSCC, HCC, TNBC, pancreatic, cervical, esophageal, nasopharyngeal, and
+colorectal/gastric cancers. US FDA Orphan Drug Designation granted for thymic epithelial tumors. Phase 1 data
+presented at ASCO/WCLC 2025.
+
+**Why this is a strong internal contrast case for the article's core thesis**: same company, same period —
+every biosimilar asset (trastuzumab→Accord/Intas, pertuzumab→Organon, tocilizumab→Biogen, bevacizumab→
+Sandoz, ipilimumab→Sandoz) was licensed out early, well before or around approval. HLX43, the one asset with
+genuine global differentiation, is instead being **self-funded through an expensive international
+multi-country registrational program**, with an overseas licensing deal still only at the talking stage. This
+is a controlled, single-company data point directly supporting the "economic sorting" alternative reading
+flagged back in §11.7: the constraint isn't that Henlius *can't* run global trials (HLX43 proves it can) — a
+sufficiently differentiated asset gets self-funded, while comparatively undifferentiated biosimilars get
+licensed out early. Capability isn't the limiting factor here; expected differentiation/return is.
+
+### 11.21 Henlius pipeline positioning and R&D funding mechanism (round 8, 2026-08-14)
+
+**Is Henlius becoming an innovative-drug company, or is it still primarily biosimilar?** Neither cleanly —
+the company's own framing is an explicit **two-stage, dual-engine strategy, not a pivot away from
+biosimilars**:
+- Company's own words: **"生物类似药为基本盘"** (biosimilar is the base/foundation) — 2024 biosimilar segment
+  revenue RMB 3.6B vs. innovative-drug segment (led by serplulimab/汉斯状, launched 2022-03) RMB ~1.3B —
+  biosimilar still the larger revenue line as of 2024 (H1 2025 biosimilar sales alone: RMB 1.86B).
+- Official 2025 strategic label: **"Globalisation 2.0"** — company's own stated narrative is that biosimilar
+  was the beachhead ("出海起点是生物类似药... 积累了自身全球化的体系、人才和经验，现在把手中的成果复用到
+  后续创新管线上") that built the global regulatory/commercial capability now being redeployed for
+  innovative assets — i.e., biosimilar is presented as capability-building infrastructure that continues
+  alongside innovation, not something being wound down (§11.9 Role 3 elements mixed with Role 1, not a clean
+  single-role case).
+- **Biosimilar pipeline is still actively expanding, not shrinking**: new CTLA-4 and CD38 biosimilars in
+  development with overseas trials underway; a nivolumab biosimilar (HLX18) just got FDA IND clearance; an
+  ipilimumab biosimilar was just licensed to **Sandoz**. The forward "10+ products launching overseas in the
+  next 3-5 years" list explicitly mixes biosimilars (HLX11/pertuzumab, HLX14/denosumab) with innovative
+  assets (HLX22, HLX43) — the company is taking both categories overseas together, not sequencing away from
+  biosimilars.
+- **Conclusion for the article**: don't frame Henlius as "a biosimilar company becoming an innovative-drug
+  company." Frame it as a company that treats biosimilar revenue/capability as permanent infrastructure
+  funding and derisking a parallel innovative pipeline — which sets up §11.21's funding-mechanism finding
+  below as the mechanical link between the two.
+
+**Where does the money for expensive global registrational trials come from?** — H1 2025 figures give a
+fairly precise, well-sourced answer:
+- Operating cash flow: RMB 770.9M in H1 2025, +206.8% YoY, continuously positive
+- **BD (licensing) cash inflows: over RMB 1B in H1 2025, +280% YoY** — this line is overwhelmingly upfront/
+  milestone payments from *out-licensing deals*, i.e., predominantly the biosimilar licensing deals (Accord/
+  Intas, Organon, Biogen, Sandoz, etc.)
+- R&D spend H1 2025: RMB 995.4M, expensed R&D +21.3% YoY, explicitly directed at "differentiated innovative
+  molecules' preclinical development and core innovative platform building"
+- Balance sheet: cash & bank balances only RMB 772M at period-end (roughly flat YoY — **not a large pre-
+  funded war chest**); current liabilities RMB 4.941B, of which **interest-bearing borrowings RMB 2.247B**
+- **No evidence found of a large fresh equity raise or direct Fosun capital injection funding this specific
+  R&D program** — Fosun's post-privatization-failure share purchases were Fosun buying into Henlius as an
+  investor (raising its stake to 63.43%), not an operating-capital injection into the company.
+- **Core finding, worth building into the article as a central mechanism, not a footnote**: BD/licensing cash
+  inflow growth (+280%) is outpacing and roughly matching operating cash flow growth (+206.8%) as a funding
+  source — **biosimilar out-licensing revenue is functioning as a direct cash pump funding the innovative
+  pipeline's expensive global trials**, supplemented by bank borrowing, not by equity markets or parent-
+  company injection. This is the most precise available answer to "what strategic role does biosimilar play
+  in this company" (§11.9): not purely core business, not purely a transition asset to be abandoned, but an
+  **ongoing internal financing engine** for the innovation side of the same company.
+
+### 11.22 Henlius's position inside the Fosun group (round 8, 2026-08-14)
+
+Three-tier revenue structure, all 2025 fiscal-year figures:
+- **Fosun International** (复星国际, the top holding conglomerate — also owns Club Med, insurance, Lanvin/
+  fashion, real estate; not a pharma-focused entity at this level): total revenue RMB 173.43B, adjusted
+  industrial operating profit RMB 40B. Four core subsidiaries generate RMB 128.2B (74% of group revenue);
+  Fosun Pharma is one of these four, sitting under the group's "Health" (大健康) segment.
+- **Fosun Pharma** (复星医药, 600196/2196.HK — Henlius's direct parent, holds 63.43% of Henlius): 2025
+  revenue RMB 41.662B (+1.45%), net profit attributable to parent RMB 3.371B (+21.69%). **≈24% of Fosun
+  International's total revenue.** Fosun Pharma is itself mid-transition on the same axis as Henlius:
+  innovative-drug revenue RMB 9.893B (+29.59% YoY, now 33.16% of its pharma-business revenue), overseas
+  revenue RMB 12.977B (+14.87%), while mainland China revenue fell 3.64% to RMB 28.685B (share shrinking from
+  72.49% to 68.85%) — i.e., **Fosun Pharma's own group-level narrative is the same "domestic base under
+  pressure, innovation + overseas taking over" story Henlius tells about itself**, just one level up.
+- **Henlius**: 2025 revenue RMB 6.667B, net profit RMB 827M. **≈16% of Fosun Pharma's total revenue, ≈3.8%
+  of Fosun International's total revenue.**
+
+**Fosun's own stated positioning of Henlius**: explicitly called **"复星医药的核心创新资产"** (Fosun Pharma's
+core innovation asset) and "an important antibody technology platform" the group will "firmly support...to
+deepen innovative R&D and strengthen global competitiveness." Fosun Pharma's own 2025 headline strategic
+label — **"创新药和全球化双引擎驱动高质量发展"** (innovative drugs + globalization, dual-engine driven
+high-quality growth) — is *the same phrase structure* Henlius uses for itself ("Globalisation 2.0," dual
+biosimilar+innovation engine). This is not an independently-invented subsidiary narrative — Henlius's
+strategic story is a direct instantiation, one level down, of Fosun Pharma's own group-wide strategic theme.
+
+**Why this matters for the article**: Henlius is financially small within the group (~16% of Fosun Pharma,
+under 4% of Fosun International) but strategically central — explicitly labeled the group's core innovation/
+biologics platform. This resolves the earlier apparent tension around the privatization episode (§11.17):
+Fosun's willingness to spend HK$5.4B trying to take private, and its continued open-market accumulation up to
+63.43% after the deal failed, makes more sense as a *strategic-platform* commitment than a *revenue-
+contribution* decision — Fosun is not optimizing for Henlius's share of group revenue, it's defending and
+building out its group-wide biologics/innovation flagship.
+
+### 11.23 Henlius origin story: joint venture, not organic build or acquisition (round 8, 2026-08-14)
+
+Answers "did Fosun found Henlius itself, or acquire it, and what's the backstory":
+- **2009-02**: 刘世高 (Scott Liu) and 姜伟东 (Jason Jiang) — both former **Amgen** executives — incorporated
+  an entity called "Henlius" in the US.
+- **2009-12**: Fosun Pharma signed a cooperation agreement with this US-based Henlius team and **jointly
+  established** Shanghai Henlius as a **joint venture** — registered capital RMB 390M, focused on monoclonal-
+  antibody biosimilars, biobetters, and innovative antibodies. Early operations: Shanghai HQ, R&D centers in
+  Taipei and California.
+- **Neither organic Fosun build-out nor acquisition of an existing operating company** — it's a founding-era
+  JV: Fosun supplied capital and domestic-market/regulatory platform access; the founding team supplied
+  global pharma R&D/registration experience from Amgen. This is the same "returnee-scientist-team + domestic
+  capital" JV pattern that produced BeiGene, Innovent, and other companies from the same 2009-2011 founding
+  wave of Chinese biotech.
+- **Possible framing point for the article**: Henlius carried built-in multinational-pharma R&D/registration
+  DNA from day one via its founders' Amgen background — a different starting endowment than a purely
+  domestically-grown biosimilar maker, which may partly explain why it was able to execute FDA/EMA filings
+  and a broad partner network (Accord/Intas, Organon, Sandoz, Biogen) relatively fluently compared to peers.
+  Worth testing against other companies in the §11.15 player map (e.g., was 三生国健 or 神州细胞's founding
+  team similarly credentialed, or more domestically grown?) before asserting this as a general explanatory
+  factor — currently only confirmed for Henlius specifically.
+
+---
+
 ## 12. Key source URLs (for citation when drafting)
 
 - STAT News (dependency op-ed): https://www.statnews.com/2026/05/12/biotech-pharmaceutical-industry-china-leaders-destroying-industry/
@@ -981,3 +1146,22 @@ specific figure needs re-verification rather than trusting numbers transcribed i
 - 华盛通, 复宏汉霖港股IPO首发49.6港元/股 (2019 IPO price): https://www.hstong.com/news/detail/19091907440551554
 - 经济观察网, 创新药企复宏汉霖消亡史 (full price-history narrative, IPO to 2024 halt): http://www.eeo.com.cn/2024/0629/669537.shtml
 - Investing.com (cn), 私有化宣告失败！复宏汉霖股价大跌 (stock fell, not rose, after rejection): https://cn.investing.com/news/stock-market-news/article-2645987
+
+**Added 2026-08-14 (stock rally, HLX43, pipeline mix, Fosun group structure round):**
+- Investing.com (cn), Shanghai Henlius Biotech equity page (2026-08-14 dated snapshot, HK$67.30 close): https://www.investing.com/equities/shanghai-henlius-biotech-inc
+- Tencent News, Henlius 2025 interim results — overseas profit +200%+, global commercialization signal: https://news.qq.com/rain/a/20250826A02MIJ00
+- Sina Finance, Henlius 2025 full-year results — RMB 6.667B revenue, +16.5% YoY: https://finance.sina.com.cn/roll/2026-03-21/doc-inhrtpvz6054467.shtml
+- Sina Finance, Henlius stock hit HK$85.95 all-time high Aug 2025, YTD +250%+, Citi target HK$95/Buy (via search synthesis, original stockstar-family sourcing)
+- business-news-today.com, Henlius HLX43 deal talks with J&J and Roche (reported, unconfirmed as closed): https://business-news-today.com/why-henlius-biotechs-hlx43-deal-talks-with-johnson-johnson-and-roche-are-shaking-up-global-oncology/
+- ClinicalTrials.gov, HLX43-NSCLC302 global Phase II/III study record: https://clinicaltrials.gov/study/NCT07459751
+- PharmExec, Henlius global exclusive license agreement with U-mab Biopharma (IL-1RAP mAb, in-licensing, context on Henlius's BD activity pattern): https://www.pharmexec.com/view/henlius-enters-global-exclusive-license-agreement-umab-biopharma-best-in-class-potential-anti-il-1rap-mab
+- Henlius 2025 interim results investor presentation (PDF, H1 2025 cash flow/R&D figures): https://www.henlius.com/upload/202508/25/%E5%A4%8D%E5%AE%8F%E6%B1%89%E9%9C%962025%E5%B9%B4%E4%B8%AD%E6%9C%9F%E4%B8%9A%E7%BB%A9%E6%8E%A8%E4%BB%8B.pdf
+- Henlius, ipilimumab biosimilar license agreement with Sandoz: https://www.henlius.com/en/NewsDetails-4992-26.html
+- Henlius, nivolumab biosimilar HLX18 FDA IND clearance: https://www.henlius.com/en/NewsDetails-5802-26.html
+- Fosun Group, Henlius H1 2025 results (fosun.com corporate news): https://www.fosun.com/content/details46_4870.html
+- Fosun Pharma, statement on Henlius as "core innovation asset" post-failed-privatization: https://www.fosunpharma.com/content/details37_13576.html
+- Fosun Group, Fosun International 2025 total revenue RMB 173.43B announcement: https://www.fosun.com/content/details46_4978.html
+- Fosun Group, Fosun Pharma 2025 results — "innovative drug + globalization dual-engine" framing: https://www.fosun.com/content/details46_4975.html
+- 知乎/药时代, 复宏汉霖的故事——医药界的中国合伙人 (founding story, Scott Liu/Jason Jiang, Amgen background, 2009 JV): https://zhuanlan.zhihu.com/p/385627098
+- Forbes China, "Grown Up" Drug Maker Shanghai Henlius Targets Global Fight To Beat Cancer (English-language founding/company profile): https://www.forbes.com/sites/forbeschina/2025/06/24/grown-up-drug-maker-shanghai-henlius-targets-global-fight-to-beat-cancer/
+- Fierce Pharma, Henlius CEO scouts for US PD-1 partner amid Fosun unit's pivot to innovative drugs from biosimilars (English coverage of the biosimilar→innovation narrative): https://www.fiercepharma.com/pharma/fosuns-henlius-ceo-scouts-us-pd-1-partner-amid-pivot-innovative-drugs-biosimilars
