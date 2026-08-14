@@ -16,6 +16,7 @@
 | `CONTEXT.md` (this file) | Every session — architecture, rules, pending |
 | `CONTEXT_HOMEPAGE.md` | Working on `/` or `#homeMobile` |
 | `CONTEXT_RESEARCH.md` | Working on `/research`, NSFG, MEPS, or OGN analysis |
+| `CONTEXT_CHINA_PHARMA_GLOBAL.md` | Continuing the China pharma "出海" Industry Analysis piece (framework discussion stage, not yet written) |
 | `CODEX_WRITING.md` | Taking over Wandering from Codex |
 | `HANDOFF_CLAUDE.md` | Security questions, deploy config, open decisions |
 
@@ -173,6 +174,7 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 ## 6. Pending Work
 
 ### High priority
+- [ ] **Industry Analysis** — new piece: China pharma globalization ("出海") — framework discussion in progress, not yet drafted, see `CONTEXT_CHINA_PHARMA_GLOBAL.md`
 - [ ] **Industry Analysis** — Series 02 content TBD; OGN Sun Pharma draft at `~/SunPharma_OGN_acquisition.html`
 - [ ] **MEPS deep-dive pages** — INSCOV23 (insurance), DLAYCA42 (delayed care), TOTSLF23 (OOP) — stubs in `meps-reports.html`
 
