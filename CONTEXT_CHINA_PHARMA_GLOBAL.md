@@ -8,9 +8,34 @@
 > dashboard elements, Chinese drafted first then English synced (see `feedback-ogn-bilingual-workflow`
 > memory — same rule should apply here once drafting starts).
 
-**How to resume:** read this whole file before continuing the discussion. Do not start drafting HTML
-until the user explicitly says the framework is settled — as of this writing they've twice said "we're
-not at the writing stage yet."
+## ⚠️ Scope pivot (2026-08-14, round 4) — READ THIS FIRST
+
+**The plan changed.** The user decided the broad "China pharma globalization" article (everything in §1–§10
+below) is too large to tackle first. **The first article to actually get written is now narrower: a
+standalone biosimilar piece** (built from the §11 thread) — framed explicitly as a pilot/learning exercise
+("试水和学习的切入点") to work out research methodology on a more tractable question before attempting the
+full out-licensing/NewCo/Co-Co/self-build landscape.
+
+- **Phase 1 (current target): the biosimilar article.** Scope, refined research question, and full working
+  plan are now in the expanded §11 below — read §11 in full before doing anything else on this project.
+- **Phase 2 (deferred, not active): the broad "出海" article.** Everything in §1–§10 stays valid background/
+  research inventory and should NOT be discarded, but is not the immediate writing target. Resume it only
+  after Phase 1 ships and the user explicitly says so. §11.8 explains why Phase 1 is expected to feed
+  directly into Phase 2 (it establishes a science-risk-controlled baseline for "which barriers are really
+  structural").
+- Format decision for the biosimilar piece: not yet explicitly confirmed as OGN-style HTML vs. something
+  lighter — the format note above was written for the broad piece; **confirm format with the user before
+  drafting**, though OGN-style bilingual HTML in `public/` is the reasonable default given site precedent.
+
+**How to resume:** read this whole file before continuing. Do not start drafting HTML until the user
+explicitly says the framework is settled — as of this writing they've said multiple times "we're not at
+the writing stage yet," though the biosimilar-first pivot is a sign they're getting close to it for §11.
+
+**Why biosimilar first, in the user's own words**: biosimilar is a domain the user is personally more
+familiar with than innovative-drug dealmaking, and it's a more tightly scoped topic — starting narrow here
+and widening out to innovative-product globalization afterward is, in her words, "a reasonable step." This
+means she can likely move faster and catch domain errors herself in §11 specifically — don't over-explain
+basic biosimilar mechanics to her, but keep flagging sourcing/verification gaps as usual.
 
 ---
 
@@ -51,6 +76,18 @@ framing** — Samsung Bioepis is actually partner-reliant like the Chinese cases
 self-build; and confirmed the Biocon/Viatris deal terms ($3B, closed Nov 2022) as a clean answer to "can
 commercialization capability be bought via M&A" (yes, precedent exists, price is known). Full benchmark
 table (§11.6) not yet built — only 2 of ~6 target companies researched so far.
+
+**Update 2026-08-14, round 4 — major scope pivot, see the box at the top of this file.** User decided to
+write the biosimilar thread (§11) as a standalone first article (a deliberate pilot/learning exercise),
+deferring the broad "出海" piece (§1–§10) to a later Phase 2. Also sharpened §11 substantially: the research
+question changed from "did China self-commercialize or not" to "was global commercialization even the
+strategic goal for this specific product," with a six-role taxonomy (§11.9) and a capital-allocation-based
+scoring table (§11.10) for sorting companies before comparing them to Korea/India benchmarks. Added a
+Company×Product×Geography unit of analysis (§11.11), a deliberately diverse (not just biggest-companies)
+first case batch (§11.12), and seven competing hypotheses held open simultaneously (§11.13) — including the
+user's own favored candidate, the "invisible participation" hypothesis, that China's low apparent overseas
+biosimilar "share" may just mean it's present upstream (R&D/manufacturing/supply) without holding the
+visible brand/commercial layer, not that it's genuinely absent from the value chain.
 
 ---
 
@@ -545,6 +582,149 @@ companies retaining more control on higher-differentiation assets: that would su
 sorting (low-margin/channel-driven products get licensed out, high-differentiation products are worth
 self-building for) rather than a uniform capability ceiling — **both readings are analytically valid; the
 point is to let the case data decide, not assume either answer going in.**
+
+### 11.8 Refined research question (round 4, 2026-08-14) — this is now THE question for Phase 1
+
+User's key correction to the round-3 framing: not self-commercializing a given biosimilar does **not** by
+itself prove a capability gap. First need to establish what role that biosimilar plays in the company's
+overall strategy — it may simply never have been intended as a vehicle for building global commercial
+infrastructure. Don't fall into a "why doesn't China have a Celltrion" comparison before checking whether a
+given Chinese company was ever trying to be one.
+
+**Working research question (replaces the round-3 framing "did China self-commercialize or not"):**
+
+> 中国biosimilar企业为什么没有在欧美市场形成与印度、韩国企业相当的商业存在：是进入时间、市场结构和能力
+> 约束所致，还是企业本来就没有把biosimilar视为建立全球商业体系的核心战略？
+
+Both explanations can be simultaneously true across different companies — but they lead to very different
+evaluations of each company, so cases need to be sorted by *strategic intent* before being judged on
+*commercial outcome*.
+
+Broken into four sub-questions to research in order:
+1. Where do Chinese companies actually sit in the overseas biosimilar value chain? (Not brand alone — look
+   at R&D, manufacturing, MAH, sales, and where the profit actually accrues — this is what §11.3's role-
+   decomposition template is for.)
+2. Which companies are genuinely trying to become global biosimilar players, vs. opportunistic licensors?
+   (Sort by strategic role first — see §11.9.)
+3. For the companies that ARE genuinely trying to globalize, what's actually stopping them? (Registration,
+   litigation, launch timing, channel access, payer negotiation, capital, geopolitics — the six constraints
+   in §11.4, but now only applied to the subset that has real global ambition.)
+4. Where does the gap vs. Korea/India actually come from — timing, commercial infrastructure, M&A capacity,
+   national industrial policy, or just a different product-portfolio mix?
+
+### 11.9 Why a company develops a biosimilar — six possible strategic roles (must sort cases into these
+before judging any of them against Celltrion/Samsung Bioepis/Biocon)
+
+1. **Core business** — the company intends to run biosimilars as a real global business at scale: multiple
+   blockbuster-reference biosimilars in the pipeline (a portfolio, not a one-off), heavy biologics capacity
+   buildout, continuous FDA/EMA filing activity, self-built or acquired overseas commercial infrastructure,
+   biosimilar revenue treated as a core growth line. **Only this category is fairly comparable to Celltrion/
+   Samsung Bioepis/Biocon.**
+2. **Cash-flow / capability-training tool** — used to build biologics CMC competence, train clinical/
+   regulatory/pharmacovigilance teams, establish domestic hospital channel relationships, and generate
+   steady cash to fund innovative-drug R&D. Primary market is domestic; may never have been worth building
+   overseas commercial infrastructure for.
+3. **Technology-platform validation** — proves antibody development, cell-line construction, process scale-
+   up, analytical/QC, commercial-scale manufacturing, and FDA/EMA-grade quality-system capability. The
+   company's real destination may be innovative biologics or CDMO services, not a global biosimilar brand.
+4. **Outbound-licensing / capacity-export vehicle** — never intended to self-sell; the plan from day one was
+   to license overseas rights to a local partner, keep manufacturing, and earn supply/royalty income while
+   raising plant utilization and entering a regulated-market supply chain. This is a deliberate B2B model,
+   not "failure to commercialize" — should be benchmarked against supply margin, capacity utilization, and
+   partner-network breadth, not overseas brand market share.
+5. **Domestic defensive product** — developed mainly to prevent a competitor's biosimilar from eroding the
+   company's position in a therapeutic area, or to round out an existing domestic sales-team's portfolio.
+   May never have had a serious global development plan at all — comparing it to Korea's globally-designed-
+   from-inception programs would be a category error.
+6. **Transitional asset toward innovative drugs** — biosimilar work builds capability early on, after which
+   capital and management attention shift to biologics improvements, bispecifics, ADCs, cell therapy, or
+   first-in-class programs. Licensing out the biosimilar's overseas rights here may be freeing up capital/
+   management bandwidth, not a globalization failure.
+
+### 11.10 Strategic-weight signal table — how to sort a company into one of the six roles above
+
+Don't rely on how a company markets itself — look at where it actually puts capital, people, capacity, and
+management time. Score each company/product against these signals:
+
+| Signal | Points toward "core business" | Points toward "peripheral" |
+|---|---|---|
+| Pipeline count | Multiple biosimilars, continuous investment | Few, legacy/one-off products |
+| R&D spend direction | Continues funding new biosimilars | R&D shifting toward innovative drugs |
+| Management commentary | Explicitly named as a long-term growth pillar on earnings calls | Rarely discussed |
+| Capex | Capacity built specifically around biosimilars | Capacity shared across multiple business lines |
+| Overseas registration | Proactive, continuous FDA/EMA filing activity | Filing mostly handled by the partner |
+| Rights structure | Retains rights in major markets | Broadly licenses overseas rights away |
+| Commercial team | Self-built, expanding, or acquired | Relies on local partners |
+| Revenue contribution | High actual or targeted share of company revenue | Low, or not separately disclosed |
+| KPIs used | Market share, sales volume, overseas revenue | Milestones, licensing fees, supply volume |
+| Product selection | Coherent therapeutic-area or channel portfolio | Single opportunistic project |
+| Org structure | Dedicated biosimilar business unit | Folded into a general pipeline |
+| Follow-on activity | New biosimilar projects keep being added after approval | Nothing follows after the first approval |
+
+### 11.11 Unit of analysis: Company × Product × Geography (not "country")
+
+Do not use "country" as the base unit — it collapses cases like Henlius (US/EU licensed to Accord/Intas,
+possibly self-commercialized in emerging markets — see the unresolved nuance in §11.1) into a single
+misleading label. Track each project at the **Company × Product × Geography** level, recording: Company,
+Biosimilar product, Reference biologic, Target market, Development origin, Manufacturing location,
+Regulatory applicant, Approval date, Launch date, Commercialization partner, Brand owner, Rights retained by
+the Chinese company, Revenue model, Market share, and the strategic role from §11.9. This is the schema to
+use once real data-gathering starts — not yet built into a table, this is the target structure.
+
+### 11.12 First case batch (kept deliberately small and diverse, not "biggest companies only")
+
+**Group 1 — China**, selected for *strategic-type diversity*, not just scale:
+- A company where biosimilar is genuinely core business (Henlius is the likely anchor case, but should not
+  be the only one studied — risk of over-generalizing from one company)
+- A company visibly transitioning from biosimilar toward innovative drugs
+- A company whose model is mainly overseas-licensing/capacity-export (candidate: Bio-Thera, pending role
+  classification via §11.10)
+- A company that has actually attempted FDA or EMA filing (as a base filter — separates real global
+  attempts from purely domestic players)
+
+**Group 2 — Korea**, specifically to prove "the Korea model" is not one thing (already partly shown in
+§11.2): Celltrion (self-brand, self-commercialize direction) vs. Samsung Bioepis (partner-commercialized).
+
+**Group 3 — India**, same internal-contrast logic: Biocon Biologics (grew global infrastructure partly via
+the Viatris M&A, §11.2) vs. one more India-based company that relies mainly on partners/regional licensing,
+as an internal control — candidate not yet chosen (Dr. Reddy's was the user's original suggestion, not yet
+researched for this specific angle).
+
+### 11.13 Competing hypotheses to hold open simultaneously (do not pre-select one before the case data is in)
+
+1. **Capability-gap hypothesis** — Chinese companies lack US/EU patent-litigation experience, payer-access
+   relationships, and commercial networks, so licensing is close to the only option.
+2. **Strategic-choice hypothesis** — biosimilar margins don't justify the cost of building expensive
+   overseas commercial infrastructure; licensing is the rational choice even where capability exists.
+3. **Timing hypothesis** — Chinese entrants arrived too late; first-movers already control the major
+   contracts and channels.
+4. **Domestic-market path-dependency hypothesis** — China's huge domestic market removed the incentive to
+   design to FDA/EMA standard from a project's inception, the way Korea's export-oriented programs did.
+5. **Transition hypothesis** — biosimilar work is just a stage for accumulating CMC competence, capacity,
+   and cash flow; the company's real destination is innovative drugs, so global biosimilar commercialization
+   was never the point.
+6. **Policy-and-capital hypothesis** — Korean and Indian companies benefited from longer-horizon capital,
+   stronger M&A capacity, or explicit national industrial policy support that Chinese companies didn't have
+   to the same degree.
+7. **Invisible-participation hypothesis (user's favored candidate)** — China's apparent low overseas
+   "share" may be a measurement artifact: Chinese companies may already be participating extensively through
+   R&D, drug-substance manufacturing, and supply, just without appearing as the visible end-market brand or
+   commercial owner. Under this reading, **"China hasn't gone global in biosimilars" may itself be a false
+   impression** — the more accurate description would be "present upstream in the value chain, absent from
+   the terminal brand/commercial-profit layer." User flagged this as the hypothesis she finds most promising,
+   but it is explicitly NOT to be assumed true going in — same evidentiary bar as the other six.
+
+### 11.14 Why Phase 1 (biosimilar) is expected to inform Phase 2 (the broad "出海" piece)
+
+Once biosimilar cases are sorted by strategic role (§11.9) and role-adjusted comparisons are made, the
+project establishes a **science-risk-controlled baseline**: after removing "the product itself was too
+risky/novel to succeed" as a possible explanation, whatever barriers remain (registration, litigation,
+channel access, capital allocation, path dependency) are more likely genuine structural constraints on
+Chinese pharma globalization generally — not artifacts of any single product's clinical uncertainty. Phase 2
+can then test whether higher-margin, higher-differentiation innovative drugs let Chinese companies clear
+those same barriers (self-build, Co-Co, NewCo) more often than biosimilars do, which would be a much
+stronger, better-evidenced version of the "financing squeeze vs. capability maturity" question in §5 than
+starting from the innovative-drug side alone.
 
 ---
 
