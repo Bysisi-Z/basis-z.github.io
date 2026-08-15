@@ -1292,6 +1292,127 @@ should be written**:
   market. Worth testing this reading against the actual China-biosimilar approval-timeline data already
   gathered (§11.1, §11.15, §11.20, §11.25) before asserting it as a firm conclusion.
 
+### 11.27 Global biosimilar manufacturing/CDMO landscape (round 12, 2026-08-14) — the production side, not just
+commercial-stage companies
+
+User clarified §11.26 was incomplete: "global players" should include manufacturing/CDMO companies, not only
+commercialization-stage biosimilar owners.
+
+**Global biologics CDMO ranking (by revenue; different sources order #2/#3 differently)**:
+- **Lonza** (Switzerland) — #1 by sales, strong across biologics and cell/gene therapy manufacturing
+- **WuXi Biologics** (药明生物, China) — 2025 record results: RMB 21.8B revenue, 209 new integrated projects
+  signed, 945 total integrated projects; 580,000+ L installed/planned bioreactor capacity across China,
+  Ireland, Germany, US — a top-3 global single-use mammalian capacity provider; CMAB Biopharma acquisition
+  added Suzhou capacity. **Distinct listed entity from WuXi AppTec** (the company covered in §8's BIOSECURE/
+  1260H thread) — same "WuXi" lineage/brand, different business (biologics CDMO vs. broader CRO/CDMO), and as
+  of this research, **not confirmed to be separately named on the DoD 1260H list or otherwise directly
+  targeted** — don't conflate the two entities' regulatory exposure without checking WuXi Biologics
+  specifically.
+- **Samsung Biologics** (Korea) — world's largest biopharma manufacturing capacity at a single site (Songdo);
+  ranks #1 specifically in CDMO sales *growth rate* (a different metric than absolute revenue share).
+- Other major players: Catalent, Boehringer Ingelheim BioXcellence, Fujifilm Diosynth Biotechnologies, Thermo
+  Fisher Scientific, Recipharm, AGC Biologics, Siegfried.
+
+**Market size**: global biologics CDMO market ~$22B (2024) → ~$25.41B (2025) → projected ~$92.79B by 2034
+(~15.48% CAGR). Within biologics contract manufacturing, drug-substance/API manufacturing is the largest
+segment (~41.3% share projected for 2026). Regional split (2026 projection): North America ~37.7%, Asia
+Pacific ~28.2%.
+
+**Samsung Biologics as a claimed BIOSECURE beneficiary — treat as reported/anticipatory, not confirmed**: one
+industry article's headline framed Samsung Biologics as "climbing to global top 3" specifically *because of*
+US restrictions on Chinese CDMOs. On closer reading: the mechanism cited is indeed the BIOSECURE Act; the
+article names WuXi Biologics only in passing (noting WuXi AppTec is divesting some China clinical-research
+services to "focus on core CRDMO strategy") and does **not** name a specific confirmed instance of Chinese
+CDMO capacity being targeted or excluded; the Samsung benefit is described as expected market-share capture
+"through 2030" via risk-hedging — i.e., **forward-looking positioning, not a documented completed customer
+shift**. A separate, more concrete claim (different source): Samsung Biologics reports **inquiries have
+doubled since BIOSECURE discussions began** — a real but early-stage business-development signal, not
+confirmed contract wins. **Cross-reference to §8**: this is the same pattern already established there — the
+security-hawk narrative and anticipatory industry positioning are running well ahead of BIOSECURE's actual
+legal teeth (~2028 effective date) and ahead of the one concrete related enforcement action (WuXi AppTec's
+1260H designation), which was itself judicially enjoined 2026-08-07.
+
+**Why national-security scrutiny targets China specifically and not Korea/Switzerland/other major
+manufacturing locations (user's question, round 12)** — most US biosimilar/biologics manufacturing is
+genuinely offshore (Korea, Switzerland, Ireland, Germany all have major capacity), yet only China (plus
+Russia/North Korea/Iran) is captured by BIOSECURE-style mechanisms. This is **not** a generic "offshore-
+manufacturing-risk" framework — it's a narrow, nationality-of-control legal trigger:
+- The statutory definition of "biotechnology company of concern" requires the entity be under the
+  administrative governance, direction, or control of, or operate on behalf of, a **"foreign adversary"**
+  government — and "foreign adversary" is a **closed list of exactly four countries: China, Russia, North
+  Korea, Iran**. Korea and Switzerland are treaty-allied/non-adversarial nations by separate, pre-existing US
+  government classification and are **structurally outside this mechanism's scope regardless of how much
+  manufacturing happens there** — they were never eligible for exclusion, not excluded-then-cleared.
+- US justification for China specifically centers on two claimed features of China's political/legal system,
+  not manufacturing quality or location risk: (1) **军民融合/military-civil fusion** — the US DoD's own 2020
+  China Military Power Report states China's civilian and military economies lack a clear boundary, meaning
+  ostensibly-commercial biotech firms could be structurally drawn into PLA modernization; (2) implicit
+  reliance on China's legal environment (e.g., obligations for organizations/citizens to cooperate with state
+  intelligence work when compelled) as a structural risk that doesn't have an equivalent in Korean or Swiss
+  law.
+- **Confirmed direct beneficiaries, consistent with §11.26's finding**: Korean CDMOs (Samsung Biologics
+  specifically) are named as the most immediate beneficiaries (doubled inquiries since BIOSECURE discussions
+  began); Lonza (Switzerland) is positioned as best-placed to capture share given significant service overlap
+  with Chinese manufacturers in biologics and cell/gene therapy.
+- **Framing point for the article**: the "double standard" the user's question points at isn't really a
+  double standard within the law's own logic — the mechanism was designed from the outset as a nationality-
+  of-adversary-government trigger, not a manufacturing-risk-assessment framework. If it were the latter, Korea
+  and Switzerland would need to be assessed too. Making this distinction explicit prevents the article from
+  either (a) implying the US is neutrally assessing manufacturing risk across all countries (it isn't), or
+  (b) implying the exclusive China focus is manufacturing-quality-driven (the evidence, e.g. Henlius's FDA/EMA
+  facility inspections below, argues against that reading too).
+
+**Henlius-Organon products: where they're actually manufactured (user's question, round 12) — a concrete case
+testing all of the above**: **both pertuzumab (HLX11/POHERDY) and denosumab (HLX14/BILDYOS+BILPREVDA) are
+manufactured entirely in China**, at Henlius's own Shanghai-area facilities — Xuhui Facility, Songjiang First
+Plant (24,000L, China GMP 2022, **FDA Pre-License Inspection passed 2023-08**), and Songjiang Second Plant
+(adding 96,000L, bringing total capacity to 144,000L by 2026; current total ~48,000L). Organon holds only the
+ex-China *commercialization* rights — manufacturing and supply stay entirely with Henlius in Shanghai.
+Specific regulatory confirmation for these two products: **HLX14's production facilities passed an FDA
+Pre-License Inspection and are cGMP-compliant**; in **2025-06** the **Belgian federal medicines agency**
+(FAMHP) issued two GMP certificates confirming EU-GMP equivalence for the HLX14 production line. **This is a
+concrete, dated case where FDA/EU regulators physically inspected and passed Chinese manufacturing facilities
+for products now sold under a Western brand (Organon) in the US and EU** — directly complicating any
+narrative that treats "Chinese-manufactured biologic" as inherently a quality/safety problem. The security
+concern being legislated (BIOSECURE, 1260H) is about corporate-control/nationality, not about facility
+inspection outcomes — this Henlius/Organon case is good concrete evidence for keeping those two questions
+separate in the article, exactly as flagged in §9's three-category framework.
+
+### 11.28 EU procurement policy risk for China-manufactured biosimilars (round 12, 2026-08-14)
+
+Direct follow-up to §11.27: given Henlius's pertuzumab and denosumab are 100% single-sourced from Shanghai
+with no disclosed dual-sourcing/EU-based backup capacity, could this affect competitiveness in EU tenders?
+**Current answer: not yet under any confirmed, currently-applicable rule — but the EU has already shown it
+will use blunt country-of-origin exclusion tools once it decides to, and a pharma-specific version is in
+active legislative development.**
+
+- **EU Critical Medicines Act (CMA)**: political agreement reached 2026-05-12; final legal text not yet
+  published (expected in the Official Journal toward end of 2026), application date still unconfirmed —
+  **same "rhetoric ahead of legal effect" timing pattern already seen with BIOSECURE in §8**. Motivating data:
+  60-80% of API production for generic medicines has moved to China/India; **China specifically supplies 67%
+  of EU antibiotic API imports and 95% of vitamin C derivative imports**. Once applicable, the CMA will
+  require supply-chain-resilience criteria in public procurement of "critical medicines" — shifting away from
+  pure lowest-price tendering toward "Most Economically Advantageous Tender" (MEAT) criteria that weight
+  security of supply, and the European Parliament is pushing for **preferential tender treatment for
+  companies with a "significant proportion" of EU-based production**. Political framing is explicitly
+  security-coded: in spring 2025, **11 EU health ministers jointly warned that European dependence on Chinese
+  medicines is "the weak point in Europe's defence."**
+- **Already-in-force precedent, but scoped to medical devices, not pharmaceuticals**: on **2025-06-19**, the
+  EU's International Procurement Instrument (IPI) was used for the first time to **fully exclude Chinese
+  medical-device suppliers from EU public contracts above €5M for five years** (effective 2025-06-30); other
+  bidders (US, UK, Swiss, EU, etc.) must keep China-manufactured content under 50% of contract value. **No
+  evidence found that this IPI mechanism has been extended to pharmaceuticals or biosimilars** — it remains a
+  medical-device-specific measure as of this research, but it demonstrates the EU is willing to move from
+  rhetoric to a hard, quantified exclusion rule once it decides a sector warrants it.
+- **No evidence found of country-of-origin exclusion criteria currently used in actual EU biosimilar tenders**
+  — biosimilar-procurement literature discusses "manufacturing/supply security" as a consideration in the
+  abstract, but nothing concrete tying tender outcomes to country of origin has surfaced yet.
+- **Reading for the article**: Henlius's/Organon's pertuzumab and denosumab are not disadvantaged by any
+  confirmed current EU rule, but they carry a real, single-source, all-China-manufacturing forward risk once
+  the Critical Medicines Act's procurement provisions are finalized and if they end up applying to biologics/
+  biosimilars (not just small-molecule generic APIs) — worth flagging as a genuine unresolved exposure rather
+  than either dismissing it or overstating it as an active constraint today.
+
 ---
 
 ## 12. Key source URLs (for citation when drafting)
@@ -1394,3 +1515,21 @@ specific figure needs re-verification rather than trusting numbers transcribed i
 - CONASS, Bahiafarma/Bionovis/Samsung Bioepis PDP context (South Korea mission, biosimilar manufacturing localization): https://www.conass.org.br/duas-pdps-para-producao-de-medicamentos-na-bahiafarma-sao-assinadas-em-missao-na-coreia-do-sul/
 - 界面新闻, 科创板上市117天后，百奥泰再赴港交所上市 (H-share listing plan announcement, 2020-06): https://www.jiemian.com/article/4539582.html
 - 21世纪经济报道, 百奥泰盘中一度跌超7%，累计亏损超20亿元 (2026 stock decline, cumulative losses, EU GMP inspection failure): https://www.21jingji.com/article/20260616/herald/8a209b1bd741ee161d0bb4aa56c8c232.html
+
+**Added 2026-08-14/15 (global CDMO landscape, China-specific national-security logic, Henlius manufacturing location, EU procurement round):**
+- Mordor Intelligence, Top Biologics CDMO Companies: https://www.mordorintelligence.com/industry-reports/biologics-contract-development-and-manufacturing-organization-cdmo-market/companies
+- Morningstar, China's Biggest Biologics CDMO WuXi Biologics Becoming a Global Leader: https://www.morningstar.com/company-reports/1145740-chinas-biggest-biologics-cdmo-wuxi-biologics-becoming-a-global-leader
+- KoreaBioMed, Samsung Biologics climbs to global top 3 as US advances bioindustry limits on Chinese CDMOs: https://www.koreabiomed.com/news/articleView.html?idxno=29468
+- Congress.gov, H.R.8333 BIOSECURE Act (118th Congress) full bill text: https://www.congress.gov/bill/118th-congress/house-bill/8333
+- Baker McKenzie, BIOSECURE Act potential implications for collaborations with Chinese companies ("biotechnology company of concern" definition, foreign-adversary list): https://sanctionsnews.bakermckenzie.com/the-biosecure-act-potential-implications-for-biotechnology-collaborations-with-chinese-companies/
+- RFA 普通话, 美国会警示中国在生物科技与人工智能的领先地位 (军民融合 congressional testimony coverage): https://www.rfa.org/mandarin/zhengzhi/waijiao/2025/02/06/china-biotechnology-aviation-ai-competition-us/
+- 金杜律师事务所, "军民融合"视角下的跨国管制·制裁与风控合规: https://www.kwm.com/cn/zh/insights/latest-thinking/cross-border-control-sanctions.html
+- 投资界/动脉网, FDA批准HLX11(POHERDY) — production/GMP system background: https://www.vbdata.cn/intelDetail/836812
+- 腾讯新闻, FDA批准HLX14 (BILDYOS/BILPREVDA) 8项适应症 — includes PLI/facility inspection detail: https://news.qq.com/rain/a/20250901A07MO700
+- Henlius (Media), Songjiang First Plant QP Declaration of EU-GMP equivalence: https://www.henlius.com/en/NewsDetails-3633-26.html
+- Henlius (Media), Xuhui Facility passes PIC/S member ANVISA GMP inspection: https://www.henlius.com/en/NewsDetails-4297-26.html
+- PharmTech, The Critical Medicines Act's Impact on Pharmaceutical Manufacturing and Supply Resilience in Europe: https://www.pharmtech.com/view/the-critical-medicines-act-s-impact-on-pharmaceutical-manufacturing-and-supply-resilience-in-europe
+- Consilium (EU Council), Critical Medicines Act: Council and Parliament reach provisional deal (2026-05-12): https://www.consilium.europa.eu/en/press/press-releases/2026/05/12/critical-medicines-act-council-and-parliament-reach-provisional-deal/
+- White & Case, EU imposes first International Procurement Instrument measure restricting Chinese access to medical devices procurement: https://www.whitecase.com/insight-alert/eu-imposes-first-international-procurement-instrument-measure-restricting-chinese
+- PwC Switzerland, EU sets 50% threshold for Chinese content in medical device tenders: https://www.pwc.ch/en/insights/tax/pharma-life-sciences/eu-ipi-50-percent-limit-medical-devices.html
+- CFR (Council on Foreign Relations), The Pharma Choke Point (EU API dependency framing): https://www.cfr.org/reports/the-pharma-choke-point
