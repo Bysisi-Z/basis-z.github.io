@@ -101,8 +101,24 @@ rally's timeline and drivers including a correction to the earlier "harvest mode
 HLX43 within-company contrast case showing self-funded global trials for a differentiated asset vs. licensed-
 out biosimilars (§11.20), Henlius's actual pipeline positioning and R&D funding mechanism — biosimilar
 licensing cash functions as a direct funding pump for the innovative pipeline (§11.21), and Henlius's
-three-tier position inside the Fosun group by revenue and stated strategic role (§11.22). See those sections
-directly rather than this summary — this index note will not be kept fully in sync round-by-round.
+three-tier position inside the Fosun group by revenue and stated strategic role (§11.22), and Henlius's
+2009 joint-venture origin story with ex-Amgen founders (§11.23).
+
+**Update 2026-08-14/15, rounds 9-12**: added a full second anchor case, **Bio-Thera Solutions (百奥泰)**, as
+a deliberate structural *contrast* to Henlius rather than a second success story — solo-founder origin (no
+JV/conglomerate parent), PE-style ownership, still loss-making, stock down ~48% from IPO vs. Henlius's rally,
+and a dated EU GMP inspection failure (§11.24). Corrected Henlius's product-turnover attribution (trastuzumab
++ serplulimab drove 2023 profitability; pertuzumab and denosumab launched too late to count) and found
+Organon holds *two* full Henlius biosimilar franchises, not one (§11.25). Zoomed out to the global biosimilar
+landscape: commercial-stage market concentration and business-model archetypes (§11.26), then the
+manufacturing/CDMO side (Lonza/WuXi Biologics/Samsung Biologics) plus a close look at *why* BIOSECURE-style
+scrutiny targets China specifically and not Korea/Switzerland (closed 4-country "foreign adversary" list, not
+a manufacturing-risk framework) — tested directly against the finding that Henlius's Organon-partnered
+products are 100% Shanghai-manufactured and have already passed FDA/EU facility inspections (§11.27). Closed
+with a look at EU-specific procurement risk — the Critical Medicines Act (still pre-application) and an
+already-in-force medical-device China-exclusion precedent — as a real forward-looking exposure for these
+single-sourced products (§11.28). Molecule names should now always be given Chinese + English/INN together
+(see the writing-convention note at the top of this file).
 
 ---
 
