@@ -1,6 +1,6 @@
 # Claude Handoff — si-lens.me
 
-> Last updated: 2026-06-27 (session 83)
+> Last updated: 2026-09-23 (session 86)
 > Read alongside: `CONTEXT.md` + `git log --oneline -20` + `git status`
 
 ---
@@ -8,7 +8,7 @@
 ## Current State
 
 - **Current branch:** `main` (only branch; no feature branches)
-- **Last deployed commit:** `3e745f3` — fix: rename cookie jauth→jauthv2 to avoid stale session-token collision on iPad
+- **Last deployed commit:** `8c47102` — Rework World Explorer page (s86)
 - **Actual deploy platform:** Cloudflare Pages (canonical). Auto-deploys on push to `main`.
 - **Is GitHub Pages still enabled? ⚠️ YES — and it's a security bypass.**
   - `.github/workflows/deploy.yml` runs on every push to `main` and deploys the static build to GitHub Pages at `https://bysisi-z.github.io/`.
@@ -22,6 +22,8 @@
 ## Recent Work
 
 - **What changed recently:**
+  - Session 86: `/explorer` rework — new intro copy (user-written), removed world map / books / fun fact, music full width, hike CTA above cats, alternating cat rows, tablet/phone layout fixes. Details → `CONTEXT.md` §4.
+  - Session 86: passcodes rotated — old code deleted from KV; one new code active until 2026-12-31 (code itself deliberately not recorded in repo; list live codes via the KV keys API, `prefix=pw:`).
   - Sessions 75–82: OGN stock post-mortem article (`/organon-stock-analysis.html`) heavily expanded — peer comparison table, financial table (FCF/dividends), "Further Reading" sidebar, article restructure (Topics 01 & 02), "Parent stake retained" row, new conclusion paragraph.
   - Session 73: Explorer music module replaced shimmer with "A Life in Sound" narrative + instrument PNGs + pipa photos.
   - Session 73: Password gate extended to `/explorer` and `/cv` (was only `/career`). Cookie `Path=/` (not just `/career`).
@@ -58,6 +60,8 @@
   - `wechat-qr.jpg` — WeChat QR code
   - **Current mitigation:** security by obscurity (URLs are not linked from public pages). True fix would require serving these through an auth-aware proxy or using Cloudflare Access for the `/images/` path. Decide with user before acting.
 - **How passcodes are created/revoked:**
+  - `add-password.js` only takes whole days. For an exact end date, PUT `pw:<code>` directly to the KV API with `?expiration=<unix ts>` and body `{"expires": <ms ts>}` (same shape the script writes).
+  - List active codes: GET `.../storage/kv/namespaces/<id>/keys?prefix=pw:` (key name = the code; `expiration` = expiry).
   - Add: `node scripts/add-password.js <code> <days>` (writes to Cloudflare KV)
   - Emergency revoke all: `node scripts/lockdown.js` (wipes all `pw:*` keys)
   - Env vars required: `CLOUDFLARE_API_TOKEN`, `CF_ACCOUNT_ID`, `KV_NAMESPACE_ID` (set in `~/.zshrc`)

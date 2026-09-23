@@ -199,7 +199,7 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 ## 7. Infrastructure
 
 - **Auth:** Cloudflare Pages Functions (`functions/_middleware.js`). Cookie `jauthv2`, KV binding `JOURNEY_AUTH` (namespace `253d0a90d7084d3e8794f636b02f7719`). Protects `/career`, `/explorer`, `/cv`.
-- **Passcode management:** `node scripts/add-password.js <code> <days>` · `node scripts/lockdown.js` (emergency wipe). Env vars in `~/.zshrc`: `CLOUDFLARE_API_TOKEN`, `CF_ACCOUNT_ID`, `KV_NAMESPACE_ID`.
+- **Passcode management:** `node scripts/add-password.js <code> <days>` · `node scripts/lockdown.js` (emergency wipe). Script is whole-days only — for an exact expiry date use the KV API directly (see `HANDOFF_CLAUDE.md`). s86: codes rotated, one active until 2026-12-31. Env vars in `~/.zshrc`: `CLOUDFLARE_API_TOKEN`, `CF_ACCOUNT_ID`, `KV_NAMESPACE_ID`.
 - **⚠️ Debug endpoint:** `?dbg=1` on protected routes dumps cookie state — remove from middleware before next public share.
 - **GitHub Actions:** deleted s83 (was deploying to GitHub Pages — security bypass). GitHub Pages now disabled.
 - **Contact email:** `sisi.zhang.ch@gmail.com` (updated everywhere s72; was giselle.z1989@gmail.com).
