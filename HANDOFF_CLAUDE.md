@@ -1,6 +1,6 @@
 # Claude Handoff — si-lens.me
 
-> Last updated: 2026-09-23 (session 86)
+> Last updated: 2026-09-23 (session 87)
 > Read alongside: `CONTEXT.md` + `git log --oneline -20` + `git status`
 
 ---
@@ -43,7 +43,7 @@
   - Writing: only one essay live (`/writing/put-on-the-tie`); no `[slug].astro` template yet
   - Journey detail pages: timeline cards link to `#`
   - MEPS deep-dive pages: INSCOV23, DLAYCA42, TOTSLF23 are stubs in `meps-reports.html`
-  - A Collection of Rabbit Holes: under-construction state only
+  - S² Capital (`/reading`, s87): page built; portfolio/journal data still empty except the founding entry — see `CONTEXT.md` §4
   - `?dbg=1` debug endpoint still active (see Security section)
 
 ---
@@ -93,7 +93,7 @@
   - `/photography` — Nature Never Judges (index + Stoos + Oeschinensee + Lucerne)
   - `/writing` — Wandering (index + Put on the Tie essay)
   - `/moments` — Moments (16 cards)
-  - `/reading` — A Collection of Rabbit Holes (under construction)
+  - `/reading` — S² Capital (virtual investment firm, s87)
   - `/trails` — Interactive hiking map
   - All `public/*.html` analysis pages (NSFG + MEPS + Organon)
 

@@ -1,0 +1,15 @@
+{
+  "inception": "2026-09-23",
+  "initialCapital": 100000000,
+  "cash": 100000000,
+  "positions": [],
+  "journal": [
+    {
+      "date": "2026-09-23",
+      "type": "Founded",
+      "company": "S² Capital",
+      "action": "Fund opened",
+      "figure": "$100,000,000"
+    }
+  ]
+}

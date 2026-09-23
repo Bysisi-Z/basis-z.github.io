@@ -1,295 +1,501 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import fund from '../../data/s2-capital.json';
+
+// ── Fund figures, all derived from src/data/s2-capital.json ──
+type Position = { ticker: string; shares: number; lastPrice: number };
+const positions = fund.positions as Position[];
+const marketValue = positions.reduce((sum, p) => sum + p.shares * p.lastPrice, 0);
+const currentValue = fund.cash + marketValue;
+const returnPct = (currentValue / fund.initialCapital - 1) * 100;
+
+const usd = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+const pct = (n: number) => (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+
+const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const ledgerDate = (iso: string) => {
+  const [y, m, d] = iso.split('-');
+  return `${d} ${MONTHS[Number(m) - 1]} ${y}`;
+};
+const journal = [...fund.journal].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 12);
+
+const THINK = [
+  ['Screen',   'Scan the market for companies worth a closer look.'],
+  ['Research', 'Build the thesis: the business, the numbers, the risks, the price.'],
+  ['Decision', 'Invest or pass, with the reasoning written down before any trade.'],
+  ['Position', 'Size the position, and state what would prove the thesis wrong.'],
+  ['Review',   'Revisit the thesis as new results and news arrive.'],
+  ['Exit',     'Sell when the thesis plays out, breaks, or capital has a better use.'],
+];
 ---
 
-<BaseLayout title="A Collection of Rabbit Holes" description="Books, papers & ideas worth revisiting">
-  <div class="content-wrap">
+<BaseLayout title="S² Capital" description="Virtual portfolio & research notes">
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet" />
+  <div class="s2">
 
-    <p class="page-intro">Looking back, my reading habits make very little sense. And I am perfectly comfortable with that.</p>
+    <!-- Brand bar -->
+    <header class="s2-bar s2-wrap">
+      <a class="s2-logo" href="/reading" aria-label="S² Capital">
+        <svg class="s2-mark" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#E1181E"/><text x="19" y="84" class="mark-s">S</text><text x="68" y="44" class="mark-2">2</text></svg>
+        <span class="s2-word">Capital</span>
+      </a>
+      <nav class="s2-nav">
+        <a href="#fund">Portfolio</a>
+        <a href="#journal">Research</a>
+        <a href="#method">About</a>
+      </nav>
+    </header>
 
-    <div class="reading-body">
-      <div class="under-construction">
-        <div class="img-wrap">
-          <div class="speech-bubble" id="speechBubble">
-            <img class="bubble-qr" id="bubbleQR" src="/images/wechat-qr.jpg" alt="WeChat QR">
-            <p class="b-l1" id="bLine1"></p>
-            <p class="b-l2" id="bLine2"></p>
-          </div>
-          <img src="/images/under-construction.png" alt="Under construction illustration" class="construction-img" id="constructionImg">
-        </div>
-        <p class="construction-oops">Oops, you're early.</p>
-        <p class="construction-note">Due to time budget constraints, this section is still under construction. Check back soon.</p>
+    <!-- 1 · Hero -->
+    <section class="s2-hero">
+      <h1 class="hero-statement">A virtual investment firm<br>built as a $100 million experiment<br>in public market investing.</h1>
+      <div class="hero-row">
+        <figure class="hero-photo">
+          <img src="/images/s2/s2-headquarters.jpg" alt="S² Capital sign on a stone facade" />
+          <figcaption>S² Capital <span>/</span> Lucerne <span>/</span> Est. 2026</figcaption>
+        </figure>
+      <div class="hero-intro">
+        <p class="intro-lead">S² Capital is a virtual investment firm investing $100 million of simulated capital in real public markets.</p>
+        <p class="intro-body">We research companies, build positions, track them against live market prices, and document every investment decision — from first thesis to final outcome. We revisit those decisions over time, measure their performance, and examine what we got right, what we got wrong, and why.</p>
+        <p class="intro-index">Portfolio <span>·</span> Investment Journal <span>·</span> Research <span>·</span> Performance</p>
       </div>
-    </div>
+      </div>
+    </section>
+
+    <!-- 3 · The fund is live -->
+    <section class="s2-section s2-wrap" id="fund">
+      <p class="marker"><span>01</span>The fund</p>
+      <p class="live"><span class="live-dot" aria-hidden="true"></span>Live <span class="live-sep">·</span> Day <span data-day data-inception={fund.inception}>001</span></p>
+      <p class="label">Initial capital</p>
+      <p class="capital">{usd(fund.initialCapital)}</p>
+
+      <dl class="metrics">
+        <div>
+          <dt>Current portfolio value</dt>
+          <dd>{usd(currentValue)}</dd>
+        </div>
+        <div>
+          <dt>Since inception</dt>
+          <dd>{pct(returnPct)}</dd>
+        </div>
+        <div>
+          <dt>Active positions</dt>
+          <dd>{positions.length}</dd>
+        </div>
+        <div>
+          <dt>Day</dt>
+          <dd data-day data-inception={fund.inception}>001</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 4 · Investment journal -->
+    <section class="s2-section s2-wrap" id="journal">
+      <p class="marker"><span>02</span>Latest decisions</p>
+      <ol class="ledger">
+        <li class="ledger-head" aria-hidden="true">
+          <span>Date</span><span>Type</span><span>Company</span><span>Action</span><span class="num">Detail</span>
+        </li>
+        {journal.map((e) => (
+          <li class="ledger-row">
+            <span class="l-date">{ledgerDate(e.date)}</span>
+            <span class="l-type">{e.type}</span>
+            <span class="l-company">{e.company}</span>
+            <span class="l-action">{e.action}</span>
+            <span class="l-figure num">{e.figure}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- 5 · How we think -->
+    <section class="s2-section s2-wrap" id="think">
+      <p class="marker"><span>03</span>How we think</p>
+      <ol class="think">
+        {THINK.map(([title, text], i) => (
+          <li>
+            <span class="think-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- 6 · Methodology -->
+    <section class="s2-section s2-wrap" id="method">
+      <p class="marker"><span>04</span>Methodology</p>
+      <div class="method">
+        <p class="method-lead">S² Capital operates a simulated portfolio using real market prices. No actual capital is deployed.</p>
+        <p>Every decision is recorded with its date and reasoning, including the opportunities we missed and the calls we got wrong. Nothing on this site is investment advice.</p>
+      </div>
+    </section>
+
+    <!-- Colophon -->
+    <footer class="s2-colophon s2-wrap">
+      <svg class="s2-mark s2-mark--sm" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#E1181E"/><text x="19" y="84" class="mark-s">S</text><text x="68" y="44" class="mark-2">2</text></svg>
+      <p>S² Capital · Lucerne · Est. 2026</p>
+    </footer>
 
   </div>
 </BaseLayout>
 
 <script>
-  const BUBBLES = [
-    ['Oops.', 'You caught us in the middle of construction.'],
-    ['One page at a time.', 'Good things take a while.'],
-    ["I'd rather publish something worth reading", "than publish it quickly."],
-    ['Seriously?', 'Still clicking?'],
-    ['啊啊啊啊啊啊！', '已经在加班了！别催了亲！'],
-    ['🙃', ''],
-  ];
-
-  let idx = -1;
-  let clickCount = 0;
-  let hideTimer: ReturnType<typeof setTimeout> | null = null;
-
-  const img = document.getElementById('constructionImg') as HTMLImageElement;
-  const bubble = document.getElementById('speechBubble') as HTMLDivElement;
-  const l1 = document.getElementById('bLine1') as HTMLParagraphElement;
-  const l2 = document.getElementById('bLine2') as HTMLParagraphElement;
-
-  const qrEl = document.getElementById('bubbleQR') as HTMLImageElement;
-
-  img.addEventListener('click', () => {
-    clickCount++;
-    if (clickCount > 100) return;
-
-    idx = Math.min(idx + 1, BUBBLES.length - 1);
-
-    const isQR = clickCount >= 100;
-    const pair = isQR
-      ? ["You really want it.", "Let's talk."]
-      : clickCount >= 70
-      ? ["Okay... this is getting a little concerning.", ""]
-      : clickCount >= 50
-      ? ["Fine, I hear you.", ""]
-      : clickCount >= 20
-      ? ["You're incredibly persistent.", ""]
-      : BUBBLES[idx];
-
-    qrEl.style.display = isQR ? 'block' : 'none';
-    bubble.classList.toggle('has-qr', isQR);
-
-    if (hideTimer) clearTimeout(hideTimer);
-    bubble.classList.remove('visible');
-    void bubble.offsetWidth;
-    l1.textContent = pair[0];
-    l2.textContent = pair[1];
-    bubble.classList.add('visible');
-    if (!isQR) {
-      hideTimer = setTimeout(() => bubble.classList.remove('visible'), 4500);
-    }
-    img.classList.remove('nudge');
-    void img.offsetWidth;
-    img.classList.add('nudge');
+  // Day counter: day 001 = inception date, counted in the visitor's local calendar
+  document.querySelectorAll<HTMLElement>('[data-day]').forEach((el) => {
+    const [y, m, d] = (el.dataset.inception ?? '').split('-').map(Number);
+    if (!y) return;
+    const start = new Date(y, m - 1, d);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const day = Math.max(1, Math.round((today.getTime() - start.getTime()) / 86400000) + 1);
+    el.textContent = String(day).padStart(3, '0');
   });
-
-  img.addEventListener('animationend', () => img.classList.remove('nudge'));
 </script>
 
 <style>
-.content-wrap {
-    max-width: 960px;
+  .s2 {
+    --s2-bg:    #111113;
+    --s2-ink:   #F2EFEA;
+    --s2-soft:  #CFCAC2;
+    --s2-muted: #8F8A83;
+    --s2-red:   #E1181E;
+
+    background: var(--s2-bg);
+    color: var(--s2-ink);
+    font-family: var(--sans);
+  }
+  .s2-wrap {
+    width: min(86vw, 1600px);
     margin: 0 auto;
-    padding: 0 clamp(20px, 6vw, 80px);
   }
+  .s2 p, .s2 h1, .s2 h2, .s2 h3, .s2 ol, .s2 figure { margin: 0; }
 
-  .page-header {
-    padding-top: 64px;
-    padding-bottom: 44px;
-    border-bottom: 1px solid var(--rule);
+  /* ── Brand bar ── */
+  .s2-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 32px;
+    padding-bottom: 32px;
   }
+  /* Lockup follows the wall sign: CAPITAL sits on the square's baseline,
+     cap height ≈ 1/5 of the square, tight gap */
+  .s2-logo {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 11px;
+    color: var(--s2-ink);
+    text-decoration: none;
+  }
+  .s2-word {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    line-height: 0.73;
+  }
+  .s2-mark { width: 44px; height: 44px; display: block; }
+  .s2-mark--sm { width: 28px; height: 28px; flex-shrink: 0; }
+  .mark-s {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 600;
+    font-size: 88px;
+    fill: #fff;
+  }
+  .mark-2 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 34px;
+    fill: #fff;
+  }
+  .s2-nav { display: flex; gap: clamp(24px, 4vw, 56px); }
+  .s2-nav a {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+    text-decoration: none;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .s2-nav a:hover { color: var(--s2-ink); border-bottom-color: var(--s2-red); }
 
-  .page-title {
+  /* ── Hero ── */
+  .s2-hero {
+    width: min(86vw, 1600px);
+    margin: 0 auto;
+    padding-top: clamp(24px, 6vh, 72px);
+  }
+  .hero-statement {
     font-family: var(--serif);
-    font-size: clamp(48px, 8vw, 88px);
+    font-size: clamp(34px, 5vw, 88px);
     font-weight: 300;
-    font-style: italic;
-    line-height: 1;
+    font-variant-numeric: lining-nums;
+    line-height: 1.02;
     letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 16px;
+    color: var(--s2-ink);
+    padding: 0 0 64px;
   }
-
-  .page-sub {
-    font-family: var(--serif);
-    font-size: clamp(15px, 1.6vw, 18px);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--stone);
-    line-height: 1.5;
+  .hero-row {
+    --row-gap: clamp(40px, 5vw, 88px);
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--row-gap);
+    align-items: stretch;
   }
-
-  .page-intro {
-    font-family: var(--serif);
-    font-size: clamp(24px, 2.8vw, 38px);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--ink);
-    line-height: 1.6;
-    padding: 80px 0 0;
-    max-width: 760px;
+  .s2 .hero-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: 50% 50%;
   }
-
-  .reading-body {
-    padding-top: 64px;
-    padding-bottom: 80px;
+  .hero-photo figcaption {
+    margin-top: 16px;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
   }
-
-  .under-construction {
+  .hero-photo figcaption span { margin: 0 8px; opacity: 0.6; }
+  .hero-intro {
+    position: relative;
     display: flex;
     flex-direction: column;
+  }
+  /* short white rule between photo and copy */
+  .hero-intro::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--row-gap) / -2);
+    top: 6px;
+    width: 1px;
+    height: 72px;
+    background: var(--s2-ink);
+  }
+  .s2 .intro-lead {
+    font-size: clamp(18px, 1.6vw, 21px);
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--s2-ink);
+    margin-bottom: 20px;
+  }
+  .intro-body {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--s2-soft);
+  }
+  .s2 .intro-index {
+    margin-top: auto;
+    padding-top: 40px;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  .intro-index span { margin: 0 6px; opacity: 0.6; }
+  .muted { color: var(--s2-muted); }
+
+  /* ── Shared section rhythm ── */
+  .s2-section { padding-top: clamp(160px, 26vh, 300px); }
+  .s2 .marker {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    margin-bottom: 56px;
+  }
+  .marker span { color: var(--s2-red); font-weight: 600; }
+  .s2 .label,
+  .metrics dt {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  .num, .capital, .metrics dd, .l-date, .think-num {
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  /* ── 3 · The fund is live ── */
+  .s2 .live {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+    margin-bottom: 72px;
+  }
+  .live-sep { color: var(--s2-muted); }
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--s2-red);
+    animation: live-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes live-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(225, 24, 30, 0.55); }
+    60%      { box-shadow: 0 0 0 8px rgba(225, 24, 30, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+  .s2 .capital {
+    font-family: var(--serif);
+    font-size: clamp(56px, 12.5vw, 196px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    color: var(--s2-ink);
+    margin-top: 20px;
+    white-space: nowrap;
+  }
+  .s2 .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(28px, 4vw, 64px);
+    margin: clamp(80px, 12vh, 140px) 0 0;
+  }
+  .metrics dd {
+    margin: 14px 0 0;
+    font-family: var(--serif);
+    font-size: clamp(32px, 3.4vw, 52px);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--s2-ink);
+  }
+
+  /* ── 4 · Ledger ── */
+  .s2 .ledger { list-style: none; padding: 0; }
+  .ledger li {
+    display: grid;
+    grid-template-columns: 130px 150px minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .ledger-head {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    padding-top: 0 !important;
+  }
+  .ledger-row { font-size: 15px; color: var(--s2-ink); }
+  .l-date { font-size: 13px; letter-spacing: 0.06em; color: var(--s2-soft); }
+  .l-type {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+  }
+  .l-action { color: var(--s2-soft); }
+  .num { text-align: right; }
+
+  /* ── 5 · How we think ── */
+  .s2 .think {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(48px, 6vw, 88px) clamp(32px, 5vw, 80px);
+    max-width: 1080px;
+  }
+  .think-num { font-size: 11px; letter-spacing: 0.14em; color: var(--s2-muted); }
+  .s2 .think h3 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3vw, 44px);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--s2-ink);
+    margin: 10px 0 12px;
+  }
+  .think p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--s2-soft);
+    max-width: 30ch;
+  }
+
+  /* ── 6 · Methodology ── */
+  .method { max-width: 720px; margin-left: auto; }
+  .s2 .method-lead {
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.5;
+    color: var(--s2-ink);
+    margin-bottom: 24px;
+  }
+  .method p:not(.method-lead) {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--s2-soft);
+  }
+
+  /* ── Colophon ── */
+  .s2-colophon {
+    display: flex;
     align-items: center;
     gap: 20px;
-    padding-top: 20px;
+    padding-top: clamp(160px, 24vh, 280px);
+    padding-bottom: 48px;
+  }
+  .s2-colophon p {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--s2-muted);
   }
 
-  .img-wrap {
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
+  /* ── Site chrome, on this page only ── */
+  :global(body:has(.s2)) { background: #111113; }
+  :global(body:has(.s2) .top-nav) {
+    background: rgba(17, 17, 19, 0.92);
+    border-bottom-color: rgba(242, 239, 234, 0.08);
+  }
+  :global(body:has(.s2) .nav-home),
+  :global(body:has(.s2) .nav-current),
+  :global(body:has(.s2) .nav-link) { color: #8F8A83; }
+  :global(body:has(.s2) .nav-sep) { color: #3A3A3D; }
+  :global(body:has(.s2) .nav-link:hover) { color: #F2EFEA; }
+  :global(body:has(.s2) .nav-link.active) { background: #E1181E; color: #fff; }
+  :global(body:has(.s2) .site-footer) {
+    background: #111113;
+    border-top-color: rgba(242, 239, 234, 0.08);
   }
 
-  .construction-img {
-    width: 280px;
-    height: auto;
-    opacity: 0.9;
-    cursor: pointer;
-    user-select: none;
-    display: block;
-  }
-
-  @keyframes img-nudge {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    25%       { transform: rotate(-2.5deg) scale(1.02); }
-    70%       { transform: rotate(2deg) scale(0.99); }
-  }
-  .construction-img.nudge {
-    animation: img-nudge 0.3s ease;
-  }
-
-  .speech-bubble {
-    position: absolute;
-    top: 50%;
-    left: calc(100% + 18px);
-    transform: translateY(-50%) translateX(-8px);
-    background: #FAFAF8;
-    border: 1.5px solid var(--rose-light, #e8c4d4);
-    border-radius: 12px;
-    padding: 12px 18px;
-    min-width: 180px;
-    max-width: 240px;
-    text-align: left;
-    filter: drop-shadow(0 3px 10px rgba(193, 125, 157, 0.15));
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s ease, transform 0.22s ease;
-    z-index: 10;
-    white-space: normal;
-  }
-  .speech-bubble.visible {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-  /* tail: border layer */
-  .speech-bubble::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 9px solid transparent;
-    border-bottom: 9px solid transparent;
-    border-right: 10px solid var(--rose-light, #e8c4d4);
-  }
-  /* tail: fill layer on top */
-  .speech-bubble::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: calc(100% - 1px);
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 9px solid #FAFAF8;
-    z-index: 1;
-  }
-
-  .bubble-qr {
-    display: none;
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin: 0 auto 10px;
-  }
-  .speech-bubble.has-qr {
-    text-align: center;
-    min-width: 200px;
-  }
-
-  .b-l1,
-  .b-l2 {
-    font-family: var(--serif);
-    font-size: 20px;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--ink);
-    margin: 0;
-    line-height: 1.5;
-  }
-  .b-l1:not(:last-child) {
-    margin-bottom: 4px;
-  }
-  .b-l2:empty {
-    display: none;
-  }
-  .construction-oops {
-    font-family: var(--serif);
-    font-size: clamp(22px, 2.2vw, 30px);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--ink);
-  }
-  .construction-note {
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--stone);
-    letter-spacing: 0.02em;
-    text-align: center;
-    max-width: 380px;
-    line-height: 1.7;
-  }
-
-  @media (max-width: 640px) {
-    .page-intro {
-      padding-top: 48px;
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .s2 .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .s2 .think { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .method { margin-left: 0; }
+    .hero-row { grid-template-columns: 1fr; }
+    .hero-intro::before { display: none; }
+    .ledger-head { display: none !important; }
+    .ledger li {
+      grid-template-columns: 1fr auto;
+      gap: 6px 16px;
     }
-    .reading-body {
-      padding-top: 40px;
-    }
-    .construction-img {
-      width: 220px;
-    }
-    /* bubble floats centered over the image — no reserved space needed */
-    .speech-bubble {
-      top: 50%;
-      left: 50%;
-      bottom: auto;
-      right: auto;
-      transform: translate(-50%, -50%) scale(0.94);
-      max-width: min(260px, 82vw);
-      text-align: center;
-      background: rgba(250, 250, 248, 0.96);
-    }
-    .speech-bubble.visible {
-      transform: translate(-50%, -50%) scale(1);
-    }
-    /* no tail on mobile */
-    .speech-bubble::before,
-    .speech-bubble::after {
-      display: none;
-    }
+    .l-date { grid-column: 1; }
+    .l-type { grid-column: 2; text-align: right; }
+    .l-company { grid-column: 1; }
+    .l-action { grid-column: 1; }
+    .l-figure { grid-column: 2; grid-row: 2 / span 2; align-self: center; }
+  }
+  @media (max-width: 560px) {
+    .s2-nav { gap: 20px; }
+    .intro-index span { margin: 0 6px; }
+    .s2-hero, .s2-wrap { width: calc(100vw - 40px); }
+    .s2 .think { grid-template-columns: 1fr; }
   }
 </style>

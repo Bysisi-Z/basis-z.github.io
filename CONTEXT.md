@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-09-23 (session 86)
+> Last updated: 2026-09-23 (session 87)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [si-lens.me](https://si-lens.me) · Preview: basis-z-github-io.pages.dev
@@ -84,7 +84,7 @@ src/
 │   ├── photography/[slug].astro   # Hiking guide article template ✅
 │   ├── writing/index.astro        # Wandering — post list (Codex) ✅
 │   ├── moments/index.astro        # Moments ✅
-│   ├── reading/index.astro        # A Collection of Rabbit Holes 🟡
+│   ├── reading/index.astro        # S² Capital — virtual investment firm 🟡 (s87)
 │   └── cv.astro                   # CV ✅
 └── styles/global.css              # Design tokens, shared utilities
 
@@ -103,7 +103,7 @@ public/                            # Static assets + standalone HTML analysis pa
 | 03 | `/photography` | Nature Never Judges | public |
 | 04 | `/moments` | Moments | public |
 | 05 | `/writing` | Wandering | public |
-| 06 | `/reading` | A Collection of Rabbit Holes | public |
+| 06 | `/reading` | S² Capital | public |
 
 Protected routes also: `/explorer` (🔒), `/cv` (🔒).
 
@@ -149,8 +149,17 @@ Index + 1 essay (`/writing/put-on-the-tie`). Details → `CODEX_WRITING.md`.
 ### Moments (`/moments`) ✅
 3-column flex (NOT CSS columns — Safari bug). 16 cards live. Click-to-focus interaction. Cards: ferris wheel · pollen · pipa · chinese garden · library · rowing · geese · glass deck · lucerne dusk · plane home · palais des nations · dunhuang · grandma temple · saxer sunset · lunar eclipse · eras tour.
 
-### A Collection of Rabbit Holes (`/reading`) 🟡
-Under-construction illustration + speech bubble easter eggs (20 clicks, escalating messages, click 100 = WeChat QR). Content not written.
+### S² Capital (`/reading`) 🟡 — s87, replaces "A Collection of Rabbit Holes"
+A **virtual investment firm**: $100M simulated capital, real public-market prices, every decision logged. Route still `/reading` (rename to `/capital` undecided). Nav label / homepage card 06 = "S² Capital" · "Virtual portfolio & research notes". Old under-construction page + speech-bubble easter egg removed.
+
+- **Art direction (user-set, don't redesign):** dark page (`#111113`), warm off-white ink `#F2EFEA`, Swiss red `#E1181E` used sparingly (logo, section numbers 01–04, nav hover, live dot, active nav pill). Cormorant only for big statements/numbers (`lining-nums` — its default old-style figures make "100" read as "IOO"); Inter for everything else. No cards, no boxed stats.
+- **Logo:** SVG red square, white Source Serif 4 "S" + Inter "2" (matches user's wall-sign image). Lockup: "CAPITAL" to the right, **bottom-aligned** with the square, cap height ≈ 1/5 of square, tight 11px gap.
+- **Page order:** brand bar (logo | Portfolio · Research · About anchors) → hero headline (3 lines, "A virtual investment firm / built as a $100 million experiment / in public market investing.") → photo (16:9, left 7fr) | short white vertical rule | intro copy + index line (right 5fr) → 01 The Fund (big $100,000,000, current value / since inception / positions / Day) → 02 Latest Decisions ledger → 03 How We Think (Screen/Research/Decision/Position/Review/Exit) → 04 Methodology (the only place "simulated" is disclosed) → colophon.
+- **Width:** everything in `.s2-wrap` = `min(86vw, 1600px)` so all left edges align.
+- **Data:** `src/data/s2-capital.json` — `inception`, `initialCapital`, `cash`, `positions[{ticker, shares, lastPrice}]`, `journal[{date, type, company, action, figure}]`. Value/return/position count computed at build; Day counter computed client-side from `inception` (day 001 = 2026-09-23). Journal has one real entry only (fund founded) — **don't add fictional example trades**; it's meant as the permanent record.
+- **Site chrome:** this page alone turns the global nav + footer dark via `:global(body:has(.s2) …)` rules at the bottom of the page's `<style>`.
+- **Photo:** `public/images/s2/s2-headquarters.jpg` — user-supplied AI-generated wall-sign image, left window-frame strip cropped off.
+- **User preferences seen this session:** rejects anything that looks like a generic corporate/PowerPoint site; wants small, precise changes when asked ("别的不要动") — don't bundle extra tweaks. Headline copy is the user's own; only fix clear grammar.
 
 ### CV (`/cv`) ✅ — 🔒 passcode
 Photo + summary, 5 work entries with vine bullets, education, capabilities, action bar. Print layout: A4, 2-page.
@@ -191,7 +200,7 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 - [ ] **Moments** — add new cards as they happen
 
 ### Low priority
-- [ ] **A Collection of Rabbit Holes** — content not written
+- [ ] **S² Capital** — add real positions + journal entries to `src/data/s2-capital.json`; decide route rename `/reading` → `/capital`; mobile layout not yet checked on a real phone; higher-res wall photo would help (current source ~1270px wide)
 - [ ] **Cleanup** — delete experiment files in `public/` (color-preview, font-preview, compare-*, opt-*, preview-v*); see `HANDOFF_CLAUDE.md` §Content Architecture. Also 4 stale orphan JSON files found s84: `public/data/meps_utilization.json`, `meps_insurance.json`, `meps_health_status.json`, `meps_expenditures.json` (June 7, pre-25-section format) — not referenced anywhere in `src/` or `public/*.html`.
 
 ---
