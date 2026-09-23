@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-08-09 (session 85)
+> Last updated: 2026-09-23 (session 86)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [si-lens.me](https://si-lens.me) · Preview: basis-z-github-io.pages.dev
@@ -115,7 +115,14 @@ Protected routes also: `/explorer` (🔒), `/cv` (🔒).
 Three-column desktop (photo | glass | strip), day/night by clock, `?preview=day/night` override. Full details → `CONTEXT_HOMEPAGE.md`.
 
 ### World Explorer (`/explorer`) ✅ — 🔒 passcode
-Hero split + bento grid. Music module "A Life in Sound" live (narrative + 4 instrument PNGs + pipa photos, s73). Cats module live. Books module "On the Shelf" live (s85: real book list, replaces shimmer placeholder — non-fiction focus, mainly business biography and history/humanities; classical Chinese fiction like 《红楼梦》 is the one fiction exception). Book title language rule: **title language follows the book's original publication language, not the edition read** — e.g. 《万历十五年》is Ray Huang's English original (Yale 1981, Chinese self-translation came a year later) so it's listed as *1587, A Year of No Significance*; 《穷查理宝典》is *Poor Charlie's Almanack* (Charlie Munger); 激荡三十年/秦崩·楚亡/解密华西 stay in Chinese (Chinese-authored originals). Food and Outdoor Stats bento modules removed (s85, were still shimmer with no content planned).
+Hero split (photo | intro text) + bento grid. **s86 rework** (all in `src/pages/explorer.astro`):
+- **Removed:** "Geographic Migration" D3 world map (and its CDN d3/topojson/world-atlas loads + dead `.city-trail` CSS), "On the Shelf" books module, bottom "fun fact" (martial arts) line.
+- **Intro copy rewritten by user** (s86): Yunnan → "Nature is my best friend." → **Nature never judges.** + trio (respects you / calls for the bravest heart and brutal honesty / shares breathtaking beauty) → "self-honesty over sugarcoating" → blue **ONTP** → "I gain energy outdoors…" → curiosity → "This website is simply a collection of…". Copy keeps the author's non-native voice deliberately — only fix clear errors, don't polish.
+- **Bento order now:** A Life in Sound (full width) → "Come hiking with me" CTA (moved *inside* `.bento`, `grid-column: 1 / -1`) → The Bosses at Home (cats).
+- **A Life in Sound:** grid text (5fr) | pipa photos (6fr), vertically centered; instrument strip full width below, items centered. `.pipa-photos` grid columns `400fr 450fr` = the two photos' aspect ratios so they render at equal height. Pipa photos are only 600px tall natively — can't be enlarged further without blur. Text 17–20px, weight 400, no bold/colored quote.
+- **Cats:** alternating rows — Leilei photo|text, Xiao Mi Zha text|photo (`.cat-card--reverse`), photo 2fr : text 3fr, 4:3 crop; story text 17–20px.
+- **Responsive:** 821–1180px hero uses 2fr/3fr columns (fixed 520px photo squeezed text to ~330px on iPad landscape); ≤820 stacked hero photo capped at 560px tall; ≤1100 music stacks (photos max 560px, centered); ≤900 all bento cards full width; ≤680 cats stack photo-on-top and hike CTA image uses `object-fit: cover` to fill its 340px box. Verified 375–1440px, no horizontal overflow.
+- **Dev gotcha:** Astro dev server sometimes serves stale scoped CSS after edits to this file — restart `npm run dev` if a new rule doesn't apply.
 
 ### Journey (`/career`) ✅ — 🔒 passcode
 Dual timeline: left = Life & Adventures (rose), right = Career & Education (stone). CTAs in column headers → `/explorer` and `/cv`. WeChat QR button in header. Timeline cards link to `#` (detail pages not built). Easter eggs: stork, bamboo, skyline, Alps, confetti, vines, cat photos.
