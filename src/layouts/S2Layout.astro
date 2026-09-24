@@ -1,0 +1,197 @@
+---
+// Shared shell for S² Capital pages: dark palette, brand bar, colophon, and the
+// dark override of the global site nav/footer. Page content goes in the slot.
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** which brand-bar item is current */
+  active?: 'team';
+}
+
+const { title, description = 'Virtual portfolio & research notes', active } = Astro.props;
+// on the fund page the sections are local anchors; elsewhere they point back to it
+const home = active ? '/reading/' : '';
+---
+
+<BaseLayout title={title} description={description}>
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet" />
+  <div class="s2">
+
+    <header class="s2-bar s2-wrap">
+      <a class="s2-logo" href="/reading/" aria-label="S² Capital">
+        <svg class="s2-mark" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#E1181E"/><text x="19" y="84" class="mark-s">S</text><text x="68" y="44" class="mark-2">2</text></svg>
+        <span class="s2-word">Capital</span>
+      </a>
+      <nav class="s2-nav">
+        <a href={`${home}#fund`}>Portfolio</a>
+        <a href={`${home}#research`}>Research</a>
+        <a href="/reading/team/" aria-current={active === 'team' ? 'page' : undefined}>Meet our team</a>
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer class="s2-colophon s2-wrap">
+      <svg class="s2-mark s2-mark--sm" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#E1181E"/><text x="19" y="84" class="mark-s">S</text><text x="68" y="44" class="mark-2">2</text></svg>
+      <p>S² Capital · Lucerne · Est. 2026</p>
+      <p class="disclaimer">S² Capital operates a simulated portfolio using real market prices. No actual capital is deployed, and nothing on this site is investment advice.</p>
+    </footer>
+
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* Global so page files can use .s2-wrap / .marker etc.; everything is s2-prefixed. */
+  .s2 {
+    --s2-bg:    #111113;
+    --s2-ink:   #F2EFEA;
+    --s2-soft:  #CFCAC2;
+    --s2-muted: #8F8A83;
+    --s2-red:   #E1181E;
+
+    background: var(--s2-bg);
+    color: var(--s2-ink);
+    font-family: var(--sans);
+  }
+  .s2-wrap {
+    width: min(86vw, 1600px);
+    margin: 0 auto;
+  }
+  .s2 p, .s2 h1, .s2 h2, .s2 h3, .s2 ol, .s2 figure { margin: 0; }
+
+  /* ── Brand bar ── */
+  .s2-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+  /* Lockup follows the wall sign: CAPITAL sits on the square's baseline,
+     cap height ≈ 1/5 of the square, tight gap */
+  .s2-logo {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 11px;
+    color: var(--s2-ink);
+    text-decoration: none;
+  }
+  .s2-word {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    line-height: 0.73;
+  }
+  .s2-mark { width: 44px; height: 44px; display: block; }
+  .s2-mark--sm { width: 28px; height: 28px; flex-shrink: 0; }
+  .s2 .mark-s {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 600;
+    font-size: 88px;
+    fill: #fff;
+  }
+  .s2 .mark-2 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 34px;
+    fill: #fff;
+  }
+  .s2-nav { display: flex; gap: clamp(24px, 4vw, 56px); }
+  .s2-nav a {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+    text-decoration: none;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .s2-nav a:hover,
+  .s2-nav a[aria-current='page'] { color: var(--s2-ink); border-bottom-color: var(--s2-red); }
+
+  /* ── Section rhythm & headings ── */
+  .s2-section { padding-top: clamp(160px, 26vh, 300px); }
+  /* anchor jumps land below the sticky site nav */
+  .s2 [id] { scroll-margin-top: 72px; }
+  @media (max-width: 1024px) { .s2 [id] { scroll-margin-top: 120px; } }
+  .s2 .marker {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    margin-bottom: 56px;
+  }
+  .s2 .marker span { color: var(--s2-red); font-weight: 600; }
+  /* unnumbered sections carry a small red square, echoing the logo */
+  .s2 .marker--square { align-items: center; }
+  .s2 .marker--square::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--s2-red);
+  }
+  .s2 .empty { font-size: 15px; color: var(--s2-muted); }
+
+  /* ── Colophon ── */
+  .s2-colophon {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: clamp(160px, 24vh, 280px);
+    padding-bottom: 48px;
+  }
+  .s2-colophon p {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--s2-muted);
+  }
+  .s2 .disclaimer {
+    margin-left: auto;
+    max-width: 460px;
+    text-align: right;
+  }
+
+  /* ── Site chrome, on S² pages only ── */
+  body:has(.s2) { background: #111113; }
+  body:has(.s2) .top-nav {
+    background: rgba(17, 17, 19, 0.92);
+    border-bottom-color: rgba(242, 239, 234, 0.08);
+  }
+  body:has(.s2) .nav-home,
+  body:has(.s2) .nav-current,
+  body:has(.s2) .nav-link { color: #8F8A83; }
+  body:has(.s2) .nav-sep { color: #3A3A3D; }
+  body:has(.s2) .nav-link:hover { color: #F2EFEA; }
+  body:has(.s2) .nav-link.active { background: #E1181E; color: #fff; }
+  body:has(.s2) .site-footer {
+    background: #111113;
+    border-top-color: rgba(242, 239, 234, 0.08);
+  }
+
+  /* phones: logo on its own row, links on the row below */
+  @media (max-width: 720px) {
+    .s2-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+      padding-top: 24px;
+      padding-bottom: 8px;
+    }
+    .s2-nav { gap: 8px 24px; flex-wrap: wrap; }
+    .s2-nav a { font-size: 10.5px; letter-spacing: 0.16em; }
+  }
+  @media (max-width: 560px) {
+    .s2-wrap { width: calc(100vw - 40px); }
+    .s2-colophon { align-items: flex-start; flex-wrap: wrap; }
+    .s2 .disclaimer { margin-left: 0; text-align: left; }
+  }
+</style>

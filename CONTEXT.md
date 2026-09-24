@@ -85,6 +85,7 @@ src/
 │   ├── writing/index.astro        # Wandering — post list (Codex) ✅
 │   ├── moments/index.astro        # Moments ✅
 │   ├── reading/index.astro        # S² Capital — virtual investment firm 🟡 (s87)
+│   ├── reading/team.astro         # S² Capital — Meet our team (placeholder)
 │   └── cv.astro                   # CV ✅
 └── styles/global.css              # Design tokens, shared utilities
 
@@ -163,7 +164,9 @@ A **virtual investment firm**: $100M simulated capital, real public-market price
 - **Daily close (A):** `scripts/update-s2-prices.mjs` updates `lastPrice`/`lastPriceDate` and upserts `navHistory`. `.github/workflows/s2-prices.yml` runs it weekdays 21:30 UTC and pushes the JSON (→ Cloudflare redeploy). Can also run via "Run workflow".
 - **Data file shape:** `inception`, `initialCapital`, `cash`, `positions[{ticker,name,shares,entryPrice,entryDate,lastPrice,lastPriceDate}]`, `journal[{date,type,company,action,figure}]` (same-day rows: later in file = shown higher), `research[{date,type,title,company,status,href}]`, `navHistory[{date,value}]`.
 - **Width:** everything in `min(86vw, 1600px)`.
-- **Site chrome:** this page alone turns global nav + footer dark via `:global(body:has(.s2) …)` rules.
+- **Shared shell:** `src/layouts/S2Layout.astro` holds the palette tokens, brand bar (Portfolio · Research · Meet our team), colophon + disclaimer, section markers, and the dark override of the global nav/footer (`body:has(.s2)`), all as `is:global` s2-prefixed CSS. Pages put their own content in the slot; page-scoped selectors that start from the layout's wrapper must be written `:global(.s2) .x` (Astro scoping otherwise never matches).
+- **Team page:** `/reading/team/` (`src/pages/reading/team.astro`) — placeholder "Meet our team · Team profiles are coming soon." awaiting content.
+- **Mobile:** ≤720px brand bar stacks (logo row, links row); ≤560px live row stacks, board 40px. Anchor jumps use `scroll-margin-top` to clear the sticky site nav.
 - **Photo:** `public/images/s2/s2-headquarters.jpg` — user-supplied AI-generated wall sign, ~1270px wide (soft on retina).
 - **User preferences:** rejects generic corporate/PowerPoint looks; when asked for a small change, change only that ("别的不要动"). Headline copy is the user's own.
 - **Pending:** research article detail page template; holdings table; real data + reset; `/capital` route decision; check on a real phone.
