@@ -12,7 +12,7 @@ interface Props {
 
 const { title, description = 'Virtual portfolio & research notes', active } = Astro.props;
 // on the fund page the sections are local anchors; elsewhere they point back to it
-const home = active ? '/reading/' : '';
+const home = active ? '/capital/' : '';
 ---
 
 <BaseLayout title={title} description={description}>
@@ -20,14 +20,14 @@ const home = active ? '/reading/' : '';
   <div class="s2">
 
     <header class="s2-bar s2-wrap">
-      <a class="s2-logo" href="/reading/" aria-label="S² Capital">
+      <a class="s2-logo" href="/capital/" aria-label="S² Capital">
         <svg class="s2-mark" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#E1181E"/><text x="19" y="84" class="mark-s">S</text><text x="68" y="44" class="mark-2">2</text></svg>
         <span class="s2-word">Capital</span>
       </a>
       <nav class="s2-nav">
         <a href={`${home}#fund`}>Portfolio</a>
         <a href={`${home}#research`}>Research</a>
-        <a href="/reading/team/" aria-current={active === 'team' ? 'page' : undefined}>Meet our team</a>
+        <a href="/capital/team/" aria-current={active === 'team' ? 'page' : undefined}>Meet our team</a>
       </nav>
     </header>
 
@@ -135,8 +135,8 @@ const home = active ? '/reading/' : '';
   .s2 .marker--square { align-items: center; }
   .s2 .marker--square::before {
     content: '';
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     background: var(--s2-red);
   }
   .s2 .empty { font-size: 15px; color: var(--s2-muted); }

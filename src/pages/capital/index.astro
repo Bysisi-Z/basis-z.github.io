@@ -1,0 +1,1175 @@
+---
+import S2Layout from '../../layouts/S2Layout.astro';
+import fund from '../../data/s2-capital.json';
+import { runLedger, benchmarkReturn } from '../../lib/s2-ledger.mjs';
+
+// ── Fund figures, all derived from src/data/s2-capital.json ──
+// Cash, share counts and income come from the ledger; positions[] only carries market prices.
+type Quote = { ticker: string; name?: string; currency?: string; lastPrice: number; lastPriceDate?: string };
+const quotes = fund.positions as Quote[];
+const lastClose = quotes.map((p) => p.lastPriceDate ?? '').sort().at(-1);
+const ledger = runLedger(fund, lastClose);
+const fxOf = (p: Quote) => (p.currency && p.currency !== 'USD'
+  ? ((fund as { fx?: Record<string, { rate: number }> }).fx?.[p.currency]?.rate ?? 1) : 1);
+const positions = quotes
+  .filter((q) => ledger.shares[q.ticker])
+  .map((q) => ({ ...q, shares: ledger.shares[q.ticker] as number, fx: fxOf(q) }));
+const marketValue = positions.reduce((sum, p) => sum + p.shares * p.lastPrice * p.fx, 0);
+const currentValue = ledger.cash + marketValue;
+const returnPct = (currentValue / fund.initialCapital - 1) * 100;
+const income = ledger.income;
+
+// Benchmarks start on the inception date under the same price convention as the fund's
+// opening trade, are marked to the same latest close, and — like the fund — include
+// dividends net of the same withholding policy (held as cash, not reinvested).
+type Benchmark = { ticker: string; name: string; via: string; country?: string; baseDate: string; baseConvention: string; basePrice: number; lastPrice: number; lastPriceDate: string };
+const benchmarks = ((fund as { benchmarks?: Benchmark[] }).benchmarks ?? []).map((b) => {
+  const r = benchmarkReturn(b, fund);
+  return { ...b, ret: r.totalReturn, priceRet: r.priceReturn, divs: r.dividends, excess: returnPct - r.totalReturn };
+});
+const usWht = Math.round((fund.policy.withholding.US ?? 0) * 100);
+const pp = (n: number) => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(2) + ' pp';
+// handed to the live-price script below
+const liveFund = JSON.stringify({
+  initial: fund.initialCapital,
+  cash: ledger.cash,
+  positions: positions.map((p) => ({ ticker: p.ticker, shares: p.shares, lastPrice: p.lastPrice, fx: p.fx })),
+  benchmarks: benchmarks.map((b) => ({ ticker: b.ticker, basePrice: b.basePrice, lastPrice: b.lastPrice, divs: b.divs })),
+});
+
+const usd = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+const pct = (n: number) => (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+
+const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const ledgerDate = (iso: string) => {
+  const [y, m, d] = iso.split('-');
+  return `${d} ${MONTHS[Number(m) - 1]} ${y}`;
+};
+// newest first; same-day entries keep the file's order reversed (later entry = later event)
+// Split-flap board: each character gets its own tile; separators sit between tiles.
+const isSep = (c: string) => c === ',' || c === '.';
+const board = (str: string) => [...str].map((c) => ({ c, sep: isSep(c) }));
+
+// ── Holdings (valued at the last close) and closed positions ──
+const holdings = ledger.holdings.map((h) => {
+  const q = quotes.find((x) => x.ticker === h.ticker);
+  const mv = h.shares * (q?.lastPrice ?? 0) * (q ? fxOf(q) : 1);
+  return {
+    ...h, name: q?.name ?? h.ticker, lastPrice: q?.lastPrice ?? 0, mv,
+    weight: currentValue ? (mv / currentValue) * 100 : 0,
+    avgCost: h.shares ? h.cost / h.shares : 0,
+    unrealized: mv - h.cost, unrealizedPct: h.cost ? (mv / h.cost - 1) * 100 : 0,
+  };
+}).sort((a, b) => b.mv - a.mv);
+const cashWeight = currentValue ? (ledger.cash / currentValue) * 100 : 0;
+const closedPositions = [...ledger.closed].reverse().map((c) => ({ ...c, name: quotes.find((q) => q.ticker === c.ticker)?.name ?? c.ticker }));
+
+// ── Performance chart: fund NAV vs S&P 500 and XLV, all indexed to 100 at inception ──
+// Benchmarks use the same total-return rule as the table (net dividends as cash).
+type NavRow = { date: string; value: number; benchmarks: Record<string, number> };
+const navRows = ((fund as { navHistory?: NavRow[] }).navHistory ?? []);
+const CHART_SERIES = [
+  { key: 'S2', label: 'S² Capital', color: '#E1181E' },
+  { key: 'SPY', label: 'S&P 500', color: '#3D84C6' },
+  { key: 'XLV', label: 'Health Care (XLV)', color: '#B8892A' },
+];
+const chartRows = navRows.map((r) => {
+  const row: Record<string, number | string> = { date: r.date, S2: (r.value / fund.initialCapital) * 100 };
+  for (const b of benchmarks) {
+    if (r.benchmarks?.[b.ticker] == null) continue;
+    row[b.ticker] = 100 + benchmarkReturn(b, fund, r.benchmarks[b.ticker], r.date).totalReturn;
+  }
+  return row;
+});
+const series = CHART_SERIES.filter((sr) => chartRows.some((r) => typeof r[sr.key] === 'number'));
+const allVals = chartRows.flatMap((r) => series.map((sr) => r[sr.key] as number)).filter((v) => typeof v === 'number');
+const step = 10;
+const yMin = Math.floor(Math.min(100, ...allVals) / step) * step;
+const yMax = Math.ceil(Math.max(100, ...allVals) / step) * step;
+const yTicks = Array.from({ length: (yMax - yMin) / step + 1 }, (_, i) => yMin + i * step);
+const W = 1000, H = 360;
+const xOf = (i: number) => (chartRows.length > 1 ? (i / (chartRows.length - 1)) * W : 0);
+const yOf = (v: number) => H - ((v - yMin) / (yMax - yMin)) * H;
+const pathOf = (key: string) => chartRows
+  .map((r, i) => (typeof r[key] === 'number' ? `${i ? 'L' : 'M'}${xOf(i).toFixed(1)},${yOf(r[key] as number).toFixed(1)}` : ''))
+  .join('');
+// month ticks along the x axis
+const xTicks = chartRows
+  .map((r, i) => ({ i, date: r.date as string }))
+  .filter((t, k, arr) => k === 0 || t.date.slice(0, 7) !== arr[k - 1].date.slice(0, 7))
+  .filter((_, k) => k % 2 === 0);
+// direct labels at the line ends, nudged apart so they never overlap
+const endLabels = series.map((sr) => {
+  const last = [...chartRows].reverse().find((r) => typeof r[sr.key] === 'number');
+  return { ...sr, v: last ? (last[sr.key] as number) : 100 };
+}).sort((a, b) => b.v - a.v);
+{
+  const minGap = 7; // % of chart height
+  let prev = -Infinity;
+  for (const l of endLabels) {
+    let top = (yOf(l.v) / H) * 100;
+    if (top < prev + minGap) top = prev + minGap;
+    (l as { top?: number }).top = top;
+    prev = top;
+  }
+}
+const chartData = JSON.stringify({ rows: chartRows, series: series.map(({ key, label, color }) => ({ key, label, color })), yMin, yMax });
+
+// Manual journal rows plus ledger-derived events (dividends, splits, spin-offs).
+const nameOf = (t: string) => {
+  const n = quotes.find((q) => q.ticker === t)?.name;
+  return n ? `${n} (${t})` : t;
+};
+const derived = ledger.events.map((e) => ({ date: e.date, type: e.type, company: nameOf(e.ticker), action: e.action, figure: e.figure }));
+const journal = [...fund.journal, ...derived]
+  .map((e, i) => ({ ...e, i }))
+  .sort((a, b) => b.date.localeCompare(a.date) || b.i - a.i)
+  .slice(0, 20);
+const usd2 = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+// Trade blotter formatting
+const px = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+// decision timestamps are stored with a US Eastern offset (-04:00 / -05:00)
+const stamp = (iso: string) => {
+  const [date, time = ''] = iso.split('T');
+  const et = /-0[45]:00$/.test(time);
+  return `${ledgerDate(date)} ${time.slice(0, 5)}${et ? ' ET' : ''}`.trim();
+};
+const trades = [...ledger.rows].reverse();   // newest first
+
+type Article = { date: string; type: string; title: string; company: string; status: string; href?: string };
+const research = [...((fund as { research?: Article[] }).research ?? [])].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<S2Layout title="S² Capital">
+
+    <!-- 1 · Hero -->
+    <section class="s2-hero">
+      <h1 class="hero-statement">A virtual firm built as a $100 million experiment in public market investing.</h1>
+      <div class="hero-row">
+        <figure class="hero-photo">
+          <img src="/images/s2/s2-headquarters.jpg" alt="S² Capital sign on a stone facade" />
+          <figcaption>S² Capital <span>/</span> Lucerne <span>/</span> Est. 2026</figcaption>
+        </figure>
+      <div class="hero-intro">
+        <p class="intro-lead">S² Capital is a virtual investment firm investing <mark class="hl">$100 million</mark> of simulated capital in real public markets.</p>
+        <p class="intro-body">We research companies, build positions, track them against live market prices, and document every investment decision — from first thesis to final outcome. We revisit those decisions over time, measure their performance, and examine what we got right, what we got wrong, and why. All of our research and “trades” are published here, so we can exchange ideas and learn together.</p>
+        <p class="intro-index">Portfolio <span>·</span> Investment Journal <span>·</span> Research <span>·</span> Performance</p>
+      </div>
+      </div>
+    </section>
+
+    <!-- 3 · The fund is live -->
+    <section class="s2-section s2-wrap" id="fund" data-fund={liveFund}>
+      <p class="live">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>Live <span class="live-sep">·</span> Current simulated portfolio value{lastClose && <span class="as-of"> (<span data-asof>Close {ledgerDate(lastClose)}</span>)</span>}</span>
+      </p>
+      <div class="value-row">
+        <p class="capital board" data-value aria-label={usd(currentValue)}>
+          {board(usd(currentValue)).map(({ c, sep }) => sep
+            ? <span class="sep">{c}</span>
+            : <span class="tile"><span class="t-top"><span>{c}</span></span><span class="t-bot"><span>{c}</span></span></span>)}
+        </p>
+        <p class="since">
+          <span class="since-label">Since inception</span>
+          <span class="since-value" data-return>{pct(returnPct)}</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Performance: chart + benchmarks + income -->
+    <section class="s2-section s2-wrap" id="performance">
+      <p class="marker marker--square">Performance</p>
+      {chartRows.length > 1 && (
+        <figure class="chart" data-chart={chartData}>
+          <ul class="chart-legend">
+            {series.map((sr) => <li><span class="swatch" style={`background:${sr.color}`}></span>{sr.label}</li>)}
+            <li class="chart-legend-note">Indexed to 100 at inception · total return</li>
+          </ul>
+          <div class="chart-body">
+            <div class="chart-plot">
+              <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+                {yTicks.map((t) => <line class={t === 100 ? 'grid grid-base' : 'grid'} x1="0" x2={W} y1={yOf(t)} y2={yOf(t)} />)}
+                {series.map((sr) => <path d={pathOf(sr.key)} stroke={sr.color} class={sr.key === 'S2' ? 'line line-main' : 'line'} />)}
+                <line class="crosshair" x1="0" x2="0" y1="0" y2={H} />
+              </svg>
+              {yTicks.map((t) => <span class="y-tick" style={`top:${(yOf(t) / H) * 100}%`}>{t}</span>)}
+              {endLabels.map((l) => <span class="end-label" style={`top:${(l as { top?: number }).top}%`}><span class="swatch" style={`background:${l.color}`}></span>{l.v.toFixed(1)}</span>)}
+              <div class="chart-tip" role="status" aria-live="polite"></div>
+            </div>
+            <div class="x-axis">
+              {xTicks.map((t) => <span style={`left:${(xOf(t.i) / W) * 100}%`}>{MONTHS[Number(t.date.slice(5, 7)) - 1]} {t.date.slice(2, 4)}</span>)}
+            </div>
+          </div>
+        </figure>
+      )}
+      {benchmarks.length > 0 && (
+        <div class="bench">
+          <p class="bench-title">Since inception, against the market</p>
+          <table class="bench-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Start ({ledgerDate(fund.inception)})</th>
+                <th>Latest</th>
+                <th class="num">Return</th>
+                <th class="num">S² excess</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bench-fund">
+                <td><span class="b-val">S² Capital</span></td>
+                <td data-label="Start"><span class="b-val">{usd(fund.initialCapital)}</span></td>
+                <td data-label="Latest"><span class="b-val" data-bench-fund-value>{usd(currentValue)}</span></td>
+                <td data-label="Return" class="num"><span class="b-val" data-bench-fund-ret>{pct(returnPct)}</span></td>
+                <td data-label="S² excess" class="num"><span class="b-val">—</span></td>
+              </tr>
+              {benchmarks.map((b) => (
+                <tr data-bench={b.ticker}>
+                  <td><span class="b-val">{b.name}<span class="b-sub">via {b.via}</span></span></td>
+                  <td data-label="Start"><span class="b-val">${b.basePrice.toFixed(2)}<span class="b-sub">{b.baseConvention}</span></span></td>
+                  <td data-label="Latest"><span class="b-val" data-bench-last>${b.lastPrice.toFixed(2)}</span></td>
+                  <td data-label="Return" class="num"><span class="b-val"><span data-bench-ret>{pct(b.ret)}</span><span class="b-sub">price {pct(b.priceRet)}</span></span></td>
+                  <td data-label="S² excess" class="num"><span class="b-val" data-bench-ex data-neg={b.excess < 0 ? '' : undefined}>{pp(b.excess)}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="bench-note">Total return on both sides: dividends are counted net of {usWht}% US withholding tax and held as cash, not reinvested. The fund's cash also earns interest at the 13-week T-bill rate. Benchmarks are tracked through the ETF shown.</p>
+
+          <dl class="income">
+            <div><dt>Dividends, net</dt><dd>{usd2(income.dividendsNet)}</dd></div>
+            <div><dt>Withholding tax</dt><dd>{usd2(income.withholding)}</dd></div>
+            <div><dt>Cash interest</dt><dd>{usd2(income.interest)}</dd></div>
+            <div><dt>Commissions</dt><dd>{usd2(income.commission)}</dd></div>
+            <div><dt>Slippage</dt><dd>{usd2(income.slippage)}</dd></div>
+            <div><dt>Cash</dt><dd>{usd2(ledger.cash)}</dd></div>
+          </dl>
+        </div>
+      )}
+    </section>
+
+    <!-- Holdings (at the last close) -->
+    <section class="s2-section s2-wrap" id="holdings">
+      <p class="marker marker--square">Holdings</p>
+      {holdings.length ? (
+        <>
+          <table class="rtable">
+            <thead>
+              <tr>
+                <th>Ticker</th><th>Company</th><th class="num">Shares</th><th class="num">Cost basis</th>
+                <th class="num">Market value</th><th class="num">Weight</th><th class="num">Unrealized return</th>
+              </tr>
+            </thead>
+            <tbody>
+              {holdings.map((h) => (
+                <tr>
+                  <td data-label="Ticker"><span class="b-val t-strong">{h.ticker}</span></td>
+                  <td data-label="Company"><span class="b-val">{h.name}</span></td>
+                  <td data-label="Shares" class="num"><span class="b-val">{h.shares.toLocaleString('en-US')}</span></td>
+                  <td data-label="Cost basis" class="num"><span class="b-val">{usd(h.cost)}<span class="b-sub">${h.avgCost.toFixed(2)}/sh</span></span></td>
+                  <td data-label="Market value" class="num"><span class="b-val">{usd(h.mv)}<span class="b-sub">${h.lastPrice.toFixed(2)}/sh</span></span></td>
+                  <td data-label="Weight" class="num"><span class="b-val">{h.weight.toFixed(2)}%</span></td>
+                  <td data-label="Unrealized return" class="num"><span class="b-val" data-neg={h.unrealized < 0 ? '' : undefined}>{pct(h.unrealizedPct)}<span class="b-sub">{h.unrealized < 0 ? '−' : '+'}{usd(Math.abs(h.unrealized))}</span></span></td>
+                </tr>
+              ))}
+              <tr class="row-cash">
+                <td data-label="Ticker"><span class="b-val t-strong">Cash</span></td>
+                <td data-label="Company"><span class="b-val">USD, earning the 13-week T-bill rate</span></td>
+                <td data-label="Shares" class="num"><span class="b-val">—</span></td>
+                <td data-label="Cost basis" class="num"><span class="b-val">—</span></td>
+                <td data-label="Market value" class="num"><span class="b-val">{usd(ledger.cash)}</span></td>
+                <td data-label="Weight" class="num"><span class="b-val">{cashWeight.toFixed(2)}%</span></td>
+                <td data-label="Unrealized return" class="num"><span class="b-val">—</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-note">Valued at the {lastClose && ledgerDate(lastClose)} close. Cost basis includes commissions and slippage; unrealized return excludes dividends received ({usd(holdings.reduce((x, h) => x + h.dividends, 0))} net so far).</p>
+        </>
+      ) : (
+        <p class="empty">No open positions. The fund is fully in cash.</p>
+      )}
+    </section>
+
+    <!-- 4 · Investment journal -->
+    <section class="s2-section s2-wrap" id="journal">
+      <p class="marker marker--square">Investment history</p>
+      <ol class="ledger">
+        <li class="ledger-head" aria-hidden="true">
+          <span>Date</span><span>Type</span><span>Company</span><span>Action</span><span class="num">Detail</span>
+        </li>
+        {journal.map((e) => (
+          <li class="ledger-row">
+            <span class="l-date">{ledgerDate(e.date)}</span>
+            <span class="l-type">{e.type}</span>
+            <span class="l-company">{e.company}</span>
+            <span class="l-action">{e.action}</span>
+            <span class="l-figure num">{e.figure}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- 4b · Trade blotter (derived by src/lib/s2-ledger.mjs) -->
+    <section class="s2-section s2-wrap" id="trades">
+      <p class="marker marker--square">Trades</p>
+      {trades.length ? (
+        <div class="blotter-scroll">
+          <table class="blotter">
+            <thead>
+              <tr>
+                <th>Trade</th>
+                <th>Decision</th>
+                <th>Executed</th>
+                <th>Price convention</th>
+                <th class="num">Shares</th>
+                <th class="num">Fill price</th>
+                <th class="num">Gross consideration</th>
+                <th class="num">Commission</th>
+                <th class="num">Slippage</th>
+                <th class="num">Cash after</th>
+                <th class="num">Weight after</th>
+              </tr>
+            </thead>
+            <tbody>
+              {trades.map((t) => (
+                <tr>
+                  <td data-label="Trade"><span class="b-val"><span class="b-side" data-side={t.side}>{t.side}</span> {t.ticker}</span></td>
+                  <td data-label="Decision"><span class="b-val">{stamp(t.decisionAt)}</span></td>
+                  <td data-label="Executed"><span class="b-val">{ledgerDate(t.executionDate)}</span></td>
+                  <td data-label="Price convention"><span class="b-val">{t.convention}<span class="b-sub">ref {px(t.referencePrice)}</span></span></td>
+                  <td data-label="Shares" class="num"><span class="b-val">{t.shares.toLocaleString('en-US')}</span></td>
+                  <td data-label="Fill price" class="num"><span class="b-val">{px(Math.round(t.fillPrice * 10000) / 10000)}</span></td>
+                  <td data-label="Gross consideration" class="num"><span class="b-val">{usd2(t.gross)}</span></td>
+                  <td data-label="Commission" class="num"><span class="b-val">{usd2(t.commission)}</span></td>
+                  <td data-label="Slippage" class="num"><span class="b-val">{usd2(t.slippage)}<span class="b-sub">{t.slippageBps} bps</span></span></td>
+                  <td data-label="Cash after" class="num"><span class="b-val">{usd2(t.cashAfter)}</span></td>
+                  <td data-label="Weight after" class="num"><span class="b-val">{(t.weightAfter * 100).toFixed(2)}%</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p class="empty">No trades yet.</p>
+      )}
+    </section>
+
+    <!-- Closed positions: every exit stays on the record, win or lose -->
+    <section class="s2-section s2-wrap" id="closed">
+      <p class="marker marker--square">Closed positions</p>
+      {closedPositions.length ? (
+        <table class="rtable rtable--wide">
+          <thead>
+            <tr>
+              <th>Ticker</th><th>Company</th><th>Held</th><th class="num">Invested</th><th class="num">Proceeds</th>
+              <th class="num">Dividends</th><th class="num">P&amp;L</th><th class="num">Return</th>
+            </tr>
+          </thead>
+          <tbody>
+            {closedPositions.map((c) => (
+              <tr>
+                <td data-label="Ticker"><span class="b-val t-strong">{c.ticker}</span></td>
+                <td data-label="Company"><span class="b-val">{c.name}</span></td>
+                <td data-label="Held"><span class="b-val">{ledgerDate(c.opened)} → {ledgerDate(c.closedOn)}</span></td>
+                <td data-label="Invested" class="num"><span class="b-val">{usd(c.invested)}</span></td>
+                <td data-label="Proceeds" class="num"><span class="b-val">{usd(c.proceeds)}</span></td>
+                <td data-label="Dividends" class="num"><span class="b-val">{usd(c.dividends)}</span></td>
+                <td data-label="P&amp;L" class="num"><span class="b-val" data-neg={c.pnl < 0 ? '' : undefined}>{c.pnl < 0 ? '−' : '+'}{usd(Math.abs(c.pnl))}</span></td>
+                <td data-label="Return" class="num"><span class="b-val" data-neg={c.pnl < 0 ? '' : undefined}>{pct(c.returnPct)}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p class="empty">No closed positions yet. Every exit will stay on this list permanently, including the losses.</p>
+      )}
+    </section>
+
+    <!-- 5 · Research articles (src/data/s2-capital.json → research) -->
+    <section class="s2-section s2-wrap" id="research">
+      <p class="marker marker--square">Research</p>
+      {research.length ? (
+        <ol class="articles">
+          {research.map((r) => {
+            const Tag = r.href ? 'a' : 'div';
+            return (
+              <li>
+                <Tag class="article" {...(r.href ? { href: r.href } : {})}>
+                  <span class="a-date">{ledgerDate(r.date)}</span>
+                  <span class="a-type">{r.type}</span>
+                  <span class="a-main">
+                    <span class="a-title">{r.title}</span>
+                    <span class="a-company">{r.company}</span>
+                  </span>
+                  <span class="a-status">{r.status}</span>
+                </Tag>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p class="empty">First research notes are on the way.</p>
+      )}
+    </section>
+
+</S2Layout>
+
+<script>
+  // Day counter: day 001 = inception date, counted in the visitor's local calendar
+  document.querySelectorAll<HTMLElement>('[data-day]').forEach((el) => {
+    const [y, m, d] = (el.dataset.inception ?? '').split('-').map(Number);
+    if (!y) return;
+    const start = new Date(y, m - 1, d);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const day = Math.max(1, Math.round((today.getTime() - start.getTime()) / 86400000) + 1);
+    el.textContent = String(day).padStart(3, '0');
+  });
+
+  // Split-flap board. Each tile flips in turn from the left: the upper leaf falls to
+  // reveal the new character's top half, then the lower leaf drops over the bottom half.
+  // Digits spin through a couple of interim values first, like an exchange board.
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isSep = (c: string) => c === ',' || c === '.';
+  const LEAF_MS = 70;
+
+  const tileHTML = (c: string) => isSep(c)
+    ? `<span class="sep">${c}</span>`
+    : `<span class="tile"><span class="t-top"><span>${c}</span></span><span class="t-bot"><span>${c}</span></span></span>`;
+
+  const leaf = (tile: HTMLElement, cls: string, c: string) => {
+    const el = document.createElement('span');
+    el.className = `leaf ${cls}`;
+    el.innerHTML = `<span>${c}</span>`;
+    tile.append(el);
+    return el;
+  };
+
+  const flipTile = async (tile: HTMLElement, seq: string[]) => {
+    const top = tile.querySelector<HTMLElement>('.t-top > span')!;
+    const bot = tile.querySelector<HTMLElement>('.t-bot > span')!;
+    for (const next of seq) {
+      const prev = top.textContent ?? '';
+      top.textContent = next;                       // revealed as the upper leaf falls
+      const up = leaf(tile, 'leaf-top', prev);
+      await up.animate([{ transform: 'rotateX(0deg)' }, { transform: 'rotateX(-90deg)' }],
+        { duration: LEAF_MS, easing: 'ease-in' }).finished;
+      up.remove();
+      const down = leaf(tile, 'leaf-bot', next);
+      await down.animate([{ transform: 'rotateX(90deg)' }, { transform: 'rotateX(0deg)' }],
+        { duration: LEAF_MS, easing: 'ease-out' }).finished;
+      bot.textContent = next;
+      down.remove();
+    }
+  };
+
+  const flipTo = (el: HTMLElement | null, next: string) => {
+    if (!el || el.getAttribute('aria-label') === next) return;
+    const prev = el.getAttribute('aria-label') ?? '';
+    el.setAttribute('aria-label', next);
+    const sameShape = prev.length === next.length && [...prev].every((c, i) => isSep(c) === isSep(next[i]));
+    if (reduceMotion || !sameShape) {
+      el.innerHTML = [...next].map(tileHTML).join('');
+      return;
+    }
+    const slots = [...el.children] as HTMLElement[];
+    [...next].forEach((c, i) => {
+      if (isSep(c) || prev[i] === c) return;
+      const spins = /\d/.test(c) ? Array.from({ length: 2 }, () => String(Math.floor(Math.random() * 10))) : [];
+      setTimeout(() => flipTile(slots[i], [...spins, c]), i * 90);
+    });
+  };
+
+  // Live value: build-time figures use the last recorded close; while the page is open,
+  // re-price positions from /api/quotes every 5 minutes. Any failure keeps the close figures.
+  // (npm run dev has no Pages Functions, so dev simulates small price moves to show the board.)
+  const fundEl = document.querySelector<HTMLElement>('[data-fund]');
+  if (fundEl) {
+    type LiveFund = {
+      initial: number; cash: number;
+      positions: { ticker: string; shares: number; lastPrice: number; fx: number }[];
+      benchmarks: { ticker: string; basePrice: number; lastPrice: number; divs: number }[];
+    };
+    const f: LiveFund = JSON.parse(fundEl.dataset.fund ?? '{}');
+    const tickers = f.positions.map((p) => p.ticker);
+    const benchTickers = (f.benchmarks ?? []).map((b) => b.ticker);
+    const signed = (n: number) => (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+    const pp = (n: number) => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(2) + ' pp';
+    const valueEl = fundEl.querySelector<HTMLElement>('[data-value]');
+    const returnEl = fundEl.querySelector<HTMLElement>('[data-return]');
+    const asOfEl = fundEl.querySelector('[data-asof]');
+
+    const refresh = async () => {
+      if (!tickers.length || document.hidden) return;
+      try {
+        let quotes: Record<string, { price: number; time: number }>;
+        if (import.meta.env.DEV) {
+          quotes = Object.fromEntries([...f.positions, ...(f.benchmarks ?? [])].map((p) => [p.ticker, {
+            price: p.lastPrice * (1 + (Math.random() - 0.5) * 0.02),
+            time: Date.now() / 1000,
+          }]));
+        } else {
+          const res = await fetch(`/api/quotes?symbols=${[...tickers, ...benchTickers].join(',')}`);
+          if (!res.ok) return;
+          ({ quotes } = await res.json());
+        }
+        if (!tickers.every((t) => quotes?.[t])) return;
+        const value = f.cash + f.positions.reduce((s, p) => s + p.shares * quotes[p.ticker].price * p.fx, 0);
+        const ret = (value / f.initial - 1) * 100;
+        flipTo(valueEl, '$' + Math.round(value).toLocaleString('en-US'));
+        if (returnEl) returnEl.textContent = signed(ret);
+        const fundValueCell = document.querySelector('[data-bench-fund-value]');
+        const fundRetCell = document.querySelector('[data-bench-fund-ret]');
+        if (fundValueCell) fundValueCell.textContent = '$' + Math.round(value).toLocaleString('en-US');
+        if (fundRetCell) fundRetCell.textContent = signed(ret);
+        for (const b of f.benchmarks ?? []) {
+          const q = quotes[b.ticker];
+          const row = document.querySelector(`[data-bench="${b.ticker}"]`);
+          if (!q || !row) continue;
+          const bRet = ((q.price + b.divs) / b.basePrice - 1) * 100;   // total return, net dividends as cash
+          const ex = ret - bRet;
+          const exEl = row.querySelector<HTMLElement>('[data-bench-ex]');
+          row.querySelector('[data-bench-last]')!.textContent = '$' + q.price.toFixed(2);
+          row.querySelector('[data-bench-ret]')!.textContent = signed(bRet);
+          if (exEl) { exEl.textContent = pp(ex); exEl.toggleAttribute('data-neg', ex < 0); }
+        }
+        const t = new Date(Math.max(...tickers.map((s) => quotes[s].time)) * 1000);
+        const fmt = (o: Intl.DateTimeFormatOptions) => t.toLocaleString('en-US', { timeZone: 'America/New_York', ...o });
+        if (asOfEl) asOfEl.textContent = `${fmt({ day: '2-digit' })} ${fmt({ month: 'short' }).toUpperCase()} ${fmt({ hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })} ET`;
+      } catch { /* keep last close */ }
+    };
+    setTimeout(refresh, import.meta.env.DEV ? 1500 : 0);
+    setInterval(refresh, 5 * 60_000);
+  }
+
+  // Performance chart hover: nearest trading day → crosshair + values for every series.
+  const chart = document.querySelector<HTMLElement>('[data-chart]');
+  if (chart) {
+    type ChartData = { rows: Record<string, number | string>[]; series: { key: string; label: string; color: string }[] };
+    const data: ChartData = JSON.parse(chart.dataset.chart ?? '{}');
+    const plot = chart.querySelector<HTMLElement>('.chart-plot')!;
+    const line = chart.querySelector<SVGLineElement>('.crosshair')!;
+    const tip = chart.querySelector<HTMLElement>('.chart-tip')!;
+    const M = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    const fmtDate = (iso: string) => `${iso.slice(8, 10)} ${M[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`;
+    const show = (clientX: number) => {
+      const box = plot.getBoundingClientRect();
+      const t = Math.min(1, Math.max(0, (clientX - box.left) / box.width));
+      const i = Math.round(t * (data.rows.length - 1));
+      const row = data.rows[i];
+      const x = (i / (data.rows.length - 1)) * 1000;
+      line.setAttribute('x1', String(x));
+      line.setAttribute('x2', String(x));
+      chart.classList.add('is-hover');
+      tip.innerHTML = `<p class="tip-date">${fmtDate(String(row.date))}</p>` + data.series
+        .filter((sr) => typeof row[sr.key] === 'number')
+        .map((sr) => `<p><span class="swatch" style="background:${sr.color}"></span>${sr.label}<b>${(row[sr.key] as number).toFixed(1)}</b></p>`)
+        .join('');
+      const left = (i / (data.rows.length - 1)) * box.width;
+      tip.style.left = `${Math.min(Math.max(left, 90), box.width - 90)}px`;
+    };
+    plot.addEventListener('pointermove', (e) => show(e.clientX));
+    plot.addEventListener('pointerdown', (e) => show(e.clientX));
+    plot.addEventListener('pointerleave', () => chart.classList.remove('is-hover'));
+  }
+</script>
+
+<style>
+  /* ── Hero ── */
+  .s2-hero {
+    width: min(86vw, 1600px);
+    margin: 0 auto;
+    padding-top: clamp(24px, 6vh, 72px);
+  }
+  .hero-statement {
+    font-family: var(--serif);
+    font-size: clamp(34px, 5vw, 88px);
+    font-weight: 300;
+    font-variant-numeric: lining-nums;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--s2-ink);
+    text-wrap: balance;
+    padding: 0 0 64px;
+  }
+  .hero-row {
+    --row-gap: clamp(40px, 5vw, 88px);
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--row-gap);
+    align-items: stretch;
+  }
+  :global(.s2) .hero-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+  .hero-photo figcaption {
+    margin-top: 16px;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  .hero-photo figcaption span { margin: 0 8px; opacity: 0.6; }
+  /* copy sits on the photo's bottom edge (caption height excluded) */
+  .hero-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 30px;
+  }
+  /* short white rule between photo and copy */
+  :global(.s2) .intro-lead { position: relative; }
+  .intro-lead::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--row-gap) / -2);
+    top: 6px;
+    width: 1px;
+    height: 72px;
+    background: var(--s2-ink);
+  }
+  :global(.s2) .intro-lead {
+    font-size: clamp(18px, 1.6vw, 21px);
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--s2-ink);
+    margin-bottom: 20px;
+  }
+  .intro-body {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--s2-soft);
+  }
+  :global(.s2) .intro-index {
+    padding-top: 36px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+  }
+  .intro-index span {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    margin: 0 9px;
+    border-radius: 50%;
+    background: var(--s2-red);
+    font-size: 0;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+  .muted { color: var(--s2-muted); }
+  .intro-lead .hl {
+    background: var(--s2-red);
+    color: #fff;
+    padding: 0.05em 0.3em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  :global(.s2) .label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  .num, .capital, .l-date, .a-date {
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  /* ── 3 · The fund is live ── */
+  :global(.s2) .live {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+  }
+  :global(.s2) .live .live-dot { align-self: center; flex: none; }
+  .live-sep { color: var(--s2-muted); }
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--s2-red);
+    animation: live-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes live-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(225, 24, 30, 0.55); }
+    60%      { box-shadow: 0 0 0 8px rgba(225, 24, 30, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+  .as-of { color: var(--s2-muted); }
+  :global(.s2) .capital {
+    font-family: var(--serif);
+    font-size: clamp(34px, 7.4vw, 124px);
+    font-weight: 300;
+    color: var(--s2-ink);
+    margin-top: 20px;
+  }
+
+  /* value + since-inception: the return sits at the board's bottom-right */
+  .value-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px 48px;
+    flex-wrap: wrap;
+  }
+  :global(.s2) .since { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .since-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  .since-value {
+    font-family: var(--serif);
+    font-size: clamp(32px, 3.6vw, 56px);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--s2-ink);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  /* ── Split-flap tiles ── */
+  .board {
+    display: flex;
+    align-items: stretch;
+    white-space: nowrap;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .board :global(.tile) {
+    position: relative;
+    flex: none;
+    width: 0.7em;
+    height: 1.08em;
+    margin-right: 0.05em;
+    perspective: 4em;
+  }
+  .board :global(.sep) {
+    flex: none;
+    width: 0.24em;
+    align-self: flex-end;
+    text-align: center;
+    line-height: 1;
+    padding-bottom: 0.02em;
+    margin-right: 0.05em;
+  }
+  /* halves and falling leaves share one geometry */
+  .board :global(.t-top), .board :global(.t-bot), .board :global(.leaf) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+  .board :global(.t-top), .board :global(.leaf-top) {
+    top: 0;
+    border-radius: 0.06em 0.06em 0 0;
+    background: linear-gradient(#26262B, #1E1E22);
+    transform-origin: 50% 100%;
+  }
+  .board :global(.t-bot), .board :global(.leaf-bot) {
+    bottom: 0;
+    border-radius: 0 0 0.06em 0.06em;
+    background: linear-gradient(#1B1B1F, #161619);
+    transform-origin: 50% 0;
+  }
+  .board :global(.leaf) { z-index: 2; }
+  .board :global(.t-top > span), .board :global(.t-bot > span), .board :global(.leaf > span) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 200%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding-bottom: 0.06em;
+  }
+  .board :global(.t-top > span), .board :global(.leaf-top > span) { top: 0; }
+  .board :global(.t-bot > span), .board :global(.leaf-bot > span) { top: -100%; }
+  /* the hinge */
+  .board :global(.tile)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - 0.5px);
+    height: 1px;
+    background: #0A0A0B;
+    z-index: 3;
+  }
+
+  /* ── Benchmarks ── */
+  .bench { margin-top: clamp(56px, 7vw, 96px); }
+  .s2-wrap .bench-title {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    margin-bottom: 20px;
+  }
+  .bench-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .bench-table th {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    text-align: left;
+    padding: 0 16px 14px 0;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .bench-table td {
+    padding: 16px 16px 16px 0;
+    color: var(--s2-soft);
+    vertical-align: top;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .bench-table th:last-child, .bench-table td:last-child { padding-right: 0; }
+  .bench-table .num { text-align: right; }
+  .bench-fund td { color: var(--s2-ink); font-weight: 600; }
+  .bench-table [data-neg] { color: var(--s2-red); }
+  .s2-wrap .income {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 20px;
+    margin: 32px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .income dt {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  .income dd {
+    margin: 8px 0 0;
+    font-size: 14px;
+    color: var(--s2-ink);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .s2-wrap .bench-note { margin-top: 16px; font-size: 12px; color: var(--s2-muted); }
+
+  /* ── Performance chart ── */
+  .chart { margin: 0 0 clamp(48px, 6vw, 80px); }
+  .chart-legend {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    font-size: 12px;
+    color: var(--s2-soft);
+  }
+  .chart-legend li { display: flex; align-items: center; gap: 8px; }
+  .chart-legend .chart-legend-note { margin-left: auto; color: var(--s2-muted); font-size: 11px; }
+  .chart .swatch { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
+  .chart-body { padding-right: 56px; }
+  .chart-plot { position: relative; height: clamp(240px, 32vw, 380px); margin-left: 36px; touch-action: pan-y; }
+  .chart-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .chart .grid { stroke: rgba(242, 239, 234, 0.07); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .chart .grid-base { stroke: rgba(242, 239, 234, 0.22); }
+  .chart .line { fill: none; stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+  .chart .line-main { stroke-width: 2.25; }
+  .chart .crosshair { stroke: rgba(242, 239, 234, 0.45); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0; }
+  .chart.is-hover .crosshair { opacity: 1; }
+  .y-tick {
+    position: absolute;
+    left: -36px;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: var(--s2-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .end-label {
+    position: absolute;
+    left: calc(100% + 10px);
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--s2-ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .x-axis { position: relative; height: 28px; margin-left: 36px; }
+  .x-axis span {
+    position: absolute;
+    top: 10px;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--s2-muted);
+    white-space: nowrap;
+  }
+  .x-axis span:first-child { transform: none; }
+  .chart-tip {
+    position: absolute;
+    top: 8px;
+    transform: translateX(-50%);
+    min-width: 170px;
+    padding: 10px 12px;
+    background: rgba(17, 17, 19, 0.94);
+    border: 1px solid rgba(242, 239, 234, 0.14);
+    font-size: 12px;
+    color: var(--s2-soft);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+  }
+  .chart.is-hover .chart-tip { opacity: 1; }
+  .chart-tip :global(p) { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+  .chart-tip :global(.tip-date) { color: var(--s2-muted); font-size: 10px; letter-spacing: 0.12em; }
+  .chart-tip :global(b) { margin-left: auto; font-weight: 600; color: var(--s2-ink); font-variant-numeric: tabular-nums; }
+  .chart-tip :global(.swatch) { width: 10px; height: 2px; display: inline-block; }
+
+  /* ── Holdings & closed positions tables ── */
+  .rtable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .rtable th {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    text-align: left;
+    padding: 0 16px 14px 0;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .rtable td {
+    padding: 16px 16px 16px 0;
+    color: var(--s2-ink);
+    vertical-align: top;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .rtable th:last-child, .rtable td:last-child { padding-right: 0; }
+  .rtable .num { text-align: right; }
+  .rtable .t-strong { font-weight: 600; }
+  .rtable .row-cash td { color: var(--s2-soft); }
+  .rtable [data-neg] { color: var(--s2-red); }
+  .s2-wrap .table-note { margin-top: 16px; font-size: 12px; color: var(--s2-muted); }
+
+  /* ── 4 · Ledger ── */
+  :global(.s2) .ledger { list-style: none; padding: 0; }
+  .ledger li {
+    display: grid;
+    grid-template-columns: 130px 150px minmax(0, 1.3fr) minmax(0, 1fr) 220px;
+    gap: 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .ledger-head {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    padding-top: 0 !important;
+  }
+  .ledger-row { font-size: 15px; color: var(--s2-ink); }
+  .l-date { font-size: 13px; letter-spacing: 0.06em; color: var(--s2-soft); }
+  .l-type {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+  }
+  .l-action { color: var(--s2-soft); }
+  .l-figure { white-space: nowrap; }
+  .num { text-align: right; }
+
+  /* ── 4b · Trade blotter ── */
+  .blotter-scroll { overflow-x: auto; }
+  .blotter {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: lining-nums tabular-nums;
+    white-space: nowrap;
+  }
+  .blotter th {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    text-align: left;
+    padding: 0 14px 16px 0;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .blotter td {
+    padding: 18px 14px 18px 0;
+    color: var(--s2-ink);
+    vertical-align: top;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .blotter th:last-child, .blotter td:last-child { padding-right: 0; }
+  .blotter .num { text-align: right; }
+  .b-side {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    padding: 2px 6px;
+    margin-right: 6px;
+    border: 1px solid currentColor;
+  }
+  .b-side[data-side='BUY'] { color: var(--s2-ink); }
+  .b-side[data-side='SELL'] { color: var(--s2-red); }
+  .b-sub { display: block; margin-top: 4px; font-size: 11px; color: var(--s2-muted); }
+
+  /* ── 5 · Research articles ── */
+  :global(.s2) .articles { list-style: none; padding: 0; }
+  .article {
+    display: grid;
+    grid-template-columns: 130px 150px minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+    color: inherit;
+    text-decoration: none;
+  }
+  .articles li:first-child .article { border-top: 1px solid rgba(242, 239, 234, 0.08); }
+  .a-date { font-size: 13px; letter-spacing: 0.06em; color: var(--s2-soft); }
+  .a-type {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+  }
+  .a-main { display: flex; flex-direction: column; gap: 8px; }
+  .a-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 2.2vw, 32px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--s2-ink);
+    transition: color 0.2s;
+  }
+  a.article:hover .a-title { color: #fff; text-decoration: underline; text-decoration-color: var(--s2-red); text-underline-offset: 6px; text-decoration-thickness: 1px; }
+  .a-company { font-size: 13px; color: var(--s2-muted); }
+  .a-status {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  /* ── Responsive ── */
+  @media (max-width: 1100px) {
+    .rtable--wide, .rtable--wide tbody, .rtable--wide tr, .rtable--wide td { display: block; }
+    .rtable--wide thead { display: none; }
+    .rtable--wide tr { max-width: 640px; padding: 14px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
+    .rtable--wide td { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; border: 0; text-align: right; }
+    .rtable--wide td::before { content: attr(data-label); flex: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-align: left; }
+    .rtable--wide td .b-sub { display: inline; margin-left: 6px; }
+    .s2-wrap .income { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 18px; }
+    /* trade blotter: label/value list below desktop width */
+    .blotter, .blotter tbody, .blotter tr, .blotter td { display: block; white-space: normal; }
+    .blotter thead { display: none; }
+    .blotter tr { max-width: 640px; padding: 16px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
+    .blotter td {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 5px 0;
+      border: 0;
+      text-align: right;
+    }
+    .blotter td::before {
+      content: attr(data-label);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--s2-muted);
+      text-align: left;
+    }
+    .blotter td .b-sub { display: inline; margin: 0 0 0 6px; }
+    .blotter td::before { flex: none; }
+  }
+  @media (max-width: 900px) {
+    .article { grid-template-columns: 1fr auto; gap: 8px 16px; }
+    .a-date { grid-column: 1; }
+    .a-type { grid-column: 2; text-align: right; }
+    .a-main { grid-column: 1 / -1; }
+    .a-status { grid-column: 1 / -1; }
+    .hero-row { grid-template-columns: 1fr; }
+    .intro-lead::before { display: none; }
+    .hero-intro { padding-bottom: 0; }
+    .ledger-head { display: none !important; }
+    .ledger li {
+      grid-template-columns: 1fr auto;
+      gap: 6px 16px;
+    }
+    .l-date { grid-column: 1; }
+    .l-type { grid-column: 2; text-align: right; }
+    /* phones: company, action and amount each get a full-width line */
+    .l-company, .l-action, .l-figure { grid-column: 1 / -1; }
+    .l-figure { text-align: left; }
+  }
+  @media (max-width: 760px) {
+    .rtable, .rtable tbody, .rtable tr, .rtable td { display: block; }
+    .rtable thead { display: none; }
+    .rtable tr { padding: 14px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
+    .rtable td { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; border: 0; text-align: right; }
+    .rtable td::before { content: attr(data-label); flex: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-align: left; }
+    .rtable td .b-sub { display: inline; margin-left: 6px; }
+    .chart-legend .chart-legend-note { margin-left: 0; width: 100%; }
+    .chart-body { padding-right: 52px; }
+    .end-label { font-size: 11px; left: calc(100% + 6px); }
+    .x-axis span:nth-child(even) { display: none; }
+    .s2-wrap .income { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; }
+    .bench-table thead { display: none; }
+    .bench-table, .bench-table tbody, .bench-table tr, .bench-table td { display: block; }
+    .bench-table tr { padding: 14px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
+    .bench-table td { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; border: 0; text-align: right; }
+    .bench-table td:first-child { text-align: left; padding-bottom: 8px; }
+    .bench-table td[data-label]::before {
+      content: attr(data-label);
+      flex: none;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--s2-muted);
+      font-weight: 400;
+    }
+    .bench-table td .b-sub { display: inline; margin-left: 6px; }
+  }
+  @media (max-width: 560px) {
+    :global(.s2) .live { line-height: 1.6; }
+    :global(.s2) .capital { font-size: 40px; }
+    .value-row { flex-direction: column; align-items: flex-start; }
+    :global(.s2) .since { align-items: flex-start; }
+    .intro-index span { margin: 0 6px; }
+    .s2-hero { width: calc(100vw - 40px); }
+  }
+</style>

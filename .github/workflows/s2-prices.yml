@@ -1,14 +1,20 @@
-# S² Capital: record each trading day's closing prices, then let the push
-# trigger the normal Cloudflare Pages deploy.
-name: S² Capital closing prices
+# S² Capital: refresh market data twice a day, then let the push trigger the normal
+# Cloudflare Pages deploy. Commits only when src/data/s2-capital.json actually changed.
+name: S² Capital market data
 
 on:
   schedule:
-    - cron: '30 21 * * 1-5'   # 21:30 UTC = after the US close (DST and standard time)
+    - cron: '0 12 * * *'    # 12:00 UTC — before the US open: overnight dividends/splits, rates, FX, revised closes
+    - cron: '30 21 * * *'   # 21:30 UTC — after the US close: the day's closes and NAV
   workflow_dispatch:
 
 permissions:
   contents: write
+
+# never let two runs (or a run and a retry) write the JSON at the same time
+concurrency:
+  group: s2-prices
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -19,7 +25,7 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/update-s2-prices.mjs
-      - name: Commit if prices changed
+      - name: Commit if data changed
         run: |
           if git diff --quiet src/data/s2-capital.json; then
             echo "No change"; exit 0
@@ -27,5 +33,7 @@ jobs:
           git config user.name "s2-capital-bot"
           git config user.email "actions@users.noreply.github.com"
           git add src/data/s2-capital.json
-          git commit -m "S² Capital: closing prices $(date -u +%F)"
+          git commit -m "S² Capital: market data $(date -u +'%F %H:%M') UTC"
+          # someone may have pushed while this ran — replay on top of it
+          git pull --rebase origin main
           git push

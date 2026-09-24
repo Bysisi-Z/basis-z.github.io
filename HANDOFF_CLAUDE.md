@@ -43,7 +43,7 @@
   - Writing: only one essay live (`/writing/put-on-the-tie`); no `[slug].astro` template yet
   - Journey detail pages: timeline cards link to `#`
   - MEPS deep-dive pages: INSCOV23, DLAYCA42, TOTSLF23 are stubs in `meps-reports.html`
-  - S² Capital (`/reading`, s87): page built; portfolio/journal data still empty except the founding entry — see `CONTEXT.md` §4
+  - S² Capital (`/capital`, s87): page built; currently shows DEMO data (backdated MRK position) — reset before launch, see `CONTEXT.md` §4
   - `?dbg=1` debug endpoint still active (see Security section)
 
 ---
@@ -93,7 +93,7 @@
   - `/photography` — Nature Never Judges (index + Stoos + Oeschinensee + Lucerne)
   - `/writing` — Wandering (index + Put on the Tie essay)
   - `/moments` — Moments (16 cards)
-  - `/reading` — S² Capital (virtual investment firm, s87)
+  - `/capital` — S² Capital (virtual investment firm, s87; `/reading` 301s here) + `/capital/team`
   - `/trails` — Interactive hiking map
   - All `public/*.html` analysis pages (NSFG + MEPS + Organon)
 
