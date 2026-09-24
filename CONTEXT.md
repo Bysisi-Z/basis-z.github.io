@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-09-23 (session 87)
+> Last updated: 2026-09-24 (session 87)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [si-lens.me](https://si-lens.me) · Preview: basis-z-github-io.pages.dev
@@ -150,16 +150,23 @@ Index + 1 essay (`/writing/put-on-the-tie`). Details → `CODEX_WRITING.md`.
 3-column flex (NOT CSS columns — Safari bug). 16 cards live. Click-to-focus interaction. Cards: ferris wheel · pollen · pipa · chinese garden · library · rowing · geese · glass deck · lucerne dusk · plane home · palais des nations · dunhuang · grandma temple · saxer sunset · lunar eclipse · eras tour.
 
 ### S² Capital (`/reading`) 🟡 — s87, replaces "A Collection of Rabbit Holes"
-A **virtual investment firm**: $100M simulated capital, real public-market prices, every decision logged. Route still `/reading` (rename to `/capital` undecided). Nav label / homepage card 06 = "S² Capital" · "Virtual portfolio & research notes". Old under-construction page + speech-bubble easter egg removed.
+A **virtual investment firm**: $100M simulated capital, real public-market prices, every decision logged. Route still `/reading` (rename to `/capital` undecided). Nav label / homepage card 06 = "S² Capital" · "Virtual portfolio & research notes".
 
-- **Art direction (user-set, don't redesign):** dark page (`#111113`), warm off-white ink `#F2EFEA`, Swiss red `#E1181E` used sparingly (logo, section numbers 01–04, nav hover, live dot, active nav pill). Cormorant only for big statements/numbers (`lining-nums` — its default old-style figures make "100" read as "IOO"); Inter for everything else. No cards, no boxed stats.
-- **Logo:** SVG red square, white Source Serif 4 "S" + Inter "2" (matches user's wall-sign image). Lockup: "CAPITAL" to the right, **bottom-aligned** with the square, cap height ≈ 1/5 of square, tight 11px gap.
-- **Page order:** brand bar (logo | Portfolio · Research · About anchors) → hero headline (3 lines, "A virtual investment firm / built as a $100 million experiment / in public market investing.") → photo (16:9, left 7fr) | short white vertical rule | intro copy + index line (right 5fr) → 01 The Fund (big $100,000,000, current value / since inception / positions / Day) → 02 Latest Decisions ledger → 03 How We Think (Screen/Research/Decision/Position/Review/Exit) → 04 Methodology (the only place "simulated" is disclosed) → colophon.
-- **Width:** everything in `.s2-wrap` = `min(86vw, 1600px)` so all left edges align.
-- **Data:** `src/data/s2-capital.json` — `inception`, `initialCapital`, `cash`, `positions[{ticker, shares, lastPrice}]`, `journal[{date, type, company, action, figure}]`. Value/return/position count computed at build; Day counter computed client-side from `inception` (day 001 = 2026-09-23). Journal has one real entry only (fund founded) — **don't add fictional example trades**; it's meant as the permanent record.
-- **Site chrome:** this page alone turns the global nav + footer dark via `:global(body:has(.s2) …)` rules at the bottom of the page's `<style>`.
-- **Photo:** `public/images/s2/s2-headquarters.jpg` — user-supplied AI-generated wall-sign image, left window-frame strip cropped off.
-- **User preferences seen this session:** rejects anything that looks like a generic corporate/PowerPoint site; wants small, precise changes when asked ("别的不要动") — don't bundle extra tweaks. Headline copy is the user's own; only fix clear grammar.
+> ⚠️ **DEMO DATA IS LIVE.** `src/data/s2-capital.json` currently holds a fictional backdated fund (inception 2025-09-24, all-in MRK at that day's low $79.33 × 1,260,557 sh) plus a placeholder research article, created only to review the layout. The JSON has a `"demo"` key saying so. **Reset before real launch:** set `inception` to the real start date, `cash` = 100000000, empty `positions` / `research` / `navHistory`, journal = one "Founded" row.
+
+- **Art direction (user-set, don't redesign):** dark page (`#111113`), warm off-white `#F2EFEA`, Swiss red `#E1181E` used sparingly. Cormorant only for big statements/numbers (`lining-nums` — default old-style figures make "100" read "IOO"); Inter for everything else. No cards, no boxed stats.
+- **Logo:** SVG red square, white Source Serif 4 "S" + Inter "2". Lockup "CAPITAL" to the right, **bottom-aligned** with the square, cap height ≈ 1/5 of square, 11px gap.
+- **Page order:** brand bar (logo | Portfolio→#fund · Research→#research · About→#about) → headline "A virtual firm built as a $100 million experiment in public market investing." (full width, `text-wrap: balance`) → photo 16:9 (7fr) | short white vertical rule | intro copy ($100 million highlighted red) + index line "Portfolio • Investment Journal • Research • Performance" (600 weight, red 4px dots), copy bottom-aligned to photo → fund row "● LIVE · CURRENT PORTFOLIO VALUE … timestamp" + **split-flap board** value → metrics (initial capital / since inception / positions / day) → ■ Investment History ledger → ■ Research article list → colophon (logo, "Lucerne · Est. 2026", disclaimer right).
+- **Section headings:** red 8px square + label (`.marker--square`); numbered markers no longer used. Methodology section removed; disclaimer lives in the colophon.
+- **Split-flap board:** only the big value. Each char a tile (upper/lower halves + hinge line); separators `, .` sit between tiles. Updates flip left→right, 90ms stagger, 2 random interim digits. Tile markup must match between Astro (`board()`) and script (`tileHTML`).
+- **Live prices (B):** `functions/api/quotes.js` → Yahoo chart API server-side, 5-min edge cache, max 20 symbols. Page re-prices every 5 min (skips hidden tabs), falls back to last close. `npm run dev` has no Functions, so dev **simulates** ±1% moves to demo the board. Yahoo may block Cloudflare IPs — if so, switch to Finnhub (key in Cloudflare env).
+- **Daily close (A):** `scripts/update-s2-prices.mjs` updates `lastPrice`/`lastPriceDate` and upserts `navHistory`. `.github/workflows/s2-prices.yml` runs it weekdays 21:30 UTC and pushes the JSON (→ Cloudflare redeploy). Can also run via "Run workflow".
+- **Data file shape:** `inception`, `initialCapital`, `cash`, `positions[{ticker,name,shares,entryPrice,entryDate,lastPrice,lastPriceDate}]`, `journal[{date,type,company,action,figure}]` (same-day rows: later in file = shown higher), `research[{date,type,title,company,status,href}]`, `navHistory[{date,value}]`.
+- **Width:** everything in `min(86vw, 1600px)`.
+- **Site chrome:** this page alone turns global nav + footer dark via `:global(body:has(.s2) …)` rules.
+- **Photo:** `public/images/s2/s2-headquarters.jpg` — user-supplied AI-generated wall sign, ~1270px wide (soft on retina).
+- **User preferences:** rejects generic corporate/PowerPoint looks; when asked for a small change, change only that ("别的不要动"). Headline copy is the user's own.
+- **Pending:** research article detail page template; holdings table; real data + reset; `/capital` route decision; check on a real phone.
 
 ### CV (`/cv`) ✅ — 🔒 passcode
 Photo + summary, 5 work entries with vine bullets, education, capabilities, action bar. Print layout: A4, 2-page.
@@ -200,7 +207,7 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 - [ ] **Moments** — add new cards as they happen
 
 ### Low priority
-- [ ] **S² Capital** — add real positions + journal entries to `src/data/s2-capital.json`; decide route rename `/reading` → `/capital`; mobile layout not yet checked on a real phone; higher-res wall photo would help (current source ~1270px wide)
+- [ ] **S² Capital** — reset demo data before real launch; research article detail template; holdings table; decide `/reading` → `/capital`; real-phone check; verify `/api/quotes` works on Cloudflare (Yahoo may block)
 - [ ] **Cleanup** — delete experiment files in `public/` (color-preview, font-preview, compare-*, opt-*, preview-v*); see `HANDOFF_CLAUDE.md` §Content Architecture. Also 4 stale orphan JSON files found s84: `public/data/meps_utilization.json`, `meps_insurance.json`, `meps_health_status.json`, `meps_expenditures.json` (June 7, pre-25-section format) — not referenced anywhere in `src/` or `public/*.html`.
 
 ---

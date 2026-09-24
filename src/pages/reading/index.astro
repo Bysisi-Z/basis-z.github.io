@@ -3,11 +3,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import fund from '../../data/s2-capital.json';
 
 // ── Fund figures, all derived from src/data/s2-capital.json ──
-type Position = { ticker: string; shares: number; lastPrice: number };
+type Position = { ticker: string; shares: number; lastPrice: number; lastPriceDate?: string };
 const positions = fund.positions as Position[];
 const marketValue = positions.reduce((sum, p) => sum + p.shares * p.lastPrice, 0);
 const currentValue = fund.cash + marketValue;
 const returnPct = (currentValue / fund.initialCapital - 1) * 100;
+const lastClose = positions.map((p) => p.lastPriceDate ?? '').sort().at(-1);
+// handed to the live-price script below
+const liveFund = JSON.stringify({
+  initial: fund.initialCapital,
+  cash: fund.cash,
+  positions: positions.map((p) => ({ ticker: p.ticker, shares: p.shares, lastPrice: p.lastPrice })),
+});
 
 const usd = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
 const pct = (n: number) => (n > 0 ? '+' : '') + n.toFixed(2) + '%';
@@ -17,16 +24,18 @@ const ledgerDate = (iso: string) => {
   const [y, m, d] = iso.split('-');
   return `${d} ${MONTHS[Number(m) - 1]} ${y}`;
 };
-const journal = [...fund.journal].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 12);
+// newest first; same-day entries keep the file's order reversed (later entry = later event)
+// Split-flap board: each character gets its own tile; separators sit between tiles.
+const isSep = (c: string) => c === ',' || c === '.';
+const board = (str: string) => [...str].map((c) => ({ c, sep: isSep(c) }));
 
-const THINK = [
-  ['Screen',   'Scan the market for companies worth a closer look.'],
-  ['Research', 'Build the thesis: the business, the numbers, the risks, the price.'],
-  ['Decision', 'Invest or pass, with the reasoning written down before any trade.'],
-  ['Position', 'Size the position, and state what would prove the thesis wrong.'],
-  ['Review',   'Revisit the thesis as new results and news arrive.'],
-  ['Exit',     'Sell when the thesis plays out, breaks, or capital has a better use.'],
-];
+const journal = fund.journal
+  .map((e, i) => ({ ...e, i }))
+  .sort((a, b) => b.date.localeCompare(a.date) || b.i - a.i)
+  .slice(0, 12);
+
+type Article = { date: string; type: string; title: string; company: string; status: string; href?: string };
+const research = [...((fund as { research?: Article[] }).research ?? [])].sort((a, b) => b.date.localeCompare(a.date));
 ---
 
 <BaseLayout title="S² Capital" description="Virtual portfolio & research notes">
@@ -41,42 +50,47 @@ const THINK = [
       </a>
       <nav class="s2-nav">
         <a href="#fund">Portfolio</a>
-        <a href="#journal">Research</a>
-        <a href="#method">About</a>
+        <a href="#research">Research</a>
+        <a href="#about">About</a>
       </nav>
     </header>
 
     <!-- 1 · Hero -->
-    <section class="s2-hero">
-      <h1 class="hero-statement">A virtual investment firm<br>built as a $100 million experiment<br>in public market investing.</h1>
+    <section class="s2-hero" id="about">
+      <h1 class="hero-statement">A virtual firm built as a $100 million experiment in public market investing.</h1>
       <div class="hero-row">
         <figure class="hero-photo">
           <img src="/images/s2/s2-headquarters.jpg" alt="S² Capital sign on a stone facade" />
           <figcaption>S² Capital <span>/</span> Lucerne <span>/</span> Est. 2026</figcaption>
         </figure>
       <div class="hero-intro">
-        <p class="intro-lead">S² Capital is a virtual investment firm investing $100 million of simulated capital in real public markets.</p>
-        <p class="intro-body">We research companies, build positions, track them against live market prices, and document every investment decision — from first thesis to final outcome. We revisit those decisions over time, measure their performance, and examine what we got right, what we got wrong, and why.</p>
+        <p class="intro-lead">S² Capital is a virtual investment firm investing <mark class="hl">$100 million</mark> of simulated capital in real public markets.</p>
+        <p class="intro-body">We research companies, build positions, track them against live market prices, and document every investment decision — from first thesis to final outcome. We revisit those decisions over time, measure their performance, and examine what we got right, what we got wrong, and why. All of our research and “trades” are published here, so we can exchange ideas and learn together.</p>
         <p class="intro-index">Portfolio <span>·</span> Investment Journal <span>·</span> Research <span>·</span> Performance</p>
       </div>
       </div>
     </section>
 
     <!-- 3 · The fund is live -->
-    <section class="s2-section s2-wrap" id="fund">
-      <p class="marker"><span>01</span>The fund</p>
-      <p class="live"><span class="live-dot" aria-hidden="true"></span>Live <span class="live-sep">·</span> Day <span data-day data-inception={fund.inception}>001</span></p>
-      <p class="label">Initial capital</p>
-      <p class="capital">{usd(fund.initialCapital)}</p>
+    <section class="s2-section s2-wrap" id="fund" data-fund={liveFund}>
+      <div class="live">
+        <p><span class="live-dot" aria-hidden="true"></span>Live <span class="live-sep">·</span> Current portfolio value</p>
+        {lastClose && <p class="as-of" data-asof>Close {ledgerDate(lastClose)}</p>}
+      </div>
+      <p class="capital board" data-value aria-label={usd(currentValue)}>
+        {board(usd(currentValue)).map(({ c, sep }) => sep
+          ? <span class="sep">{c}</span>
+          : <span class="tile"><span class="t-top"><span>{c}</span></span><span class="t-bot"><span>{c}</span></span></span>)}
+      </p>
 
       <dl class="metrics">
         <div>
-          <dt>Current portfolio value</dt>
-          <dd>{usd(currentValue)}</dd>
+          <dt>Initial capital</dt>
+          <dd>{usd(fund.initialCapital)}</dd>
         </div>
         <div>
           <dt>Since inception</dt>
-          <dd>{pct(returnPct)}</dd>
+          <dd data-return>{pct(returnPct)}</dd>
         </div>
         <div>
           <dt>Active positions</dt>
@@ -91,7 +105,7 @@ const THINK = [
 
     <!-- 4 · Investment journal -->
     <section class="s2-section s2-wrap" id="journal">
-      <p class="marker"><span>02</span>Latest decisions</p>
+      <p class="marker marker--square">Investment history</p>
       <ol class="ledger">
         <li class="ledger-head" aria-hidden="true">
           <span>Date</span><span>Type</span><span>Company</span><span>Action</span><span class="num">Detail</span>
@@ -108,33 +122,38 @@ const THINK = [
       </ol>
     </section>
 
-    <!-- 5 · How we think -->
-    <section class="s2-section s2-wrap" id="think">
-      <p class="marker"><span>03</span>How we think</p>
-      <ol class="think">
-        {THINK.map(([title, text], i) => (
-          <li>
-            <span class="think-num">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </li>
-        ))}
-      </ol>
-    </section>
-
-    <!-- 6 · Methodology -->
-    <section class="s2-section s2-wrap" id="method">
-      <p class="marker"><span>04</span>Methodology</p>
-      <div class="method">
-        <p class="method-lead">S² Capital operates a simulated portfolio using real market prices. No actual capital is deployed.</p>
-        <p>Every decision is recorded with its date and reasoning, including the opportunities we missed and the calls we got wrong. Nothing on this site is investment advice.</p>
-      </div>
+    <!-- 5 · Research articles (src/data/s2-capital.json → research) -->
+    <section class="s2-section s2-wrap" id="research">
+      <p class="marker marker--square">Research</p>
+      {research.length ? (
+        <ol class="articles">
+          {research.map((r) => {
+            const Tag = r.href ? 'a' : 'div';
+            return (
+              <li>
+                <Tag class="article" {...(r.href ? { href: r.href } : {})}>
+                  <span class="a-date">{ledgerDate(r.date)}</span>
+                  <span class="a-type">{r.type}</span>
+                  <span class="a-main">
+                    <span class="a-title">{r.title}</span>
+                    <span class="a-company">{r.company}</span>
+                  </span>
+                  <span class="a-status">{r.status}</span>
+                </Tag>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p class="empty">First research notes are on the way.</p>
+      )}
     </section>
 
     <!-- Colophon -->
     <footer class="s2-colophon s2-wrap">
       <svg class="s2-mark s2-mark--sm" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#E1181E"/><text x="19" y="84" class="mark-s">S</text><text x="68" y="44" class="mark-2">2</text></svg>
       <p>S² Capital · Lucerne · Est. 2026</p>
+      <p class="disclaimer">S² Capital operates a simulated portfolio using real market prices. No actual capital is deployed, and nothing on this site is investment advice.</p>
     </footer>
 
   </div>
@@ -151,6 +170,100 @@ const THINK = [
     const day = Math.max(1, Math.round((today.getTime() - start.getTime()) / 86400000) + 1);
     el.textContent = String(day).padStart(3, '0');
   });
+
+  // Split-flap board. Each tile flips in turn from the left: the upper leaf falls to
+  // reveal the new character's top half, then the lower leaf drops over the bottom half.
+  // Digits spin through a couple of interim values first, like an exchange board.
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isSep = (c: string) => c === ',' || c === '.';
+  const LEAF_MS = 70;
+
+  const tileHTML = (c: string) => isSep(c)
+    ? `<span class="sep">${c}</span>`
+    : `<span class="tile"><span class="t-top"><span>${c}</span></span><span class="t-bot"><span>${c}</span></span></span>`;
+
+  const leaf = (tile: HTMLElement, cls: string, c: string) => {
+    const el = document.createElement('span');
+    el.className = `leaf ${cls}`;
+    el.innerHTML = `<span>${c}</span>`;
+    tile.append(el);
+    return el;
+  };
+
+  const flipTile = async (tile: HTMLElement, seq: string[]) => {
+    const top = tile.querySelector<HTMLElement>('.t-top > span')!;
+    const bot = tile.querySelector<HTMLElement>('.t-bot > span')!;
+    for (const next of seq) {
+      const prev = top.textContent ?? '';
+      top.textContent = next;                       // revealed as the upper leaf falls
+      const up = leaf(tile, 'leaf-top', prev);
+      await up.animate([{ transform: 'rotateX(0deg)' }, { transform: 'rotateX(-90deg)' }],
+        { duration: LEAF_MS, easing: 'ease-in' }).finished;
+      up.remove();
+      const down = leaf(tile, 'leaf-bot', next);
+      await down.animate([{ transform: 'rotateX(90deg)' }, { transform: 'rotateX(0deg)' }],
+        { duration: LEAF_MS, easing: 'ease-out' }).finished;
+      bot.textContent = next;
+      down.remove();
+    }
+  };
+
+  const flipTo = (el: HTMLElement | null, next: string) => {
+    if (!el || el.getAttribute('aria-label') === next) return;
+    const prev = el.getAttribute('aria-label') ?? '';
+    el.setAttribute('aria-label', next);
+    const sameShape = prev.length === next.length && [...prev].every((c, i) => isSep(c) === isSep(next[i]));
+    if (reduceMotion || !sameShape) {
+      el.innerHTML = [...next].map(tileHTML).join('');
+      return;
+    }
+    const slots = [...el.children] as HTMLElement[];
+    [...next].forEach((c, i) => {
+      if (isSep(c) || prev[i] === c) return;
+      const spins = /\d/.test(c) ? Array.from({ length: 2 }, () => String(Math.floor(Math.random() * 10))) : [];
+      setTimeout(() => flipTile(slots[i], [...spins, c]), i * 90);
+    });
+  };
+
+  // Live value: build-time figures use the last recorded close; while the page is open,
+  // re-price positions from /api/quotes every 5 minutes. Any failure keeps the close figures.
+  // (npm run dev has no Pages Functions, so dev simulates small price moves to show the board.)
+  const fundEl = document.querySelector<HTMLElement>('[data-fund]');
+  if (fundEl) {
+    type LiveFund = { initial: number; cash: number; positions: { ticker: string; shares: number; lastPrice: number }[] };
+    const f: LiveFund = JSON.parse(fundEl.dataset.fund ?? '{}');
+    const tickers = f.positions.map((p) => p.ticker);
+    const valueEl = fundEl.querySelector<HTMLElement>('[data-value]');
+    const returnEl = fundEl.querySelector<HTMLElement>('[data-return]');
+    const asOfEl = fundEl.querySelector('[data-asof]');
+
+    const refresh = async () => {
+      if (!tickers.length || document.hidden) return;
+      try {
+        let quotes: Record<string, { price: number; time: number }>;
+        if (import.meta.env.DEV) {
+          quotes = Object.fromEntries(f.positions.map((p) => [p.ticker, {
+            price: p.lastPrice * (1 + (Math.random() - 0.5) * 0.02),
+            time: Date.now() / 1000,
+          }]));
+        } else {
+          const res = await fetch(`/api/quotes?symbols=${tickers.join(',')}`);
+          if (!res.ok) return;
+          ({ quotes } = await res.json());
+        }
+        if (!tickers.every((t) => quotes?.[t])) return;
+        const value = f.cash + f.positions.reduce((s, p) => s + p.shares * quotes[p.ticker].price, 0);
+        const ret = (value / f.initial - 1) * 100;
+        flipTo(valueEl, '$' + Math.round(value).toLocaleString('en-US'));
+        if (returnEl) returnEl.textContent = (ret > 0 ? '+' : '') + ret.toFixed(2) + '%';
+        const t = new Date(Math.max(...tickers.map((s) => quotes[s].time)) * 1000);
+        const fmt = (o: Intl.DateTimeFormatOptions) => t.toLocaleString('en-US', { timeZone: 'America/New_York', ...o });
+        if (asOfEl) asOfEl.textContent = `${fmt({ day: '2-digit' })} ${fmt({ month: 'short' }).toUpperCase()} ${fmt({ hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })} ET`;
+      } catch { /* keep last close */ }
+    };
+    setTimeout(refresh, import.meta.env.DEV ? 1500 : 0);
+    setInterval(refresh, 5 * 60_000);
+  }
 </script>
 
 <style>
@@ -238,6 +351,7 @@ const THINK = [
     line-height: 1.02;
     letter-spacing: -0.02em;
     color: var(--s2-ink);
+    text-wrap: balance;
     padding: 0 0 64px;
   }
   .hero-row {
@@ -262,13 +376,16 @@ const THINK = [
     color: var(--s2-muted);
   }
   .hero-photo figcaption span { margin: 0 8px; opacity: 0.6; }
+  /* copy sits on the photo's bottom edge (caption height excluded) */
   .hero-intro {
-    position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 30px;
   }
   /* short white rule between photo and copy */
-  .hero-intro::before {
+  .s2 .intro-lead { position: relative; }
+  .intro-lead::before {
     content: '';
     position: absolute;
     left: calc(var(--row-gap) / -2);
@@ -291,15 +408,33 @@ const THINK = [
     color: var(--s2-soft);
   }
   .s2 .intro-index {
-    margin-top: auto;
-    padding-top: 40px;
-    font-size: 10px;
-    letter-spacing: 0.16em;
+    padding-top: 36px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--s2-muted);
+    color: var(--s2-soft);
   }
-  .intro-index span { margin: 0 6px; opacity: 0.6; }
+  .intro-index span {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    margin: 0 9px;
+    border-radius: 50%;
+    background: var(--s2-red);
+    font-size: 0;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
   .muted { color: var(--s2-muted); }
+  .intro-lead .hl {
+    background: var(--s2-red);
+    color: #fff;
+    padding: 0.05em 0.3em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
 
   /* ── Shared section rhythm ── */
   .s2-section { padding-top: clamp(160px, 26vh, 300px); }
@@ -314,6 +449,14 @@ const THINK = [
     margin-bottom: 56px;
   }
   .marker span { color: var(--s2-red); font-weight: 600; }
+  /* unnumbered sections carry a small red square, echoing the logo */
+  .marker--square { align-items: center; }
+  .marker--square::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--s2-red);
+  }
   .s2 .label,
   .metrics dt {
     font-size: 11px;
@@ -322,21 +465,23 @@ const THINK = [
     text-transform: uppercase;
     color: var(--s2-muted);
   }
-  .num, .capital, .metrics dd, .l-date, .think-num {
+  .num, .capital, .metrics dd, .l-date, .a-date {
     font-variant-numeric: lining-nums tabular-nums;
   }
 
   /* ── 3 · The fund is live ── */
   .s2 .live {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
     font-size: 11px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--s2-soft);
-    margin-bottom: 72px;
   }
+  .live p { display: flex; align-items: center; gap: 10px; }
+  #fund, #journal, #research { padding-top: clamp(88px, 9vw, 136px); }
   .live-sep { color: var(--s2-muted); }
   .live-dot {
     width: 7px;
@@ -350,16 +495,86 @@ const THINK = [
     60%      { box-shadow: 0 0 0 8px rgba(225, 24, 30, 0); }
   }
   @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+  .as-of { color: var(--s2-muted); }
   .s2 .capital {
     font-family: var(--serif);
-    font-size: clamp(56px, 12.5vw, 196px);
+    font-size: clamp(34px, 7.4vw, 124px);
     font-weight: 300;
-    line-height: 0.92;
-    letter-spacing: -0.035em;
     color: var(--s2-ink);
     margin-top: 20px;
-    white-space: nowrap;
   }
+
+  /* ── Split-flap tiles ── */
+  .board {
+    display: flex;
+    align-items: stretch;
+    white-space: nowrap;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .board :global(.tile) {
+    position: relative;
+    flex: none;
+    width: 0.7em;
+    height: 1.08em;
+    margin-right: 0.05em;
+    perspective: 4em;
+  }
+  .board :global(.sep) {
+    flex: none;
+    width: 0.24em;
+    align-self: flex-end;
+    text-align: center;
+    line-height: 1;
+    padding-bottom: 0.02em;
+    margin-right: 0.05em;
+  }
+  /* halves and falling leaves share one geometry */
+  .board :global(.t-top), .board :global(.t-bot), .board :global(.leaf) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+  .board :global(.t-top), .board :global(.leaf-top) {
+    top: 0;
+    border-radius: 0.06em 0.06em 0 0;
+    background: linear-gradient(#26262B, #1E1E22);
+    transform-origin: 50% 100%;
+  }
+  .board :global(.t-bot), .board :global(.leaf-bot) {
+    bottom: 0;
+    border-radius: 0 0 0.06em 0.06em;
+    background: linear-gradient(#1B1B1F, #161619);
+    transform-origin: 50% 0;
+  }
+  .board :global(.leaf) { z-index: 2; }
+  .board :global(.t-top > span), .board :global(.t-bot > span), .board :global(.leaf > span) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 200%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding-bottom: 0.06em;
+  }
+  .board :global(.t-top > span), .board :global(.leaf-top > span) { top: 0; }
+  .board :global(.t-bot > span), .board :global(.leaf-bot > span) { top: -100%; }
+  /* the hinge */
+  .board :global(.tile)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - 0.5px);
+    height: 1px;
+    background: #0A0A0B;
+    z-index: 3;
+  }
+
   .s2 .metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -369,7 +584,7 @@ const THINK = [
   .metrics dd {
     margin: 14px 0 0;
     font-family: var(--serif);
-    font-size: clamp(32px, 3.4vw, 52px);
+    font-size: clamp(28px, 3vw, 46px);
     font-weight: 300;
     line-height: 1;
     color: var(--s2-ink);
@@ -404,44 +619,45 @@ const THINK = [
   .l-action { color: var(--s2-soft); }
   .num { text-align: right; }
 
-  /* ── 5 · How we think ── */
-  .s2 .think {
-    list-style: none;
-    padding: 0;
+  /* ── 5 · Research articles ── */
+  .s2 .articles { list-style: none; padding: 0; }
+  .article {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(48px, 6vw, 88px) clamp(32px, 5vw, 80px);
-    max-width: 1080px;
+    grid-template-columns: 130px 150px minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+    color: inherit;
+    text-decoration: none;
   }
-  .think-num { font-size: 11px; letter-spacing: 0.14em; color: var(--s2-muted); }
-  .s2 .think h3 {
+  .articles li:first-child .article { border-top: 1px solid rgba(242, 239, 234, 0.08); }
+  .a-date { font-size: 13px; letter-spacing: 0.06em; color: var(--s2-soft); }
+  .a-type {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--s2-soft);
+  }
+  .a-main { display: flex; flex-direction: column; gap: 8px; }
+  .a-title {
     font-family: var(--serif);
-    font-size: clamp(30px, 3vw, 44px);
-    font-weight: 300;
-    letter-spacing: -0.01em;
+    font-size: clamp(24px, 2.2vw, 32px);
+    font-weight: 400;
+    line-height: 1.2;
     color: var(--s2-ink);
-    margin: 10px 0 12px;
+    transition: color 0.2s;
   }
-  .think p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--s2-soft);
-    max-width: 30ch;
+  a.article:hover .a-title { color: #fff; text-decoration: underline; text-decoration-color: var(--s2-red); text-underline-offset: 6px; text-decoration-thickness: 1px; }
+  .a-company { font-size: 13px; color: var(--s2-muted); }
+  .a-status {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
   }
-
-  /* ── 6 · Methodology ── */
-  .method { max-width: 720px; margin-left: auto; }
-  .s2 .method-lead {
-    font-size: clamp(20px, 2vw, 26px);
-    line-height: 1.5;
-    color: var(--s2-ink);
-    margin-bottom: 24px;
-  }
-  .method p:not(.method-lead) {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--s2-soft);
-  }
+  .s2 .empty { font-size: 15px; color: var(--s2-muted); }
 
   /* ── Colophon ── */
   .s2-colophon {
@@ -455,6 +671,11 @@ const THINK = [
     font-size: 12px;
     line-height: 1.6;
     color: var(--s2-muted);
+  }
+  .s2 .disclaimer {
+    margin-left: auto;
+    max-width: 460px;
+    text-align: right;
   }
 
   /* ── Site chrome, on this page only ── */
@@ -477,10 +698,14 @@ const THINK = [
   /* ── Responsive ── */
   @media (max-width: 900px) {
     .s2 .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .s2 .think { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .method { margin-left: 0; }
+    .article { grid-template-columns: 1fr auto; gap: 8px 16px; }
+    .a-date { grid-column: 1; }
+    .a-type { grid-column: 2; text-align: right; }
+    .a-main { grid-column: 1 / -1; }
+    .a-status { grid-column: 1 / -1; }
     .hero-row { grid-template-columns: 1fr; }
-    .hero-intro::before { display: none; }
+    .intro-lead::before { display: none; }
+    .hero-intro { padding-bottom: 0; }
     .ledger-head { display: none !important; }
     .ledger li {
       grid-template-columns: 1fr auto;
@@ -496,6 +721,7 @@ const THINK = [
     .s2-nav { gap: 20px; }
     .intro-index span { margin: 0 6px; }
     .s2-hero, .s2-wrap { width: calc(100vw - 40px); }
-    .s2 .think { grid-template-columns: 1fr; }
+    .s2-colophon { align-items: flex-start; flex-wrap: wrap; }
+    .s2 .disclaimer { margin-left: 0; text-align: left; }
   }
 </style>

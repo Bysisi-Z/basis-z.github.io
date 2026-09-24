@@ -1,15 +1,56 @@
 {
-  "inception": "2026-09-23",
+  "demo": "DEMO DATA — fictional backdated trade for layout review; reset before launch",
+  "inception": "2025-09-24",
   "initialCapital": 100000000,
-  "cash": 100000000,
-  "positions": [],
+  "cash": 13.19,
+  "positions": [
+    {
+      "ticker": "MRK",
+      "name": "Merck & Co.",
+      "shares": 1260557,
+      "entryPrice": 79.33,
+      "entryDate": "2025-09-24",
+      "lastPrice": 148.08,
+      "lastPriceDate": "2026-09-23"
+    }
+  ],
   "journal": [
     {
-      "date": "2026-09-23",
+      "date": "2025-09-24",
       "type": "Founded",
       "company": "S² Capital",
       "action": "Fund opened",
       "figure": "$100,000,000"
+    },
+    {
+      "date": "2025-09-24",
+      "type": "IC Decision",
+      "company": "Merck & Co. (MRK)",
+      "action": "Invest",
+      "figure": "—"
+    },
+    {
+      "date": "2025-09-24",
+      "type": "Entry",
+      "company": "Merck & Co. (MRK)",
+      "action": "Buy 1,260,557 sh",
+      "figure": "$79.33 / $100.0M"
+    }
+  ],
+  "navHistory": [
+    {
+      "date": "2026-09-23",
+      "value": 186663293.75
+    }
+  ],
+  "research": [
+    {
+      "date": "2025-09-24",
+      "type": "Research",
+      "title": "Merck & Co.: pricing in the Keytruda cliff too early",
+      "company": "Merck & Co. (MRK)",
+      "status": "Invested",
+      "href": ""
     }
   ]
 }
