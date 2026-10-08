@@ -39,7 +39,7 @@ S² Capital is a **virtual investment firm**: $100M of simulated capital, real p
 
 ## 3. Page structure (`/capital`)
 
-1. **Brand bar** — logo lockup | Portfolio → `#fund` · Research → `#research` · Meet our team → `/capital/team/`
+1. **Brand bar** — logo lockup | Portfolio → `#fund` · Research → `#research` · News → `#news` · Meet our team → `/capital/team/`
 2. **Hero** — headline "A virtual firm built as a $100 million experiment in public market investing." (full width, `text-wrap: balance`); below it photo 16:9 (7fr) | short white vertical rule | intro copy (5fr, bottom-aligned to the photo). "$100 million" highlighted on a red background. Index line "Portfolio • Investment Journal • Research • Performance" (Inter 600, red 4px dots). Caption "S² Capital / Lucerne / Est. 2026".
 3. **Fund** (`#fund`) — "● LIVE · CURRENT SIMULATED PORTFOLIO VALUE (CLOSE 23 SEP 2026)" — "simulated" is required so the live number is never mistaken for real money; the timestamp sits in parentheses and switches to e.g. "24 SEP 14:32 ET" once live prices load → **split-flap board** with the value, and **Since inception** return at its bottom-right (drops below the board on phones). The old four-metric row (initial capital / positions / day) was removed by the user.
 4. **■ Performance** (`#performance`) — line chart, S² NAV vs S&P 500 (SPY) and Health Care (XLV), indexed to 100 at inception, total return; hover crosshair + tooltip; direct end labels. Then the benchmark table "Since inception, against the market" (+ IBB) and the income strip.
@@ -47,8 +47,15 @@ S² Capital is a **virtual investment firm**: $100M of simulated capital, real p
 6. **■ Investment History** (`#journal`) — manual rows + derived dividend/split/spin-off rows. Newest first, 20 rows.
 7. **■ Trades** (`#trades`) — trade blotter, 11 columns (see §5).
 8. **■ Closed positions** (`#closed`) — every full exit, kept permanently: held from → to, invested, proceeds, dividends, P&L, return. Empty state promises losses stay listed.
-9. **■ Research** (`#research`) — article list: date / type / title + company / status. Links when `href` is set.
-10. **Colophon** — small logo, "S² Capital · Lucerne · Est. 2026", disclaimer: *"S² Capital operates a simulated portfolio using real market prices. No actual capital is deployed, and nothing on this site is investment advice."*
+9. **■ Currencies** (`#currencies`) — currency monitor: one small line chart per watched currency (CHF, EUR, HKD, CNY), US dollars per one unit, daily closes for the past 12 months, each chart on its own scale. Shows latest rate, 1-year change, 12-month high/low; hover/touch shows a day's close. Neutral ink line — no red. 4 columns → 2 (≤1100px) → 1 (≤560px). Sits directly below Performance, above Holdings (list position here is not page order). Hidden when `fxWatch.series` is empty. (added 2026-10-08)
+9a. **■ Market hours** (`#markets`) — 24-hour timeline in the viewer's local time, directly below Currencies. One row per market (Shanghai, Hong Kong, Zurich, Frankfurt, New York — ordered by opening time): closed hours = hairline, open hours = bar (finished sessions dim, upcoming mid-grey, the traded part of a live session solid white). A red "now" line with the current time crosses all rows; open markets get bold name + red live dot + time left, closed ones show time to next open (lunch breaks for Shanghai/Hong Kong). Drawn client-side from the `MARKETS` constant in `index.astro` (exchange-local sessions + IANA time zone, so DST is automatic), redrawn every 30 s. Weekends handled; **exchange holidays and half-days are not**. Hours verified 2026-10-08 against NYSE, SIX, Deutsche Börse, HKEX and SSE pages. (added 2026-10-08)
+9b. **■ Research** (`#research`) — article list: date / type / title + company / status. Links when `href` is set.
+10. **■ News** (`#news`) — firm news (partners' meetings, other firm events): date / type / title + optional summary; links when `href` is set. Same row style as Research, no status column. Empty state "Firm news will be posted here." (added s88)
+11. **Colophon** — small logo, "S² Capital · Lucerne · Est. 2026", disclaimer: *"S² Capital operates a simulated portfolio using real market prices. No actual capital is deployed, and nothing on this site is investment advice."*
+
+**Compact layout (2026-10-08, user request: the page felt loose and needed too much scrolling).** Actual page order and two-up rows on desktop (≥1101px; single column below):
+hero → fund value → **Performance** (`.perf-grid`: chart | benchmark table + income) → **Currencies | Market hours** → Holdings → Trades → **Investment history | Closed positions** → **Research | News** → colophon.
+Two-up rows are `<div class="s2-wrap s2-pair">` holding two `<section class="s2-section">` (no `s2-wrap` on the inner sections). Inside a pair: the ledger shows two lines per entry, articles stack date/type above the title, `rtable--wide` becomes a label/value list, currencies are 2×2, market-hours rows are stacked (name + status above the bar). Section rhythm was cut from `clamp(160px, 26vh, 300px)` to `clamp(56px, 6vw, 88px)`; marker margin 56 → 26px; table/ledger/article row padding reduced. Keep it tight — don't reintroduce large vertical gaps. The numbered list above describes each section's content, not the order.
 
 Removed along the way (don't bring back without asking): Methodology section, "How we think" six-step process grid, numbered section markers, "01 The fund" label, standalone full-screen photo section, the 50/50 split hero, under-construction page + speech-bubble easter egg.
 
@@ -70,6 +77,8 @@ Removed along the way (don't bring back without asking): Methodology section, "H
 | `fx` | `{EUR: {rate, date}, …}` | USD per unit; only written when a non-USD position exists |
 | `journal[]` | `{date, type, company, action, figure}` | Manual rows. Dividend/split/spin-off rows are **derived** by the ledger and merged in at render time |
 | `research[]` | `{date, type, title, company, status, href}` | `status` e.g. Invested / Watching / Passed |
+| `news[]` | `{date, type, title, summary?, href?}` | Firm news, newest first. `type` e.g. Firm / Meeting / Event. Real content — **not** cleared by the demo reset |
+| `fxWatch` | `{currencies: [{code, name}], series: {CHF: [[date, rate], …]}}` | Currency monitor. `currencies` is the editable list; `series` is **rebuilt in full every updater run** (one year of daily closes from Yahoo `<CODE>USD=X`, 6 decimals). Separate from `fx`, which values non-USD positions |
 | `navHistory[]` | `{date, value, cash, benchmarks: {SPY, XLV, IBB}}` | **Rebuilt in full every updater run** (one row per trading day since inception, same ledger) — feeds the Performance chart |
 
 Cash is **derived**, never stored.
@@ -133,6 +142,10 @@ Cash is **derived**, never stored.
 4. `node scripts/update-s2-prices.mjs` to refresh prices, then `npm run build`.
 
 **Record a spin-off** — add `{type: "SPINOFF", ticker, exDate, newTicker, ratio, cashInLieuPrice, source: "manual"}` to `corporateActions[]` and add `newTicker` to `positions[]`. A manual `payDate` for a dividend works the same way (same type/ticker/exDate as the Yahoo row; manual wins).
+
+**Add a currency to the monitor** — append `{code, name}` to `fxWatch.currencies` (ISO code Yahoo quotes as `<CODE>USD=X`), then run the updater.
+
+**Add a news item** — append `{date, type, title, summary}` to `news[]` (English, matching the page; `href` optional).
 
 **Add a research article** — append to `research[]` with `href` pointing to the article (detail-page template not built yet).
 

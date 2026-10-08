@@ -137,8 +137,46 @@ const stamp = (iso: string) => {
 };
 const trades = [...ledger.rows].reverse();   // newest first
 
+// ── Currency monitor: one small chart per watched currency, USD per unit, past 12 months ──
+// Each chart has its own y-scale (the levels differ by an order of magnitude).
+type FxWatch = { currencies?: { code: string; name: string }[]; series?: Record<string, [string, number][]> };
+const fxWatch = (fund as { fxWatch?: FxWatch }).fxWatch ?? {};
+const FW = 300, FH = 100;
+const fxCharts = (fxWatch.currencies ?? []).map((c) => {
+  const pts = fxWatch.series?.[c.code] ?? [];
+  if (pts.length < 2) return null;
+  const vals = pts.map((x) => x[1]);
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const fy = (v: number) => (hi === lo ? FH / 2 : FH - ((v - lo) / (hi - lo)) * FH);
+  const fx = (i: number) => (i / (pts.length - 1)) * FW;
+  const first = pts[0], last = pts[pts.length - 1];
+  return {
+    ...c, lo, hi, first, last,
+    change: (last[1] / first[1] - 1) * 100,
+    path: pts.map((x, i) => `${i ? 'L' : 'M'}${fx(i).toFixed(1)},${fy(x[1]).toFixed(1)}`).join(''),
+    endTop: (fy(last[1]) / FH) * 100,
+    data: JSON.stringify({ pts, lo, hi }),
+  };
+}).filter((c) => c !== null);
+const fxAsOf = fxCharts.map((c) => c.last[0]).sort().at(-1);
+const rate = (n: number) => n.toFixed(4);
+
+// ── Market hours: regular sessions in exchange-local time, drawn on a 24-hour axis in the viewer's time ──
+// Ordered by opening time through the day. Sessions are [open, close] as "HH:MM"; two entries = lunch break.
+const MARKETS = [
+  { city: 'Shanghai', exchange: 'Shanghai Stock Exchange', tz: 'Asia/Shanghai', sessions: [['09:30', '11:30'], ['13:00', '15:00']] },
+  { city: 'Hong Kong', exchange: 'HKEX', tz: 'Asia/Hong_Kong', sessions: [['09:30', '12:00'], ['13:00', '16:00']] },
+  { city: 'Zurich', exchange: 'SIX Swiss Exchange', tz: 'Europe/Zurich', sessions: [['09:00', '17:30']] },
+  { city: 'Frankfurt', exchange: 'Xetra', tz: 'Europe/Berlin', sessions: [['09:00', '17:30']] },
+  { city: 'New York', exchange: 'New York Stock Exchange', tz: 'America/New_York', sessions: [['09:30', '16:00']] },
+];
+const marketData = JSON.stringify(MARKETS.map(({ tz, sessions }) => ({ tz, sessions })));
+
 type Article = { date: string; type: string; title: string; company: string; status: string; href?: string };
 const research = [...((fund as { research?: Article[] }).research ?? [])].sort((a, b) => b.date.localeCompare(a.date));
+
+type NewsItem = { date: string; type: string; title: string; summary?: string; href?: string };
+const news = [...((fund as { news?: NewsItem[] }).news ?? [])].sort((a, b) => b.date.localeCompare(a.date));
 ---
 
 <S2Layout title="S² Capital">
@@ -181,6 +219,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     <!-- Performance: chart + benchmarks + income -->
     <section class="s2-section s2-wrap" id="performance">
       <p class="marker marker--square">Performance</p>
+      <div class="perf-grid">
       {chartRows.length > 1 && (
         <figure class="chart" data-chart={chartData}>
           <ul class="chart-legend">
@@ -248,7 +287,67 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
           </dl>
         </div>
       )}
+      </div>
     </section>
+
+    <div class="s2-wrap s2-pair">
+    <!-- Currency monitor (src/data/s2-capital.json → fxWatch, rebuilt by the price updater) -->
+    {fxCharts.length > 0 && (
+      <section class="s2-section" id="currencies">
+        <p class="marker marker--square">Currencies</p>
+        <div class="fx-grid">
+          {fxCharts.map((c) => (
+            <figure class="fx" data-fx={c.data}>
+              <figcaption>
+                <span class="fx-code">{c.code}</span>
+                <span class="fx-name">{c.name}</span>
+              </figcaption>
+              <p class="fx-rate">
+                <span class="fx-value">{rate(c.last[1])}</span>
+                <span class="fx-change">{pct(c.change)}<span class="fx-unit"> 1Y</span></span>
+              </p>
+              <div class="fx-plot">
+                <svg viewBox={`0 0 ${FW} ${FH}`} preserveAspectRatio="none" aria-hidden="true">
+                  <path d={c.path} class="fx-line" />
+                  <line class="fx-cross" x1="0" x2="0" y1="0" y2={FH} />
+                </svg>
+                <span class="fx-dot" style={`top:${c.endTop}%`}></span>
+                <span class="fx-y fx-y--hi">{rate(c.hi)}</span>
+                <span class="fx-y fx-y--lo">{rate(c.lo)}</span>
+              </div>
+              <p class="fx-x">
+                <span class="fx-x-range"><span>{ledgerDate(c.first[0])}</span><span>{ledgerDate(c.last[0])}</span></span>
+                <span class="fx-x-tip" role="status" aria-live="polite"></span>
+              </p>
+            </figure>
+          ))}
+        </div>
+        <p class="table-note">US dollars per one unit of each currency, daily close, past 12 months{fxAsOf && <> to {ledgerDate(fxAsOf)}</>}. Each chart has its own scale.</p>
+      </section>
+    )}
+    <!-- Market hours: 24-hour timeline in the viewer's local time, drawn by the script below -->
+    <section class="s2-section" id="markets">
+      <p class="marker marker--square">Market hours</p>
+      <div class="mh" data-markets={marketData}>
+        <div class="mh-row mh-axis" aria-hidden="true">
+          <span></span>
+          <div class="mh-track mh-ticks"></div>
+          <span class="mh-zone"></span>
+        </div>
+        {MARKETS.map((m) => (
+          <div class="mh-row" data-mh-row>
+            <p class="mh-name">
+              <span class="mh-city">{m.city}</span>
+              <span class="mh-ex">{m.exchange} · {m.sessions.map((x) => x.join('–')).join(', ')} local</span>
+            </p>
+            <div class="mh-track"></div>
+            <p class="mh-status"></p>
+          </div>
+        ))}
+      </div>
+      <p class="table-note">Regular trading sessions, Monday to Friday, shown in your local time. Exchange holidays and shortened days are not shown.</p>
+    </section>
+    </div>
 
     <!-- Holdings (at the last close) -->
     <section class="s2-section s2-wrap" id="holdings">
@@ -290,25 +389,6 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
       ) : (
         <p class="empty">No open positions. The fund is fully in cash.</p>
       )}
-    </section>
-
-    <!-- 4 · Investment journal -->
-    <section class="s2-section s2-wrap" id="journal">
-      <p class="marker marker--square">Investment history</p>
-      <ol class="ledger">
-        <li class="ledger-head" aria-hidden="true">
-          <span>Date</span><span>Type</span><span>Company</span><span>Action</span><span class="num">Detail</span>
-        </li>
-        {journal.map((e) => (
-          <li class="ledger-row">
-            <span class="l-date">{ledgerDate(e.date)}</span>
-            <span class="l-type">{e.type}</span>
-            <span class="l-company">{e.company}</span>
-            <span class="l-action">{e.action}</span>
-            <span class="l-figure num">{e.figure}</span>
-          </li>
-        ))}
-      </ol>
     </section>
 
     <!-- 4b · Trade blotter (derived by src/lib/s2-ledger.mjs) -->
@@ -356,8 +436,27 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
       )}
     </section>
 
+    <div class="s2-wrap s2-pair">
+    <!-- 4 · Investment journal -->
+    <section class="s2-section" id="journal">
+      <p class="marker marker--square">Investment history</p>
+      <ol class="ledger">
+        <li class="ledger-head" aria-hidden="true">
+          <span>Date</span><span>Type</span><span>Company</span><span>Action</span><span class="num">Detail</span>
+        </li>
+        {journal.map((e) => (
+          <li class="ledger-row">
+            <span class="l-date">{ledgerDate(e.date)}</span>
+            <span class="l-type">{e.type}</span>
+            <span class="l-company">{e.company}</span>
+            <span class="l-action">{e.action}</span>
+            <span class="l-figure num">{e.figure}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
     <!-- Closed positions: every exit stays on the record, win or lose -->
-    <section class="s2-section s2-wrap" id="closed">
+    <section class="s2-section" id="closed">
       <p class="marker marker--square">Closed positions</p>
       {closedPositions.length ? (
         <table class="rtable rtable--wide">
@@ -386,9 +485,11 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
         <p class="empty">No closed positions yet. Every exit will stay on this list permanently, including the losses.</p>
       )}
     </section>
+    </div>
 
+    <div class="s2-wrap s2-pair">
     <!-- 5 · Research articles (src/data/s2-capital.json → research) -->
-    <section class="s2-section s2-wrap" id="research">
+    <section class="s2-section" id="research">
       <p class="marker marker--square">Research</p>
       {research.length ? (
         <ol class="articles">
@@ -413,6 +514,32 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
         <p class="empty">First research notes are on the way.</p>
       )}
     </section>
+    <!-- 6 · Firm news (src/data/s2-capital.json → news) -->
+    <section class="s2-section" id="news">
+      <p class="marker marker--square">News</p>
+      {news.length ? (
+        <ol class="articles">
+          {news.map((n) => {
+            const Tag = n.href ? 'a' : 'div';
+            return (
+              <li>
+                <Tag class="article article--news" {...(n.href ? { href: n.href } : {})}>
+                  <span class="a-date">{ledgerDate(n.date)}</span>
+                  <span class="a-type">{n.type}</span>
+                  <span class="a-main">
+                    <span class="a-title">{n.title}</span>
+                    {n.summary && <span class="a-summary">{n.summary}</span>}
+                  </span>
+                </Tag>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p class="empty">Firm news will be posted here.</p>
+      )}
+    </section>
+    </div>
 
 </S2Layout>
 
@@ -574,6 +701,127 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     plot.addEventListener('pointerdown', (e) => show(e.clientX));
     plot.addEventListener('pointerleave', () => chart.classList.remove('is-hover'));
   }
+
+  // Currency charts: hover / touch shows that day's close under the plot.
+  const FX_MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  document.querySelectorAll<HTMLElement>('.fx[data-fx]').forEach((el) => {
+    const { pts, lo, hi } = JSON.parse(el.dataset.fx ?? '{}') as { pts: [string, number][]; lo: number; hi: number };
+    const plot = el.querySelector<HTMLElement>('.fx-plot');
+    const cross = el.querySelector<SVGLineElement>('.fx-cross');
+    const dot = el.querySelector<HTMLElement>('.fx-dot');
+    const tip = el.querySelector<HTMLElement>('.fx-x-tip');
+    if (!plot || !cross || !dot || !tip || !pts?.length) return;
+    const topOf = (v: number) => (hi === lo ? 50 : (1 - (v - lo) / (hi - lo)) * 100);
+    const place = (i: number) => {
+      const x = pts.length > 1 ? i / (pts.length - 1) : 0;
+      dot.style.left = `${x * 100}%`;
+      dot.style.top = `${topOf(pts[i][1])}%`;
+      cross.setAttribute('x1', String(x * 300));
+      cross.setAttribute('x2', String(x * 300));
+    };
+    const show = (clientX: number) => {
+      const r = plot.getBoundingClientRect();
+      const i = Math.round(Math.min(1, Math.max(0, (clientX - r.left) / r.width)) * (pts.length - 1));
+      const [y, m, d] = pts[i][0].split('-');
+      place(i);
+      tip.textContent = `${d} ${FX_MONTHS[Number(m) - 1]} ${y} · ${pts[i][1].toFixed(4)}`;
+      el.classList.add('is-hover');
+    };
+    const hide = () => { el.classList.remove('is-hover'); place(pts.length - 1); };
+    plot.addEventListener('pointermove', (e) => show(e.clientX));
+    plot.addEventListener('pointerdown', (e) => show(e.clientX));
+    plot.addEventListener('pointerleave', hide);
+    plot.addEventListener('pointercancel', hide);
+  });
+
+  // Market hours: sessions are defined in exchange-local time and converted to the viewer's
+  // day (local midnight → next local midnight). Redrawn every 30 s so the "now" line moves.
+  const mh = document.querySelector<HTMLElement>('.mh[data-markets]');
+  if (mh) {
+    type Mkt = { tz: string; sessions: [string, string][] };
+    const markets = JSON.parse(mh.dataset.markets ?? '[]') as Mkt[];
+    const rows = [...mh.querySelectorAll<HTMLElement>('[data-mh-row]')];
+    const ticks = mh.querySelector<HTMLElement>('.mh-ticks');
+    const zone = mh.querySelector<HTMLElement>('.mh-zone');
+    const parts = (ts: number, tz: string) => {
+      const o: Record<string, number> = {};
+      for (const p of new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }).formatToParts(ts)) {
+        if (p.type !== 'literal') o[p.type] = Number(p.value);
+      }
+      return o;
+    };
+    // UTC instant of a wall-clock time in a given zone
+    const instant = (y: number, m: number, d: number, hh: number, mm: number, tz: string) => {
+      const guess = Date.UTC(y, m - 1, d, hh, mm);
+      const p = parts(guess, tz);
+      return guess - (Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second) - guess);
+    };
+    // every session from yesterday to five days ahead (exchange-local dates, weekdays only)
+    const sessionsOf = (m: Mkt, now: number) => {
+      const p = parts(now, m.tz);
+      const out: { start: number; end: number; day: number; n: number }[] = [];
+      for (let k = -1; k <= 5; k++) {
+        const day = new Date(Date.UTC(p.year, p.month - 1, p.day + k));
+        if (day.getUTCDay() === 0 || day.getUTCDay() === 6) continue;
+        m.sessions.forEach(([a, b], n) => {
+          const [ah, am] = a.split(':').map(Number), [bh, bm] = b.split(':').map(Number);
+          const args = [day.getUTCFullYear(), day.getUTCMonth() + 1, day.getUTCDate()] as const;
+          out.push({ start: instant(...args, ah, am, m.tz), end: instant(...args, bh, bm, m.tz), day: day.getTime(), n });
+        });
+      }
+      return out;
+    };
+    const span = (ms: number) => {
+      const min = Math.max(1, Math.ceil(ms / 60000));
+      return min >= 60 ? `${Math.floor(min / 60)}h ${String(min % 60).padStart(2, '0')}m` : `${min}m`;
+    };
+    const draw = () => {
+      const now = Date.now();
+      const d0 = new Date(now); d0.setHours(0, 0, 0, 0);
+      const start = d0.getTime();
+      const end = new Date(d0.getFullYear(), d0.getMonth(), d0.getDate() + 1).getTime();
+      const x = (t: number) => ((t - start) / (end - start)) * 100;
+      const nowX = x(now);
+      const hhmm = new Date(now).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      if (ticks) {
+        ticks.innerHTML = [0, 3, 6, 9, 12, 15, 18, 21, 24].map((h) =>
+          `<span class="mh-tick" style="left:${x(new Date(d0.getFullYear(), d0.getMonth(), d0.getDate(), h).getTime())}%">${String(h).padStart(2, '0')}</span>`).join('')
+          + `<span class="mh-now-label" style="left:${nowX}%">${hhmm}</span><span class="mh-now" style="left:${nowX}%"></span>`;
+      }
+      if (zone) {
+        const tzName = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(now).find((p) => p.type === 'timeZoneName')?.value ?? '';
+        zone.textContent = `Your time${tzName ? ' · ' + tzName : ''}`;
+      }
+      rows.forEach((row, i) => {
+        const m = markets[i];
+        const track = row.querySelector<HTMLElement>('.mh-track');
+        const status = row.querySelector<HTMLElement>('.mh-status');
+        if (!m || !track || !status) return;
+        const all = sessionsOf(m, now);
+        const live = all.find((sx) => now >= sx.start && now < sx.end);
+        const next = all.filter((sx) => sx.start > now).sort((a, b) => a.start - b.start)[0];
+        let html = '';
+        for (const sx of all) {
+          const a = Math.max(sx.start, start), b = Math.min(sx.end, end);
+          if (b <= a) continue;
+          const state = sx === live ? 'live' : sx.end <= now ? 'past' : 'next';
+          html += `<span class="mh-seg" data-state="${state}" style="left:${x(a)}%;width:${x(b) - x(a)}%">`
+            + (sx === live ? `<span class="mh-done" style="width:${((now - a) / (b - a)) * 100}%"></span>` : '') + '</span>';
+        }
+        track.innerHTML = html + `<span class="mh-now" style="left:${nowX}%"></span>`;
+        row.toggleAttribute('data-open', !!live);
+        if (live) {
+          status.innerHTML = `<span class="live-dot" aria-hidden="true"></span><span>Open <span class="mh-sub">· ${span(live.end - now)} left</span></span>`;
+        } else if (next) {
+          const lunch = next.n > 0 && all.some((sx) => sx.day === next.day && sx.n === next.n - 1 && sx.end <= now);
+          status.innerHTML = `<span>${lunch ? 'Lunch break' : 'Closed'} <span class="mh-sub">· ${lunch ? 'reopens' : 'opens'} in ${span(next.start - now)}</span></span>`;
+        }
+      });
+    };
+    draw();
+    setInterval(() => { if (!document.hidden) draw(); }, 30000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) draw(); });
+  }
 </script>
 
 <style>
@@ -592,7 +840,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     letter-spacing: -0.02em;
     color: var(--s2-ink);
     text-wrap: balance;
-    padding: 0 0 64px;
+    padding: 0 0 44px;
   }
   .hero-row {
     --row-gap: clamp(40px, 5vw, 88px);
@@ -816,7 +1064,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
   }
 
   /* ── Benchmarks ── */
-  .bench { margin-top: clamp(56px, 7vw, 96px); }
+  .bench { margin-top: 40px; }
   .s2-wrap .bench-title {
     font-size: 11px;
     letter-spacing: 0.2em;
@@ -841,7 +1089,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
   }
   .bench-table td {
-    padding: 16px 16px 16px 0;
+    padding: 11px 16px 11px 0;
     color: var(--s2-soft);
     vertical-align: top;
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
@@ -854,8 +1102,8 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 20px;
-    margin: 32px 0 0;
-    padding-top: 20px;
+    margin: 22px 0 0;
+    padding-top: 16px;
     border-top: 1px solid rgba(242, 239, 234, 0.08);
   }
   .income dt {
@@ -873,7 +1121,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
   .s2-wrap .bench-note { margin-top: 16px; font-size: 12px; color: var(--s2-muted); }
 
   /* ── Performance chart ── */
-  .chart { margin: 0 0 clamp(48px, 6vw, 80px); }
+  .chart { margin: 0; }
   .chart-legend {
     list-style: none;
     padding: 0;
@@ -888,7 +1136,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
   .chart-legend .chart-legend-note { margin-left: auto; color: var(--s2-muted); font-size: 11px; }
   .chart .swatch { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
   .chart-body { padding-right: 56px; }
-  .chart-plot { position: relative; height: clamp(240px, 32vw, 380px); margin-left: 36px; touch-action: pan-y; }
+  .chart-plot { position: relative; height: clamp(220px, 24vw, 320px); margin-left: 36px; touch-action: pan-y; }
   .chart-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .chart .grid { stroke: rgba(242, 239, 234, 0.07); stroke-width: 1; vector-effect: non-scaling-stroke; }
   .chart .grid-base { stroke: rgba(242, 239, 234, 0.22); }
@@ -965,7 +1213,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
   }
   .rtable td {
-    padding: 16px 16px 16px 0;
+    padding: 11px 16px 11px 0;
     color: var(--s2-ink);
     vertical-align: top;
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
@@ -984,7 +1232,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     grid-template-columns: 130px 150px minmax(0, 1.3fr) minmax(0, 1fr) 220px;
     gap: 24px;
     align-items: baseline;
-    padding: 18px 0;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
   }
   .ledger-head {
@@ -1027,7 +1275,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
   }
   .blotter td {
-    padding: 18px 14px 18px 0;
+    padding: 12px 14px 12px 0;
     color: var(--s2-ink);
     vertical-align: top;
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
@@ -1053,7 +1301,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     grid-template-columns: 130px 150px minmax(0, 1fr) auto;
     gap: 24px;
     align-items: baseline;
-    padding: 28px 0;
+    padding: 18px 0;
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
     color: inherit;
     text-decoration: none;
@@ -1078,12 +1326,213 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
   }
   a.article:hover .a-title { color: #fff; text-decoration: underline; text-decoration-color: var(--s2-red); text-underline-offset: 6px; text-decoration-thickness: 1px; }
   .a-company { font-size: 13px; color: var(--s2-muted); }
+  .article--news { grid-template-columns: 130px 150px minmax(0, 1fr); }
+  .a-summary { max-width: 760px; font-size: clamp(16px, 1.2vw, 17px); line-height: 1.6; color: var(--s2-soft); }
   .a-status {
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--s2-muted);
   }
+  /* ── Currency monitor: small multiples, one per currency ── */
+  .fx-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px clamp(28px, 3vw, 48px);
+  }
+  .fx { margin: 0; padding-top: 12px; border-top: 1px solid rgba(242, 239, 234, 0.08); }
+  .fx figcaption { display: flex; align-items: baseline; gap: 10px; }
+  .fx-code { font-size: 14px; font-weight: 600; letter-spacing: 0.06em; color: var(--s2-ink); }
+  .fx-name { font-size: 12px; color: var(--s2-muted); }
+  .fx-rate {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 6px 0 10px;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .fx-value { font-size: 22px; font-weight: 500; color: var(--s2-ink); }
+  .fx-change { font-size: 13px; color: var(--s2-soft); }
+  .fx-unit { font-size: 10px; letter-spacing: 0.14em; color: var(--s2-muted); }
+  .fx-plot { position: relative; height: 60px; margin-right: 48px; touch-action: pan-y; cursor: crosshair; }
+  .fx-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .fx-line { fill: none; stroke: var(--s2-soft); stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+  .fx-cross { stroke: rgba(242, 239, 234, 0.45); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0; }
+  .fx.is-hover .fx-cross { opacity: 1; }
+  .fx-dot {
+    position: absolute;
+    left: 100%;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    border-radius: 50%;
+    background: var(--s2-ink);
+    box-shadow: 0 0 0 2px var(--s2-bg, #111113);
+    pointer-events: none;
+  }
+  .fx-y {
+    position: absolute;
+    left: calc(100% + 10px);
+    font-size: 10px;
+    color: var(--s2-muted);
+    font-variant-numeric: lining-nums tabular-nums;
+    line-height: 1;
+  }
+  .fx-y--hi { top: -3px; }
+  .fx-y--lo { bottom: -3px; }
+  .fx-x {
+    margin: 10px 48px 0 0;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--s2-muted);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .fx-x-range { display: flex; justify-content: space-between; }
+  .fx-x-tip { display: none; color: var(--s2-ink); }
+  .fx.is-hover .fx-x-range { display: none; }
+  .fx.is-hover .fx-x-tip { display: block; }
+  .s2-wrap .fx-grid + .table-note { margin-top: 24px; }
+
+  /* ── Market hours: 24-hour timeline ── */
+  .mh-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+    align-items: stretch;
+    border-bottom: 1px solid rgba(242, 239, 234, 0.08);
+  }
+  .mh-axis { border-bottom-color: rgba(242, 239, 234, 0.08); }
+  .mh-name, .mh-status { margin: 0; padding: 10px 0 0; }
+  .mh-name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; }
+  .mh-city { font-size: 15px; color: var(--s2-soft); transition: color 0.4s; }
+  .mh-row[data-open] .mh-city { color: var(--s2-ink); font-weight: 600; }
+  .mh-ex { font-size: 11px; color: var(--s2-muted); font-variant-numeric: lining-nums tabular-nums; }
+  .mh-status {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--s2-soft);
+    font-variant-numeric: lining-nums tabular-nums;
+    white-space: nowrap;
+  }
+  .mh-row[data-open] .mh-status { color: var(--s2-ink); }
+  .mh-status :global(.mh-sub) { color: var(--s2-muted); }
+  .mh-status :global(.live-dot) {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--s2-red);
+    animation: live-pulse 2.4s ease-in-out infinite;
+  }
+  .mh-zone {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+  }
+  .mh-track { position: relative; grid-column: 1 / -1; grid-row: 2; min-height: 26px; }
+  .mh-axis > span:first-child { display: none; }
+  /* closed hours: a hairline through the whole day */
+  .mh-row:not(.mh-axis) .mh-track::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(242, 239, 234, 0.14);
+  }
+  /* open hours: a bar — dim once finished, solid white for the part of a live session already traded */
+  .mh-track :global(.mh-seg) {
+    position: absolute;
+    top: 50%;
+    height: 10px;
+    margin-top: -5px;
+    background: rgba(242, 239, 234, 0.4);
+  }
+  .mh-track :global(.mh-seg[data-state='past']) { background: rgba(242, 239, 234, 0.16); }
+  .mh-track :global(.mh-done) { position: absolute; left: 0; top: 0; bottom: 0; background: var(--s2-ink); }
+  .mh-track :global(.mh-now) {
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    width: 1px;
+    background: var(--s2-red);
+    pointer-events: none;
+  }
+  .mh-ticks { height: 46px; }
+  .mh-ticks :global(.mh-tick) {
+    position: absolute;
+    bottom: 10px;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--s2-muted);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .mh-ticks :global(.mh-tick:first-child) { transform: none; }
+  .mh-ticks :global(.mh-tick:nth-child(9)) { transform: translateX(-100%); }
+  .mh-ticks :global(.mh-now) { top: 22px; }
+  .mh-ticks :global(.mh-now-label) {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    padding: 3px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--s2-ink);
+    background: var(--s2-red);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  @media (prefers-reduced-motion: reduce) { .mh-status :global(.live-dot) { animation: none; } }
+  .s2-wrap .mh + .table-note { margin-top: 20px; }
+
+  /* ── Two-up rows (desktop): sections sit side by side to keep the page short ── */
+  .s2-pair { display: grid; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 1101px) {
+    .s2-pair, .perf-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: clamp(48px, 5vw, 88px);
+      align-items: start;
+    }
+    .perf-grid .bench { margin-top: 0; }
+    .perf-grid .chart-plot { height: clamp(320px, 31vw, 460px); }
+    .perf-grid .x-axis span:nth-child(2) { display: none; }
+    .perf-grid .bench-table { font-size: 13px; }
+    .perf-grid .bench-table th, .perf-grid .bench-table td { padding-right: 12px; }
+    .perf-grid .income { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 16px; }
+    /* investment history: two lines per entry */
+    .s2-pair .ledger-head { display: none !important; }
+    .s2-pair .ledger li { grid-template-columns: 104px minmax(0, 1fr) auto; gap: 4px 16px; }
+    .s2-pair .l-date { grid-column: 1; grid-row: 1; }
+    .s2-pair .l-type { grid-column: 2; grid-row: 1; }
+    .s2-pair .l-figure { grid-column: 3; grid-row: 1; text-align: right; }
+    .s2-pair .l-company { grid-column: 1 / 3; grid-row: 2; }
+    .s2-pair .l-action { grid-column: 3; grid-row: 2; text-align: right; }
+    .s2-pair .ledger li:first-child:not(.ledger-head), .s2-pair .ledger-head + li { border-top: 1px solid rgba(242, 239, 234, 0.08); }
+    /* research / news: date and type on one line, title below */
+    .s2-pair .article, .s2-pair .article--news { grid-template-columns: 1fr auto; gap: 6px 16px; }
+    .s2-pair .a-date { grid-column: 1; }
+    .s2-pair .a-type { grid-column: 2; text-align: right; }
+    .s2-pair .a-main, .s2-pair .a-status { grid-column: 1 / -1; }
+    .s2-pair .a-title { font-size: clamp(21px, 1.7vw, 26px); }
+    /* closed positions: label / value list in the narrow column */
+    .s2-pair .rtable--wide, .s2-pair .rtable--wide tbody, .s2-pair .rtable--wide tr, .s2-pair .rtable--wide td { display: block; }
+    .s2-pair .rtable--wide thead { display: none; }
+    .s2-pair .rtable--wide tr { padding: 12px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
+    .s2-pair .rtable--wide td { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; border: 0; text-align: right; }
+    .s2-pair .rtable--wide td::before { content: attr(data-label); flex: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-align: left; }
+    .s2-pair .rtable--wide td .b-sub { display: inline; margin-left: 6px; }
+  }
+
   /* ── Responsive ── */
   @media (max-width: 1100px) {
     .rtable--wide, .rtable--wide tbody, .rtable--wide tr, .rtable--wide td { display: block; }
@@ -1117,7 +1566,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     .blotter td::before { flex: none; }
   }
   @media (max-width: 900px) {
-    .article { grid-template-columns: 1fr auto; gap: 8px 16px; }
+    .article, .article--news { grid-template-columns: 1fr auto; gap: 8px 16px; }
     .a-date { grid-column: 1; }
     .a-type { grid-column: 2; text-align: right; }
     .a-main { grid-column: 1 / -1; }
@@ -1143,6 +1592,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     .rtable td { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; border: 0; text-align: right; }
     .rtable td::before { content: attr(data-label); flex: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-align: left; }
     .rtable td .b-sub { display: inline; margin-left: 6px; }
+    .mh-ticks :global(.mh-tick:nth-child(even)) { display: none; }
     .chart-legend .chart-legend-note { margin-left: 0; width: 100%; }
     .chart-body { padding-right: 52px; }
     .end-label { font-size: 11px; left: calc(100% + 6px); }
@@ -1165,6 +1615,7 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
     .bench-table td .b-sub { display: inline; margin-left: 6px; }
   }
   @media (max-width: 560px) {
+    .fx-grid { grid-template-columns: 1fr; }
     :global(.s2) .live { line-height: 1.6; }
     :global(.s2) .capital { font-size: 40px; }
     .value-row { flex-direction: column; align-items: flex-start; }

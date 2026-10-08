@@ -27,6 +27,7 @@ const home = active ? '/capital/' : '';
       <nav class="s2-nav">
         <a href={`${home}#fund`}>Portfolio</a>
         <a href={`${home}#research`}>Research</a>
+        <a href={`${home}#news`}>News</a>
         <a href="/capital/team/" aria-current={active === 'team' ? 'page' : undefined}>Meet our team</a>
       </nav>
     </header>
@@ -116,7 +117,7 @@ const home = active ? '/capital/' : '';
   .s2-nav a[aria-current='page'] { color: var(--s2-ink); border-bottom-color: var(--s2-red); }
 
   /* ── Section rhythm & headings ── */
-  .s2-section { padding-top: clamp(160px, 26vh, 300px); }
+  .s2-section { padding-top: clamp(56px, 6vw, 88px); }
   /* anchor jumps land below the sticky site nav */
   .s2 [id] { scroll-margin-top: 72px; }
   @media (max-width: 1024px) { .s2 [id] { scroll-margin-top: 120px; } }
@@ -128,7 +129,7 @@ const home = active ? '/capital/' : '';
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--s2-muted);
-    margin-bottom: 56px;
+    margin-bottom: 26px;
   }
   .s2 .marker span { color: var(--s2-red); font-weight: 600; }
   /* unnumbered sections carry a small red square, echoing the logo */
@@ -146,7 +147,7 @@ const home = active ? '/capital/' : '';
     display: flex;
     align-items: center;
     gap: 20px;
-    padding-top: clamp(160px, 24vh, 280px);
+    padding-top: clamp(80px, 9vw, 128px);
     padding-bottom: 48px;
   }
   .s2-colophon p {

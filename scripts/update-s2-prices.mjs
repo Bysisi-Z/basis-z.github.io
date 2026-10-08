@@ -6,6 +6,7 @@
 // dividends and splits since inception (merged into corporateActions, source "yahoo").
 // Also refreshes the cash-interest proxy series (policy.cashInterest.proxy, e.g. ^IRX)
 // and FX closes for non-USD positions, then records that day's fund value in navHistory.
+// Also rebuilds the one-year daily series for the currencies listed in fxWatch.currencies.
 // Cash, shares and income come from the ledger (src/lib/s2-ledger.mjs).
 // Run after the US close; the GitHub workflow s2-prices.yml does this on weekdays.
 
@@ -16,9 +17,9 @@ const FILE = new URL('../src/data/s2-capital.json', import.meta.url);
 const fund = JSON.parse(readFileSync(FILE, 'utf8'));
 const since = Math.floor(new Date(fund.inception + 'T00:00:00Z').getTime() / 1000) - 86400 * 7;
 
-async function history(symbol) {
+async function history(symbol, from = since, dp = 4) {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`
-    + `?period1=${since}&period2=${Math.floor(Date.now() / 1000)}&interval=1d&events=div,splits`;
+    + `?period1=${from}&period2=${Math.floor(Date.now() / 1000)}&interval=1d&events=div,splits`;
   const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
   if (!res.ok) throw new Error(`${symbol}: HTTP ${res.status}`);
   const r = (await res.json()).chart?.result?.[0];
@@ -31,7 +32,7 @@ async function history(symbol) {
   const q = r.indicators?.quote?.[0]?.close ?? [];
   (r.timestamp ?? []).forEach((ts, i) => {
     if (q[i] == null || (sessionOpen && i === q.length - 1)) return;
-    closes.push([day(ts), Math.round(q[i] * 10000) / 10000]);
+    closes.push([day(ts), Math.round(q[i] * 10 ** dp) / 10 ** dp]);
   });
   const divs = Object.values(r.events?.dividends ?? {}).map((e) => ({ exDate: day(e.date), amount: e.amount }));
   const splits = Object.values(r.events?.splits ?? {}).map((e) => ({ exDate: day(e.date), ratio: e.numerator / e.denominator }));
@@ -76,6 +77,19 @@ if (ccys.length) {
     const [date, rate] = closes.at(-1);
     fund.fx[c] = { rate, date };
     console.log(`FX ${c}USD: ${rate} (${date})`);
+  }
+}
+
+// Currency monitor: one year of daily closes per watched currency (USD per unit), rebuilt every run
+const watch = fund.fxWatch?.currencies ?? [];
+if (watch.length) {
+  const yearAgo = Math.floor(Date.now() / 1000) - 86400 * 372;
+  const cutoff = new Date(Date.now() - 86400e3 * 366).toISOString().slice(0, 10);
+  fund.fxWatch.series = {};
+  for (const { code } of watch) {
+    const { closes } = await history(`${code}USD=X`, yearAgo, 6);
+    fund.fxWatch.series[code] = closes.filter(([d]) => d >= cutoff);
+    console.log(`FX watch ${code}USD: ${fund.fxWatch.series[code].length} days, latest ${closes.at(-1)?.join(' ')}`);
   }
 }
 
