@@ -54,7 +54,7 @@ S² Capital is a **virtual investment firm**: $100M of simulated capital, real p
 11. **Colophon** — small logo, "S² Capital · Lucerne · Est. 2026", disclaimer: *"S² Capital operates a simulated portfolio using real market prices. No actual capital is deployed, and nothing on this site is investment advice."*
 
 **Compact layout (2026-10-08, user request: the page felt loose and needed too much scrolling).** Actual page order and two-up rows on desktop (≥1101px; single column below):
-hero → fund value → **Performance** (`.perf-grid`: chart | benchmark table + income) → **Currencies | Market hours** → Holdings → Trades → **Investment history | Closed positions** → **Research | News** → colophon.
+hero → fund value → **Performance** (`.perf-grid`: chart | benchmark table + income) → **Research** (full width) → Holdings → Trades → **Investment history | Closed positions** → **News | Documents** → **Currencies | Market hours** → colophon. (Reordered 2026-10-08: the firm's own judgement — research, later portfolio commentary — comes right after performance; currencies and market hours are supporting information and sit last.)
 Two-up rows are `<div class="s2-wrap s2-pair">` holding two `<section class="s2-section">` (no `s2-wrap` on the inner sections). Inside a pair: the ledger shows two lines per entry, articles stack date/type above the title, `rtable--wide` becomes a label/value list, currencies are 2×2, market-hours rows are stacked (name + status above the bar). Section rhythm was cut from `clamp(160px, 26vh, 300px)` to `clamp(56px, 6vw, 88px)`; marker margin 56 → 26px; table/ledger/article row padding reduced. Keep it tight — don't reintroduce large vertical gaps. The numbered list above describes each section's content, not the order.
 
 Removed along the way (don't bring back without asking): Methodology section, "How we think" six-step process grid, numbered section markers, "01 The fund" label, standalone full-screen photo section, the 50/50 split hero, under-construction page + speech-bubble easter egg.
@@ -79,6 +79,7 @@ Removed along the way (don't bring back without asking): Methodology section, "H
 | `research[]` | `{date, type, title, company, status, href}` | `status` e.g. Invested / Watching / Passed |
 | `news[]` | `{date, type, title, summary?, href?}` | Firm news, newest first. `type` e.g. Firm / Meeting / Event. Real content — **not** cleared by the demo reset |
 | `fxWatch` | `{currencies: [{code, name}], series: {CHF: [[date, rate], …]}}` | Currency monitor. `currencies` is the editable list; `series` is **rebuilt in full every updater run** (one year of daily closes from Yahoo `<CODE>USD=X`, 6 decimals). Separate from `fx`, which values non-USD positions |
+| `documents[]` | `{date, type, title, summary?, file}` | Operating documents (meeting agendas, minutes, policies), newest first, section `#documents` (brand-bar link "Documents"). `file` is a file name in `public/documents/s2/`; if that file exists the title opens it in a new tab (preview) and the row shows format + size with Preview / Download links — so use PDF for anything that should preview in the browser. `type` e.g. Agenda / Minutes / Policy. Real content — **not** cleared by the demo reset. **Files are public once pushed — ask the user before adding any** |
 | `navHistory[]` | `{date, value, cash, benchmarks: {SPY, XLV, IBB}}` | **Rebuilt in full every updater run** (one row per trading day since inception, same ledger) — feeds the Performance chart |
 
 Cash is **derived**, never stored.
@@ -144,6 +145,8 @@ Cash is **derived**, never stored.
 **Record a spin-off** — add `{type: "SPINOFF", ticker, exDate, newTicker, ratio, cashInLieuPrice, source: "manual"}` to `corporateActions[]` and add `newTicker` to `positions[]`. A manual `payDate` for a dividend works the same way (same type/ticker/exDate as the Yahoo row; manual wins).
 
 **Add a currency to the monitor** — append `{code, name}` to `fxWatch.currencies` (ISO code Yahoo quotes as `<CODE>USD=X`), then run the updater.
+
+**Add a document** — copy the file into `public/documents/s2/` (ASCII file name, e.g. `2026-10-partners-meeting-1-agenda.docx`), append `{date, type, title, summary, file}` to `documents[]`.
 
 **Add a news item** — append `{date, type, title, summary}` to `news[]` (English, matching the page; `href` optional).
 

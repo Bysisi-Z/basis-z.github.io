@@ -2,6 +2,7 @@
 import S2Layout from '../../layouts/S2Layout.astro';
 import fund from '../../data/s2-capital.json';
 import { runLedger, benchmarkReturn } from '../../lib/s2-ledger.mjs';
+import { existsSync, statSync } from 'node:fs';
 
 // ── Fund figures, all derived from src/data/s2-capital.json ──
 // Cash, share counts and income come from the ledger; positions[] only carries market prices.
@@ -177,6 +178,18 @@ const research = [...((fund as { research?: Article[] }).research ?? [])].sort((
 
 type NewsItem = { date: string; type: string; title: string; summary?: string; href?: string };
 const news = [...((fund as { news?: NewsItem[] }).news ?? [])].sort((a, b) => b.date.localeCompare(a.date));
+
+// Operating documents (meeting agendas, minutes, policies). Files live in public/documents/s2/;
+// `file` is the file name there. Format and size are read from the file at build time.
+type Doc = { date: string; type: string; title: string; summary?: string; file?: string };
+const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .map((d) => {
+    const path = d.file ? `public/documents/s2/${d.file}` : '';
+    const bytes = path && existsSync(path) ? statSync(path).size : 0;
+    const size = bytes >= 1048576 ? `${(bytes / 1048576).toFixed(1)} MB` : bytes ? `${Math.max(1, Math.round(bytes / 1024))} KB` : '';
+    return { ...d, href: bytes ? `/documents/s2/${encodeURIComponent(d.file as string)}` : '', format: d.file?.split('.').pop()?.toUpperCase() ?? '', size };
+  });
 ---
 
 <S2Layout title="S² Capital">
@@ -290,64 +303,32 @@ const news = [...((fund as { news?: NewsItem[] }).news ?? [])].sort((a, b) => b.
       </div>
     </section>
 
-    <div class="s2-wrap s2-pair">
-    <!-- Currency monitor (src/data/s2-capital.json → fxWatch, rebuilt by the price updater) -->
-    {fxCharts.length > 0 && (
-      <section class="s2-section" id="currencies">
-        <p class="marker marker--square">Currencies</p>
-        <div class="fx-grid">
-          {fxCharts.map((c) => (
-            <figure class="fx" data-fx={c.data}>
-              <figcaption>
-                <span class="fx-code">{c.code}</span>
-                <span class="fx-name">{c.name}</span>
-              </figcaption>
-              <p class="fx-rate">
-                <span class="fx-value">{rate(c.last[1])}</span>
-                <span class="fx-change">{pct(c.change)}<span class="fx-unit"> 1Y</span></span>
-              </p>
-              <div class="fx-plot">
-                <svg viewBox={`0 0 ${FW} ${FH}`} preserveAspectRatio="none" aria-hidden="true">
-                  <path d={c.path} class="fx-line" />
-                  <line class="fx-cross" x1="0" x2="0" y1="0" y2={FH} />
-                </svg>
-                <span class="fx-dot" style={`top:${c.endTop}%`}></span>
-                <span class="fx-y fx-y--hi">{rate(c.hi)}</span>
-                <span class="fx-y fx-y--lo">{rate(c.lo)}</span>
-              </div>
-              <p class="fx-x">
-                <span class="fx-x-range"><span>{ledgerDate(c.first[0])}</span><span>{ledgerDate(c.last[0])}</span></span>
-                <span class="fx-x-tip" role="status" aria-live="polite"></span>
-              </p>
-            </figure>
-          ))}
-        </div>
-        <p class="table-note">US dollars per one unit of each currency, daily close, past 12 months{fxAsOf && <> to {ledgerDate(fxAsOf)}</>}. Each chart has its own scale.</p>
-      </section>
-    )}
-    <!-- Market hours: 24-hour timeline in the viewer's local time, drawn by the script below -->
-    <section class="s2-section" id="markets">
-      <p class="marker marker--square">Market hours</p>
-      <div class="mh" data-markets={marketData}>
-        <div class="mh-row mh-axis" aria-hidden="true">
-          <span></span>
-          <div class="mh-track mh-ticks"></div>
-          <span class="mh-zone"></span>
-        </div>
-        {MARKETS.map((m) => (
-          <div class="mh-row" data-mh-row>
-            <p class="mh-name">
-              <span class="mh-city">{m.city}</span>
-              <span class="mh-ex">{m.exchange} · {m.sessions.map((x) => x.join('–')).join(', ')} local</span>
-            </p>
-            <div class="mh-track"></div>
-            <p class="mh-status"></p>
-          </div>
-        ))}
-      </div>
-      <p class="table-note">Regular trading sessions, Monday to Friday, shown in your local time. Exchange holidays and shortened days are not shown.</p>
+    <!-- 5 · Research articles (src/data/s2-capital.json → research) -->
+    <section class="s2-section s2-wrap" id="research">
+      <p class="marker marker--square">Research</p>
+      {research.length ? (
+        <ol class="articles">
+          {research.map((r) => {
+            const Tag = r.href ? 'a' : 'div';
+            return (
+              <li>
+                <Tag class="article" {...(r.href ? { href: r.href } : {})}>
+                  <span class="a-date">{ledgerDate(r.date)}</span>
+                  <span class="a-type">{r.type}</span>
+                  <span class="a-main">
+                    <span class="a-title">{r.title}</span>
+                    <span class="a-company">{r.company}</span>
+                  </span>
+                  <span class="a-status">{r.status}</span>
+                </Tag>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p class="empty">First research notes are on the way.</p>
+      )}
     </section>
-    </div>
 
     <!-- Holdings (at the last close) -->
     <section class="s2-section s2-wrap" id="holdings">
@@ -488,32 +469,6 @@ const news = [...((fund as { news?: NewsItem[] }).news ?? [])].sort((a, b) => b.
     </div>
 
     <div class="s2-wrap s2-pair">
-    <!-- 5 · Research articles (src/data/s2-capital.json → research) -->
-    <section class="s2-section" id="research">
-      <p class="marker marker--square">Research</p>
-      {research.length ? (
-        <ol class="articles">
-          {research.map((r) => {
-            const Tag = r.href ? 'a' : 'div';
-            return (
-              <li>
-                <Tag class="article" {...(r.href ? { href: r.href } : {})}>
-                  <span class="a-date">{ledgerDate(r.date)}</span>
-                  <span class="a-type">{r.type}</span>
-                  <span class="a-main">
-                    <span class="a-title">{r.title}</span>
-                    <span class="a-company">{r.company}</span>
-                  </span>
-                  <span class="a-status">{r.status}</span>
-                </Tag>
-              </li>
-            );
-          })}
-        </ol>
-      ) : (
-        <p class="empty">First research notes are on the way.</p>
-      )}
-    </section>
     <!-- 6 · Firm news (src/data/s2-capital.json → news) -->
     <section class="s2-section" id="news">
       <p class="marker marker--square">News</p>
@@ -538,6 +493,93 @@ const news = [...((fund as { news?: NewsItem[] }).news ?? [])].sort((a, b) => b.
       ) : (
         <p class="empty">Firm news will be posted here.</p>
       )}
+    </section>
+
+    <!-- Operating documents (src/data/s2-capital.json → documents; files in public/documents/s2/) -->
+    <section class="s2-section" id="documents">
+      <p class="marker marker--square">Documents</p>
+      {documents.length ? (
+        <ol class="articles">
+          {documents.map((d) => (
+            <li>
+              <div class="article article--news">
+                <span class="a-date">{ledgerDate(d.date)}</span>
+                <span class="a-type">{d.type}</span>
+                <span class="a-main">
+                  <span class="a-title">{d.href ? <a href={d.href} target="_blank" rel="noopener">{d.title}</a> : d.title}</span>
+                  {d.summary && <span class="a-summary">{d.summary}</span>}
+                  {d.href && (
+                    <span class="a-file">
+                      {d.format}{d.size && <> · {d.size}</>} · <a href={d.href} target="_blank" rel="noopener">Preview</a> · <a href={d.href} download={d.file}>Download</a>
+                    </span>
+                  )}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="empty">Meeting agendas, minutes and operating policies will be posted here.</p>
+      )}
+    </section>
+    </div>
+
+    <div class="s2-wrap s2-pair">
+    <!-- Currency monitor (src/data/s2-capital.json → fxWatch, rebuilt by the price updater) -->
+    {fxCharts.length > 0 && (
+      <section class="s2-section" id="currencies">
+        <p class="marker marker--square">Currencies</p>
+        <div class="fx-grid">
+          {fxCharts.map((c) => (
+            <figure class="fx" data-fx={c.data}>
+              <figcaption>
+                <span class="fx-code">{c.code}</span>
+                <span class="fx-name">{c.name}</span>
+              </figcaption>
+              <p class="fx-rate">
+                <span class="fx-value">{rate(c.last[1])}</span>
+                <span class="fx-change">{pct(c.change)}<span class="fx-unit"> 1Y</span></span>
+              </p>
+              <div class="fx-plot">
+                <svg viewBox={`0 0 ${FW} ${FH}`} preserveAspectRatio="none" aria-hidden="true">
+                  <path d={c.path} class="fx-line" />
+                  <line class="fx-cross" x1="0" x2="0" y1="0" y2={FH} />
+                </svg>
+                <span class="fx-dot" style={`top:${c.endTop}%`}></span>
+                <span class="fx-y fx-y--hi">{rate(c.hi)}</span>
+                <span class="fx-y fx-y--lo">{rate(c.lo)}</span>
+              </div>
+              <p class="fx-x">
+                <span class="fx-x-range"><span>{ledgerDate(c.first[0])}</span><span>{ledgerDate(c.last[0])}</span></span>
+                <span class="fx-x-tip" role="status" aria-live="polite"></span>
+              </p>
+            </figure>
+          ))}
+        </div>
+        <p class="table-note">US dollars per one unit of each currency, daily close, past 12 months{fxAsOf && <> to {ledgerDate(fxAsOf)}</>}. Each chart has its own scale.</p>
+      </section>
+    )}
+    <!-- Market hours: 24-hour timeline in the viewer's local time, drawn by the script below -->
+    <section class="s2-section" id="markets">
+      <p class="marker marker--square">Market hours</p>
+      <div class="mh" data-markets={marketData}>
+        <div class="mh-row mh-axis" aria-hidden="true">
+          <span></span>
+          <div class="mh-track mh-ticks"></div>
+          <span class="mh-zone"></span>
+        </div>
+        {MARKETS.map((m) => (
+          <div class="mh-row" data-mh-row>
+            <p class="mh-name">
+              <span class="mh-city">{m.city}</span>
+              <span class="mh-ex">{m.exchange} · {m.sessions.map((x) => x.join('–')).join(', ')} local</span>
+            </p>
+            <div class="mh-track"></div>
+            <p class="mh-status"></p>
+          </div>
+        ))}
+      </div>
+      <p class="table-note">Regular trading sessions, Monday to Friday, shown in your local time. Exchange holidays and shortened days are not shown.</p>
     </section>
     </div>
 
@@ -1328,6 +1370,11 @@ const news = [...((fund as { news?: NewsItem[] }).news ?? [])].sort((a, b) => b.
   .a-company { font-size: 13px; color: var(--s2-muted); }
   .article--news { grid-template-columns: 130px 150px minmax(0, 1fr); }
   .a-summary { max-width: 760px; font-size: clamp(16px, 1.2vw, 17px); line-height: 1.6; color: var(--s2-soft); }
+  .a-file { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); }
+  .a-title a { color: inherit; text-decoration: none; }
+  .a-title a:hover { color: #fff; text-decoration: underline; text-decoration-color: var(--s2-red); text-underline-offset: 6px; text-decoration-thickness: 1px; }
+  .a-file a { color: var(--s2-soft); text-decoration: underline; text-underline-offset: 3px; }
+  .a-file a:hover { color: var(--s2-ink); text-decoration-color: var(--s2-red); }
   .a-status {
     font-size: 11px;
     letter-spacing: 0.18em;

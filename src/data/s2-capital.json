@@ -3914,6 +3914,15 @@
     }
   ],
   "news": [],
+  "documents": [
+    {
+      "date": "2026-10-08",
+      "type": "Agenda",
+      "title": "First partners' meeting: agenda",
+      "summary": "Discussion agenda for the first partners' meeting. English first, followed by the Chinese original.",
+      "file": "2026-10-partners-meeting-1-agenda.pdf"
+    }
+  ],
   "fxWatch": {
     "currencies": [
       {
