@@ -30,8 +30,8 @@
     {
       "ticker": "MRK",
       "name": "Merck & Co.",
-      "lastPrice": 145.6,
-      "lastPriceDate": "2026-10-09",
+      "lastPrice": 145.45,
+      "lastPriceDate": "2026-10-12",
       "country": "US",
       "currency": "USD"
     }
@@ -44,8 +44,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 659.67,
-      "lastPrice": 778.57,
-      "lastPriceDate": "2026-10-09",
+      "lastPrice": 778.1,
+      "lastPriceDate": "2026-10-12",
       "country": "US"
     },
     {
@@ -55,8 +55,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 136.16,
-      "lastPrice": 170.81,
-      "lastPriceDate": "2026-10-09",
+      "lastPrice": 171.99,
+      "lastPriceDate": "2026-10-12",
       "country": "US"
     },
     {
@@ -66,8 +66,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 141.19,
-      "lastPrice": 206.49,
-      "lastPriceDate": "2026-10-09",
+      "lastPrice": 204.26,
+      "lastPriceDate": "2026-10-12",
       "country": "US"
     }
   ],
@@ -1273,6 +1273,10 @@
       [
         "2026-10-09",
         4.057
+      ],
+      [
+        "2026-10-12",
+        4.05
       ]
     ]
   },
@@ -3938,6 +3942,16 @@
         "SPY": 778.57,
         "XLV": 170.81,
         "IBB": 206.49
+      }
+    },
+    {
+      "date": "2026-10-12",
+      "value": 120600229.81,
+      "cash": 83949011.56,
+      "benchmarks": {
+        "SPY": 778.1,
+        "XLV": 171.99,
+        "IBB": 204.26
       }
     }
   ],
