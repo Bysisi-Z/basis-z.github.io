@@ -148,6 +148,8 @@ Cash is **derived**, never stored.
 
 **Add a document** — copy the file into `public/documents/s2/` (ASCII file name, e.g. `2026-10-partners-meeting-1-agenda.docx`), append `{date, type, title, summary, file}` to `documents[]`.
 
+**Interactive pharma stock table** (added 2026-10-13) — `public/documents/s2/2026-10-pharma-listed-stocks.html` is a standalone page (own S² dark styling, no Astro layout) listed in `documents[]` as type "Data": English page (the script translates headers, industries, boards and notes from the Chinese workbook, converts 亿 to billions, and puts other-market codes in the last columns; it stops if a value has no translation); four market tabs (A-share / Hong Kong / United States / Switzerland), click a header to sort, filter row under the headers (text contains; dropdown for categorical columns; numeric `>100`, `<0`, `10-50`, percent columns take plain numbers). Data is embedded in the file. Rebuild from the Excel workbook: `python3 scripts/make_s2_pharma_stocks_page.py <workbook.xlsx> public/documents/s2/2026-10-pharma-listed-stocks.html` (template: `scripts/s2_pharma_stocks_template.html`; sheet names `A股/港股/美股/瑞士/说明与来源` are read as-is). Source workbook: `~/Desktop/Pharma_Listed_Stocks_A_HK_US_CH_20261012.xlsx`.
+
 **Add a news item** — append `{date, type, title, summary}` to `news[]` (English, matching the page; `href` optional).
 
 **Add a research article** — append to `research[]` with `href` pointing to the article (detail-page template not built yet).
