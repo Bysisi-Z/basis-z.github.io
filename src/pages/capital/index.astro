@@ -544,7 +544,6 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
                 <span class="a-type">{d.type}</span>
                 <span class="a-main">
                   <span class="a-title">{d.href ? <a href={d.href} target="_blank" rel="noopener">{d.title}</a> : d.title}</span>
-                  {d.summary && <span class="a-summary">{d.summary}</span>}
                   {d.href && (
                     <span class="a-file">
                       {d.format}{d.size && <> · {d.size}</>} · <a href={d.href} target="_blank" rel="noopener">Preview</a> · <a href={d.href} download={d.file}>Download</a>
