@@ -19,13 +19,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </nav>
 
     <header class="essay-header">
-      <div>
-        <p class="essay-kicker">Short Essay</p>
-        <h1 class="essay-title">
-          <span class="zh">把领带系上</span>
-          <span class="en">Put on the Tie</span>
-        </h1>
-      </div>
+      <h1 class="essay-title">
+        <span class="zh">把领带系上</span>
+        <span class="en">Put on the Tie</span>
+      </h1>
       <div class="essay-tools">
         <div class="essay-meta">
           <span class="zh">2026年6月23日</span>
@@ -34,12 +31,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <span class="zh">约 2 分钟</span>
           <span class="en">2 min read</span>
         </div>
-        <div class="lang-switch">
-          <span class="lang-label">Read in</span>
-          <div class="lang-toggle" role="group" aria-label="Language">
-            <button class="lang-btn" data-lang="zh">中文</button>
-            <button class="lang-btn" data-lang="en">EN</button>
-          </div>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn" data-lang="zh">中文</button>
+          <span class="lang-sep">/</span>
+          <button class="lang-btn" data-lang="en">EN</button>
         </div>
       </div>
     </header>
@@ -127,15 +122,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   :global(html[data-lang="en"]) span.en { display: inline; }
 
   .essay-wrap {
-    max-width: 1100px;
+    max-width: 760px;
     margin: 0 auto;
-    padding: 48px clamp(22px, 5vw, 72px) 124px;
+    padding: 48px clamp(20px, 6vw, 80px) 124px;
   }
 
   .essay-nav {
-    margin-bottom: 42px;
+    margin-bottom: 40px;
   }
   .essay-nav a {
+    font-family: var(--sans);
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -146,97 +142,68 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .essay-nav a:hover { color: var(--ink); }
 
   .essay-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 220px;
-    gap: clamp(28px, 5vw, 76px);
-    align-items: end;
-    padding: 0 0 44px;
+    padding-bottom: 28px;
     border-bottom: 1px solid var(--rule);
-    margin-bottom: 62px;
-  }
-  .essay-kicker {
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--rose);
-    margin: 0 0 18px;
+    margin-bottom: 48px;
   }
   .essay-title {
     font-family: var(--serif);
-    font-size: clamp(42px, 7vw, 92px);
-    font-weight: 300;
+    font-size: clamp(26px, 2.6vw, 32px);
+    font-weight: 400;
     font-style: italic;
-    line-height: 0.96;
-    letter-spacing: 0;
+    line-height: 1.3;
     color: var(--ink);
-    margin: 0;
+    margin: 0 0 14px;
   }
   .essay-title span.zh {
-    font-family: 'Ma Shan Zheng', var(--serif);
-    font-weight: 400;
+    font-family: "Songti SC", "STSong", "Noto Serif CJK SC", var(--serif);
+    font-weight: 500;
     font-style: normal;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.06em;
   }
   .essay-tools {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: baseline;
     gap: 20px;
   }
   .essay-meta {
+    font-family: var(--sans);
     font-size: 12px;
     color: var(--stone);
     letter-spacing: 0.06em;
-    line-height: 1.8;
   }
   .essay-meta .dot { margin: 0 7px; }
 
-  .lang-switch {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .lang-label {
-    font-family: var(--sans);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
   .lang-toggle {
     display: inline-flex;
-    align-items: center;
-    border: 1px solid rgba(193, 125, 157, 0.72);
-    background: rgba(255, 255, 255, 0.52);
-    box-shadow: 0 10px 28px rgba(38, 30, 30, 0.07);
-  }
-  .lang-btn {
-    min-width: 72px;
-    padding: 11px 16px 10px;
+    align-items: baseline;
+    gap: 6px;
     font-family: var(--sans);
     font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--stone);
+  }
+  .lang-btn {
+    padding: 2px 0;
+    font: inherit;
+    letter-spacing: inherit;
     border: none;
+    border-bottom: 1px solid transparent;
     background: transparent;
-    color: var(--rose);
+    color: var(--stone);
     cursor: pointer;
-    transition: background 0.18s, color 0.18s;
-    line-height: 1;
+    transition: color 0.18s;
   }
   .lang-btn:hover:not(.active) {
-    background: rgba(193, 125, 157, 0.08);
     color: var(--ink);
   }
   .lang-btn.active {
-    background: var(--rose);
-    color: #fff;
+    color: var(--rose);
+    border-bottom-color: var(--rose);
   }
 
   .essay-body {
-    max-width: 760px;
     margin: 0 auto;
   }
   .essay-body p {
@@ -279,19 +246,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     padding: 0;
     border-left: none;
     text-align: center;
-    font-size: clamp(21px, 2vw, 26px);
+    font-size: clamp(19px, 1.8vw, 22px);
     font-weight: 500;
     color: var(--rose);
     letter-spacing: 0;
   }
   .zh .essay-quote--reveal {
     font-family: 'Ma Shan Zheng', var(--serif);
-    font-size: clamp(24px, 2.8vw, 32px);
+    font-size: clamp(21px, 2vw, 24px);
     letter-spacing: 0.04em;
   }
   .essay-question {
     font-family: var(--serif);
-    font-size: clamp(19px, 1.7vw, 23px);
+    font-size: clamp(18px, 1.6vw, 21px);
     font-weight: 300;
     font-style: italic;
     text-align: center;
@@ -306,7 +273,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
   .essay-callout {
     font-family: var(--serif);
-    font-size: clamp(19px, 1.7vw, 23px);
+    font-size: clamp(18px, 1.6vw, 21px);
     font-weight: 400;
     font-style: italic;
     text-align: center;
@@ -319,7 +286,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   }
   .zh .essay-callout {
     font-family: 'Ma Shan Zheng', var(--serif);
-    font-size: clamp(23px, 2.55vw, 30px);
+    font-size: clamp(20px, 1.9vw, 23px);
     font-style: normal;
     letter-spacing: 0.04em;
   }
@@ -392,17 +359,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       margin-bottom: 34px;
     }
     .essay-header {
-      grid-template-columns: 1fr;
-      gap: 26px;
-      padding-bottom: 34px;
-      margin-bottom: 42px;
-    }
-    .essay-tools {
-      gap: 14px;
-    }
-    .essay-title {
-      font-size: clamp(42px, 14vw, 70px);
-      line-height: 1;
+      margin-bottom: 36px;
     }
     .essay-quote {
       margin-left: 0.6em;

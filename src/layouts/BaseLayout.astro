@@ -11,10 +11,11 @@ interface Props {
 }
 
 const { title, description = 'Si', hideNav = false, hideFooter = false } = Astro.props;
+const section = Astro.url.pathname.split('/')[1] || 'home';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-section={section}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />

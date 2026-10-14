@@ -12,6 +12,14 @@
   --sans:  'Inter', system-ui, sans-serif;
 }
 
+/* Wandering (/writing) — sky blue section palette */
+html[data-section="writing"] {
+  --rose:       #3E8ACC;
+  --rose-light: #D3E6F6;
+  --accent:     #3E8ACC;
+}
+
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
