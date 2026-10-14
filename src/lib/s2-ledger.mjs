@@ -190,8 +190,10 @@ export function runLedger(fund, asOf) {
  * Benchmark total return, like-for-like with the fund: one unit bought at basePrice on the
  * base date; later dividends (net of the same withholding policy) are added as cash, not
  * reinvested; splits after the base date adjust the base.
+ * Non-USD benchmarks are measured in US dollars: `baseFx` / `fx` are USD per unit of the
+ * benchmark's currency at the base date and at `price`'s date (dividends carry their own fxRate).
  */
-export function benchmarkReturn(b, fund, price = b.lastPrice, through = b.lastPriceDate) {
+export function benchmarkReturn(b, fund, price = b.lastPrice, through = b.lastPriceDate, fx = b.lastFx ?? 1) {
   const policy = fund.policy ?? {};
   const acts = (fund.corporateActions ?? []).filter((a) => a.ticker === b.ticker && a.exDate > b.baseDate && (!through || a.exDate <= through));
   let units = 1;
@@ -203,7 +205,8 @@ export function benchmarkReturn(b, fund, price = b.lastPrice, through = b.lastPr
       divs += units * a.amount * (a.fxRate ?? 1) * (1 - rate);
     }
   }
-  const priceOnly = (units * price) / b.basePrice - 1;
-  const total = (units * price + divs) / b.basePrice - 1;
+  const base = b.basePrice * (b.baseFx ?? 1);
+  const priceOnly = (units * price * fx) / base - 1;
+  const total = (units * price * fx + divs) / base - 1;
   return { priceReturn: priceOnly * 100, totalReturn: total * 100, dividends: divs };
 }

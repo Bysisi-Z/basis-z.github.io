@@ -27,7 +27,10 @@ async function history(symbol, from = since, dp = 4) {
   const tz = r.meta?.exchangeTimezoneName ?? 'America/New_York';
   const day = (ts) => new Date(ts * 1000).toLocaleDateString('en-CA', { timeZone: tz });
   // during market hours the last daily bar is today's partial session, not a close
-  const sessionOpen = Date.now() / 1000 < (r.meta?.currentTradingPeriod?.regular?.end ?? 0);
+  // (only while the session is actually running — before the open the last bar is yesterday's close)
+  const reg = r.meta?.currentTradingPeriod?.regular ?? {};
+  const nowS = Date.now() / 1000;
+  const sessionOpen = nowS >= (reg.start ?? 0) && nowS < (reg.end ?? 0);
   const closes = [];
   const q = r.indicators?.quote?.[0]?.close ?? [];
   (r.timestamp ?? []).forEach((ts, i) => {
@@ -44,17 +47,37 @@ const manual = (fund.corporateActions ?? []).filter((a) => a.source !== 'yahoo')
 const fromYahoo = [];
 const keep = (a) => !manual.some((m) => m.type === a.type && m.ticker === a.ticker && m.exDate === a.exDate);
 
+// Daily FX since inception (USD per unit) for every non-USD position or benchmark:
+// converts their dividends on the ex-date and non-USD benchmarks into US dollars.
+const fxHist = {};
+const fxOn = (ccy, date) => {
+  if (!ccy || ccy === 'USD') return 1;
+  let rate = null;
+  for (const [d, r] of fxHist[ccy] ?? []) { if (d > date) break; rate = r; }
+  return rate ?? fxHist[ccy]?.[0]?.[1] ?? 1;
+};
+for (const c of new Set([...fund.positions, ...(fund.benchmarks ?? [])].map((x) => x.currency).filter((c) => c && c !== 'USD'))) {
+  fxHist[c] = (await history(`${c}USD=X`, since, 6)).closes;
+  console.log(`FX history ${c}USD: ${fxHist[c].length} days`);
+}
+
 let asOf = null;
 const closeSeries = {};   // ticker → Map(date → close), for the daily NAV backfill
 for (const item of [...fund.positions, ...(fund.benchmarks ?? [])]) {
-  const { closes, divs, splits } = await history(item.ticker);
+  const isPosition = fund.positions.includes(item);
+  const { closes: all, divs, splits } = await history(item.ticker);
+  // benchmarks are marked to the fund's latest close date (Asian sessions can be a day ahead)
+  const closes = !isPosition && asOf ? all.filter(([d]) => d <= asOf) : all;
   closeSeries[item.ticker] = new Map(closes);
   const [date, price] = closes.at(-1);
   console.log(`${item.ticker}: ${item.lastPrice ?? '—'} → ${price} (${date})  div ${divs.length} split ${splits.length}`);
-  item.lastPrice = Math.round(price * 100) / 100;
+  const dp = price < 10 ? 4 : 2;   // low-priced ETFs (e.g. CNY 0.4) need more than cents
+  item.lastPrice = Math.round(price * 10 ** dp) / 10 ** dp;
   item.lastPriceDate = date;
-  if (fund.positions.includes(item) && (!asOf || date > asOf)) asOf = date;
-  for (const d of divs) if (d.exDate >= fund.inception) fromYahoo.push({ type: 'DIVIDEND', ticker: item.ticker, exDate: d.exDate, amount: d.amount, source: 'yahoo' });
+  const foreign = item.currency && item.currency !== 'USD';
+  if (!isPosition && foreign) item.lastFx = fxOn(item.currency, date);
+  if (isPosition && (!asOf || date > asOf)) asOf = date;
+  for (const d of divs) if (d.exDate >= fund.inception) fromYahoo.push({ type: 'DIVIDEND', ticker: item.ticker, exDate: d.exDate, amount: d.amount, ...(foreign ? { currency: item.currency, fxRate: fxOn(item.currency, d.exDate) } : {}), source: 'yahoo' });
   for (const s of splits) if (s.exDate >= fund.inception) fromYahoo.push({ type: 'SPLIT', ticker: item.ticker, exDate: s.exDate, ratio: s.ratio, source: 'yahoo' });
 }
 fund.corporateActions = [...manual, ...fromYahoo.filter(keep)]
@@ -111,7 +134,9 @@ if (asOf) {
     const benchmarks = Object.fromEntries((fund.benchmarks ?? []).map((b) => {
       const c = closeSeries[b.ticker]?.get(date) ?? lastKnown[b.ticker];
       if (c != null) lastKnown[b.ticker] = c;
-      return [b.ticker, c];
+      // stored in US dollars so every benchmark is comparable with the USD fund
+      const usd = c == null ? c : Math.round(c * fxOn(b.currency, date) * 1e6) / 1e6;
+      return [b.ticker, usd];
     }));
     return { date, value: Math.round(value * 100) / 100, cash, benchmarks };
   });

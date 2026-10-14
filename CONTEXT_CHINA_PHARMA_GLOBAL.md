@@ -120,6 +120,16 @@ already-in-force medical-device China-exclusion precedent — as a real forward-
 single-sourced products (§11.28). Molecule names should now always be given Chinese + English/INN together
 (see the writing-convention note at the top of this file).
 
+**Update 2026-08-18, round 13**: resolved the §11.1 "specialized commercial team" nuance flagged since round
+3 — market-by-market research (Fosun/Henlius corporate interviews + phirda.com H1 2025 analysis) shows
+Henlius self-builds R&D/clinical/regulatory/manufacturing infrastructure in *both* mainstream (US/EU/Japan)
+and emerging (SEA/Middle East/LatAm) markets, but hands the actual commercial/sales layer to a local partner
+in every tier — Accord/Intas in the US/EU/SEA, a Saudi SVAX joint venture in the Middle East, Abbott/
+Eurofarma split in Brazil. The earlier "bifurcated by market maturity" framing is superseded: the real split
+is functional (build vs. sell), not geographic, which sharpens rather than complicates the license-out
+thesis. §6's candidate-deal-list trim question (Phase 2, broad piece) remains open and deferred — not
+addressed this round, per the Phase 1/Phase 2 sequencing at the top of this file.
+
 ---
 
 ## 2. Two framing options surfaced (not yet chosen)
@@ -490,14 +500,36 @@ below mostly confirms it, with one important nuance.
   developed and manufactures the product; Accord/Intas holds the US/Canada and EU commercialization rights
   and runs the actual launch/sales. This is a clean license-out, structurally identical to the innovative-
   drug pattern.
-  - **Nuance not yet resolved**: separate coverage claims Henlius "has established a specialized commercial
-    team" overseas and cites 162.3% YoY overseas revenue growth — this is very likely referring to
-    self-commercialization in **emerging markets** (Southeast Asia, Latin America, Middle East — HANQUYOU is
-    approved in Argentina, Brazil, Thailand, Singapore etc.), NOT the US/EU, where Accord/Intas holds the
-    rights. **Needs a market-by-market breakdown before the article claims either "Henlius self-
-    commercializes" or "Henlius only license-outs" — likely the true story is bifurcated by market
-    maturity**, which would itself support the user's thesis (self-build is viable in less-contested/lower-
-    access-complexity markets, license-out is the default for the hardest markets).
+  - **Nuance now resolved (2026-08-18)** — and the resolution *strengthens* rather than complicates the
+    original license-out thesis. Market-by-market breakdown (via Fosun/Henlius corporate interviews and a
+    phirda.com analysis of H1 2025 results, both cited below): Henlius splits the globe into "mainstream"
+    (US/EU/Japan) vs. "emerging" (Southeast Asia/Middle East/Latin America) markets, and **self-builds only
+    R&D, clinical-operations, regulatory-registration, and manufacturing infrastructure in both tiers — never
+    the actual sales/commercialization layer, in either tier**:
+    - **US**: ~40-person self-built team, but scoped to registration + clinical trial execution (drove
+      trastuzumab/HERCESSI and HLX14 approvals) — not disclosed as a sales force
+    - **EU**: self-built registration/clinical teams; commercial rights still licensed to Accord (Intas
+      subsidiary)
+    - **Southeast Asia**: Accord/Intas again (Intas is India's largest private generics company) handles
+      local registration + commercialization
+    - **Middle East**: joint venture with Saudi SVAX — the *local* partner runs registration and
+      commercialization, not Henlius directly
+    - **Latin America**: split between Abbott and Eurofarma, each holding semi-exclusive Brazil
+      commercialization rights for HANLIKANG/HANQUYOU
+    - Explicit line from the phirda analysis: **"终端销售还需依靠与海外当地销售/市场推广能力强劲的药企合作"**
+      ("terminal sales still depend on partnering with locally-strong sales/marketing pharma companies") —
+      stated as a general rule, not an exception for hard markets. Henlius has 20+ such commercial
+      partnership agreements globally.
+    - So: the "specialized commercial team" and 162.3%/200%+ YoY overseas-profit-growth figures reported in
+      other coverage almost certainly describe growth in **royalty/licensing income and BD cash flow** (one
+      figure: H1 2025 "BD合同现金流入超10亿元，同比增长280%") flowing through the partner network above, not
+      direct self-run retail/hospital sales revenue anywhere overseas, mainstream or emerging.
+    - **Revised finding for the article**: there is no bifurcation by market maturity after all — the
+      self-build/license-out split in Henlius's model runs along a *functional* line (build product,
+      manufacturing, and regulatory dossiers yourself; hand the commercial/sales layer to a local partner
+      everywhere), not a *geographic* one. This is a cleaner, more general version of the "channel/payer/
+      tender infrastructure, not brand or R&D" explanation already in §11.3 — worth stating as the
+      confirmed pattern, not a hedge, when the article gets drafted.
 - **百奥泰/Bio-Thera Solutions** — tocilizumab biosimilar (Shirely, approved China/US/EU/Switzerland/UK)
   licensed to **Biogen** for commercialization (2020 deal). Bevacizumab biosimilar (Pubeixi, approved China/
   US/EU/Brazil) licensed to **Sandoz** for US/Europe/Canada/most international markets (2021 deal). Clean
@@ -1549,3 +1581,15 @@ specific figure needs re-verification rather than trusting numbers transcribed i
 - White & Case, EU imposes first International Procurement Instrument measure restricting Chinese access to medical devices procurement: https://www.whitecase.com/insight-alert/eu-imposes-first-international-procurement-instrument-measure-restricting-chinese
 - PwC Switzerland, EU sets 50% threshold for Chinese content in medical device tenders: https://www.pwc.ch/en/insights/tax/pharma-life-sciences/eu-ipi-50-percent-limit-medical-devices.html
 - CFR (Council on Foreign Relations), The Pharma Choke Point (EU API dependency framing): https://www.cfr.org/reports/the-pharma-choke-point
+
+**Added 2026-08-18 (§11.1 nuance resolution — market-by-market breakdown):**
+- Fosun Group, 复宏汉霖：出海全球化2.0，向更远深水区行进 (mainstream vs. emerging market split, self-built
+  clinical/regulatory footprint by country): https://www.fosun.com/content/details46_4582.html
+- Phirda, 海外产品利润激增超200%，复宏汉霖全球化细节曝光 (H1 2025 results; explicit statement that terminal
+  sales depend on local commercial partners; 20+ commercial partnership agreements; BD cash flow +280% YoY):
+  https://www.phirda.com/artilce_40221.html?module=trackingCodeGenerator
+- 网易/163, 海外市场势能大增，复宏汉霖"全球化2.0"加速中: https://c.m.163.com/news/a/K8KGQ9PU0534Q32Z.html
+- 21财经, 复宏汉霖全球化：4年内，在美获批至少8款产品 (US ~40-person team scope): https://m.21jingji.com/article/20250421/herald/c5d0214ea12ac213a3619619456a954c.html
+- 金融界专访复宏汉霖李靖, 从国内竞逐到全球征战 (Henlius corporate site republish): https://www.henlius.com/NewsDetails-4826-27.html
+- 福布斯中国专访复宏汉霖朱俊博士 (Henlius corporate site republish): https://www.henlius.com/NewsDetails-4824-27.html
+- E药经理人专访复宏汉霖朱俊博士, 实现国际化闭环1.0 (Henlius corporate site republish): https://www.henlius.com/NewsDetails-4868-27.html

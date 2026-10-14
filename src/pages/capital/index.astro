@@ -23,19 +23,28 @@ const income = ledger.income;
 // Benchmarks start on the inception date under the same price convention as the fund's
 // opening trade, are marked to the same latest close, and — like the fund — include
 // dividends net of the same withholding policy (held as cash, not reinvested).
-type Benchmark = { ticker: string; name: string; via: string; country?: string; baseDate: string; baseConvention: string; basePrice: number; lastPrice: number; lastPriceDate: string };
+// `group` sorts a benchmark under Broad market or Sector in the picker; non-USD benchmarks carry
+// `currency`, `baseFx` and `lastFx` (USD per unit) and are measured in US dollars.
+type Benchmark = { ticker: string; name: string; via: string; country?: string; baseDate: string; baseConvention: string; basePrice: number; lastPrice: number; lastPriceDate: string;
+  group?: 'broad' | 'sector'; label?: string; color?: string; currency?: string; baseFx?: number; lastFx?: number; default?: boolean };
+const CCY_SYM: Record<string, string> = { USD: '$', CNY: 'CN¥', HKD: 'HK$', CHF: 'CHF ', EUR: '€' };
+const bpx = (n: number) => n.toFixed(n < 10 ? 3 : 2);
 const benchmarks = ((fund as { benchmarks?: Benchmark[] }).benchmarks ?? []).map((b) => {
   const r = benchmarkReturn(b, fund);
-  return { ...b, ret: r.totalReturn, priceRet: r.priceReturn, divs: r.dividends, excess: returnPct - r.totalReturn };
+  const foreign = !!b.currency && b.currency !== 'USD';
+  return { ...b, ret: r.totalReturn, priceRet: r.priceReturn, divs: r.dividends, excess: returnPct - r.totalReturn,
+    foreign, sym: CCY_SYM[b.currency ?? 'USD'] ?? `${b.currency} `, base: b.basePrice * (b.baseFx ?? 1), fx: b.lastFx ?? 1 };
 });
 const usWht = Math.round((fund.policy.withholding.US ?? 0) * 100);
+const defWht = Math.round(((fund.policy.withholding as Record<string, number>).default ?? 0) * 100);
+const hasForeignBench = benchmarks.some((b) => b.foreign);
 const pp = (n: number) => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(2) + ' pp';
 // handed to the live-price script below
 const liveFund = JSON.stringify({
   initial: fund.initialCapital,
   cash: ledger.cash,
   positions: positions.map((p) => ({ ticker: p.ticker, shares: p.shares, lastPrice: p.lastPrice, fx: p.fx })),
-  benchmarks: benchmarks.map((b) => ({ ticker: b.ticker, basePrice: b.basePrice, lastPrice: b.lastPrice, divs: b.divs })),
+  benchmarks: benchmarks.map((b) => ({ ticker: b.ticker, base: b.base, fx: b.fx, sym: b.sym, lastPrice: b.lastPrice, divs: b.divs })),
 });
 
 const usd = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
@@ -69,20 +78,35 @@ const closedPositions = [...ledger.closed].reverse().map((c) => ({ ...c, name: q
 // Benchmarks use the same total-return rule as the table (net dividends as cash).
 type NavRow = { date: string; value: number; benchmarks: Record<string, number> };
 const navRows = ((fund as { navHistory?: NavRow[] }).navHistory ?? []);
-const CHART_SERIES = [
-  { key: 'S2', label: 'S² Capital', color: '#E1181E' },
-  { key: 'SPY', label: 'S&P 500', color: '#3D84C6' },
-  { key: 'XLV', label: 'Health Care (XLV)', color: '#B8892A' },
+// One series per benchmark. Colour follows the market, a dashed line marks a sector benchmark;
+// the reader picks which ones to compare (defaults: `default: true` in the data).
+type ChartSeries = { key: string; label: string; color: string; dash: boolean; group: 'fund' | 'broad' | 'sector'; on: boolean };
+const FALLBACK_COLORS = ['#3D84C6', '#2EA36B', '#C7609B', '#B8892A'];
+const CHART_SERIES: ChartSeries[] = [
+  { key: 'S2', label: 'S² Capital', color: '#E1181E', dash: false, group: 'fund', on: true },
+  ...benchmarks.map((b, i) => ({
+    key: b.ticker, label: b.label ?? b.name, color: b.color ?? FALLBACK_COLORS[i % FALLBACK_COLORS.length],
+    dash: b.group === 'sector', group: (b.group ?? 'broad') as 'broad' | 'sector', on: !!b.default,
+  })),
 ];
+const swatchStyle = (sr: { color: string; dash: boolean }) => (sr.dash
+  ? `background:repeating-linear-gradient(90deg, ${sr.color} 0 4px, transparent 4px 7px)`
+  : `background:${sr.color}`);
 const chartRows = navRows.map((r) => {
   const row: Record<string, number | string> = { date: r.date, S2: (r.value / fund.initialCapital) * 100 };
   for (const b of benchmarks) {
     if (r.benchmarks?.[b.ticker] == null) continue;
-    row[b.ticker] = 100 + benchmarkReturn(b, fund, r.benchmarks[b.ticker], r.date).totalReturn;
+    // navHistory stores benchmark closes in US dollars, so no further FX here
+    row[b.ticker] = Math.round((100 + benchmarkReturn(b, fund, r.benchmarks[b.ticker], r.date, 1).totalReturn) * 100) / 100;
   }
   return row;
 });
-const series = CHART_SERIES.filter((sr) => chartRows.some((r) => typeof r[sr.key] === 'number'));
+const allSeries = CHART_SERIES.filter((sr) => chartRows.some((r) => typeof r[sr.key] === 'number'));
+const series = allSeries.filter((sr) => sr.on);   // drawn at build time; the picker redraws client-side
+const PICK_GROUPS = [
+  { title: 'Broad market', items: allSeries.filter((sr) => sr.group === 'broad') },
+  { title: 'Sector', items: allSeries.filter((sr) => sr.group === 'sector') },
+].filter((g) => g.items.length);
 const allVals = chartRows.flatMap((r) => series.map((sr) => r[sr.key] as number)).filter((v) => typeof v === 'number');
 const step = 10;
 const yMin = Math.floor(Math.min(100, ...allVals) / step) * step;
@@ -100,21 +124,21 @@ const xTicks = chartRows
   .filter((t, k, arr) => k === 0 || t.date.slice(0, 7) !== arr[k - 1].date.slice(0, 7))
   .filter((_, k) => k % 2 === 0);
 // direct labels at the line ends, nudged apart so they never overlap
-const endLabels = series.map((sr) => {
+const endLabels = allSeries.map((sr) => {
   const last = [...chartRows].reverse().find((r) => typeof r[sr.key] === 'number');
   return { ...sr, v: last ? (last[sr.key] as number) : 100 };
 }).sort((a, b) => b.v - a.v);
 {
   const minGap = 7; // % of chart height
   let prev = -Infinity;
-  for (const l of endLabels) {
+  for (const l of endLabels.filter((x) => x.on)) {
     let top = (yOf(l.v) / H) * 100;
     if (top < prev + minGap) top = prev + minGap;
     (l as { top?: number }).top = top;
     prev = top;
   }
 }
-const chartData = JSON.stringify({ rows: chartRows, series: series.map(({ key, label, color }) => ({ key, label, color })), yMin, yMax });
+const chartData = JSON.stringify({ rows: chartRows, series: allSeries.map(({ key, label, color, dash }) => ({ key, label, color, dash })), selected: series.filter((sr) => sr.key !== 'S2').map((sr) => sr.key) });
 
 // Manual journal rows plus ledger-derived events (dividends, splits, spin-offs).
 const nameOf = (t: string) => {
@@ -235,19 +259,29 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
       <div class="perf-grid">
       {chartRows.length > 1 && (
         <figure class="chart" data-chart={chartData}>
-          <ul class="chart-legend">
-            {series.map((sr) => <li><span class="swatch" style={`background:${sr.color}`}></span>{sr.label}</li>)}
-            <li class="chart-legend-note">Indexed to 100 at inception · total return</li>
-          </ul>
+          <div class="chart-pick">
+            <p class="pick-fund"><span class="swatch" style="background:#E1181E"></span>S² Capital</p>
+            {PICK_GROUPS.map((g) => (
+              <div class="pick-group" role="group" aria-label={`${g.title} benchmarks`}>
+                <span class="pick-title">{g.title}</span>
+                {g.items.map((sr) => (
+                  <button type="button" class="pick" data-pick={sr.key} aria-pressed={sr.on ? 'true' : 'false'}>
+                    <span class="swatch" style={swatchStyle(sr)}></span>{sr.label}
+                  </button>
+                ))}
+              </div>
+            ))}
+            <p class="chart-legend-note">Pick one or more benchmarks to compare · indexed to 100 at inception · total return in US$</p>
+          </div>
           <div class="chart-body">
             <div class="chart-plot">
               <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
                 {yTicks.map((t) => <line class={t === 100 ? 'grid grid-base' : 'grid'} x1="0" x2={W} y1={yOf(t)} y2={yOf(t)} />)}
-                {series.map((sr) => <path d={pathOf(sr.key)} stroke={sr.color} class={sr.key === 'S2' ? 'line line-main' : 'line'} />)}
+                {allSeries.map((sr) => <path data-key={sr.key} d={sr.on ? pathOf(sr.key) : ''} stroke={sr.color} stroke-dasharray={sr.dash ? '5 4' : undefined} class={sr.key === 'S2' ? 'line line-main' : 'line'} style={sr.on ? undefined : 'display:none'} />)}
                 <line class="crosshair" x1="0" x2="0" y1="0" y2={H} />
               </svg>
               {yTicks.map((t) => <span class="y-tick" style={`top:${(yOf(t) / H) * 100}%`}>{t}</span>)}
-              {endLabels.map((l) => <span class="end-label" style={`top:${(l as { top?: number }).top}%`}><span class="swatch" style={`background:${l.color}`}></span>{l.v.toFixed(1)}</span>)}
+              {endLabels.map((l) => <span class="end-label" data-key={l.key} hidden={!l.on} style={`top:${(l as { top?: number }).top ?? 0}%`}><span class="swatch" style={swatchStyle(l)}></span><span class="end-v">{l.v.toFixed(1)}</span></span>)}
               <div class="chart-tip" role="status" aria-live="polite"></div>
             </div>
             <div class="x-axis">
@@ -278,17 +312,17 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
                 <td data-label="S² excess" class="num"><span class="b-val">—</span></td>
               </tr>
               {benchmarks.map((b) => (
-                <tr data-bench={b.ticker}>
-                  <td><span class="b-val">{b.name}<span class="b-sub">via {b.via}</span></span></td>
-                  <td data-label="Start"><span class="b-val">${b.basePrice.toFixed(2)}<span class="b-sub">{b.baseConvention}</span></span></td>
-                  <td data-label="Latest"><span class="b-val" data-bench-last>${b.lastPrice.toFixed(2)}</span></td>
+                <tr data-bench={b.ticker} hidden={!b.default}>
+                  <td><span class="b-val">{b.name}<span class="b-sub">via {b.via}{b.foreign && ' · in US$'}</span></span></td>
+                  <td data-label="Start"><span class="b-val">{b.sym}{bpx(b.basePrice)}<span class="b-sub">{b.baseConvention}</span></span></td>
+                  <td data-label="Latest"><span class="b-val" data-bench-last>{b.sym}{bpx(b.lastPrice)}</span></td>
                   <td data-label="Return" class="num"><span class="b-val"><span data-bench-ret>{pct(b.ret)}</span><span class="b-sub">price {pct(b.priceRet)}</span></span></td>
                   <td data-label="S² excess" class="num"><span class="b-val" data-bench-ex data-neg={b.excess < 0 ? '' : undefined}>{pp(b.excess)}</span></td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <p class="bench-note">Total return on both sides: dividends are counted net of {usWht}% US withholding tax and held as cash, not reinvested. The fund's cash also earns interest at the 13-week T-bill rate. Benchmarks are tracked through the ETF shown.</p>
+          <p class="bench-note">Total return on both sides: dividends are counted net of {usWht}% US withholding tax and held as cash, not reinvested. The fund's cash also earns interest at the 13-week T-bill rate. Benchmarks are tracked through the ETF shown.{hasForeignBench && ` Benchmarks outside the US are converted to US dollars at each day's exchange rate, and their dividends are counted net of the fund's default ${defWht}% withholding rate.`}</p>
 
           <dl class="income">
             <div><dt>Dividends, net</dt><dd>{usd2(income.dividendsNet)}</dd></div>
@@ -659,7 +693,7 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     type LiveFund = {
       initial: number; cash: number;
       positions: { ticker: string; shares: number; lastPrice: number; fx: number }[];
-      benchmarks: { ticker: string; basePrice: number; lastPrice: number; divs: number }[];
+      benchmarks: { ticker: string; base: number; fx: number; sym: string; lastPrice: number; divs: number }[];
     };
     const f: LiveFund = JSON.parse(fundEl.dataset.fund ?? '{}');
     const tickers = f.positions.map((p) => p.ticker);
@@ -697,10 +731,10 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
           const q = quotes[b.ticker];
           const row = document.querySelector(`[data-bench="${b.ticker}"]`);
           if (!q || !row) continue;
-          const bRet = ((q.price + b.divs) / b.basePrice - 1) * 100;   // total return, net dividends as cash
+          const bRet = ((q.price * b.fx + b.divs) / b.base - 1) * 100;   // total return in US$, net dividends as cash
           const ex = ret - bRet;
           const exEl = row.querySelector<HTMLElement>('[data-bench-ex]');
-          row.querySelector('[data-bench-last]')!.textContent = '$' + q.price.toFixed(2);
+          row.querySelector('[data-bench-last]')!.textContent = b.sym + q.price.toFixed(q.price < 10 ? 3 : 2);
           row.querySelector('[data-bench-ret]')!.textContent = signed(bRet);
           if (exEl) { exEl.textContent = pp(ex); exEl.toggleAttribute('data-neg', ex < 0); }
         }
@@ -713,31 +747,114 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     setInterval(refresh, 5 * 60_000);
   }
 
-  // Performance chart hover: nearest trading day → crosshair + values for every series.
+  // Performance chart: benchmark picker (single or multiple, remembered per browser) redraws the
+  // lines, the y scale, the end labels and the benchmark table rows; hover shows a day's values.
   const chart = document.querySelector<HTMLElement>('[data-chart]');
   if (chart) {
-    type ChartData = { rows: Record<string, number | string>[]; series: { key: string; label: string; color: string }[] };
+    type Series = { key: string; label: string; color: string; dash: boolean };
+    type ChartData = { rows: Record<string, number | string>[]; series: Series[]; selected: string[] };
     const data: ChartData = JSON.parse(chart.dataset.chart ?? '{}');
     const plot = chart.querySelector<HTMLElement>('.chart-plot')!;
+    const svg = plot.querySelector<SVGSVGElement>('svg')!;
     const line = chart.querySelector<SVGLineElement>('.crosshair')!;
     const tip = chart.querySelector<HTMLElement>('.chart-tip')!;
+    const W = 1000, H = 360, STORE = 's2-benchmarks';
+    const n = data.rows.length;
+    const swatch = (sr: Series) => (sr.dash
+      ? `background:repeating-linear-gradient(90deg, ${sr.color} 0 4px, transparent 4px 7px)`
+      : `background:${sr.color}`);
+    let selected = new Set<string>(data.selected);
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORE) ?? 'null');
+      if (Array.isArray(saved)) selected = new Set(saved.filter((k) => data.series.some((sr) => sr.key === k && k !== 'S2')));
+    } catch { /* storage unavailable: keep the defaults */ }
+    const active = () => data.series.filter((sr) => sr.key === 'S2' || selected.has(sr.key));
+
+    const draw = () => {
+      const act = active();
+      const vals = data.rows.flatMap((r) => act.map((sr) => r[sr.key])).filter((v): v is number => typeof v === 'number');
+      const lo = Math.min(100, ...vals), hi = Math.max(100, ...vals);
+      const step = hi - lo > 100 ? 20 : 10;
+      const yMin = Math.floor(lo / step) * step, yMax = Math.ceil(hi / step) * step;
+      const xOf = (i: number) => (n > 1 ? (i / (n - 1)) * W : 0);
+      const yOf = (v: number) => H - ((v - yMin) / (yMax - yMin)) * H;
+      // grid + y ticks
+      svg.querySelectorAll('.grid').forEach((el) => el.remove());
+      plot.querySelectorAll('.y-tick').forEach((el) => el.remove());
+      for (let t = yMin; t <= yMax; t += step) {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        g.setAttribute('class', t === 100 ? 'grid grid-base' : 'grid');
+        g.setAttribute('x1', '0'); g.setAttribute('x2', String(W));
+        g.setAttribute('y1', String(yOf(t))); g.setAttribute('y2', String(yOf(t)));
+        svg.insertBefore(g, svg.firstChild);
+        const tick = document.createElement('span');
+        tick.className = 'y-tick';
+        tick.style.top = `${(yOf(t) / H) * 100}%`;
+        tick.textContent = String(t);
+        plot.insertBefore(tick, plot.querySelector('.end-label, .chart-tip'));
+      }
+      // lines
+      svg.querySelectorAll<SVGPathElement>('path[data-key]').forEach((p) => {
+        const key = p.dataset.key!;
+        const on = act.some((sr) => sr.key === key);
+        p.style.display = on ? '' : 'none';
+        if (on) {
+          let started = false;
+          p.setAttribute('d', data.rows.map((r, i) => {
+            if (typeof r[key] !== 'number') return '';
+            const cmd = started ? 'L' : 'M'; started = true;
+            return `${cmd}${xOf(i).toFixed(1)},${yOf(r[key] as number).toFixed(1)}`;
+          }).join(''));
+        }
+      });
+      // end labels, nudged apart
+      const ends = act.map((sr) => {
+        const last = [...data.rows].reverse().find((r) => typeof r[sr.key] === 'number');
+        return { key: sr.key, v: last ? (last[sr.key] as number) : 100 };
+      }).sort((a, b) => b.v - a.v);
+      let prev = -Infinity;
+      const tops = new Map<string, { top: number; v: number }>();
+      for (const e of ends) {
+        let top = (yOf(e.v) / H) * 100;
+        if (top < prev + 7) top = prev + 7;
+        tops.set(e.key, { top, v: e.v });
+        prev = top;
+      }
+      plot.querySelectorAll<HTMLElement>('.end-label').forEach((el) => {
+        const e = tops.get(el.dataset.key ?? '');
+        el.hidden = !e;
+        if (e) { el.style.top = `${e.top}%`; el.querySelector('.end-v')!.textContent = e.v.toFixed(1); }
+      });
+      // picker state + benchmark table rows
+      chart.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((b) => b.setAttribute('aria-pressed', String(selected.has(b.dataset.pick!))));
+      document.querySelectorAll<HTMLElement>('tr[data-bench]').forEach((tr) => { tr.hidden = !selected.has(tr.dataset.bench!); });
+    };
+    chart.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((b) => b.addEventListener('click', () => {
+      const key = b.dataset.pick!;
+      if (selected.has(key)) selected.delete(key); else selected.add(key);
+      try { localStorage.setItem(STORE, JSON.stringify([...selected])); } catch { /* not persisted */ }
+      draw();
+    }));
+    draw();
+
     const M = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
     const fmtDate = (iso: string) => `${iso.slice(8, 10)} ${M[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`;
     const show = (clientX: number) => {
       const box = plot.getBoundingClientRect();
       const t = Math.min(1, Math.max(0, (clientX - box.left) / box.width));
-      const i = Math.round(t * (data.rows.length - 1));
+      const i = Math.round(t * (n - 1));
       const row = data.rows[i];
-      const x = (i / (data.rows.length - 1)) * 1000;
+      const x = (i / (n - 1)) * 1000;
       line.setAttribute('x1', String(x));
       line.setAttribute('x2', String(x));
       chart.classList.add('is-hover');
-      tip.innerHTML = `<p class="tip-date">${fmtDate(String(row.date))}</p>` + data.series
+      tip.innerHTML = `<p class="tip-date">${fmtDate(String(row.date))}</p>` + active()
         .filter((sr) => typeof row[sr.key] === 'number')
-        .map((sr) => `<p><span class="swatch" style="background:${sr.color}"></span>${sr.label}<b>${(row[sr.key] as number).toFixed(1)}</b></p>`)
+        .sort((a, b) => (row[b.key] as number) - (row[a.key] as number))
+        .map((sr) => `<p><span class="swatch" style="${swatch(sr)}"></span>${sr.label.replace(/&/g, '&amp;')}<b>${(row[sr.key] as number).toFixed(1)}</b></p>`)
         .join('');
-      const left = (i / (data.rows.length - 1)) * box.width;
-      tip.style.left = `${Math.min(Math.max(left, 90), box.width - 90)}px`;
+      const left = (i / (n - 1)) * box.width;
+      tip.style.left = `${Math.min(Math.max(left, 100), box.width - 100)}px`;
     };
     plot.addEventListener('pointermove', (e) => show(e.clientX));
     plot.addEventListener('pointerdown', (e) => show(e.clientX));
@@ -1137,7 +1254,8 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     border-bottom: 1px solid rgba(242, 239, 234, 0.08);
   }
   .bench-table th:last-child, .bench-table td:last-child { padding-right: 0; }
-  .bench-table .num { text-align: right; }
+  .bench-table .num { text-align: right; white-space: nowrap; }
+  .bench-table .num .b-sub { white-space: nowrap; }
   .bench-fund td { color: var(--s2-ink); font-weight: 600; }
   .bench-table [data-neg] { color: var(--s2-red); }
   .s2-wrap .income {
@@ -1164,29 +1282,50 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
 
   /* ── Performance chart ── */
   .chart { margin: 0; }
-  .chart-legend {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 20px;
+  /* Benchmark picker: doubles as the legend. Solid = broad market, dashed = sector. */
+  .chart-pick {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 24px;
+    align-items: center;
+    gap: 10px 28px;
+    margin: 0 0 20px;
     font-size: 12px;
     color: var(--s2-soft);
   }
-  .chart-legend li { display: flex; align-items: center; gap: 8px; }
-  .chart-legend .chart-legend-note { margin-left: auto; color: var(--s2-muted); font-size: 11px; }
+  .s2-wrap .chart-pick p { margin: 0; }
+  .pick-fund { display: flex; align-items: center; gap: 8px; color: var(--s2-ink); }
+  .pick-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+  .pick-title { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--s2-muted); }
+  .pick {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    background: none;
+    font: inherit;
+    color: var(--s2-ink);
+    cursor: pointer;
+  }
+  .pick[aria-pressed="true"] { border-bottom-color: rgba(242, 239, 234, 0.45); }
+  .pick[aria-pressed="false"] { color: var(--s2-muted); }
+  .pick[aria-pressed="false"] .swatch { opacity: 0.35; }
+  .pick:hover { color: var(--s2-ink); }
+  .pick:focus-visible { outline: 1px solid var(--s2-ink); outline-offset: 3px; }
+  .s2-wrap .chart-pick .chart-legend-note { flex-basis: 100%; color: var(--s2-muted); font-size: 11px; }
   .chart .swatch { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
   .chart-body { padding-right: 56px; }
   .chart-plot { position: relative; height: clamp(220px, 24vw, 320px); margin-left: 36px; touch-action: pan-y; }
   .chart-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-  .chart .grid { stroke: rgba(242, 239, 234, 0.07); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .chart .grid-base { stroke: rgba(242, 239, 234, 0.22); }
+  .chart :global(.grid) { stroke: rgba(242, 239, 234, 0.07); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .chart :global(.grid-base) { stroke: rgba(242, 239, 234, 0.22); }
   .chart .line { fill: none; stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
   .chart .line-main { stroke-width: 2.25; }
   .chart .crosshair { stroke: rgba(242, 239, 234, 0.45); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0; }
   .chart.is-hover .crosshair { opacity: 1; }
-  .y-tick {
+  .chart-plot :global(.y-tick) {
     position: absolute;
     left: -36px;
     transform: translateY(-50%);
@@ -1206,6 +1345,7 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
+  .end-label[hidden], .bench-table tr[hidden] { display: none; }
   .x-axis { position: relative; height: 28px; margin-left: 36px; }
   .x-axis span {
     position: absolute;
@@ -1640,7 +1780,6 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     .rtable td::before { content: attr(data-label); flex: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-align: left; }
     .rtable td .b-sub { display: inline; margin-left: 6px; }
     .mh-ticks :global(.mh-tick:nth-child(even)) { display: none; }
-    .chart-legend .chart-legend-note { margin-left: 0; width: 100%; }
     .chart-body { padding-right: 52px; }
     .end-label { font-size: 11px; left: calc(100% + 6px); }
     .x-axis span:nth-child(even) { display: none; }
