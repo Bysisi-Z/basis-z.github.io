@@ -1,12 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
+// Genre tags: English first (most readers are native English speakers), Chinese after.
+const TAGS: Record<string, { en: string; zh: string }> = {
+  essay: { en: 'Essay', zh: '随笔' },
+  short: { en: 'Short piece', zh: '短文' },
+  musing: { en: 'Everyday musings', zh: '日常随想' },
+};
+
 const essays = [
   {
     slug: 'put-on-the-tie',
     titleEn: 'Put on the Tie',
     titleZh: '把领带系上',
-    tags: ['随笔'],
+    tags: ['essay'],
     date: 'Jun 23, 2026',
     readTime: '2 min read',
     deck: 'A sentence I misread in a photography book, and the quiet discipline it left behind.',
@@ -24,7 +31,9 @@ const essays = [
           <div class="essay-title-block">
             {essay.tags?.length > 0 && (
               <div class="essay-tags">
-                {essay.tags.map((t) => <span class="tag">{t}</span>)}
+                {essay.tags.map((t) => (
+                  <span class="tag">{TAGS[t].en}<span class="tag-zh">{TAGS[t].zh}</span></span>
+                ))}
               </div>
             )}
             <h2>{essay.titleEn}</h2>
@@ -128,6 +137,14 @@ const essays = [
     font-size: 12px;
     letter-spacing: 0.08em;
     line-height: 1.5;
+  }
+
+  .tag-zh {
+    margin-left: 6px;
+    padding-left: 6px;
+    border-left: 1px solid rgba(43, 108, 163, 0.3);
+    letter-spacing: 0.04em;
+    opacity: 0.85;
   }
 
   .essay-deck {
