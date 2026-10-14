@@ -60,7 +60,7 @@ const ledgerDate = (iso: string) => {
 const isSep = (c: string) => c === ',' || c === '.';
 const board = (str: string) => [...str].map((c) => ({ c, sep: isSep(c) }));
 
-// ── Holdings (valued at the last close) and closed positions ──
+// ── Holdings (valued at the last close) ──
 const holdings = ledger.holdings.map((h) => {
   const q = quotes.find((x) => x.ticker === h.ticker);
   const mv = h.shares * (q?.lastPrice ?? 0) * (q ? fxOf(q) : 1);
@@ -72,7 +72,6 @@ const holdings = ledger.holdings.map((h) => {
   };
 }).sort((a, b) => b.mv - a.mv);
 const cashWeight = currentValue ? (ledger.cash / currentValue) * 100 : 0;
-const closedPositions = [...ledger.closed].reverse().map((c) => ({ ...c, name: quotes.find((q) => q.ticker === c.ticker)?.name ?? c.ticker }));
 
 // ── Performance chart: fund NAV vs S&P 500 and XLV, all indexed to 100 at inception ──
 // Benchmarks use the same total-return rule as the table (net dividends as cash).
@@ -454,9 +453,8 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
       )}
     </section>
 
-    <div class="s2-wrap s2-pair">
     <!-- 4 · Investment journal -->
-    <section class="s2-section" id="journal">
+    <section class="s2-section s2-wrap" id="journal">
       <p class="marker marker--square">Investment history</p>
       <ol class="ledger">
         <li class="ledger-head" aria-hidden="true">
@@ -473,37 +471,6 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
         ))}
       </ol>
     </section>
-    <!-- Closed positions: every exit stays on the record, win or lose -->
-    <section class="s2-section" id="closed">
-      <p class="marker marker--square">Closed positions</p>
-      {closedPositions.length ? (
-        <table class="rtable rtable--wide">
-          <thead>
-            <tr>
-              <th>Ticker</th><th>Company</th><th>Held</th><th class="num">Invested</th><th class="num">Proceeds</th>
-              <th class="num">Dividends</th><th class="num">P&amp;L</th><th class="num">Return</th>
-            </tr>
-          </thead>
-          <tbody>
-            {closedPositions.map((c) => (
-              <tr>
-                <td data-label="Ticker"><span class="b-val t-strong">{c.ticker}</span></td>
-                <td data-label="Company"><span class="b-val">{c.name}</span></td>
-                <td data-label="Held"><span class="b-val">{ledgerDate(c.opened)} → {ledgerDate(c.closedOn)}</span></td>
-                <td data-label="Invested" class="num"><span class="b-val">{usd(c.invested)}</span></td>
-                <td data-label="Proceeds" class="num"><span class="b-val">{usd(c.proceeds)}</span></td>
-                <td data-label="Dividends" class="num"><span class="b-val">{usd(c.dividends)}</span></td>
-                <td data-label="P&amp;L" class="num"><span class="b-val" data-neg={c.pnl < 0 ? '' : undefined}>{c.pnl < 0 ? '−' : '+'}{usd(Math.abs(c.pnl))}</span></td>
-                <td data-label="Return" class="num"><span class="b-val" data-neg={c.pnl < 0 ? '' : undefined}>{pct(c.returnPct)}</span></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p class="empty">No closed positions yet. Every exit will stay on this list permanently, including the losses.</p>
-      )}
-    </section>
-    </div>
 
     <div class="s2-wrap s2-pair">
     <!-- 6 · Firm news (src/data/s2-capital.json → news) -->
@@ -1716,23 +1683,10 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     .s2-pair .a-type { grid-column: 2; text-align: right; }
     .s2-pair .a-main, .s2-pair .a-status { grid-column: 1 / -1; }
     .s2-pair .a-title { font-size: clamp(21px, 1.7vw, 26px); }
-    /* closed positions: label / value list in the narrow column */
-    .s2-pair .rtable--wide, .s2-pair .rtable--wide tbody, .s2-pair .rtable--wide tr, .s2-pair .rtable--wide td { display: block; }
-    .s2-pair .rtable--wide thead { display: none; }
-    .s2-pair .rtable--wide tr { padding: 12px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
-    .s2-pair .rtable--wide td { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; border: 0; text-align: right; }
-    .s2-pair .rtable--wide td::before { content: attr(data-label); flex: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-align: left; }
-    .s2-pair .rtable--wide td .b-sub { display: inline; margin-left: 6px; }
   }
 
   /* ── Responsive ── */
   @media (max-width: 1100px) {
-    .rtable--wide, .rtable--wide tbody, .rtable--wide tr, .rtable--wide td { display: block; }
-    .rtable--wide thead { display: none; }
-    .rtable--wide tr { max-width: 640px; padding: 14px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
-    .rtable--wide td { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; border: 0; text-align: right; }
-    .rtable--wide td::before { content: attr(data-label); flex: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-align: left; }
-    .rtable--wide td .b-sub { display: inline; margin-left: 6px; }
     .s2-wrap .income { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 18px; }
     /* trade blotter: label/value list below desktop width */
     .blotter, .blotter tbody, .blotter tr, .blotter td { display: block; white-space: normal; }
