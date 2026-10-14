@@ -260,15 +260,20 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
       {chartRows.length > 1 && (
         <figure class="chart" data-chart={chartData}>
           <div class="chart-pick">
-            <p class="pick-fund"><span class="swatch" style="background:#E1181E"></span>S² Capital</p>
+            <div class="pick-row">
+              <span class="pick-title">Fund</span>
+              <p class="pick-fund"><span class="swatch" style="background:#E1181E"></span>S² Capital</p>
+            </div>
             {PICK_GROUPS.map((g) => (
-              <div class="pick-group" role="group" aria-label={`${g.title} benchmarks`}>
+              <div class="pick-row" role="group" aria-label={`${g.title} benchmarks`}>
                 <span class="pick-title">{g.title}</span>
-                {g.items.map((sr) => (
-                  <button type="button" class="pick" data-pick={sr.key} aria-pressed={sr.on ? 'true' : 'false'}>
-                    <span class="swatch" style={swatchStyle(sr)}></span>{sr.label}
-                  </button>
-                ))}
+                <div class="pick-group">
+                  {g.items.map((sr) => (
+                    <button type="button" class="pick" data-pick={sr.key} aria-pressed={sr.on ? 'true' : 'false'}>
+                      <span class="swatch" style={swatchStyle(sr)}></span>{sr.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             ))}
             <p class="chart-legend-note">Pick one or more benchmarks to compare · indexed to 100 at inception · total return in US$</p>
@@ -1283,38 +1288,56 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
   /* ── Performance chart ── */
   .chart { margin: 0; }
   /* Benchmark picker: doubles as the legend. Solid = broad market, dashed = sector. */
+  /* One row per group: label column | options. Options are bordered chips so they read as clickable, labels don't. */
   .chart-pick {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px 28px;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 18px;
+    row-gap: 10px;
     margin: 0 0 20px;
     font-size: 12px;
     color: var(--s2-soft);
   }
   .s2-wrap .chart-pick p { margin: 0; }
-  .pick-fund { display: flex; align-items: center; gap: 8px; color: var(--s2-ink); }
-  .pick-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
-  .pick-title { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--s2-muted); }
+  .pick-row { display: contents; }
+  .pick-title {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    padding-right: 18px;
+    border-right: 1px solid rgba(242, 239, 234, 0.14);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    line-height: 26px;
+  }
+  .pick-fund { display: flex; align-items: center; gap: 8px; color: var(--s2-ink); min-height: 26px; padding-left: 12px; }
+  .pick-group { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .pick {
     appearance: none;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 4px 0;
-    border: 0;
-    border-bottom: 1px solid transparent;
+    padding: 4px 12px;
+    border: 1px solid rgba(242, 239, 234, 0.14);
+    border-radius: 999px;
     background: none;
     font: inherit;
-    color: var(--s2-ink);
+    color: var(--s2-muted);
     cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
   }
-  .pick[aria-pressed="true"] { border-bottom-color: rgba(242, 239, 234, 0.45); }
-  .pick[aria-pressed="false"] { color: var(--s2-muted); }
+  .pick[aria-pressed="true"] { color: var(--s2-ink); border-color: rgba(242, 239, 234, 0.5); background: rgba(242, 239, 234, 0.06); }
   .pick[aria-pressed="false"] .swatch { opacity: 0.35; }
-  .pick:hover { color: var(--s2-ink); }
+  .pick:hover { color: var(--s2-ink); border-color: rgba(242, 239, 234, 0.35); }
   .pick:focus-visible { outline: 1px solid var(--s2-ink); outline-offset: 3px; }
-  .s2-wrap .chart-pick .chart-legend-note { flex-basis: 100%; color: var(--s2-muted); font-size: 11px; }
+  @media (max-width: 560px) {
+    .chart-pick { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+    .pick-title { border-right: 0; padding-right: 0; margin-top: 8px; line-height: 1.6; }
+    .pick-fund { padding-left: 0; }
+  }
+  .s2-wrap .chart-pick .chart-legend-note { grid-column: 1 / -1; margin-top: 4px; color: var(--s2-muted); font-size: 11px; }
   .chart .swatch { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
   .chart-body { padding-right: 56px; }
   .chart-plot { position: relative; height: clamp(220px, 24vw, 320px); margin-left: 36px; touch-action: pan-y; }
