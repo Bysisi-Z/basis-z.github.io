@@ -6,6 +6,7 @@ const essays = [
     slug: 'put-on-the-tie',
     titleEn: 'Put on the Tie',
     titleZh: '把领带系上',
+    tags: ['随笔'],
     date: 'Jun 23, 2026',
     readTime: '2 min read',
     deck: 'A sentence I misread in a photography book, and the quiet discipline it left behind.',
@@ -21,6 +22,11 @@ const essays = [
         <a class="essay-row" href={`/writing/${essay.slug}`}>
           <div class="essay-index">{(i + 1).toString().padStart(2, '0')}</div>
           <div class="essay-title-block">
+            {essay.tags?.length > 0 && (
+              <div class="essay-tags">
+                {essay.tags.map((t) => <span class="tag">{t}</span>)}
+              </div>
+            )}
             <h2>{essay.titleEn}</h2>
             <span class="essay-zh">{essay.titleZh}</span>
             <p class="essay-deck">{essay.deck}</p>
@@ -103,6 +109,25 @@ const essays = [
     font-size: 14px;
     letter-spacing: 0.08em;
     color: var(--rose);
+  }
+
+  .essay-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--rose-light);
+    color: #2B6CA3;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
   }
 
   .essay-deck {

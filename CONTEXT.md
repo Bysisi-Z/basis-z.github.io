@@ -147,7 +147,7 @@ Leaflet.js + OSM, centered Switzerland. 3 star markers: Stoos / Oeschinensee / L
 
 ### Wandering (`/writing`) ✅ — maintained by Codex
 Index + 1 essay (`/writing/put-on-the-tie`). Details → `CODEX_WRITING.md`.
-**s88 restraint pass (user: the title was "yelling"):** index is now just the essay list — no hero, no intro copy, no list header (sr-only `<h1>Wandering</h1>`); rows = index | EN title + ZH title inline + deck | date/read time, 960px. Essay page: single 760px column; title 26–32px (ZH in Songti, not Ma Shan Zheng); one meta row (date · read time | `中文 / EN` text toggle); in-body brush-font reveal/callout shrunk to ~23px. Keep it quiet — no large display titles in this section.
+**s88 restraint pass (user: the title was "yelling"):** index is now just the essay list — no hero, no intro copy, no list header (sr-only `<h1>Wandering</h1>`); rows = index | EN title + ZH title inline + deck | date/read time, 960px. Essay page: single 760px column; title 26–32px (ZH in Songti, not Ma Shan Zheng); one meta row (date · read time | `中文 / EN` text toggle); in-body brush-font reveal/callout shrunk to ~23px. Keep it quiet — no large display titles in this section. Each essay in the `essays` array has `tags: [...]` (Chinese genre labels such as 随笔 / 短文 / 日常随想) shown as small sky-blue pills above the title.
 **Sky-blue section palette:** `BaseLayout` sets `<html data-section="{first path segment}">`; `global.css` overrides `--rose`/`--rose-light`/`--accent` to `#3E8ACC`/`#D3E6F6` for `html[data-section="writing"]` (nav pill, numbers, ZH titles, toggles all follow). Use `var(--rose)`, never hardcoded pink, in writing pages.
 
 ### Moments (`/moments`) ✅
