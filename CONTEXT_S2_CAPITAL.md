@@ -121,6 +121,8 @@ Cash is **derived**, never stored.
 
 ---
 
+**Section panels (s88):** every `.s2-section` sits on a faint white panel (`rgba(242,239,234,0.035)` + 1px `0.06` border, 14px radius, padding `clamp(24px,3vw,44px)`, 20–32px gap) so sections read as separate blocks. Paired sections (`.s2-pair`) use the same 20–32px gap and size to their own content (not stretched — stretching left big empty panels). `.perf-grid` (chart | table inside Performance) keeps its wider gap.
+
 ## 6. Prices, performance & benchmarks
 
 - **Two layers:**

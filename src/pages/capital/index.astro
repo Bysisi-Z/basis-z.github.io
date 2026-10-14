@@ -1673,6 +1673,19 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
   @media (prefers-reduced-motion: reduce) { .mh-status :global(.live-dot) { animation: none; } }
   .s2-wrap .mh + .table-note { margin-top: 20px; }
 
+  /* ── Section panels (s88): each section sits on a faint white panel so sections read as separate blocks ── */
+  .s2-section {
+    margin-top: clamp(20px, 2vw, 32px);
+    padding: clamp(24px, 3vw, 44px);
+    background: rgba(242, 239, 234, 0.035);
+    border: 1px solid rgba(242, 239, 234, 0.06);
+    border-radius: 14px;
+  }
+  .s2-hero + .s2-section { margin-top: clamp(56px, 6vw, 88px); }
+  @media (max-width: 560px) {
+    .s2-section { padding: 20px 16px; border-radius: 10px; }
+  }
+
   /* ── Two-up rows (desktop): sections sit side by side to keep the page short ── */
   .s2-pair { display: grid; grid-template-columns: minmax(0, 1fr); }
   @media (min-width: 1101px) {
@@ -1682,6 +1695,7 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
       column-gap: clamp(48px, 5vw, 88px);
       align-items: start;
     }
+    .s2-pair { column-gap: clamp(20px, 2vw, 32px); }
     .perf-grid .bench { margin-top: 0; }
     .perf-grid .chart-plot { height: clamp(320px, 31vw, 460px); }
     .perf-grid .x-axis span:nth-child(2) { display: none; }
