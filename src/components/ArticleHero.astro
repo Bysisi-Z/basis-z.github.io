@@ -372,6 +372,48 @@ const {
     color: rgba(255,255,255,0.7); line-height: 1.45;
   }
 
+  /* ══ TABLET & SHORT SCREENS (s88) ══
+     The split hero used to be locked to one screen height, so on iPads the intro
+     quote got squeezed to a one-line sliver. Now the hero grows with its text and
+     the photo stays pinned beside it while the text scrolls. */
+  @media (min-width: 701px) {
+    .hero-split {
+      --nav-h: 52px;
+      height: auto;
+      min-height: calc(100dvh - var(--nav-h));
+    }
+    .split-photo {
+      position: sticky;
+      top: var(--nav-h);
+      align-self: start;
+      height: calc(100dvh - var(--nav-h));
+    }
+    .split-text { height: auto; overflow: visible; }
+    .split-intro { flex-shrink: 0; overflow: visible; }
+  }
+  /* two-row nav below 1024px */
+  @media (min-width: 701px) and (max-width: 1024px) {
+    .hero-split { --nav-h: 84px; }
+  }
+  /* iPad portrait: a 42% photo column is too narrow — stack photo above text */
+  @media (min-width: 701px) and (max-width: 900px) {
+    .hero-split,
+    .hero-split.img-left,
+    .hero-split.img-right {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .split-photo {
+      order: 1 !important;
+      position: relative;
+      top: auto;
+      height: 68vh;
+      border: none !important;
+    }
+    .split-photo img { object-fit: cover; }
+    .split-text { order: 2 !important; padding: 48px clamp(40px, 8vw, 72px) 56px; }
+  }
+
   /* ══ MOBILE ══ */
   @media (max-width: 700px) {
     .hero-split,

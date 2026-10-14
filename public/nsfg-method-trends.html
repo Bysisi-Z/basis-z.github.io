@@ -194,6 +194,8 @@
     margin-bottom: 24px; letter-spacing: .04em;
   }
   .back-link:hover { color: var(--rose); border-color: var(--rose); }
+/* phones: wide tables scroll sideways inside their own box */
+@media(max-width:640px){.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-scroll .data-table{min-width:520px}}
 </style>
 </head>
 <body>
@@ -251,6 +253,7 @@
 
   <div class="section">
     <div class="section-title">Full Data</div>
+    <div class="table-scroll">
     <table class="data-table">
       <thead>
         <tr>
@@ -263,6 +266,7 @@
       </thead>
       <tbody id="table-body"></tbody>
     </table>
+    </div>
     <p class="footnote">
       <strong>Counting rule:</strong> A respondent is counted once per year if she reported the method in any month within that year.<br>
       <strong>Default denominator:</strong> women who used at least one contraceptive method that year.<br>

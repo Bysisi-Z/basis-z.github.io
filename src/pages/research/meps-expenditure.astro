@@ -214,6 +214,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   flex: 0 0 auto; padding-right: 28px;
   border-right: 2px solid var(--rule);
 }
+/* phones: stat cards wrap into rows instead of running off the screen */
+@media (max-width: 640px) {
+  .dist-stats { flex-wrap: wrap; }
+  .dist-stat-card, .dist-stat-card.is-users { flex: 1 1 calc(33% - 2px); min-width: 96px; padding: 12px 14px 10px; border-right-width: 1px; }
+  .dist-stats .dist-stat-card:first-child, .dist-stats .dist-stat-card:last-child { border-radius: 0; }
+}
 .stat-lbl {
   font-family: var(--sans); font-size: 9px; font-weight: 400;
   letter-spacing: 0.14em; text-transform: uppercase;
@@ -344,11 +350,14 @@ function drawCoverage() {
   const svg = document.getElementById('coverage-svg');
   svg.innerHTML = '';
   const W = svg.getBoundingClientRect().width || 1200;
-  svg.setAttribute('viewBox', `0 0 ${W} ${COV_SVG_H}`);
-  svg.setAttribute('height', COV_SVG_H);
-
   const PLOT_W = W - ML - MR;
   const COL_W  = PLOT_W / payers.length;
+  // phones: columns are too narrow for horizontal payer names — angle them and make room below
+  const NARROW = COL_W < 70;
+  const LBL_EXTRA = NARROW ? 46 : 0;
+  svg.setAttribute('viewBox', `0 0 ${W} ${COV_SVG_H + LBL_EXTRA}`);
+  svg.setAttribute('height', COV_SVG_H + LBL_EXTRA);
+
   const BAR_W  = Math.min(COL_W * 0.55, 72);
   const BAR_TOP = 20;
 
@@ -386,17 +395,19 @@ function drawCoverage() {
       'stroke-width': selected === i ? 2 : 0.8 }));
 
     // labels inside segments
-    const FONT = { 'font-family': 'Inter,sans-serif', 'font-size': 11, 'font-weight': 400, 'text-anchor': 'middle' };
-    if (zeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH/2 + 4,
+    const FONT = { 'font-family': 'Inter,sans-serif', 'font-size': NARROW ? 8.5 : 11, 'font-weight': 400, 'text-anchor': 'middle' };
+    if (NARROW && BAR_W < 30) { /* too thin for in-bar numbers; the selected payer's detail shows them */ }
+    else if (zeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH/2 + 4,
       fill: isActive ? STONE : '#C0BBB8', 'font-weight': 300 }, p.pct_zero + '%'));
-    if (nonzeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH + nonzeroH/2 + 4,
+    if (!(NARROW && BAR_W < 30) && nonzeroH > 18) svg.appendChild(svgEl('text', { ...FONT, x: cx, y: BAR_TOP + zeroH + nonzeroH/2 + 4,
       fill: isActive ? '#fff' : 'rgba(193,125,157,0.4)' }, p.pct_nonzero + '%'));
 
     // payer name
-    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': 11,
-      'font-weight': selected === i ? 400 : 300, 'text-anchor': 'middle', 'letter-spacing': '0.06em',
+    const lblY = BAR_TOP + COV_H + 16;
+    svg.appendChild(svgEl('text', { 'font-family': 'Inter,sans-serif', 'font-size': NARROW ? 9 : 11,
+      'font-weight': selected === i ? 400 : 300, 'text-anchor': NARROW ? 'end' : 'middle', 'letter-spacing': '0.06em',
       fill: selected === i ? ROSE : (isActive ? STONE : '#C0BBB8'),
-      x: cx, y: BAR_TOP + COV_H + 16 }, p.label.toUpperCase()));
+      x: cx, y: lblY, ...(NARROW ? { transform: `rotate(-45 ${cx} ${lblY - 4})` } : {}) }, p.label.toUpperCase()));
 
     // transparent clickable overlay
     const overlay = svgEl('rect', { x: barX, y: BAR_TOP, width: BAR_W, height: COV_H,
@@ -406,7 +417,7 @@ function drawCoverage() {
   });
 
   // Legend bottom center
-  const legendY = BAR_TOP + COV_H + 42;
+  const legendY = BAR_TOP + COV_H + 42 + LBL_EXTRA;
   const items = [
     { fill: '#EAE6E3', stroke: RULE, label: '$0 (no expenditure)' },
     { fill: ROSE, label: 'Spent > $0' },

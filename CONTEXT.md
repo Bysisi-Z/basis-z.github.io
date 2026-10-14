@@ -182,6 +182,9 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 
 ---
 
+### Responsive pass (s88, 2026-10-14)
+All 40 real pages checked headless at 375 / 390 (phone) and 768 / 1024 (iPad), production build: **0 horizontal overflow**. Fixes: hiking split hero (`ArticleHero.astro`) no longer locked to one screen — the intro quote was squeezed to a one-line sliver on iPad *and* desktop; hero now grows with its text, photo is sticky beside it (`--nav-h` 52px, 84px ≤1024 for the two-row nav), and 701–900px stacks photo (68vh, cover) above text. Phone overflow fixed on `/research/meps-expenditure` (stat cards wrap; coverage-chart payer names angled when columns < 70px), `meps-hrt-method.html` (narrower label column, matrix scrolls, tick labels hidden ≤640), `nsfg-method-age.html` + `nsfg-method-trends.html` (data tables scroll in their own box). Not changed: NSFG analysis pages' individual-records tables use <11px text on phones.
+
 ## 6. Pending Work
 
 ### High priority
