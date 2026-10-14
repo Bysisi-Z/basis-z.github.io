@@ -224,12 +224,10 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
       <div class="hero-row">
         <figure class="hero-photo">
           <img src="/images/s2/s2-headquarters.jpg" alt="S² Capital sign on a stone facade" />
-          <figcaption>S² Capital <span>/</span> Lucerne <span>/</span> Est. 2026</figcaption>
         </figure>
       <div class="hero-intro">
         <p class="intro-lead">S² Capital is a virtual investment firm investing <mark class="hl">$100 million</mark> of simulated capital in real public markets.</p>
         <p class="intro-body">We research companies, build positions, track them against live market prices, and document every investment decision — from first thesis to final outcome. We revisit those decisions over time, measure their performance, and examine what we got right, what we got wrong, and why. All of our research and “trades” are published here, so we can exchange ideas and learn together.</p>
-        <p class="intro-index">Portfolio <span>·</span> Investment Journal <span>·</span> Research <span>·</span> Performance</p>
       </div>
       </div>
     </section>
@@ -1020,20 +1018,11 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     object-fit: cover;
     object-position: 50% 50%;
   }
-  .hero-photo figcaption {
-    margin-top: 16px;
-    font-size: 10px;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--s2-muted);
-  }
-  .hero-photo figcaption span { margin: 0 8px; opacity: 0.6; }
-  /* copy sits on the photo's bottom edge (caption height excluded) */
+  /* copy sits on the photo's bottom edge */
   .hero-intro {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding-bottom: 30px;
   }
   /* short white rule between photo and copy */
   :global(.s2) .intro-lead { position: relative; }
@@ -1058,26 +1047,6 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     font-weight: 400;
     line-height: 1.7;
     color: var(--s2-soft);
-  }
-  :global(.s2) .intro-index {
-    padding-top: 36px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--s2-soft);
-  }
-  .intro-index span {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    margin: 0 9px;
-    border-radius: 50%;
-    background: var(--s2-red);
-    font-size: 0;
-    vertical-align: middle;
-    position: relative;
-    top: -1px;
   }
   .muted { color: var(--s2-muted); }
   .intro-lead .hl {
@@ -1783,7 +1752,6 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     .a-status { grid-column: 1 / -1; }
     .hero-row { grid-template-columns: 1fr; }
     .intro-lead::before { display: none; }
-    .hero-intro { padding-bottom: 0; }
     .ledger-head { display: none !important; }
     .ledger li {
       grid-template-columns: 1fr auto;
@@ -1829,7 +1797,6 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
     :global(.s2) .capital { font-size: 40px; }
     .value-row { flex-direction: column; align-items: flex-start; }
     :global(.s2) .since { align-items: flex-start; }
-    .intro-index span { margin: 0 6px; }
     .s2-hero { width: calc(100vw - 40px); }
   }
 </style>
