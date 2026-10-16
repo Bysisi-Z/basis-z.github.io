@@ -133,9 +133,11 @@ const modules = [
         <img src="/images/cat-scratch.png" alt="" class="n-scratch n-scratch-b" id="nScratchB" aria-hidden="true">
       </div>
 
-      <!-- Floor lamp easter egg -->
+      <!-- Floor lamp easter egg: off / on photos crossfade; warm beams come from the bulb -->
       <div class="n-lamp" id="nLamp">
-        <svg viewBox="0 0 80 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+        <img class="n-lamp-img n-lamp-img--off" src="/images/lamp/lamp-off.jpg" alt="" width="520" height="1211">
+        <img class="n-lamp-img n-lamp-img--on"  src="/images/lamp/lamp-on.jpg"  alt="" width="520" height="1211">
+        <svg class="n-lamp-beams" viewBox="0 0 80 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow:visible" aria-hidden="true">
           <defs>
             <linearGradient id="nBeamGrad" x1="0.5" y1="0" x2="0.5" y2="1">
               <stop offset="0%"   stop-color="rgba(255,220,80,0.08)"/>
@@ -156,17 +158,6 @@ const modules = [
           </defs>
           <path class="n-beam" d="M40 40 L-1200 520 L1280 520 Z" fill="url(#nAmbientGrad)" filter="url(#nAmbientBlur)"/>
           <path class="n-beam" d="M40 55 L-400 500 L480 500 Z"    fill="url(#nBeamGrad)"   filter="url(#nBeamBlur)"/>
-          <ellipse cx="40" cy="44" rx="24" ry="13" fill="url(#nLampGlow)" opacity="0.28"/>
-          <path d="M20 48 L33 22 L47 22 L60 48 Z" fill="rgba(212,203,232,0.16)" stroke="rgba(212,203,232,0.44)" stroke-width="1" stroke-linejoin="round"/>
-          <path d="M47 22 L60 48 L54 48 L44 23 Z" fill="rgba(150,130,185,0.10)"/>
-          <path d="M16 49 Q18 53 40 54 Q62 53 64 49 L60 48 Q58 52 40 53 Q22 52 20 48 Z" fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.40)" stroke-width="0.8"/>
-          <ellipse cx="40" cy="22" rx="6" ry="1.8" fill="rgba(10,5,20,0.9)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
-          <ellipse cx="40" cy="37" rx="8" ry="6" fill="rgba(255,235,160,0.12)"/>
-          <path d="M39.6 51 L38.5 188 L41.5 188 L40.4 51 Z" fill="rgba(212,203,232,0.38)"/>
-          <ellipse cx="40" cy="190" rx="20" ry="4" fill="rgba(212,203,232,0.22)" stroke="rgba(212,203,232,0.38)" stroke-width="0.8"/>
-          <rect x="20" y="190" width="40" height="4" fill="rgba(212,203,232,0.12)"/>
-          <ellipse cx="40" cy="194" rx="20" ry="4" fill="rgba(212,203,232,0.18)" stroke="rgba(212,203,232,0.32)" stroke-width="0.8"/>
-          <ellipse cx="40" cy="199" rx="22" ry="2" fill="rgba(212,203,232,0.06)"/>
         </svg>
       </div>
 
@@ -1684,22 +1675,46 @@ const modules = [
     91%, 96%      { opacity: 0; }
   }
 
-  /* Floor lamp */
+  /* Floor lamp — photo lamp (off / on images crossfade). Black photo background
+     disappears via screen blending; the bulb sits at 50% / 14.3% of the image. */
   .n-lamp {
+    --lw: clamp(100px, 15vh, 220px);   /* beam scale, same as the old SVG lamp */
     position: absolute;
     bottom: 0;
-    right: clamp(8px, 1.5cqw, 16px);
-    width: clamp(100px, 15vh, 220px);
-    opacity: 0.9;
+    right: clamp(4px, 1cqw, 12px);
+    width: clamp(96px, 14.5vh, 210px);
     pointer-events: all;
     cursor: pointer;
     z-index: 3;
+    mix-blend-mode: screen;
   }
-  .n-lamp svg { width: 100%; height: auto; display: block; }
-  .n-lamp-on .n-lamp { opacity: 1; filter: drop-shadow(0 0 12px rgba(255,220,80,0.55)) drop-shadow(0 0 32px rgba(255,200,60,0.25)); }
+  .n-lamp-img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
+  .n-lamp-img--off { opacity: 0.9; transition: opacity 0.7s ease; }
+  .n-lamp-img--on  { position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s ease; }
+  .n-lamp-on .n-lamp-img--off { opacity: 0; }
+  .n-lamp-on .n-lamp-img--on  { opacity: 1; animation: n-lamp-flicker 0.9s ease-out; }
+  /* bulb catching: two quick flickers, then steady */
+  @keyframes n-lamp-flicker {
+    0%   { opacity: 0; }
+    10%  { opacity: 0.85; }
+    16%  { opacity: 0.15; }
+    26%  { opacity: 1; }
+    32%  { opacity: 0.45; }
+    44%  { opacity: 1; }
+    100% { opacity: 1; }
+  }
+  .n-lamp-beams {
+    position: absolute;
+    left: calc(50% - var(--lw) / 2);
+    top: calc(14.3% - var(--lw) / 2);
+    width: var(--lw);
+    height: auto;
+    pointer-events: none;
+  }
 
   .n-beam { opacity: 0; transition: opacity 0.7s ease; }
-  .n-lamp-on .n-beam { opacity: 1; }
+  .n-lamp-on .n-beam { opacity: 1; transition-delay: 0.25s; }
+  @media (prefers-reduced-motion: reduce) { .n-lamp-on .n-lamp-img--on { animation: none; } }
 
   /* Click-anywhere shooting star */
   .n-meteor-click {
