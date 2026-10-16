@@ -269,38 +269,6 @@ const modules = [
         <div class="d-search-results" id="dSearchResults"></div>
       </div>
 
-      <!-- Notification cards -->
-      <div class="d-notif-stack">
-        <a class="d-notif" href="/research/data">
-          <div class="d-notif-meta">
-            <div class="d-notif-left">
-              <svg class="d-notif-icon" viewBox="0 0 16 14" fill="none">
-                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
-                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
-              </svg>
-              <span class="d-notif-app">Latest Update</span>
-            </div>
-            <span class="d-notif-time">Jun 16, 2026</span>
-          </div>
-          <div class="d-notif-title">NSFG Contraceptive Survey</div>
-          <div class="d-notif-body">2022–23 vs 2017–19 cycle analysis · method trends by age</div>
-        </a>
-        <a class="d-notif" href="/photography/stoos-ridge-line">
-          <div class="d-notif-meta">
-            <div class="d-notif-left">
-              <svg class="d-notif-icon" viewBox="0 0 16 14" fill="none">
-                <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" stroke-opacity="0.7"/>
-                <path d="M1 2l7 5.5L15 2" stroke="currentColor" stroke-opacity="0.7" stroke-width="1" stroke-linecap="round"/>
-              </svg>
-              <span class="d-notif-app">Latest Update</span>
-            </div>
-            <span class="d-notif-time">Jun 5, 2026</span>
-          </div>
-          <div class="d-notif-title">Stoos Ridge Line Hike</div>
-          <div class="d-notif-body">Hiking guide · Central Switzerland, ridge traverse</div>
-        </a>
-      </div>
-
       <!-- Dandelion decoration -->
       <img src="/images/dandelion.jpg" alt="" class="d-dandelion" aria-hidden="true">
 
@@ -2175,29 +2143,6 @@ const modules = [
     font-style: italic;
   }
 
-  /* Notification cards */
-  .d-notif-stack {
-    position: absolute;
-    top: 56%;
-    left: clamp(10px, 4cqw, 18px);
-    right: clamp(10px, 4cqw, 18px);
-    display: flex;
-    flex-direction: column;
-    gap: clamp(6px, 1.5cqh, 10px);
-    z-index: 3;
-  }
-
-  .d-notif {
-    display: block;
-    background: rgba(160,195,170,0.22);
-    border: 1px solid rgba(110,140,120,0.18);
-    border-radius: 14px;
-    padding: clamp(10px, 2.5cqw, 14px) clamp(12px, 3cqw, 16px);
-    text-decoration: none;
-    transition: background 0.2s, border-color 0.2s;
-  }
-
-  .d-notif:hover { background: rgba(160,195,170,0.34); border-color: rgba(110,140,120,0.32); }
 
   /* Dandelion decoration */
   .d-dandelion {
@@ -2226,44 +2171,6 @@ const modules = [
     will-change: transform, opacity;
   }
 
-  .d-notif-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: clamp(4px, 1cqh, 7px);
-  }
-  .d-notif-left { display: flex; align-items: center; gap: 5px; }
-  .d-notif-icon { width: clamp(11px, 3.2cqw, 14px); height: auto; color: #6E7B81; flex-shrink: 0; }
-  .d-notif-app {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(9px, 2.8cqw, 11px);
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #6E7B81;
-  }
-  .d-notif-time {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(9px, 2.8cqw, 11px);
-    color: #6E7B81;
-  }
-  .d-notif-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(15px, 5cqw, 22px);
-    font-weight: 600;
-    font-style: italic;
-    color: #15201B;
-    line-height: 1.2;
-    margin-bottom: clamp(3px, 0.8cqh, 6px);
-  }
-  .d-notif-body {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(11px, 3.2cqw, 13px);
-    font-weight: 300;
-    color: #6E7B81;
-    line-height: 1.45;
-  }
-
   /* Day mobile ≤600px */
   @media (max-width: 600px) {
     .d-layout { flex-direction: column; overflow-y: auto; }
@@ -2289,13 +2196,9 @@ const modules = [
   /* Short viewport adjustments */
   @media (max-height: 750px) {
     .d-search-wrap { top: 43%; }
-    .d-notif-stack { top: 53%; }
-    .d-notif-title { font-size: clamp(13px, 4.5cqw, 18px); }
   }
   @media (max-height: 620px) {
     .d-search-wrap { top: 40%; }
-    .d-notif-stack { top: 51%; }
-    .d-notif:last-child { display: none; }
   }
 
 

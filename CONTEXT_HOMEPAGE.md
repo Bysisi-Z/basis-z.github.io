@@ -61,12 +61,9 @@ Three-column desktop layout. Two independent HTML sections (`#homeNight` / `#hom
 
 - Status bar, greeting, clock, date, weather
 - **Search bar** at `top: 47%` — Pagefind full-site search, lazy-loaded, fixed-position results
-- **Notification cards** at `top: 56%` — green tint `rgba(160,195,170,0.22)`:
-  - NSFG Contraceptive Survey → `/research/data` (Jun 16, 2026)
-  - Stoos Ridge Line Hike → `/photography/stoos-ridge-line` (Jun 5, 2026)
-  - To update: edit `.d-notif` elements in `#homeDay`
+- ~~Notification cards ("Latest Update")~~ — **removed s88 (2026-10-16)** at the user's request, markup and `.d-notif*` CSS deleted; don't add them back.
 - **Dandelion easter egg (s64–66):** `public/images/dandelion.jpg`, `position: absolute; bottom: 0; right: clamp(6px,1cqw,14px)`, `mix-blend-mode: multiply`. Click → spawns `.d-seed` (`position: fixed`, `z-index: 9999`, `public/images/dandelion-seed.png`). Physics: gust target updates every 2.2s; velocity eases at rate 0.022; zero per-frame random (no jitter); GPU transform only. Seeds drift 60s (fade from 54s). Origin: `dRect.top + height*0.20`.
-- `max-height: 750px/620px`: search + notif stack adjusted
+- `max-height: 750px/620px`: search bar position adjusted
 
 ---
 
