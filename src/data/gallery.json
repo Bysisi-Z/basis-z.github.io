@@ -656,6 +656,53 @@
         }
       ],
       "coverPosition": "50% 72%"
+    },
+    {
+      "slug": "frick",
+      "source": "_data_sources/gallery/frick",
+      "title": "Frick · Cherry Blossoms",
+      "place": "Aargau, Switzerland",
+      "intro": "",
+      "cover": "IMG_5563.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_5552.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5558.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5561.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5563.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5568.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_0940.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_0952.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_0954.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_0956.jpg",
+          "caption": ""
+        }
+      ]
     }
   ]
 }

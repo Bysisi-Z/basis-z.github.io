@@ -834,5 +834,61 @@
    "width": 4284,
    "height": 5712
   }
+ ],
+ "frick": [
+  {
+   "file": "IMG_5552.jpg",
+   "name": "IMG_5552",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5558.jpg",
+   "name": "IMG_5558",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5561.jpg",
+   "name": "IMG_5561",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_5563.jpg",
+   "name": "IMG_5563",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_5568.jpg",
+   "name": "IMG_5568",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_0940.jpg",
+   "name": "IMG_0940",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_0952.jpg",
+   "name": "IMG_0952",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_0954.jpg",
+   "name": "IMG_0954",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_0956.jpg",
+   "name": "IMG_0956",
+   "width": 4032,
+   "height": 3024
+  }
  ]
 }
