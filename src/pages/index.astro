@@ -45,6 +45,10 @@ const modules = [
         <h1 class="n-tag">Making <em class="n-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
         <div class="n-rule"></div>
       </div>
+      <div class="n-search-wrap search-inline search-tablet" data-search="n">
+        <div class="n-search-bar"><svg class="n-search-icon" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input class="n-search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search the site"></div>
+        <div class="n-search-results"></div>
+      </div>
 
       <nav class="n-mods">
         {modules.map(m => (
@@ -110,7 +114,7 @@ const modules = [
         </div>
         <div class="n-clock" id="nClock">00:00</div>
         <!-- Search bar: follows the clock so it never overlaps it -->
-        <div class="n-search-wrap">
+        <div class="n-search-wrap" data-search="n">
           <div class="n-search-bar">
             <svg class="n-search-icon" viewBox="0 0 18 18" fill="none">
               <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
@@ -191,6 +195,10 @@ const modules = [
         <h1 class="d-tag">Making <em class="d-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
         <div class="d-rule"></div>
       </div>
+      <div class="d-search-wrap search-inline search-tablet" data-search="d">
+        <div class="d-search-bar"><svg class="d-search-icon" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input class="d-search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search the site"></div>
+        <div class="d-search-results"></div>
+      </div>
 
       <nav class="d-mods">
         {modules.map(m => (
@@ -261,7 +269,7 @@ const modules = [
       </div>
 
       <!-- Search bar -->
-      <div class="d-search-wrap">
+      <div class="d-search-wrap" data-search="d">
         <div class="d-search-bar">
           <svg class="d-search-icon" viewBox="0 0 18 18" fill="none">
             <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
@@ -389,6 +397,10 @@ const modules = [
           <h1 class="n-tag">Making <em class="n-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
           <div class="n-rule"></div>
         </div>
+        <div class="n-search-wrap search-inline search-mobile" data-search="n">
+          <div class="n-search-bar"><svg class="n-search-icon" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input class="n-search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search the site"></div>
+          <div class="n-search-results"></div>
+        </div>
         <nav class="n-mods">
           {modules.map(m => (
             <a class="n-mod" href={m.href}>
@@ -423,6 +435,10 @@ const modules = [
         <div class="d-tagwrap">
           <h1 class="d-tag">Making <em class="d-sense">sense</em> of<br>numbers and<br>landscapes.</h1>
           <div class="d-rule"></div>
+        </div>
+        <div class="d-search-wrap search-inline search-mobile" data-search="d">
+          <div class="d-search-bar"><svg class="d-search-icon" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input class="d-search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false" aria-label="Search the site"></div>
+          <div class="d-search-results"></div>
         </div>
         <nav class="d-mods">
           {modules.map(m => (
@@ -1004,72 +1020,75 @@ const modules = [
       }
     })();
 
-    // ── Search (day and night strips; prefix picks the visible one) ──
+    // ── Search: every [data-search] box (strip, tablet panel, mobile panel) ──
     (function() {
-      var _p  = _isDay ? 'd' : 'n';
-      var _pf;
-      var _si = document.getElementById(_p + 'SearchInput');
-      var _sr = document.getElementById(_p + 'SearchResults');
-      if (!_si || !_sr) return;
-
+      var _pf, _pfLoading;
       async function _initPF() {
         if (_pf) return;
-        try { _pf = await import('/pagefind/pagefind.js'); await _pf.init(); }
-        catch(e) { _pf = null; }
+        if (!_pfLoading) _pfLoading = import('/pagefind/pagefind.js')
+          .then(async function(m){ await m.init(); _pf = m; })
+          .catch(function(){ _pf = null; });
+        await _pfLoading;
       }
-      function _posResults() {
-        var bar  = _si.closest('.' + _p + '-search-bar');
-        var rect = bar.getBoundingClientRect();
-        var avH  = window.innerHeight - rect.bottom - 12;
-        _sr.style.top      = (rect.bottom + 6) + 'px';
-        _sr.style.left     = rect.left + 'px';
-        _sr.style.width    = rect.width + 'px';
-        _sr.style.maxHeight = Math.min(240, Math.max(80, avH)) + 'px';
-      }
-      function _empty(msg) { return '<div class="' + _p + '-sr-empty">' + msg + '</div>'; }
-      async function _doSearch(q) {
-        if (!q.trim()) { _sr.classList.remove('open'); return; }
-        await _initPF();
-        if (!_pf) {
-          _sr.innerHTML = _empty('Search unavailable.');
-          _posResults(); _sr.classList.add('open'); return;
-        }
-        try {
-          var res = await _pf.search(q);
-          var top = await Promise.all(res.results.slice(0,6).map(function(r){ return r.data(); }));
-          _sr.innerHTML = '';
-          if (!top.length) {
-            _sr.innerHTML = _empty('No results for "' + q + '".');
-          } else {
-            top.forEach(function(r) {
-              var a = document.createElement('a');
-              a.className = _p + '-sr-item';
-              a.href = r.url;
-              var title   = r.meta && r.meta.title || r.url;
-              var excerpt = r.excerpt ? r.excerpt.replace(/<\/?mark>/g,'') : '';
-              a.innerHTML = '<div class="' + _p + '-sr-title">'+title+'</div>'
-                + (excerpt ? '<div class="' + _p + '-sr-excerpt">'+excerpt+'</div>' : '');
-              _sr.appendChild(a);
-            });
+      function _mount(wrap) {
+        var p   = wrap.getAttribute('data-search');
+        var si  = wrap.querySelector('input');
+        var sr  = wrap.querySelector('.' + p + '-search-results');
+        var bar = wrap.querySelector('.' + p + '-search-bar');
+        if (!si || !sr || !bar) return;
+        var inline = wrap.classList.contains('search-inline');
+        function pos() {
+          var rect = bar.getBoundingClientRect();
+          if (inline) {   // panel boxes: CSS anchors the list under the bar (glass blur breaks fixed coords)
+            sr.style.maxHeight = Math.min(260, Math.max(120, window.innerHeight - rect.bottom - 16)) + 'px';
+            return;
           }
-          _posResults(); _sr.classList.add('open');
-        } catch(e) {
-          _sr.innerHTML = _empty('Search error. Please retry.');
-          _posResults(); _sr.classList.add('open');
+          var avH  = window.innerHeight - rect.bottom - 12;
+          sr.style.top       = (rect.bottom + 6) + 'px';
+          sr.style.left      = rect.left + 'px';
+          sr.style.width     = rect.width + 'px';
+          sr.style.maxHeight = Math.min(240, Math.max(80, avH)) + 'px';
         }
+        function empty(msg) { return '<div class="' + p + '-sr-empty">' + msg + '</div>'; }
+        async function run(q) {
+          if (!q.trim()) { sr.classList.remove('open'); return; }
+          await _initPF();
+          if (!_pf) { sr.innerHTML = empty('Search unavailable.'); pos(); sr.classList.add('open'); return; }
+          try {
+            var res = await _pf.search(q);
+            var top = await Promise.all(res.results.slice(0,6).map(function(r){ return r.data(); }));
+            sr.innerHTML = '';
+            if (!top.length) {
+              sr.innerHTML = empty('No results for "' + q + '".');
+            } else {
+              top.forEach(function(r) {
+                var a = document.createElement('a');
+                a.className = p + '-sr-item';
+                a.href = r.url;
+                var title   = r.meta && r.meta.title || r.url;
+                var excerpt = r.excerpt ? r.excerpt.replace(/<\/?mark>/g,'') : '';
+                a.innerHTML = '<div class="' + p + '-sr-title">'+title+'</div>'
+                  + (excerpt ? '<div class="' + p + '-sr-excerpt">'+excerpt+'</div>' : '');
+                sr.appendChild(a);
+              });
+            }
+            pos(); sr.classList.add('open');
+          } catch(e) {
+            sr.innerHTML = empty('Search error. Please retry.');
+            pos(); sr.classList.add('open');
+          }
+        }
+        var t;
+        si.addEventListener('input', function(e) { clearTimeout(t); t = setTimeout(function(){ run(e.target.value); }, 220); });
+        si.addEventListener('focus', function(){ _initPF(); });
+        function repos() { if (sr.classList.contains('open')) pos(); }
+        window.addEventListener('resize', repos);
+        window.addEventListener('scroll', repos, true);   // the mobile panel scrolls
+        document.addEventListener('click', function(e){
+          if (!wrap.contains(e.target)) sr.classList.remove('open');
+        });
       }
-      var _dbt;
-      _si.addEventListener('input', function(e) {
-        clearTimeout(_dbt); _dbt = setTimeout(function(){ _doSearch(e.target.value); }, 220);
-      });
-      _si.addEventListener('focus', function(){ _initPF(); });
-      window.addEventListener('resize', function(){
-        if (_sr.classList.contains('open')) _posResults();
-      });
-      document.addEventListener('click', function(e){
-        if (!e.target.closest('.' + _p + '-search-wrap') && !e.target.closest('.' + _p + '-search-results'))
-          _sr.classList.remove('open');
-      });
+      document.querySelectorAll('[data-search]').forEach(_mount);
     })();
 
     if (_isDay) {
@@ -1526,6 +1545,26 @@ const modules = [
     text-transform: uppercase;
   }
   .n-w-loc:not(:empty)::before { content: '·'; margin-right: 5px; opacity: 0.5; }
+
+  /* In-panel search boxes: tablet (601–900px, strip hidden) and mobile unlocked panel */
+  .search-inline {
+    position: relative !important;
+    top: auto !important; left: auto !important; right: auto !important;
+    margin: clamp(14px, 2.5vh, 22px) 0 clamp(6px, 1.2vh, 12px) !important;
+    max-width: 420px;
+    align-self: stretch;
+  }
+  .search-inline .n-search-results,
+  .search-inline .d-search-results {
+    position: absolute !important;
+    top: calc(100% + 6px) !important; left: 0 !important; right: 0 !important;
+    width: auto !important;
+    z-index: 50;
+  }
+  .search-tablet { display: none !important; }
+  @media (min-width: 601px) and (max-width: 900px) { .search-tablet { display: block !important; } }
+  .search-inline .n-search-input,
+  .search-inline .d-search-input { font-size: 16px; } /* 16px stops iOS zooming on focus */
 
   /* Search bar — night palette; sits in the clock column right under the clock */
   .n-search-wrap {
