@@ -22,6 +22,7 @@ const { album, next } = Astro.props;
     <section class="ah">
       <img
         class="ah-img"
+        style={album.coverPosition ? `object-position:${album.coverPosition}` : undefined}
         src={album.cover.full}
         srcset={album.cover.srcset}
         sizes="100vw"
@@ -64,6 +65,10 @@ const { album, next } = Astro.props;
           <span class="a-foot-title">Read the story behind these photos <span aria-hidden="true">→</span></span>
         </a>
       )}
+      <a class="a-guide" href="/trails">
+        <span class="a-foot-label">Where these were taken</span>
+        <span class="a-foot-title">Trails map <span aria-hidden="true">→</span></span>
+      </a>
       {next && next.slug !== album.slug && (
         <a class="a-next" href={`/photography/album/${next.slug}`}>
           <img src={next.cover.thumb} width={next.cover.width} height={next.cover.height} alt="" loading="lazy" decoding="async" />
@@ -102,6 +107,10 @@ const { album, next } = Astro.props;
     height: 100%;
     object-fit: cover;
     animation: ah-in 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  /* phones: a full-height portrait hero crops landscape covers to a narrow strip */
+  @media (max-width: 700px) {
+    .ah { height: min(calc(100svh - var(--nav-h)), 118vw); min-height: 380px; }
   }
   @keyframes ah-in { from { transform: scale(1.06); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .ah-shade {
