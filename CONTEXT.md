@@ -139,8 +139,13 @@ funnel (Table 19) — all cited to AHRQ's own `h251doc.pdf`. Also added a raw/re
 filter to the MEPS explorer itself, sourced from AHRQ's official Variable-Source Crosswalk. Full details →
 `CONTEXT_RESEARCH.md`.
 
-### Nature Never Judges (`/photography`) ✅
-6-card mixed grid (`grid-auto-flow: dense`). 3 live articles: Stoos Ridge Hike · Oeschinensee Panorama Trail · Lucerne city guide. "VIEW ALL TRAILS ON THE MAP →" → `/trails`.
+### Nature Never Judges (`/photography`) 🟡 gallery demo (s88, local — not pushed yet)
+**Direction change (user, 2026-10-16):** no more travel-writing — the section becomes a photo gallery with optional short captions. Dark, "high end" photo-book look (`#0C0C0B` bg, ivory `#ECE8E1`, Cormorant light titles, Inter caps meta; nav/footer go dark via `body:has(.gal)`).
+- **Data:** `src/data/gallery.json` — per album `slug, folder, title, place, date, intro (optional), cover, guide (old article link), photos[{file, caption}]` in display order. Image sizes in `src/data/gallery-manifest.json`; both joined in `src/lib/gallery.mjs`.
+- **Images:** `node scripts/build-gallery.mjs` (sharp) → `public/images/gallery/<slug>/<name>-{640,1280,2048}.webp`, EXIF-rotated, **all metadata stripped (no GPS)**. Re-run after adding photos; `--force` rebuilds. Originals stay in `public/images/<folder>/` (⚠️ 55 of them carry GPS and are publicly downloadable).
+- **Index** `/photography`: header + alternating editorial rows (8fr cover | 4fr caption). **Album** `/photography/album/<slug>`: full-bleed cover hero (pill "← All albums"), optional intro, justified rows (flex-grow ∝ aspect ratio, `--rh` row height, growth capped at 1.6× ≥701px so a lone last photo stays modest, centred), lightbox (srcset 2048, ←/→/Esc, swipe, swipe-down closes, "Si" corner signature, right-click blocked), footer → old trail guide + next album.
+- **Edits made for the demo:** Stoos duplicates `stoos2b/3b/4b` left out; order = EXIF capture time; covers Stoos `IMG_3413`, Oeschinensee `IMG_3882`, Lucerne `DSC08012`. Dates from EXIF: Stoos July 2024 (the old article says "early July 2023" — unresolved), Oeschinensee July 2024, Lucerne December 2023.
+- Old articles (`/photography/<slug>`) untouched; `/trails` markers still point to them.
 
 ### Trails (`/trails`) ✅
 Leaflet.js + OSM, centered Switzerland. 3 star markers: Stoos / Oeschinensee / Lucerne (with hover label + click popup photo). No page title (removed s57). Back link → `/explorer`.

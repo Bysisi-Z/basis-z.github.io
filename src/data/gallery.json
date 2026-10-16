@@ -1,0 +1,268 @@
+{
+  "albums": [
+    {
+      "slug": "stoos",
+      "folder": "stoos",
+      "title": "Stoos Ridge",
+      "place": "Schwyz, Switzerland",
+      "date": "July 2024",
+      "intro": "",
+      "cover": "IMG_3413.jpeg",
+      "guide": "/photography/stoos-ridge-line",
+      "photos": [
+        {
+          "file": "stoos2.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "stoos3.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "stoos4.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "stoos5.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "stoos6.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "stoos7.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "stoos8.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "stoos9.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3352.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3354.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3355.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3383.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3386.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3399.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3401.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3404.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3413.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3422.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3429.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3435.jpeg",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "slug": "oeschinensee",
+      "folder": "oeschinensee",
+      "title": "Oeschinensee",
+      "place": "Bernese Oberland, Switzerland",
+      "date": "July 2024",
+      "intro": "",
+      "cover": "IMG_3882.jpeg",
+      "guide": "/photography/oeschinensee",
+      "photos": [
+        {
+          "file": "IMG_3666.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3669.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3672.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3675.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3685.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3690.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3702.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3711.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3730.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3733.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3745.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3747.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3760.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3766.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3776.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3789.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3792.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3795.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3796.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3800.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3818.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3835.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3839.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3859.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3882.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3886.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3898.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3905.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3908.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3919.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3953.jpeg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3961.jpeg",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "slug": "lucerne",
+      "folder": "lucerne",
+      "title": "Lucerne",
+      "place": "Lucerne, Switzerland",
+      "date": "December 2023",
+      "intro": "",
+      "cover": "DSC08012.jpg",
+      "guide": "/photography/lucerne",
+      "photos": [
+        {
+          "file": "DSC08012.jpg",
+          "caption": ""
+        },
+        {
+          "file": "DSC08013.jpg",
+          "caption": ""
+        },
+        {
+          "file": "DSC08014.jpg",
+          "caption": ""
+        },
+        {
+          "file": "DSC08020.jpg",
+          "caption": ""
+        },
+        {
+          "file": "DSC08025.jpg",
+          "caption": ""
+        }
+      ]
+    }
+  ]
+}
