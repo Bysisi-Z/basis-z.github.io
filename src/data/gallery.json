@@ -261,6 +261,37 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "seealpsee",
+      "source": "_data_sources/gallery/seealpsee",
+      "title": "Seealpsee",
+      "place": "Appenzell, Switzerland",
+      "intro": "",
+      "cover": "DSC07890.JPG",
+      "guide": "",
+      "photos": [
+        {
+          "file": "DSC07763.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC07850.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC07887.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC07890.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC07894.JPG",
+          "caption": ""
+        }
+      ]
     }
   ]
 }

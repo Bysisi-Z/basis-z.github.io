@@ -1,4 +1,4 @@
-// Builds web-ready gallery images for /photography from the originals in public/images/<folder>.
+// Builds web-ready gallery images for /photography from the originals (album.source, or public/images/<folder>).
 //
 //   node scripts/build-gallery.mjs            # only missing sizes
 //   node scripts/build-gallery.mjs --force    # rebuild everything
@@ -18,7 +18,9 @@ const { albums } = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/gallery.
 const manifest = {};
 
 for (const album of albums) {
-  const srcDir = path.join(ROOT, 'public/images', album.folder);
+  // originals: `source` (repo-relative, e.g. _data_sources/gallery/<slug> — gitignored, never deployed)
+  // or the older public/images/<folder>
+  const srcDir = album.source ? path.join(ROOT, album.source) : path.join(ROOT, 'public/images', album.folder);
   const outDir = path.join(ROOT, 'public/images/gallery', album.slug);
   fs.mkdirSync(outDir, { recursive: true });
 
