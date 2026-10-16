@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
-import { albums } from '../../../lib/gallery.mjs';
+import { albums, theme } from '../../../lib/gallery.mjs';
+import '../../../styles/gallery.css';
 
 export function getStaticPaths() {
   return albums.map((album, i) => ({
@@ -14,7 +15,7 @@ const { album, next } = Astro.props;
 ---
 
 <BaseLayout title={`${album.title} — Nature Never Judges`} description={`${album.photos.length} photographs · ${album.place} · ${album.date}`}>
-  <div class="gal">
+  <div class="gal" data-theme={theme}>
     <!-- Hero: the cover, full bleed -->
     <section class="ah">
       <img
@@ -76,32 +77,17 @@ const { album, next } = Astro.props;
   </div>
 </BaseLayout>
 
-<style is:global>
-  body:has(.gal) { background: #0C0C0B; }
-  body:has(.gal) .top-nav { background: rgba(12, 12, 11, 0.9); border-bottom-color: rgba(236, 232, 225, 0.08); }
-  body:has(.gal) .nav-home,
-  body:has(.gal) .nav-current,
-  body:has(.gal) .nav-link { color: #8A857E; }
-  body:has(.gal) .nav-sep { color: #33322F; }
-  body:has(.gal) .nav-link:hover { color: #ECE8E1; }
-  body:has(.gal) .nav-link.active { background: #ECE8E1; color: #0C0C0B; }
-  body:has(.gal) .site-footer { background: #0C0C0B; border-top-color: rgba(236, 232, 225, 0.08); }
-</style>
-
 <style>
   .gal {
-    --g-ink: #ECE8E1;
-    --g-soft: #B8B2A9;
-    --g-muted: #7E7972;
-    --g-rule: rgba(236, 232, 225, 0.12);
     --nav-h: 52px;
-    background: #0C0C0B;
-    color: var(--g-ink);
   }
   @media (max-width: 1024px) { .gal { --nav-h: 84px; } }
 
   /* ── Hero ── */
   .ah {
+    --g-ink: #F4F1EC;      /* text sits on the photo: always light */
+    --g-soft: #D6D0C7;
+    color: var(--g-ink);
     position: relative;
     height: calc(100svh - var(--nav-h));
     min-height: 460px;
@@ -139,6 +125,7 @@ const { album, next } = Astro.props;
     padding: 9px 16px;
     border-radius: 999px;
     background: rgba(12, 12, 11, 0.42);
+    color: #F4F1EC;
     -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
     font-family: var(--sans);
@@ -202,7 +189,7 @@ const { album, next } = Astro.props;
     aspect-ratio: 1;
     padding: 0;
     border: 0;
-    background: #161614;
+    background: var(--g-tile);
     overflow: hidden;
     cursor: zoom-in;
     opacity: 0;

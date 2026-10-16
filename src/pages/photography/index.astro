@@ -1,13 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryLightbox from '../../components/GalleryLightbox.astro';
-import { albums, totalPhotos } from '../../lib/gallery.mjs';
+import { albums, totalPhotos, theme } from '../../lib/gallery.mjs';
+import '../../styles/gallery.css';
 
 const photos = albums.flatMap((a) => a.photos.map((p) => ({ ...p, album: a })));
 ---
 
 <BaseLayout title="Nature Never Judges" description="Photographs from the Swiss Alps — trails walked, peaks reached, silences found.">
-  <div class="gal">
+  <div class="gal" data-theme={theme}>
     <header class="gal-head">
       <h1 class="gal-title">Nature never judges</h1>
       <p class="gal-sub">Trails walked, peaks reached, silences found.</p>
@@ -63,27 +64,8 @@ const photos = albums.flatMap((a) => a.photos.map((p) => ({ ...p, album: a })));
   </div>
 </BaseLayout>
 
-<style is:global>
-  /* dark gallery: nav + footer follow (same pattern as S² Capital) */
-  body:has(.gal) { background: #0C0C0B; }
-  body:has(.gal) .top-nav { background: rgba(12, 12, 11, 0.9); border-bottom-color: rgba(236, 232, 225, 0.08); }
-  body:has(.gal) .nav-home,
-  body:has(.gal) .nav-current,
-  body:has(.gal) .nav-link { color: #8A857E; }
-  body:has(.gal) .nav-sep { color: #33322F; }
-  body:has(.gal) .nav-link:hover { color: #ECE8E1; }
-  body:has(.gal) .nav-link.active { background: #ECE8E1; color: #0C0C0B; }
-  body:has(.gal) .site-footer { background: #0C0C0B; border-top-color: rgba(236, 232, 225, 0.08); }
-</style>
-
 <style>
   .gal {
-    --g-ink: #ECE8E1;
-    --g-soft: #B8B2A9;
-    --g-muted: #7E7972;
-    --g-rule: rgba(236, 232, 225, 0.12);
-    background: #0C0C0B;
-    color: var(--g-ink);
     padding: clamp(40px, 6vw, 96px) clamp(16px, 4vw, 64px) clamp(64px, 8vw, 120px);
   }
 
@@ -190,7 +172,7 @@ const photos = albums.flatMap((a) => a.photos.map((p) => ({ ...p, album: a })));
     aspect-ratio: 1;
     padding: 0;
     border: 0;
-    background: #161614;
+    background: var(--g-tile);
     overflow: hidden;
     cursor: zoom-in;
     animation: sq-in 0.6s ease both;

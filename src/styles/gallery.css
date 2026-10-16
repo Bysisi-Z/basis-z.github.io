@@ -1,0 +1,44 @@
+/* Nature Never Judges gallery — colour themes.
+   Pick one with "theme" in src/data/gallery.json ("light" | "dark"); pages put it on .gal[data-theme]. */
+
+.gal[data-theme="light"] {
+  --g-bg: #FFFFFF;
+  --g-tile: #F1F0EE;          /* placeholder behind loading photos */
+  --g-ink: #141414;
+  --g-soft: #4E4B46;
+  --g-muted: #8A8680;
+  --g-rule: rgba(20, 20, 20, 0.12);
+  --g-lb-bg: rgba(255, 255, 255, 0.98);
+  --g-lb-ink: #4E4B46;
+  --g-lb-hi: #141414;
+  --g-lb-muted: #8A8680;
+}
+.gal[data-theme="dark"] {
+  --g-bg: #0C0C0B;
+  --g-tile: #161614;
+  --g-ink: #ECE8E1;
+  --g-soft: #B8B2A9;
+  --g-muted: #7E7972;
+  --g-rule: rgba(236, 232, 225, 0.12);
+  --g-lb-bg: rgba(8, 8, 7, 0.97);
+  --g-lb-ink: #B8B2A9;
+  --g-lb-hi: #ECE8E1;
+  --g-lb-muted: #7E7972;
+}
+.gal { background: var(--g-bg); color: var(--g-ink); }
+
+/* site nav + footer follow the gallery */
+body:has(.gal[data-theme="light"]) { background: #FFFFFF; }
+body:has(.gal[data-theme="light"]) .top-nav { background: rgba(255, 255, 255, 0.94); border-bottom-color: rgba(20, 20, 20, 0.08); }
+body:has(.gal[data-theme="light"]) .nav-link.active { background: #141414; color: #FFFFFF; }
+body:has(.gal[data-theme="light"]) .site-footer { background: #FFFFFF; }
+
+body:has(.gal[data-theme="dark"]) { background: #0C0C0B; }
+body:has(.gal[data-theme="dark"]) .top-nav { background: rgba(12, 12, 11, 0.9); border-bottom-color: rgba(236, 232, 225, 0.08); }
+body:has(.gal[data-theme="dark"]) .nav-home,
+body:has(.gal[data-theme="dark"]) .nav-current,
+body:has(.gal[data-theme="dark"]) .nav-link { color: #8A857E; }
+body:has(.gal[data-theme="dark"]) .nav-sep { color: #33322F; }
+body:has(.gal[data-theme="dark"]) .nav-link:hover { color: #ECE8E1; }
+body:has(.gal[data-theme="dark"]) .nav-link.active { background: #ECE8E1; color: #0C0C0B; }
+body:has(.gal[data-theme="dark"]) .site-footer { background: #0C0C0B; border-top-color: rgba(236, 232, 225, 0.08); }

@@ -30,4 +30,6 @@ export const albums = config.albums.map((album, i) => {
   return { ...album, number: String(i + 1).padStart(2, '0'), photos, cover };
 });
 
+export const theme = config.theme === 'dark' ? 'dark' : 'light';
+
 export const totalPhotos = albums.reduce((n, a) => n + a.photos.length, 0);
