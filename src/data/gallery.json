@@ -331,6 +331,33 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "engelberg",
+      "source": "_data_sources/gallery/engelberg",
+      "title": "Engelberg & Titlis",
+      "place": "Obwalden, Switzerland",
+      "intro": "",
+      "cover": "DSC08049.JPG",
+      "guide": "",
+      "photos": [
+        {
+          "file": "DSC08048.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08049.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08051.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08053.JPG",
+          "caption": ""
+        }
+      ]
     }
   ]
 }

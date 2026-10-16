@@ -422,5 +422,31 @@
    "width": 6000,
    "height": 4000
   }
+ ],
+ "engelberg": [
+  {
+   "file": "DSC08048.JPG",
+   "name": "DSC08048",
+   "width": 4000,
+   "height": 6000
+  },
+  {
+   "file": "DSC08049.JPG",
+   "name": "DSC08049",
+   "width": 6000,
+   "height": 4000
+  },
+  {
+   "file": "DSC08051.JPG",
+   "name": "DSC08051",
+   "width": 6000,
+   "height": 4000
+  },
+  {
+   "file": "DSC08053.JPG",
+   "name": "DSC08053",
+   "width": 6000,
+   "height": 4000
+  }
  ]
 }
