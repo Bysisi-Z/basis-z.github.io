@@ -88,7 +88,7 @@ Both night/day glass panels have **· GET QR CODE & SHARE** button (share arrow 
 - **Drawing order:** photo bg async → overlay → QR (CDN + 300ms) → white QR backing → fonts.ready → text last.
 - **Download:** saves `si-lens-card.png` at 700×1050.
 - **Contact strip pills:** `white-space: nowrap`, `flex-wrap: nowrap`, `clamp(…, cqw, …)` scaling — always single row.
-- **Night search bar (s88, 2026-10-16):** `.n-search-wrap` in `#nStrip`, same position as day (`top: 47%`, 43%/40% on short viewports), night palette (lavender glass, dark results panel `rgba(24,16,44,0.94)`). One shared search script picks `d`/`n` ids and classes by `_isDay` (`dSearchInput`/`nSearchInput`, `.d-sr-*`/`.n-sr-*`). `#nStrip` no longer `aria-hidden` (it holds an input now).
+- **Night search bar (s88, 2026-10-16):** `.n-search-wrap` sits *inside* `.n-clockwrap`, right under the clock (in flow, `margin-top: clamp(10px,2.5vh,28px)`) — not %-positioned like the day bar, because the night clock shifts once weather loads and a fixed % overlapped it on short screens. Brighter than first draft at the user's request: bar `rgba(212,203,232,0.20)` + border `0.45`, text `#F3EFFF`, placeholder `0.72`. `.n-clockwrap` z-index 6 so the results panel sits above cats (4) and lamp (3). One shared search script picks `d`/`n` ids and classes by `_isDay`. `#nStrip` no longer `aria-hidden` (it holds an input).
 - **Contact links (s88, 2026-10-16):** LinkedIn · Email · Get QR code & share — Red Note (Xiaohongshu) removed from all four versions (desktop/mobile × day/night) at the user's request; don't add it back.
 
 ---
