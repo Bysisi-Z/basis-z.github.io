@@ -43,7 +43,7 @@ Three-column desktop layout. Two independent HTML sections (`#homeNight` / `#hom
 - **Floor lamp easter egg:** `#nLamp` click toggles `.n-lamp-on`
 - **Cat blink easter egg:** `public/images/cats-illustration.png`, two grid layers, `brightness(0.65) contrast(3)`, blink 5s/2s
 - **Cat scratch easter egg (s55):** click left (big) cat → large purple scratch; click right (small) cat → small scratch. Image: `public/images/cat-scratch.png` (`mix-blend-mode: screen`). Animation: `clip-path` top→bottom + opacity, 0.38s. Disabled when lamp on. Elements: `#nScratchA` (22% wide, `bottom:63%`) / `#nScratchB` (16% wide, `bottom:54%`) inside `#nCatsContainer`.
-- **Shooting star easter egg (s64):** click `#nStrip` (not cats/lamp) → `.n-meteor-click` div at click pos. 180px wide, 1px tall, gradient `to left` (right=white head). `transform: rotate(--ma) translateX` −30px→+180px. 1.4s ease-out. Angle: random 20°–160° (downward only). Class: `.n-meteor-click`, keyframe: `n-meteor-click-fly`.
+- ~~Shooting star easter egg (s64, click `#nStrip`)~~ — **removed s88 (2026-10-16)** at the user's request (the strip is now the room photo + flashlight); JS + `.n-meteor-click` CSS deleted. The hover meteor on menu items (`.n-mod:hover::after`, `n-meteor`) is separate and stays.
 - `.n-clockwrap` `top: 17%` (adjusted s61)
 
 ---
