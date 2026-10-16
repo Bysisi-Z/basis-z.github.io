@@ -241,7 +241,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   });
 
   /* ── 6. Helper: make a marker with popup (click→image→link) + hover label ── */
+  const markerPoints = [];
   function trailMarker(latlng, icon, imgSrc, label, href) {
+    markerPoints.push(latlng);
     const popup = L.popup({ className: 'trail-popup', maxWidth: 600, autoPan: true })
       .setContent(`<a href="${href}"><img src="${imgSrc}" alt="${label}" class="tp-img"></a><div class="tp-label">${label}</div>`);
     L.marker(latlng, { icon })
@@ -270,5 +272,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     '/images/gallery/gandria/IMG_2089-640.webp',      'Gandria',      '/photography/album/gandria');
   trailMarker([47.507, 8.022], starIcon,   // Frick, Aargau — coordinates from de.wikipedia (47.50653, 8.02243)
     '/images/gallery/frick/IMG_5563-640.webp',        'Frick · Cherry Blossoms', '/photography/album/frick');
+  trailMarker([46.364, 14.095], starIcon,  // Lake Bled, Slovenia — coordinates from en.wikipedia (46.36444, 14.09472)
+    '/images/gallery/bled/bled-2019-09-29-640.webp',  'Lake Bled',    '/photography/album/bled');
+
+  // open on a view that shows every star (albums now go beyond Switzerland)
+  map.fitBounds(L.latLngBounds(markerPoints), { padding: [48, 48], maxZoom: 8 });
 })();
 </script>

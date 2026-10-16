@@ -703,6 +703,45 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "bled",
+      "source": "_data_sources/gallery/bled",
+      "title": "Lake Bled",
+      "place": "Bled, Slovenia",
+      "intro": "",
+      "cover": "bled-2019-09-29.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "bled-2019-09-29.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6309.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6317.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6333.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6353.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6354.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6370.jpg",
+          "caption": ""
+        }
+      ]
     }
   ]
 }

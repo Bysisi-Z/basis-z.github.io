@@ -890,5 +890,49 @@
    "width": 4032,
    "height": 3024
   }
+ ],
+ "bled": [
+  {
+   "file": "bled-2019-09-29.jpg",
+   "name": "bled-2019-09-29",
+   "width": 3916,
+   "height": 2936
+  },
+  {
+   "file": "IMG_6309.jpg",
+   "name": "IMG_6309",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_6317.jpg",
+   "name": "IMG_6317",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_6333.jpg",
+   "name": "IMG_6333",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_6353.jpg",
+   "name": "IMG_6353",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_6354.jpg",
+   "name": "IMG_6354",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_6370.jpg",
+   "name": "IMG_6370",
+   "width": 3024,
+   "height": 4032
+  }
  ]
 }
