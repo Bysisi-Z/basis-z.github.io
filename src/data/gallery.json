@@ -596,6 +596,62 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "gandria",
+      "source": "_data_sources/gallery/gandria",
+      "title": "Gandria",
+      "place": "Ticino, Switzerland",
+      "intro": "",
+      "cover": "IMG_2089.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_2032.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2039.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2046.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2047.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2054.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2059.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2061.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2063.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2072.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2075.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2089.jpg",
+          "caption": ""
+        }
+      ],
+      "coverPosition": "50% 72%"
     }
   ]
 }
