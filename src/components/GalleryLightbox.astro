@@ -1,0 +1,206 @@
+---
+// Full-screen photo viewer shared by /photography and the album pages.
+// Opens for any visible `.sq-item` button whose `data-slide` holds
+// { id, src, srcset, w, h, caption, album }. Navigates only the visible items
+// (so a filter on the index limits it), and keeps `#<id>` in the URL so a
+// single photo can be linked to directly.
+---
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <figure class="lb-fig">
+    <img class="lb-img" alt="" />
+    <span class="lb-sig" aria-hidden="true">Si</span>
+  </figure>
+  <div class="lb-bar">
+    <p class="lb-cap"><span class="lb-album"></span><span class="lb-text"></span></p>
+    <p class="lb-count"></p>
+  </div>
+  <button class="lb-btn lb-close" type="button" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+  </button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Previous photo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M15 4l-8 8 8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="lb-btn lb-next" type="button" aria-label="Next photo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M9 4l8 8-8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<style is:global>
+  body.lb-open { overflow: hidden; }
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(8, 8, 7, 0.97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  .lb[hidden] { display: none; }
+  .lb.show { opacity: 1; }
+  .lb-fig {
+    position: relative;
+    margin: 0;
+    max-width: calc(100vw - clamp(24px, 12vw, 200px));
+    max-height: calc(100svh - 140px);
+    display: flex;
+  }
+  .lb-img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100svh - 140px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: opacity 0.35s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .lb-img.fading { opacity: 0; }
+  .lb-sig {
+    position: absolute;
+    right: 14px;
+    bottom: 10px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 20px;
+    letter-spacing: 0.12em;
+    color: #fff;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .lb-bar {
+    position: absolute;
+    left: clamp(20px, 4vw, 56px);
+    right: clamp(20px, 4vw, 56px);
+    bottom: clamp(16px, 2.6vh, 30px);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+  }
+  .lb-bar p { margin: 0; }
+  .lb-cap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+  .lb-album { font-family: 'Inter', system-ui, sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #B8B2A9; }
+  .lb-text { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 17px; color: #B8B2A9; }
+  .lb-count { font-family: 'Inter', system-ui, sans-serif; font-size: 11px; letter-spacing: 0.22em; color: #7E7972; white-space: nowrap; }
+  .lb-btn {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #B8B2A9;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .lb-btn svg { width: 26px; height: 26px; }
+  .lb-btn:hover { color: #ECE8E1; }
+  .lb-close { top: clamp(10px, 2vh, 22px); right: clamp(10px, 2vw, 28px); }
+  .lb-prev { left: clamp(4px, 1.5vw, 24px); top: 50%; transform: translateY(-50%); }
+  .lb-next { right: clamp(4px, 1.5vw, 24px); top: 50%; transform: translateY(-50%); }
+  @media (max-width: 700px) {
+    .lb-prev, .lb-next { top: auto; bottom: 46px; transform: none; }
+    .lb-fig { max-width: 100vw; }
+  }
+</style>
+
+<script>
+  type Slide = { id: string; src: string; srcset: string; w: number; h: number; caption: string; album: string };
+  const lb = document.getElementById('lb')!;
+  const img = lb.querySelector<HTMLImageElement>('.lb-img')!;
+  const albumEl = lb.querySelector<HTMLElement>('.lb-album')!;
+  const textEl = lb.querySelector<HTMLElement>('.lb-text')!;
+  const count = lb.querySelector<HTMLElement>('.lb-count')!;
+  const pad = (n: number) => String(n).padStart(2, '0');
+  let list: HTMLElement[] = [];
+  let cur = 0;
+  let lastFocus: HTMLElement | null = null;
+
+  const visibleItems = () =>
+    Array.from(document.querySelectorAll<HTMLElement>('.sq-item')).filter((el) => !el.hidden && el.offsetParent !== null);
+  const slideOf = (el: HTMLElement): Slide => JSON.parse(el.dataset.slide || '{}');
+
+  function preload(i: number) {
+    const el = list[(i + list.length) % list.length];
+    if (!el) return;
+    const s = slideOf(el);
+    const im = new Image();
+    im.sizes = '100vw';
+    im.srcset = s.srcset;
+    im.src = s.src;
+  }
+  function show(i: number, animate = true) {
+    cur = (i + list.length) % list.length;
+    const s = slideOf(list[cur]);
+    const apply = () => {
+      img.sizes = '100vw';
+      img.srcset = s.srcset;
+      img.src = s.src;
+      img.width = s.w;
+      img.height = s.h;
+      img.alt = s.caption || s.album;
+      albumEl.textContent = s.album;
+      textEl.textContent = s.caption;
+      count.textContent = `${pad(cur + 1)} — ${pad(list.length)}`;
+      img.classList.remove('fading');
+    };
+    if (animate) { img.classList.add('fading'); setTimeout(apply, 180); } else apply();
+    history.replaceState(null, '', '#' + s.id);
+    preload(cur + 1); preload(cur - 1);
+  }
+  function open(el: HTMLElement) {
+    list = visibleItems();
+    lastFocus = el;
+    lb.hidden = false;
+    document.body.classList.add('lb-open');
+    show(Math.max(0, list.indexOf(el)), false);
+    requestAnimationFrame(() => lb.classList.add('show'));
+    lb.querySelector<HTMLButtonElement>('.lb-close')!.focus();
+  }
+  function close() {
+    lb.classList.remove('show');
+    document.body.classList.remove('lb-open');
+    history.replaceState(null, '', location.pathname + location.search);
+    setTimeout(() => { lb.hidden = true; }, 450);
+    lastFocus?.focus();
+  }
+
+  document.addEventListener('click', (e) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>('.sq-item');
+    if (el) open(el);
+  });
+  lb.querySelector('.lb-close')!.addEventListener('click', close);
+  lb.querySelector('.lb-prev')!.addEventListener('click', () => show(cur - 1));
+  lb.querySelector('.lb-next')!.addEventListener('click', () => show(cur + 1));
+  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') show(cur + 1);
+    else if (e.key === 'ArrowLeft') show(cur - 1);
+  });
+  let sx = 0, sy = 0;
+  lb.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  lb.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1));
+    else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) close();
+  }, { passive: true });
+  img.addEventListener('contextmenu', (e) => e.preventDefault());
+
+  // deep link: /photography#oeschinensee-07 opens that photo
+  const fromHash = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    const el = document.querySelector<HTMLElement>(`.sq-item[data-id="${CSS.escape(id)}"]`);
+    if (el) open(el);
+  };
+  window.addEventListener('pageshow', fromHash, { once: true });
+</script>

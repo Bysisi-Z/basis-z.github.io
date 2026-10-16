@@ -1,44 +1,65 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryLightbox from '../../components/GalleryLightbox.astro';
 import { albums, totalPhotos } from '../../lib/gallery.mjs';
+
+const photos = albums.flatMap((a) => a.photos.map((p) => ({ ...p, album: a })));
 ---
 
 <BaseLayout title="Nature Never Judges" description="Photographs from the Swiss Alps — trails walked, peaks reached, silences found.">
   <div class="gal">
     <header class="gal-head">
-      <p class="gal-kicker">03 <span>·</span> Photography</p>
       <h1 class="gal-title">Nature never judges</h1>
-      <div class="gal-sub">
-        <p>Trails walked, peaks reached, silences found.</p>
-        <p class="gal-count">{albums.length} albums <span>·</span> {totalPhotos} photographs <span>·</span> <a href="/trails">Trails map →</a></p>
-      </div>
+      <p class="gal-sub">Trails walked, peaks reached, silences found.</p>
     </header>
 
-    <ol class="gal-albums">
-      {albums.map((a, i) => (
-        <li class={`album-row${i % 2 ? ' album-row--flip' : ''}`}>
-          <a class="album-cover" href={`/photography/album/${a.slug}`} aria-label={`${a.title} — ${a.photos.length} photographs`}>
+    <div class="gal-body">
+      <!-- Filter (sidebar on desktop, a row on phones) -->
+      <nav class="gal-filter" aria-label="Filter photographs by album">
+        <p class="gf-label">Filter</p>
+        <ul>
+          <li><button type="button" class="gf-btn" data-album="all" aria-pressed="true">All <span>{totalPhotos}</span></button></li>
+          {albums.map((a) => (
+            <li><button type="button" class="gf-btn" data-album={a.slug} aria-pressed="false">{a.title} <span>{a.photos.length}</span></button></li>
+          ))}
+        </ul>
+        {albums.map((a) => (
+          <div class="gf-info" data-for={a.slug} hidden>
+            <p class="gf-meta">{a.place}<br />{a.date}</p>
+            {a.intro && <p class="gf-intro">{a.intro}</p>}
+            <a href={`/photography/album/${a.slug}`}>Album page →</a>
+            {a.guide && <a href={a.guide}>Trail guide →</a>}
+          </div>
+        ))}
+        <a class="gf-trails" href="/trails">Trails map →</a>
+      </nav>
+
+      <!-- Square wall: every photo, centre-cropped; click opens the full frame -->
+      <div class="sq-grid">
+        {photos.map((p, i) => (
+          <button
+            class="sq-item"
+            type="button"
+            data-album={p.album.slug}
+            data-id={p.id}
+            data-slide={p.slide}
+            aria-label={`${p.album.title}, photo ${p.index + 1} — open`}
+          >
             <img
-              src={a.cover.thumb}
-              srcset={a.cover.srcset}
-              sizes="(max-width: 860px) 100vw, 62vw"
-              width={a.cover.width}
-              height={a.cover.height}
-              alt={`${a.title}, ${a.place}`}
-              loading={i === 0 ? 'eager' : 'lazy'}
+              src={p.thumb}
+              width={p.width}
+              height={p.height}
+              alt={p.caption || `${p.album.title}, photo ${p.index + 1}`}
+              loading={i < 12 ? 'eager' : 'lazy'}
               decoding="async"
             />
-          </a>
-          <div class="album-text">
-            <span class="album-num">{a.number}</span>
-            <h2 class="album-title"><a href={`/photography/album/${a.slug}`}>{a.title}</a></h2>
-            <p class="album-meta">{a.place}<span>·</span>{a.date}</p>
-            {a.intro && <p class="album-intro">{a.intro}</p>}
-            <a class="album-link" href={`/photography/album/${a.slug}`}>{a.photos.length} photographs <span aria-hidden="true">→</span></a>
-          </div>
-        </li>
-      ))}
-    </ol>
+            <span class="sq-tag" aria-hidden="true">{p.album.title}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <GalleryLightbox />
   </div>
 </BaseLayout>
 
@@ -63,160 +84,179 @@ import { albums, totalPhotos } from '../../lib/gallery.mjs';
     --g-rule: rgba(236, 232, 225, 0.12);
     background: #0C0C0B;
     color: var(--g-ink);
-    padding: clamp(64px, 9vw, 140px) clamp(20px, 6vw, 96px) clamp(80px, 10vw, 160px);
+    padding: clamp(40px, 6vw, 96px) clamp(16px, 4vw, 64px) clamp(64px, 8vw, 120px);
   }
 
-  /* ── Header ── */
   .gal-head {
-    max-width: 1400px;
-    margin: 0 auto clamp(64px, 9vw, 140px);
+    max-width: 1680px;
+    margin: 0 auto clamp(32px, 4vw, 64px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px 40px;
+    padding-bottom: clamp(18px, 2vw, 28px);
+    border-bottom: 1px solid var(--g-rule);
   }
-  .gal-kicker {
-    margin: 0 0 clamp(18px, 2.4vw, 32px);
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--g-muted);
-  }
-  .gal-kicker span { margin: 0 8px; opacity: 0.6; }
   .gal-title {
     margin: 0;
     font-family: var(--serif);
     font-weight: 300;
-    font-size: clamp(46px, 8vw, 128px);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    color: var(--g-ink);
+    font-size: clamp(36px, 5vw, 76px);
+    line-height: 1;
+    letter-spacing: -0.015em;
   }
   .gal-sub {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 14px 40px;
-    margin-top: clamp(24px, 3vw, 44px);
-    padding-top: 22px;
-    border-top: 1px solid var(--g-rule);
-  }
-  .gal-sub p { margin: 0; }
-  .gal-sub p:first-child {
+    margin: 0;
     font-family: var(--serif);
     font-style: italic;
     font-weight: 300;
-    font-size: clamp(18px, 1.7vw, 22px);
+    font-size: clamp(17px, 1.5vw, 21px);
     color: var(--g-soft);
   }
-  .gal-count {
+
+  .gal-body {
+    max-width: 1680px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: clamp(150px, 13vw, 210px) minmax(0, 1fr);
+    gap: clamp(20px, 3vw, 48px);
+    align-items: start;
+  }
+
+  /* ── Filter ── */
+  .gal-filter {
+    position: sticky;
+    top: 84px;
     font-family: var(--sans);
+    font-size: 13px;
+  }
+  .gf-label {
+    margin: 0 0 14px;
     font-size: 11px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--g-muted);
   }
-  .gal-count span { margin: 0 8px; opacity: 0.6; }
-  .gal-count a { color: var(--g-ink); text-decoration: none; border-bottom: 1px solid var(--g-rule); padding-bottom: 2px; transition: border-color 0.3s; }
-  .gal-count a:hover { border-color: var(--g-ink); }
-
-  /* ── Album rows: big cover + side caption, alternating ── */
-  .gal-albums {
-    list-style: none;
-    margin: 0 auto;
-    padding: 0;
-    max-width: 1400px;
+  .gal-filter ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .gf-btn {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 5px 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 14px;
+    color: var(--g-soft);
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.25s;
+  }
+  .gf-btn span { font-size: 11px; color: var(--g-muted); }
+  .gf-btn:hover { color: var(--g-ink); }
+  .gf-btn[aria-pressed="true"] { color: var(--g-ink); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+  .gf-info {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--g-rule);
     display: flex;
     flex-direction: column;
-    gap: clamp(72px, 11vw, 180px);
+    gap: 10px;
   }
-  .album-row {
-    display: grid;
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-    gap: clamp(28px, 4vw, 72px);
-    align-items: end;
+  .gf-info[hidden] { display: none; }
+  .gf-meta { margin: 0; font-size: 11px; line-height: 1.8; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-muted); }
+  .gf-intro { margin: 0; font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--g-soft); }
+  .gf-info a,
+  .gf-trails {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--g-ink);
+    text-decoration: none;
   }
-  .album-row--flip { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
-  .album-row--flip .album-cover { order: 2; }
-  .album-row--flip .album-text { order: 1; text-align: right; align-items: flex-end; }
+  .gf-info a:hover,
+  .gf-trails:hover { color: var(--g-soft); }
+  .gf-trails { display: inline-block; margin-top: 28px; color: var(--g-soft); }
 
-  .album-cover {
-    display: block;
-    overflow: hidden;
-    aspect-ratio: 3 / 2;
-    background: #161614;
+  /* ── Square wall ── */
+  .sq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 15vw, 260px), 1fr));
+    gap: clamp(3px, 0.35vw, 6px);
   }
-  .album-cover img {
+  .sq-item {
+    position: relative;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    background: #161614;
+    overflow: hidden;
+    cursor: zoom-in;
+    animation: sq-in 0.6s ease both;
+  }
+  .sq-item[hidden] { display: none; }
+  @keyframes sq-in { from { opacity: 0; } to { opacity: 1; } }
+  .sq-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transform: scale(1.001);
-    transition: transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1), filter 1.6s ease;
-    filter: brightness(0.92);
+    filter: brightness(0.93);
+    transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.8s ease;
   }
-  .album-cover:hover img { transform: scale(1.035); filter: brightness(1); }
-
-  .album-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-bottom: 6px;
-  }
-  .album-num {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: clamp(20px, 1.8vw, 26px);
-    color: var(--g-muted);
-    margin-bottom: clamp(12px, 1.6vw, 22px);
-  }
-  .album-title {
-    margin: 0;
-    font-family: var(--serif);
-    font-weight: 300;
-    font-size: clamp(34px, 4.2vw, 64px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-  }
-  .album-title a { color: inherit; text-decoration: none; }
-  .album-meta {
-    margin: clamp(14px, 1.6vw, 22px) 0 0;
+  .sq-item:hover img { transform: scale(1.04); filter: brightness(1.04); }
+  .sq-item:focus-visible { outline: 1px solid var(--g-ink); outline-offset: 2px; }
+  .sq-tag {
+    position: absolute;
+    left: 10px;
+    bottom: 8px;
     font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.2em;
+    font-size: 10px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--g-soft);
+    color: #fff;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.4s, transform 0.4s;
   }
-  .album-meta span { margin: 0 10px; opacity: 0.5; }
-  .album-intro {
-    margin: 18px 0 0;
-    max-width: 34ch;
-    font-family: var(--serif);
-    font-size: clamp(17px, 1.4vw, 19px);
-    line-height: 1.6;
-    color: var(--g-soft);
-  }
-  .album-link {
-    margin-top: clamp(26px, 3vw, 44px);
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--g-ink);
-    text-decoration: none;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--g-rule);
-    transition: border-color 0.3s, gap 0.3s;
-  }
-  .album-link span { display: inline-block; margin-left: 8px; transition: transform 0.4s ease; }
-  .album-link:hover { border-color: var(--g-ink); }
-  .album-link:hover span { transform: translateX(4px); }
+  .sq-item:hover .sq-tag { opacity: 0.9; transform: none; }
 
-  @media (max-width: 860px) {
-    .album-row,
-    .album-row--flip { grid-template-columns: 1fr; gap: 22px; }
-    .album-row--flip .album-cover { order: 0; }
-    .album-row--flip .album-text { order: 1; text-align: left; align-items: flex-start; }
+  @media (max-width: 760px) {
+    .gal-body { grid-template-columns: 1fr; }
+    .gal-filter { position: static; }
+    .gf-label { display: none; }
+    .gal-filter ul { flex-direction: row; flex-wrap: wrap; gap: 4px 18px; }
+    .gf-info { margin-top: 12px; padding-top: 12px; flex-direction: row; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; }
+    .gf-meta br { display: none; }
+    .gf-trails { display: none; }
+    .sq-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .album-cover img { transition: none; }
+    .sq-item { animation: none; }
+    .sq-item img { transition: none; }
   }
 </style>
+
+<script>
+  const btns = Array.from(document.querySelectorAll<HTMLButtonElement>('.gf-btn'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.sq-item'));
+  const infos = Array.from(document.querySelectorAll<HTMLElement>('.gf-info'));
+
+  function apply(album: string) {
+    btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.album === album)));
+    items.forEach((el) => {
+      const on = album === 'all' || el.dataset.album === album;
+      if (on && el.hidden) { el.hidden = false; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }
+      else if (!on) el.hidden = true;
+    });
+    infos.forEach((el) => { el.hidden = el.dataset.for !== album; });
+    const url = new URL(location.href);
+    if (album === 'all') url.searchParams.delete('album'); else url.searchParams.set('album', album);
+    history.replaceState(null, '', url.pathname + url.search + url.hash);
+  }
+  btns.forEach((b) => b.addEventListener('click', () => apply(b.dataset.album!)));
+  const start = new URL(location.href).searchParams.get('album');
+  if (start && btns.some((b) => b.dataset.album === start)) apply(start);
+</script>

@@ -20,7 +20,11 @@ export const albums = config.albums.map((album, i) => {
     .filter((p) => sizes[p.file])
     .map((p, j) => {
       const { name, width, height } = sizes[p.file];
-      return { ...p, name, width, height, ratio: width / height, index: j, ...photoUrls(album.slug, name) };
+      const id = `${album.slug}-${String(j + 1).padStart(2, '0')}`;
+      const urls = photoUrls(album.slug, name);
+      // what GalleryLightbox reads from data-slide
+      const slide = JSON.stringify({ id, src: urls.full, srcset: urls.srcset, w: width, h: height, caption: p.caption || '', album: album.title });
+      return { ...p, id, name, width, height, ratio: width / height, index: j, slide, ...urls };
     });
   const cover = photos.find((p) => p.file === album.cover) ?? photos[0];
   return { ...album, number: String(i + 1).padStart(2, '0'), photos, cover };
