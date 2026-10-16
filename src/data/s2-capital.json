@@ -30,8 +30,8 @@
     {
       "ticker": "MRK",
       "name": "Merck & Co.",
-      "lastPrice": 145.19,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 145.95,
+      "lastPriceDate": "2026-10-16",
       "country": "US",
       "currency": "USD"
     }
@@ -44,8 +44,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 659.67,
-      "lastPrice": 771.79,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 763.25,
+      "lastPriceDate": "2026-10-16",
       "country": "US",
       "group": "broad",
       "label": "S&P 500",
@@ -61,14 +61,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 4.596,
       "baseFx": 0.140615,
-      "lastPrice": 4.294,
-      "lastPriceDate": "2026-10-14",
+      "lastPrice": 4.242,
+      "lastPriceDate": "2026-10-15",
       "country": "CN",
       "group": "broad",
       "label": "CSI 300",
       "color": "#2EA36B",
       "currency": "CNY",
-      "lastFx": 0.149432
+      "lastFx": 0.149419
     },
     {
       "ticker": "2828.HK",
@@ -78,14 +78,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 94.52,
       "baseFx": 0.12861,
-      "lastPrice": 84.06,
-      "lastPriceDate": "2026-10-14",
+      "lastPrice": 83.24,
+      "lastPriceDate": "2026-10-15",
       "country": "HK",
       "group": "broad",
       "label": "HSCEI",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127415
+      "lastFx": 0.127426
     },
     {
       "ticker": "XLV",
@@ -94,8 +94,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 136.16,
-      "lastPrice": 177.19,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 176.71,
+      "lastPriceDate": "2026-10-16",
       "country": "US",
       "group": "sector",
       "label": "Health Care (XLV)",
@@ -110,8 +110,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 141.19,
-      "lastPrice": 207.41,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 201.99,
+      "lastPriceDate": "2026-10-16",
       "country": "US",
       "group": "sector",
       "label": "Nasdaq Biotech (IBB)",
@@ -126,14 +126,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 0.43,
       "baseFx": 0.140615,
-      "lastPrice": 0.374,
-      "lastPriceDate": "2026-10-14",
+      "lastPrice": 0.377,
+      "lastPriceDate": "2026-10-15",
       "country": "CN",
       "group": "sector",
       "label": "CSI 300 Health Care",
       "color": "#2EA36B",
       "currency": "CNY",
-      "lastFx": 0.149432
+      "lastFx": 0.149419
     },
     {
       "ticker": "3069.HK",
@@ -143,14 +143,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 17.2,
       "baseFx": 0.12861,
-      "lastPrice": 14.99,
-      "lastPriceDate": "2026-10-14",
+      "lastPrice": 14.82,
+      "lastPriceDate": "2026-10-15",
       "country": "HK",
       "group": "sector",
       "label": "HK Biotech",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127415
+      "lastFx": 0.127426
     }
   ],
   "trades": [
@@ -1407,6 +1407,10 @@
       [
         "2026-10-15",
         4.088
+      ],
+      [
+        "2026-10-16",
+        4.07
       ]
     ]
   },
@@ -5174,12 +5178,26 @@
       "cash": 83977534.14,
       "benchmarks": {
         "SPY": 771.79,
-        "510300.SS": 0.641605,
-        "2828.HK": 10.71143,
+        "510300.SS": 0.633835,
+        "2828.HK": 10.60694,
         "XLV": 177.19,
         "IBB": 207.41,
-        "512010.SS": 0.055883,
-        "3069.HK": 1.910116
+        "512010.SS": 0.056331,
+        "3069.HK": 1.888453
+      }
+    },
+    {
+      "date": "2026-10-16",
+      "value": 120764239.02,
+      "cash": 83987028.27,
+      "benchmarks": {
+        "SPY": 763.25,
+        "510300.SS": 0.635333,
+        "2828.HK": 10.607606,
+        "XLV": 176.71,
+        "IBB": 201.99,
+        "512010.SS": 0.056464,
+        "3069.HK": 1.888572
       }
     }
   ],
@@ -6260,6 +6278,14 @@
         [
           "2026-10-15",
           1.202501
+        ],
+        [
+          "2026-10-16",
+          1.208094
+        ],
+        [
+          "2026-10-16",
+          1.214167
         ]
       ],
       "EUR": [
@@ -7302,6 +7328,14 @@
         [
           "2026-10-15",
           1.119507
+        ],
+        [
+          "2026-10-16",
+          1.121315
+        ],
+        [
+          "2026-10-16",
+          1.124354
         ]
       ],
       "HKD": [
@@ -8344,6 +8378,14 @@
         [
           "2026-10-15",
           0.127426
+        ],
+        [
+          "2026-10-16",
+          0.127434
+        ],
+        [
+          "2026-10-17",
+          0.127423
         ]
       ],
       "CNY": [
@@ -9386,6 +9428,14 @@
         [
           "2026-10-15",
           0.149419
+        ],
+        [
+          "2026-10-16",
+          0.149457
+        ],
+        [
+          "2026-10-16",
+          0.149772
         ]
       ]
     }
