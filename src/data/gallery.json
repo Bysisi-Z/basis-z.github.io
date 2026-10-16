@@ -845,6 +845,49 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "lauterbrunnen",
+      "source": "_data_sources/gallery/lauterbrunnen",
+      "title": "Mürren & Lauterbrunnen",
+      "place": "Bernese Oberland, Switzerland",
+      "intro": "",
+      "cover": "IMG_5890.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_5883.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5890.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5892.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5895.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5911.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5912.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5913.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_5917.jpg",
+          "caption": ""
+        }
+      ]
     }
   ]
 }

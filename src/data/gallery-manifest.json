@@ -1074,5 +1074,55 @@
    "width": 3024,
    "height": 4032
   }
+ ],
+ "lauterbrunnen": [
+  {
+   "file": "IMG_5883.jpg",
+   "name": "IMG_5883",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5890.jpg",
+   "name": "IMG_5890",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_5892.jpg",
+   "name": "IMG_5892",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5895.jpg",
+   "name": "IMG_5895",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5911.jpg",
+   "name": "IMG_5911",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5912.jpg",
+   "name": "IMG_5912",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5913.jpg",
+   "name": "IMG_5913",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_5917.jpg",
+   "name": "IMG_5917",
+   "width": 3024,
+   "height": 4032
+  }
  ]
 }
