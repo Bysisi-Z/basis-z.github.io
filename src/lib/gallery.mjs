@@ -30,6 +30,8 @@ export const albums = config.albums.map((album, i) => {
   return { ...album, number: String(i + 1).padStart(2, '0'), photos, cover };
 });
 
-export const theme = config.theme === 'dark' ? 'dark' : 'light';
+// "light" | "dark" | "auto" (auto = by the visitor's clock, like the homepage; see GalleryThemeScript)
+export const themeSetting = ['light', 'dark', 'auto'].includes(config.theme) ? config.theme : 'light';
+export const theme = themeSetting === 'dark' ? 'dark' : 'light';   // server-rendered default
 
 export const totalPhotos = albums.reduce((n, a) => n + a.photos.length, 0);

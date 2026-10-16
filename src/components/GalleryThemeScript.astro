@@ -1,0 +1,15 @@
+---
+// Picks the gallery theme by the visitor's clock, same rule as the homepage:
+// 06:00–18:00 light, otherwise dark; ?preview=day / ?preview=night overrides.
+// Inline and placed first inside .gal so it runs before the page paints (no flash).
+---
+
+<script is:inline>
+  (function () {
+    var g = document.currentScript && document.currentScript.parentElement;
+    if (!g) return;
+    var p = new URLSearchParams(location.search).get('preview');
+    var h = p === 'night' ? 20 : p === 'day' ? 10 : new Date().getHours();
+    g.setAttribute('data-theme', h >= 6 && h < 18 ? 'light' : 'dark');
+  })();
+</script>

@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
-import { albums, theme } from '../../../lib/gallery.mjs';
+import { albums, theme, themeSetting } from '../../../lib/gallery.mjs';
 import '../../../styles/gallery.css';
+import GalleryThemeScript from '../../../components/GalleryThemeScript.astro';
 
 export function getStaticPaths() {
   return albums.map((album, i) => ({
@@ -16,6 +17,7 @@ const { album, next } = Astro.props;
 
 <BaseLayout title={`${album.title} — Nature Never Judges`} description={`${album.photos.length} photographs · ${album.place} · ${album.date}`}>
   <div class="gal" data-theme={theme}>
+    {themeSetting === 'auto' && <GalleryThemeScript />}
     <!-- Hero: the cover, full bleed -->
     <section class="ah">
       <img
