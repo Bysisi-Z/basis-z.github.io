@@ -28,7 +28,7 @@ const photos = albums.flatMap((a) => a.photos.map((p) => ({ ...p, album: a })));
         </ul>
         {albums.map((a) => (
           <div class="gf-info" data-for={a.slug} hidden>
-            <p class="gf-meta">{a.place}<br />{a.date}</p>
+            <p class="gf-meta">{a.place}</p>
             {a.intro && <p class="gf-intro">{a.intro}</p>}
             <a href={`/photography/album/${a.slug}`}>Album page →</a>
             {a.guide && <a href={a.guide}>Trail guide →</a>}

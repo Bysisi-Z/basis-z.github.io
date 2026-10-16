@@ -15,7 +15,7 @@ export function getStaticPaths() {
 const { album, next } = Astro.props;
 ---
 
-<BaseLayout title={`${album.title} — Nature Never Judges`} description={`${album.photos.length} photographs · ${album.place} · ${album.date}`}>
+<BaseLayout title={`${album.title} — Nature Never Judges`} description={`${album.photos.length} photographs · ${album.place}`}>
   <div class="gal" data-theme={theme}>
     {themeSetting === 'auto' && <GalleryThemeScript />}
     <!-- Hero: the cover, full bleed -->
@@ -35,7 +35,7 @@ const { album, next } = Astro.props;
       <div class="ah-text">
         <p class="ah-num">Album {album.number}</p>
         <h1 class="ah-title">{album.title}</h1>
-        <p class="ah-meta">{album.place}<span>·</span>{album.date}<span>·</span>{album.photos.length} photographs</p>
+        <p class="ah-meta">{album.place}<span>·</span>{album.photos.length} photographs</p>
       </div>
     </section>
 
