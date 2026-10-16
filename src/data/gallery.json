@@ -292,6 +292,45 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "rigi",
+      "source": "_data_sources/gallery/rigi",
+      "title": "Rigi",
+      "place": "Lucerne, Switzerland",
+      "intro": "",
+      "cover": "DSC08079.JPG",
+      "guide": "",
+      "photos": [
+        {
+          "file": "DSC08064.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08065.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08066.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08070.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08074.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08077.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08079.JPG",
+          "caption": ""
+        }
+      ]
     }
   ]
 }

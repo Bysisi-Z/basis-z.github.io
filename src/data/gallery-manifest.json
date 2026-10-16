@@ -378,5 +378,49 @@
    "width": 6000,
    "height": 4000
   }
+ ],
+ "rigi": [
+  {
+   "file": "DSC08064.JPG",
+   "name": "DSC08064",
+   "width": 4000,
+   "height": 6000
+  },
+  {
+   "file": "DSC08065.JPG",
+   "name": "DSC08065",
+   "width": 6000,
+   "height": 4000
+  },
+  {
+   "file": "DSC08066.JPG",
+   "name": "DSC08066",
+   "width": 4000,
+   "height": 6000
+  },
+  {
+   "file": "DSC08070.JPG",
+   "name": "DSC08070",
+   "width": 4000,
+   "height": 6000
+  },
+  {
+   "file": "DSC08074.JPG",
+   "name": "DSC08074",
+   "width": 4000,
+   "height": 6000
+  },
+  {
+   "file": "DSC08077.JPG",
+   "name": "DSC08077",
+   "width": 4000,
+   "height": 6000
+  },
+  {
+   "file": "DSC08079.JPG",
+   "name": "DSC08079",
+   "width": 6000,
+   "height": 4000
+  }
  ]
 }
