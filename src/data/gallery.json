@@ -520,6 +520,81 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "caumasee",
+      "source": "_data_sources/gallery/caumasee",
+      "title": "Caumasee",
+      "place": "Flims, Switzerland",
+      "intro": "",
+      "cover": "DSC08109.JPG",
+      "guide": "",
+      "photos": [
+        {
+          "file": "DSC08109.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08110.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08111.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08112.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08115.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08116.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08118.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08130.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08132.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08135.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08140.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08146.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08147.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08151.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08156.JPG",
+          "caption": ""
+        },
+        {
+          "file": "DSC08162.JPG",
+          "caption": ""
+        }
+      ]
     }
   ]
 }
