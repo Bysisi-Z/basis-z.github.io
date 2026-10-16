@@ -895,10 +895,13 @@
       "title": "Rosenlaui",
       "place": "Bernese Oberland, Switzerland",
       "intro": "",
-      "cover": "IMG_6854.jpg",
-      "coverPosition": "50% 18%",
+      "cover": "rosenlaui-hike.jpg",
       "guide": "",
       "photos": [
+        {
+          "file": "rosenlaui-hike.jpg",
+          "caption": ""
+        },
         {
           "file": "IMG_6685.jpg",
           "caption": ""
