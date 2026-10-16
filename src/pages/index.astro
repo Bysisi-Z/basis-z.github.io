@@ -70,7 +70,7 @@ const modules = [
     </div>
 
     <!-- Right: black phone-strip -->
-    <div class="n-strip" id="nStrip" aria-hidden="true">
+    <div class="n-strip" id="nStrip">
 
       <div class="n-carrier">
         <svg class="n-carrier-signal" viewBox="0 0 20 14" fill="none">
@@ -109,6 +109,18 @@ const modules = [
           <span class="n-w-loc"  id="nWeatherLoc"></span>
         </div>
         <div class="n-clock" id="nClock">00:00</div>
+      </div>
+
+      <!-- Search bar (same position as the day strip) -->
+      <div class="n-search-wrap">
+        <div class="n-search-bar">
+          <svg class="n-search-icon" viewBox="0 0 18 18" fill="none">
+            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input id="nSearchInput" class="n-search-input" type="search" placeholder="Search..." autocomplete="off" spellcheck="false">
+        </div>
+        <div class="n-search-results" id="nSearchResults"></div>
       </div>
 
       <!-- Cats easter egg -->
@@ -1000,11 +1012,13 @@ const modules = [
       }
     })();
 
-    // ── Search (day only) ──
-    if (_isDay) {
+    // ── Search (day and night strips; prefix picks the visible one) ──
+    (function() {
+      var _p  = _isDay ? 'd' : 'n';
       var _pf;
-      var _si = document.getElementById('dSearchInput');
-      var _sr = document.getElementById('dSearchResults');
+      var _si = document.getElementById(_p + 'SearchInput');
+      var _sr = document.getElementById(_p + 'SearchResults');
+      if (!_si || !_sr) return;
 
       async function _initPF() {
         if (_pf) return;
@@ -1012,7 +1026,7 @@ const modules = [
         catch(e) { _pf = null; }
       }
       function _posResults() {
-        var bar  = _si.closest('.d-search-bar');
+        var bar  = _si.closest('.' + _p + '-search-bar');
         var rect = bar.getBoundingClientRect();
         var avH  = window.innerHeight - rect.bottom - 12;
         _sr.style.top      = (rect.bottom + 6) + 'px';
@@ -1020,11 +1034,12 @@ const modules = [
         _sr.style.width    = rect.width + 'px';
         _sr.style.maxHeight = Math.min(240, Math.max(80, avH)) + 'px';
       }
+      function _empty(msg) { return '<div class="' + _p + '-sr-empty">' + msg + '</div>'; }
       async function _doSearch(q) {
         if (!q.trim()) { _sr.classList.remove('open'); return; }
         await _initPF();
         if (!_pf) {
-          _sr.innerHTML = '<div class="d-sr-empty">Search unavailable.</div>';
+          _sr.innerHTML = _empty('Search unavailable.');
           _posResults(); _sr.classList.add('open'); return;
         }
         try {
@@ -1032,22 +1047,22 @@ const modules = [
           var top = await Promise.all(res.results.slice(0,6).map(function(r){ return r.data(); }));
           _sr.innerHTML = '';
           if (!top.length) {
-            _sr.innerHTML = '<div class="d-sr-empty">No results for "' + q + '".</div>';
+            _sr.innerHTML = _empty('No results for "' + q + '".');
           } else {
             top.forEach(function(r) {
               var a = document.createElement('a');
-              a.className = 'd-sr-item';
+              a.className = _p + '-sr-item';
               a.href = r.url;
               var title   = r.meta && r.meta.title || r.url;
               var excerpt = r.excerpt ? r.excerpt.replace(/<\/?mark>/g,'') : '';
-              a.innerHTML = '<div class="d-sr-title">'+title+'</div>'
-                + (excerpt ? '<div class="d-sr-excerpt">'+excerpt+'</div>' : '');
+              a.innerHTML = '<div class="' + _p + '-sr-title">'+title+'</div>'
+                + (excerpt ? '<div class="' + _p + '-sr-excerpt">'+excerpt+'</div>' : '');
               _sr.appendChild(a);
             });
           }
           _posResults(); _sr.classList.add('open');
         } catch(e) {
-          _sr.innerHTML = '<div class="d-sr-empty">Search error. Please retry.</div>';
+          _sr.innerHTML = _empty('Search error. Please retry.');
           _posResults(); _sr.classList.add('open');
         }
       }
@@ -1060,10 +1075,12 @@ const modules = [
         if (_sr.classList.contains('open')) _posResults();
       });
       document.addEventListener('click', function(e){
-        if (!e.target.closest('.d-search-wrap') && !e.target.closest('.d-search-results'))
+        if (!e.target.closest('.' + _p + '-search-wrap') && !e.target.closest('.' + _p + '-search-results'))
           _sr.classList.remove('open');
       });
+    })();
 
+    if (_isDay) {
       // ── Dandelion seed spawner ──
       (function() {
         var _dandEl = document.querySelector('.d-dandelion');
@@ -1517,6 +1534,92 @@ const modules = [
     text-transform: uppercase;
   }
   .n-w-loc:not(:empty)::before { content: '·'; margin-right: 5px; opacity: 0.5; }
+
+  /* Search bar — night palette, same position as the day strip */
+  .n-search-wrap {
+    position: absolute;
+    top: 47%;
+    left: clamp(10px, 4cqw, 18px);
+    right: clamp(10px, 4cqw, 18px);
+    z-index: 5;
+  }
+  .n-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(180,160,220,0.10);
+    border: 1px solid rgba(212,203,232,0.22);
+    border-radius: 12px;
+    padding: 8px 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .n-search-bar:focus-within { border-color: rgba(212,203,232,0.45); background: rgba(180,160,220,0.16); }
+  .n-search-icon { width: 16px; height: 16px; color: rgba(212,203,232,0.55); flex-shrink: 0; }
+  .n-search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(12px, 3.5cqw, 14px);
+    font-weight: 300;
+    color: rgba(235,228,255,0.92);
+    min-width: 0;
+  }
+  .n-search-input::placeholder { color: rgba(212,203,232,0.42); }
+  .n-search-input::-webkit-search-cancel-button { display: none; }
+
+  .n-search-results {
+    position: fixed;
+    background: rgba(24,16,44,0.94);
+    border: 1px solid rgba(212,203,232,0.18);
+    border-radius: 12px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow-y: auto;
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  }
+  .n-search-results.open { display: block; }
+  .n-sr-item {
+    display: block;
+    padding: 9px 13px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212,203,232,0.10);
+    transition: background 0.15s;
+  }
+  .n-sr-item:last-child { border-bottom: none; }
+  .n-sr-item:hover { background: rgba(180,160,220,0.14); }
+  .n-sr-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(13px, 4cqw, 16px);
+    font-weight: 600;
+    font-style: italic;
+    color: rgba(235,228,255,0.92);
+    line-height: 1.3;
+  }
+  .n-sr-excerpt {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(10px, 2.8cqw, 11px);
+    font-weight: 300;
+    color: rgba(212,203,232,0.60);
+    line-height: 1.4;
+    margin-top: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .n-sr-empty {
+    padding: 12px 13px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    color: rgba(212,203,232,0.50);
+    font-style: italic;
+  }
 
   /* Cats */
   .n-cats-container {
@@ -2195,10 +2298,10 @@ const modules = [
 
   /* Short viewport adjustments */
   @media (max-height: 750px) {
-    .d-search-wrap { top: 43%; }
+    .d-search-wrap, .n-search-wrap { top: 43%; }
   }
   @media (max-height: 620px) {
-    .d-search-wrap { top: 40%; }
+    .d-search-wrap, .n-search-wrap { top: 40%; }
   }
 
 
