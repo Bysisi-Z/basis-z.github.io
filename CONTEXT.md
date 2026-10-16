@@ -81,7 +81,8 @@ src/
 │   ├── research/meps.astro        # MEPS explorer ✅
 │   ├── research/meps-expenditure.astro # MEPS expenditure by payer ✅
 │   ├── research/meps-drugs.astro  # Drug Payer & Channel Explorer ✅ (s84)
-│   ├── photography/index.astro    # Nature Never Judges — mixed grid ✅
+│   ├── photography/index.astro    # Nature — square photo wall + album filter ✅ (s88)
+│   ├── photography/album/[slug].astro # Nature album page ✅ (s88)
 │   ├── photography/[slug].astro   # Hiking guide article template ✅
 │   ├── writing/index.astro        # Wandering — post list (Codex) ✅
 │   ├── moments/index.astro        # Moments ✅
@@ -102,7 +103,7 @@ public/                            # Static assets + standalone HTML analysis pa
 |---|---|---|---|
 | 01 | `/career` | Journey | 🔒 passcode |
 | 02 | `/research` | Decoding | public |
-| 03 | `/photography` | Nature Never Judges | public |
+| 03 | `/photography` | Nature | public |
 | 04 | `/moments` | Moments | public |
 | 05 | `/writing` | Wandering | public |
 | 06 | `/capital` | S² Capital | public |
@@ -139,7 +140,8 @@ funnel (Table 19) — all cited to AHRQ's own `h251doc.pdf`. Also added a raw/re
 filter to the MEPS explorer itself, sourced from AHRQ's official Variable-Source Crosswalk. Full details →
 `CONTEXT_RESEARCH.md`.
 
-### Nature Never Judges (`/photography`) 🟡 gallery demo (s88, local — not pushed yet)
+### Nature (`/photography`) ✅ photo gallery (s88, live 2026-10-16)
+**Renamed (user, s88):** section/nav/homepage label is **"Nature"** (was "Nature Never Judges"); page h1 "Nature", subtitle "Nature never judges." (replaced "Trails walked, peaks reached, silences found."). Explorer's prose line "Nature never judges." is the user's own copy — leave it.
 **Direction change (user, 2026-10-16):** no more travel-writing — the section becomes a photo gallery with optional short captions. Two colour themes in `src/styles/gallery.css`, switched by `"theme": "light" | "dark" | "auto"` at the top of `src/data/gallery.json` — **currently `auto`** (user, s88): same rule as the homepage, visitor's clock 06:00–18:00 → light, else dark, `?preview=day|night` overrides; done by the inline `src/components/GalleryThemeScript.astro` placed first inside `.gal` so there is no flash (pages set `.gal[data-theme]`; nav/footer/lightbox follow). **light** (current, white like jimmychin.com): `#FFF` bg, ink `#141414`, nav pill black. **dark**: `#0C0C0B` bg, ivory `#ECE8E1`. Album hero text stays light in both (it sits on the photo). Cormorant light titles, Inter caps meta.
 - **Data:** `src/data/gallery.json` — per album `slug, folder, title, place, date, intro (optional), cover, guide (old article link), photos[{file, caption}]` in display order. Image sizes in `src/data/gallery-manifest.json`; both joined in `src/lib/gallery.mjs`.
 - **Images:** `node scripts/build-gallery.mjs` (sharp) → `public/images/gallery/<slug>/<name>-{640,1280,2048}.webp`, EXIF-rotated, **all metadata stripped (no GPS)**. Re-run after adding photos; `--force` rebuilds. Originals stay in `public/images/<folder>/` (⚠️ 55 of them carry GPS and are publicly downloadable).
@@ -172,7 +174,7 @@ Photo + summary, 5 work entries with vine bullets, education, capabilities, acti
 
 ## 5. Key Design Rules
 
-- **"Nature Never Judges"** always has spaces — never concatenate
+- **"Nature"** is the section name (s88; formerly "Nature Never Judges" — when that phrase is used as the subtitle it keeps its spaces)
 - Portrait photos → split hero (42% photo | 58% text), `imagePosition: left|right`
 - Landscape photos → full-width hero with text overlay
 - Timeline: left = Life (`var(--rose)`), right = Career (`var(--stone)`)

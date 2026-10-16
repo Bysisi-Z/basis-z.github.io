@@ -1,4 +1,4 @@
-/* Nature Never Judges gallery — colour themes.
+/* Nature (/photography) gallery — colour themes.
    Pick one with "theme" in src/data/gallery.json ("light" | "dark"); pages put it on .gal[data-theme]. */
 
 .gal[data-theme="light"] {

@@ -8,12 +8,12 @@ import GalleryThemeScript from '../../components/GalleryThemeScript.astro';
 const photos = albums.flatMap((a) => a.photos.map((p) => ({ ...p, album: a })));
 ---
 
-<BaseLayout title="Nature Never Judges" description="Photographs from the Swiss Alps — trails walked, peaks reached, silences found.">
+<BaseLayout title="Nature" description="Photographs from the Swiss Alps — trails walked, peaks reached, silences found.">
   <div class="gal" data-theme={theme}>
     {themeSetting === 'auto' && <GalleryThemeScript />}
     <header class="gal-head">
-      <h1 class="gal-title">Nature never judges</h1>
-      <p class="gal-sub">Trails walked, peaks reached, silences found.</p>
+      <h1 class="gal-title">Nature</h1>
+      <p class="gal-sub">Nature never judges.</p>
     </header>
 
     <div class="gal-body">
