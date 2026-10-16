@@ -888,6 +888,46 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "rosenlaui",
+      "source": "_data_sources/gallery/rosenlaui",
+      "title": "Rosenlaui",
+      "place": "Bernese Oberland, Switzerland",
+      "intro": "",
+      "cover": "IMG_6854.jpg",
+      "coverPosition": "50% 18%",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_6685.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6854.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6707.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6725.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6736.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6741.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_6790.jpg",
+          "caption": ""
+        }
+      ]
     }
   ]
 }
