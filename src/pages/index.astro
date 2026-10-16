@@ -140,13 +140,13 @@ const modules = [
         <svg class="n-lamp-beams" viewBox="0 0 80 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow:visible" aria-hidden="true">
           <defs>
             <linearGradient id="nBeamGrad" x1="0.5" y1="0" x2="0.5" y2="1">
-              <stop offset="0%"   stop-color="rgba(255,220,80,0.08)"/>
-              <stop offset="40%"  stop-color="rgba(255,210,70,0.05)"/>
+              <stop offset="0%"   stop-color="rgba(255,220,80,0.14)"/>
+              <stop offset="40%"  stop-color="rgba(255,210,70,0.09)"/>
               <stop offset="100%" stop-color="rgba(255,200,60,0)"/>
             </linearGradient>
             <linearGradient id="nAmbientGrad" x1="0.5" y1="0" x2="0.5" y2="1">
-              <stop offset="0%"   stop-color="rgba(255,215,70,0.14)"/>
-              <stop offset="50%"  stop-color="rgba(255,210,70,0.06)"/>
+              <stop offset="0%"   stop-color="rgba(255,215,70,0.24)"/>
+              <stop offset="50%"  stop-color="rgba(255,210,70,0.11)"/>
               <stop offset="100%" stop-color="rgba(255,200,60,0)"/>
             </linearGradient>
             <radialGradient id="nLampGlow" cx="50%" cy="50%" r="50%">
@@ -520,16 +520,17 @@ const modules = [
       _greetEl.textContent = t;
       _greetEl.classList.toggle('zh', _isChinese(t));
     }
+    // Timer-driven, not transitionend: background tabs can skip the fade-out
+    // transition, which used to leave the greeting stuck invisible.
     function _nextGreet() {
       _greetEl.classList.remove('visible');
-      _greetEl.addEventListener('transitionend', function _h() {
-        _greetEl.removeEventListener('transitionend', _h);
+      setTimeout(function () {
         _setGreet(_greets[_gi % _greets.length]);
         _gi++;
         void _greetEl.offsetWidth;
         _greetEl.classList.add('visible');
         setTimeout(_nextGreet, 3600);
-      }, { once: true });
+      }, 800); // matches the 0.75s opacity transition
     }
     setTimeout(function () {
       _setGreet(_greets[_gi % _greets.length]);
@@ -1405,7 +1406,7 @@ const modules = [
     flex: 0.7 1 0;
     background: #000;
     container-type: inline-size;
-    overflow-x: clip;
+    overflow: clip; /* cats sit partly below the edge (their empty bottom margin) */
   }
 
   .n-carrier {
@@ -1614,7 +1615,9 @@ const modules = [
   /* Cats */
   .n-cats-container {
     position: absolute;
-    bottom: max(0px, env(safe-area-inset-bottom));
+    /* paws on the lamp's floor line: the cat image has 15.6% (of its width) empty
+       space under the paws, the lamp photo 3.85% (of the lamp width) under the base */
+    bottom: calc(max(0px, env(safe-area-inset-bottom)) + clamp(96px, 14.5vh, 210px) * 0.0385 - clamp(90px, 52cqw, 250px) * 0.156);
     left: clamp(16px, 12cqw, 56px);
     z-index: 4;
     width: clamp(90px, 52cqw, 250px);
@@ -1688,11 +1691,24 @@ const modules = [
     z-index: 3;
     mix-blend-mode: screen;
   }
+  /* warm halo around the bulb, fades in with the lamp */
+  .n-lamp::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 14.3%;
+    width: 170%; aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,226,150,0.30) 0%, rgba(255,205,110,0.16) 30%, rgba(255,190,90,0) 64%);
+    opacity: 0;
+    transition: opacity 0.7s ease 0.2s;
+    pointer-events: none;
+  }
+  .n-lamp-on .n-lamp::after { opacity: 1; }
   .n-lamp-img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
   .n-lamp-img--off { opacity: 0.9; transition: opacity 0.7s ease; }
   .n-lamp-img--on  { position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s ease; }
   .n-lamp-on .n-lamp-img--off { opacity: 0; }
-  .n-lamp-on .n-lamp-img--on  { opacity: 1; animation: n-lamp-flicker 0.9s ease-out; }
+  .n-lamp-on .n-lamp-img--on  { opacity: 1; filter: brightness(1.2) saturate(1.1); animation: n-lamp-flicker 0.9s ease-out; }
   /* bulb catching: two quick flickers, then steady */
   @keyframes n-lamp-flicker {
     0%   { opacity: 0; }
