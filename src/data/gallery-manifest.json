@@ -934,5 +934,85 @@
    "width": 3024,
    "height": 4032
   }
+ ],
+ "schaefler": [
+  {
+   "file": "IMG_4181.jpg",
+   "name": "IMG_4181",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4229.jpg",
+   "name": "IMG_4229",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4268.jpg",
+   "name": "IMG_4268",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4279.jpg",
+   "name": "IMG_4279",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4281.jpg",
+   "name": "IMG_4281",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4283.jpg",
+   "name": "IMG_4283",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_4340.jpg",
+   "name": "IMG_4340",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4341.jpg",
+   "name": "IMG_4341",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_4348.jpg",
+   "name": "IMG_4348",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_4349.jpg",
+   "name": "IMG_4349",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_4353.jpg",
+   "name": "IMG_4353",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4362.jpg",
+   "name": "IMG_4362",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_4379.jpg",
+   "name": "IMG_4379",
+   "width": 3024,
+   "height": 4032
+  }
  ]
 }

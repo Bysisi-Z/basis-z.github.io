@@ -742,6 +742,69 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "schaefler",
+      "source": "_data_sources/gallery/schaefler",
+      "title": "Schäfler",
+      "place": "Appenzell, Switzerland",
+      "intro": "",
+      "cover": "IMG_4348.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_4181.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4229.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4268.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4279.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4281.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4283.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4340.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4341.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4348.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4349.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4353.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4362.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_4379.jpg",
+          "caption": ""
+        }
+      ]
     }
   ]
 }
