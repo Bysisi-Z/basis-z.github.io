@@ -61,14 +61,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 4.596,
       "baseFx": 0.140615,
-      "lastPrice": 4.242,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 4.236,
+      "lastPriceDate": "2026-10-16",
       "country": "CN",
       "group": "broad",
       "label": "CSI 300",
       "color": "#2EA36B",
       "currency": "CNY",
-      "lastFx": 0.149419
+      "lastFx": 0.149457
     },
     {
       "ticker": "2828.HK",
@@ -78,14 +78,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 94.52,
       "baseFx": 0.12861,
-      "lastPrice": 83.24,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 83.5,
+      "lastPriceDate": "2026-10-16",
       "country": "HK",
       "group": "broad",
       "label": "HSCEI",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127426
+      "lastFx": 0.127434
     },
     {
       "ticker": "XLV",
@@ -126,14 +126,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 0.43,
       "baseFx": 0.140615,
-      "lastPrice": 0.377,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 0.367,
+      "lastPriceDate": "2026-10-16",
       "country": "CN",
       "group": "sector",
       "label": "CSI 300 Health Care",
       "color": "#2EA36B",
       "currency": "CNY",
-      "lastFx": 0.149419
+      "lastFx": 0.149457
     },
     {
       "ticker": "3069.HK",
@@ -143,14 +143,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 17.2,
       "baseFx": 0.12861,
-      "lastPrice": 14.82,
-      "lastPriceDate": "2026-10-15",
+      "lastPrice": 15.01,
+      "lastPriceDate": "2026-10-16",
       "country": "HK",
       "group": "sector",
       "label": "HK Biotech",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127426
+      "lastFx": 0.127434
     }
   ],
   "trades": [
@@ -5192,12 +5192,12 @@
       "cash": 83987028.27,
       "benchmarks": {
         "SPY": 763.25,
-        "510300.SS": 0.633997,
-        "2828.HK": 10.607606,
+        "510300.SS": 0.6331,
+        "2828.HK": 10.640739,
         "XLV": 176.71,
         "IBB": 201.99,
-        "512010.SS": 0.056345,
-        "3069.HK": 1.888572
+        "512010.SS": 0.054851,
+        "3069.HK": 1.912784
       }
     }
   ],
@@ -9419,7 +9419,7 @@
         ],
         [
           "2026-10-17",
-          0.149562
+          0.149772
         ]
       ]
     }
