@@ -30,8 +30,8 @@
     {
       "ticker": "MRK",
       "name": "Merck & Co.",
-      "lastPrice": 145.95,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 143.63,
+      "lastPriceDate": "2026-10-19",
       "country": "US",
       "currency": "USD"
     }
@@ -44,8 +44,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 659.67,
-      "lastPrice": 763.25,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 766.48,
+      "lastPriceDate": "2026-10-19",
       "country": "US",
       "group": "broad",
       "label": "S&P 500",
@@ -61,8 +61,8 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 4.596,
       "baseFx": 0.140615,
-      "lastPrice": 4.236,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 4.24,
+      "lastPriceDate": "2026-10-19",
       "country": "CN",
       "group": "broad",
       "label": "CSI 300",
@@ -94,8 +94,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 136.16,
-      "lastPrice": 176.71,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 175.65,
+      "lastPriceDate": "2026-10-19",
       "country": "US",
       "group": "sector",
       "label": "Health Care (XLV)",
@@ -110,8 +110,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 141.19,
-      "lastPrice": 201.99,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 204.06,
+      "lastPriceDate": "2026-10-19",
       "country": "US",
       "group": "sector",
       "label": "Nasdaq Biotech (IBB)",
@@ -126,8 +126,8 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 0.43,
       "baseFx": 0.140615,
-      "lastPrice": 0.367,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 0.373,
+      "lastPriceDate": "2026-10-19",
       "country": "CN",
       "group": "sector",
       "label": "CSI 300 Health Care",
@@ -5202,6 +5202,20 @@
         "IBB": 201.99,
         "512010.SS": 0.054851,
         "3069.HK": 1.912784
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "value": 120208134.3,
+      "cash": 84015528.75,
+      "benchmarks": {
+        "SPY": 766.48,
+        "510300.SS": 0.633698,
+        "2828.HK": 10.640321,
+        "XLV": 175.65,
+        "IBB": 204.06,
+        "512010.SS": 0.055747,
+        "3069.HK": 1.912709
       }
     }
   ],
