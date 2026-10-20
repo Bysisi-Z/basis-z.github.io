@@ -30,8 +30,8 @@
     {
       "ticker": "MRK",
       "name": "Merck & Co.",
-      "lastPrice": 143.63,
-      "lastPriceDate": "2026-10-19",
+      "lastPrice": 148.3,
+      "lastPriceDate": "2026-10-20",
       "country": "US",
       "currency": "USD"
     }
@@ -44,8 +44,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 659.67,
-      "lastPrice": 766.48,
-      "lastPriceDate": "2026-10-19",
+      "lastPrice": 769.05,
+      "lastPriceDate": "2026-10-20",
       "country": "US",
       "group": "broad",
       "label": "S&P 500",
@@ -78,14 +78,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 94.52,
       "baseFx": 0.12861,
-      "lastPrice": 83.5,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 82.54,
+      "lastPriceDate": "2026-10-20",
       "country": "HK",
       "group": "broad",
       "label": "HSCEI",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127434
+      "lastFx": 0.127428
     },
     {
       "ticker": "XLV",
@@ -94,8 +94,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 136.16,
-      "lastPrice": 175.65,
-      "lastPriceDate": "2026-10-19",
+      "lastPrice": 179.82,
+      "lastPriceDate": "2026-10-20",
       "country": "US",
       "group": "sector",
       "label": "Health Care (XLV)",
@@ -110,8 +110,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 141.19,
-      "lastPrice": 204.06,
-      "lastPriceDate": "2026-10-19",
+      "lastPrice": 210.5,
+      "lastPriceDate": "2026-10-20",
       "country": "US",
       "group": "sector",
       "label": "Nasdaq Biotech (IBB)",
@@ -143,14 +143,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 17.2,
       "baseFx": 0.12861,
-      "lastPrice": 15.01,
-      "lastPriceDate": "2026-10-16",
+      "lastPrice": 15.25,
+      "lastPriceDate": "2026-10-20",
       "country": "HK",
       "group": "sector",
       "label": "HK Biotech",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127434
+      "lastFx": 0.127428
     }
   ],
   "trades": [
@@ -1415,6 +1415,10 @@
       [
         "2026-10-19",
         4.075
+      ],
+      [
+        "2026-10-20",
+        4.08
       ]
     ]
   },
@@ -5217,6 +5221,20 @@
         "512010.SS": 0.055747,
         "3069.HK": 1.912709
       }
+    },
+    {
+      "date": "2026-10-20",
+      "value": 121394426.01,
+      "cash": 84025050.51,
+      "benchmarks": {
+        "SPY": 769.05,
+        "510300.SS": 0.633698,
+        "2828.HK": 10.517907,
+        "XLV": 179.82,
+        "IBB": 210.5,
+        "512010.SS": 0.055747,
+        "3069.HK": 1.943277
+      }
     }
   ],
   "news": [],
@@ -6292,6 +6310,10 @@
         [
           "2026-10-19",
           1.213961
+        ],
+        [
+          "2026-10-20",
+          1.209409
         ]
       ],
       "EUR": [
@@ -7330,6 +7352,10 @@
         [
           "2026-10-19",
           1.122549
+        ],
+        [
+          "2026-10-20",
+          1.121579
         ]
       ],
       "HKD": [
@@ -8368,6 +8394,10 @@
         [
           "2026-10-19",
           0.127429
+        ],
+        [
+          "2026-10-20",
+          0.127428
         ]
       ],
       "CNY": [
@@ -9405,6 +9435,10 @@
         ],
         [
           "2026-10-19",
+          0.149457
+        ],
+        [
+          "2026-10-20",
           0.149457
         ]
       ]
