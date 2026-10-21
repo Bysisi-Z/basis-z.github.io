@@ -61,8 +61,8 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 4.596,
       "baseFx": 0.140615,
-      "lastPrice": 4.24,
-      "lastPriceDate": "2026-10-19",
+      "lastPrice": 4.22,
+      "lastPriceDate": "2026-10-20",
       "country": "CN",
       "group": "broad",
       "label": "CSI 300",
@@ -126,8 +126,8 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 0.43,
       "baseFx": 0.140615,
-      "lastPrice": 0.373,
-      "lastPriceDate": "2026-10-19",
+      "lastPrice": 0.377,
+      "lastPriceDate": "2026-10-20",
       "country": "CN",
       "group": "sector",
       "label": "CSI 300 Health Care",
@@ -5228,11 +5228,11 @@
       "cash": 84025050.51,
       "benchmarks": {
         "SPY": 769.05,
-        "510300.SS": 0.633698,
+        "510300.SS": 0.630709,
         "2828.HK": 10.517907,
         "XLV": 179.82,
         "IBB": 210.5,
-        "512010.SS": 0.055747,
+        "512010.SS": 0.056345,
         "3069.HK": 1.943277
       }
     }
