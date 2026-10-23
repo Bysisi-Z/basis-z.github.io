@@ -1,0 +1,72 @@
+---
+// News article: one page per news[] item that has a `slug`. `body` is a list of paragraphs (strings) and
+// bullet lists ({ list: [...] }); inline **bold** and [text](url) are supported.
+import S2Layout from '../../../layouts/S2Layout.astro';
+import fund from '../../../data/s2-capital.json';
+
+type Block = string | { list: string[] };
+type NewsItem = { date: string; type: string; title: string; slug?: string; body?: Block[] };
+
+export function getStaticPaths() {
+  return ((fund as { news?: NewsItem[] }).news ?? [])
+    .filter((n) => n.slug && n.body)
+    .map((n) => ({ params: { slug: n.slug }, props: { item: n } }));
+}
+
+const { item } = Astro.props as { item: NewsItem };
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const [y, m, d] = item.date.split('-');
+const longDate = `${Number(d)} ${MONTHS[Number(m) - 1]} ${y}`;
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const inline = (s: string) => esc(s)
+  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  .replace(/\[(.+?)\]\((.+?)\)/g, (_, t, u) => `<a href="${u}"${u.endsWith('.pdf') ? ' target="_blank" rel="noopener"' : ''}>${t}</a>`);
+---
+
+<S2Layout title={`${item.title} — S² Capital`} description={item.title} active="news">
+  <article class="news s2-wrap">
+    <a class="back" href="/capital/#news">← News</a>
+    <p class="meta"><span>{item.type}</span><time datetime={item.date}>{longDate}</time></p>
+    <h1>{item.title}</h1>
+    <div class="body">
+      {(item.body ?? []).map((b) => typeof b === 'string'
+        ? <p set:html={inline(b)} />
+        : <ul>{b.list.map((li) => <li set:html={inline(li)} />)}</ul>)}
+    </div>
+  </article>
+</S2Layout>
+
+<style>
+  .news { padding-top: clamp(40px, 5vw, 80px); padding-bottom: clamp(64px, 8vw, 120px); max-width: 760px; }
+  .back {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--s2-muted);
+    text-decoration: none;
+    margin-bottom: 40px;
+  }
+  .back:hover { color: var(--s2-ink); }
+  .meta { display: flex; gap: 16px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); margin: 0 0 18px; }
+  .meta span { color: var(--s2-soft); }
+  .meta span::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--s2-red); margin-right: 10px; }
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--s2-ink);
+    margin: 0 0 36px;
+    text-wrap: balance;
+  }
+  .body { font-size: clamp(16px, 1.6vw, 18px); line-height: 1.7; color: var(--s2-ink); }
+  .body p { margin: 0 0 1.1em; }
+  .body ul { margin: 0 0 1.1em; padding-left: 1.2em; }
+  .body li { margin-bottom: 0.45em; }
+  .body li::marker { color: var(--s2-red); }
+  .body :global(strong) { font-weight: 600; }
+  .body :global(a) { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--s2-muted); }
+  .body :global(a:hover) { text-decoration-color: var(--s2-ink); }
+</style>

@@ -1,6 +1,6 @@
 # Sisi Personal Website — Project Context (主站)
 
-> Last updated: 2026-10-14 (session 88)
+> Last updated: 2026-10-23 (session 89)
 > Stack: Astro 6 + Tailwind CSS 4 (static output)
 > Repo: `Bysisi-Z/basis-z.github.io` (local: `~/Desktop/basis-z.github.io`)
 > Live: [si-lens.me](https://si-lens.me) · Preview: basis-z-github-io.pages.dev
@@ -166,6 +166,7 @@ Index + 1 essay (`/writing/put-on-the-tie`). Details → `CODEX_WRITING.md`.
 
 ### S² Capital (`/capital`) 🟡 — s87, replaces "A Collection of Rabbit Holes"
 Virtual investment firm: $100M simulated capital, real prices, live split-flap fund value, benchmarks (SPY / XLV / IBB), Investment History, Trades blotter, Research list, `/capital/team/`. **⚠️ Demo data is currently live.** Everything else → **`CONTEXT_S2_CAPITAL.md`**.
+**s89 (2026-10-23):** first News item + article pages `/capital/news/<slug>/` (first partners' meeting outcome); pharma stock table (`/documents/s2/2026-10-pharma-listed-stocks.html`) got multi-select text filters, viewport-fitted table box, refreshed data (23 Oct 2026, stamped under the title) and a market-cap 3Y CAGR column with ▲▼ colours. New scripts `refresh_s2_pharma_stocks.py` + `add_s2_mcap_cagr.py`. Details → `CONTEXT_S2_CAPITAL.md`.
 
 ### CV (`/cv`) ✅ — 🔒 passcode
 Photo + summary, 5 work entries with vine bullets, education, capabilities, action bar. Print layout: A4, 2-page.

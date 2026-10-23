@@ -5259,7 +5259,33 @@
       }
     }
   ],
-  "news": [],
+  "news": [
+    {
+      "date": "2026-10-23",
+      "type": "Announcement",
+      "slug": "first-partners-meeting",
+      "title": "S² Capital sets initial investment focus after first partners' meeting",
+      "body": [
+        "S² Capital today announced the outcome of its first partners' meeting, held this morning from 10:00 to 11:00 Zurich time, at which the partners set the firm's initial investment focus.",
+        "The meeting departed from the previously published agenda, [First partners' meeting: agenda](/documents/s2/2026-10-partners-meeting-1-agenda.pdf), so that the partners could first align on the firm's current priorities.",
+        {
+          "list": [
+            "**Markets:** China A-shares, Hong Kong and the United States.",
+            "**Sector:** healthcare, concentrating on chemical pharmaceuticals and biologics.",
+            "**Strategies to explore:** fundamental value investing and event-driven investing."
+          ]
+        },
+        "The sector focus is an initial decision that builds on the partners' industry background and expertise.",
+        "The next partners' meeting is scheduled for November 2026. Its agenda will cover two topics:",
+        {
+          "list": [
+            "**Fundamental value investing:** a proposed shortlist of China A-share candidates, and an initial methodology for screening and segmenting Hong Kong and US stocks.",
+            "**Event-driven investing:** a discussion of the strategy's methodology."
+          ]
+        }
+      ]
+    }
+  ],
   "documents": [
     {
       "date": "2026-10-12",

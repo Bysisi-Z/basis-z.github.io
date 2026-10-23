@@ -199,7 +199,7 @@ const marketData = JSON.stringify(MARKETS.map(({ tz, sessions }) => ({ tz, sessi
 type Article = { date: string; type: string; title: string; company: string; status: string; href?: string };
 const research = [...((fund as { research?: Article[] }).research ?? [])].sort((a, b) => b.date.localeCompare(a.date));
 
-type NewsItem = { date: string; type: string; title: string; summary?: string; href?: string };
+type NewsItem = { date: string; type: string; title: string; summary?: string; href?: string; slug?: string };  // slug → /capital/news/<slug>/
 const news = [...((fund as { news?: NewsItem[] }).news ?? [])].sort((a, b) => b.date.localeCompare(a.date));
 
 // Operating documents (meeting agendas, minutes, policies). Files live in public/documents/s2/;
@@ -479,10 +479,11 @@ const documents = [...((fund as { documents?: Doc[] }).documents ?? [])]
       {news.length ? (
         <ol class="articles">
           {news.map((n) => {
-            const Tag = n.href ? 'a' : 'div';
+            const href = n.href ?? (n.slug ? `/capital/news/${n.slug}/` : undefined);
+            const Tag = href ? 'a' : 'div';
             return (
               <li>
-                <Tag class="article article--news" {...(n.href ? { href: n.href } : {})}>
+                <Tag class="article article--news" {...(href ? { href } : {})}>
                   <span class="a-date">{ledgerDate(n.date)}</span>
                   <span class="a-type">{n.type}</span>
                   <span class="a-main">

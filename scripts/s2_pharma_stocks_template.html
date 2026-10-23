@@ -20,8 +20,11 @@
   .brand i { display: inline-block; width: 8px; height: 8px; background: var(--red); margin-right: 10px; }
   .back { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
   .back:hover { color: var(--ink); }
-  h1 { font-family: "Cormorant Garamond", Georgia, "Songti SC", serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.1; margin: 34px 0 22px; font-variant-numeric: lining-nums; text-wrap: balance; }
+  h1 { font-family: "Cormorant Garamond", Georgia, "Songti SC", serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.1; margin: 34px 0 10px; font-variant-numeric: lining-nums; text-wrap: balance; }
   .lede { max-width: 70ch; color: var(--soft); font-size: 16px; line-height: 1.6; margin: 0 0 26px; }
+  .asof { margin: 0 0 24px; font-size: 13px; line-height: 1.7; color: var(--soft); }
+  .asof b { color: var(--ink); font-weight: 600; }
+  .asof span { color: var(--muted); }
   .tabs { display: flex; flex-wrap: wrap; gap: 4px 28px; border-bottom: 1px solid var(--rule-strong); }
   .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font: 500 15px/1 var(--sans); padding: 12px 0 13px; cursor: pointer; }
   .tab small { font-size: 12px; font-weight: 400; margin-left: 6px; font-variant-numeric: tabular-nums; }
@@ -44,6 +47,10 @@
   td.n, th.n { text-align: right; }
   td.wide { max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
   td.nul { color: var(--muted); }
+  .cg { font-weight: 500; }
+  .cg.up { color: #3DBE7A; }
+  .cg.dn { color: #F0524F; }
+  .cg.flat { color: #E8B931; }
   thead th { position: sticky; z-index: 2; vertical-align: bottom; }
   thead tr.h th { top: 0; height: 40px; padding: 0; border-bottom: 0; }
   thead tr.f th { top: 40px; padding: 4px 6px 9px; border-bottom: 1px solid var(--rule-strong); }
@@ -104,6 +111,7 @@
     <a class="back" href="/capital/#documents">← Documents</a>
   </header>
   <h1>Listed pharma &amp; healthcare stocks</h1>
+  <p class="asof" id="asof"></p>
   <div class="tabs" role="tablist" id="tabs"></div>
   <div class="bar">
     <input type="search" id="q" placeholder="Search code or name" aria-label="Search code or name" />
@@ -129,6 +137,7 @@ const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const state = {};
 DATA.markets.forEach((m) => {
+  m.cols.forEach((c) => { c.g = /CAGR/.test(c.l); });
   const cap = m.cols.findIndex((c) => c.l.startsWith('Market cap'));
   state[m.id] = { sort: cap, dir: 'desc', f: {}, q: '', defSort: cap };
 });
@@ -138,6 +147,7 @@ const market = () => DATA.markets.find((m) => m.id === cur);
 
 function fmt(v, c) {
   if (v === null || v === undefined || v === '') return '—';
+  if (c.g) return `<span class="cg ${v > 0.05 ? 'up' : v < -0.05 ? 'dn' : 'flat'}">${v >= 0 ? '▲' : '▼'} ${(v * 100).toFixed(c.d)}%</span>`;
   if (c.t === 'p') return (v * 100).toFixed(c.d) + '%';
   if (c.t === 'n') return v.toLocaleString('en-US', { minimumFractionDigits: c.d, maximumFractionDigits: c.d });
   return esc(v);
@@ -290,6 +300,7 @@ addEventListener('resize', repos);
 addEventListener('scroll', repos);
 $('#q').addEventListener('input', (e) => { state[cur].q = e.target.value; clearTimeout(timer); timer = setTimeout(renderBody, 120); });
 $('#reset').addEventListener('click', () => { const st = state[cur]; st.f = {}; st.q = ''; st.sort = st.defSort; st.dir = 'desc'; renderAll(); });
+$('#asof').innerHTML = `<b>Updated ${esc(DATA.asof.updated)}</b> · Prices: ${DATA.asof.items.map(([k, v]) => `${esc(k)} ${esc(v)}`).join(' · ')}<br><span>${esc(DATA.asof.fin)}</span>`;
 $('#notes').innerHTML = DATA.notes.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v).replace(/https?:\/\/[^\s（）()，；]+/g, (u) => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`)}</dd>`).join('');
 renderAll();
 fit();

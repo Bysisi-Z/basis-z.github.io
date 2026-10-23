@@ -7,7 +7,7 @@ interface Props {
   title: string;
   description?: string;
   /** which brand-bar item is current */
-  active?: 'team';
+  active?: 'team' | 'news';
 }
 
 const { title, description = 'Virtual portfolio & research notes', active } = Astro.props;
