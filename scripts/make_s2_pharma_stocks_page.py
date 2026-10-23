@@ -57,8 +57,10 @@ for mid, sheet, en, cur in MK:
     # order: #, code, English company, other identity columns, the rest, then other-market codes last
     order = [0, 1, eng] + [j for j in range(2, len(heads)) if j != eng and heads[j] not in CROSS] + [j for j in range(len(heads)) if heads[j] in CROSS]
     cols, outrows = [], [[] for _ in rows]
+    urls = [r[heads.index('公司网址')] for r in rows] if '公司网址' in heads else [None] * len(rows)
     for j in order:
         h = heads[j]; vals = [r[j] for r in rows]
+        if h == '公司网址': continue  # metadata only; never a visible column
         if h == '名称' and not A: vals = [v if cjk(v) else None for v in vals]  # Chinese name only where one exists
         nn = [v for v in vals if v is not None]
         if not nn: continue
@@ -80,7 +82,7 @@ for mid, sheet, en, cur in MK:
         label = head_en(h, cur, A)
         cols.append({'l': label, 't': t, 'd': d, 'c': t == 's' and label in CATS and len(set(nn)) > 1})
         for i, v in enumerate(vals): outrows[i].append(round(v, 6) if isinstance(v, float) else v)
-    markets.append({'id': mid, 'label': en, 'cur': cur, 'cols': cols, 'rows': outrows})
+    markets.append({'id': mid, 'label': en, 'cur': cur, 'cols': cols, 'rows': outrows, 'urls': urls})
     print(en, len(outrows), [c['l'] for c in cols])
 n = {m['id']: len(m['rows']) for m in markets}
 # data timestamps written by refresh_s2_pharma_stocks.py (sheet 更新时间: key, zh, en)

@@ -14,6 +14,8 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
   a { color: inherit; }
+  td a { color: inherit; text-decoration: none; }
+  td a:hover { text-decoration: underline; text-decoration-color: var(--muted); text-underline-offset: 3px; }
   .wrap { width: min(94vw, 1800px); margin: 0 auto; }
   header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 22px 0 18px; border-bottom: 1px solid var(--rule); }
   .brand { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; text-decoration: none; }
@@ -137,6 +139,7 @@ const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const state = {};
 DATA.markets.forEach((m) => {
+  m.rows.forEach((r, i) => { r.website = m.urls[i]; });
   m.cols.forEach((c) => { c.g = /CAGR/.test(c.l); });
   const cap = m.cols.findIndex((c) => c.l.startsWith('Market cap'));
   state[m.id] = { sort: cap, dir: 'desc', f: {}, q: '', defSort: cap };
@@ -250,7 +253,7 @@ function renderBody() {
   const m = market(), rows = filtered();
   const wide = m.cols.map((c) => /Notes|Legal name/.test(c.l));
   $('#t tbody').innerHTML = rows.length
-    ? rows.map((r) => '<tr>' + r.map((v, j) => { const c = m.cols[j]; const nul = v == null || v === ''; return `<td class="${cls(c, j)}${wide[j] ? 'wide ' : ''}${nul ? 'nul' : ''}"${(wide[j] || j === 2) && !nul ? ` title="${esc(v)}"` : ''}>${fmt(v, c)}</td>`; }).join('') + '</tr>').join('')
+    ? rows.map((r) => '<tr>' + r.map((v, j) => { const c = m.cols[j]; const nul = v == null || v === ''; const name = fmt(v, c); const value = c.l === 'Company' && !nul && /^https:\/\//i.test(r.website || '') ? `<a href="${esc(r.website)}" target="_blank" rel="noopener">${name}</a>` : name; return `<td class="${cls(c, j)}${wide[j] ? 'wide ' : ''}${nul ? 'nul' : ''}"${(wide[j] || j === 2) && !nul ? ` title="${esc(v)}"` : ''}>${value}</td>`; }).join('') + '</tr>').join('')
     : `<tr><td class="empty" colspan="${m.cols.length}">No companies match these filters.</td></tr>`;
   $('#count').innerHTML = `Showing <b>${rows.length.toLocaleString('en-US')}</b> of ${m.rows.length.toLocaleString('en-US')} · ${esc(m.label)} (${esc(m.cur)})`;
 }
