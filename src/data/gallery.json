@@ -234,6 +234,7 @@
     {
       "slug": "lucerne",
       "folder": "lucerne",
+      "source": "_data_sources/gallery/lucerne",
       "title": "Lucerne",
       "place": "Lucerne, Switzerland",
       "intro": "",
@@ -258,6 +259,34 @@
         },
         {
           "file": "DSC08025.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1605.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1662.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1675.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1679.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3349.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3362.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3380.jpg",
           "caption": ""
         }
       ]
@@ -468,10 +497,6 @@
       "guide": "",
       "photos": [
         {
-          "file": "DSC08173.JPG",
-          "caption": ""
-        },
-        {
           "file": "DSC08175.JPG",
           "caption": ""
         },
@@ -561,6 +586,18 @@
         },
         {
           "file": "DSC08247.JPG",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2931.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2935.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2937.jpg",
           "caption": ""
         }
       ],
@@ -843,6 +880,38 @@
         {
           "file": "IMG_4379.jpg",
           "caption": ""
+        },
+        {
+          "file": "IMG_2503.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2508.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2510.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2515.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2518.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2522.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2524.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_2529.jpg",
+          "caption": ""
         }
       ]
     },
@@ -928,6 +997,120 @@
         },
         {
           "file": "IMG_6790.jpg",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "slug": "verzasca",
+      "source": "_data_sources/gallery/verzasca",
+      "title": "Verzasca Valley",
+      "place": "Ticino, Switzerland",
+      "intro": "",
+      "cover": "IMG_1460.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_1365.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1372.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1390.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1429.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1456.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1460.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1464.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1467.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1478.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1479.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1482.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1487.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1500.jpg",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "slug": "bellinzona",
+      "source": "_data_sources/gallery/bellinzona",
+      "title": "Bellinzona",
+      "place": "Ticino, Switzerland",
+      "intro": "",
+      "cover": "bellinzona-2.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_1505.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_1508.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3505.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3508.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3510.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3511.jpg",
+          "caption": ""
+        },
+        {
+          "file": "bellinzona-1.jpg",
+          "caption": ""
+        },
+        {
+          "file": "bellinzona-2.jpg",
+          "caption": ""
+        },
+        {
+          "file": "bellinzona-3.jpg",
+          "caption": ""
+        },
+        {
+          "file": "bellinzona-4.jpg",
           "caption": ""
         }
       ]

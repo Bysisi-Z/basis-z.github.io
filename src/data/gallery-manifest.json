@@ -345,6 +345,48 @@
    "name": "DSC08025",
    "width": 6000,
    "height": 4000
+  },
+  {
+   "file": "IMG_1605.jpg",
+   "name": "IMG_1605",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_1662.jpg",
+   "name": "IMG_1662",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_1675.jpg",
+   "name": "IMG_1675",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_1679.jpg",
+   "name": "IMG_1679",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_3349.jpg",
+   "name": "IMG_3349",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_3362.jpg",
+   "name": "IMG_3362",
+   "width": 2881,
+   "height": 3841
+  },
+  {
+   "file": "IMG_3380.jpg",
+   "name": "IMG_3380",
+   "width": 4032,
+   "height": 3024
   }
  ],
  "seealpsee": [
@@ -585,12 +627,6 @@
  ],
  "matterhorn": [
   {
-   "file": "DSC08173.JPG",
-   "name": "DSC08173",
-   "width": 6000,
-   "height": 4000
-  },
-  {
    "file": "DSC08175.JPG",
    "name": "DSC08175",
    "width": 4000,
@@ -727,6 +763,24 @@
    "name": "DSC08247",
    "width": 4000,
    "height": 6000
+  },
+  {
+   "file": "IMG_2931.jpg",
+   "name": "IMG_2931",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_2935.jpg",
+   "name": "IMG_2935",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_2937.jpg",
+   "name": "IMG_2937",
+   "width": 3024,
+   "height": 4032
   }
  ],
  "caumasee": [
@@ -1073,6 +1127,54 @@
    "name": "IMG_4379",
    "width": 3024,
    "height": 4032
+  },
+  {
+   "file": "IMG_2503.jpg",
+   "name": "IMG_2503",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_2508.jpg",
+   "name": "IMG_2508",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_2510.jpg",
+   "name": "IMG_2510",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_2515.jpg",
+   "name": "IMG_2515",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_2518.jpg",
+   "name": "IMG_2518",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_2522.jpg",
+   "name": "IMG_2522",
+   "width": 4032,
+   "height": 3024
+  },
+  {
+   "file": "IMG_2524.jpg",
+   "name": "IMG_2524",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_2529.jpg",
+   "name": "IMG_2529",
+   "width": 4284,
+   "height": 5712
   }
  ],
  "lauterbrunnen": [
@@ -1173,6 +1275,148 @@
    "name": "IMG_6790",
    "width": 3024,
    "height": 4032
+  }
+ ],
+ "verzasca": [
+  {
+   "file": "IMG_1365.jpg",
+   "name": "IMG_1365",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_1372.jpg",
+   "name": "IMG_1372",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_1390.jpg",
+   "name": "IMG_1390",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_1429.jpg",
+   "name": "IMG_1429",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_1456.jpg",
+   "name": "IMG_1456",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_1460.jpg",
+   "name": "IMG_1460",
+   "width": 5712,
+   "height": 4284
+  },
+  {
+   "file": "IMG_1464.jpg",
+   "name": "IMG_1464",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_1467.jpg",
+   "name": "IMG_1467",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_1478.jpg",
+   "name": "IMG_1478",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_1479.jpg",
+   "name": "IMG_1479",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_1482.jpg",
+   "name": "IMG_1482",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_1487.jpg",
+   "name": "IMG_1487",
+   "width": 5712,
+   "height": 4284
+  },
+  {
+   "file": "IMG_1500.jpg",
+   "name": "IMG_1500",
+   "width": 4284,
+   "height": 5712
+  }
+ ],
+ "bellinzona": [
+  {
+   "file": "IMG_1505.jpg",
+   "name": "IMG_1505",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_1508.jpg",
+   "name": "IMG_1508",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "IMG_3505.jpg",
+   "name": "IMG_3505",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_3508.jpg",
+   "name": "IMG_3508",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_3510.jpg",
+   "name": "IMG_3510",
+   "width": 3024,
+   "height": 4032
+  },
+  {
+   "file": "IMG_3511.jpg",
+   "name": "IMG_3511",
+   "width": 4284,
+   "height": 5712
+  },
+  {
+   "file": "bellinzona-1.jpg",
+   "name": "bellinzona-1",
+   "width": 1500,
+   "height": 1999
+  },
+  {
+   "file": "bellinzona-2.jpg",
+   "name": "bellinzona-2",
+   "width": 1999,
+   "height": 1500
+  },
+  {
+   "file": "bellinzona-3.jpg",
+   "name": "bellinzona-3",
+   "width": 1500,
+   "height": 2000
+  },
+  {
+   "file": "bellinzona-4.jpg",
+   "name": "bellinzona-4",
+   "width": 1500,
+   "height": 2000
   }
  ]
 }
