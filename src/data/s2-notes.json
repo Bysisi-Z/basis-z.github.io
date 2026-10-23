@@ -1,0 +1,21 @@
+[
+  {
+    "slug": "wuxi-apptec",
+    "company": "WuXi AppTec",
+    "legalName": "WuXi AppTec Co., Ltd.",
+    "listings": [
+      { "market": "A-share", "code": "603259", "exchange": "SSE Main Board" },
+      { "market": "Hong Kong", "code": "02359.HK", "exchange": "HKEX" }
+    ],
+    "website": "https://www.wuxiapptec.com.cn",
+    "status": "Demo",
+    "updated": "2026-10-23",
+    "sections": [
+      { "title": "What we know", "items": [] },
+      { "title": "Investment thesis", "items": [] },
+      { "title": "Key risks", "items": [] },
+      { "title": "Open questions", "items": [] }
+    ],
+    "log": []
+  }
+]

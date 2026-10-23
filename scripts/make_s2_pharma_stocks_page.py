@@ -47,6 +47,9 @@ def head_en(h, cur, a_share):
 CROSS = ('港股代码', '港股简称', '美股代码', 'B股代码', 'A股代码', '瑞士代码')
 CATS = ('Industry', 'Board', 'Country', 'Exchange', 'Type', 'Currency', 'Source list')
 cjk = lambda s: isinstance(s, str) and any('一' <= ch <= '鿿' for ch in s)
+# researcher's notes (src/data/s2-notes.json): stock code -> /capital/notes/<slug>/
+NOTES_JSON = os.path.join(HERE, '..', 'src', 'data', 's2-notes.json')
+NOTE_OF = {l['code']: f"/capital/notes/{n['slug']}/" for n in (json.load(open(NOTES_JSON)) if os.path.exists(NOTES_JSON) else []) for l in n['listings']}
 markets = []
 for mid, sheet, en, cur in MK:
     ws = wb[sheet]; A = mid == 'a'
@@ -58,6 +61,7 @@ for mid, sheet, en, cur in MK:
     order = [0, 1, eng] + [j for j in range(2, len(heads)) if j != eng and heads[j] not in CROSS] + [j for j in range(len(heads)) if heads[j] in CROSS]
     cols, outrows = [], [[] for _ in rows]
     urls = [r[heads.index('公司网址')] for r in rows] if '公司网址' in heads else [None] * len(rows)
+    notes = [NOTE_OF.get(str(r[heads.index('代码')])) for r in rows]  # researcher's notes page, where one exists
     for j in order:
         h = heads[j]; vals = [r[j] for r in rows]
         if h == '公司网址': continue  # metadata only; never a visible column
@@ -82,7 +86,7 @@ for mid, sheet, en, cur in MK:
         label = head_en(h, cur, A)
         cols.append({'l': label, 't': t, 'd': d, 'c': t == 's' and label in CATS and len(set(nn)) > 1})
         for i, v in enumerate(vals): outrows[i].append(round(v, 6) if isinstance(v, float) else v)
-    markets.append({'id': mid, 'label': en, 'cur': cur, 'cols': cols, 'rows': outrows, 'urls': urls})
+    markets.append({'id': mid, 'label': en, 'cur': cur, 'cols': cols, 'rows': outrows, 'urls': urls, 'notes': notes})
     print(en, len(outrows), [c['l'] for c in cols])
 n = {m['id']: len(m['rows']) for m in markets}
 # data timestamps written by refresh_s2_pharma_stocks.py (sheet 更新时间: key, zh, en)

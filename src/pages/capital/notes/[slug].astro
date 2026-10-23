@@ -1,0 +1,91 @@
+---
+// Researcher's notes: one page per company in src/data/s2-notes.json, linked from the stock codes in the
+// pharma stock table (public/documents/s2/2026-10-pharma-listed-stocks.html). `sections[].items` and
+// `log[]` ({date, author?, text}) are plain strings; inline **bold** and [text](url) are supported.
+import S2Layout from '../../../layouts/S2Layout.astro';
+import notes from '../../../data/s2-notes.json';
+
+type Listing = { market: string; code: string; exchange?: string };
+type Note = { slug: string; company: string; legalName?: string; listings: Listing[]; website?: string; status?: string; updated: string;
+  sections: { title: string; items: string[] }[]; log: { date: string; author?: string; text: string }[] };
+
+export function getStaticPaths() {
+  return (notes as Note[]).map((n) => ({ params: { slug: n.slug }, props: { note: n } }));
+}
+
+const { note } = Astro.props as { note: Note };
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const day = (iso: string) => { const [y, m, d] = iso.split('-'); return `${Number(d)} ${MONTHS[Number(m) - 1]} ${y}`; };
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const inline = (s: string) => esc(s)
+  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+const table = '/documents/s2/2026-10-pharma-listed-stocks.html';
+---
+
+<S2Layout title={`${note.company} · Researcher's notes — S² Capital`} description={`Researcher's notes on ${note.company}`} active="news">
+  <article class="rn s2-wrap">
+    <a class="back" href={table}>← Stock table</a>
+    <p class="meta"><span>Researcher's notes</span>{note.status && <em>{note.status}</em>}<time datetime={note.updated}>Updated {day(note.updated)}</time></p>
+    <h1>{note.company}</h1>
+    <dl class="facts">
+      {note.legalName && <><dt>Legal name</dt><dd>{note.legalName}</dd></>}
+      <dt>Listings</dt>
+      <dd>{note.listings.map((l, i) => <>{i > 0 && ' · '}<a href={`${table}#${l.market === 'A-share' ? 'a' : l.market === 'Hong Kong' ? 'hk' : l.market === 'United States' ? 'us' : 'ch'}`}>{l.code}</a> <span class="muted">{l.market}{l.exchange ? `, ${l.exchange}` : ''}</span></>)}</dd>
+      {note.website && <><dt>Website</dt><dd><a href={note.website} target="_blank" rel="noopener">{note.website.replace(/^https?:\/\//, '')}</a></dd></>}
+    </dl>
+
+    {note.sections.map((s) => (
+      <section>
+        <h2>{s.title}</h2>
+        {s.items.length
+          ? <ul>{s.items.map((it) => <li set:html={inline(it)} />)}</ul>
+          : <p class="empty">Nothing recorded yet.</p>}
+      </section>
+    ))}
+
+    <section>
+      <h2>Discussion log</h2>
+      {note.log.length
+        ? <ol class="log">{[...note.log].sort((a, b) => b.date.localeCompare(a.date)).map((e) => (
+            <li><time datetime={e.date}>{day(e.date)}</time>{e.author && <span class="who">{e.author}</span>}<p set:html={inline(e.text)} /></li>
+          ))}</ol>
+        : <p class="empty">No discussion recorded yet.</p>}
+    </section>
+  </article>
+</S2Layout>
+
+<style>
+  .rn { padding-top: clamp(40px, 5vw, 80px); padding-bottom: clamp(64px, 8vw, 120px); max-width: 860px; }
+  .back { display: inline-block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); text-decoration: none; margin-bottom: 40px; }
+  .back:hover { color: var(--s2-ink); }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s2-muted); margin: 0 0 18px; }
+  .meta span { color: var(--s2-soft); }
+  .meta span::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--s2-red); margin-right: 10px; }
+  .meta em { font-style: normal; color: var(--s2-ink); border: 1px solid var(--s2-muted); padding: 2px 7px; letter-spacing: 0.1em; }
+  h1 { font-family: var(--serif); font-size: clamp(36px, 4.6vw, 60px); font-weight: 300; line-height: 1.08; letter-spacing: -0.01em; color: var(--s2-ink); margin: 0 0 28px; }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 10px 28px; margin: 0 0 48px; padding: 18px 0; border-top: 1px solid rgba(242, 239, 234, 0.14); border-bottom: 1px solid rgba(242, 239, 234, 0.14); font-size: 15px; }
+  .facts dt { color: var(--s2-muted); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding-top: 2px; }
+  .facts dd { margin: 0; color: var(--s2-ink); }
+  .muted { color: var(--s2-muted); }
+  a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--s2-muted); }
+  a:hover { text-decoration-color: var(--s2-ink); }
+  section { margin: 0 0 40px; }
+  h2 { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; color: var(--s2-soft); margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(242, 239, 234, 0.14); }
+  ul, .log { margin: 0; padding-left: 1.2em; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.7; color: var(--s2-ink); }
+  li { margin-bottom: 0.5em; }
+  ul li::marker { color: var(--s2-red); }
+  .log { list-style: none; padding: 0; }
+  .log li { display: grid; grid-template-columns: 110px 1fr; gap: 4px 20px; padding: 12px 0; border-bottom: 1px solid rgba(242, 239, 234, 0.08); }
+  .log time { font-size: 13px; color: var(--s2-muted); padding-top: 3px; }
+  .log .who { grid-column: 2; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--s2-soft); }
+  .log p { grid-column: 2; margin: 0; }
+  .empty { color: var(--s2-muted); font-size: 15px; margin: 0; }
+  :global(strong) { font-weight: 600; }
+  @media (max-width: 600px) {
+    .facts { grid-template-columns: 1fr; gap: 2px; }
+    .facts dd { margin-bottom: 10px; }
+    .log li { grid-template-columns: 1fr; }
+    .log .who, .log p { grid-column: 1; }
+  }
+</style>
