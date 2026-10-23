@@ -20,7 +20,7 @@
   .brand i { display: inline-block; width: 8px; height: 8px; background: var(--red); margin-right: 10px; }
   .back { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
   .back:hover { color: var(--ink); }
-  h1 { font-family: "Cormorant Garamond", Georgia, "Songti SC", serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.1; margin: 34px 0 10px; font-variant-numeric: lining-nums; text-wrap: balance; }
+  h1 { font-family: "Cormorant Garamond", Georgia, "Songti SC", serif; font-weight: 500; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.1; margin: 34px 0 22px; font-variant-numeric: lining-nums; text-wrap: balance; }
   .lede { max-width: 70ch; color: var(--soft); font-size: 16px; line-height: 1.6; margin: 0 0 26px; }
   .tabs { display: flex; flex-wrap: wrap; gap: 4px 28px; border-bottom: 1px solid var(--rule-strong); }
   .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font: 500 15px/1 var(--sans); padding: 12px 0 13px; cursor: pointer; }
@@ -38,7 +38,7 @@
   .count { margin-left: auto; font-variant-numeric: tabular-nums; }
   .count b { color: var(--ink); font-weight: 600; }
   .hint { flex-basis: 100%; font-size: 12px; margin: 0; }
-  .scroller { overflow: auto; max-height: calc(100vh - 150px); min-height: 320px; border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); }
+  .scroller { overflow: auto; max-height: calc(100vh - 150px); min-height: 280px; overscroll-behavior: contain; border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); }
   table { border-collapse: separate; border-spacing: 0; font-size: 13px; font-variant-numeric: tabular-nums lining-nums; }
   th, td { padding: 8px 12px; white-space: nowrap; text-align: left; border-bottom: 1px solid var(--rule); background: var(--bg); }
   td.n, th.n { text-align: right; }
@@ -54,6 +54,24 @@
   .sort[data-dir="desc"]::after { content: " ▼"; }
   tr.f input, tr.f select { width: 100%; min-width: 64px; padding: 5px 6px; font-size: 12px; }
   tr.f th.n input { text-align: right; }
+  .ms { appearance: none; width: 100%; min-width: 64px; display: flex; align-items: center; justify-content: space-between; gap: 6px; background: transparent; border: 1px solid var(--rule-strong); color: var(--muted); font: 400 12px/1.2 var(--sans); padding: 5px 6px; text-align: left; cursor: pointer; }
+  .ms span { overflow: hidden; text-overflow: ellipsis; }
+  .ms::after { content: "▾"; font-size: 10px; }
+  .ms:hover, .ms[aria-expanded="true"] { border-color: var(--ink); }
+  .ms.on { color: var(--ink); border-color: var(--red); }
+  .pop { position: fixed; z-index: 20; width: min(300px, 92vw); background: #1b1b1e; border: 1px solid var(--rule-strong); box-shadow: 0 12px 32px rgba(0,0,0,0.5); font-size: 13px; }
+  .pop[hidden] { display: none; }
+  .pop input { width: calc(100% - 20px); margin: 10px 10px 6px; }
+  .pop .acts { display: flex; gap: 14px; padding: 2px 10px 8px; border-bottom: 1px solid var(--rule); }
+  .pop .acts button { appearance: none; background: none; border: 0; padding: 0; color: var(--soft); font: 500 12px/1.4 var(--sans); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .pop .acts button:hover { color: var(--ink); }
+  .pop ul { list-style: none; margin: 0; padding: 4px 0; max-height: min(300px, 50vh); overflow: auto; overscroll-behavior: contain; }
+  .pop label { display: flex; align-items: center; gap: 8px; padding: 5px 10px; cursor: pointer; color: var(--soft); }
+  .pop label:hover { background: #26262a; color: var(--ink); }
+  .pop label b { flex: 1; font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pop label small { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .pop input[type="checkbox"] { width: auto; margin: 0; accent-color: var(--red); }
+  .pop .none { padding: 10px; color: var(--muted); }
   tbody tr:hover td { background: #1a1a1d; }
   .s0, .s1 { position: sticky; z-index: 1; }
   thead .s0, thead .s1 { z-index: 4; }
@@ -73,7 +91,6 @@
     .wrap { width: 92vw; }
     .s0 { min-width: 84px; max-width: 84px; }
     .s1 { position: static; min-width: 0; max-width: 150px; border-right: 0; }
-    .scroller { max-height: 78vh; }
     .count { margin-left: 0; }
     dl { grid-template-columns: 1fr; }
     dt { padding-bottom: 0; } dd { border-top: 0; padding-top: 4px; }
@@ -87,15 +104,19 @@
     <a class="back" href="/capital/#documents">← Documents</a>
   </header>
   <h1>Listed pharma &amp; healthcare stocks</h1>
-  <p class="lede">Listed pharma and healthcare companies in four markets: A-share, Hong Kong, United States and Switzerland. Pick a market, click a column header to sort, and use the row under the headers to filter any column. All amounts are in the listing currency.</p>
   <div class="tabs" role="tablist" id="tabs"></div>
   <div class="bar">
     <input type="search" id="q" placeholder="Search code or name" aria-label="Search code or name" />
     <button class="btn" id="reset" type="button">Clear filters</button>
     <span class="count" id="count"></span>
-    <p class="hint">Number filters: <b>&gt;100</b>, <b>&lt;0</b>, <b>10-50</b>. Percent columns take plain numbers (&gt;20 means above 20%). Text columns match any keyword.</p>
+    <p class="hint">Text columns: open the list and tick one or more values (type to search the list). Number filters: <b>&gt;100</b>, <b>&lt;0</b>, <b>10-50</b>. Percent columns take plain numbers (&gt;20 means above 20%).</p>
   </div>
   <div class="scroller" id="scroller"><table id="t"><thead></thead><tbody></tbody></table></div>
+  <div class="pop" id="pop" hidden role="dialog">
+    <input type="search" id="popq" placeholder="Search values" aria-label="Search values" />
+    <div class="acts"><button type="button" data-act="all">Select shown</button><button type="button" data-act="clear">Clear</button></div>
+    <ul id="poplist"></ul>
+  </div>
   <section class="notes">
     <p class="marker">Notes and sources</p>
     <dl id="notes"></dl>
@@ -136,10 +157,9 @@ function filtered() {
   const m = market(), st = state[cur];
   const tests = [];
   Object.entries(st.f).forEach(([j, val]) => {
-    if (val === '' || val == null) return;
+    if (val == null || val === '' || val.size === 0) return;
     const c = m.cols[j];
-    if (c.c) tests.push((r) => r[j] === val);
-    else if (c.t === 's') { const k = val.toLowerCase(); tests.push((r) => r[j] != null && String(r[j]).toLowerCase().includes(k)); }
+    if (c.t === 's') tests.push((r) => val.has(key(r[j])));
     else { const t = numTest(val); if (t) tests.push((r) => r[j] != null && t(c.t === 'p' ? r[j] * 100 : r[j])); }
   });
   const q = st.q.trim().toLowerCase();
@@ -163,15 +183,58 @@ function renderHead() {
   const f = m.cols.map((c, j) => {
     const v = st.f[j] ?? '';
     if (j === 0) return `<th class="${cls(c, j)}"></th>`;
-    if (c.c) {
-      const counts = {};
-      m.rows.forEach((r) => { if (r[j] != null) counts[r[j]] = (counts[r[j]] || 0) + 1; });
-      const opts = Object.keys(counts).sort((a, b) => counts[b] - counts[a]).map((k) => `<option value="${esc(k)}"${k === v ? ' selected' : ''}>${esc(k)} (${counts[k]})</option>`).join('');
-      return `<th class="${cls(c, j)}"><select data-j="${j}" aria-label="Filter ${esc(c.l)}"><option value="">All</option>${opts}</select></th>`;
-    }
+    if (c.t === 's') return `<th class="${cls(c, j)}"><button class="ms" type="button" data-ms="${j}" aria-haspopup="true" aria-expanded="false" aria-label="Filter ${esc(c.l)}"></button></th>`;
     return `<th class="${cls(c, j)}"><input data-j="${j}" value="${esc(v)}" placeholder="${c.t === 's' ? 'Filter' : '>10'}" aria-label="Filter ${esc(c.l)}" /></th>`;
   }).join('');
   $('#t thead').innerHTML = `<tr class="h">${h}</tr><tr class="f">${f}</tr>`;
+  document.querySelectorAll('.ms').forEach(msLabel);
+}
+
+// Multi-select value filter for text columns. Nothing ticked = no filter.
+const BLANK = '__blank__';
+const key = (v) => (v == null || v === '' ? BLANK : String(v));
+const show = (k) => (k === BLANK ? '(Blank)' : k);
+let popJ = null;
+function msLabel(b) {
+  const sel = state[cur].f[b.dataset.ms];
+  const n = sel ? sel.size : 0;
+  b.classList.toggle('on', n > 0);
+  b.innerHTML = `<span>${n === 0 ? 'All' : n === 1 ? esc(show([...sel][0])) : n + ' selected'}</span>`;
+  b.title = n ? [...sel].map(show).join(', ') : '';
+}
+function popValues(j) {
+  const counts = new Map();
+  market().rows.forEach((r) => { const k = key(r[j]); counts.set(k, (counts.get(k) || 0) + 1); });
+  const cat = market().cols[j].c;
+  return [...counts].sort((a, b) => (a[0] === BLANK) - (b[0] === BLANK) || (cat ? b[1] - a[1] : 0) || a[0].localeCompare(b[0], 'en'));
+}
+function renderPop() {
+  const j = popJ, sel = state[cur].f[j] || new Set(), q = $('#popq').value.trim().toLowerCase();
+  const vals = popValues(j).filter(([k]) => !q || show(k).toLowerCase().includes(q));
+  $('#poplist').innerHTML = vals.length
+    ? vals.map(([k, n]) => `<li><label><input type="checkbox" value="${esc(k)}"${sel.has(k) ? ' checked' : ''} /><b title="${esc(show(k))}">${esc(show(k))}</b><small>${n}</small></label></li>`).join('')
+    : '<li class="none">No matching values</li>';
+}
+function placePop(b) {
+  const r = b.getBoundingClientRect(), p = $('#pop'), w = p.offsetWidth, h = p.offsetHeight;
+  p.style.left = Math.max(8, Math.min(r.left, innerWidth - w - 8)) + 'px';
+  p.style.top = (r.bottom + 4 + h > innerHeight && r.top - 4 - h > 0 ? r.top - 4 - h : r.bottom + 4) + 'px';
+}
+function openPop(b) {
+  closePop();
+  popJ = b.dataset.ms; b.setAttribute('aria-expanded', 'true');
+  $('#popq').value = ''; renderPop();
+  $('#pop').hidden = false; placePop(b); $('#popq').focus();
+}
+function closePop() {
+  if (popJ === null) return;
+  const b = document.querySelector(`.ms[data-ms="${popJ}"]`); if (b) b.setAttribute('aria-expanded', 'false');
+  $('#pop').hidden = true; popJ = null;
+}
+function setSel(sel) {
+  const st = state[cur];
+  if (sel.size) st.f[popJ] = sel; else delete st.f[popJ];
+  msLabel(document.querySelector(`.ms[data-ms="${popJ}"]`)); renderBody();
 }
 function renderBody() {
   const m = market(), rows = filtered();
@@ -184,10 +247,12 @@ function renderBody() {
 function renderTabs() {
   $('#tabs').innerHTML = DATA.markets.map((m) => `<button class="tab" role="tab" type="button" data-id="${m.id}" aria-selected="${m.id === cur}">${esc(m.label)} <small>${m.rows.length.toLocaleString('en-US')}</small></button>`).join('');
 }
-function renderAll() { renderTabs(); $('#q').value = state[cur].q; renderHead(); renderBody(); $('#scroller').scrollTo(0, 0); }
+function renderAll() { closePop(); renderTabs(); $('#q').value = state[cur].q; renderHead(); renderBody(); $('#scroller').scrollTo(0, 0); }
 
 $('#tabs').addEventListener('click', (e) => { const b = e.target.closest('.tab'); if (!b) return; cur = b.dataset.id; history.replaceState(null, '', '#' + cur); renderAll(); });
 $('#t thead').addEventListener('click', (e) => {
+  const ms = e.target.closest('.ms');
+  if (ms) { if (popJ === ms.dataset.ms) closePop(); else openPop(ms); return; }
   const b = e.target.closest('.sort'); if (!b) return;
   const st = state[cur], j = +b.dataset.j;
   if (st.sort === j) st.dir = st.dir === 'desc' ? 'asc' : 'desc';
@@ -200,10 +265,35 @@ $('#t thead').addEventListener('input', (e) => {
   const el = e.target; if (el.dataset.j === undefined) return;
   state[cur].f[el.dataset.j] = el.value; clearTimeout(timer); timer = setTimeout(renderBody, 120);
 });
+$('#popq').addEventListener('input', renderPop);
+$('#poplist').addEventListener('change', (e) => {
+  const sel = new Set(state[cur].f[popJ] || []);
+  if (e.target.checked) sel.add(e.target.value); else sel.delete(e.target.value);
+  setSel(sel);
+});
+$('#pop').addEventListener('click', (e) => {
+  const act = e.target.dataset.act; if (!act) return;
+  const sel = new Set(state[cur].f[popJ] || []);
+  if (act === 'clear') sel.clear();
+  else $('#poplist').querySelectorAll('input').forEach((x) => sel.add(x.value));
+  setSel(sel); renderPop();
+});
+document.addEventListener('click', (e) => { if (popJ !== null && !e.target.closest('#pop, .ms')) closePop(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePop(); });
+const repos = () => { if (popJ !== null) placePop(document.querySelector(`.ms[data-ms="${popJ}"]`)); };
+$('#scroller').addEventListener('scroll', repos);
+// Fit the table box to the screen: tabs, bar and table fit in one viewport.
+// When the header leaves too little room (small laptops, phones), the box is one screen tall instead.
+function fit() { const sc = $('#scroller'), left = innerHeight - (sc.getBoundingClientRect().top + scrollY) - 16; sc.style.maxHeight = (left >= 400 ? left : innerHeight - 24) + 'px'; }
+addEventListener('resize', fit);
+addEventListener('resize', repos);
+addEventListener('scroll', repos);
 $('#q').addEventListener('input', (e) => { state[cur].q = e.target.value; clearTimeout(timer); timer = setTimeout(renderBody, 120); });
 $('#reset').addEventListener('click', () => { const st = state[cur]; st.f = {}; st.q = ''; st.sort = st.defSort; st.dir = 'desc'; renderAll(); });
 $('#notes').innerHTML = DATA.notes.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v).replace(/https?:\/\/[^\s（）()，；]+/g, (u) => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`)}</dd>`).join('');
 renderAll();
+fit();
+if (document.fonts) document.fonts.ready.then(fit);
 </script>
 </body>
 </html>
