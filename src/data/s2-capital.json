@@ -30,8 +30,8 @@
     {
       "ticker": "MRK",
       "name": "Merck & Co.",
-      "lastPrice": 147.24,
-      "lastPriceDate": "2026-10-22",
+      "lastPrice": 145.27,
+      "lastPriceDate": "2026-10-23",
       "country": "US",
       "currency": "USD"
     }
@@ -44,8 +44,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 659.67,
-      "lastPrice": 763.96,
-      "lastPriceDate": "2026-10-22",
+      "lastPrice": 759.97,
+      "lastPriceDate": "2026-10-23",
       "country": "US",
       "group": "broad",
       "label": "S&P 500",
@@ -94,8 +94,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 136.16,
-      "lastPrice": 181.3,
-      "lastPriceDate": "2026-10-22",
+      "lastPrice": 179.28,
+      "lastPriceDate": "2026-10-23",
       "country": "US",
       "group": "sector",
       "label": "Health Care (XLV)",
@@ -110,8 +110,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 141.19,
-      "lastPrice": 209.54,
-      "lastPriceDate": "2026-10-22",
+      "lastPrice": 207.74,
+      "lastPriceDate": "2026-10-23",
       "country": "US",
       "group": "sector",
       "label": "Nasdaq Biotech (IBB)",
@@ -1427,6 +1427,10 @@
       [
         "2026-10-22",
         4.022
+      ],
+      [
+        "2026-10-23",
+        4.032
       ]
     ]
   },
@@ -5271,6 +5275,20 @@
         "512010.SS": 0.055107,
         "3069.HK": 1.831413
       }
+    },
+    {
+      "date": "2026-10-23",
+      "value": 120659196.07,
+      "cash": 84053335.12,
+      "benchmarks": {
+        "SPY": 759.97,
+        "510300.SS": 0.616613,
+        "2828.HK": 10.059566,
+        "XLV": 179.28,
+        "IBB": 207.74,
+        "512010.SS": 0.05525,
+        "3069.HK": 1.832606
+      }
     }
   ],
   "news": [
@@ -6376,6 +6394,14 @@
         [
           "2026-10-22",
           1.213592
+        ],
+        [
+          "2026-10-23",
+          1.219795
+        ],
+        [
+          "2026-10-23",
+          1.213445
         ]
       ],
       "EUR": [
@@ -7418,6 +7444,14 @@
         [
           "2026-10-22",
           1.123469
+        ],
+        [
+          "2026-10-23",
+          1.122146
+        ],
+        [
+          "2026-10-23",
+          1.120448
         ]
       ],
       "HKD": [
@@ -8460,6 +8494,14 @@
         [
           "2026-10-22",
           0.127447
+        ],
+        [
+          "2026-10-23",
+          0.127613
+        ],
+        [
+          "2026-10-23",
+          0.12753
         ]
       ],
       "CNY": [
@@ -9502,6 +9544,14 @@
         [
           "2026-10-22",
           0.149748
+        ],
+        [
+          "2026-10-23",
+          0.149748
+        ],
+        [
+          "2026-10-23",
+          0.150137
         ]
       ]
     }
