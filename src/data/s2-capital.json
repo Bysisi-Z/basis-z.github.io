@@ -30,8 +30,8 @@
     {
       "ticker": "MRK",
       "name": "Merck & Co.",
-      "lastPrice": 145.27,
-      "lastPriceDate": "2026-10-23",
+      "lastPrice": 140.61,
+      "lastPriceDate": "2026-10-26",
       "country": "US",
       "currency": "USD"
     }
@@ -44,8 +44,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 659.67,
-      "lastPrice": 759.97,
-      "lastPriceDate": "2026-10-23",
+      "lastPrice": 765.37,
+      "lastPriceDate": "2026-10-26",
       "country": "US",
       "group": "broad",
       "label": "S&P 500",
@@ -61,8 +61,8 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 4.596,
       "baseFx": 0.140615,
-      "lastPrice": 4.178,
-      "lastPriceDate": "2026-10-23",
+      "lastPrice": 4.179,
+      "lastPriceDate": "2026-10-26",
       "country": "CN",
       "group": "broad",
       "label": "CSI 300",
@@ -78,14 +78,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 94.52,
       "baseFx": 0.12861,
-      "lastPrice": 79.88,
-      "lastPriceDate": "2026-10-23",
+      "lastPrice": 80.1,
+      "lastPriceDate": "2026-10-26",
       "country": "HK",
       "group": "broad",
       "label": "HSCEI",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127613
+      "lastFx": 0.127512
     },
     {
       "ticker": "XLV",
@@ -95,7 +95,7 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 136.16,
       "lastPrice": 179.28,
-      "lastPriceDate": "2026-10-23",
+      "lastPriceDate": "2026-10-26",
       "country": "US",
       "group": "sector",
       "label": "Health Care (XLV)",
@@ -110,8 +110,8 @@
       "baseDate": "2025-09-24",
       "baseConvention": "Intraday low (demo)",
       "basePrice": 141.19,
-      "lastPrice": 207.74,
-      "lastPriceDate": "2026-10-23",
+      "lastPrice": 208.69,
+      "lastPriceDate": "2026-10-26",
       "country": "US",
       "group": "sector",
       "label": "Nasdaq Biotech (IBB)",
@@ -126,8 +126,8 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 0.43,
       "baseFx": 0.140615,
-      "lastPrice": 0.376,
-      "lastPriceDate": "2026-10-23",
+      "lastPrice": 0.382,
+      "lastPriceDate": "2026-10-26",
       "country": "CN",
       "group": "sector",
       "label": "CSI 300 Health Care",
@@ -143,14 +143,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 17.2,
       "baseFx": 0.12861,
-      "lastPrice": 14.57,
-      "lastPriceDate": "2026-10-23",
+      "lastPrice": 14.53,
+      "lastPriceDate": "2026-10-26",
       "country": "HK",
       "group": "sector",
       "label": "HK Biotech",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127613
+      "lastFx": 0.127512
     }
   ],
   "trades": [
@@ -5292,6 +5292,20 @@
         "IBB": 207.74,
         "512010.SS": 0.056305,
         "3069.HK": 1.859321
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "value": 119513174.71,
+      "cash": 84081563.86,
+      "benchmarks": {
+        "SPY": 765.37,
+        "510300.SS": 0.625797,
+        "2828.HK": 10.213711,
+        "XLV": 179.28,
+        "IBB": 208.69,
+        "512010.SS": 0.057204,
+        "3069.HK": 1.852749
       }
     }
   ],
