@@ -284,6 +284,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     '/images/gallery/verzasca/IMG_1460-640.webp',    'Verzasca Valley', '/photography/album/verzasca');
   trailMarker([46.192, 9.023], starIcon,   // Bellinzona — coordinates from de.wikipedia (46.19181, 9.02342), matches the photos' GPS at Castelgrande
     '/images/gallery/bellinzona/bellinzona-2-640.webp', 'Bellinzona',  '/photography/album/bellinzona');
+  trailMarker([46.497, 9.838], starIcon,   // Engadin, marked at St. Moritz — coordinates from en.wikipedia (46.49722, 9.83778); the photos carry no GPS
+    '/images/gallery/engadin/IMG_3967-640.webp', 'Engadin',      '/photography/album/engadin');
 
   // open on a view that shows every star (albums now go beyond Switzerland)
   map.fitBounds(L.latLngBounds(markerPoints), { padding: [48, 48], maxZoom: 8 });

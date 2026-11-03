@@ -77,16 +77,15 @@ Three-column desktop layout. Two independent HTML sections (`#homeNight` / `#hom
 
 ---
 
-## QR Card (s59–60)
+## QR Card (s59–60; redesigned s89, 2026-10-23)
 
-Both night/day glass panels have **· GET QR CODE & SHARE** button (share arrow SVG + text, ghost pill). Opens modal overlay.
+Both night/day glass panels (and the mobile lock screens) have **· GET QR CODE & SHARE** button. Opens modal overlay `id="cardModal"` (role=dialog), toggled via `.open`.
 
-- **Modal:** `id="cardModal"`, toggled via `.open`. `backdrop-filter: blur(28px) saturate(1.4)`.
-- **Canvas:** 700×1050 px (2:3 portrait). Rendered at `min(520, vh-200)` px tall in modal.
-- **Card design:** Blurred theme photo bg (blur 32px) + high-opacity overlay — night = lavender `rgba(228,220,240,0.86)`, day = green `rgba(238,243,240,0.86)`. Accent: night = deep rose `#9B3A6A`, day = deep green `#2A7A56`. "Si" Great Vibes 110px · Cormorant italic tagline 32px · white rounded rect behind QR (300×300, r16) · QR 300×300 · `si-lens.me` Inter 500 36px · `© year` stone.
-- **QR library:** `qrcodejs` from cdnjs. Renders to DOM canvas via `new QRCode(holder, opts)` then `drawImage` after 300ms timeout.
-- **Drawing order:** photo bg async → overlay → QR (CDN + 300ms) → white QR backing → fonts.ready → text last.
-- **Download:** saves `si-lens-card.png` at 700×1050.
+- **Two layouts (user, s89):** chosen each time the modal opens by `window.innerWidth > 600`. **Tablet/desktop → landscape 1050×600** mirroring the homepage: left 399 px (38 %) = theme photo sharp; right = the same photo blurred (`ctx.filter = blur(48px)`, fallback downscale→upscale) under a tint (night `rgba(46,38,82,.62)`, day `rgba(42,52,50,.62)`); glowing Great Vibes "Si" 92 px in the homepage glow colour (night `#C9AEE6`, day `#A8D4B8`); tagline white Cormorant 300 35 px in 2 lines, "sense" italic only (user: tagline must be quiet — white and small, no accent colour); fading rule; `SI-LENS.ME` + `© year` bottom left; QR 192 px on a light rounded patch (night `#F1ECF7`, day `#EEF3EF`) bottom right. This is exactly mock-up "L" in `public/qr-card-preview.html` with the QR +20 % (user's final call, after rejecting a 330 px two-column variant); keep the canvas in step with that mock-up. Shown max 900 px wide. **Phones → portrait option A** below.
+- **Portrait = option A "postcard"** (user picked it from a 3-way mock-up, s89): 700×1050 canvas. Top 609 px = the theme photo **sharp, no blur** (night `homepage-ferris-original.jpeg`, day `homepage-morning.jpg`, cropped centre / 40 % from top), white Great Vibes "Si" 140 px bottom-left with soft shadow. Below: paper `#FBFAF7`; left column Cormorant italic 300 50 px tagline in 3 lines ("Making sense of / numbers and / landscapes."), `SI-LENS.ME` Inter 24 px tracked in the accent (night `#7A3E8E`, day `#2A7A56`), `© year` grey; right: QR 245 px in the card's dark ink (night `#2A1F3A`, day `#1F2A22`) on the paper colour, vertically centred with the text. Canvas shown with 14 px radius.
+- Previous designs (blurred photo + lavender/green overlay; a 40 %-photo postcard by another agent) were rejected as washed-out / too much white space.
+- **QR library:** `qrcodejs` from cdnjs, rendered off-screen at 2× then drawn without smoothing (crisp modules).
+- **Download:** `si-lens-card.png` (1050×600 landscape or 700×1050 portrait); on mobile the button is "Save to Photos" (Web Share API with download fallback). Hint under the button: "Scan to visit · Save to share" (the old "1050 × 600 px" label was wrong).
 - **Contact strip pills:** `white-space: nowrap`, `flex-wrap: nowrap`, `clamp(…, cqw, …)` scaling — always single row.
 - **Cat split seam (s88):** `.n-cat-a` / `.n-cat-b` are the same image clipped so each cat blinks separately. They must meet exactly at the empty gap between the cats (x = 57.8%: `inset(0 42.2% 0 0)` / `inset(0 0 0 57.8%)`). The old 48%/50% split overlapped by 2%, which doubled the lamp-on glow into a bright vertical stripe beside the big cat.
 - **Floor lamp (s88, 2026-10-16):** replaced the drawn SVG lamp with the user's photo (`~/Downloads/Elegant Warm-Glow Glass Floor Lamp.png`) → `public/images/lamp/lamp-on.jpg` (crop x190–834, 520×1211, edges feathered) and `lamp-off.jpg` (same photo, halo removed via high-pass + levels, slightly desaturated). `.n-lamp` uses `mix-blend-mode: screen` so the black photo background vanishes on the black strip. Click → off image fades out, on image fades in with a 0.9s two-flicker keyframe (`n-lamp-flicker`), the original warm beams fade in 0.25s later. Beams SVG sits *after* the images inside `#nLamp` (otherwise the photo's black box hides them) and is positioned from the bulb (50% / 14.3% of the image) with `--lw` = old lamp width so the beam scale is unchanged.

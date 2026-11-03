@@ -477,14 +477,14 @@ const modules = [
 
 
   <!-- ── QR Card Modal ── -->
-  <div id="cardModal">
+  <div id="cardModal" role="dialog" aria-modal="true" aria-label="Share Si Lens">
     <button id="cardClose" aria-label="Close">
       <svg viewBox="0 0 18 18" fill="none"><path d="M2 2l14 14M16 2 2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
     <canvas id="cardCanvas"></canvas>
     <div id="cardActions">
       <button id="cardDownload">Download PNG</button>
-      <p id="cardHint">print-ready · 1050 × 600 px</p>
+      <p id="cardHint">Scan to visit · Save to share</p>
     </div>
   </div>
 
@@ -866,7 +866,6 @@ const modules = [
       if (!_modal) return;
 
       var _ctx, _W = 700, _H = 1050;
-      var _qrSize = 300, _qrX = 200, _qrY = 395;
 
       function _openModal()  { _modal.classList.add('open'); _draw(); }
       function _closeModal() { _modal.classList.remove('open'); }
@@ -909,32 +908,21 @@ const modules = [
         }
       });
 
-      function _rr(ctx, x, y, w, h, r) {
-        ctx.beginPath();
-        ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
-        ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
-        ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
-        ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
-        ctx.closePath();
-      }
+      // Two layouts (s89): phones (≤600px) get the portrait "postcard" (option A); tablets and desktops get a
+      // landscape card that mirrors the homepage — sharp photo strip | glass panel over the same photo, blurred.
+      var _land = false, _paper = '#FBFAF7';
+      var P = { W: 700, H: 1050, photoH: 609, pad: 48, qr: 245 };                     // portrait
+      P.qrX = P.W - P.pad - P.qr; P.qrY = P.photoH + Math.round((P.H - P.photoH - P.qr) / 2);
+      var L = { W: 1050, H: 600, strip: 399, pad: 57, qr: 192, patch: 12 };            // landscape (= preview mock-up L, QR +20 %)
+      L.qrX = L.W - L.pad - L.patch - L.qr; L.qrY = L.H - 43 - L.patch - L.qr;
 
       function _theme() {
         return _isDay ? {
-          accent   : '#2A7A56',
-          accentA  : 'rgba(42,122,86,0.4)',
-          overlay  : 'rgba(238,243,240,0.86)',
-          textMain : '#1A1A1A',
-          textSub  : '#847B7B',
-          divider  : '#E2DEDB',
-          photo    : '/images/homepage-morning.jpg'
+          accent : '#2A7A56', glow : '#A8D4B8', tint : 'rgba(42,52,50,0.62)', patch : '#EEF3EF',
+          ink : '#1F2A22', photo : '/images/homepage-morning.jpg'
         } : {
-          accent   : '#9B3A6A',
-          accentA  : 'rgba(155,58,106,0.4)',
-          overlay  : 'rgba(228,220,240,0.86)',
-          textMain : '#1A1A1A',
-          textSub  : '#847B7B',
-          divider  : '#E2DEDB',
-          photo    : '/images/homepage-ferris-original.jpeg'
+          accent : '#7A3E8E', glow : '#C9AEE6', tint : 'rgba(46,38,82,0.62)', patch : '#F1ECF7',
+          ink : '#2A1F3A', photo : '/images/homepage-ferris-original.jpeg'
         };
       }
 
@@ -948,106 +936,148 @@ const modules = [
         });
       }
 
-      function _drawContent(t) {
-        var ctx = _ctx, cx = _W / 2;
-        ctx.textAlign = 'center';
+      function _spaced(ctx, text, x, y, px) {   // letter-spacing that also works where ctx.letterSpacing doesn't
+        if ('letterSpacing' in ctx) { ctx.letterSpacing = px + 'px'; ctx.fillText(text, x, y); ctx.letterSpacing = '0px'; return; }
+        for (var i = 0; i < text.length; i++) { ctx.fillText(text[i], x, y); x += ctx.measureText(text[i]).width + px; }
+      }
 
-        // Si logo
-        ctx.font = 'italic 400 110px "Great Vibes", cursive';
+      function _rrect(ctx, x, y, w, h, r) {
+        ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+      }
+
+      function _drawContentPortrait(t) {
+        var ctx = _ctx;
+        ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+        // "Si" on the photo, bottom left
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.35)'; ctx.shadowBlur = 36; ctx.shadowOffsetY = 4;
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = '400 140px "Great Vibes", cursive';
+        ctx.fillText('Si', P.pad, P.photoH - 46);
+        ctx.restore();
+        // tagline, address, year — a block vertically centred on the QR
+        var top = P.qrY + P.qr / 2 - 131;
+        ctx.fillStyle = '#1A1A1A';
+        ctx.font = 'italic 300 50px "Cormorant Garamond", Georgia, serif';
+        ['Making sense of', 'numbers and', 'landscapes.'].forEach(function(line, n) { ctx.fillText(line, P.pad, top + 46 + n * 58); });
         ctx.fillStyle = t.accent;
-        ctx.fillText('Si', cx, 172);
+        ctx.font = '400 24px "Inter", system-ui, sans-serif';
+        _spaced(ctx, 'SI-LENS.ME', P.pad, top + 214, 3.4);
+        ctx.fillStyle = '#8A847E';
+        ctx.font = '400 21px "Inter", system-ui, sans-serif';
+        _spaced(ctx, '© ' + new Date().getFullYear(), P.pad, top + 250, 2);
+      }
 
-        // Accent line
-        ctx.fillStyle = t.accentA;
-        ctx.fillRect(cx - 44, 190, 88, 1.5);
-
-        // Tagline — enlarged
-        ctx.font = 'italic 300 32px "Cormorant Garamond", Georgia, serif';
-        ctx.fillStyle = t.textMain;
-        ctx.fillText('Making sense of numbers', cx, 260);
-        ctx.fillText('and landscapes.', cx, 302);
-
-        // Dividers
-        ctx.fillStyle = t.divider;
-        ctx.fillRect(60, 346, _W - 120, 1);
-        ctx.fillRect(60, 756, _W - 120, 1);
-
-        // Scan hint
-        ctx.font = '300 15px "Inter", system-ui, sans-serif';
-        ctx.fillStyle = t.textSub;
-        ctx.fillText('scan to visit', cx, _qrY + _qrSize + 34);
-
-        // URL — enlarged
-        ctx.font = '500 36px "Inter", system-ui, sans-serif';
-        ctx.fillStyle = t.accent;
-        ctx.fillText('si-lens.me', cx, 862);
-
-        // Copyright
-        ctx.font = '300 13px "Inter", system-ui, sans-serif';
-        ctx.fillStyle = t.textSub;
-        ctx.fillText('© ' + new Date().getFullYear(), cx, 1016);
+      function _drawContentLandscape(t) {
+        var ctx = _ctx, x = L.strip + L.pad;
+        ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+        // glowing "Si", as on the homepage
+        ctx.save();
+        ctx.shadowColor = t.glow; ctx.shadowBlur = 30;
+        ctx.fillStyle = t.glow;
+        ctx.font = '400 92px "Great Vibes", cursive';
+        ctx.fillText('Si', x, 128);
+        ctx.restore();
+        // tagline: white, quiet; "sense" in italic only
+        ctx.fillStyle = '#FFFFFF';
+        var a = 'Making ', b = 'sense', c = ' of', y1 = 200, y2 = 242;
+        ctx.font = '300 35px "Cormorant Garamond", Georgia, serif';
+        ctx.fillText(a, x, y1);
+        var ax = x + ctx.measureText(a).width;
+        ctx.font = 'italic 300 35px "Cormorant Garamond", Georgia, serif';
+        ctx.fillText(b, ax, y1);
+        var bx = ax + ctx.measureText(b).width;
+        ctx.font = '300 35px "Cormorant Garamond", Georgia, serif';
+        ctx.fillText(c, bx, y1);
+        ctx.fillText('numbers and landscapes.', x, y2);
+        // thin fading rule
+        var g = ctx.createLinearGradient(x, 0, x + 200, 0);
+        g.addColorStop(0, 'rgba(255,255,255,0.55)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = g; ctx.fillRect(x, 270, 200, 1.5);
+        // address + year, bottom left
+        ctx.fillStyle = '#F3F0F6';
+        ctx.font = '500 18px "Inter", system-ui, sans-serif';
+        _spaced(ctx, 'SI-LENS.ME', x, L.H - 66, 3.6);
+        ctx.globalAlpha = 0.6;
+        ctx.font = '400 15px "Inter", system-ui, sans-serif';
+        _spaced(ctx, '© ' + new Date().getFullYear(), x, L.H - 40, 1.8);
+        ctx.globalAlpha = 1;
       }
 
       function _drawQR(t) {
+        var g = _land ? L : P, size = g.qr;
+        var light = _land ? t.patch : _paper;
+        if (_land) { _ctx.fillStyle = t.patch; _rrect(_ctx, g.qrX - g.patch, g.qrY - g.patch, size + 2 * g.patch, size + 2 * g.patch, 18); _ctx.fill(); }
+        var after = function() { document.fonts.ready.then(function() { (_land ? _drawContentLandscape : _drawContentPortrait)(t); }); };
         _loadQRLib().then(function() {
           var holder = document.createElement('div');
-          holder.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + _qrSize + 'px;';
+          holder.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + size + 'px;';
           document.body.appendChild(holder);
           new QRCode(holder, {
             text: 'https://si-lens.me',
-            width: _qrSize, height: _qrSize,
-            colorDark: '#1A1A1A', colorLight: '#FAFAF8',
+            width: size * 2, height: size * 2,   // render at 2× and scale down for crisp modules
+            colorDark: t.ink, colorLight: light,
             correctLevel: QRCode.CorrectLevel.H
           });
           setTimeout(function() {
             var qrEl = holder.querySelector('canvas') || holder.querySelector('img');
-            if (qrEl) {
-              var ctx = _ctx;
-              // White backing card behind QR
-              ctx.fillStyle = '#FAFAF8';
-              _rr(ctx, _qrX - 14, _qrY - 14, _qrSize + 28, _qrSize + 28, 16);
-              ctx.fill();
-              // QR code
-              ctx.save();
-              _rr(ctx, _qrX, _qrY, _qrSize, _qrSize, 8);
-              ctx.clip();
-              ctx.drawImage(qrEl, _qrX, _qrY, _qrSize, _qrSize);
-              ctx.restore();
-            }
+            if (qrEl) { _ctx.imageSmoothingEnabled = false; _ctx.drawImage(qrEl, g.qrX, g.qrY, size, size); _ctx.imageSmoothingEnabled = true; }
             document.body.removeChild(holder);
-            document.fonts.ready.then(function() { _drawContent(t); });
+            after();
           }, 300);
-        }).catch(function() {
-          document.fonts.ready.then(function() { _drawContent(t); });
-        });
+        }).catch(after);
+      }
+
+      // cover-crop helper: draw img into (dx,dy,dw,dh) like CSS object-fit: cover, anchored at fy (0 top … 1 bottom)
+      function _cover(ctx, img, dx, dy, dw, dh, fy) {
+        var scale = Math.max(dw / img.width, dh / img.height), sw = dw / scale, sh = dh / scale;
+        ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) * fy, sw, sh, dx, dy, dw, dh);
       }
 
       function _draw() {
         var t = _theme();
+        _land = window.innerWidth > 600;
+        var g = _land ? L : P;
+        _W = g.W; _H = g.H;
         _canvas.width = _W; _canvas.height = _H;
-        var dh = Math.min(520, window.innerHeight - 200);
-        _canvas.style.height = dh + 'px';
-        _canvas.style.width  = Math.round(dh * _W / _H) + 'px';
+        var s = Math.min((window.innerWidth - 48) / _W, (window.innerHeight - 170) / _H, (_land ? 900 : 9999) / _W, (_land ? 9999 : 620) / _H);
+        _canvas.style.width  = Math.round(_W * s) + 'px';
+        _canvas.style.height = Math.round(_H * s) + 'px';
         _ctx = _canvas.getContext('2d');
 
-        // Blurred photo background
+        _ctx.fillStyle = _paper;
+        _ctx.fillRect(0, 0, _W, _H);
+        // the fonts must be loaded before the canvas can use them
+        ['400 92px "Great Vibes"', 'italic 300 35px "Cormorant Garamond"', '300 35px "Cormorant Garamond"', '400 24px "Inter"', '500 18px "Inter"']
+          .forEach(function(f) { if (document.fonts && document.fonts.load) document.fonts.load(f); });
         var img = new Image();
         img.onload = function() {
-          var blur = 32;
-          _ctx.filter = 'blur(' + blur + 'px)';
-          var scale = Math.max((_W + blur*2) / img.width, (_H + blur*2) / img.height);
-          var dw = _W + blur*2, dh2 = _H + blur*2;
-          var sw = dw / scale, sh = dh2 / scale;
-          var sx = (img.width - sw) / 2, sy = (img.height - sh) / 2;
-          _ctx.drawImage(img, sx, sy, sw, sh, -blur, -blur, dw, dh2);
-          _ctx.filter = 'none';
-          _ctx.fillStyle = t.overlay;
-          _ctx.fillRect(0, 0, _W, _H);
+          if (_land) {
+            _cover(_ctx, img, 0, 0, L.strip, L.H, 0.5);
+            // glass: the same photo, heavily blurred (downscale → upscale works in every browser), then tinted
+            _ctx.save();
+            _ctx.beginPath(); _ctx.rect(L.strip, 0, L.W - L.strip, L.H); _ctx.clip();
+            if ('filter' in _ctx) {                       // real blur where canvas filters exist
+              _ctx.filter = 'blur(48px) saturate(1.2)';
+              _cover(_ctx, img, L.strip - 120, -120, L.W - L.strip + 240, L.H + 240, 0.5);
+              _ctx.filter = 'none';
+            } else {                                      // fallback: downscale → upscale
+              var tiny = document.createElement('canvas'); tiny.width = 16; tiny.height = 10;
+              _cover(tiny.getContext('2d'), img, 0, 0, 16, 10, 0.5);
+              _ctx.imageSmoothingEnabled = true; _ctx.imageSmoothingQuality = 'high';
+              _ctx.drawImage(tiny, L.strip, 0, L.W - L.strip, L.H);
+            }
+            _ctx.restore();
+            _ctx.fillStyle = t.tint; _ctx.fillRect(L.strip, 0, L.W - L.strip, L.H);
+          } else {
+            _cover(_ctx, img, 0, 0, P.W, P.photoH, 0.40);
+          }
           _drawQR(t);
         };
         img.onerror = function() {
-          _ctx.fillStyle = _isDay ? '#FAFAF8' : '#0F0A1E';
-          _ctx.fillRect(0, 0, _W, _H);
+          _ctx.fillStyle = _land ? t.ink : t.accent;
+          _ctx.fillRect(0, 0, _land ? L.W : P.W, _land ? L.H : P.photoH);
           _drawQR(t);
         };
         img.src = t.photo;
@@ -2755,9 +2785,9 @@ const modules = [
   #cardModal {
     display: none;
     position: fixed; inset: 0; z-index: 9999;
-    background: rgba(250, 250, 248, 0.2);
-    backdrop-filter: blur(28px) saturate(1.4);
-    -webkit-backdrop-filter: blur(28px) saturate(1.4);
+    background: rgba(15, 16, 18, 0.70);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     align-items: center; justify-content: center;
     flex-direction: column; gap: 22px;
     padding: 24px;
@@ -2766,8 +2796,8 @@ const modules = [
 
   #cardCanvas {
     display: block;
-    border-radius: 10px;
-    box-shadow: 0 8px 48px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.06);
+    border-radius: 14px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.30);
     max-width: 100%;
     height: auto;
   }
@@ -2775,7 +2805,7 @@ const modules = [
   #cardClose {
     position: absolute; top: 22px; right: 26px;
     background: none; border: none; padding: 6px;
-    cursor: pointer; color: rgba(255,255,255,0.4);
+    cursor: pointer; color: rgba(255,255,255,0.75);
     transition: color 0.2s; line-height: 0;
   }
   #cardClose:hover { color: #fff; }
@@ -2802,6 +2832,6 @@ const modules = [
   #cardHint {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 11px; font-weight: 300;
-    color: rgba(26,26,26,0.38); letter-spacing: 0.06em; margin: 0;
+    color: rgba(255,255,255,0.60); letter-spacing: 0.03em; margin: 0;
   }
 </style>

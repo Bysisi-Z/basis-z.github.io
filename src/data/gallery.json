@@ -1114,6 +1114,50 @@
           "caption": ""
         }
       ]
+    },
+    {
+      "slug": "engadin",
+      "source": "_data_sources/gallery/engadin",
+      "title": "Engadin",
+      "place": "Graubünden, Switzerland",
+      "intro": "",
+      "cover": "IMG_3967.jpg",
+      "guide": "",
+      "photos": [
+        {
+          "file": "IMG_3966.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3967.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3968.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3969.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3872.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3870.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3868.jpg",
+          "caption": ""
+        },
+        {
+          "file": "IMG_3865.jpg",
+          "caption": ""
+        }
+      ],
+      "coverPosition": "50% 45%"
     }
   ]
 }
