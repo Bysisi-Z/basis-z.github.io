@@ -1,0 +1,37 @@
+---
+// Hidden knitting corner — reached only from the icon-only button on the homepage contact row.
+// Not in the nav, noindex for search engines, and excluded from the Pagefind site search.
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Knitting" description="Si" noindex>
+  <main class="yarn" data-pagefind-ignore="all">
+    <span class="yarn-mark" aria-hidden="true"></span>
+    <p class="yarn-found">You found the yarn.</p>
+    <h1 class="yarn-title">Knitting</h1>
+    <p class="yarn-note">Something is on the needles. Finished pieces will appear here soon.</p>
+  </main>
+</BaseLayout>
+
+<style>
+  .yarn {
+    min-height: 70vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 64px 16px;
+  }
+  .yarn-mark {
+    width: min(260px, 60vw); aspect-ratio: 480 / 251;
+    background-color: var(--rose);
+    -webkit-mask: url(/images/knit-mark.png) center / contain no-repeat;
+            mask: url(/images/knit-mark.png) center / contain no-repeat;
+    margin-bottom: 32px;
+  }
+  .yarn-found {
+    font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--stone); margin: 0 0 10px;
+  }
+  .yarn-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(34px, 5vw, 48px); color: var(--ink, #1A1A1A); margin: 0 0 14px;
+  }
+  .yarn-note { font-size: clamp(16px, 1.6vw, 18px); color: var(--ink, #1A1A1A); margin: 0; max-width: 32em; }
+</style>
