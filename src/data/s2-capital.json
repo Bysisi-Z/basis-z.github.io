@@ -61,14 +61,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 4.596,
       "baseFx": 0.140615,
-      "lastPrice": 4.023,
-      "lastPriceDate": "2026-11-23",
+      "lastPrice": 4.033,
+      "lastPriceDate": "2026-11-24",
       "country": "CN",
       "group": "broad",
       "label": "CSI 300",
       "color": "#2EA36B",
       "currency": "CNY",
-      "lastFx": 0.149768
+      "lastFx": 0.150053
     },
     {
       "ticker": "2828.HK",
@@ -78,14 +78,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 94.52,
       "baseFx": 0.12861,
-      "lastPrice": 77.22,
-      "lastPriceDate": "2026-11-23",
+      "lastPrice": 76.44,
+      "lastPriceDate": "2026-11-24",
       "country": "HK",
       "group": "broad",
       "label": "HSCEI",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127551
+      "lastFx": 0.127522
     },
     {
       "ticker": "XLV",
@@ -126,14 +126,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 0.43,
       "baseFx": 0.140615,
-      "lastPrice": 0.379,
-      "lastPriceDate": "2026-11-23",
+      "lastPrice": 0.374,
+      "lastPriceDate": "2026-11-24",
       "country": "CN",
       "group": "sector",
       "label": "CSI 300 Health Care",
       "color": "#2EA36B",
       "currency": "CNY",
-      "lastFx": 0.149768
+      "lastFx": 0.150053
     },
     {
       "ticker": "3069.HK",
@@ -143,14 +143,14 @@
       "baseConvention": "Intraday low (demo)",
       "basePrice": 17.2,
       "baseFx": 0.12861,
-      "lastPrice": 13.59,
-      "lastPriceDate": "2026-11-23",
+      "lastPrice": 13.44,
+      "lastPriceDate": "2026-11-24",
       "country": "HK",
       "group": "sector",
       "label": "HK Biotech",
       "color": "#C7609B",
       "currency": "HKD",
-      "lastFx": 0.127551
+      "lastFx": 0.127522
     }
   ],
   "trades": [
@@ -1519,6 +1519,10 @@
       [
         "2026-11-24",
         4.168
+      ],
+      [
+        "2026-11-25",
+        4.155
       ]
     ]
   },
@@ -5678,12 +5682,12 @@
       "cash": 84357521.42,
       "benchmarks": {
         "SPY": 718.78,
-        "510300.SS": 0.603663,
-        "2828.HK": 9.847249,
+        "510300.SS": 0.605164,
+        "2828.HK": 9.747782,
         "XLV": 184.72,
         "IBB": 219.49,
-        "512010.SS": 0.05687,
-        "3069.HK": 1.733024
+        "512010.SS": 0.05612,
+        "3069.HK": 1.713896
       }
     }
   ],
