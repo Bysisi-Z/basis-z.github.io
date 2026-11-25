@@ -523,6 +523,42 @@
    "name": "DSC08079",
    "width": 6000,
    "height": 4000
+  },
+  {
+   "file": "DSC08388.JPG",
+   "name": "DSC08388",
+   "width": 1616,
+   "height": 1080
+  },
+  {
+   "file": "DSC08391.JPG",
+   "name": "DSC08391",
+   "width": 1616,
+   "height": 1080
+  },
+  {
+   "file": "DSC08396.JPG",
+   "name": "DSC08396",
+   "width": 1080,
+   "height": 1616
+  },
+  {
+   "file": "IMG_4169.JPG",
+   "name": "IMG_4169",
+   "width": 819,
+   "height": 1229
+  },
+  {
+   "file": "IMG_4170.JPG",
+   "name": "IMG_4170",
+   "width": 746,
+   "height": 1119
+  },
+  {
+   "file": "IMG_4171.JPG",
+   "name": "IMG_4171",
+   "width": 1550,
+   "height": 1033
   }
  ],
  "engelberg": [
@@ -1420,6 +1456,18 @@
   }
  ],
  "engadin": [
+  {
+   "file": "DSC08361.jpg",
+   "name": "DSC08361",
+   "width": 1616,
+   "height": 1080
+  },
+  {
+   "file": "DSC08363.jpg",
+   "name": "DSC08363",
+   "width": 1616,
+   "height": 1080
+  },
   {
    "file": "IMG_3966.jpg",
    "name": "IMG_3966",
