@@ -115,7 +115,7 @@ Protected routes also: `/explorer` (🔒), `/cv` (🔒).
 ## 4. Page Status
 
 ### Homepage (`/`) ✅
-Three-column desktop (photo | glass | strip), day/night by clock, `?preview=day/night` override. **s89–90:** QR share card redesigned — landscape homepage-style card on tablets/desktops, portrait postcard on phones (≤600px). Full details → `CONTEXT_HOMEPAGE.md`.
+Three-column desktop (photo | glass | strip), day/night by clock, `?preview=day/night` override. **s91:** hidden knitting button → `/yarn` easter egg, 2-line tagline, responsive fixes — see `CONTEXT_HOMEPAGE.md`. **s89–90:** QR share card redesigned — landscape homepage-style card on tablets/desktops, portrait postcard on phones (≤600px). Full details → `CONTEXT_HOMEPAGE.md`.
 
 ### World Explorer (`/explorer`) ✅ — 🔒 passcode
 Hero split (photo | intro text) + bento grid. **s86 rework** (all in `src/pages/explorer.astro`):

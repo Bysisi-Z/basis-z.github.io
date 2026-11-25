@@ -42,7 +42,7 @@ const modules = [
       <div class="n-logo">Si</div>
 
       <div class="n-tagwrap">
-        <h1 class="n-tag">Making <em class="n-sense">sense</em> of numbers<br>and landscapes.</h1>
+        <h1 class="n-tag">Making <em class="n-sense">sense</em> of<br class="tag-br3"> numbers<br class="tag-br2"> and<br class="tag-br3"> landscapes.</h1>
         <div class="n-rule"></div>
       </div>
       <div class="n-search-wrap search-inline search-tablet" data-search="n">
@@ -201,7 +201,7 @@ const modules = [
       <div class="d-logo">Si</div>
 
       <div class="d-tagwrap">
-        <h1 class="d-tag">Making <em class="d-sense">sense</em> of numbers<br>and landscapes.</h1>
+        <h1 class="d-tag">Making <em class="d-sense">sense</em> of<br class="tag-br3"> numbers<br class="tag-br2"> and<br class="tag-br3"> landscapes.</h1>
         <div class="d-rule"></div>
       </div>
       <div class="d-search-wrap search-inline search-tablet" data-search="d">
@@ -2192,6 +2192,25 @@ const modules = [
   }
   @media (prefers-reduced-motion: reduce) {
     .knit-icon, .knit-egg:hover .knit-icon { animation: none; }
+  }
+
+  /* Tagline: 2 lines when the glass panel is wide enough, else the original 3 lines.
+     The panel (.n-glass/.d-glass) is a size container, so this follows the panel, not the screen. */
+  .tag-br3 { display: none; }
+  @container (max-width: 340px) {
+    .tag-br3 { display: revert; }
+    .tag-br2 { display: none; }
+  }
+
+  /* Contact row: when the panel is too narrow for one line, the QR button gets its own line
+     (same as the phone layout) instead of being clipped. */
+  .n-contact, .d-contact { flex-wrap: wrap; row-gap: 8px; }
+  @container (max-width: 380px) {
+    .n-contact .card-trigger, .d-contact .card-trigger { flex: 0 0 auto; margin-right: auto; }
+    .n-contact .n-sep:has(+ .card-trigger),
+    .d-contact .d-sep:has(+ .card-trigger) { display: none; }
+    .n-contact .card-trigger, .d-contact .card-trigger { order: 1; }
+    .n-contact::after, .d-contact::after { content: ''; flex-basis: 100%; order: 0; }
   }
   .knit-icon {
     display: block;
